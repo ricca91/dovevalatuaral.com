@@ -51,9 +51,9 @@ function renderRalPage({ral,result,previous,next}){
 </head>
 <body data-ral="${ral}" data-netto-annuo="${net.toFixed(2)}" data-imposte="${taxes.toFixed(2)}" data-contributi="${contributions.toFixed(2)}">
 <a class="skip-link" href="#contenuto">Vai al contenuto</a>
-<header class="header ral-header"><div class="header__in">
-  <a class="brand ral-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL<span class="brand__sub">Calcolatore netto 2026</span></a>
-  <div class="header__actions"><a class="btn btn--ghost btn--sm" href="${query(ral,14)}">Calcola la tua RAL →</a></div>
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <nav class="site-nav" aria-label="Navigazione principale"><a href="../index.html">Calcolatore</a><a href="../compara.html">Confronta</a><a href="../confronti-ral/" aria-current="page">Confronti RAL</a><a href="../la-storia.html">La storia</a></nav>
 </div></header>
 <nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in">
   <a href="../index.html">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span>
@@ -115,7 +115,7 @@ function renderHub({rals,results}){
 <link rel="canonical" href="${ORIGIN}/confronti-ral/"><meta property="og:type" content="website"><meta property="og:url" content="${ORIGIN}/confronti-ral/">
 <link rel="stylesheet" href="../draftsman.css"><link rel="stylesheet" href="../ral-page.css"></head>
 <body><a class="skip-link" href="#contenuto">Vai al contenuto</a>
-<header class="header ral-header"><div class="header__in"><a class="brand ral-brand" href="../index.html">Dove va la tua RAL<span class="brand__sub">Calcolatore netto 2026</span></a><div class="header__actions"><a class="btn btn--ghost btn--sm" href="../index.html">Calcola la tua RAL →</a></div></div></header>
+<header class="site-header"><div class="site-header__in"><a class="site-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a><nav class="site-nav" aria-label="Navigazione principale"><a href="../index.html">Calcolatore</a><a href="../compara.html">Confronta</a><a href="../confronti-ral/" aria-current="page">Confronti RAL</a><a href="../la-storia.html">La storia</a></nav></div></header>
 <nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in"><a href="../index.html">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span><span aria-current="page">Confronti RAL</span></div></nav>
 <main id="contenuto" class="ral-main hub-main"><div class="shell"><header class="ral-intro"><div class="eyebrow">Confronti RAL</div><h1>Dal lordo al netto, cifra per cifra</h1><p class="lead">Scegli una RAL e confronta subito lo stesso netto annuo su 12, 13 e 14 mensilità.</p></header>
 <section class="hub-grid" aria-label="Elenco dei confronti RAL">${cards}</section>

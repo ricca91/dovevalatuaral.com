@@ -35,9 +35,12 @@ test.describe('pagina RAL 35.000',()=>{
     assert.match(pagina,/href="\.\.\/ral-40000-netto\/"/);
   });
 
-  test('mantiene la navigazione essenziale e spiega il confronto senza una falsa scansione mensile',()=>{
+  test('mantiene la navigazione globale e spiega il confronto senza una falsa scansione mensile',()=>{
     assert.doesNotMatch(pagina,/<nav class="nav ral-nav"/);
-    assert.doesNotMatch(pagina,/Metodo e fonti|La storia|Come cambiano le mensilità/);
+    assert.match(pagina,/<nav class="site-nav" aria-label="Navigazione principale">/);
+    assert.match(pagina,/>Calcolatore<\/a>.*>Confronta<\/a>.*>Confronti RAL<\/a>.*>La storia<\/a>/);
+    assert.match(pagina,/href="\.\.\/confronti-ral\/" aria-current="page"/);
+    assert.doesNotMatch(pagina,/Metodo e fonti|Come cambiano le mensilità/);
     assert.match(pagina,/Tre numeri mensili, un solo netto annuo/);
     assert.match(pagina,/Il totale non cambia/);
     assert.match(pagina,/Cambia la media mensile/);
