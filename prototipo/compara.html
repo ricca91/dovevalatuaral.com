@@ -429,8 +429,8 @@ function bloccoBenefit(lato){
         </select></div>
       ${campoNumero(lato,'buoniValore','Valore unitario (€)',o.buoniValoreRaw,
         'Esenti fino a 8 € elettronici o 4 € cartacei.','decimal')}
-      ${campoNumero(lato,'buoniNumero','Numero annuo',o.buoniNumeroRaw,
-        'Un intero. I giorni in presenza non lo determinano.','numeric')}
+      ${campoNumero(lato,'buoniNumero','Numero al mese',o.buoniNumeroRaw,
+        'I giorni in presenza non lo determinano. Il confronto lo porta a 12 mesi.','decimal')}
     </div>
   </div>`;
 }

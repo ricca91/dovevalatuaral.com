@@ -44,6 +44,7 @@ const MESI=12;
 const LIMITI=Object.freeze({
   ral:1000000,            // lo stesso perimetro della home, senza easter egg
   giorniPresenzaMese:31,
+  buoniNumeroMese:310,    // dieci al giorno nel mese più lungo: un tetto, non una regola
   minutiViaggio:1440,
   oreSettimanali:168,
   lunghezzaCampo:24,      // un importo non è mai lungo: oltre, è rumore da URL
@@ -89,7 +90,7 @@ function offertaDaCalcolatore(stato){
     nucleo:NUCLEO.copiaNucleo(s.nucleo),
     welfareRaw:s.welfareRaw||'',fringeRaw:s.fringeRaw||'',
     buoniTipo:s.buoniTipo||'elettronici',
-    buoniValoreRaw:s.buoniValoreRaw||'',buoniNumeroRaw:s.buoniNumeroRaw||''};
+    buoniValoreRaw:s.buoniValoreRaw||'',buoniNumeroRaw:perMese(s.buoniNumeroRaw)};
 }
 
 /* Il ritorno al calcolatore usa la query string della home, immutata: costi,
@@ -108,9 +109,31 @@ function urlCalcolatore(offerta,base='index.html'){
   if(o.fringeRaw)p.set('f',String(o.fringeRaw));
   if(o.buoniTipo&&o.buoniTipo!=='elettronici')p.set('bt',String(o.buoniTipo));
   if(o.buoniValoreRaw)p.set('bv',String(o.buoniValoreRaw));
-  if(o.buoniNumeroRaw)p.set('bn',String(o.buoniNumeroRaw));
+  /* La home conta i buoni all'anno e il suo URL non si tocca: qui si
+     rimoltiplica per dodici, così andare e tornare non sposta un buono. */
+  const buoniAnno=perAnno(o.buoniNumeroRaw);
+  if(buoniAnno!==null)p.set('bn',String(buoniAnno));
   p.set('calc','1');
   return base+'?'+p.toString();
+}
+
+/* Il ponte fra le due unità, in due funzioni e in un posto solo. Il giro
+   completo è esatto: 220 all'anno diventano 18,33 al mese, e 18,33 al mese
+   tornano 220 all'anno — l'errore su dodici mesi vale sei centesimi di buono,
+   e non arriva mai a spostarne uno. */
+function perMese(rawAnnuo){
+  const t=String(rawAnnuo===null||rawAnnuo===undefined?'':rawAnnuo).trim().replace(/[.\s]/g,'');
+  if(!/^\d+$/.test(t))return '';
+  const annuo=Number(t);
+  if(!Number.isSafeInteger(annuo))return '';
+  return annuo%MESI===0?String(annuo/MESI):(annuo/MESI).toFixed(2).replace('.',',');
+}
+function perAnno(rawMensile){
+  const t=String(rawMensile===null||rawMensile===undefined?'':rawMensile).trim();
+  if(t==='')return null;
+  const v=MOTORE.parseRal(t);
+  if(v===null||Number.isNaN(Number(v))||!Number.isFinite(Number(v))||Number(v)<0)return null;
+  return Math.round(Number(v)*MESI);
 }
 
 /* ============================================================
@@ -177,16 +200,15 @@ function normalizzaOfferta(grezza){
       return sbaglia(campo,`${nome} deve stare fra 0 e ${max}.`);
     return n;
   };
-  const buoniNumero=intero('buoniNumero',o.buoniNumeroRaw,3660,'Il numero annuo di buoni',0);
   /* Il tempo lasciato vuoto NON è zero: è «non dichiarato», e resta
      distinto per tutta la catena fino alla riga della tabella. */
   const giorniPresenzaMese=intero('giorniPresenza',o.giorniPresenzaRaw,
     LIMITI.giorniPresenzaMese,'I giorni in presenza al mese',null);
 
   /* --- misure con decimali: 37,5 ore alla settimana è un caso vero --- */
-  const misura=(campo,raw,max,nome)=>{
+  const misura=(campo,raw,max,nome,vuoto=null)=>{
     const t=testo(raw).trim();
-    if(t==='')return null;
+    if(t==='')return vuoto;
     if(lungo(campo,t))return null;
     const v=MOTORE.parseRal(t);
     if(v===null||Number.isNaN(Number(v))||!finito(v)||Number(v)<0||Number(v)>max)
@@ -197,6 +219,14 @@ function normalizzaOfferta(grezza){
     'I minuti di viaggio al giorno');
   const oreSettimanali=misura('oreSettimanali',o.oreSettimanaliRaw,LIMITI.oreSettimanali,
     'Le ore di lavoro settimanali');
+  /* I buoni si contano al mese, e accettano i decimali per una ragione sola:
+     220 buoni l'anno — il caso più comune che arriva dalla home — sono 18,33
+     al mese, e nessun intero li rappresenta. Chi compila a mano scrive 20 e
+     resta 20; la media con la virgola compare solo quando serve a non perdere
+     per strada quattro buoni all'anno. Al motore arriva comunque un intero:
+     il conto annuo. */
+  const buoniNumeroMese=misura('buoniNumero',o.buoniNumeroRaw,LIMITI.buoniNumeroMese,
+    'Il numero di buoni al mese',0);
 
   /* --- enumerazioni: sconosciuto è un errore, non un default --- */
   const mensilitaNumero=Number(testo(o.mensilitaRaw));
@@ -238,7 +268,9 @@ function normalizzaOfferta(grezza){
   return{ok:true,errori:[],valore:{
     ral,mensilita,comune,nucleo,
     welfare,fringe,
-    buoniPasto:{tipo:buoniTipo,valoreUnitario:buoniValore,numero:buoniNumero},
+    buoniPasto:{tipo:buoniTipo,valoreUnitario:buoniValore,
+      numero:buoniNumeroMese===null?null:Math.round(buoniNumeroMese*MESI)},
+    buoniNumeroMese,
     /* Mensile per chi scrive, annuo per il confronto: la moltiplicazione per
        12 su centesimi interi è esatta, e non lascia in giro mezzo centesimo. */
     costi:{trasportoMese:trasporto,altreSpeseMese:altreSpese,
@@ -434,13 +466,13 @@ const fmtDeltaNumero=valore=>valore===null?'—'
    link. Non è cifratura — chi ha il link legge tutto — ed è per
    questo che la pagina lo dice accanto al pulsante.
    ============================================================ */
-/* La `m` finale di `trm`, `asm` e `ggm` non è decorazione: quei tre campi
-   erano annui in una versione precedente dello schema, e un nome uguale con
+/* La `m` finale di `trm`, `asm`, `ggm` e `bnm` non è decorazione: quei quattro
+   campi erano annui in una versione precedente dello schema, e un nome uguale con
    un'unità diversa farebbe rileggere «1.200 all'anno» come «1.200 al mese».
    Col nome nuovo un link vecchio lascia il campo vuoto — non dichiarato, mai
    un numero sbagliato. */
 const CAMPI_TESTO=Object.freeze([
-  ['w','welfareRaw'],['f','fringeRaw'],['bv','buoniValoreRaw'],['bn','buoniNumeroRaw'],
+  ['w','welfareRaw'],['f','fringeRaw'],['bv','buoniValoreRaw'],['bnm','buoniNumeroRaw'],
   ['trm','trasportoRaw'],['asm','altreSpeseRaw'],
   ['ore','oreSettimanaliRaw'],['ggm','giorniPresenzaRaw'],['min','minutiViaggioRaw'],
 ]);
@@ -534,7 +566,7 @@ return Object.freeze({
   offertaVuota,copiaOfferta,offertaDaCalcolatore,urlCalcolatore,
   normalizzaOfferta,confronta,oreViaggioAnnue,
   codificaStato,decodificaStato,
-  inCentesimi,dividiCentesimi,
+  inCentesimi,dividiCentesimi,perMese,perAnno,
   fmtEuro,fmtDelta,fmtNumero,fmtDeltaNumero,verso,
 });
 });

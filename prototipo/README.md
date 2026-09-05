@@ -217,12 +217,21 @@ oreViaggioAnnue   = giorniPresenzaMese × 12 × minutiViaggio ÷ 60
 delta             = B − A, sempre in questo ordine
 ```
 
-**Costi e giorni si dichiarano al mese**, benefit e RAL restano annui. È il modo in cui una
+**Costi, giorni in presenza e numero di buoni pasto si dichiarano al mese**; welfare, fringe
+e RAL restano annui. È il modo in cui una
 persona conosce le proprie spese — un abbonamento, un pieno, i giorni in ufficio di un mese
 tipo — mentre l'equivalente annuo è un conto da fare a mente prima di scrivere. La
 moltiplicazione per dodici avviene in un posto solo, su centesimi interi, quindi non lascia
 in giro mezzo centesimo; la tabella resta annua come il resto della pagina, con le sue righe
 `/ 12` accanto.
+
+I **buoni pasto** sono l'unico campo mensile che accetta i decimali, e per una ragione sola:
+220 buoni l'anno — il caso più comune che arriva dalla home — sono 18,33 al mese, e nessun
+intero li rappresenta. Arrotondare a 18 ne perderebbe quattro all'anno. Chi compila a mano
+scrive `20` e resta `20`; la media con la virgola compare solo quando serve a non perdere
+niente per strada. Al motore arriva comunque un intero — il conto annuo — e il giro completo
+è esatto: `perMese()` e `perAnno()` si annullano a vicenda per ogni valore annuo, e c'è una
+prova che le esercita una per una da 0 a 3.000.
 
 Tre regole che la tabella non viola mai:
 
@@ -263,12 +272,12 @@ prefisso `a.` o `b.` — meno il CCNL — più i cinque campi che la home non co
 | `a.c` `b.c` | codice catastale del comune | sempre |
 | `a.n` `b.n` | nucleo familiare, stesso codec della home | se dichiarato |
 | `a.w` `b.w` · `a.f` `b.f` | welfare e fringe annui | se valorizzati |
-| `a.bt` `b.bt` · `a.bv` `b.bv` · `a.bn` `b.bn` | buoni: tipo, valore unitario, numero | se valorizzati |
+| `a.bt` `b.bt` · `a.bv` `b.bv` · `a.bnm` `b.bnm` | buoni: tipo, valore unitario, numero **al mese** | se valorizzati |
 | `a.trm` `b.trm` · `a.asm` `b.asm` | trasporto e altre spese **al mese** | se valorizzati |
 | `a.ore` `b.ore` · `a.ggm` `b.ggm` · `a.min` `b.min` | ore settimanali, giorni in presenza **al mese**, minuti al giorno | se dichiarati |
 
-La `m` finale di `trm`, `asm` e `ggm` non è decorazione. Quei tre campi sono stati annui in
-una versione precedente dello schema, e un nome uguale con un'unità diversa farebbe rileggere
+La `m` finale di `trm`, `asm`, `ggm` e `bnm` non è decorazione. Quei quattro campi sono stati
+annui in una versione precedente dello schema, e un nome uguale con un'unità diversa farebbe rileggere
 «1.200 all'anno» come «1.200 al mese». Col nome nuovo un link vecchio lascia il campo vuoto —
 non dichiarato, mai un numero sbagliato.
 

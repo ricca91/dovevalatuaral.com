@@ -59,13 +59,13 @@ test('ogni scenario coincide con il risultato ottenuto direttamente dal motore',
     {tipo:'coniuge',eta:null,disabilita:false,reddito:1200}];
   const A=offerta({comune:'H501',nucleo,welfareRaw:'600',mensilitaRaw:'14'});
   const B=offerta({ralRaw:'48.000',comune:'L219',fringeRaw:'1.500',
-    buoniValoreRaw:'8',buoniNumeroRaw:'220'});
+    buoniValoreRaw:'8',buoniNumeroRaw:'20'});
   const esito=confrontaOk(A,B);
   const atteso=(ral,opzioni,mensilita)=>applicaMensilita(calcola(ral,opzioni),mensilita);
   assert.deepEqual(esito.risultati.A,atteso('35000',{comune:'H501',nucleo,
     welfare:'600',fringe:'0',buoniPasto:{tipo:'elettronici',valoreUnitario:'0',numero:0}},14));
   assert.deepEqual(esito.risultati.B,atteso('48000',{comune:'L219',nucleo:[],
-    welfare:'0',fringe:'1500',buoniPasto:{tipo:'elettronici',valoreUnitario:'8',numero:220}},13));
+    welfare:'0',fringe:'1500',buoniPasto:{tipo:'elettronici',valoreUnitario:'8',numero:240}},13));
   /* Le righe del confronto non sono un secondo calcolo: sono i KPI. */
   assert.equal(riga(esito,'netto').a,Math.round(esito.risultati.A.kpi.nettoInBusta*100));
   assert.equal(riga(esito,'benefit').b,Math.round(esito.risultati.B.kpi.benefitSpendibili*100));
@@ -146,7 +146,7 @@ test('le ore settimanali compaiono solo se qualcuno le ha dichiarate',()=>{
    I BENEFIT — spendibili, ma non denaro
    ============================================================ */
 test('i benefit spendibili non entrano nel denaro dopo i costi',()=>{
-  const conBenefit=offerta({welfareRaw:'1.000',buoniValoreRaw:'8',buoniNumeroRaw:'220'});
+  const conBenefit=offerta({welfareRaw:'1.000',buoniValoreRaw:'8',buoniNumeroRaw:'20'});
   const esito=confrontaOk(offerta(),conBenefit);
   assert.ok(riga(esito,'benefit').b>0);
   assert.equal(riga(esito,'dopoCosti').b,riga(esito,'netto').b);
@@ -156,7 +156,7 @@ test('i benefit spendibili non entrano nel denaro dopo i costi',()=>{
 test('anche con una quota imponibile il benefit resta fuori dal denaro dopo i costi',()=>{
   /* Buoni elettronici da 10 €: 2 € per titolo sono imponibili, quindi il
      netto in busta scende. Il valore spendibile resta comunque separato. */
-  const imponibili=offerta({buoniValoreRaw:'10',buoniNumeroRaw:'220',fringeRaw:'3.000'});
+  const imponibili=offerta({buoniValoreRaw:'10',buoniNumeroRaw:'20',fringeRaw:'3.000'});
   const esito=confrontaOk(offerta(),imponibili);
   const voci=esito.risultati.B.voci.filter(v=>v.somma==='benefitSpendibili');
   assert.ok(voci.some(v=>v.quotaImponibile>0),'lo scenario deve avere una quota imponibile');
@@ -217,8 +217,9 @@ test('gli importi facoltativi vuoti valgono zero, quelli assurdi sono errori',()
     ['fringe',{fringeRaw:'abc'}],
     ['trasporto',{trasportoRaw:'-0,01'}],
     ['altreSpese',{altreSpeseRaw:'NaN'}],
-    ['buoniNumero',{buoniNumeroRaw:'12,5'}],
     ['buoniNumero',{buoniNumeroRaw:'-3'}],
+    ['buoniNumero',{buoniNumeroRaw:'311'}],
+    ['buoniNumero',{buoniNumeroRaw:'venti'}],
     ['giorniPresenza',{giorniPresenzaRaw:'32'}],
     ['giorniPresenza',{giorniPresenzaRaw:'10,5'}],
     ['minutiViaggio',{minutiViaggioRaw:'1.441'}],
@@ -285,7 +286,7 @@ test('il fragment conserva tutti gli input e riproduce gli stessi risultati',()=
     A:offerta({comune:'H501',mensilitaRaw:'14',
       nucleo:[{tipo:'figlio',eta:22,disabilita:true,reddito:1500}],
       welfareRaw:'600',fringeRaw:'900',buoniTipo:'cartacei',
-      buoniValoreRaw:'4',buoniNumeroRaw:'200',
+      buoniValoreRaw:'4',buoniNumeroRaw:'18,33',
       trasportoRaw:'100',altreSpeseRaw:'25,50',
       oreSettimanaliRaw:'40',giorniPresenzaRaw:'18',minutiViaggioRaw:'90'}),
     B:offerta({ralRaw:'48.000',comune:'L219'}),
@@ -307,12 +308,16 @@ test('i campi mensili hanno un nome loro nell’URL',()=>{
   assert.match(fragment,/a\.trm=100/);
   assert.match(fragment,/a\.asm=25/);
   assert.match(fragment,/a\.ggm=18/);
+  assert.match(COMPARA.codificaStato({A:offerta({buoniNumeroRaw:'20'}),
+    B:COMPARA.offertaVuota()}),/a\.bnm=20/);
   /* Un link della versione annua non deve essere riletto come mensile:
      i vecchi nomi non esistono più, quindi il campo resta non dichiarato. */
-  const vecchio=COMPARA.decodificaStato('v=1&a.ral=35.000&a.tr=1200&a.gg=220&b.ral=40.000');
+  const vecchio=COMPARA.decodificaStato(
+    'v=1&a.ral=35.000&a.tr=1200&a.gg=220&a.bn=220&b.ral=40.000');
   assert.equal(vecchio.ok,true);
   assert.equal(vecchio.stato.A.trasportoRaw,'');
   assert.equal(vecchio.stato.A.giorniPresenzaRaw,'');
+  assert.equal(vecchio.stato.A.buoniNumeroRaw,'');
   assert.equal(COMPARA.normalizzaOfferta(vecchio.stato.A).valore.tempo.giorniPresenzaMese,null);
 });
 
@@ -363,6 +368,24 @@ test('un CCNL che arrivasse comunque viene ignorato, non è un errore',()=>{
   assert.doesNotMatch(COMPARA.codificaStato({A:offerta(),B:offerta()}),/ccnl/);
 });
 
+test('il giro fra buoni al mese e buoni all’anno non ne perde nessuno',()=>{
+  assert.equal(COMPARA.perMese('240'),'20');      // divisibile: resta intero
+  assert.equal(COMPARA.perMese('220'),'18,33');   // no: la media tiene i resti
+  assert.equal(COMPARA.perMese(''),'');
+  assert.equal(COMPARA.perMese('abc'),'');
+  assert.equal(COMPARA.perAnno('20'),240);
+  assert.equal(COMPARA.perAnno('18,33'),220);
+  assert.equal(COMPARA.perAnno(''),null);
+  for(let annuo=0;annuo<=3000;annuo++)
+    assert.equal(COMPARA.perAnno(COMPARA.perMese(String(annuo))),annuo,
+      `il giro completo si rompe a ${annuo}`);
+  /* E al motore arriva sempre un intero, mai una frazione di buono. */
+  const numero=COMPARA.normalizzaOfferta(offerta({buoniValoreRaw:'8',
+    buoniNumeroRaw:'18,33'})).valore.buoniPasto.numero;
+  assert.equal(Number.isInteger(numero),true);
+  assert.equal(numero,220);
+});
+
 test('il nucleo usa lo stesso codec della home',()=>{
   const nucleo=[{tipo:'figlio',eta:22,disabilita:true,reddito:1500},
     {tipo:'ascendente',eta:null,disabilita:false,reddito:0}];
@@ -378,7 +401,7 @@ test('lo stato della home diventa l’offerta A senza perdere niente che conti',
   const home={ralRaw:'42.000',mensilita:14,comune:'H501',ccnl:'terziario-confcommercio-h011',
     nucleo:[{tipo:'figlio',eta:22,disabilita:false,reddito:0}],
     welfareRaw:'600',fringeRaw:'900',buoniTipo:'cartacei',
-    buoniValoreRaw:'4',buoniNumeroRaw:'200'};
+    buoniValoreRaw:'4',buoniNumeroRaw:'220'};
   const A=COMPARA.offertaDaCalcolatore(home);
   assert.equal(A.ralRaw,'42.000');
   assert.equal(A.mensilitaRaw,'14');
@@ -389,6 +412,11 @@ test('lo stato della home diventa l’offerta A senza perdere niente che conti',
   assert.deepEqual(A.nucleo,home.nucleo);
   assert.notEqual(A.nucleo,home.nucleo,'la home non deve condividere la lista');
   assert.equal(A.buoniTipo,'cartacei');
+  /* La home conta all'anno, il confronto al mese: 220 all'anno non sono un
+     numero intero di buoni al mese, e arrotondarli a 18 ne perderebbe
+     quattro. La media con la virgola li tiene tutti. */
+  assert.equal(A.buoniNumeroRaw,'18,33');
+  assert.equal(COMPARA.normalizzaOfferta(A).valore.buoniPasto.numero,220);
   /* Costi e tempo restano da compilare: la home non li conosce. */
   assert.equal(A.trasportoRaw,'');
   assert.equal(A.giorniPresenzaRaw,'');
@@ -396,7 +424,7 @@ test('lo stato della home diventa l’offerta A senza perdere niente che conti',
   const dalConfronto=confrontaOk(A,A).risultati.A;
   assert.deepEqual(dalConfronto,applicaMensilita(calcola('42000',{comune:'H501',
     nucleo:home.nucleo,welfare:'600',fringe:'900',
-    buoniPasto:{tipo:'cartacei',valoreUnitario:'4',numero:200}}),14));
+    buoniPasto:{tipo:'cartacei',valoreUnitario:'4',numero:220}}),14));
 });
 
 test('il ritorno al calcolatore usa il formato di URL della home, immutato',()=>{
@@ -410,6 +438,9 @@ test('il ritorno al calcolatore usa il formato di URL della home, immutato',()=>
   assert.equal(query.get('n'),'f22');
   assert.equal(query.get('w'),'600');
   assert.equal(query.get('calc'),'1');
+  assert.equal(new URLSearchParams(COMPARA.urlCalcolatore(
+    offerta({buoniNumeroRaw:'18,33'})).split('?')[1]).get('bn'),'220',
+    'la home conta i buoni all’anno, e li ritrova tutti');
   assert.equal(query.get('ccnl'),null,'il confronto non conosce contratti collettivi');
   /* Nessun parametro nuovo: la home non deve imparare niente. */
   assert.deepEqual([...query.keys()].filter(k=>
@@ -461,7 +492,8 @@ test('i campi di costo e i giorni si dichiarano al mese',()=>{
   assert.match(html,/Costi di trasporto mensili/);
   assert.match(html,/Altre spese mensili legate al lavoro/);
   assert.match(html,/Giorni in presenza al mese/);
-  assert.doesNotMatch(html,/trasporto annui|spese annue|presenza annui/);
+  assert.match(html,/Numero al mese/);
+  assert.doesNotMatch(html,/trasporto annui|spese annue|presenza annui|Numero annuo/);
   /* Ore settimanali e minuti al giorno restano nella loro unità naturale. */
   assert.match(html,/Ore di lavoro settimanali/);
   assert.match(html,/Minuti di viaggio al giorno/);
