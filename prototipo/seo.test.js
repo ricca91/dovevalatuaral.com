@@ -10,6 +10,11 @@ const publicPages = [
   ['index.html', `${canonicalOrigin}/`],
   ['come-ho-lavorato.html', `${canonicalOrigin}/come-ho-lavorato.html`],
   ['la-storia.html', `${canonicalOrigin}/la-storia.html`],
+  ['confronti-ral/index.html', `${canonicalOrigin}/confronti-ral/`],
+  ...Array.from({ length: 17 }, (_, index) => {
+    const ral = 20000 + index * 5000;
+    return [`ral-${ral}-netto/index.html`, `${canonicalOrigin}/ral-${ral}-netto/`];
+  }),
 ];
 
 function readPublic(name) {
