@@ -216,7 +216,8 @@ body{padding-bottom:0}
 <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 <header class="site-header"><div class="site-header__in">
   <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
-  <nav class="site-nav" aria-label="Navigazione principale">
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
     <a href="index.html">Calcolatore</a><a href="compara.html" aria-current="page">Confronta</a><a href="confronti-ral/">Confronti RAL</a><a href="la-storia.html">La storia</a>
   </nav>
 </div></header>
@@ -244,6 +245,7 @@ body{padding-bottom:0}
 <script src="righe.js"></script>
 <script src="nucleo.js"></script>
 <script src="compara.js"></script>
+<script src="site-nav.js"></script>
 <script>
 /* ============================================================
    IL CONTROLLER — tiene lo stato, disegna, e non calcola niente.

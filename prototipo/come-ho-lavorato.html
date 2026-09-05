@@ -62,7 +62,8 @@ code{font-family:var(--font-mono);font-size:.9em}
 <body>
 <header class="site-header"><div class="site-header__in">
   <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
-  <nav class="site-nav" aria-label="Navigazione principale"><a href="index.html">Calcolatore</a><a href="compara.html">Confronta</a><a href="confronti-ral/">Confronti RAL</a><a href="la-storia.html">La storia</a></nav>
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><a href="index.html">Calcolatore</a><a href="compara.html">Confronta</a><a href="confronti-ral/">Confronti RAL</a><a href="la-storia.html">La storia</a></nav>
 </div></header>
 <main>
 <header class="hd"><div class="wrap"><div class="eyebrow">Nota di lavoro</div><h1>Prima le regole, poi la pagina</h1><p>Questo prototipo non prova a coprire ogni busta paga. Prende un caso standard, rende esplicite le assunzioni e lascia ispezionare ogni passaggio dalla RAL al netto.</p></div></header>
@@ -91,4 +92,4 @@ code{font-family:var(--font-mono);font-size:.9em}
 <div class="links"><a class="btn btn--primary" href="index.html?ral=35.000&m=13&calc=1">Apri il caso di riferimento</a><a class="btn btn--ghost" href="https://github.com/ricca91/dovevalatuaral.com/tree/main/processo">Esplora ricerca e decisioni</a></div>
 </div></section>
 </main><footer class="footer"><div class="wrap mono">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR.</div></footer>
-</body></html>
+<script src="site-nav.js"></script></body></html>
