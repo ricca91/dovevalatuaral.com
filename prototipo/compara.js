@@ -23,10 +23,9 @@
       :{calcola,applicaMensilita,MENSILITA_AMMESSE,parseRal,eur,fmt,K,toNumber},
     inNode?require('./geografia.js'):GEOGRAFIA_ITALIA,
     inNode?require('./nucleo.js')
-      :{MAX_FAMILIARI,TIPO_LETTERA,serializzaNucleo,deserializzaNucleo,copiaNucleo},
-    inNode?require('./ccnl.js'):CCNL_CATALOGO);
+      :{MAX_FAMILIARI,TIPO_LETTERA,serializzaNucleo,deserializzaNucleo,copiaNucleo});
   if(inNode)module.exports=api;else root.COMPARA=api;
-})(typeof globalThis!=='undefined'?globalThis:this,function(MOTORE,GEOGRAFIA,NUCLEO,CCNL){
+})(typeof globalThis!=='undefined'?globalThis:this,function(MOTORE,GEOGRAFIA,NUCLEO){
 
 /* La versione dello schema sta nell'URL: un link vecchio deve poter
    dire «non so leggerti» invece di ricostruire un confronto sbagliato. */
@@ -49,16 +48,19 @@ const LIMITI=Object.freeze({
    sezione chiusa non si può correggere, e la pagina deve sapere
    quale aprire prima di spostare il fuoco. */
 const SEZIONE_DEL_CAMPO=Object.freeze({
-  ral:'principale',mensilita:'principale',comune:'principale',ccnl:'principale',
+  ral:'principale',mensilita:'principale',comune:'principale',
   nucleo:'benefit',welfare:'benefit',fringe:'benefit',
   buoniTipo:'benefit',buoniValore:'benefit',buoniNumero:'benefit',
   trasporto:'costi',altreSpese:'costi',
   oreSettimanali:'costi',giorniPresenza:'costi',minutiViaggio:'costi',
 });
 
-/* ---------- l'offerta grezza: solo testo, come è stato scritto ---------- */
+/* ---------- l'offerta grezza: solo testo, come è stato scritto ----------
+   Niente CCNL: sul confronto suggerirebbe soltanto le mensilità, che qui
+   sono già un campo esplicito per ciascuna offerta. Un secondo controllo
+   che muove il primo, e non tocca nessun numero, è rumore. */
 const offertaVuota=()=>({
-  ralRaw:'',mensilitaRaw:String(MENSILITA_DEFAULT),comune:COMUNE_DEFAULT,ccnl:'',
+  ralRaw:'',mensilitaRaw:String(MENSILITA_DEFAULT),comune:COMUNE_DEFAULT,
   nucleo:[],
   welfareRaw:'',fringeRaw:'',buoniTipo:'elettronici',buoniValoreRaw:'',buoniNumeroRaw:'',
   trasportoRaw:'',altreSpeseRaw:'',
@@ -77,22 +79,23 @@ function offertaDaCalcolatore(stato){
   const s=stato||{};
   return{...offertaVuota(),
     ralRaw:s.ralRaw||'',mensilitaRaw:String(s.mensilita||MENSILITA_DEFAULT),
-    comune:s.comune||COMUNE_DEFAULT,ccnl:s.ccnl||'',
+    comune:s.comune||COMUNE_DEFAULT,
     nucleo:NUCLEO.copiaNucleo(s.nucleo),
     welfareRaw:s.welfareRaw||'',fringeRaw:s.fringeRaw||'',
     buoniTipo:s.buoniTipo||'elettronici',
     buoniValoreRaw:s.buoniValoreRaw||'',buoniNumeroRaw:s.buoniNumeroRaw||''};
 }
 
-/* Il ritorno al calcolatore usa la query string della home, immutata:
-   costi e tempo restano fuori perché la home non li conosce. */
+/* Il ritorno al calcolatore usa la query string della home, immutata: costi,
+   tempo e CCNL restano fuori — i primi due perché la home non li conosce, il
+   terzo perché il confronto non lo chiede e non lo può inventare. Senza `ccnl`
+   la home parte da «Nessun CCNL selezionato» e tiene le mensilità che arrivano. */
 function urlCalcolatore(offerta,base='index.html'){
   const o={...offertaVuota(),...(offerta||{})};
   const p=new URLSearchParams();
   p.set('ral',String(o.ralRaw||''));
   p.set('m',String(o.mensilitaRaw||MENSILITA_DEFAULT));
   p.set('c',String(o.comune||COMUNE_DEFAULT));
-  if(o.ccnl)p.set('ccnl',String(o.ccnl));
   const n=NUCLEO.serializzaNucleo(o.nucleo);
   if(n)p.set('n',n);
   if(o.welfareRaw)p.set('w',String(o.welfareRaw));
@@ -195,9 +198,6 @@ function normalizzaOfferta(grezza){
     :sbaglia('mensilita','Mensilità non ammessa: scegline una fra 12 e 16.');
   const buoniTipo=TIPI_BUONI.includes(o.buoniTipo)?o.buoniTipo
     :sbaglia('buoniTipo','Tipo di buoni pasto sconosciuto.');
-  const ccnl=!o.ccnl?''
-    :CCNL.trovaCcnl(o.ccnl)?o.ccnl
-    :sbaglia('ccnl','Contratto collettivo sconosciuto.');
   let comune=null;
   try{comune=GEOGRAFIA.risolvi(testo(o.comune)||COMUNE_DEFAULT).comune.catastale;}
   catch{sbaglia('comune','Comune non attivo nello snapshot Istat.');}
@@ -230,7 +230,7 @@ function normalizzaOfferta(grezza){
 
   const costiCentesimi=inCentesimi(trasporto)+inCentesimi(altreSpese);
   return{ok:true,errori:[],valore:{
-    ral,mensilita,comune,ccnl,nucleo,
+    ral,mensilita,comune,nucleo,
     welfare,fringe,
     buoniPasto:{tipo:buoniTipo,valoreUnitario:buoniValore,numero:buoniNumero},
     costi:{trasporto,altreSpese,centesimi:costiCentesimi},
@@ -433,7 +433,6 @@ function codificaOfferta(parametri,prefisso,offerta){
   parametri.set(prefisso+'ral',testo(o.ralRaw));
   parametri.set(prefisso+'m',testo(o.mensilitaRaw));
   parametri.set(prefisso+'c',testo(o.comune));
-  if(o.ccnl)parametri.set(prefisso+'ccnl',testo(o.ccnl));
   const nucleo=NUCLEO.serializzaNucleo(o.nucleo);
   if(nucleo)parametri.set(prefisso+'n',nucleo);
   if(o.buoniTipo&&o.buoniTipo!=='elettronici')parametri.set(prefisso+'bt',testo(o.buoniTipo));
@@ -473,11 +472,6 @@ function decodificaOfferta(parametri,prefisso){
   const comune=leggi('c');
   if(comune!==null){
     try{o.comune=GEOGRAFIA.risolvi(comune).comune.catastale;}catch{return null;}
-  }
-  const ccnl=leggi('ccnl');
-  if(ccnl!==null&&ccnl!==''){
-    if(!CCNL.trovaCcnl(ccnl))return null;
-    o.ccnl=ccnl;
   }
   const tipo=leggi('bt');
   if(tipo!==null){

@@ -58,7 +58,11 @@ body{padding-bottom:0}
 .campi{display:grid;gap:var(--s-5)}
 .campi--due{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 .campi--tre{grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
-@media(max-width:520px){.campi--due,.campi--tre{grid-template-columns:1fr}}
+/* La RAL è il campo che conta e prende lo spazio: le mensilità sono un
+   selettore a due cifre e non hanno motivo di prendersi mezza riga. */
+.campi--compenso{grid-template-columns:minmax(0,1fr) minmax(96px,.42fr);align-items:start}
+@media(max-width:520px){
+  .campi--due,.campi--tre,.campi--compenso{grid-template-columns:1fr}}
 
 /* € come prefisso: una casella affiancata, senza raggio */
 .ingroup{display:flex}
@@ -221,7 +225,6 @@ body{padding-bottom:0}
 <script src="dati-addizionali-2026.js"></script>
 <script src="geografia.js"></script>
 <script src="motore.js"></script>
-<script src="ccnl.js"></script>
 <script src="fonti.js"></script>
 <script src="righe.js"></script>
 <script src="nucleo.js"></script>
@@ -261,7 +264,7 @@ function apriPannelliConDati(){
 }
 
 /* ---------- errori: dal campo all'elemento che lo porta ---------- */
-const ID_CAMPO={ral:'ral',mensilita:'mensilita',comune:'comune',ccnl:'ccnl',
+const ID_CAMPO={ral:'ral',mensilita:'mensilita',comune:'comune',
   welfare:'welfare',fringe:'fringe',buoniTipo:'buoni-tipo',buoniValore:'buoni-valore',
   buoniNumero:'buoni-numero',trasporto:'trasporto',altreSpese:'altre-spese',
   oreSettimanali:'ore',giorniPresenza:'giorni',minutiViaggio:'minuti',
@@ -306,23 +309,15 @@ function bloccoPrincipale(lato){
   const province=GEOGRAFIA_ITALIA.province(risolviRegione(o.comune).regione);
   const comuni=GEOGRAFIA_ITALIA.comuni(risolviRegione(o.comune).provincia);
   return `<div class="campi">
-    <div class="field${errRal?' field--error':''}">
-      <label class="label" for="${lato}-ral">Retribuzione annua lorda</label>
-      <div class="ingroup"><span class="affix">€</span>
-        <input class="input" id="${lato}-ral" data-lato="${lato}" data-campo="ral"
-          inputmode="decimal" autocomplete="off" placeholder="35.000"
-          value="${esc(o.ralRaw)}" aria-describedby="${lato}-ral-help"></div>
-      ${errRal?`<p class="error-text" id="${lato}-ral-help">${esc(errRal.messaggio)}</p>`
-        :`<p class="hint" id="${lato}-ral-help">Il calcolo usa il domicilio fiscale selezionato, non la sede dell’azienda.</p>`}
-    </div>
-    <div class="campi campi--due">
-      <div class="field${erroreDi(lato,'ccnl')?' field--error':''}">
-        <label class="label" for="${lato}-ccnl">Contratto collettivo</label>
-        <select class="select" id="${lato}-ccnl" data-lato="${lato}" data-campo="ccnl">
-          <option value="">Nessun CCNL selezionato</option>
-          ${CCNL_CATALOGO.CCNL.map(c=>`<option value="${esc(c.id)}" ${o.ccnl===c.id?'selected':''}>${esc(c.nome)}</option>`).join('')}
-        </select>
-        <p class="hint">Suggerisce le mensilità. Non cambia il calcolo.</p>
+    <div class="campi campi--compenso">
+      <div class="field${errRal?' field--error':''}">
+        <label class="label" for="${lato}-ral">Retribuzione annua lorda</label>
+        <div class="ingroup"><span class="affix">€</span>
+          <input class="input" id="${lato}-ral" data-lato="${lato}" data-campo="ral"
+            inputmode="decimal" autocomplete="off" placeholder="35.000"
+            value="${esc(o.ralRaw)}" aria-describedby="${lato}-ral-help"></div>
+        ${errRal?`<p class="error-text" id="${lato}-ral-help">${esc(errRal.messaggio)}</p>`
+          :`<p class="hint" id="${lato}-ral-help">Il calcolo usa il domicilio fiscale selezionato, non la sede dell’azienda.</p>`}
       </div>
       <div class="field${erroreDi(lato,'mensilita')?' field--error':''}">
         <label class="label" for="${lato}-mensilita">Mensilità</label>
@@ -667,11 +662,6 @@ document.addEventListener('change',e=>{
   const d=e.target.dataset||{};
   if(!d.lato)return;
   const o=st[d.lato];
-  if(d.campo==='ccnl'){
-    o.ccnl=e.target.value;
-    if(o.ccnl)o.mensilitaRaw=String(CCNL_CATALOGO.suggerisciMensilita(o.ccnl,Number(o.mensilitaRaw)||13));
-    segnaDaAggiornare();return render(true);
-  }
   if(d.campo==='mensilita'){o.mensilitaRaw=e.target.value;segnaDaAggiornare();return render(true);}
   if(d.campo==='buoniTipo'){o.buoniTipo=e.target.value;segnaDaAggiornare();return render(true);}
   if(d.campo==='regione'){

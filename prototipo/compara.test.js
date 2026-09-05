@@ -229,7 +229,6 @@ test('gli enum sconosciuti sono errori, non default silenziosi',()=>{
     ['mensilita',{mensilitaRaw:'17'}],
     ['mensilita',{mensilitaRaw:'tredici'}],
     ['buoniTipo',{buoniTipo:'aurei'}],
-    ['ccnl',{ccnl:'contratto-inventato'}],
     ['comune',{comune:'ZZZZ'}],
     ['nucleo',{nucleo:'f22'}],
     ['nucleo',{nucleo:[{tipo:'cugino'}]}],
@@ -274,7 +273,7 @@ test('un input ostile non fa esplodere il confronto',()=>{
    ============================================================ */
 test('il fragment conserva tutti gli input e riproduce gli stessi risultati',()=>{
   const stato={
-    A:offerta({comune:'H501',mensilitaRaw:'14',ccnl:'metalmeccanica-industria-c011',
+    A:offerta({comune:'H501',mensilitaRaw:'14',
       nucleo:[{tipo:'figlio',eta:22,disabilita:true,reddito:1500}],
       welfareRaw:'600',fringeRaw:'900',buoniTipo:'cartacei',
       buoniValoreRaw:'4',buoniNumeroRaw:'200',
@@ -306,7 +305,6 @@ test('un link corrotto o di un’altra versione è recuperabile, non un crash',(
     ['v=1&a.c=ZZZZ',         'illeggibile'],   // comune inesistente
     ['v=1&a.m=17',           'illeggibile'],   // mensilità fuori elenco
     ['v=1&a.bt=aurei',       'illeggibile'],
-    ['v=1&a.ccnl=inventato', 'illeggibile'],
     ['v=1&a.n=f22.pippo',    'illeggibile'],   // token che il codec scarterebbe
     ['v=1&a.ral='+'9'.repeat(300),'illeggibile']];
   for(const[grezzo,motivo]of casi){
@@ -329,6 +327,17 @@ test('le stringhe malevole restano dati, non codice',()=>{
   assert.ok(esito.errori.some(e=>e.campo==='ral'));
 });
 
+test('un CCNL che arrivasse comunque viene ignorato, non è un errore',()=>{
+  /* La home continua ad avere il suo selettore, e un link vecchio può
+     ancora portarlo: il confronto lo lascia cadere e calcola lo stesso. */
+  const letto=COMPARA.decodificaStato('v=1&a.ral=35.000&a.ccnl=metalmeccanica-industria-c011'+
+    '&b.ral=40.000');
+  assert.equal(letto.ok,true);
+  assert.equal('ccnl' in letto.stato.A,false);
+  assert.equal(COMPARA.normalizzaOfferta({...offerta(),ccnl:'qualunque-cosa'}).ok,true);
+  assert.doesNotMatch(COMPARA.codificaStato({A:offerta(),B:offerta()}),/ccnl/);
+});
+
 test('il nucleo usa lo stesso codec della home',()=>{
   const nucleo=[{tipo:'figlio',eta:22,disabilita:true,reddito:1500},
     {tipo:'ascendente',eta:null,disabilita:false,reddito:0}];
@@ -340,7 +349,7 @@ test('il nucleo usa lo stesso codec della home',()=>{
 /* ============================================================
    IL PASSAGGIO DALLA HOME — lo scenario arriva intero
    ============================================================ */
-test('lo stato della home diventa l’offerta A senza perdere niente',()=>{
+test('lo stato della home diventa l’offerta A senza perdere niente che conti',()=>{
   const home={ralRaw:'42.000',mensilita:14,comune:'H501',ccnl:'terziario-confcommercio-h011',
     nucleo:[{tipo:'figlio',eta:22,disabilita:false,reddito:0}],
     welfareRaw:'600',fringeRaw:'900',buoniTipo:'cartacei',
@@ -349,7 +358,9 @@ test('lo stato della home diventa l’offerta A senza perdere niente',()=>{
   assert.equal(A.ralRaw,'42.000');
   assert.equal(A.mensilitaRaw,'14');
   assert.equal(A.comune,'H501');
-  assert.equal(A.ccnl,'terziario-confcommercio-h011');
+  /* Il CCNL non attraversa: sulla home suggeriva le mensilità, e le
+     mensilità che ha suggerito sono già arrivate come valore esplicito. */
+  assert.equal('ccnl' in A,false);
   assert.deepEqual(A.nucleo,home.nucleo);
   assert.notEqual(A.nucleo,home.nucleo,'la home non deve condividere la lista');
   assert.equal(A.buoniTipo,'cartacei');
@@ -374,9 +385,10 @@ test('il ritorno al calcolatore usa il formato di URL della home, immutato',()=>
   assert.equal(query.get('n'),'f22');
   assert.equal(query.get('w'),'600');
   assert.equal(query.get('calc'),'1');
+  assert.equal(query.get('ccnl'),null,'il confronto non conosce contratti collettivi');
   /* Nessun parametro nuovo: la home non deve imparare niente. */
   assert.deepEqual([...query.keys()].filter(k=>
-    !['ral','m','c','ccnl','n','w','f','bt','bv','bn','calc'].includes(k)),[]);
+    !['ral','m','c','n','w','f','bt','bv','bn','calc'].includes(k)),[]);
   assert.equal(new URLSearchParams(COMPARA.urlCalcolatore(offerta()).split('?')[1]).get('n'),null);
 });
 
@@ -421,9 +433,11 @@ test('compara.html dichiara title, description e self-canonical',()=>{
 
 test('la pagina carica gli script accanto e nessuna dipendenza esterna',()=>{
   const html=leggi('compara.html');
-  for(const file of['dati-addizionali-2026.js','geografia.js','motore.js','ccnl.js',
+  for(const file of['dati-addizionali-2026.js','geografia.js','motore.js',
     'fonti.js','righe.js','nucleo.js','compara.js'])
     assert.match(html,new RegExp(`<script src="${file.replace('.','\\.')}"></script>`),file);
+  /* Il catalogo dei contratti resta alla home: qui non serve a niente. */
+  assert.doesNotMatch(html,/ccnl/i);
   assert.doesNotMatch(html,/<script[^>]+src="https?:/);
   assert.doesNotMatch(html,/localStorage|sessionStorage/);
   assert.doesNotMatch(html,/type="module"/);

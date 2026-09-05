@@ -36,8 +36,8 @@ del 21 febbraio 2026.
 ## Come si apre
 
 Doppio clic su `index.html`, tenendo `draftsman.css`, `motore.js`, `righe.js`, `sezioni.js`,
-`nucleo.js`, `compara.js` e `fonti.js` nella stessa cartella. Il confronto è `compara.html`,
-e vuole accanto gli stessi file meno `sezioni.js`. Nessuna dipendenza, nessun passo di build, nessuna richiesta di rete:
+`nucleo.js`, `compara.js`, `ccnl.js` e `fonti.js` nella stessa cartella. Il confronto è
+`compara.html`, e vuole accanto gli stessi file meno `sezioni.js` e `ccnl.js`. Nessuna dipendenza, nessun passo di build, nessuna richiesta di rete:
 Archivo, Instrument Sans e JetBrains Mono sono incorporati in `draftsman.css`, quindi le
 pagine funzionano anche offline.
 
@@ -245,8 +245,8 @@ fragment no — e vale anche per il passaggio dalla home al confronto. Il link *
 cifratura**: chi lo riceve legge tutti i dati, familiari inclusi, e la pagina lo dice
 accanto al pulsante di copia. Niente `localStorage`, nessun analytics.
 
-Lo schema è versionato. `v=1` porta, per ciascuna offerta, gli stessi parametri della home
-con il prefisso `a.` o `b.`, più i cinque campi che la home non conosce:
+Lo schema è versionato. `v=1` porta, per ciascuna offerta, i parametri della home con il
+prefisso `a.` o `b.` — meno il CCNL — più i cinque campi che la home non conosce:
 
 | Parametro | Che cos'è | Quando compare |
 |---|---|---|
@@ -254,7 +254,6 @@ con il prefisso `a.` o `b.`, più i cinque campi che la home non conosce:
 | `a.ral` `b.ral` | RAL annua, come è stata scritta | sempre |
 | `a.m` `b.m` | mensilità, 12–16 | sempre |
 | `a.c` `b.c` | codice catastale del comune | sempre |
-| `a.ccnl` `b.ccnl` | id del CCNL selezionato | se scelto |
 | `a.n` `b.n` | nucleo familiare, stesso codec della home | se dichiarato |
 | `a.w` `b.w` · `a.f` `b.f` | welfare e fringe annui | se valorizzati |
 | `a.bt` `b.bt` · `a.bv` `b.bv` · `a.bn` `b.bn` | buoni: tipo, valore unitario, numero | se valorizzati |
@@ -276,8 +275,12 @@ campo che si corregge a mano. Il formato degli URL della home **non cambia**.
   stata contata due volte, e non verifica niente.
 - Fuori perimetro come nella home: TFR, costo azienda, bonus e MBO, previdenza
   complementare, altri redditi, benchmark salariali.
-- Il CCNL suggerisce le mensilità e basta: non cambia il regime contributivo di nessuna
-  delle due offerte.
+- **Niente selettore CCNL, per scelta.** Sulla home il contratto collettivo esiste per
+  suggerire le mensilità, e non tocca né il regime contributivo né una singola aliquota.
+  Sul confronto le mensilità sono già un campo esplicito per ciascuna offerta: un secondo
+  controllo che muove il primo, e non muove nessun numero, sarebbe solo rumore in un modulo
+  che ne ha due affiancati. Il CCNL non entra quindi nemmeno nel fragment, e un link che lo
+  portasse comunque viene letto ignorandolo.
 
 ## Come si pubblica
 
