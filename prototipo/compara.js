@@ -35,9 +35,15 @@ const MENSILITA_DEFAULT=13;
 const TIPI_BUONI=Object.freeze(['elettronici','cartacei']);
 const ETICHETTE=Object.freeze({A:'Lavoro attuale',B:'Nuova offerta'});
 const MASSIMALE=MOTORE.toNumber(MOTORE.K.contributi.massimale);
+/* I costi e i giorni si dichiarano AL MESE: è il modo in cui una persona
+   conosce le proprie spese — un abbonamento, un pieno, i giorni in ufficio di
+   un mese tipo — mentre l'equivalente annuo è un conto che dovrebbe fare a
+   mente prima di scrivere. Il confronto lo porta a dodici mesi qui dentro, in
+   un posto solo, e la tabella resta annua come il resto della pagina. */
+const MESI=12;
 const LIMITI=Object.freeze({
   ral:1000000,            // lo stesso perimetro della home, senza easter egg
-  giorniPresenza:366,
+  giorniPresenzaMese:31,
   minutiViaggio:1440,
   oreSettimanali:168,
   lunghezzaCampo:24,      // un importo non è mai lungo: oltre, è rumore da URL
@@ -174,8 +180,8 @@ function normalizzaOfferta(grezza){
   const buoniNumero=intero('buoniNumero',o.buoniNumeroRaw,3660,'Il numero annuo di buoni',0);
   /* Il tempo lasciato vuoto NON è zero: è «non dichiarato», e resta
      distinto per tutta la catena fino alla riga della tabella. */
-  const giorniPresenza=intero('giorniPresenza',o.giorniPresenzaRaw,LIMITI.giorniPresenza,
-    'I giorni in presenza annui',null);
+  const giorniPresenzaMese=intero('giorniPresenza',o.giorniPresenzaRaw,
+    LIMITI.giorniPresenzaMese,'I giorni in presenza al mese',null);
 
   /* --- misure con decimali: 37,5 ore alla settimana è un caso vero --- */
   const misura=(campo,raw,max,nome)=>{
@@ -228,13 +234,16 @@ function normalizzaOfferta(grezza){
 
   if(errori.length)return{ok:false,errori,valore:null};
 
-  const costiCentesimi=inCentesimi(trasporto)+inCentesimi(altreSpese);
+  const costiCentesimiMese=inCentesimi(trasporto)+inCentesimi(altreSpese);
   return{ok:true,errori:[],valore:{
     ral,mensilita,comune,nucleo,
     welfare,fringe,
     buoniPasto:{tipo:buoniTipo,valoreUnitario:buoniValore,numero:buoniNumero},
-    costi:{trasporto,altreSpese,centesimi:costiCentesimi},
-    tempo:{oreSettimanali,giorniPresenza,minutiViaggio},
+    /* Mensile per chi scrive, annuo per il confronto: la moltiplicazione per
+       12 su centesimi interi è esatta, e non lascia in giro mezzo centesimo. */
+    costi:{trasportoMese:trasporto,altreSpeseMese:altreSpese,
+      centesimiMese:costiCentesimiMese,centesimi:costiCentesimiMese*MESI},
+    tempo:{oreSettimanali,giorniPresenzaMese,minutiViaggio},
   }};
 }
 
@@ -270,11 +279,13 @@ function calcolaScenario(valore){
   }),valore.mensilita);
 }
 
-/* Le ore di viaggio non sono una stima: sono la moltiplicazione di due
-   dati dichiarati. Se ne manca uno il risultato non è zero, è assente. */
+/* Le ore di viaggio non sono una stima: sono la moltiplicazione di dati
+   dichiarati. I giorni arrivano al mese, quindi passano per i dodici mesi
+   prima di incontrare i minuti. Se manca uno dei due il risultato non è
+   zero, è assente. */
 function oreViaggioAnnue(tempo){
-  if(tempo.giorniPresenza===null||tempo.minutiViaggio===null)return null;
-  return arrotonda2(tempo.giorniPresenza*tempo.minutiViaggio/60);
+  if(tempo.giorniPresenzaMese===null||tempo.minutiViaggio===null)return null;
+  return arrotonda2(tempo.giorniPresenzaMese*MESI*tempo.minutiViaggio/60);
 }
 
 function avvisiScenario(risultato){
@@ -344,7 +355,8 @@ function confronta(grezzaA,grezzaB){
     {chiave:'pacchetto',etichetta:'Valore nominale del pacchetto annuo',unita:'euro',
       a:pacchetto.A,b:pacchetto.B,delta:pacchetto.B-pacchetto.A},
     {chiave:'costi',etichetta:'Costi annui dichiarati',unita:'euro',
-      nota:'Trasporto più le altre spese dichiarate. Nessuna stima automatica.',
+      nota:'Trasporto più le altre spese, dichiarati al mese e portati a 12 mesi. '+
+        'Nessuna stima automatica.',
       a:costi.A,b:costi.B,delta:costi.B-costi.A},
     {chiave:'dopoCosti',etichetta:'Netto annuo meno costi dichiarati',unita:'euro',
       a:dopoCosti.A,b:dopoCosti.B,delta:deltaDopoCosti},
@@ -357,7 +369,7 @@ function confronta(grezzaA,grezzaB){
     chiave:'oreSettimanali',etichetta:'Ore di lavoro settimanali',unita:'ore',
     a:oreSettimana.A,b:oreSettimana.B,delta:deltaOre(oreSettimana.A,oreSettimana.B)});
   righe.push({chiave:'oreViaggio',etichetta:'Ore annue di viaggio',unita:'ore',
-    nota:'Giorni in presenza × minuti al giorno ÷ 60. Il tempo non viene monetizzato.',
+    nota:'Giorni al mese × 12 × minuti al giorno ÷ 60. Il tempo non viene monetizzato.',
     a:viaggio.A,b:viaggio.B,delta:deltaOre(viaggio.A,viaggio.B)});
 
   return{ok:true,errori:[],esito:{
@@ -422,10 +434,15 @@ const fmtDeltaNumero=valore=>valore===null?'—'
    link. Non è cifratura — chi ha il link legge tutto — ed è per
    questo che la pagina lo dice accanto al pulsante.
    ============================================================ */
+/* La `m` finale di `trm`, `asm` e `ggm` non è decorazione: quei tre campi
+   erano annui in una versione precedente dello schema, e un nome uguale con
+   un'unità diversa farebbe rileggere «1.200 all'anno» come «1.200 al mese».
+   Col nome nuovo un link vecchio lascia il campo vuoto — non dichiarato, mai
+   un numero sbagliato. */
 const CAMPI_TESTO=Object.freeze([
   ['w','welfareRaw'],['f','fringeRaw'],['bv','buoniValoreRaw'],['bn','buoniNumeroRaw'],
-  ['tr','trasportoRaw'],['as','altreSpeseRaw'],
-  ['ore','oreSettimanaliRaw'],['gg','giorniPresenzaRaw'],['min','minutiViaggioRaw'],
+  ['trm','trasportoRaw'],['asm','altreSpeseRaw'],
+  ['ore','oreSettimanaliRaw'],['ggm','giorniPresenzaRaw'],['min','minutiViaggioRaw'],
 ]);
 
 function codificaOfferta(parametri,prefisso,offerta){

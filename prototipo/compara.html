@@ -61,6 +61,19 @@ body{padding-bottom:0}
 /* La RAL è il campo che conta e prende lo spazio: le mensilità sono un
    selettore a due cifre e non hanno motivo di prendersi mezza riga. */
 .campi--compenso{grid-template-columns:minmax(0,1fr) minmax(96px,.42fr);align-items:start}
+/* Etichetta, controllo e nota di due campi affiancati devono stare sulle
+   stesse tre righe. Senza, basta che un'etichetta vada a capo e l'altra no
+   — «Altre spese mensili legate al lavoro» contro «Costi di trasporto
+   mensili» — perché i due riquadri € si sfalsino di una riga di testo.
+   `align-items:start` allinea le scatole, non quello che c'è dentro: le
+   righe le può condividere solo il subgrid. Dove non c'è, il modulo resta
+   quello di prima, allineato in alto. */
+@supports(grid-template-rows:subgrid){
+  .campi--due,.campi--tre,.campi--compenso{grid-template-rows:auto auto auto;
+    align-items:initial}
+  .campi--due>.field,.campi--tre>.field,.campi--compenso>.field{
+    grid-row:span 3;grid-template-rows:subgrid;row-gap:var(--s-2)}
+}
 @media(max-width:520px){
   .campi--due,.campi--tre,.campi--compenso{grid-template-columns:1fr}}
 
@@ -425,22 +438,23 @@ function bloccoBenefit(lato){
 function bloccoCosti(lato){
   const o=st[lato];
   return `<div class="campi campi--due">
-    ${campoImporto(lato,'trasporto','Costi di trasporto annui',o.trasportoRaw,
-      'Abbonamenti, carburante, pedaggi: quello che dichiari tu.')}
-    ${campoImporto(lato,'altreSpese','Altre spese annue legate al lavoro',o.altreSpeseRaw,
+    ${campoImporto(lato,'trasporto','Costi di trasporto mensili',o.trasportoRaw,
+      'Abbonamenti, carburante, pedaggi: quello che dichiari tu. Il confronto li porta a 12 mesi.')}
+    ${campoImporto(lato,'altreSpese','Altre spese mensili legate al lavoro',o.altreSpeseRaw,
       'Solo spese che vuoi considerare nel confronto; evita di contare due volte la stessa spesa.')}
   </div>
   <div class="campi campi--tre">
     ${campoNumero(lato,'oreSettimanali','Ore di lavoro settimanali',o.oreSettimanaliRaw,
       'Vuoto significa non dichiarato, non zero.','decimal')}
-    ${campoNumero(lato,'giorniPresenza','Giorni in presenza annui',o.giorniPresenzaRaw,
-      'Vuoto significa non dichiarato, non zero.','numeric')}
+    ${campoNumero(lato,'giorniPresenza','Giorni in presenza al mese',o.giorniPresenzaRaw,
+      'Di un mese tipo. Vuoto significa non dichiarato, non zero.','numeric')}
     ${campoNumero(lato,'minutiViaggio','Minuti di viaggio al giorno',o.minutiViaggioRaw,
       'Andata e ritorno. Vuoto significa non dichiarato.','decimal')}
   </div>
   <div class="callout callout--warn"><span class="callout__mark">Limite</span><div>
-    Nessuna stima automatica di affitto, ferie, settimane lavorate, costi chilometrici o valore
-    monetario del tempo: entrano solo i numeri che dichiari.</div></div>`;
+    Costi e giorni si dichiarano <b>al mese</b> e il confronto li porta a dodici mesi tali e
+    quali: nessuna stima automatica di affitto, ferie, settimane lavorate, costi chilometrici o
+    valore monetario del tempo. Entrano solo i numeri che dichiari.</div></div>`;
 }
 
 function pannello(lato,chiave,sotto,corpo){
@@ -471,7 +485,7 @@ function modulo(lato){
     ${bloccoPrincipale(lato)}
     <div class="accordion opt">
       ${pannello(lato,'benefit','Familiari a carico, welfare, fringe e buoni pasto',bloccoBenefit(lato))}
-      ${pannello(lato,'costi','Costi dichiarati, ore di lavoro e tempo di viaggio',bloccoCosti(lato))}
+      ${pannello(lato,'costi','Costi al mese, ore di lavoro e tempo di viaggio',bloccoCosti(lato))}
     </div>
   </section>`;
 }

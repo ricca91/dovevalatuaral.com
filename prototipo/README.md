@@ -211,11 +211,18 @@ Il confronto **non contiene una sola formula fiscale**: chiama due volte lo stes
 verificabili a mano:
 
 ```
-costiAnnui        = trasportoAnnuo + altreSpeseAnnue
+costiAnnui        = (trasportoMensile + altreSpeseMensili) × 12
 nettoDopoCosti    = kpi.nettoInBusta − costiAnnui          (può essere negativo)
-oreViaggioAnnue   = giorniPresenzaAnnui × minutiViaggio ÷ 60
+oreViaggioAnnue   = giorniPresenzaMese × 12 × minutiViaggio ÷ 60
 delta             = B − A, sempre in questo ordine
 ```
+
+**Costi e giorni si dichiarano al mese**, benefit e RAL restano annui. È il modo in cui una
+persona conosce le proprie spese — un abbonamento, un pieno, i giorni in ufficio di un mese
+tipo — mentre l'equivalente annuo è un conto da fare a mente prima di scrivere. La
+moltiplicazione per dodici avviene in un posto solo, su centesimi interi, quindi non lascia
+in giro mezzo centesimo; la tabella resta annua come il resto della pagina, con le sue righe
+`/ 12` accanto.
 
 Tre regole che la tabella non viola mai:
 
@@ -225,7 +232,7 @@ Tre regole che la tabella non viola mai:
    stanno sulla stessa scala: la riga della media mostra i due divisori e **omette il
    delta**. Per confrontare c'è la riga «Netto annuo / 12».
 3. **Il tempo non si monetizza, e vuoto non è zero.** Costi lasciati vuoti valgono zero;
-   ore e minuti lasciati vuoti restano **non dichiarati**. Nessuna stima automatica di
+   ore, giorni e minuti lasciati vuoti restano **non dichiarati**. Nessuna stima automatica di
    affitto, ferie, settimane lavorate o costi chilometrici, e i giorni in presenza non
    determinano il numero di buoni pasto.
 
@@ -257,8 +264,13 @@ prefisso `a.` o `b.` — meno il CCNL — più i cinque campi che la home non co
 | `a.n` `b.n` | nucleo familiare, stesso codec della home | se dichiarato |
 | `a.w` `b.w` · `a.f` `b.f` | welfare e fringe annui | se valorizzati |
 | `a.bt` `b.bt` · `a.bv` `b.bv` · `a.bn` `b.bn` | buoni: tipo, valore unitario, numero | se valorizzati |
-| `a.tr` `b.tr` · `a.as` `b.as` | trasporto e altre spese annue | se valorizzati |
-| `a.ore` `b.ore` · `a.gg` `b.gg` · `a.min` `b.min` | ore settimanali, giorni in presenza, minuti al giorno | se dichiarati |
+| `a.trm` `b.trm` · `a.asm` `b.asm` | trasporto e altre spese **al mese** | se valorizzati |
+| `a.ore` `b.ore` · `a.ggm` `b.ggm` · `a.min` `b.min` | ore settimanali, giorni in presenza **al mese**, minuti al giorno | se dichiarati |
+
+La `m` finale di `trm`, `asm` e `ggm` non è decorazione. Quei tre campi sono stati annui in
+una versione precedente dello schema, e un nome uguale con un'unità diversa farebbe rileggere
+«1.200 all'anno» come «1.200 al mese». Col nome nuovo un link vecchio lascia il campo vuoto —
+non dichiarato, mai un numero sbagliato.
 
 Il fragment porta **gli input, mai i risultati**: alla riapertura si ricalcola. Un valore
 che questa pagina non potrebbe mai produrre — un comune inesistente, una mensilità fuori
@@ -272,7 +284,8 @@ campo che si corregge a mano. Il formato degli URL della home **non cambia**.
 - Nessuna deduzione su quale offerta convenga: la pagina mostra numeri distinti, non un
   punteggio.
 - I costi sono quelli **dichiarati da chi compila**: il confronto non sa se una spesa è
-  stata contata due volte, e non verifica niente.
+  stata contata due volte, e non verifica niente. I dodici mesi sono presi tali e quali,
+  senza tredicesime di spesa, mesi di ferie o stagionalità.
 - Fuori perimetro come nella home: TFR, costo azienda, bonus e MBO, previdenza
   complementare, altri redditi, benchmark salariali.
 - **Niente selettore CCNL, per scelta.** Sulla home il contratto collettivo esiste per

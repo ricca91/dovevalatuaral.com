@@ -72,9 +72,9 @@ test('ogni scenario coincide con il risultato ottenuto direttamente dal motore',
   assert.equal(riga(esito,'pacchetto').b,Math.round(esito.risultati.B.kpi.valorePacchetto*100));
 });
 
-test('1.200 € di costi solo su B tolgono 1.200 € l’anno e 100 € al mese, e non toccano il fisco',()=>{
+test('100 € di costi al mese solo su B tolgono 1.200 € l’anno e 100 € al mese, e non toccano il fisco',()=>{
   const senza=confrontaOk(offerta(),offerta());
-  const con=confrontaOk(offerta(),offerta({trasportoRaw:'1.200'}));
+  const con=confrontaOk(offerta(),offerta({trasportoRaw:'100'}));
   assert.equal(riga(con,'netto').delta,riga(senza,'netto').delta);   // il netto fiscale non si muove
   assert.equal(riga(con,'costi').delta,120000);
   assert.equal(riga(con,'dopoCosti').delta,riga(senza,'dopoCosti').delta-120000);
@@ -82,12 +82,16 @@ test('1.200 € di costi solo su B tolgono 1.200 € l’anno e 100 € al mese,
   assert.match(con.riepilogo.costi.testo,/1\.200,00 €.*100,00 € al mese/);
 });
 
-test('i costi sono la somma delle due voci dichiarate, e possono superare il netto',()=>{
+test('i costi mensili sono sommati e poi portati a 12 mesi, e possono superare il netto',()=>{
   const esito=confrontaOk(offerta({ralRaw:'20.000'}),
-    offerta({ralRaw:'20.000',trasportoRaw:'12.000',altreSpeseRaw:'9.000,50'}));
-  assert.equal(riga(esito,'costi').b,2100050);
-  assert.equal(riga(esito,'dopoCosti').b,riga(esito,'netto').b-2100050);
+    offerta({ralRaw:'20.000',trasportoRaw:'1.000',altreSpeseRaw:'750,04'}));
+  /* (100000 + 75004) centesimi al mese × 12 mesi, esatto sugli interi. */
+  assert.equal(riga(esito,'costi').b,(100000+75004)*12);
+  assert.equal(riga(esito,'dopoCosti').b,riga(esito,'netto').b-2100048);
   assert.ok(riga(esito,'dopoCosti').b<0,'il denaro dopo i costi può essere negativo');
+  const valore=COMPARA.normalizzaOfferta(offerta({trasportoRaw:'100',altreSpeseRaw:'25,50'})).valore;
+  assert.equal(valore.costi.centesimiMese,12550);
+  assert.equal(valore.costi.centesimi,150600);
 });
 
 test('la media su 12 nasce dal delta annuo, non da due medie già arrotondate',()=>{
@@ -101,25 +105,30 @@ test('la media su 12 nasce dal delta annuo, non da due medie già arrotondate',(
 /* ============================================================
    IL TEMPO — dichiarato, mancante, o zero: tre cose diverse
    ============================================================ */
-test('100 giorni per 60 minuti fanno 100 ore annue di viaggio',()=>{
+test('i giorni al mese diventano 12 mesi prima di incontrare i minuti',()=>{
   const esito=confrontaOk(
-    offerta({giorniPresenzaRaw:'100',minutiViaggioRaw:'60'}),
-    offerta({giorniPresenzaRaw:'220',minutiViaggioRaw:'90'}));
-  assert.equal(riga(esito,'oreViaggio').a,100);
-  assert.equal(riga(esito,'oreViaggio').b,330);
-  assert.equal(riga(esito,'oreViaggio').delta,230);
+    offerta({giorniPresenzaRaw:'20',minutiViaggioRaw:'60'}),
+    offerta({giorniPresenzaRaw:'18',minutiViaggioRaw:'90'}));
+  assert.equal(riga(esito,'oreViaggio').a,240);   // 20 × 12 × 60 ÷ 60
+  assert.equal(riga(esito,'oreViaggio').b,324);   // 18 × 12 × 90 ÷ 60
+  assert.equal(riga(esito,'oreViaggio').delta,84);
   assert.equal(esito.riepilogo.viaggio.disponibile,true);
+  /* L'identità dell'issue, riscritta sull'unità del modulo: i 100 giorni
+     annui per 60 minuti restano 100 ore, se dichiarati come giorni al mese. */
+  assert.equal(COMPARA.oreViaggioAnnue({giorniPresenzaMese:100/12,minutiViaggio:60}),100);
+  /* E la nota della riga racconta la formula che usa davvero. */
+  assert.match(riga(esito,'oreViaggio').nota,/Giorni al mese × 12 × minuti al giorno ÷ 60/);
 });
 
 test('zero ore dichiarate e ore non dichiarate non sono la stessa cosa',()=>{
   const zero=confrontaOk(offerta({giorniPresenzaRaw:'0',minutiViaggioRaw:'0'}),offerta({
     giorniPresenzaRaw:'0',minutiViaggioRaw:'0'}));
   assert.equal(riga(zero,'oreViaggio').a,0);
-  const mezzo=confrontaOk(offerta({giorniPresenzaRaw:'220'}),offerta());
+  const mezzo=confrontaOk(offerta({giorniPresenzaRaw:'20'}),offerta());
   assert.equal(riga(mezzo,'oreViaggio').a,null,'senza i minuti il prodotto non esiste');
   assert.equal(riga(mezzo,'oreViaggio').delta,null);
-  assert.equal(COMPARA.oreViaggioAnnue({giorniPresenza:0,minutiViaggio:0}),0);
-  assert.equal(COMPARA.oreViaggioAnnue({giorniPresenza:0,minutiViaggio:null}),null);
+  assert.equal(COMPARA.oreViaggioAnnue({giorniPresenzaMese:0,minutiViaggio:0}),0);
+  assert.equal(COMPARA.oreViaggioAnnue({giorniPresenzaMese:0,minutiViaggio:null}),null);
 });
 
 test('le ore settimanali compaiono solo se qualcuno le ha dichiarate',()=>{
@@ -210,7 +219,7 @@ test('gli importi facoltativi vuoti valgono zero, quelli assurdi sono errori',()
     ['altreSpese',{altreSpeseRaw:'NaN'}],
     ['buoniNumero',{buoniNumeroRaw:'12,5'}],
     ['buoniNumero',{buoniNumeroRaw:'-3'}],
-    ['giorniPresenza',{giorniPresenzaRaw:'367'}],
+    ['giorniPresenza',{giorniPresenzaRaw:'32'}],
     ['giorniPresenza',{giorniPresenzaRaw:'10,5'}],
     ['minutiViaggio',{minutiViaggioRaw:'1.441'}],
     ['oreSettimanali',{oreSettimanaliRaw:'169'}],
@@ -220,7 +229,7 @@ test('gli importi facoltativi vuoti valgono zero, quelli assurdi sono errori',()
     assert.ok(esito.errori.some(e=>e.campo===campo),
       `${campo}: trovato ${JSON.stringify(esito.errori)}`);
   }
-  assert.equal(COMPARA.normalizzaOfferta(offerta({giorniPresenzaRaw:'366',
+  assert.equal(COMPARA.normalizzaOfferta(offerta({giorniPresenzaRaw:'31',
     minutiViaggioRaw:'1.440',oreSettimanaliRaw:'168'})).ok,true);
 });
 
@@ -277,8 +286,8 @@ test('il fragment conserva tutti gli input e riproduce gli stessi risultati',()=
       nucleo:[{tipo:'figlio',eta:22,disabilita:true,reddito:1500}],
       welfareRaw:'600',fringeRaw:'900',buoniTipo:'cartacei',
       buoniValoreRaw:'4',buoniNumeroRaw:'200',
-      trasportoRaw:'1.200',altreSpeseRaw:'300,50',
-      oreSettimanaliRaw:'40',giorniPresenzaRaw:'220',minutiViaggioRaw:'90'}),
+      trasportoRaw:'100',altreSpeseRaw:'25,50',
+      oreSettimanaliRaw:'40',giorniPresenzaRaw:'18',minutiViaggioRaw:'90'}),
     B:offerta({ralRaw:'48.000',comune:'L219'}),
   };
   const fragment=COMPARA.codificaStato(stato);
@@ -289,6 +298,22 @@ test('il fragment conserva tutti gli input e riproduce gli stessi risultati',()=
   /* Il fragment porta gli input, non i risultati: al ritorno si ricalcola. */
   assert.doesNotMatch(fragment,/netto|kpi|risultat/i);
   assert.deepEqual(confrontaOk(letto.stato.A,letto.stato.B),confrontaOk(stato.A,stato.B));
+});
+
+test('i campi mensili hanno un nome loro nell’URL',()=>{
+  const fragment=COMPARA.codificaStato({
+    A:offerta({trasportoRaw:'100',altreSpeseRaw:'25',giorniPresenzaRaw:'18'}),
+    B:COMPARA.offertaVuota()});
+  assert.match(fragment,/a\.trm=100/);
+  assert.match(fragment,/a\.asm=25/);
+  assert.match(fragment,/a\.ggm=18/);
+  /* Un link della versione annua non deve essere riletto come mensile:
+     i vecchi nomi non esistono più, quindi il campo resta non dichiarato. */
+  const vecchio=COMPARA.decodificaStato('v=1&a.ral=35.000&a.tr=1200&a.gg=220&b.ral=40.000');
+  assert.equal(vecchio.ok,true);
+  assert.equal(vecchio.stato.A.trasportoRaw,'');
+  assert.equal(vecchio.stato.A.giorniPresenzaRaw,'');
+  assert.equal(COMPARA.normalizzaOfferta(vecchio.stato.A).valore.tempo.giorniPresenzaMese,null);
 });
 
 test('il fragment sopravvive al cancelletto e ignora quello che non conosce',()=>{
@@ -429,6 +454,17 @@ test('compara.html dichiara title, description e self-canonical',()=>{
   assert.match(html,/Confronta netto, benefit e costi legati al lavoro\./);
   assert.match(html,/Lavoro attuale/);
   assert.match(html,/Nuova offerta/);
+});
+
+test('i campi di costo e i giorni si dichiarano al mese',()=>{
+  const html=leggi('compara.html');
+  assert.match(html,/Costi di trasporto mensili/);
+  assert.match(html,/Altre spese mensili legate al lavoro/);
+  assert.match(html,/Giorni in presenza al mese/);
+  assert.doesNotMatch(html,/trasporto annui|spese annue|presenza annui/);
+  /* Ore settimanali e minuti al giorno restano nella loro unità naturale. */
+  assert.match(html,/Ore di lavoro settimanali/);
+  assert.match(html,/Minuti di viaggio al giorno/);
 });
 
 test('la pagina carica gli script accanto e nessuna dipendenza esterna',()=>{
