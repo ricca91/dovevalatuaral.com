@@ -14,7 +14,10 @@ del 21 febbraio 2026.
 | File | Che cos'è |
 |---|---|
 | `index.html` | la pagina |
-| `draftsman.css` | il design system delle tre pagine: token, componenti e caratteri incorporati |
+| `compara.html` | il confronto fra due offerte: modulo, tabella e controller |
+| `compara.js` | le funzioni pure del confronto: normalizzazione, delta e codec dell'URL |
+| `compara.test.js` | le prove dei contratti del confronto |
+| `draftsman.css` | il design system delle pagine: token, componenti e caratteri incorporati |
 | `come-ho-lavorato.html` | la nota di lavoro: perimetro, modello, verifica, limiti |
 | `la-storia.html` | la storia: cosa è successo dopo la pubblicazione |
 | `motore.js` | il calcolo, separato per poterlo provare fuori dal browser |
@@ -25,6 +28,7 @@ del 21 febbraio 2026.
 | `righe.test.js` | le prove della seam Voce → Riga |
 | `sezioni.js` | i riepiloghi delle due sezioni facoltative del modulo, e quali partono aperte |
 | `sezioni.test.js` | le prove di quei riepiloghi |
+| `nucleo.js` | il codec dei familiari, condiviso fra la home e il confronto |
 | `fonti.js` | il catalogo delle fonti normative usato da pagina e adapter |
 | `geografia.js` | la piccola interface per elenchi dipendenti e risoluzione per codice catastale |
 | `dati-addizionali-2026.js` | lo snapshot runtime generato da Istat e MEF |
@@ -33,12 +37,13 @@ del 21 febbraio 2026.
 
 ## Come si apre
 
-Doppio clic su `index.html`, tenendo `draftsman.css`, `motore.js`, `righe.js`, `sezioni.js`
-e `fonti.js` nella stessa cartella. Nessuna dipendenza, nessun passo di build, nessuna richiesta di rete:
+Doppio clic su `index.html`, tenendo `draftsman.css`, `motore.js`, `righe.js`, `sezioni.js`,
+`nucleo.js`, `compara.js`, `ccnl.js` e `fonti.js` nella stessa cartella. Il confronto è
+`compara.html`, e vuole accanto gli stessi file meno `sezioni.js` e `ccnl.js`. Nessuna dipendenza, nessun passo di build, nessuna richiesta di rete:
 Archivo, Instrument Sans e JetBrains Mono sono incorporati in `draftsman.css`, quindi le
 pagine funzionano anche offline.
 
-Le tre pagine — `index.html`, `come-ho-lavorato.html` e `la-storia.html` — condividono
+Le pagine — `index.html`, `compara.html`, `come-ho-lavorato.html` e `la-storia.html` — condividono
 `draftsman.css` invece di portare ciascuna la propria copia dei caratteri: 232 KB una volta
 sola contro i 480 KB che prima erano triplicati. Il prezzo è che `come-ho-lavorato.html` e
 `la-storia.html` non sono più apribili da sole: vogliono `draftsman.css` accanto. Un `<link>`
@@ -75,6 +80,10 @@ node prototipo/genera-pagine-ral.js
 
 Gli HTML nelle directory `ral-XXXXX-netto/` e `confronti-ral/` sono output generati:
 non vanno modificati a mano. Due esecuzioni consecutive producono gli stessi byte.
+
+**Anche `sitemap.xml` è output generato**, quindi una pagina scritta a mano — `compara.html`
+è la prima — non basta aggiungerla al file: va aggiunta a `PUBLIC_PAGES` dentro
+`genera-pagine-ral.js`, altrimenti la prima esecuzione del generatore la toglie di nuovo.
 
 ```
 node --test prototipo/*.test.js
@@ -196,6 +205,120 @@ per codice catastale e per nucleo dichiarato: le detrazioni di famiglia possono 
 l'IRPEF netta, e un salto che esiste per un contribuente solo può non esistere per una
 famiglia — a Milano il gradino da 184 € dell'esenzione comunale sparisce con tre familiari
 a carico, perché da entrambi i lati della soglia l'imposta è già zero.
+
+## Il confronto fra due offerte
+
+`compara.html` risponde a una domanda diversa da quella della home: non «quanto resta», ma
+**«quanto cambia davvero per me con questa offerta?»**. Si arriva dal link nell'intestazione
+della home, oppure dalla CTA **Confronta con un'offerta** che compare sotto un risultato
+valido e porta nell'offerta A tutto lo scenario appena calcolato — comune, familiari e
+benefit compresi. Se il modulo della home è stato toccato dopo il calcolo, la CTA chiede
+prima di premere **Calcola**: trasferisce l'ultimo risultato valido, non quello che si sta
+scrivendo.
+
+A è il **lavoro attuale**, B la **nuova offerta**. Nessun punteggio, nessun vincitore:
+denaro, benefit e tempo restano tre cose distinte, e il confronto non dice quale offerta
+convenga.
+
+### Che cosa calcola, e che cosa no
+
+Il confronto **non contiene una sola formula fiscale**: chiama due volte lo stesso
+`calcola()` della home e sottrae. Quello che aggiunge sono quattro identità, tutte
+verificabili a mano:
+
+```
+costiAnnui        = (trasportoMensile + altreSpeseMensili) × 12
+nettoDopoCosti    = kpi.nettoInBusta − costiAnnui          (può essere negativo)
+oreViaggioAnnue   = giorniPresenzaMese × 12 × minutiViaggio ÷ 60
+delta             = B − A, sempre in questo ordine
+```
+
+**Costi, giorni in presenza e numero di buoni pasto si dichiarano al mese**; welfare, fringe
+e RAL restano annui. È il modo in cui una
+persona conosce le proprie spese — un abbonamento, un pieno, i giorni in ufficio di un mese
+tipo — mentre l'equivalente annuo è un conto da fare a mente prima di scrivere. La
+moltiplicazione per dodici avviene in un posto solo, su centesimi interi, quindi non lascia
+in giro mezzo centesimo; la tabella resta annua come il resto della pagina, con le sue righe
+`/ 12` accanto.
+
+I **buoni pasto** sono l'unico campo mensile che accetta i decimali, e per una ragione sola:
+220 buoni l'anno — il caso più comune che arriva dalla home — sono 18,33 al mese, e nessun
+intero li rappresenta. Arrotondare a 18 ne perderebbe quattro all'anno. Chi compila a mano
+scrive `20` e resta `20`; la media con la virgola compare solo quando serve a non perdere
+niente per strada. Al motore arriva comunque un intero — il conto annuo — e il giro completo
+è esatto: `perMese()` e `perAnno()` si annullano a vicenda per ogni valore annuo, e c'è una
+prova che le esercita una per una da 0 a 3.000.
+
+Tre regole che la tabella non viola mai:
+
+1. **I benefit non sono denaro.** Welfare e buoni pasto compaiono nella loro riga e nel
+   valore nominale del pacchetto, ma non vengono mai sommati al denaro dopo i costi.
+2. **Le mensilità non sono un aumento.** Un netto diviso per 13 e uno diviso per 14 non
+   stanno sulla stessa scala: la riga della media mostra i due divisori e **omette il
+   delta**. Per confrontare c'è la riga «Netto annuo / 12».
+3. **Il tempo non si monetizza, e vuoto non è zero.** Costi lasciati vuoti valgono zero;
+   ore, giorni e minuti lasciati vuoti restano **non dichiarati**. Nessuna stima automatica di
+   affitto, ferie, settimane lavorate o costi chilometrici, e i giorni in presenza non
+   determinano il numero di buoni pasto.
+
+Gli importi derivati e i delta vivono in **centesimi interi**. La media mensile di una
+differenza nasce dal delta annuo diviso per 12, non dalla sottrazione di due medie già
+arrotondate: su 1.200 € l'anno la seconda strada darebbe 99,99 € o 100,01 € a caso.
+
+Gli avvisi del motore — compreso quello sopra il massimale contributivo di 122.295 € —
+sono riportati per ciascuno scenario. Il confronto resta una stima con le regole 2026, non
+una previsione del cedolino.
+
+### Lo stato nell'URL
+
+`compara.html` mette lo stato nel **fragment**, non nella query string: `#v=1&...`. È la
+differenza che conta per la riservatezza — la query string viaggia fino al server, il
+fragment no — e vale anche per il passaggio dalla home al confronto. Il link **non è
+cifratura**: chi lo riceve legge tutti i dati, familiari inclusi, e la pagina lo dice
+accanto al pulsante di copia. Niente `localStorage`, nessun analytics.
+
+Lo schema è versionato. `v=1` porta, per ciascuna offerta, i parametri della home con il
+prefisso `a.` o `b.` — meno il CCNL — più i cinque campi che la home non conosce:
+
+| Parametro | Che cos'è | Quando compare |
+|---|---|---|
+| `v` | versione dello schema, oggi `1` | sempre |
+| `a.ral` `b.ral` | RAL annua, come è stata scritta | sempre |
+| `a.m` `b.m` | mensilità, 12–16 | sempre |
+| `a.c` `b.c` | codice catastale del comune | sempre |
+| `a.n` `b.n` | nucleo familiare, stesso codec della home | se dichiarato |
+| `a.w` `b.w` · `a.f` `b.f` | welfare e fringe annui | se valorizzati |
+| `a.bt` `b.bt` · `a.bv` `b.bv` · `a.bnm` `b.bnm` | buoni: tipo, valore unitario, numero **al mese** | se valorizzati |
+| `a.trm` `b.trm` · `a.asm` `b.asm` | trasporto e altre spese **al mese** | se valorizzati |
+| `a.ore` `b.ore` · `a.ggm` `b.ggm` · `a.min` `b.min` | ore settimanali, giorni in presenza **al mese**, minuti al giorno | se dichiarati |
+
+La `m` finale di `trm`, `asm`, `ggm` e `bnm` non è decorazione. Quei quattro campi sono stati
+annui in una versione precedente dello schema, e un nome uguale con un'unità diversa farebbe rileggere
+«1.200 all'anno» come «1.200 al mese». Col nome nuovo un link vecchio lascia il campo vuoto —
+non dichiarato, mai un numero sbagliato.
+
+Il fragment porta **gli input, mai i risultati**: alla riapertura si ricalcola. Un valore
+che questa pagina non potrebbe mai produrre — un comune inesistente, una mensilità fuori
+elenco, un nucleo che non si riserializza identico — non viene «corretto» in silenzio:
+rende il link non leggibile, la pagina lo dice e lascia un modulo vuoto e utilizzabile.
+Gli importi restano invece testo grezzo, così un numero sbagliato diventa un errore di
+campo che si corregge a mano. Il formato degli URL della home **non cambia**.
+
+### Limiti dichiarati del confronto
+
+- Nessuna deduzione su quale offerta convenga: la pagina mostra numeri distinti, non un
+  punteggio.
+- I costi sono quelli **dichiarati da chi compila**: il confronto non sa se una spesa è
+  stata contata due volte, e non verifica niente. I dodici mesi sono presi tali e quali,
+  senza tredicesime di spesa, mesi di ferie o stagionalità.
+- Fuori perimetro come nella home: TFR, costo azienda, bonus e MBO, previdenza
+  complementare, altri redditi, benchmark salariali.
+- **Niente selettore CCNL, per scelta.** Sulla home il contratto collettivo esiste per
+  suggerire le mensilità, e non tocca né il regime contributivo né una singola aliquota.
+  Sul confronto le mensilità sono già un campo esplicito per ciascuna offerta: un secondo
+  controllo che muove il primo, e non muove nessun numero, sarebbe solo rumore in un modulo
+  che ne ha due affiancati. Il CCNL non entra quindi nemmeno nel fragment, e un link che lo
+  portasse comunque viene letto ignorandolo.
 
 ## Come si pubblica
 
