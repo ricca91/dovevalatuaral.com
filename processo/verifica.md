@@ -13,7 +13,7 @@ Node 18 o successivo. Nessuna dipendenza, nessun `package.json`, niente da insta
 Il motore (`prototipo/motore.js`) è uno script classico: la stessa riga di codice
 gira nella pagina aperta con un doppio clic e in Node, senza duplicati.
 
-Stato al 31 agosto 2026: **185 prove, tutte verdi** (Node v22.22.2).
+Stato al 5 settembre 2026: **241 prove, tutte verdi** (Node v22.22.2).
 
 Gli attrezzi di verifica stanno in `processo/attrezzi/`, e girano anche loro senza
 dipendenze:
@@ -282,6 +282,8 @@ su ciò che già sappiamo e nessuna su ciò che conta.
 | Contrasto | ✅ dopo una correzione: 42 coppie testo/sfondo misurate su due stati, zero sotto il minimo AA. L'etichetta bianca dentro la barra verde stava a 2,03 contro un minimo di 4,5 ed è passata a inchiostro scuro |
 | La modale dell'easter egg | ✅ `<dialog>` nativo. Il fuoco entra dentro all'apertura e **torna da solo al campo RAL** alla chiusura, senza codice che lo gestisca. Si chiude con Esc o cliccando fuori. Nessun sbordo a 390 px con la modale aperta. Non ha un bottone di chiusura: per una battuta di due righe Esc basta |
 | La nota di lavoro | ✅ `come-ho-lavorato.html` verificata come la pagina principale: nessun sbordo a 390 px, nessuna richiesta di rete, caratteri incorporati. I suoi rimandi al repo funzionano perché il repo è pubblico |
+| Il confronto fra due offerte | ✅ `compara.html` guidata in Chromium a 1280 px e a 375 px: nessun sbordo orizzontale della pagina, nessun errore JavaScript, e la pagina si apre anche da `file://` con la rete bloccata. Un errore dentro un pannello chiuso lo riapre e porta il fuoco sul campo; dopo il confronto il fuoco va sul titolo del risultato; da tastiera si raggiungono Confronta, Copia A in B, Azzera e Copia link, e i pannelli si aprono con Invio senza perdere il fuoco nel ridisegno. Due correzioni per arrivarci: la scheda dell'offerta non aveva `min-width:0` e la riga impilata del nucleo dettava 404 px di larghezza a 375 px di schermo; il sottotitolo del marchio mandava il nome a capo quattro volte nella barra appiccicosa |
+| Il link del confronto | ✅ copia negli appunti verificata leggendoli, e con `navigator.clipboard` rimosso il link compare in un campo selezionabile che riceve il fuoco. Un fragment corrotto mostra un messaggio recuperabile, non inietta HTML e lascia il modulo utilizzabile |
 
 ## Cosa NON è provato
 

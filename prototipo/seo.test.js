@@ -10,6 +10,7 @@ const publicPages = [
   ['index.html', `${canonicalOrigin}/`],
   ['come-ho-lavorato.html', `${canonicalOrigin}/come-ho-lavorato.html`],
   ['la-storia.html', `${canonicalOrigin}/la-storia.html`],
+  ['compara.html', `${canonicalOrigin}/compara.html`],
 ];
 
 function readPublic(name) {
