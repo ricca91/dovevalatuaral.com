@@ -22,6 +22,8 @@ del 21 febbraio 2026.
 | `la-storia.html` | la storia: cosa è successo dopo la pubblicazione |
 | `motore.js` | il calcolo, separato per poterlo provare fuori dal browser |
 | `motore.test.js` | la matrice di prova |
+| `ral-page.template.js` | il template canonico condiviso delle pagine RAL e dell’hub |
+| `genera-pagine-ral.js` | il generatore deterministico delle 17 pagine RAL, dell’hub e della sitemap |
 | `righe.js` | l'adapter che trasforma ogni Voce in una Riga |
 | `righe.test.js` | le prove della seam Voce → Riga |
 | `sezioni.js` | i riepiloghi delle due sezioni facoltative del modulo, e quali partono aperte |
@@ -68,6 +70,20 @@ c'è nessun familiare dichiarato:
 senza nucleo la query string è quella di prima.
 
 ## Come si provano i numeri
+
+Per ricreare tutte le pagine RAL, l’hub “Confronti RAL” e la sitemap a partire dal
+template e dal motore:
+
+```
+node prototipo/genera-pagine-ral.js
+```
+
+Gli HTML nelle directory `ral-XXXXX-netto/` e `confronti-ral/` sono output generati:
+non vanno modificati a mano. Due esecuzioni consecutive producono gli stessi byte.
+
+**Anche `sitemap.xml` è output generato**, quindi una pagina scritta a mano — `compara.html`
+è la prima — non basta aggiungerla al file: va aggiunta a `PUBLIC_PAGES` dentro
+`genera-pagine-ral.js`, altrimenti la prima esecuzione del generatore la toglie di nuovo.
 
 ```
 node --test prototipo/*.test.js
