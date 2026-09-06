@@ -487,6 +487,17 @@ test('compara.html dichiara title, description e self-canonical',()=>{
   assert.match(html,/Nuova offerta/);
 });
 
+test('su mobile il confronto usa due passaggi e una CTA sempre raggiungibile',()=>{
+  const html=leggi('compara.html');
+  assert.match(html,/class="mobile-steps"/);
+  assert.match(html,/data-mobile-lato="A"/);
+  assert.match(html,/data-mobile-lato="B"/);
+  assert.match(html,/id="mobile-primary"/);
+  assert.match(html,/@media\(max-width:959px\)/);
+  assert.match(html,/st\.mobileLato=primo\.offerta/,
+    'un errore deve rendere visibile il passaggio che contiene il campo');
+});
+
 test('i campi di costo e i giorni si dichiarano al mese',()=>{
   const html=leggi('compara.html');
   assert.match(html,/Costi di trasporto mensili/);

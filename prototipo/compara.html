@@ -55,6 +55,30 @@ body{padding-bottom:0}
 .offerta__head{display:flex;align-items:baseline;justify-content:space-between;
   gap:var(--s-3);flex-wrap:wrap}
 .offerta__head h2{margin:0;font-size:var(--t-h4);line-height:var(--lh-snug)}
+.mobile-steps,.mobile-action{display:none}
+@media(max-width:959px){
+  body{padding-bottom:88px}
+  .pagehero{padding-block:22px 18px}
+  .pagehero .meta{margin-top:var(--s-3)}
+  .mobile-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-2);
+    margin-top:var(--s-5);position:sticky;top:64px;z-index:8;background:var(--bg);
+    padding-block:var(--s-2);border-bottom:var(--bw) solid var(--line-strong)}
+  .mobile-step{min-height:48px;border:var(--bw) solid var(--line-strong);background:var(--bg-raised);
+    color:var(--fg);padding:9px var(--s-3);text-align:left;cursor:pointer;
+    font:600 var(--t-sm)/1.2 var(--font-body)}
+  .mobile-step small{display:block;margin-bottom:3px;font:500 var(--t-label)/1 var(--font-mono);
+    letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--fg-muted)}
+  .mobile-step[aria-current="step"]{border-color:var(--line-solid);background:var(--c-graphite);
+    color:var(--c-fog);box-shadow:var(--lift-sm) var(--line-solid)}
+  .mobile-step[aria-current="step"] small{color:var(--c-flux)}
+  .offerte{margin-top:var(--s-3)}
+  .offerte[data-mobile-lato="A"] .offerta--B,
+  .offerte[data-mobile-lato="B"] .offerta--A{display:none}
+  .azioni #btn-confronta,.azioni .nota{display:none}
+  .mobile-action{display:flex;position:fixed;z-index:20;left:0;right:0;bottom:0;
+    padding:12px var(--gutter);background:var(--c-bone);border-top:var(--bw-thick) solid var(--line-solid)}
+  .mobile-action .btn{width:100%;justify-content:center;min-height:52px}
+}
 .campi{display:grid;gap:var(--s-5)}
 .campi--due{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
 .campi--tre{grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
@@ -261,6 +285,7 @@ const SEZIONI_PANNELLO={benefit:'Famiglia e benefit',costi:'Costi e tempo'};
 
 const st={
   A:COMPARA.offertaVuota(),B:COMPARA.offertaVuota(),
+  mobileLato:'A',
   pannelli:{A:{benefit:false,costi:false},B:{benefit:false,costi:false}},
   esito:null,errori:[],daAggiornare:false,
   messaggio:null,          /* link non leggibile, o esito della copia */
@@ -482,7 +507,7 @@ function pannello(lato,chiave,sotto,corpo){
 }
 
 function modulo(lato){
-  return `<section class="offerta" aria-labelledby="${lato}-titolo">
+  return `<section class="offerta offerta--${lato}" aria-labelledby="${lato}-titolo">
     <div class="offerta__head">
       <h2 id="${lato}-titolo">${esc(COMPARA.ETICHETTE[lato])}</h2>
       <span class="tag${lato==='B'?' tag--flux':''}">${lato}</span>
@@ -604,7 +629,13 @@ function esitoHTML(){
 function render(mantieniScroll){
   const y=window.scrollY,fuoco=document.activeElement&&document.activeElement.id;
   document.getElementById('app').innerHTML=`
-    <div class="offerte">${LATI.map(modulo).join('')}</div>
+    <nav class="mobile-steps" id="mobile-steps" aria-label="Passaggi del confronto">
+      <button type="button" class="mobile-step" data-mobile-lato="A"
+        ${st.mobileLato==='A'?'aria-current="step"':''}><small>Passaggio 1</small>Lavoro attuale</button>
+      <button type="button" class="mobile-step" data-mobile-lato="B"
+        ${st.mobileLato==='B'?'aria-current="step"':''}><small>Passaggio 2</small>Nuova offerta</button>
+    </nav>
+    <div class="offerte" data-mobile-lato="${st.mobileLato}">${LATI.map(modulo).join('')}</div>
     <div class="azioni">
       <button type="button" class="btn btn--primary btn--lg" id="btn-confronta">Confronta</button>
       <button type="button" class="btn btn--ghost" id="copia-a-b">Copia A in B</button>
@@ -617,7 +648,12 @@ function render(mantieniScroll){
     ${st.errori.length&&!st.esito?`<p class="error-text" role="alert" style="margin-top:var(--s-4)">
       Ci sono ${st.errori.length===1?'un dato da correggere':`${st.errori.length} dati da correggere`}:
       il confronto non è stato eseguito.</p>`:''}
-    ${esitoHTML()}`;
+    ${esitoHTML()}
+    <div class="mobile-action">
+      <button type="button" class="btn btn--primary btn--lg" id="mobile-primary">
+        ${st.mobileLato==='A'?'Avanti: nuova offerta →':st.esito?'Aggiorna confronto':'Confronta'}
+      </button>
+    </div>`;
   aggiornaUrl();
   if(mantieniScroll)window.scrollTo(0,y);
   if(fuoco)document.getElementById(fuoco)?.focus({preventScroll:true});
@@ -644,6 +680,7 @@ function confronta(){
     /* Un errore dentro un pannello chiuso non si può correggere: la
        sezione si apre da sola, e il fuoco ci va dentro. */
     const primo=esito.errori[0];
+    st.mobileLato=primo.offerta;
     if(primo.sezione!=='principale')st.pannelli[primo.offerta][primo.sezione]=true;
     render();
     const bersaglio=document.getElementById(idDi(primo.offerta,primo.campo));
@@ -712,6 +749,22 @@ document.addEventListener('toggle',e=>{
   if(lato)st.dettaglio[lato]=e.target.open;
 },true);
 document.addEventListener('click',e=>{
+  const passo=e.target.closest('[data-mobile-lato]');
+  if(passo&&passo.classList.contains('mobile-step')){
+    st.mobileLato=passo.dataset.mobileLato;
+    render();
+    document.getElementById('mobile-steps')?.scrollIntoView({behavior:movimento(),block:'start'});
+    return;
+  }
+  const primariaMobile=e.target.closest('#mobile-primary');
+  if(primariaMobile){
+    if(st.mobileLato==='A'){
+      st.mobileLato='B';render();
+      document.getElementById('mobile-steps')?.scrollIntoView({behavior:movimento(),block:'start'});
+      return;
+    }
+    return confronta();
+  }
   const pannelloTrigger=e.target.closest('[data-pannello]');
   if(pannelloTrigger){
     const{lato,pannello:chiave}=pannelloTrigger.dataset;
