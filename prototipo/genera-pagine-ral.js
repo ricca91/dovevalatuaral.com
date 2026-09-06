@@ -9,6 +9,7 @@ const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/come-ho-lavorato.html`,
   `${ORIGIN}/la-storia.html`,
   `${ORIGIN}/compara.html`,
+  `${ORIGIN}/netto-ral.html`,
   `${ORIGIN}/confronti-ral/`,
 ]);
 

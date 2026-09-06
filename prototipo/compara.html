@@ -218,7 +218,8 @@ body{padding-bottom:0}
   <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
   <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
-    <a href="index.html">Calcolatore</a><a href="compara.html" aria-current="page">Confronta</a><a href="confronti-ral/">Confronti RAL</a><a href="la-storia.html">La storia</a>
+    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a></div></div>
+    <div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html" aria-current="page">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div><a href="la-storia.html">La storia</a>
   </nav>
 </div></header>
 <main id="contenuto">
