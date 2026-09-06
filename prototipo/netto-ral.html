@@ -8,15 +8,22 @@
 <link rel="canonical" href="https://www.dovevalatuaral.com/netto-ral.html">
 <link rel="stylesheet" href="draftsman.css">
 <style>
-body{padding-bottom:0}.inverse{padding:clamp(44px,8vw,96px) 0 80px}.inverse__grid{display:grid;gap:var(--s-10);align-items:start}
-@media(min-width:880px){.inverse__grid{grid-template-columns:minmax(0,1.05fr) minmax(340px,.75fr)}}
-.inverse h1{max-width:18ch;margin:0 0 var(--s-3);font-size:clamp(2rem,3.6vw,3.15rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);text-wrap:balance}
-.inverse .lead{max-width:58ch}.inverse-form{border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(20px,4vw,34px);box-shadow:var(--lift-md) var(--line-solid)}
-.ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:48px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono)}
-.ingroup .input{flex:1}.inverse-form .btn{margin-top:var(--s-5)}.status{min-height:1.5em;margin:var(--s-3) 0 0}
-.result{margin-top:var(--s-8);border:var(--bw-thick) solid var(--line-solid);padding:clamp(22px,4vw,38px);background:var(--bg-raised);box-shadow:var(--lift-md) var(--c-flux)}
-.result[hidden]{display:none}.result__ral{display:block;margin:var(--s-3) 0;font:800 clamp(2.6rem,8vw,5.8rem)/.95 var(--font-display);font-variant-numeric:tabular-nums}.result__meta{display:flex;gap:var(--s-5);flex-wrap:wrap;margin:var(--s-6) 0}.result__meta b{display:block;font-size:var(--t-lg)}
-.assumptions{margin-top:var(--s-8)}
+body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-inline:auto}
+.pagehero{position:relative;padding:clamp(26px,3.2vw,46px) 0 clamp(22px,2.6vw,34px);background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0),linear-gradient(to right,var(--line) 1px,transparent 1px),linear-gradient(to bottom,var(--line) 1px,transparent 1px);background-size:24px 24px,192px 192px,192px 192px;border-bottom:var(--bw) dashed var(--line-strong)}
+.pagehero h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);font-size:clamp(2rem,3.6vw,3.15rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0 0 var(--s-3);max-width:20ch;text-wrap:balance}
+.pagehero p{margin:0;max-width:58ch;font-size:var(--t-body);line-height:1.55;color:var(--fg-muted)}
+.pagehero .meta{display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-5)}
+.inverse-form{margin-top:clamp(18px,2vw,26px);border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,26px);box-shadow:var(--lift-md) var(--line-solid)}
+.inverse-form h2{margin:0 0 var(--s-5);font-size:var(--t-h4)}.inverse-form .field{max-width:560px}
+.ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:44px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono);color:var(--fg-muted)}
+.ingroup .input{flex:1;min-width:0}.azioni{display:flex;align-items:center;gap:var(--s-4);flex-wrap:wrap;margin-top:var(--s-5);padding-top:var(--s-5);border-top:var(--bw) dashed var(--line-strong)}
+.status{margin:0;font:400 var(--t-xs)/1.5 var(--font-mono);color:var(--fg-muted)}
+.result{margin-top:clamp(28px,3.4vw,48px);padding-top:var(--s-8);border-top:var(--bw) solid var(--line-strong)}
+.result[hidden]{display:none}.result h2{margin:0 0 var(--s-4);font-size:var(--t-h3)}
+.result__box{border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,28px);box-shadow:var(--lift-md) var(--line-solid)}
+.result__box>p{margin:0;max-width:74ch}.result__ral{display:block;margin:var(--s-3) 0;font:800 clamp(1.9rem,3.4vw,2.75rem)/var(--lh-snug) var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-display)}
+.result__meta{display:flex;gap:var(--s-8);flex-wrap:wrap;margin:var(--s-5) 0}.result__meta b{display:block;font-size:var(--t-lg)}
+.result .btn{margin-top:var(--s-5)}.inverse-footer{margin-top:clamp(40px,5vw,72px);padding:var(--s-10) var(--s-4) var(--s-12);text-align:center;border-top:var(--bw) solid var(--line-strong);font:400 var(--t-xs)/1.6 var(--font-mono);color:var(--fg-muted)}
 </style>
 </head>
 <body>
@@ -26,13 +33,14 @@ body{padding-bottom:0}.inverse{padding:clamp(44px,8vw,96px) 0 80px}.inverse__gri
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
   <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><a href="index.html">Calcolatore</a><a href="netto-ral.html" aria-current="page">Netto → RAL</a><a href="compara.html">Confronta</a><a href="confronti-ral/">Confronti RAL</a><a href="la-storia.html">La storia</a></nav>
 </div></header>
-<main id="contenuto" class="inverse"><div class="shell inverse__grid">
-  <section>
-    <p class="eyebrow">Netto → RAL</p>
+<main id="contenuto">
+  <div class="pagehero"><div class="pg">
+    <div class="eyebrow">Netto → RAL</div>
     <h1>Quanto lordo serve per il netto che vuoi?</h1>
-    <p class="lead">Parti dal netto medio che vuoi ottenere e scopri una RAL indicativa da chiedere. Il risultato è una stima annuale, non la promessa dell’importo di ogni cedolino.</p>
-    <div class="callout callout--info assumptions"><span class="callout__mark">Assunzioni</span><div>13 mensilità, dipendente privato FPLD ordinario a Milano, anno completo, senza familiari a carico né benefit.</div></div>
-  </section>
+    <p>Parti dal netto medio che vuoi ottenere e scopri una RAL indicativa da chiedere.</p>
+    <div class="meta"><span class="tag tag--flux">13 mensilità</span><span class="tag">Dipendente privato</span><span class="tag">Milano · senza familiari</span></div>
+  </div></div>
+  <div class="pg">
   <section class="inverse-form" aria-labelledby="form-title">
     <h2 id="form-title">Il netto che vuoi</h2>
     <form id="netto-form" novalidate>
@@ -40,10 +48,12 @@ body{padding-bottom:0}.inverse{padding:clamp(44px,8vw,96px) 0 80px}.inverse__gri
         <div class="ingroup"><span class="affix" aria-hidden="true">€</span><input class="input" id="netto" name="netto" value="2.000" inputmode="decimal" autocomplete="off" aria-describedby="netto-help netto-status"></div>
         <p class="hint" id="netto-help">Netto medio mensile su 13 mensilità.</p>
       </div>
-      <button class="btn btn--primary btn--lg" id="calcola" type="submit">Calcola la RAL</button>
-      <p class="status" id="netto-status" role="status" aria-live="polite"></p>
+      <div class="azioni"><button class="btn btn--primary btn--lg" id="calcola" type="submit">Calcola la RAL</button>
+        <p class="status" id="netto-status" role="status" aria-live="polite"></p></div>
     </form>
-    <div class="result" id="risultato" aria-live="polite" hidden>
+  </section>
+  <section class="result" id="risultato" aria-live="polite" hidden>
+    <h2>La RAL da chiedere</h2><div class="result__box">
       <p id="frase-risultato"></p><strong class="result__ral" id="ral-risultato"></strong>
       <div class="result__meta"><span>Netto medio stimato<b id="media-risultato"></b></span><span>Mensilità<b>13</b></span></div>
       <p class="small">Stima su 13 mensilità, dipendente privato a Milano, senza familiari a carico.</p>
@@ -51,8 +61,9 @@ body{padding-bottom:0}.inverse{padding:clamp(44px,8vw,96px) 0 80px}.inverse__gri
       <a class="btn btn--ghost" id="cta-calcolatore" href="index.html">Calcola il tuo caso</a>
     </div>
   </section>
-</div></main>
-<footer class="footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span></div></footer>
+  </div>
+</main>
+<footer class="inverse-footer">La RAL è una stima con le regole 2026, non una previsione del singolo cedolino.</footer>
 <script src="dati-addizionali-2026.js"></script><script src="geografia.js"></script><script src="motore.js"></script><script src="netto-ral.js"></script><script src="site-nav.js"></script>
 <script>
 (()=>{
