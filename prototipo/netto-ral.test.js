@@ -48,3 +48,10 @@ test('la navigazione pubblica rende raggiungibile Netto RAL anche dopo la genera
   for(const file of ['index.html','compara.html','come-ho-lavorato.html','la-storia.html','confronti-ral/index.html','ral-35000-netto/index.html'])
     assert.match(fs.readFileSync(require('node:path').join(__dirname,file),'utf8'),/href="(?:\.\.\/)?netto-ral\.html">Netto → RAL<\/a>/,file);
 });
+
+test('la home raggruppa calcoli e confronti e non duplica i link nella hero',()=>{
+  const home=fs.readFileSync(require('node:path').join(__dirname,'index.html'),'utf8');
+  assert.match(home,/>Calcola<\/button>[\s\S]*>RAL → Netto<\/a>[\s\S]*>Netto → RAL<\/a>/);
+  assert.match(home,/>Confronta<\/button>[\s\S]*>Due offerte<\/a>[\s\S]*>Livelli di RAL<\/a>/);
+  assert.doesNotMatch(home,/Confronta due offerte →|La storia, dopo la pubblicazione →/);
+});
