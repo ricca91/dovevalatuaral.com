@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calcola la RAL indicativa da chiedere partendo dal netto medio mensile desiderato, su 13 mensilità.">
+<title>Dal netto alla RAL: quanto lordo chiedere | Dove va la tua RAL</title>
+<link rel="canonical" href="https://www.dovevalatuaral.com/netto-ral.html">
+<link rel="stylesheet" href="draftsman.css">
+<style>
+body{padding-bottom:0}.inverse{padding:clamp(44px,8vw,96px) 0 80px}.inverse__grid{display:grid;gap:var(--s-10);align-items:start}
+@media(min-width:880px){.inverse__grid{grid-template-columns:minmax(0,1.05fr) minmax(340px,.75fr)}}
+.inverse h1{max-width:15ch;margin:0 0 var(--s-5);font-size:clamp(2.2rem,5vw,4.6rem);line-height:.98}
+.inverse .lead{max-width:58ch}.inverse-form{border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(20px,4vw,34px);box-shadow:var(--lift-md) var(--line-solid)}
+.ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:48px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono)}
+.ingroup .input{flex:1}.inverse-form .btn{margin-top:var(--s-5)}.status{min-height:1.5em;margin:var(--s-3) 0 0}
+.result{margin-top:var(--s-8);border:var(--bw-thick) solid var(--line-solid);padding:clamp(22px,4vw,38px);background:var(--bg-raised);box-shadow:var(--lift-md) var(--c-flux)}
+.result[hidden]{display:none}.result__ral{display:block;margin:var(--s-3) 0;font:800 clamp(2.6rem,8vw,5.8rem)/.95 var(--font-display);font-variant-numeric:tabular-nums}.result__meta{display:flex;gap:var(--s-5);flex-wrap:wrap;margin:var(--s-6) 0}.result__meta b{display:block;font-size:var(--t-lg)}
+.assumptions{margin-top:var(--s-8)}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#contenuto">Vai al contenuto</a>
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><a href="index.html">Calcolatore</a><a href="netto-ral.html" aria-current="page">Netto → RAL</a><a href="compara.html">Confronta</a><a href="confronti-ral/">Confronti RAL</a><a href="la-storia.html">La storia</a></nav>
+</div></header>
+<main id="contenuto" class="inverse"><div class="shell inverse__grid">
+  <section>
+    <p class="eyebrow">Netto → RAL</p>
+    <h1>Quanto lordo serve per il netto che vuoi?</h1>
+    <p class="lead">Parti dal netto medio che vuoi ottenere e scopri una RAL indicativa da chiedere. Il risultato è una stima annuale, non la promessa dell’importo di ogni cedolino.</p>
+    <div class="callout callout--info assumptions"><span class="callout__mark">Assunzioni</span><div>13 mensilità, dipendente privato FPLD ordinario a Milano, anno completo, senza familiari a carico né benefit.</div></div>
+  </section>
+  <section class="inverse-form" aria-labelledby="form-title">
+    <h2 id="form-title">Il netto che vuoi</h2>
+    <form id="netto-form" novalidate>
+      <div class="field"><label class="label" for="netto">Quanto vorresti guadagnare netto al mese?</label>
+        <div class="ingroup"><span class="affix" aria-hidden="true">€</span><input class="input" id="netto" name="netto" value="2.000" inputmode="decimal" autocomplete="off" aria-describedby="netto-help netto-status"></div>
+        <p class="hint" id="netto-help">Netto medio mensile su 13 mensilità.</p>
+      </div>
+      <button class="btn btn--primary btn--lg" id="calcola" type="submit">Calcola la RAL</button>
+      <p class="status" id="netto-status" role="status" aria-live="polite"></p>
+    </form>
+    <div class="result" id="risultato" aria-live="polite" hidden>
+      <p id="frase-risultato"></p><strong class="result__ral" id="ral-risultato"></strong>
+      <div class="result__meta"><span>Netto medio stimato<b id="media-risultato"></b></span><span>Mensilità<b>13</b></span></div>
+      <p class="small">Stima su 13 mensilità, dipendente privato a Milano, senza familiari a carico.</p>
+      <div id="avviso-massimale"></div>
+      <a class="btn btn--ghost" id="cta-calcolatore" href="index.html">Calcola il tuo caso</a>
+    </div>
+  </section>
+</div></main>
+<footer class="footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span></div></footer>
+<script src="dati-addizionali-2026.js"></script><script src="geografia.js"></script><script src="motore.js"></script><script src="netto-ral.js"></script><script src="site-nav.js"></script>
+<script>
+(()=>{
+  const form=document.getElementById('netto-form'),input=document.getElementById('netto');
+  const button=document.getElementById('calcola'),status=document.getElementById('netto-status');
+  const box=document.getElementById('risultato');let richiesta=0;
+  const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',minimumFractionDigits:0,maximumFractionDigits:2}).format(n);
+  const nascondi=()=>{richiesta++;button.disabled=false;box.hidden=true;status.textContent='';input.removeAttribute('aria-invalid');};
+  input.addEventListener('input',nascondi);
+  form.addEventListener('submit',async event=>{
+    event.preventDefault();const id=++richiesta,target=NETTO_RAL.normalizzaTarget(input.value);
+    box.hidden=true;input.removeAttribute('aria-invalid');
+    if(target.errore){input.setAttribute('aria-invalid','true');status.textContent=target.errore;input.focus();return;}
+    button.disabled=true;status.textContent='Calcolo in corso…';
+    const risultato=await NETTO_RAL.trovaRalProgressiva(input.value);
+    if(id!==richiesta)return;
+    button.disabled=false;
+    if(!risultato){status.textContent='Questo netto non è raggiungibile entro il limite di RAL del calcolatore.';return;}
+    document.getElementById('frase-risultato').textContent=`Per avere circa ${euro(target.valore)} netti al mese, punta a una RAL di almeno ${euro(risultato.ral)}.`;
+    document.getElementById('ral-risultato').textContent=euro(risultato.ral);
+    document.getElementById('media-risultato').textContent=euro(risultato.mediaMensile);
+    document.getElementById('cta-calcolatore').href=NETTO_RAL.urlCalcolatore(risultato.ral);
+    const massimale=toNumber(K.contributi.massimale);
+    document.getElementById('avviso-massimale').innerHTML=risultato.ral>massimale?'<div class="callout callout--warn"><span class="callout__mark">Limite</span><div>Il risultato applica il massimale contributivo assumendo la prima iscrizione previdenziale dal 1996.</div></div>':'';
+    status.textContent='Calcolo completato.';box.hidden=false;box.focus?.();
+  });
+})();
+</script>
+</body></html>
