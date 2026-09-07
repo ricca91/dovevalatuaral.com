@@ -515,8 +515,12 @@ test('la pagina carica gli script accanto e nessuna dipendenza esterna',()=>{
   for(const file of['dati-addizionali-2026.js','geografia.js','motore.js',
     'fonti.js','righe.js','nucleo.js','compara.js'])
     assert.match(html,new RegExp(`<script src="${file.replace('.','\\.')}"></script>`),file);
-  /* Il catalogo dei contratti resta alla home: qui non serve a niente. */
-  assert.doesNotMatch(html,/ccnl/i);
+  /* Il catalogo dei contratti resta alla home e il dataset retributivo
+     alla sua pagina: qui non servono a niente. Il divieto è sugli script
+     e sul selettore, non sulla stringa: da quando esiste ccnl-livello.html
+     la navigazione la nomina, ed è esattamente ciò che deve fare. */
+  assert.doesNotMatch(html,/<script src="(?:ccnl|retribuzione-ccnl)\.js"><\/script>/);
+  assert.doesNotMatch(html,/CCNL_CATALOGO|RETRIBUZIONE_CCNL|id="ccnl"/);
   assert.doesNotMatch(html,/<script[^>]+src="https?:/);
   assert.doesNotMatch(html,/localStorage|sessionStorage/);
   assert.doesNotMatch(html,/type="module"/);

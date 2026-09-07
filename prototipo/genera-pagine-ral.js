@@ -10,6 +10,7 @@ const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/la-storia.html`,
   `${ORIGIN}/compara.html`,
   `${ORIGIN}/netto-ral.html`,
+  `${ORIGIN}/ccnl-livello.html`,
   `${ORIGIN}/confronti-ral/`,
 ]);
 

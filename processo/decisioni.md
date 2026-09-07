@@ -181,6 +181,68 @@ almeno un figlio fiscalmente a carico. I buoni usano invece una franchigia per t
 cartaceo e 8 € elettronico. Questa differenza resta visibile nelle Voce e nelle Riga, non solo
 nel totale.
 
+## Il CCNL diventa un ingresso, non un metro (RIC-54)
+
+Il ticket era nato come confronto — *«la tua RAL sta sopra o sotto il minimo?»*. La domanda si
+è rovesciata: **si entra da CCNL e livello e si esce con RAL e netto**, per chi legge in un
+annuncio «inserimento al 4° livello» e non ha ancora un numero. La pagina non ha nessun campo
+RAL: la RAL è ciò che esce.
+
+Non è una semplificazione, alza l'asticella sui dati. In un confronto un minimo incompleto è un
+metro storto: sbagli la percentuale. In un generatore quel numero entra nel motore e produce un
+**netto sbagliato**, presentato con la stessa autorevolezza del golden. Da qui le quattro
+decisioni che seguono.
+
+**Le due forme del dato convivono, invece di normalizzarne una via.** Il Terziario pubblica la
+riga scomposta *e* il totale; la Metalmeccanica un importo unico. Lo schema tiene entrambe. Il
+totale non lo sommiamo noi: è pubblicato dal contratto, e una prova verifica che coincida con la
+somma delle voci su tutte e 39 le righe. È una guardia sulla trascrizione, non una prova di
+verità — la verità viene dal confronto a mano con la fonte firmataria.
+
+**Base nazionale, con le esclusioni scritte a schermo.** Il terzo elemento è quello nazionale.
+Le tabelle delle associazioni territoriali usano quello provinciale e danno totali più alti:
+corrette lì, sbagliate come base nazionale. Presentare la base come «il minimo applicabile»
+sarebbe stata la prima affermazione non citabile del prodotto, quindi l'elenco di ciò che il
+numero non contiene fa parte del dataset e non della grafica.
+
+**Le decorrenze stanno nel dato, non nella data di sistema.** Il Terziario ha tre tranche già
+firmate e pubblicate: ci sono tutte, e la funzione che sceglie la vigente fa passare la pagina
+alla tranche di novembre 2026 da sola. Le prove fissano una data invece di usare quella di
+sistema, altrimenti cambierebbero risultato per conto loro.
+
+**L'anzianità è quella in azienda, ma il numero di scatti resta dell'utente.** È l'anzianità di
+servizio che entrambi i contratti misurano, non gli anni nel livello corrente. Chi ha avuto
+passaggi di livello o servizio pregresso conosce il proprio numero meglio di quanto lo sappia
+ricostruire una divisione: da qui il campo che lo sovrascrive. Anzianità non dichiarata significa
+zero scatti, e la pagina lo scrive invece di lasciarlo intendere.
+
+### Due cose che ho corretto durante il lavoro
+
+- **«Da CCNL e livello gli scatti non si ricavano».** Lo avevo scritto, ed è falso: entrambi i
+  contratti pubblicano il valore dello scatto per livello. Il risultato smette così di essere un
+  pavimento teorico e diventa una stima ricostruibile interamente da dati contrattuali, che è la
+  tesi del prodotto.
+- **«L'elemento perequativo spetta a chi ha superminimo zero».** Anche questa è più grossolana
+  del vero: i 485 € spettano a chi non ha contrattazione aziendale né superminimo individuale, e
+  **in quota parte** a chi ha un superminimo annuo inferiore a quella cifra. Resta comunque fuori
+  dal calcolo, perché dipende da fatti aziendali che il calcolatore non conosce.
+
+### Il part-time è una funzionalità, non un limite da dichiarare
+
+Lo avevo messo fra i possibili fuori perimetro. La ricerca sui volumi ha misurato domanda reale
+sull'orario ridotto, e proprio sul Terziario — dove il part-time è la norma — assumere il tempo
+pieno avrebbe reso il calcolatore poco utile a chi lo usa di più.
+
+Nessuno dei due CCNL detta una regola propria di riproporzionamento, né per il minimo né per gli
+scatti: la proporzione discende dall'art. 7 c. 1 del D.Lgs. 81/2015. Il dataset cita quella,
+invece di inventare una disciplina contrattuale che non esiste. Il superminimo non si
+riproporziona, perché è dichiarato già all'orario indicato: ridurlo lo conterebbe due volte.
+
+E la cosa che è facile sbagliare: **il part-time riduce la retribuzione, non i giorni di
+detrazione.** Un rapporto part-time su anno intero mantiene i 365 giorni ai fini dell'art. 13.
+Il motore riceve una RAL e nient'altro, quindi non ha modo di sbagliare — la prova serve a
+impedire che qualcuno gliene dia il modo.
+
 ## Se un link di un ticket non porta da nessuna parte
 
 I ticket sono stati scritti mentre il lavoro procedeva, quindi citano la repo **com'era in quel

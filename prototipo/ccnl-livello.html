@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Scegli CCNL e livello di inquadramento e ottieni la RAL contrattuale e lo stipendio netto, con minimo tabellare, scatti di anzianità e superminimo tenuti distinti.">
+<title>Stipendio da CCNL e livello: minimo, scatti e netto | Dove va la tua RAL</title>
+<link rel="canonical" href="https://www.dovevalatuaral.com/ccnl-livello.html">
+<link rel="stylesheet" href="draftsman.css">
+<style>
+body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-inline:auto}
+.pagehero{position:relative;padding:clamp(26px,3.2vw,46px) 0 clamp(22px,2.6vw,34px);background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0),linear-gradient(to right,var(--line) 1px,transparent 1px),linear-gradient(to bottom,var(--line) 1px,transparent 1px);background-size:24px 24px,192px 192px,192px 192px;border-bottom:var(--bw) dashed var(--line-strong)}
+.pagehero h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);font-size:clamp(2rem,3.6vw,3.15rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0 0 var(--s-3);max-width:22ch;text-wrap:balance}
+.pagehero p{margin:0;max-width:58ch;font-size:var(--t-body);line-height:1.55;color:var(--fg-muted)}
+.pagehero .meta{display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-5)}
+.ccnl-form{margin-top:clamp(18px,2vw,26px);border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,26px);box-shadow:var(--lift-md) var(--line-solid)}
+.ccnl-form h2{margin:0 0 var(--s-5);font-size:var(--t-h4)}
+.grid2{display:grid;gap:var(--s-5);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:44px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono);color:var(--fg-muted)}
+.ingroup .input{flex:1;min-width:0}
+.avanzate{margin-top:var(--s-5);border-top:var(--bw) dashed var(--line-strong);padding-top:var(--s-5)}
+.avanzate>summary{cursor:pointer;font:600 var(--t-sm)/1.4 var(--font-mono);color:var(--fg-muted);letter-spacing:.02em}
+.avanzate>summary:focus-visible{outline:var(--bw-thick) solid var(--line-solid);outline-offset:3px}
+.avanzate .grid2{margin-top:var(--s-5)}
+.azioni{display:flex;align-items:center;gap:var(--s-4);flex-wrap:wrap;margin-top:var(--s-5);padding-top:var(--s-5);border-top:var(--bw) dashed var(--line-strong)}
+.status{margin:0;font:400 var(--t-xs)/1.5 var(--font-mono);color:var(--fg-muted)}
+.result{margin-top:clamp(28px,3.4vw,48px);padding-top:var(--s-8);border-top:var(--bw) solid var(--line-strong)}
+.result[hidden]{display:none}.result h2{margin:0 0 var(--s-4);font-size:var(--t-h3)}
+.result__box{border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,28px);box-shadow:var(--lift-md) var(--line-solid)}
+.result__box>p{margin:0;max-width:74ch}
+.result__ral{display:block;margin:var(--s-3) 0;font:800 clamp(1.9rem,3.4vw,2.75rem)/var(--lh-snug) var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-display)}
+.result__meta{display:flex;gap:var(--s-8);flex-wrap:wrap;margin:var(--s-5) 0}.result__meta b{display:block;font-size:var(--t-lg)}
+.scomposizione{width:100%;border-collapse:collapse;margin:var(--s-5) 0;font-variant-numeric:tabular-nums}
+.scomposizione th,.scomposizione td{padding:var(--s-2) var(--s-3);text-align:left;border-bottom:var(--bw) dashed var(--line-strong);font-size:var(--t-sm)}
+.scomposizione td:last-child,.scomposizione th:last-child{text-align:right;font-family:var(--font-mono)}
+.scomposizione tbody tr:last-child td{border-bottom:0}
+.scomposizione tr.somma td{border-top:var(--bw-thick) solid var(--line-solid);border-bottom:0;font-weight:700}
+.scomposizione caption{text-align:left;padding-bottom:var(--s-3);font:600 var(--t-xs)/1.4 var(--font-mono);color:var(--fg-muted);letter-spacing:.04em;text-transform:uppercase}
+.limiti{margin-top:var(--s-5)}.limiti>summary{cursor:pointer;font:600 var(--t-sm)/1.4 var(--font-mono);color:var(--fg-muted)}
+.limiti ul{margin:var(--s-4) 0 0;padding-left:1.2em;max-width:74ch}.limiti li{margin-bottom:var(--s-3);font-size:var(--t-sm);line-height:1.55}
+.result .btn{margin-top:var(--s-5)}
+.ccnl-footer{margin-top:clamp(40px,5vw,72px);padding:var(--s-10) var(--s-4) var(--s-12);text-align:center;border-top:var(--bw) solid var(--line-strong);font:400 var(--t-xs)/1.6 var(--font-mono);color:var(--fg-muted)}
+@media (max-width:520px){.scomposizione th,.scomposizione td{padding:var(--s-2) var(--s-1);font-size:var(--t-xs)}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#contenuto">Vai al contenuto</a>
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html" aria-current="page">CCNL e livello</a></div></div><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div><a href="la-storia.html">La storia</a></nav>
+</div></header>
+<main id="contenuto">
+  <div class="pagehero"><div class="pg">
+    <div class="eyebrow">CCNL e livello</div>
+    <h1>Quanto vale il tuo livello di inquadramento?</h1>
+    <p>Nell’annuncio c’è scritto «inserimento al 4° livello» e nessun numero. Scegli contratto e livello: il calcolatore ricostruisce la RAL dalle tabelle del CCNL e la porta fino al netto, tenendo separati minimo tabellare, scatti di anzianità e superminimo.</p>
+    <div class="meta"><span class="tag tag--flux">Base nazionale</span><span class="tag">Due CCNL privati</span><span class="tag">Milano · senza familiari</span></div>
+  </div></div>
+  <div class="pg">
+  <section class="ccnl-form" aria-labelledby="form-title">
+    <h2 id="form-title">Il tuo inquadramento</h2>
+    <form id="ccnl-form" novalidate>
+      <div class="grid2">
+        <div class="field"><label class="label" for="ccnl">Contratto collettivo</label>
+          <select class="input" id="ccnl" name="ccnl" aria-describedby="ccnl-help">
+            <option value="terziario-confcommercio-h011">Terziario, Distribuzione e Servizi — Confcommercio</option>
+            <option value="metalmeccanica-industria-c011">Industria Metalmeccanica e Installazione Impianti</option>
+          </select>
+          <p class="hint" id="ccnl-help">Mensilità e orario a tempo pieno li fissa il contratto.</p>
+        </div>
+        <div class="field"><label class="label" for="livello">Livello di inquadramento</label>
+          <select class="input" id="livello" name="livello" aria-describedby="livello-help"></select>
+          <p class="hint" id="livello-help">Il minimo tabellare dipende da qui.</p>
+        </div>
+      </div>
+      <div class="grid2" style="margin-top:var(--s-5)">
+        <div class="field"><label class="label" for="anzianita">Anni di anzianità in azienda</label>
+          <div class="ingroup"><span class="affix" aria-hidden="true">anni</span><input class="input" id="anzianita" name="anzianita" value="" inputmode="numeric" autocomplete="off" placeholder="lascia vuoto se non la sai" aria-describedby="anzianita-help"></div>
+          <p class="hint" id="anzianita-help">Anzianità di servizio nella stessa azienda o gruppo, non anni nel livello attuale.</p>
+        </div>
+        <div class="field"><label class="label" for="superminimo">Superminimo lordo mensile</label>
+          <div class="ingroup"><span class="affix" aria-hidden="true">€</span><input class="input" id="superminimo" name="superminimo" value="" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="superminimo-help"></div>
+          <p class="hint" id="superminimo-help">Quanto ricevi sopra la retribuzione contrattuale, riferito all’orario che indichi. Facoltativo.</p>
+        </div>
+      </div>
+      <details class="avanzate" id="avanzate">
+        <summary>Opzioni avanzate — orario ridotto e scatti già maturati</summary>
+        <div class="grid2">
+          <div class="field"><label class="label" for="ore">Ore settimanali</label>
+            <div class="ingroup"><span class="affix" aria-hidden="true">h</span><input class="input" id="ore" name="ore" value="" inputmode="decimal" autocomplete="off" aria-describedby="ore-help"></div>
+            <p class="hint" id="ore-help">Vuoto significa tempo pieno. Minimo e scatti si riproporzionano; il superminimo no, perché lo dichiari già al tuo orario.</p>
+          </div>
+          <div class="field"><label class="label" for="scatti">Scatti già maturati</label>
+            <div class="ingroup"><span class="affix" aria-hidden="true">n</span><input class="input" id="scatti" name="scatti" value="" inputmode="numeric" autocomplete="off" placeholder="dedotti dall’anzianità" aria-describedby="scatti-help"></div>
+            <p class="hint" id="scatti-help">Se lo compili prevale sull’anzianità: passaggi di livello e servizio pregresso li conosci tu, non una divisione.</p>
+          </div>
+        </div>
+      </details>
+      <div class="azioni"><button class="btn btn--primary btn--lg" id="calcola" type="submit">Calcola la RAL e il netto</button>
+        <p class="status" id="ccnl-status" role="status" aria-live="polite"></p></div>
+    </form>
+  </section>
+  <section class="result" id="risultato" aria-live="polite" hidden>
+    <h2>La retribuzione contrattuale</h2><div class="result__box">
+      <p id="frase-risultato"></p><strong class="result__ral" id="ral-risultato"></strong>
+      <div class="result__meta">
+        <span>Netto annuo stimato<b id="netto-risultato"></b></span>
+        <span>Netto medio mensile<b id="media-risultato"></b></span>
+        <span>Mensilità<b id="mensilita-risultato"></b></span>
+      </div>
+      <table class="scomposizione" id="scomposizione">
+        <caption id="scomposizione-caption"></caption>
+        <thead><tr><th scope="col">Voce</th><th scope="col">Importo mensile</th></tr></thead>
+        <tbody id="scomposizione-corpo"></tbody>
+      </table>
+      <p class="small" id="nota-decorrenza"></p>
+      <div id="avviso-scatti"></div>
+      <details class="limiti"><summary>Che cosa questo numero non contiene</summary>
+        <ul id="esclusioni"></ul>
+        <p class="small" id="nota-fonte"></p>
+      </details>
+      <a class="btn btn--ghost" id="cta-calcolatore" href="index.html">Apri il calcolatore completo</a>
+    </div>
+  </section>
+  </div>
+</main>
+<footer class="ccnl-footer">La RAL è ricostruita dalle tabelle nazionali del CCNL con le regole fiscali 2026: è una stima, non la previsione del tuo cedolino.</footer>
+<script src="dati-addizionali-2026.js"></script><script src="geografia.js"></script><script src="motore.js"></script><script src="retribuzione-ccnl.js"></script><script src="site-nav.js"></script>
+<script>
+(()=>{
+  const R=RETRIBUZIONE_CCNL;
+  const COMUNE='F205';
+  const form=document.getElementById('ccnl-form');
+  const campo=id=>document.getElementById(id);
+  const selCcnl=campo('ccnl'),selLivello=campo('livello'),status=campo('ccnl-status');
+  const box=campo('risultato'),bottone=campo('calcola');
+  /* `eur` viene dal motore, non da Intl: la locale italiana non
+     raggruppa le migliaia sotto le cinque cifre, e un 1257,46 €
+     accanto a un 28.640,22 € nella stessa tabella si nota. Il
+     formattatore del motore raggruppa sempre, come tutto il sito. */
+  const euro=n=>eur(n);
+  const data=iso=>new Date(iso+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'});
+
+  /* I livelli dipendono dal contratto: la tendina si ricostruisce
+     invece di elencare tutto e sperare che l'utente non sbagli. */
+  function popolaLivelli(){
+    const livelli=R.livelli(selCcnl.value);
+    selLivello.innerHTML='';
+    for(const livello of livelli){
+      const opzione=document.createElement('option');
+      opzione.value=livello.codice;
+      opzione.textContent=livello.exCategoria
+        ? `${livello.nome} (ex ${livello.exCategoria}ª categoria)`:livello.nome;
+      selLivello.append(opzione);
+    }
+    const contratto=R.trovaContratto(selCcnl.value);
+    campo('ore').placeholder=`${contratto.oreSettimanali} (tempo pieno)`;
+    campo('livello-help').textContent=
+      `${livelli.length} livelli · ${contratto.mensilita} mensilità · tempo pieno ${contratto.oreSettimanali} ore settimanali.`;
+    campo('scatti-help').textContent=
+      `Massimo ${contratto.scatti.massimo}, uno ogni ${contratto.scatti.cadenzaAnni} anni. `+
+      'Se lo compili prevale sull’anzianità.';
+  }
+
+  const numero=(raw,{intero=false}={})=>{
+    const testo=String(raw??'').trim().replace(/\s|€/g,'');
+    if(testo==='')return null;
+    const valore=Number(testo.replace(/\.(?=\d{3}(\D|$))/g,'').replace(',','.'));
+    if(!Number.isFinite(valore)||valore<0)return NaN;
+    return intero?(Number.isInteger(valore)?valore:NaN):valore;
+  };
+
+  const nascondi=()=>{box.hidden=true;status.textContent='';
+    for(const id of ['anzianita','superminimo','ore','scatti'])
+      campo(id).removeAttribute('aria-invalid');};
+
+  selCcnl.addEventListener('change',()=>{popolaLivelli();nascondi();});
+  for(const id of ['livello','anzianita','superminimo','ore','scatti'])
+    campo(id).addEventListener('input',nascondi);
+
+  function riga(nome,importo,classe=''){
+    return `<tr${classe?` class="${classe}"`:''}><td>${nome}</td><td>${euro(importo)}</td></tr>`;
+  }
+
+  form.addEventListener('submit',event=>{
+    event.preventDefault();
+    nascondi();
+    const anzianita=numero(campo('anzianita').value,{intero:true});
+    const superminimo=numero(campo('superminimo').value);
+    const ore=numero(campo('ore').value);
+    const scatti=numero(campo('scatti').value,{intero:true});
+    const contratto=R.trovaContratto(selCcnl.value);
+
+    for(const [id,valore,messaggio] of [
+      ['anzianita',anzianita,'Indica l’anzianità come numero intero di anni, oppure lasciala vuota.'],
+      ['superminimo',superminimo,'Indica il superminimo mensile usando solo cifre.'],
+      ['ore',ore,'Indica le ore settimanali usando solo cifre.'],
+      ['scatti',scatti,`Indica un numero intero di scatti fra 0 e ${contratto.scatti.massimo}.`],
+    ]) if(Number.isNaN(valore)){
+      campo(id).setAttribute('aria-invalid','true');
+      status.textContent=messaggio;campo(id).focus();
+      if(id==='ore'||id==='scatti')document.getElementById('avanzate').open=true;
+      return;
+    }
+    if(ore!==null&&(ore<=0||ore>contratto.oreSettimanali)){
+      campo('ore').setAttribute('aria-invalid','true');
+      document.getElementById('avanzate').open=true;
+      status.textContent=`L’orario deve stare fra 1 e ${contratto.oreSettimanali} ore settimanali: sopra il tempo pieno il contratto non riproporziona nulla.`;
+      campo('ore').focus();return;
+    }
+    if(scatti!==null&&scatti>contratto.scatti.massimo){
+      campo('scatti').setAttribute('aria-invalid','true');
+      document.getElementById('avanzate').open=true;
+      status.textContent=`Questo contratto si ferma a ${contratto.scatti.massimo} scatti.`;
+      campo('scatti').focus();return;
+    }
+
+    const composta=R.componiRal({ccnl:selCcnl.value,livello:selLivello.value,
+      anniAnzianita:anzianita,scatti:scatti,oreSettimanali:ore,
+      superminimoMensile:superminimo||0});
+    const livello=R.trovaLivello(selCcnl.value,selLivello.value);
+    const risultato=applicaMensilita(
+      calcola(String(composta.ral),{comune:COMUNE,nucleo:[]}),composta.mensilita);
+
+    campo('frase-risultato').textContent=
+      `${contratto.nome}, ${livello.nome}${composta.partTime?`, ${composta.oreSettimanali} ore settimanali`:', tempo pieno'}: `+
+      `la retribuzione contrattuale annua lorda è`;
+    campo('ral-risultato').textContent=euro(composta.ral);
+    campo('netto-risultato').textContent=euro(risultato.kpi.nettoAnnuo);
+    campo('media-risultato').textContent=euro(risultato.kpi.mediaMensile);
+    campo('mensilita-risultato').textContent=String(composta.mensilita);
+
+    /* La scomposizione mostra le voci come le pubblica quel
+       contratto: scomposte dove lo sono, all-in dove lo è. */
+    const vociBase=composta.partTime
+      ? [[`Retribuzione contrattuale, riproporzionata da ${euro(composta.baseMensileIntera)}`,composta.baseMensile]]
+      : livello.voci.map(voce=>[voce.nome,voce.importo]);
+    campo('scomposizione-corpo').innerHTML=[
+      ...vociBase.map(([nome,importo])=>riga(nome,importo)),
+      ...(composta.partTime?[]:[riga('Totale contrattuale mensile',composta.baseMensile)]),
+      riga(composta.numeroScatti===0
+        ? 'Scatti di anzianità — zero scatti considerati'
+        : `Scatti di anzianità — ${composta.numeroScatti} × ${euro(composta.valoreScatto)}`,
+        composta.scattiMensili),
+      riga(composta.superminimoMensile===0
+        ? 'Superminimo — non dichiarato':'Superminimo lordo mensile',
+        composta.superminimoMensile),
+      riga('Lordo mensile totale',composta.mensileTotale,'somma'),
+      /* L'ultima moltiplicazione è la sola che porta fuori dal mese:
+         mostrarla come riga propria evita l'etichetta «× 13 mensilità»
+         accanto a un importo che mensile lo è ancora. */
+      riga(`Retribuzione annua lorda — × ${composta.mensilita} mensilità`,composta.ral,'somma'),
+    ].join('');
+    campo('scomposizione-caption').textContent=
+      `Come si compone il lordo mensile — tabella in vigore dal ${data(composta.decorrenza)}`;
+
+    const prossima=R.prossimaTabella(selCcnl.value);
+    campo('nota-decorrenza').textContent=
+      `Importi della base nazionale in vigore dal ${data(composta.decorrenza)}, annualizzati a condizioni costanti: `+
+      `non è il reddito di un anno attraversato da una tranche.`+
+      (prossima?` La prossima tranche decorre dal ${data(prossima.decorrenza)}.`:'');
+
+    campo('avviso-scatti').innerHTML=
+      composta.numeroScatti===0&&!composta.anzianitaDichiarata&&!composta.scattiOverride
+      ? '<div class="callout"><span class="callout__mark">Nota</span><div>Non hai indicato l’anzianità: il calcolo considera <strong>zero scatti</strong>. Con qualche anno in azienda la cifra reale è più alta.</div></div>'
+      : composta.scattiAlTetto
+      ? `<div class="callout"><span class="callout__mark">Tetto</span><div>Sei al massimo di ${contratto.scatti.massimo} scatti previsto dal contratto: l’anzianità successiva non ne matura altri.</div></div>`
+      :'';
+
+    campo('esclusioni').innerHTML=[
+      ...composta.esclusioni,
+      `Lo scatto decorre ${contratto.scatti.decorrenza}: il calcolatore ragiona ad anni compiuti e non modella lo scarto di un mese.`,
+      'Netto stimato per un dipendente privato a Milano, anno intero, senza familiari a carico e senza benefit.',
+    ].map(voce=>`<li>${voce}</li>`).join('');
+    campo('nota-fonte').innerHTML=
+      `Fonte: <a href="${contratto.fonte.url}">${contratto.fonte.titolo}</a> — ${contratto.fonte.parte}. `+
+      `Decorrenza ${data(composta.decorrenza)}, verificata il ${data(contratto.fonte.verificataIl)}.`+
+      (composta.partTime?` Riproporzione a norma di ${R.FONTE_RIPROPORZIONE.titolo}.`:'');
+
+    campo('cta-calcolatore').href=
+      `index.html?ral=${composta.ral}&m=${composta.mensilita}&c=${COMUNE}&calc=1`;
+    status.textContent='Calcolo completato.';
+    box.hidden=false;
+  });
+
+  popolaLivelli();
+})();
+</script>
+</body></html>
