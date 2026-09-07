@@ -16,6 +16,12 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
 .ccnl-form{margin-top:clamp(18px,2vw,26px);border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,26px);box-shadow:var(--lift-md) var(--line-solid)}
 .ccnl-form h2{margin:0 0 var(--s-5);font-size:var(--t-h4)}
 .grid2{display:grid;gap:var(--s-5);grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+/* `.field` è una griglia a righe automatiche e, come figlia di `.grid2`,
+   viene stirata all'altezza della vicina. Senza questo, lo spazio avanzato
+   dal campo con l'aiuto più lungo entra *dentro* etichetta e input della
+   colonna accanto, che diventano più alti e più bassi di quelli di fianco:
+   qui erano 52,78 px contro 46,39. Lo spazio libero va sotto, non nei campi. */
+.grid2>.field{align-content:start}
 .ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:44px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono);color:var(--fg-muted)}
 .ingroup .input{flex:1;min-width:0}
 .avanzate{margin-top:var(--s-5);border-top:var(--bw) dashed var(--line-strong);padding-top:var(--s-5)}

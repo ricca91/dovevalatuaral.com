@@ -445,6 +445,16 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
     assert.match(pagina,/\.result h2:focus-visible\{outline:/);
   });
 
+  test('i campi appaiati non si stirano l’uno diverso dall’altro',()=>{
+    /* `.field` del design system è una griglia a righe automatiche.
+       Come figlia di `.grid2` viene stirata all'altezza della vicina,
+       e senza questa regola lo spazio avanzato dal campo con l'aiuto
+       più lungo finisce *dentro* etichetta e input della colonna
+       accanto: «Scatti già maturati» era alto 52,78 px contro i 46,39
+       di «Ore settimanali», e partiva 6 px più in basso. */
+    assert.match(pagina,/\.grid2>\.field\{align-content:start\}/);
+  });
+
   test('carica gli script accanto e nessuna dipendenza esterna',()=>{
     for(const file of ['dati-addizionali-2026.js','geografia.js','motore.js',
       'retribuzione-ccnl.js','site-nav.js'])
