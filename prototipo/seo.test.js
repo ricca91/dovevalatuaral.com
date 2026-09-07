@@ -43,6 +43,14 @@ test('ogni pagina pubblica ha title, description e self-canonical univoci', () =
   }
 });
 
+test('ogni pagina pubblica carica lo script di analytics', () => {
+  for (const [file] of publicPages) {
+    const head = oneMatch(readPublic(file), /<head>([\s\S]*?)<\/head>/gi, `${file}: head`);
+    const src = file.includes('/') ? '../analytics.js' : 'analytics.js';
+    assert.match(head, new RegExp(`<script src="${src.replaceAll('.', '\\.')}" async></script>`));
+  }
+});
+
 test('la home descrive esplicitamente il calcolo stipendio netto', () => {
   const html = readPublic('index.html');
   const head = oneMatch(html, /<head>([\s\S]*?)<\/head>/gi, 'head home');

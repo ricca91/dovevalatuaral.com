@@ -48,6 +48,7 @@ function renderRalPage({ral,result,previous,next}){
 <meta property="og:url" content="${canonical}">
 <link rel="stylesheet" href="../draftsman.css">
 <link rel="stylesheet" href="../ral-page.css">
+<script src="../analytics.js" async></script>
 </head>
 <body data-ral="${ral}" data-netto-annuo="${net.toFixed(2)}" data-imposte="${taxes.toFixed(2)}" data-contributi="${contributions.toFixed(2)}">
 <a class="skip-link" href="#contenuto">Vai al contenuto</a>
@@ -114,7 +115,7 @@ function renderHub({rals,results}){
 <title>Confronti RAL: stipendio netto da 20.000 a 100.000 €</title>
 <meta name="description" content="Confronta il netto 2026 per 17 RAL da 20.000 a 100.000 euro, su 12, 13 e 14 mensilità.">
 <link rel="canonical" href="${ORIGIN}/confronti-ral/"><meta property="og:type" content="website"><meta property="og:url" content="${ORIGIN}/confronti-ral/">
-<link rel="stylesheet" href="../draftsman.css"><link rel="stylesheet" href="../ral-page.css"></head>
+<link rel="stylesheet" href="../draftsman.css"><link rel="stylesheet" href="../ral-page.css"><script src="../analytics.js" async></script></head>
 <body><a class="skip-link" href="#contenuto">Vai al contenuto</a>
 <header class="site-header"><div class="site-header__in"><a class="site-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a><button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button><nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="../index.html">RAL → Netto</a><a href="../netto-ral.html">Netto → RAL</a></div></div><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="../compara.html">Due offerte</a><a href="../confronti-ral/" aria-current="page">Livelli di RAL</a></div></div><a href="../la-storia.html">La storia</a></nav></div></header>
 <nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in"><a href="../index.html">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span><span aria-current="page">Confronti RAL</span></div></nav>
