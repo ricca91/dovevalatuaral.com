@@ -238,7 +238,11 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       : livello.voci.map(voce=>[voce.nome,voce.importo]);
     campo('scomposizione-corpo').innerHTML=[
       ...vociBase.map(([nome,importo])=>riga(nome,importo)),
-      ...(composta.partTime?[]:[riga('Totale contrattuale mensile',composta.baseMensile)]),
+      /* Il totale della scomposizione serve solo dove c'è qualcosa da
+         sommare: la Metalmeccanica pubblica un importo unico, e
+         ripeterlo sotto se stesso non aggiunge niente. */
+      ...(composta.partTime||vociBase.length===1
+        ?[]:[riga('Totale contrattuale mensile',composta.baseMensile)]),
       riga(composta.numeroScatti===0
         ? 'Scatti di anzianità — zero scatti considerati'
         : `Scatti di anzianità — ${composta.numeroScatti} × ${euro(composta.valoreScatto)}`,
