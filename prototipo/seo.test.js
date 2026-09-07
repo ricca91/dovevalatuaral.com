@@ -12,6 +12,7 @@ const publicPages = [
   ['la-storia.html', `${canonicalOrigin}/la-storia.html`],
   ['compara.html', `${canonicalOrigin}/compara.html`],
   ['netto-ral.html', `${canonicalOrigin}/netto-ral.html`],
+  ['ccnl-livello.html', `${canonicalOrigin}/ccnl-livello.html`],
   ['confronti-ral/index.html', `${canonicalOrigin}/confronti-ral/`],
   ...Array.from({ length: 17 }, (_, index) => {
     const ral = 20000 + index * 5000;

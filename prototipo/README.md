@@ -24,6 +24,11 @@ del 21 febbraio 2026.
 | `motore.test.js` | la matrice di prova |
 | `ral-page.template.js` | il template canonico condiviso delle pagine RAL e dell’hub |
 | `genera-pagine-ral.js` | il generatore deterministico delle 17 pagine RAL, dell’hub e della sitemap |
+| `ccnl-livello.html` | il generatore da CCNL e livello a RAL e netto: nessun campo RAL in ingresso |
+| `retribuzione-ccnl.js` | il dataset retributivo dei due CCNL coperti e `componiRal()`, la sola funzione che ne produce un numero |
+| `retribuzione-ccnl.test.js` | le prove del dataset, degli scatti, del part-time e del contratto della pagina |
+| `ccnl-livello.md` | che cosa fa quella pagina e quali decisioni il dataset incorpora |
+| `../processo/fonti-ccnl-2026.md` | da dove viene ogni numero contrattuale, e che cosa resta dichiarato come limite |
 | `righe.js` | l'adapter che trasforma ogni Voce in una Riga |
 | `righe.test.js` | le prove della seam Voce → Riga |
 | `sezioni.js` | i riepiloghi delle due sezioni facoltative del modulo, e quali partono aperte |
@@ -39,7 +44,9 @@ del 21 febbraio 2026.
 
 Doppio clic su `index.html`, tenendo `draftsman.css`, `motore.js`, `righe.js`, `sezioni.js`,
 `nucleo.js`, `compara.js`, `ccnl.js` e `fonti.js` nella stessa cartella. Il confronto è
-`compara.html`, e vuole accanto gli stessi file meno `sezioni.js` e `ccnl.js`. Nessuna dipendenza, nessun passo di build, nessuna richiesta di rete:
+`compara.html`, e vuole accanto gli stessi file meno `sezioni.js` e `ccnl.js`. Il generatore
+da CCNL e livello è `ccnl-livello.html`, che vuole accanto `motore.js`, `geografia.js`,
+`dati-addizionali-2026.js`, `retribuzione-ccnl.js` e `site-nav.js`. Nessuna dipendenza, nessun passo di build, nessuna richiesta di rete:
 Archivo, Instrument Sans e JetBrains Mono sono incorporati in `draftsman.css`, quindi le
 pagine funzionano anche offline.
 

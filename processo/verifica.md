@@ -13,7 +13,7 @@ Node 18 o successivo. Nessuna dipendenza, nessun `package.json`, niente da insta
 Il motore (`prototipo/motore.js`) è uno script classico: la stessa riga di codice
 gira nella pagina aperta con un doppio clic e in Node, senza duplicati.
 
-Stato al 5 settembre 2026: **256 prove, tutte verdi** (Node v22.22.2).
+Stato al 7 settembre 2026: **300 prove, tutte verdi** (Node v22.22.2).
 
 Gli attrezzi di verifica stanno in `processo/attrezzi/`, e girano anche loro senza
 dipendenze:
@@ -284,6 +284,39 @@ su ciò che già sappiamo e nessuna su ciò che conta.
 | La nota di lavoro | ✅ `come-ho-lavorato.html` verificata come la pagina principale: nessun sbordo a 390 px, nessuna richiesta di rete, caratteri incorporati. I suoi rimandi al repo funzionano perché il repo è pubblico |
 | Il confronto fra due offerte | ✅ `compara.html` guidata in Chromium a 1280 px e a 375 px: nessun sbordo orizzontale della pagina, nessun errore JavaScript, e la pagina si apre anche da `file://` con la rete bloccata. Un errore dentro un pannello chiuso lo riapre e porta il fuoco sul campo; dopo il confronto il fuoco va sul titolo del risultato; da tastiera si raggiungono Confronta, Copia A in B, Azzera e Copia link, e i pannelli si aprono con Invio senza perdere il fuoco nel ridisegno. Due correzioni per arrivarci: la scheda dell'offerta non aveva `min-width:0` e la riga impilata del nucleo dettava 404 px di larghezza a 375 px di schermo; il sottotitolo del marchio mandava il nome a capo quattro volte nella barra appiccicosa |
 | Il link del confronto | ✅ copia negli appunti verificata leggendoli, e con `navigator.clipboard` rimosso il link compare in un campo selezionabile che riceve il fuoco. Un fragment corrotto mostra un messaggio recuperabile, non inietta HTML e lascia il modulo utilizzabile |
+
+## Le tabelle contrattuali (RIC-54)
+
+Il dataset in `prototipo/retribuzione-ccnl.js` porta minimi e scatti di due CCNL fino
+al motore. È il primo posto in cui un numero **trascritto a mano** diventa una RAL e
+quindi un netto: la prova che serve non è la stessa del calcolo fiscale.
+
+- **La riconciliazione delle voci è una guardia sulla trascrizione, non sulla verità.**
+  Il Terziario pubblica sia la riga scomposta sia il totale: la prova verifica che le
+  due cose coincidano su tutte e 39 le righe del dataset, tranche future comprese. Se
+  un refuso sposta una cifra, la somma smette di tornare. Se invece la fonte stessa
+  fosse sbagliata, la riconciliazione resterebbe verde — esattamente come il golden.
+- **La correttezza viene dal confronto a mano con la fonte firmataria**, ed è
+  documentata in `processo/fonti-ccnl-2026.md` con URL, decorrenza e data di verifica.
+  I documenti sono conservati in `processo/dati/fonti/`.
+- **Le decorrenze future sono firmate, non stimate.** Le tranche del Terziario di
+  novembre 2026 e febbraio 2027 stanno nel dataset perché sono già pubblicate. Le
+  prove fissano una data invece di usare quella di sistema, altrimenti cambierebbero
+  risultato da sole al passaggio della tranche.
+- **Il part-time non tocca i giorni di detrazione.** È l'errore naturale da commettere
+  e c'è una prova che lo fissa: a parità di RAL il netto e la detrazione dell'art. 13
+  sono identici, che la RAL venga da un tempo pieno o da un orario ridotto. Il motore
+  riceve una RAL e nient'altro, quindi non ha modo di sbagliare — la prova serve a
+  impedire che qualcuno gliene dia il modo.
+- **Non provato: che quei minimi siano quelli applicabili al singolo rapporto.** È la
+  base *nazionale*. Terzo elemento provinciale, contrattazione integrativa, indennità
+  di mansione e di orario e — per la Metalmeccanica — l'elemento perequativo restano
+  fuori, elencati a schermo invece che taciuti.
+- **La decorrenza mensile degli scatti è modellata.** L'input è la data d'inizio
+  dell'anzianità e la prova esercita il mese della maturazione e il primo del mese
+  successivo. Restano fuori le eccezioni storiche Terziario anteriori al 1987 e 1995
+  e quelle metalmeccaniche per chi era in forza prima del 1979: in quei casi prevale
+  il numero di scatti dichiarato dall'utente.
 
 ## Cosa NON è provato
 
