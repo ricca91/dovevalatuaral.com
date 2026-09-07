@@ -432,6 +432,19 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
     assert.match(pagina,/Vuoto significa tempo pieno/);
   });
 
+  test('dopo il calcolo porta il fuoco e la pagina sul risultato',()=>{
+    /* Il risultato sta sotto il modulo e su mobile nasce fuori schermo.
+       Il fuoco va sul titolo, non solo lo scorrimento, perché chi
+       naviga da tastiera deve arrivarci come chi vede la pagina
+       muoversi — è lo stesso trattamento dell'esito del confronto. */
+    assert.match(pagina,/<h2 id="risultato-titolo" tabindex="-1">/);
+    assert.match(pagina,/titolo\.focus\(\);/);
+    assert.match(pagina,/titolo\.scrollIntoView\(\{behavior:movimento\(\),block:'start'\}\)/);
+    /* Chi ha chiesto di non essere mosso non viene mosso. */
+    assert.match(pagina,/matchMedia\('\(prefers-reduced-motion:reduce\)'\)\.matches\?'auto':'smooth'/);
+    assert.match(pagina,/\.result h2:focus-visible\{outline:/);
+  });
+
   test('carica gli script accanto e nessuna dipendenza esterna',()=>{
     for(const file of ['dati-addizionali-2026.js','geografia.js','motore.js',
       'retribuzione-ccnl.js','site-nav.js'])

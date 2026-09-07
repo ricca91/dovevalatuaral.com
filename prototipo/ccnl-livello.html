@@ -26,6 +26,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
 .status{margin:0;font:400 var(--t-xs)/1.5 var(--font-mono);color:var(--fg-muted)}
 .result{margin-top:clamp(28px,3.4vw,48px);padding-top:var(--s-8);border-top:var(--bw) solid var(--line-strong)}
 .result[hidden]{display:none}.result h2{margin:0 0 var(--s-4);font-size:var(--t-h3)}
+.result h2:focus-visible{outline:var(--bw-thick) solid var(--focus);outline-offset:4px}
 .result__box{border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,28px);box-shadow:var(--lift-md) var(--line-solid)}
 .result__box>p{margin:0;max-width:74ch}
 .result__ral{display:block;margin:var(--s-3) 0;font:800 clamp(1.9rem,3.4vw,2.75rem)/var(--lh-snug) var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-display)}
@@ -102,7 +103,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
     </form>
   </section>
   <section class="result" id="risultato" aria-live="polite" hidden>
-    <h2>La retribuzione contrattuale</h2><div class="result__box">
+    <h2 id="risultato-titolo" tabindex="-1">La retribuzione contrattuale</h2><div class="result__box">
       <p id="frase-risultato"></p><strong class="result__ral" id="ral-risultato"></strong>
       <div class="result__meta">
         <span>Netto annuo stimato<b id="netto-risultato"></b></span>
@@ -140,6 +141,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
      accanto a un 28.640,22 € nella stessa tabella si nota. Il
      formattatore del motore raggruppa sempre, come tutto il sito. */
   const euro=n=>eur(n);
+  const movimento=()=>matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth';
   const data=iso=>new Date(iso+'T00:00:00').toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'});
 
   /* I livelli dipendono dal contratto: la tendina si ricostruisce
@@ -286,6 +288,13 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       `index.html?ral=${composta.ral}&m=${composta.mensilita}&c=${COMUNE}&calc=1`;
     status.textContent='Calcolo completato.';
     box.hidden=false;
+    /* Il risultato sta sotto il modulo e su mobile finisce fuori
+       schermo: portarcisi è metà della risposta. Il fuoco va sul
+       titolo perché chi naviga da tastiera o con uno screen reader
+       deve arrivarci come ci arriva chi vede la pagina scorrere. */
+    const titolo=campo('risultato-titolo');
+    titolo.focus();
+    titolo.scrollIntoView({behavior:movimento(),block:'start'});
   });
 
   popolaLivelli();
