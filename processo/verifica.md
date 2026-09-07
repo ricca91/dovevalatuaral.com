@@ -312,10 +312,11 @@ quindi un netto: la prova che serve non è la stessa del calcolo fiscale.
   base *nazionale*. Terzo elemento provinciale, contrattazione integrativa, indennità
   di mansione e di orario e — per la Metalmeccanica — l'elemento perequativo restano
   fuori, elencati a schermo invece che taciuti.
-- **Non provate le regole storiche degli scatti.** Le eccezioni sulla decorrenza
-  dell'anzianità anteriori al 1987 e al 1995 non sono modellate: riguardano chi ha
-  oltre trent'anni di servizio, cioè chi è comunque al tetto. Non è modellato nemmeno
-  lo scarto di un mese fra maturazione e decorrenza dello scatto.
+- **La decorrenza mensile degli scatti è modellata.** L'input è la data d'inizio
+  dell'anzianità e la prova esercita il mese della maturazione e il primo del mese
+  successivo. Restano fuori le eccezioni storiche Terziario anteriori al 1987 e 1995
+  e quelle metalmeccaniche per chi era in forza prima del 1979: in quei casi prevale
+  il numero di scatti dichiarato dall'utente.
 
 ## Cosa NON è provato
 

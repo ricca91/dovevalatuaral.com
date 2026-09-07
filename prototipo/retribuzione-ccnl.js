@@ -47,10 +47,11 @@
   /* ------------------------------------------------------------
      TERZIARIO, DISTRIBUZIONE E SERVIZI — Confcommercio, H011
 
-     Fonte: testo coordinato pubblicato da Filcams CGIL, che è
-     parte firmataria, per l'art. 205 (aumenti periodici di
-     anzianità) e le tabelle dei minimi per decorrenza.
-     Copia archiviata in processo/dati/fonti/.
+     Fonte: tabelle nazionali pubblicate da Filcams CGIL, parte
+     firmataria, per minimi e decorrenze. L'archivio precedente
+     chiamato "testo coordinato" è una sintesi del 2014: conserva
+     solo il riscontro storico sugli scatti, non prova le tabelle
+     2025–2027.
 
      Dieci livelli, non otto: oltre a Quadro e I–VII ci sono gli
      operatori di vendita di 1ª e 2ª categoria, che hanno tabella
@@ -71,10 +72,10 @@
      ------------------------------------------------------------ */
 
   const FONTE_TERZIARIO=congela({
-    titolo:'CCNL Terziario, Distribuzione e Servizi — tabelle retributive e art. 205',
+    titolo:'CCNL Terziario, Distribuzione e Servizi — tabelle salariali nazionali',
     parte:'Filcams CGIL, organizzazione sindacale firmataria',
-    url:'https://cgil-agb.it/images/Filcams/pdf/commercio/TERZIARIO_confcommercio.pdf',
-    archivio:'processo/dati/fonti/filcams-ccnl-terziario-testo-coordinato-2026-09-07.pdf',
+    url:'https://www.filcams.cgil.it/page/confcommercio_terziario',
+    archivio:'processo/dati/fonti/filcams-confcommercio-terziario-tabelle-2026-09-07.html',
     verificataIl:'2026-09-07',
   });
 
@@ -160,6 +161,14 @@
     verificataIl:'2026-09-07',
   });
 
+  const FONTE_DISCIPLINA_SCATTI_METALMECCANICA=congela({
+    titolo:'CCNL Federmeccanica-Assistal, 5 dicembre 2012 — art. 6, aumenti periodici di anzianità',
+    parte:'Federmeccanica, organizzazione datoriale firmataria',
+    url:'https://www.federmeccanica.it/images/files/ccnl_2012.pdf',
+    archivio:'processo/dati/fonti/federmeccanica-ccnl-2012.pdf',
+    verificataIl:'2026-09-07',
+  });
+
   /* [codice, denominazione, exCategoria, minimo, scatto] */
   const TABELLA_METALMECCANICA=[
     ['D1','Livello D1','2' ,1784.94,21.59],
@@ -231,6 +240,7 @@
         articolo:'aumenti periodici di anzianità — massimo 5 bienni',
         decorrenza:'dal primo giorno del mese successivo a quello in cui si compie il biennio'}),
       fonte:FONTE_METALMECCANICA,
+      fonteDisciplinaScatti:FONTE_DISCIPLINA_SCATTI_METALMECCANICA,
       fonteAccordo:null,
       tabelle:Object.freeze([congela({
         decorrenza:'2026-06-01',
@@ -295,39 +305,54 @@
   /* ------------------------------------------------------------
      GLI SCATTI
 
-     L'input è l'anzianità in azienda, non nel livello corrente:
-     è ciò che entrambi i contratti misurano. Il numero di scatti
-     già maturati resta comunque sovrascrivibile, perché chi ha
-     avuto passaggi di livello, servizio pregresso o periodi in
-     somministrazione conosce il proprio numero meglio di quanto
-     lo sappia ricostruire una divisione.
-
-     Il calcolatore ragiona ad anni compiuti. Entrambi i contratti
-     fanno decorrere lo scatto dal primo giorno del mese successivo
-     a quello di maturazione: c'è quindi fino a un mese in cui lo
-     scatto è maturato e non ancora in paga, e questo scarto non
-     è modellato. È dichiarato nella pagina, non nascosto qui.
+     L'input è la data d'inizio dell'anzianità in azienda, non gli
+     anni nel livello corrente. Così si modella anche il mese fra
+     maturazione e decorrenza: entrambi i contratti fanno partire
+     lo scatto il primo giorno del mese successivo. Il numero già
+     maturato resta sovrascrivibile per anzianità convenzionale,
+     passaggi di livello o servizio pregresso.
      ------------------------------------------------------------ */
-  function scattiMaturati(id,anniAnzianita){
+  function dataIsoValida(valore){
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(String(valore)))return false;
+    const [anno,mese,giorno]=String(valore).split('-').map(Number);
+    const data=new Date(Date.UTC(anno,mese-1,giorno));
+    return data.getUTCFullYear()===anno&&data.getUTCMonth()===mese-1&&data.getUTCDate()===giorno;
+  }
+
+  function aggiungiAnni(iso,anni){
+    const [anno,mese,giorno]=iso.split('-').map(Number);
+    const ultimo=new Date(Date.UTC(anno+anni,mese,0)).getUTCDate();
+    return new Date(Date.UTC(anno+anni,mese-1,Math.min(giorno,ultimo))).toISOString().slice(0,10);
+  }
+
+  function primoDelMeseSuccessivo(iso){
+    const [anno,mese]=iso.split('-').map(Number);
+    return new Date(Date.UTC(anno,mese,1)).toISOString().slice(0,10);
+  }
+
+  function scattiMaturati(id,dataInizio,alla=new Date().toISOString().slice(0,10)){
     const contratto=trovaContratto(id);
     if(!contratto)throw new RangeError(`CCNL sconosciuto: ${id}`);
-    const anni=Number(anniAnzianita);
-    if(!Number.isFinite(anni)||anni<0)
-      throw new RangeError(`Anzianità non valida: ${anniAnzianita}`);
-    return Math.min(contratto.scatti.massimo,
-      Math.floor(Math.floor(anni)/contratto.scatti.cadenzaAnni));
+    if(!dataIsoValida(dataInizio)||!dataIsoValida(alla)||dataInizio>alla)
+      throw new RangeError(`Data di anzianità non valida: ${dataInizio}`);
+    let numero=0;
+    for(let n=1;n<=contratto.scatti.massimo;n++){
+      const maturazione=aggiungiAnni(dataInizio,n*contratto.scatti.cadenzaAnni);
+      if(primoDelMeseSuccessivo(maturazione)>alla)break;
+      numero=n;
+    }
+    return numero;
   }
 
   /* ------------------------------------------------------------
      LA RIPROPORZIONE
 
-     Nessuno dei due CCNL pubblica una regola propria per il
-     part-time: la proporzione discende dall'art. 7 c. 1 del
-     D.Lgs. 81/2015, per cui il trattamento economico del
-     lavoratore a tempo parziale è riproporzionato alla ridotta
-     entità della prestazione. Per la stessa ragione non esiste
-     una regola distinta per gli scatti, che sono retribuzione:
-     si riproporzionano come la base.
+     Il CCNL Metalmeccanica (art. 4, sezione C) dispone la
+     proporzione di tutti gli istituti contrattuali per il tempo
+     parziale; il Terziario non deroga alla regola legale. L'art.
+     7 c. 2 del D.Lgs. 81/2015 impone la proporzione alla ridotta
+     entità della prestazione. Gli scatti sono retribuzione e
+     seguono la stessa proporzione.
 
      Il superminimo no. È l'importo mensile che l'utente dichiara
      di percepire *già* al proprio orario: ridurlo di nuovo lo
@@ -339,7 +364,7 @@
   }
 
   const FONTE_RIPROPORZIONE=Object.freeze({
-    titolo:'D.Lgs. 81/2015, art. 7 c. 1',
+    titolo:'D.Lgs. 81/2015, art. 7 c. 2',
     nota:'il trattamento economico del lavoratore a tempo parziale è riproporzionato alla ridotta entità della prestazione',
     url:'https://www.normattiva.it/eli/stato/DECRETO%20LEGISLATIVO/2015/06/15/81/CONSOLIDATED',
   });
@@ -347,7 +372,7 @@
   /* ------------------------------------------------------------
      LA COMPOSIZIONE — l'unica funzione che produce un numero
      ------------------------------------------------------------ */
-  function componiRal({ccnl,livello:codiceLivello,anniAnzianita=null,scatti=null,
+  function componiRal({ccnl,livello:codiceLivello,dataAnzianita=null,scatti=null,
     oreSettimanali=null,superminimoMensile=0,alla}={}){
     const contratto=trovaContratto(ccnl);
     if(!contratto)throw new RangeError(`CCNL sconosciuto: ${ccnl}`);
@@ -369,8 +394,8 @@
       ||dichiarati>contratto.scatti.massimo))
       throw new RangeError(`Numero di scatti non valido per ${ccnl}: ${scatti}`);
     const numeroScatti=dichiarati!==null?dichiarati
-      :anniAnzianita===null||anniAnzianita===undefined?0
-      :scattiMaturati(ccnl,anniAnzianita);
+      :dataAnzianita===null||dataAnzianita===undefined?0
+      :scattiMaturati(ccnl,dataAnzianita,alla);
 
     const baseCent=riproporziona(cent(livello.totale),ore,contratto.oreSettimanali);
     const scattiCent=riproporziona(cent(livello.scatto)*numeroScatti,ore,contratto.oreSettimanali);
@@ -389,7 +414,7 @@
       oreSettimanali:ore,
       oreContrattuali:contratto.oreSettimanali,
       partTime:ore<contratto.oreSettimanali,
-      anzianitaDichiarata:anniAnzianita!==null&&anniAnzianita!==undefined,
+      anzianitaDichiarata:dataAnzianita!==null&&dataAnzianita!==undefined,
       scattiOverride:dichiarati!==null,
       numeroScatti,
       scattiAlTetto:numeroScatti>=contratto.scatti.massimo,

@@ -233,9 +233,9 @@ Lo avevo messo fra i possibili fuori perimetro. La ricerca sui volumi ha misurat
 sull'orario ridotto, e proprio sul Terziario — dove il part-time è la norma — assumere il tempo
 pieno avrebbe reso il calcolatore poco utile a chi lo usa di più.
 
-Nessuno dei due CCNL detta una regola propria di riproporzionamento, né per il minimo né per gli
-scatti: la proporzione discende dall'art. 7 c. 1 del D.Lgs. 81/2015. Il dataset cita quella,
-invece di inventare una disciplina contrattuale che non esiste. Il superminimo non si
+Il Metalmeccanica detta una regola propria: l'art. 4, sezione C dispone il trattamento
+riproporzionato al tempo parziale. Per il Terziario resta l'art. 7 c. 2 del D.Lgs. 81/2015.
+Gli scatti seguono la stessa proporzione. Il superminimo non si
 riproporziona, perché è dichiarato già all'orario indicato: ridurlo lo conterebbe due volte.
 
 E la cosa che è facile sbagliare: **il part-time riduce la retribuzione, non i giorni di

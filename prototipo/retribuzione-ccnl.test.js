@@ -155,30 +155,27 @@ test.describe('scatti di anzianità — maturazione e tetto',()=>{
 
   /* B — COMPORTAMENTO AI LIMITI. Le due cadenze e i due tetti,
      presi esattamente sui confini. */
-  test('il Terziario matura uno scatto ogni tre anni, fino a dieci',()=>{
-    assert.equal(R.scattiMaturati(TERZIARIO,0),0);
-    assert.equal(R.scattiMaturati(TERZIARIO,2),0);
-    assert.equal(R.scattiMaturati(TERZIARIO,3),1);   // primo confine
-    assert.equal(R.scattiMaturati(TERZIARIO,5),1);
-    assert.equal(R.scattiMaturati(TERZIARIO,6),2);
-    assert.equal(R.scattiMaturati(TERZIARIO,29),9);
-    assert.equal(R.scattiMaturati(TERZIARIO,30),10);  // il tetto, esatto
-    assert.equal(R.scattiMaturati(TERZIARIO,45),10);  // e oltre il tetto
+  test('il Terziario matura uno scatto ogni tre anni, dal mese successivo, fino a dieci',()=>{
+    assert.equal(R.scattiMaturati(TERZIARIO,'2023-09-07',OGGI),0);
+    assert.equal(R.scattiMaturati(TERZIARIO,'2023-09-01','2026-09-30'),0);
+    assert.equal(R.scattiMaturati(TERZIARIO,'2023-09-01','2026-10-01'),1);
+    assert.equal(R.scattiMaturati(TERZIARIO,'2020-08-01',OGGI),2);
+    assert.equal(R.scattiMaturati(TERZIARIO,'1996-08-01',OGGI),10); // tetto esatto
+    assert.equal(R.scattiMaturati(TERZIARIO,'1980-01-01',OGGI),10); // oltre il tetto
   });
 
-  test('la Metalmeccanica matura uno scatto ogni due anni, fino a cinque',()=>{
-    assert.equal(R.scattiMaturati(METAL,1),0);
-    assert.equal(R.scattiMaturati(METAL,2),1);
-    assert.equal(R.scattiMaturati(METAL,9),4);
-    assert.equal(R.scattiMaturati(METAL,10),5);      // il tetto, esatto
-    assert.equal(R.scattiMaturati(METAL,40),5);
+  test('la Metalmeccanica matura uno scatto ogni due anni, dal mese successivo, fino a cinque',()=>{
+    assert.equal(R.scattiMaturati(METAL,'2024-09-07',OGGI),0);
+    assert.equal(R.scattiMaturati(METAL,'2024-08-01',OGGI),1);
+    assert.equal(R.scattiMaturati(METAL,'2016-08-01',OGGI),5); // tetto esatto
+    assert.equal(R.scattiMaturati(METAL,'1980-01-01',OGGI),5);
   });
 
-  test('l’anzianità si conta ad anni compiuti e rifiuta valori impossibili',()=>{
-    assert.equal(R.scattiMaturati(TERZIARIO,3.9),1);
-    assert.throws(()=>R.scattiMaturati(TERZIARIO,-1),RangeError);
+  test('l’anzianità richiede una data reale non futura',()=>{
+    assert.throws(()=>R.scattiMaturati(TERZIARIO,'2026-02-30',OGGI),RangeError);
+    assert.throws(()=>R.scattiMaturati(TERZIARIO,'2026-10-01',OGGI),RangeError);
     assert.throws(()=>R.scattiMaturati(TERZIARIO,'molti'),RangeError);
-    assert.throws(()=>R.scattiMaturati('inesistente',3),RangeError);
+    assert.throws(()=>R.scattiMaturati('inesistente','2020-01-01',OGGI),RangeError);
   });
 
   test('anzianità non dichiarata significa zero scatti, e il risultato lo dice',()=>{
@@ -187,15 +184,15 @@ test.describe('scatti di anzianità — maturazione e tetto',()=>{
     assert.equal(senza.scattiMensili,0);
     assert.equal(senza.anzianitaDichiarata,false);
     assert.equal(senza.scattiOverride,false);
-    const con=R.componiRal({ccnl:TERZIARIO,livello:'4',anniAnzianita:0,alla:OGGI});
+    const con=R.componiRal({ccnl:TERZIARIO,livello:'4',dataAnzianita:'2026-09-07',alla:OGGI});
     assert.equal(con.anzianitaDichiarata,true);
     assert.equal(con.numeroScatti,0);
   });
 
   test('il numero di scatti dichiarato prevale sull’anzianità stimata',()=>{
-    const stimati=R.componiRal({ccnl:METAL,livello:'C3',anniAnzianita:4,alla:OGGI});
+    const stimati=R.componiRal({ccnl:METAL,livello:'C3',dataAnzianita:'2022-07-01',alla:OGGI});
     assert.equal(stimati.numeroScatti,2);
-    const dichiarati=R.componiRal({ccnl:METAL,livello:'C3',anniAnzianita:4,
+    const dichiarati=R.componiRal({ccnl:METAL,livello:'C3',dataAnzianita:'2022-07-01',
       scatti:5,alla:OGGI});
     assert.equal(dichiarati.numeroScatti,5);
     assert.equal(dichiarati.scattiOverride,true);
@@ -235,7 +232,7 @@ test.describe('composizione della RAL — l’identità del prodotto',()=>{
      Terziario 4°, 9 anni in azienda → 3 scatti da 20,66 = 61,98.
      (1.783,75 + 61,98) × 14 = 25.840,22 €. */
   test('gli scatti entrano come voce propria, non dentro il minimo',()=>{
-    const r=R.componiRal({ccnl:TERZIARIO,livello:'4',anniAnzianita:9,alla:OGGI});
+    const r=R.componiRal({ccnl:TERZIARIO,livello:'4',dataAnzianita:'2017-08-01',alla:OGGI});
     assert.equal(r.numeroScatti,3);
     assert.equal(r.valoreScatto,20.66);
     assert.equal(r.scattiMensili,61.98);
@@ -248,7 +245,7 @@ test.describe('composizione della RAL — l’identità del prodotto',()=>{
      una volta sola. Terziario 4°, 3 scatti, superminimo 200 €:
      (1.783,75 + 61,98 + 200) × 14 = 28.640,22 €. */
   test('il superminimo si annualizza sulle mensilità contrattuali',()=>{
-    const r=R.componiRal({ccnl:TERZIARIO,livello:'4',anniAnzianita:9,
+    const r=R.componiRal({ccnl:TERZIARIO,livello:'4',dataAnzianita:'2017-08-01',
       superminimoMensile:200,alla:OGGI});
     assert.equal(r.superminimoMensile,200);
     assert.equal(r.mensileTotale,2045.73);
@@ -263,7 +260,7 @@ test.describe('composizione della RAL — l’identità del prodotto',()=>{
     for(const contratto of R.CONTRATTI)
       for(const livello of R.livelli(contratto.id,OGGI)){
         const r=R.componiRal({ccnl:contratto.id,livello:livello.codice,
-          anniAnzianita:12,superminimoMensile:150,alla:OGGI});
+          dataAnzianita:'2013-08-01',superminimoMensile:150,alla:OGGI});
         assert.equal(Math.round(r.ral*100),
           Math.round((r.baseMensile+r.scattiMensili+r.superminimoMensile)*100)
           *contratto.mensilita,`${contratto.id} ${livello.codice}`);
@@ -286,7 +283,7 @@ test.describe('part-time — riduce la retribuzione, non il periodo di lavoro',(
   /* Terziario 4° a 20 ore su 40: base 1.783,75 → 891,88 (arrotondato
      al centesimo), scatti 20,66 → 10,33 ciascuno. */
   test('minimo e scatti si riproporzionano sull’orario contrattuale',()=>{
-    const r=R.componiRal({ccnl:TERZIARIO,livello:'4',anniAnzianita:9,
+    const r=R.componiRal({ccnl:TERZIARIO,livello:'4',dataAnzianita:'2017-08-01',
       oreSettimanali:20,alla:OGGI});
     assert.equal(r.partTime,true);
     assert.equal(r.oreSettimanali,20);
@@ -367,7 +364,7 @@ test.describe('la RAL composta entra nel motore come qualsiasi altra',()=>{
   });
 
   test('Metalmeccanica C3 con scatti e superminimo: dalla tabella al netto',()=>{
-    const r=R.componiRal({ccnl:METAL,livello:'C3',anniAnzianita:6,
+    const r=R.componiRal({ccnl:METAL,livello:'C3',dataAnzianita:'2020-08-01',
       superminimoMensile:150,alla:OGGI});
     assert.equal(r.numeroScatti,3);
     assert.equal(r.scattiMensili,88.92);          // 29,64 × 3
@@ -384,7 +381,7 @@ test.describe('la RAL composta entra nel motore come qualsiasi altra',()=>{
       for(const livello of R.livelli(contratto.id,OGGI))
         for(const ore of [40,24]){
           const r=R.componiRal({ccnl:contratto.id,livello:livello.codice,
-            anniAnzianita:7,oreSettimanali:ore,alla:OGGI});
+            dataAnzianita:'2019-08-01',oreSettimanali:ore,alla:OGGI});
           const risultato=calcola(String(r.ral),{comune:'F205',nucleo:[]});
           assert.ok(risultato.riconciliazione.verificata,
             `${contratto.id} ${livello.codice} ${ore}h`);

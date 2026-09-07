@@ -82,9 +82,9 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
         </div>
       </div>
       <div class="grid2" style="margin-top:var(--s-5)">
-        <div class="field"><label class="label" for="anzianita">Anni di anzianità in azienda</label>
-          <div class="ingroup"><span class="affix" aria-hidden="true">anni</span><input class="input" id="anzianita" name="anzianita" value="" inputmode="numeric" autocomplete="off" placeholder="lascia vuoto se non la sai" aria-describedby="anzianita-help"></div>
-          <p class="hint" id="anzianita-help">Anzianità di servizio nella stessa azienda o gruppo, non anni nel livello attuale.</p>
+        <div class="field"><label class="label" for="anzianita">Data d’inizio anzianità in azienda</label>
+          <input class="input" id="anzianita" name="anzianita" type="date" value="" autocomplete="off" aria-describedby="anzianita-help">
+          <p class="hint" id="anzianita-help">Stessa azienda o gruppo, non data del livello attuale. Serve per far decorrere lo scatto dal mese successivo; lascia vuoto se non la sai.</p>
         </div>
         <div class="field"><label class="label" for="superminimo">Superminimo lordo mensile</label>
           <div class="ingroup"><span class="affix" aria-hidden="true">€</span><input class="input" id="superminimo" name="superminimo" value="" inputmode="decimal" autocomplete="off" placeholder="0" aria-describedby="superminimo-help"></div>
@@ -96,7 +96,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
         <div class="grid2">
           <div class="field"><label class="label" for="ore">Ore settimanali</label>
             <div class="ingroup"><span class="affix" aria-hidden="true">h</span><input class="input" id="ore" name="ore" value="" inputmode="decimal" autocomplete="off" aria-describedby="ore-help"></div>
-            <p class="hint" id="ore-help">Vuoto significa tempo pieno. Minimo e scatti si riproporzionano; il superminimo no, perché lo dichiari già al tuo orario.</p>
+            <p class="hint" id="ore-help">Vuoto significa tempo pieno. Solo ore settimanali costanti: non copre part-time verticale, ciclico o multiperiodale. Minimo e scatti si riproporzionano; il superminimo no, perché lo dichiari già al tuo orario.</p>
           </div>
           <div class="field"><label class="label" for="scatti">Scatti già maturati</label>
             <div class="ingroup"><span class="affix" aria-hidden="true">n</span><input class="input" id="scatti" name="scatti" value="" inputmode="numeric" autocomplete="off" placeholder="dedotti dall’anzianità" aria-describedby="scatti-help"></div>
@@ -123,6 +123,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       </table>
       <p class="small" id="nota-decorrenza"></p>
       <div id="avviso-scatti"></div>
+      <div id="avviso-limiti"></div>
       <details class="limiti"><summary>Che cosa questo numero non contiene</summary>
         <ul id="esclusioni"></ul>
         <p class="small" id="nota-fonte"></p>
@@ -194,14 +195,14 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
   form.addEventListener('submit',event=>{
     event.preventDefault();
     nascondi();
-    const anzianita=numero(campo('anzianita').value,{intero:true});
+    const anzianita=campo('anzianita').value||null;
     const superminimo=numero(campo('superminimo').value);
     const ore=numero(campo('ore').value);
     const scatti=numero(campo('scatti').value,{intero:true});
     const contratto=R.trovaContratto(selCcnl.value);
 
     for(const [id,valore,messaggio] of [
-      ['anzianita',anzianita,'Indica l’anzianità come numero intero di anni, oppure lasciala vuota.'],
+      ['anzianita',anzianita!==null&&!/^\d{4}-\d{2}-\d{2}$/.test(anzianita)?NaN:0,'Indica una data di inizio anzianità valida, oppure lasciala vuota.'],
       ['superminimo',superminimo,'Indica il superminimo mensile usando solo cifre.'],
       ['ore',ore,'Indica le ore settimanali usando solo cifre.'],
       ['scatti',scatti,`Indica un numero intero di scatti fra 0 e ${contratto.scatti.massimo}.`],
@@ -224,9 +225,20 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       campo('scatti').focus();return;
     }
 
-    const composta=R.componiRal({ccnl:selCcnl.value,livello:selLivello.value,
-      anniAnzianita:anzianita,scatti:scatti,oreSettimanali:ore,
-      superminimoMensile:superminimo||0});
+    let composta;
+    try{
+      composta=R.componiRal({ccnl:selCcnl.value,livello:selLivello.value,
+        dataAnzianita:anzianita,scatti:scatti,oreSettimanali:ore,
+        superminimoMensile:superminimo||0});
+    }catch(errore){
+      campo('anzianita').setAttribute('aria-invalid','true');
+      status.textContent=errore.message;campo('anzianita').focus();return;
+    }
+    if(composta.ral>1000000){
+      campo('superminimo').setAttribute('aria-invalid','true');
+      status.textContent='La RAL composta supera 1.000.000 €: il calcolatore non produce una stima oltre questo limite.';
+      campo('superminimo').focus();return;
+    }
     const livello=R.trovaLivello(selCcnl.value,selLivello.value);
     const risultato=applicaMensilita(
       calcola(String(composta.ral),{comune:COMUNE,nucleo:[]}),composta.mensilita);
@@ -253,7 +265,9 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
         ?[]:[riga('Totale contrattuale mensile',composta.baseMensile)]),
       riga(composta.numeroScatti===0
         ? 'Scatti di anzianità — zero scatti considerati'
-        : `Scatti di anzianità — ${composta.numeroScatti} × ${euro(composta.valoreScatto)}`,
+        : composta.partTime
+          ? `Scatti di anzianità — ${composta.numeroScatti} scatti, totale riproporzionato`
+          : `Scatti di anzianità — ${composta.numeroScatti} × ${euro(composta.valoreScatto)}`,
         composta.scattiMensili),
       riga(composta.superminimoMensile===0
         ? 'Superminimo — non dichiarato':'Superminimo lordo mensile',
@@ -280,9 +294,14 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       ? `<div class="callout"><span class="callout__mark">Tetto</span><div>Sei al massimo di ${contratto.scatti.massimo} scatti previsto dal contratto: l’anzianità successiva non ne matura altri.</div></div>`
       :'';
 
+    campo('avviso-limiti').innerHTML=composta.ral>122295
+      ? '<div class="callout callout--warn"><span class="callout__mark">Limite</span><div>Sopra 122.295 € il massimale contributivo dipende dall’anzianità previdenziale al 31 dicembre 1995, che qui si assume assente.</div></div>'
+      :'';
+
     campo('esclusioni').innerHTML=[
       ...composta.esclusioni,
-      `Lo scatto decorre ${contratto.scatti.decorrenza}: il calcolatore ragiona ad anni compiuti e non modella lo scarto di un mese.`,
+      'Part-time verticale, ciclico e multiperiodale: l’orario non è esprimibile qui come ore settimanali costanti.',
+      ...(contratto.id==='terziario-confcommercio-h011'?["Orari ordinari speciali del Terziario: la base è 40 ore; il contratto prevede eccezioni fino a 42 o 45 ore per lavorazioni particolari."]:[]),
       'Netto stimato per un dipendente privato a Milano, anno intero, senza familiari a carico e senza benefit.',
     ].map(voce=>`<li>${voce}</li>`).join('');
     campo('nota-fonte').innerHTML=

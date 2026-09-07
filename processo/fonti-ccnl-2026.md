@@ -6,9 +6,10 @@ testo e che cosa resta dichiarato come limite._
 
 ## Conclusione
 
-I minimi e gli scatti dei due CCNL coperti sono verificabili su documenti
-pubblicati dalle **organizzazioni sindacali firmatarie**, che sono parte del
-contratto. Non esiste una fonte leggibile da una macchina: il CNEL pubblica
+I minimi e gli scatti dei due CCNL coperti sono verificabili su fonti delle
+**parti firmatarie**. Per il Terziario le tabelle nazionali sono pubblicate da
+Filcams; per la disciplina metalmeccanica è stato letto l'art. 6 del CCNL
+pubblicato da Federmeccanica. Non esiste una fonte leggibile da una macchina: il CNEL pubblica
 open data, ma sono metadati sui contratti — anagrafica, parti, vigenze — e le
 pagine dei minimi tabellari rispondono 404. La trascrizione è quindi a mano,
 con lo stesso metodo delle addizionali: file scaricato, conservato in
@@ -23,14 +24,16 @@ la base nazionale. L'aggiornamento non è «ricontrolla due URL stabili».
 
 ## Terziario, Distribuzione e Servizi — Confcommercio, H011
 
-- [Testo coordinato pubblicato da Filcams CGIL](https://cgil-agb.it/images/Filcams/pdf/commercio/TERZIARIO_confcommercio.pdf) —
-  copia in `processo/dati/fonti/filcams-ccnl-terziario-testo-coordinato-2026-09-07.pdf`.
-  Filcams è firmataria. Da qui vengono le tabelle dei minimi per decorrenza e il
-  testo degli aumenti periodici di anzianità.
+- [Tabelle salariali nazionali Filcams CGIL](https://www.filcams.cgil.it/page/confcommercio_terziario) —
+  copia in `processo/dati/fonti/filcams-confcommercio-terziario-tabelle-2026-09-07.html`.
+  Filcams è firmataria. La pagina contiene le tabelle nazionali del 1° novembre
+  2025, 1° novembre 2026 e 1° febbraio 2027: è la fonte delle righe del dataset.
 - [Accordo di rinnovo 22 marzo 2024](https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf) —
   copia in `processo/dati/fonti/accordo-rinnovo-terziario-2024-03-22.pdf`.
   L'art. 213 elenca le sei tranche di aumento e le loro decorrenze: è il
-  documento che spiega *perché* il dataset ha tre decorrenze e non una.
+  documento che spiega *perché* il dataset ha tre decorrenze e non una. I suoi
+  aumenti a parametro non sostituiscono le tabelle Filcams: la conversione e gli
+  arrotondamenti per livello sono ciò che produce alcuni centesimi di differenza.
 
 ### Che cosa è stato riscontrato
 
@@ -76,6 +79,11 @@ novembre 2026 senza che nessuno tocchi il codice.
 - [Pubblicazione FIM CISL del 15 giugno 2026](https://www.fim-cisl.it/2026/06/15/ccnl-federmeccanica-assistal-2025-2028-nuovi-minimi-tabellari-giugno-2026/).
   FIM è firmataria. Riporta minimi, aumenti e scatti per livello con decorrenza
   1° giugno 2026.
+- [CCNL Federmeccanica-Assistal, 5 dicembre 2012](https://www.federmeccanica.it/images/files/ccnl_2012.pdf),
+  archiviato in `processo/dati/fonti/federmeccanica-ccnl-2012.pdf`: è il testo
+  della parte datoriale firmataria letto per l'art. 6 (pp. 149–150 nel PDF), che
+  disciplina gli aumenti periodici. L'accordo 2021 archiviato da Federmeccanica
+  è un rinnovo e non ripubblica l'articolo.
 
 ### Che cosa è stato riscontrato
 
@@ -84,9 +92,9 @@ novembre 2026 senza che nessuno tocchi il codice.
   normalizzarne una via.
 - **Scatti: cinque, biennali**, sull'anzianità di servizio presso la stessa
   azienda o gruppo, con decorrenza dal primo giorno del mese successivo al
-  compimento del biennio. Dal 1° febbraio 2008 il passaggio a categoria
-  superiore conserva anzianità e numero di scatti, rivalutandone l'importo a
-  quello della categoria di arrivo.
+  compimento del biennio. L'art. 6 citato sopra dice anche che dal 1° febbraio
+  2008 il passaggio a categoria superiore conserva anzianità e numero di scatti,
+  rivalutandone l'importo a quello della categoria di arrivo.
 - **Orario normale 40 ore settimanali** (art. 5), **tredici mensilità**.
 - **L'adeguamento è per indice IPCA-NEI**, non solo per rinnovo: quest'anno
   1,9% ISTAT contro il 2,46% contrattualizzato. La prossima decorrenza non è
@@ -103,13 +111,14 @@ l'elenco delle esclusioni mostrato all'utente.
 
 ## Il part-time
 
-**Nessuno dei due CCNL detta una regola propria di riproporzionamento**, né per
-il minimo né — ed è la domanda che ci si era posti — per gli scatti. La
-proporzione discende dall'[art. 7 c. 1 del D.Lgs. 81/2015](https://www.normattiva.it/eli/stato/DECRETO%20LEGISLATIVO/2015/06/15/81/CONSOLIDATED),
-per cui il trattamento economico del lavoratore a tempo parziale è
-riproporzionato alla ridotta entità della prestazione. Gli scatti sono
-retribuzione, quindi seguono la stessa regola: il dataset non inventa una
-disciplina contrattuale che non esiste, cita quella di legge.
+Il Metalmeccanica detta una regola propria: l'[art. 4, sezione C, pubblicato da
+FIM CISL](https://www.fimcislbltv.it/contratto/sezione_quarta_titolo1.html)
+afferma che al tempo parziale spetta il trattamento riproporzionato alla ridotta
+entità della prestazione. Il Terziario non deroga alla regola legale. La base
+legale è l'[art. 7 c. 2 del D.Lgs. 81/2015](https://www.normattiva.it/eli/stato/DECRETO%20LEGISLATIVO/2015/06/15/81/CONSOLIDATED),
+non il comma 1. Gli scatti sono retribuzione, quindi seguono la stessa
+proporzione. La copia della pagina FIM è archiviata in
+`processo/dati/fonti/fim-cisl-ccnl-metalmeccanica-art4-part-time-2026-09-07.html`.
 
 Il superminimo no: è l'importo che l'utente dichiara di percepire **già** al
 proprio orario, e ridurlo lo conterebbe part-time due volte.
@@ -122,9 +131,9 @@ proprio orario, e ridurlo lo conterebbe part-time due volte.
   regole che riguardano chi ha oltre trent'anni di servizio, cioè chi è comunque
   al tetto dei dieci scatti: il calcolatore non le modella e il caso resta
   coperto dal tetto.
-- **Lo scarto di un mese.** Entrambi i contratti fanno decorrere lo scatto dal
-  primo giorno del mese successivo alla maturazione. Il calcolatore ragiona ad
-  anni compiuti e non modella quel mese. È scritto nella pagina.
+- **Le eccezioni storiche sugli scatti metalmeccanici.** Il testo conserva
+  discipline transitorie per chi era in forza prima del 1979; il calcolatore non
+  le ricostruisce e lascia prevalere il numero di scatti dichiarato dall'utente.
 - **Le eccezioni all'orario ordinario nel Terziario.** Il testo prevede casi a
   45 ore settimanali per lavorazioni particolari. Il dataset copre il caso
   generale a 40 ore e non pretende di coprire quelli.
