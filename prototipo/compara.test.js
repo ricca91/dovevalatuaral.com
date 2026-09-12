@@ -406,8 +406,8 @@ test('lo stato della home diventa l’offerta A senza perdere niente che conti',
   assert.equal(A.ralRaw,'42.000');
   assert.equal(A.mensilitaRaw,'14');
   assert.equal(A.comune,'H501');
-  /* Il CCNL non attraversa: sulla home suggeriva le mensilità, e le
-     mensilità che ha suggerito sono già arrivate come valore esplicito. */
+  /* Il vecchio parametro CCNL non attraversa: le mensilità effettive sono
+     già il dato completo che serve al confronto. */
   assert.equal('ccnl' in A,false);
   assert.deepEqual(A.nucleo,home.nucleo);
   assert.notEqual(A.nucleo,home.nucleo,'la home non deve condividere la lista');

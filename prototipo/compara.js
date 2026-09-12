@@ -93,10 +93,9 @@ function offertaDaCalcolatore(stato){
     buoniValoreRaw:s.buoniValoreRaw||'',buoniNumeroRaw:perMese(s.buoniNumeroRaw)};
 }
 
-/* Il ritorno al calcolatore usa la query string della home, immutata: costi,
-   tempo e CCNL restano fuori — i primi due perché la home non li conosce, il
-   terzo perché il confronto non lo chiede e non lo può inventare. Senza `ccnl`
-   la home parte da «Nessun CCNL selezionato» e tiene le mensilità che arrivano. */
+/* Il ritorno al calcolatore usa la query string della home: costi e tempo
+   restano fuori perché la home non li conosce; il CCNL non è richiesto né
+   dalla home né dal confronto. */
 function urlCalcolatore(offerta,base='index.html'){
   const o={...offertaVuota(),...(offerta||{})};
   const p=new URLSearchParams();
