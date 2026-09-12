@@ -1,5 +1,6 @@
 const test=require('node:test');
 const assert=require('node:assert/strict');
+const fs=require('node:fs');
 const {VERSIONE_CATALOGO,CCNL,trovaCcnl,suggerisciMensilita,statoMensilita,
   preferenzaDaUrl}=require('./ccnl.js');
 const MENSILITA_AMMESSE=[12,13,14,15,16];
@@ -53,4 +54,10 @@ test.describe('catalogo CCNL',()=>{
       {ccnl:'',mensilita:14});
     assert.deepEqual(preferenzaDaUrl('',null,13,MENSILITA_AMMESSE),{ccnl:'',mensilita:13});
   });
+});
+
+test('la home lascia il CCNL al calcolatore dedicato',()=>{
+  const home=fs.readFileSync(`${__dirname}/index.html`,'utf8');
+  assert.doesNotMatch(home,/id="ccnl"|CCNL_CATALOGO|script src="ccnl\.js"/);
+  assert.match(home,/href="ccnl-livello\.html">CCNL e livello<\/a>/);
 });
