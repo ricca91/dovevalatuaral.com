@@ -90,6 +90,9 @@ generatore. Ridimensionamento, animazioni e risposte non modificano gli input.
   `valutaConfronto`, `catenaContabile` e identità delle coppie.
 - `netto-o-niente.js`: transizioni pure `creaPartita`, `rispondi`, `prossimo`,
   spiegazioni, codec sfida/record/run e replay incrementale `ripristinaRun`.
+- `netto-o-niente-share.js`: modello dello scontrino, PNG locale 1080×1350,
+  selezione del payload condivisibile e destinazioni di fallback. Non entra
+  nella versione delle sequenze e non modifica i fingerprint fiscali/di gioco.
 - `netto-o-niente-ui.js`: DOM, focus, blocco sincrono dei pulsanti, storage,
   condivisione e analytics. INTRO è gestito dal controller; DOMANDA,
   RIVELAZIONE, FINE ed ERRORE sono le fasi della run. Una risposta sbagliata
@@ -98,7 +101,7 @@ generatore. Ridimensionamento, animazioni e risposte non modificano gli input.
   font Draftsman. Animazione di rivelazione 450 ms; con reduced motion è assente.
 
 Gli script classici seguono la catena dati → geografia → motore → fonti → righe
-→ nucleo → compara → scenari → gioco → navigazione → UI. Dataset caricato una
+→ nucleo → compara → scenari → gioco → share → navigazione → UI. Dataset caricato una
 sola volta; CommonJS per i moduli puri. Nessun `package.json` o build necessaria.
 
 ## Sfide, record e ripristino
@@ -126,9 +129,39 @@ seed nuovo e rimuove il fragment; “Rigioca questa sfida” conserva seed/targe
 azzera le scelte e mostra “Rivincita”.
 
 Solo FINE può condividere. Testo e target usano il risultato della run conclusa,
-mai il record personale. Web Share su clic, poi clipboard, infine testo/link
-selezionabili. `AbortError` non copia nulla; “Link copiato” segue solo una copia
-riuscita. Metadati OG statici; punteggi locali e URL sono autodichiarati,
+mai il record personale. Lo scontrino è il primo elemento del finale e
+“Condividi” è la CTA principale, accanto a “Riprova”. Focus sul risultato;
+scorrimento automatico al finale, con CTA visibile anche a 375×667.
+
+Un solo formato PNG 4:5, generato via Canvas usando i font locali Draftsman.
+Immagine e `File` vengono preparati al render, **prima del click**, e riusati
+per anteprima, menu nativo e download. Nessun upload, account, dipendenza,
+servizio immagini o richiesta di rete aggiuntiva. Font pronti aggiornano
+l'immagine fuori dal gesto utente. Errori Canvas/PNG/File non bloccano la run.
+
+Nel click si chiama direttamente `navigator.share`, senza attendere font,
+encoding o rete: l'attivazione transitoria è conservata. `canShare({files})`
+e la verifica del payload completo scelgono immagine + testo contenente link;
+senza supporto file si passa a testo + URL. Il menu nativo sceglie le app
+disponibili. Nessun selettore di formato intermedio e nessun download richiesto.
+
+`AbortError` non copia, non scarica, non apre fallback e non emette successo.
+API assente o errore: si aprono le “Altre opzioni”, normalmente chiuse:
+WhatsApp/Telegram/X con testo/link precompilati, copia risultato e link,
+salvataggio PNG facoltativo. Nei browser nativi è disponibile anche un nuovo
+click “Condividi senza immagine”, per le app che non accettano file. Non si
+ritenta il menu automaticamente dopo un errore: l'attivazione può essere già
+consumata. Copia manuale selezionabile solo se la clipboard fallisce.
+“Risultato e link copiati” segue solo una copia riuscita. Un lock impedisce
+share concorrenti; un completamento tardivo non modifica una nuova partita.
+
+**Limiti di piattaforma:** il sito consegna il payload al sistema, non può
+scegliere o garantire le app disponibili, feed/storie, inserimento della
+didascalia o pubblicazione. Alcune app ignorano il testo quando ricevono un file:
+il dominio resta stampato sull'immagine, ma non è un link cliccabile. I fallback
+social inviano testo/link, **non allegano automaticamente il PNG**. La conferma
+finale avviene nell'app scelta; nessun accesso agli account social del giocatore.
+Metadati OG statici; punteggi locali e URL sono autodichiarati,
 senza certificazione o protezione da manipolazioni.
 
 ## Misurazione
@@ -136,9 +169,11 @@ senza certificazione o protezione da manipolazioni.
 Solo `window.gtag` già disponibile: `non_start {mode}`, `non_answer
 {round,tier,correct}`, `non_end {score,mode}`, `non_share {method}` e
 `non_open_comparison {round}`. Tier da 1 a 5; mode `free|challenge|replay`.
-Eventi emessi nelle transizioni, mai al render o reload. Share `web_share` e
+Eventi emessi nelle transizioni, mai al render o reload. Share `web_share_file`, `web_share` e
 `clipboard` misurano il successo dell'API; `manual` la presentazione del testo
-selezionabile, non una copia verificata. Nessuna misura certifica la consegna.
+selezionabile, non una copia verificata. `non_share_destination {method}` misura
+solo il click su `whatsapp|telegram|x`; `non_share_download {format:'png'}`
+solo il click sul download. Nessuna misura certifica pubblicazione o consegna.
 Niente seed, URL, target, offerte o profilo fiscale nei payload espliciti.
 Tracker assente, bloccato o in errore non ferma il gioco.
 
@@ -170,6 +205,18 @@ sfida in contesto separato, 101 round confrontati con Node, Compara reale, fonti
 375×812, 390×844, 1440×900, zoom 200%, tastiera, doppio tap, reduced motion,
 storage rifiutato/corrotto, guasti e ripristino lungo, share/cancel/fallback,
 clipboard realmente riletta, file offline, tracker assente e noscript.
+
+Scontrino e nuovo flusso: `processo/attrezzi/verifica-netto-o-niente-share.cjs`
+con gli stessi argomenti del copione precedente. Evidenze e limiti in
+[`processo/verifiche/ric-62-share/`](../processo/verifiche/ric-62-share/README.md).
+PNG/download reali; verifica dell'attivazione al click, cancellazione, fallback,
+share concorrente, vecchia run, schermi corti e zero errori console.
+
+Riferimenti: [Web Share e attivazione](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share),
+[capability file](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/canShare),
+[Telegram](https://core.telegram.org/widgets/share),
+[WhatsApp](https://faq.whatsapp.com/5913398998672934),
+[X Web Intents](https://docs.x.com/x-for-websites/web-intents/overview).
 
 Nel test SEO è stata corretta l'assunzione preesistente che due vecchi
 prototipi non pubblicati debbano esistere: se presenti devono avere

@@ -6,7 +6,7 @@ Il checkout originale con modifiche in corso non è stato modificato.
 
 ## Verificato
 
-- `node --test prototipo/*.test.js`: **327 test, 327 pass, 0 fail**, 46 suite,
+- `node --test prototipo/*.test.js`: **332 test, 332 pass, 0 fail**, 46 suite,
   Node v22.22.2. Nessuno skip. Baseline: il test SEO dei vecchi prototipi falliva
   perché i due file non sono nel repository; correzione circoscritta in questa PR.
 - `node --check` per i nuovi script del gioco e il copione browser; `git diff --check`.
@@ -35,6 +35,9 @@ Il checkout originale con modifiche in corso non è stato modificato.
   larghezza estrema emerso durante la verifica dello zoom.
 
 ## Screenshot
+
+Verifica completa rieseguita dopo il nuovo finale con scontrino.
+Dettagli specifici e nuove immagini in [ric-62-share](../ric-62-share/README.md).
 
 | Stato | Evidenza |
 | --- | --- |

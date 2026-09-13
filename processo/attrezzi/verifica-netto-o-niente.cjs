@@ -202,12 +202,13 @@ async function main(){
         }}});
       },method);
       await click(share,'share');await share.waitForFunction(()=>!document.querySelector('[data-action="share"]').disabled);
+      if(method==='clipboard'||method==='manual')await click(share,'copy');
       const out=await share.evaluate(()=>({copied:window.copied,shared:window.shared,events:window.nonEvents,status:document.getElementById('non-share-status').textContent}));
       if(method==='cancel'){assert.equal(out.copied,null);assert.equal(out.status,'');assert.equal(out.events.filter(e=>e[1]==='non_share').length,0);}
       else{
         assert.equal(out.events.filter(e=>e[1]==='non_share').length,1);
         assert.equal(out.events.at(-1)[2].method,method);
-        if(method==='clipboard'){assert.equal(out.status,'Link copiato');assert.match(out.copied,/&t=0$/);}
+        if(method==='clipboard'){assert.equal(out.status,'Risultato e link copiati');assert.match(out.copied,/&t=0$/);}
         if(method==='web_share')assert.match(out.shared.url,/&t=0$/);
         if(method==='manual'){assert.equal(await share.locator('textarea:focus').count(),1);assert.doesNotMatch(out.status,/Link copiato/);}
       }
@@ -218,7 +219,7 @@ async function main(){
     // Clipboard reale, non solo API sostituita.
     const {page:clip,context:clipContext}=await setup();await clipContext.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});
     await endZero(clip);await clip.evaluate(()=>Object.defineProperty(navigator,'share',{value:undefined,configurable:true}));
-    await click(clip,'share');await clip.waitForFunction(()=>document.getElementById('non-share-status').textContent==='Link copiato');
+    await click(clip,'share');await click(clip,'copy');await clip.waitForFunction(()=>document.getElementById('non-share-status').textContent==='Risultato e link copiati');
     assert.match(await clip.evaluate(()=>navigator.clipboard.readText()),/&t=0$/);
     // Offline file://: tutte le funzioni e gli asset locali.
     const {page:offline,context:offContext}=await setup();await offContext.setOffline(true);

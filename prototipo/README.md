@@ -13,6 +13,8 @@ del 21 febbraio 2026.
 
 **Netto o niente** (`netto-o-niente.html`) è il gioco di RIC-62: confronti fra
 offerte fittizie fino al primo errore, record locale e sfide tramite link.
+Il finale genera uno scontrino PNG da condividere con un click nel menu nativo,
+con alternative testo/link per i browser senza supporto.
 Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-niente.md).
 
 | File | Che cos'è |
