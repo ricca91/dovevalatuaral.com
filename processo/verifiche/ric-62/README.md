@@ -6,7 +6,7 @@ Il checkout originale con modifiche in corso non è stato modificato.
 
 ## Verificato
 
-- `node --test prototipo/*.test.js`: **332 test, 332 pass, 0 fail**, 46 suite,
+- `npm test`: **339 test, 339 pass, 0 fail**, 46 suite (incluse API social),
   Node v22.22.2. Nessuno skip. Baseline: il test SEO dei vecchi prototipi falliva
   perché i due file non sono nel repository; correzione circoscritta in questa PR.
 - `node --check` per i nuovi script del gioco e il copione browser; `git diff --check`.
@@ -25,8 +25,8 @@ Il checkout originale con modifiche in corso non è stato modificato.
   di 105 risposte: cronologia intera conservata e successivamente ricostruita.
 - Storage bloccato/corrotto, URL incompatibili/duplicati/enormi/malevoli,
   tracker assente, `file://` offline e JavaScript disabilitato.
-- Web Share successo e cancellazione, clipboard successo/rifiuto, fallback manuale:
-  esiti API simulati in Chromium. **Clipboard verificata anche realmente**,
+- Dialog social, chiusura, clipboard successo/rifiuto, fallback manuale:
+  guasti API simulati in Chromium. **Clipboard verificata anche realmente**,
   con rilettura del testo copiato. Eventi analytics controllati nelle transizioni,
   assenti durante ripristino, senza seed, URL o dati fiscali nei payload.
 - Layout controllato visivamente e con bounding box a 375×812, 390×844,
@@ -37,7 +37,7 @@ Il checkout originale con modifiche in corso non è stato modificato.
 ## Screenshot
 
 Verifica completa rieseguita dopo il nuovo finale con scontrino.
-Dettagli specifici e nuove immagini in [ric-62-share](../ric-62-share/README.md).
+Dettagli del flusso attuale e nuove immagini in [ric-62-social](../ric-62-social/README.md).
 
 | Stato | Evidenza |
 | --- | --- |
@@ -56,9 +56,8 @@ Dettagli specifici e nuove immagini in [ric-62-share](../ric-62-share/README.md)
 ## Limiti concreti
 
 La prova browser locale usa `http://127.0.0.1:4182`; l'esito della preview viene
-riportato nella PR. Nessun deploy in produzione. Il foglio nativo di condivisione
-non è automatizzabile nell'ambiente headless: sono verificati gli esiti della sua
-API, non la UI del sistema operativo o la ricezione da parte dell'amico.
+riportato nella PR. Nessun deploy in produzione. Verificati dialog, link e
+metadati pubblici; non la pubblicazione nei social o la ricezione da parte dell'amico.
 
 La discrepanza preesistente di un centesimo fra KPI imposte e somma delle voci
 è documentata in `prototipo/netto-o-niente.md`: il gioco usa le voci riconciliate,
@@ -70,4 +69,5 @@ Usare `processo/attrezzi/verifica-netto-o-niente.cjs` con percorso a una copia
 installata di `playwright-core`, endpoint CDP di agent-browser e URL base
 facoltativo. Il copione esegue clic reali, apre il comparatore, inietta soltanto
 i guasti/fallback dichiarati e rigenera questi screenshot fuori dalla cartella
-pubblicata `prototipo/`. Nessuna dipendenza aggiunta al sito.
+pubblicata `prototipo/`. Playwright non è una dipendenza del prodotto; il nuovo
+renderer PNG server usa `@resvg/resvg-js`.

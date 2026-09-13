@@ -190,37 +190,37 @@ async function main(){
     assert.equal((await current(long)).fase,'RIVELAZIONE');
     assert.equal((await long.evaluate(()=>window.nonEvents)).length,0,'nessun evento dal replay');
     checks.push('doppio tap reale, errore tecnico recuperabile, replay a blocchi di 105 risposte senza perdita della cronologia');
-    // Share API: successo, cancellazione, clipboard, ultimo fallback.
-    for(const method of ['web_share','cancel','clipboard','manual']){
+    // Dialog social: chiusura, clipboard, ultimo fallback. Mai menu nativo.
+    for(const method of ['cancel','clipboard','manual']){
       const {page:share}=await setup();await endZero(share);
       await share.evaluate(method=>{
         window.copied=null;window.shared=null;
-        Object.defineProperty(navigator,'share',{configurable:true,value:method==='web_share'?async d=>{window.shared=d;}:
-          method==='cancel'?async()=>{throw new DOMException('cancel','AbortError');}:undefined});
+        Object.defineProperty(navigator,'share',{configurable:true,value:async d=>{window.shared=d;}});
         Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async text=>{
           if(method==='manual')throw new DOMException('denied','NotAllowedError');window.copied=text;
         }}});
       },method);
       await click(share,'share');await share.waitForFunction(()=>!document.querySelector('[data-action="share"]').disabled);
+      assert.equal(await share.locator('#non-share-dialog').evaluate(el=>el.open),true);
+      if(method==='cancel')await share.keyboard.press('Escape');
       if(method==='clipboard'||method==='manual')await click(share,'copy');
       const out=await share.evaluate(()=>({copied:window.copied,shared:window.shared,events:window.nonEvents,status:document.getElementById('non-share-status').textContent}));
       if(method==='cancel'){assert.equal(out.copied,null);assert.equal(out.status,'');assert.equal(out.events.filter(e=>e[1]==='non_share').length,0);}
       else{
         assert.equal(out.events.filter(e=>e[1]==='non_share').length,1);
         assert.equal(out.events.at(-1)[2].method,method);
-        if(method==='clipboard'){assert.equal(out.status,'Risultato e link copiati');assert.match(out.copied,/&t=0$/);}
-        if(method==='web_share')assert.match(out.shared.url,/&t=0$/);
+        if(method==='clipboard'){assert.equal(out.status,'Link copiato');assert.match(out.copied,/\/risultato\/non-v1-2026-01\/0\/0$/);}
         if(method==='manual'){assert.equal(await share.locator('textarea:focus').count(),1);assert.doesNotMatch(out.status,/Link copiato/);}
       }
-      assert.deepEqual(out.events.filter(e=>e[1]!=='non_share').map(e=>e[1]),['non_start','non_answer','non_end']);
+      assert.equal(out.shared,null);assert.deepEqual(out.events.filter(e=>!['non_share','non_share_open'].includes(e[1])).map(e=>e[1]),['non_start','non_answer','non_end']);
       for(const e of out.events)for(const k of Object.keys(e[2]))assert.ok(!['seed','url','A','B','target'].includes(k));
     }
-    checks.push('WebShare/cancel/clipboard/manuale e analytics una sola volta, senza payload privati');
+    checks.push('dialog social/cancel/clipboard/manuale e analytics una sola volta, senza payload privati');
     // Clipboard reale, non solo API sostituita.
     const {page:clip,context:clipContext}=await setup();await clipContext.grantPermissions(['clipboard-read','clipboard-write'],{origin:base});
     await endZero(clip);await clip.evaluate(()=>Object.defineProperty(navigator,'share',{value:undefined,configurable:true}));
-    await click(clip,'share');await click(clip,'copy');await clip.waitForFunction(()=>document.getElementById('non-share-status').textContent==='Risultato e link copiati');
-    assert.match(await clip.evaluate(()=>navigator.clipboard.readText()),/&t=0$/);
+    await click(clip,'share');await click(clip,'copy');await clip.waitForFunction(()=>document.getElementById('non-share-status').textContent==='Link copiato');
+    assert.match(await clip.evaluate(()=>navigator.clipboard.readText()),/\/risultato\/non-v1-2026-01\/0\/0$/);
     // Offline file://: tutte le funzioni e gli asset locali.
     const {page:offline,context:offContext}=await setup();await offContext.setOffline(true);
     await offline.goto('file://'+path.resolve(__dirname,'../../prototipo/netto-o-niente.html'));await ready(offline);

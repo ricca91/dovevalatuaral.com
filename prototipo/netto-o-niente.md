@@ -91,8 +91,12 @@ generatore. Ridimensionamento, animazioni e risposte non modificano gli input.
 - `netto-o-niente.js`: transizioni pure `creaPartita`, `rispondi`, `prossimo`,
   spiegazioni, codec sfida/record/run e replay incrementale `ripristinaRun`.
 - `netto-o-niente-share.js`: modello dello scontrino, PNG locale 1080×1350,
-  selezione del payload condivisibile e destinazioni di fallback. Non entra
+  link risultato e destinazioni social. Non entra
   nella versione delle sequenze e non modifica i fingerprint fiscali/di gioco.
+- `netto-o-niente-link.js`: contratto URL pubblico leggero, condiviso con il
+  server. Valida versione/seed/score senza caricare motore e dataset fiscale.
+- `api/risultato.js`, `api/risultato-immagine.js`, `server/risultato.js`:
+  HTML con metadati server e PNG 1200×630. Nessun database o upload.
 - `netto-o-niente-ui.js`: DOM, focus, blocco sincrono dei pulsanti, storage,
   condivisione e analytics. INTRO è gestito dal controller; DOMANDA,
   RIVELAZIONE, FINE ed ERRORE sono le fasi della run. Una risposta sbagliata
@@ -101,8 +105,11 @@ generatore. Ridimensionamento, animazioni e risposte non modificano gli input.
   font Draftsman. Animazione di rivelazione 450 ms; con reduced motion è assente.
 
 Gli script classici seguono la catena dati → geografia → motore → fonti → righe
-→ nucleo → compara → scenari → gioco → share → navigazione → UI. Dataset caricato una
-sola volta; CommonJS per i moduli puri. Nessun `package.json` o build necessaria.
+→ nucleo → compara → scenari → gioco → link → share → navigazione → UI. Dataset
+caricato una sola volta; CommonJS per i moduli puri. Il gioco resta statico.
+`package.json` e lockfile aggiungono solo il renderer server `@resvg/resvg-js`
+2.6.2; `npm ci` installa le dipendenze delle due Vercel Functions. Nessun
+framework frontend, account o servizio di storage. Font TTF locali con licenze OFL.
 
 ## Sfide, record e ripristino
 
@@ -133,46 +140,53 @@ mai il record personale. Lo scontrino è il primo elemento del finale e
 “Condividi” è la CTA principale, accanto a “Riprova”. Focus sul risultato;
 scorrimento automatico al finale, con CTA visibile anche a 375×667.
 
-Un solo formato PNG 4:5, generato via Canvas usando i font locali Draftsman.
-Immagine e `File` vengono preparati al render, **prima del click**, e riusati
-per anteprima, menu nativo e download. Nessun upload, account, dipendenza,
-servizio immagini o richiesta di rete aggiuntiva. Font pronti aggiornano
-l'immagine fuori dal gesto utente. Errori Canvas/PNG/File non bloccano la run.
+“Condividi” apre un nostro `<dialog>` con **LinkedIn, X, WhatsApp e Telegram**,
+anteprima cliccabile del risultato, “Copia link” e download verticale facoltativo.
+Non viene più invocata Web Share: nessuna dipendenza dalle app presenti nel menu
+di sistema. Focus contenuto nel dialog, chiusura con Escape/X/click sullo sfondo,
+ritorno al pulsante iniziale. Nessun invio automatico o copia all'apertura/chiusura.
+I social si aprono in un'altra scheda; l'utente conferma lì. LinkedIn riceve il
+link, senza promettere una didascalia precompilata non supportata dal suo endpoint.
 
-Nel click si chiama direttamente `navigator.share`, senza attendere font,
-encoding o rete: l'attivazione transitoria è conservata. `canShare({files})`
-e la verifica del payload completo scelgono immagine + testo contenente link;
-senza supporto file si passa a testo + URL. Il menu nativo sceglie le app
-disponibili. Nessun selettore di formato intermedio e nessun download richiesto.
+Link condiviso: `/risultato/non-v1-2026-01/<seed>/<score>`, senza fragment.
+La pagina viene renderizzata sul server con Open Graph e Twitter Card, PNG
+pubblico `/risultato-immagine/non-v1-2026-01/<seed>/<score>.png` (1200×630),
+punteggio visibile e CTA “Accetta la sfida” verso il vecchio URL di gioco con
+`#v=...&s=...&t=...`. Un click sull'immagine apre la stessa sfida. Il contenuto
+è identico per crawler e persone; nessun redirect JS o bot sniffing. Il formato
+orizzontale è una variante dello scontrino, non un semplice ritaglio del verticale.
 
-`AbortError` non copia, non scarica, non apre fallback e non emette successo.
-API assente o errore: si aprono le “Altre opzioni”, normalmente chiuse:
-WhatsApp/Telegram/X con testo/link precompilati, copia risultato e link,
-salvataggio PNG facoltativo. Nei browser nativi è disponibile anche un nuovo
-click “Condividi senza immagine”, per le app che non accettano file. Non si
-ritenta il menu automaticamente dopo un errore: l'attivazione può essere già
-consumata. Copia manuale selezionabile solo se la clipboard fallisce.
-“Risultato e link copiati” segue solo una copia riuscita. Un lock impedisce
-share concorrenti; un completamento tardivo non modifica una nuova partita.
+Produzione: canonical `www.dovevalatuaral.com`. Preview: link/PNG/CTA restano
+sull'origine preview. Il server usa `VERCEL_URL` solo con `VERCEL_ENV=preview`
+e hostname validato, mai `Host`/`X-Forwarded-Host`. API GET/HEAD, POST 405;
+versione errata, duplicati, valori fuori limite o chiavi extra danno 400/no-store.
+Template chiuso, nessun input SVG o URL remoto accettato dal renderer. Cache
+pubblica 1h client / 24h CDN. Nessuna cache applicativa illimitata per seed.
+Pagine noindex/follow ed escluse dalla sitemap, ma accessibili ai crawler social.
+Punteggi autodichiarati, senza certificazione/anti-cheat: il server non rigioca
+una serie potenzialmente enorme per validarne il punteggio.
 
-**Limiti di piattaforma:** il sito consegna il payload al sistema, non può
-scegliere o garantire le app disponibili, feed/storie, inserimento della
-didascalia o pubblicazione. Alcune app ignorano il testo quando ricevono un file:
-il dominio resta stampato sull'immagine, ma non è un link cliccabile. I fallback
-social inviano testo/link, **non allegano automaticamente il PNG**. La conferma
-finale avviene nell'app scelta; nessun accesso agli account social del giocatore.
-Metadati OG statici; punteggi locali e URL sono autodichiarati,
-senza certificazione o protezione da manipolazioni.
+Il Canvas locale resta solo per scontrino verticale/download 1080×1350. Se
+fallisce, la condivisione tramite pagina pubblica continua. Il PNG social viene
+precaricato al finale; un errore è dichiarato nel dialog. Clipboard manuale solo
+se la copia fallisce; “Link copiato” solo dopo successo. Una copia tardiva non
+modifica la nuova partita. Offline si può giocare ma non recuperare anteprime remote.
+
+**Limite:** l'immagine è l'anteprima cliccabile di un link, non un allegato foto.
+Visualizzazione, cache e ritagli dipendono dal social; metadati corretti non
+garantiscono che ogni compositore mostri immediatamente l'immagine. Nessun
+accesso ai profili e nessuna pubblicazione eseguita dai test.
 
 ## Misurazione
 
 Solo `window.gtag` già disponibile: `non_start {mode}`, `non_answer
 {round,tier,correct}`, `non_end {score,mode}`, `non_share {method}` e
 `non_open_comparison {round}`. Tier da 1 a 5; mode `free|challenge|replay`.
-Eventi emessi nelle transizioni, mai al render o reload. Share `web_share_file`, `web_share` e
-`clipboard` misurano il successo dell'API; `manual` la presentazione del testo
+Eventi emessi nelle transizioni, mai al render o reload. `non_share_open {}`
+misura l'apertura del dialog. Share `clipboard` misura il successo della copia;
+`manual` la presentazione del testo
 selezionabile, non una copia verificata. `non_share_destination {method}` misura
-solo il click su `whatsapp|telegram|x`; `non_share_download {format:'png'}`
+solo il click su `linkedin|x|whatsapp|telegram`; `non_share_download {format:'png'}`
 solo il click sul download. Nessuna misura certifica pubblicazione o consegna.
 Niente seed, URL, target, offerte o profilo fiscale nei payload espliciti.
 Tracker assente, bloccato o in errore non ferma il gioco.
@@ -180,7 +194,8 @@ Tracker assente, bloccato o in errore non ferma il gioco.
 ## Verifica e consegna
 
 ```sh
-node --test prototipo/*.test.js
+npm ci
+npm test
 node prototipo/genera-pagine-ral.js
 git diff --check
 ```
@@ -193,7 +208,7 @@ round**, più 1.000 round avanzati per il bilanciamento (35–65% per famiglia/l
 Copione browser ripetibile, con `playwright-core` esterno al prodotto:
 
 ```sh
-python3 -m http.server 4182 --bind 127.0.0.1 --directory prototipo
+npm run dev
 agent-browser --session ric62 open http://127.0.0.1:4182/netto-o-niente.html
 agent-browser --session ric62 get cdp-url
 node processo/attrezzi/verifica-netto-o-niente.cjs /percorso/playwright-core ws://indirizzo-cdp [URL-preview]
@@ -206,14 +221,14 @@ sfida in contesto separato, 101 round confrontati con Node, Compara reale, fonti
 storage rifiutato/corrotto, guasti e ripristino lungo, share/cancel/fallback,
 clipboard realmente riletta, file offline, tracker assente e noscript.
 
-Scontrino e nuovo flusso: `processo/attrezzi/verifica-netto-o-niente-share.cjs`
-con gli stessi argomenti del copione precedente. Evidenze e limiti in
-[`processo/verifiche/ric-62-share/`](../processo/verifiche/ric-62-share/README.md).
-PNG/download reali; verifica dell'attivazione al click, cancellazione, fallback,
-share concorrente, vecchia run, schermi corti e zero errori console.
+Anteprima cliccabile: `processo/attrezzi/verifica-netto-o-niente-share.cjs`
+con gli stessi argomenti e un eventuale quarto argomento per la directory screenshot.
+Evidenze e limiti in
+[`processo/verifiche/ric-62-social/`](../processo/verifiche/ric-62-social/README.md).
+PNG pubblico reale, metadati senza JavaScript, popup social intercettati senza
+pubblicare, copia/fallback, focus, schermi corti e zero errori console.
 
-Riferimenti: [Web Share e attivazione](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/share),
-[capability file](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/canShare),
+Riferimenti: [Anteprime LinkedIn](https://www.linkedin.com/help/lms/answer/a521928),
 [Telegram](https://core.telegram.org/widgets/share),
 [WhatsApp](https://faq.whatsapp.com/5913398998672934),
 [X Web Intents](https://docs.x.com/x-for-websites/web-intents/overview).
@@ -224,8 +239,8 @@ prototipi non pubblicati debbano esistere: se presenti devono avere
 sitemap. “Gioca” compare nei menu manuali, nel template e nelle 18 pagine
 generate; `PUBLIC_PAGES` e test SEO preservano la canonical a ogni rigenerazione.
 
-Limiti delle prove: Web Share verificata simulando gli esiti dell'API nel browser;
-il foglio nativo dipende da browser e sistema operativo. Clipboard verificata
-anche realmente in Chromium. Nessuna certificazione normativa o verifica della
-consegna al destinatario. La PR offre una preview, senza deploy automatico in
-produzione; il link condiviso canonico diventa giocabile pubblicamente dopo il merge.
+Limiti delle prove: richieste HTTP con user-agent social non equivalgono a un
+crawl reale del social. Nessuna pubblicazione o consegna al destinatario verificata.
+Clipboard verificata anche realmente in Chromium. Nessuna certificazione normativa.
+La PR offre una preview: i suoi link restano sulla preview, quelli di produzione
+usano il dominio canonical. Nessun merge o deploy di produzione eseguito.

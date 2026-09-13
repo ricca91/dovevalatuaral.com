@@ -8,7 +8,9 @@
   const euro=C.fmtEuro,num=n=>new Intl.NumberFormat('it-IT').format(n);
   let stato=null,sfida=null,best=null,recordInRun=false,epoch=0,replayDaRecuperare=false;
   let memoriaRun=null,localOk=true,sessionOk=true,corrotto=false;
-  let scontrino=null,shareInCorso=false;
+  let scontrino=null;
+  const shareOrigin=location.protocol==='file:'?NON_LINK.CANONICAL:location.origin;
+  const datiRisultato=()=>H.risultato(stato,shareOrigin);
   function avvisoStorage(){
     const el=document.getElementById('non-storage');
     const messaggi=[];
@@ -111,6 +113,7 @@
     return`<p class="non-target">${stato.mode==='replay'?'Rivincita · ':''}Il tuo amico ha fatto ${num(t)}. ${msg}</p>`;
   }
   function risultato(){
+    const dati=datiRisultato();
     return`<section class="non-result" aria-labelledby="non-result-title">
       <div class="non-receipt" id="non-receipt"></div>
       <div class="non-result-copy"><p class="non-eyebrow">[ PARTITA CHIUSA. SFIDA APERTA. ]</p>
@@ -118,24 +121,30 @@
         ${recordInRun?'<p class="non-badge">Nuovo record personale!</p>':''}
         <p>Il tuo risultato è pronto da condividere.</p>
         <div class="non-result-actions">${bottone('share','Condividi')}${bottone('new','Riprova',true)}</div>
-        <p class="non-share-hint" id="non-share-hint">Scegli l’app e completa la pubblicazione.</p>
-        <details class="non-share-options" id="non-share-options"><summary>Altre opzioni</summary>
-          <p>Condividi testo e link, oppure salva lo scontrino.</p>
-          <div class="non-actions">${H.destinazioni(H.risultato(stato)).map(d=>`<a class="non-button non-button--secondary" href="${esc(d.url)}" target="_blank" rel="noopener noreferrer" data-share-destination="${d.method}">${d.nome}</a>`).join('')}
-          ${bottone('copy','Copia risultato e link',true)}
-          ${typeof navigator.share==='function'?bottone('share-link','Condividi senza immagine',true):''}
-          <a id="non-save-receipt" class="non-button non-button--secondary" hidden>Salva immagine</a></div>
-        </details>
-        <div id="non-share-status" class="non-share-status" role="status"></div>
+        <p class="non-share-hint" id="non-share-hint">LinkedIn, X, WhatsApp e Telegram.</p>
       </div>
-    </section>`;
+    </section>
+    <dialog id="non-share-dialog" class="non-share-dialog" aria-labelledby="non-share-title" aria-describedby="non-share-description">
+      <div class="non-dialog-heading"><h2 id="non-share-title">Condividi il risultato</h2>
+        <button class="non-dialog-close" type="button" data-action="close-share" aria-label="Chiudi condivisione" autofocus>×</button></div>
+      <p id="non-share-description">Scegli dove pubblicarlo. Il link porta alla tua sfida, con lo scontrino in anteprima.</p>
+      <a class="non-social-preview" href="${esc(dati.url)}" target="_blank" rel="noopener noreferrer" aria-label="Apri l’anteprima del tuo risultato">
+        <img id="non-og-preview" alt="${esc(dati.alt)}" width="1200" height="630">
+        <span><strong>${esc(dati.score)} di fila. ${esc(dati.invito)}</strong><small>dovevalatuaral.com</small></span>
+      </a>
+      <p id="non-preview-status" class="non-share-hint" role="status" hidden></p>
+      <div class="non-social-buttons">${H.destinazioni(dati).map(d=>`<a class="non-button non-button--secondary" href="${esc(d.url)}" target="_blank" rel="noopener noreferrer" data-share-destination="${d.method}">${d.nome}<span aria-hidden="true">↗</span></a>`).join('')}</div>
+      <div class="non-dialog-extras">${bottone('copy','Copia link',true)}<a id="non-save-receipt" class="non-download-link" hidden>Salva immagine</a></div>
+      <p class="non-share-hint">Confermi il post nel social scelto. L’anteprima può richiedere qualche secondo; aspetto e ritaglio dipendono dal social.</p>
+      <div id="non-share-status" class="non-share-status" role="status"></div>
+    </dialog>`;
   }
   function preparaScontrino(){
-    if(!stato||stato.fase!=='FINE'||shareInCorso)return;
+    if(!stato||stato.fase!=='FINE')return;
     const box=document.getElementById('non-receipt');if(!box)return;
-    scontrino=H.risultato(stato);
+    scontrino=datiRisultato();
     try{
-      scontrino=H.prepara(stato);
+      scontrino=H.prepara(stato,shareOrigin);
       const img=document.createElement('img');img.src=scontrino.src;img.alt=scontrino.alt;
       img.width=1080;img.height=1350;box.replaceChildren(img);
       const salva=document.getElementById('non-save-receipt');
@@ -172,6 +181,22 @@
         <a class="non-button non-button--secondary" data-comparison href="compara.html#${esc(C.codificaStato({A:r.A,B:r.B}))}" target="_blank" rel="noopener noreferrer">Apri questo confronto ↗</a></div>
       </section>${dettagli()}`:''}`;
     if(end)preparaScontrino();
+    if(end){
+      const img=document.getElementById('non-og-preview'),status=document.getElementById('non-preview-status');
+      img.addEventListener('error',()=>{img.hidden=true;status.hidden=false;status.textContent='Anteprima immagine non caricata. Puoi aprire il risultato per riprovare.';});
+      img.addEventListener('load',()=>{img.hidden=false;status.hidden=true;});
+      img.src=datiRisultato().immagine;
+      const dialog=document.getElementById('non-share-dialog');
+      dialog.addEventListener('close',()=>focusShare());
+      dialog.addEventListener('keydown',e=>{
+        if(e.key!=='Tab')return;
+        const controls=[...dialog.querySelectorAll('a[href],button:not(:disabled),textarea')].filter(el=>el.getClientRects().length);
+        const first=controls[0],last=controls.at(-1);
+        if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+        else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+      });
+      dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialog.close();}});
+    }
     if(spostaFocus){
       live.textContent=reveal?`${titolo} ${spiegazione.frase}`:`Confronto ${stato.indice}. ${S.LIVELLI[r.livello].nome}.`;
       focus(end?'non-result-title':reveal?'non-feedback-title':'non-question');
@@ -179,47 +204,31 @@
     }
   }
   function avvia(mode){
-    epoch++;recordInRun=false;replayDaRecuperare=false;scontrino=null;shareInCorso=false;
+    epoch++;recordInRun=false;replayDaRecuperare=false;scontrino=null;
     const seed=sfida?sfida.seed:seedNuovo(),target=sfida?sfida.target:null;
     stato=N.creaPartita({seed,target,mode});salva();render(true);
     if(stato.fase==='DOMANDA')evento('non_start',{mode});
   }
   function nuova(){sfida=null;history.replaceState(null,'',location.pathname+location.search);avvia('free');}
   function esitoShare(messaggio){const el=document.getElementById('non-share-status');if(el)el.textContent=messaggio;}
-  function alternative(messaggio){
-    const el=document.getElementById('non-share-options');if(!el)return;
-    el.open=true;el.querySelector('summary').focus();
-    esitoShare(messaggio);
-  }
-  async function condividi(button,soloLink=false){
-    if(!stato||stato.fase!=='FINE'||shareInCorso)return;
-    const turno=epoch,dati=scontrino||H.risultato(stato);
-    const payload=H.payload(soloLink?{...dati,file:null}:dati,navigator);
-    button.disabled=true;shareInCorso=true;esitoShare('');
-    try{
-      if(typeof navigator.share==='function'){
-        try{
-          // Il file è già pronto: chiamata nativa direttamente nel gesto utente.
-          await navigator.share(payload);
-          if(turno===epoch){evento('non_share',{method:payload.files?'web_share_file':'web_share'});esitoShare('Puoi completare la condivisione nell’app scelta.');}return;
-        }catch(e){if(e.name==='AbortError')return;}
-      }
-      if(turno!==epoch)return;
-      alternative('Scegli dove condividere il risultato. Questi pulsanti inviano testo e link.');
-    }finally{if(turno===epoch){button.disabled=false;shareInCorso=false;}}
+  function focusShare(){const b=mount.querySelector('[data-action="share"]');if(b)b.focus();}
+  function condividi(){
+    if(!stato||stato.fase!=='FINE')return;
+    const dialog=document.getElementById('non-share-dialog');if(dialog.open)return;
+    esitoShare('');dialog.showModal();evento('non_share_open',{});
   }
   async function copia(button){
     if(!stato||stato.fase!=='FINE')return;
-    const turno=epoch,{testo}=scontrino||H.risultato(stato);button.disabled=true;
+    const turno=epoch,{url}=scontrino||datiRisultato();button.disabled=true;
     try{
       if(navigator.clipboard&&typeof navigator.clipboard.writeText==='function'){
-        try{await navigator.clipboard.writeText(testo);if(turno===epoch){evento('non_share',{method:'clipboard'});esitoShare('Risultato e link copiati');}return;}catch(_){/* fallback manuale */}
+        try{await navigator.clipboard.writeText(url);if(turno===epoch){evento('non_share',{method:'clipboard'});esitoShare('Link copiato');}return;}catch(_){/* fallback manuale */}
       }
       if(turno!==epoch)return;
       const el=document.getElementById('non-share-status');
-      el.textContent='La copia automatica non è disponibile. Puoi copiare questo testo:';
-      const label=document.createElement('label');label.textContent='Testo e link della sfida';
-      const field=document.createElement('textarea');field.className='non-share-field';field.readOnly=true;field.value=testo;
+      el.textContent='La copia automatica non è disponibile. Puoi copiare questo link:';
+      const label=document.createElement('label');label.textContent='Link della sfida con anteprima';
+      const field=document.createElement('textarea');field.className='non-share-field';field.readOnly=true;field.value=url;
       label.append(field);el.append(label);field.focus();field.select();evento('non_share',{method:'manual'});
     }finally{if(turno===epoch)button.disabled=false;}
   }
@@ -236,8 +245,8 @@
     const action=button.dataset.action;
     if(action==='start'){avvia(sfida?'challenge':'free');return;}
     if(action==='new'){nuova();return;}
-    if(action==='share'){void condividi(button);return;}
-    if(action==='share-link'){void condividi(button,true);return;}
+    if(action==='share'){condividi();return;}
+    if(action==='close-share'){document.getElementById('non-share-dialog').close();return;}
     if(action==='copy'){void copia(button);return;}
     if(action==='replay'){sfida={seed:stato.seed,target:stato.target};avvia('replay');return;}
     if(action==='recover'){
@@ -258,7 +267,7 @@
     }
   });
   async function ingresso(){
-    const turno=++epoch;stato=null;recordInRun=false;replayDaRecuperare=false;scontrino=null;shareInCorso=false;
+    const turno=++epoch;stato=null;recordInRun=false;replayDaRecuperare=false;scontrino=null;
     const parsed=N.decodificaSfida(location.hash);
     if(!parsed.ok){sfida=null;errore(parsed.errore);return;}
     sfida=parsed.sfida;

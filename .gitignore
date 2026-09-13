@@ -7,3 +7,5 @@ base.json
 # Il render a pagina intera di la-storia.html, usato solo per rileggere
 # l'impaginazione senza aprire un browser. Si rigenera, pesa quasi un mega.
 la-storia-anteprima.jpg
+node_modules/
+.vercel/

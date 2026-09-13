@@ -1,5 +1,12 @@
 {
   "outputDirectory": "prototipo",
+  "functions": {
+    "api/risultato-immagine.js": { "includeFiles": "server/fonts/**", "maxDuration": 10 }
+  },
+  "rewrites": [
+    { "source": "/risultato/:v/:s/:t", "destination": "/api/risultato?v=:v&s=:s&t=:t" },
+    { "source": "/risultato-immagine/:v/:s/:t.png", "destination": "/api/risultato-immagine?v=:v&s=:s&t=:t" }
+  ],
   "redirects": [
     {
       "source": "/:path*",

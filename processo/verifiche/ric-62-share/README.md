@@ -1,5 +1,8 @@
 # RIC-62 — Scontrino e condivisione rapida
 
+> Resoconto storico della prima iterazione. Il menu nativo è stato sostituito
+> dal selettore social con anteprima cliccabile: [verifica attuale](../ric-62-social/README.md).
+
 13 settembre 2026. Follow-up richiesto da Riccardo: proposta 1, minimizzando
 i passaggi fra risultato e pubblicazione. Aggiornamento della PR #54, nessun
 merge o deploy di produzione. Checkout originale sporco lasciato intatto.

@@ -1,10 +1,10 @@
-/* node processo/attrezzi/verifica-netto-o-niente-share.cjs <playwright-core> <cdp> [base-url]
- * Native OS/social sheet mocked; image generation, downloads, clicks and DOM are real. */
+/* node processo/attrezzi/verifica-netto-o-niente-share.cjs <playwright-core> <cdp> [base-url] [output-dir]
+ * Sito/PNG/metadata reali; non pubblica sui social e non simula l'esito dei crawler reali. */
 const {chromium}=require(process.argv[2]);
 const assert=require('node:assert/strict'),path=require('node:path'),fs=require('node:fs');
-const N=require('../../prototipo/netto-o-niente.js');
+const N=require('../../prototipo/netto-o-niente.js'),L=require('../../prototipo/netto-o-niente-link.js');
 const base=process.argv[4]||'http://127.0.0.1:4182';
-const out=path.resolve(__dirname,'../verifiche/ric-62-share');
+const out=process.argv[5]||path.resolve(__dirname,'../verifiche/ric-62-social');
 const runKey='non:run:'+N.VERSIONE;
 function conclusa(score){
   let s=N.creaPartita({seed:123456789});
@@ -14,116 +14,94 @@ function conclusa(score){
 async function main(){
   fs.mkdirSync(out,{recursive:true});
   const browser=await chromium.connectOverCDP(process.argv[3]),contexts=[],errors=[],checks=[];
-  async function setup(score=12,width=390,mode='file'){
+  async function setup(score=12,width=390,mode='normal'){
     const context=await browser.newContext({viewport:{width,height:844},reducedMotion:'reduce'});contexts.push(context);
     await context.route('**/analytics.js',r=>r.fulfill({contentType:'application/javascript',body:''}));
     await context.addInitScript(({raw,key,mode})=>{
       sessionStorage.setItem(key,raw);localStorage.setItem('non:best:non-v1-2026-01','999');
-      window.events=[];window.calls=[];window.copies=[];
-      window.gtag=(...args)=>window.events.push(args);
-      Object.defineProperty(navigator,'canShare',{configurable:true,value:d=>mode!=='text'&&!!d.files});
-      Object.defineProperty(navigator,'share',{configurable:true,value:mode==='absent'?undefined:d=>{
-        window.calls.push({data:d,active:navigator.userActivation.isActive});
-        if(mode==='cancel')return Promise.reject(new DOMException('cancel','AbortError'));
-        if(mode==='error')return Promise.reject(new DOMException('blocked','NotAllowedError'));
-        if(mode==='pending')return new Promise(resolve=>window.finishShare=resolve);
-        return Promise.resolve();
-      }});
+      window.events=[];window.calls=[];window.copies=[];window.gtag=(...args)=>window.events.push(args);
+      Object.defineProperty(navigator,'share',{configurable:true,value:d=>{window.calls.push(d);throw Error('Menu nativo vietato');}});
       if(mode==='canvas-error')HTMLCanvasElement.prototype.getContext=()=>null;
-      if(mode==='png-error')HTMLCanvasElement.prototype.toDataURL=()=>{throw Error('no encoding');};
-      if(mode==='no-file')Object.defineProperty(window,'File',{value:undefined});
-      Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:async t=>window.copies.push(t)}});
+      Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:t=>{
+        if(mode==='denied')return Promise.reject(Error('denied'));
+        if(mode==='pending')return new Promise(resolve=>window.finishCopy=resolve);
+        window.copies.push(t);return Promise.resolve();
+      }}});
     },{raw:N.salvaRun(conclusa(score)),key:runKey,mode});
     const page=await context.newPage();page.on('pageerror',e=>errors.push(e.message));
     page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
-    await page.goto(base+'/netto-o-niente.html');
-    await page.waitForFunction(()=>document.getElementById('non-mount').getAttribute('aria-busy')==='false');
-    await page.evaluate(()=>document.fonts.ready);
+    await page.goto(base+'/netto-o-niente.html');await page.waitForSelector('[data-action="share"]');await page.evaluate(()=>document.fonts.ready);
+    await page.waitForFunction(()=>{const i=document.getElementById('non-og-preview');return i.complete&&i.naturalWidth===1200;});
     return{page,context};
   }
   const click=(p,a)=>p.locator(`[data-action="${a}"]`).click();
-  const checkFits=async p=>{
+  const fits=async p=>{
     assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=document.documentElement.clientWidth));
-    assert.deepEqual(await p.locator('.non-result button,.non-result img').evaluateAll(els=>els.filter(el=>{
-      const r=el.getBoundingClientRect();return r.width>0&&(r.left<0||r.right>innerWidth+1);
+    assert.deepEqual(await p.locator('dialog[open] a,dialog[open] button').evaluateAll(els=>els.filter(el=>{
+      const r=el.getBoundingClientRect();return r.width>0&&(r.left<0||r.right>innerWidth+1||r.height<44);
     }).map(e=>e.outerHTML)),[]);
   };
   try{
-    const {page}=await setup();await checkFits(page);
-    assert.equal(await page.locator('[data-action="share"]').textContent(),'Condividi');
-    assert.equal(await page.locator('#non-share-options').getAttribute('open'),null);
-    assert.match(await page.locator('#non-receipt img').getAttribute('alt'),/12 risposte/);
-    await page.screenshot({path:path.join(out,'risultato-mobile.png'),fullPage:true});
-    await click(page,'share');
-    const data=await page.evaluate(async()=>{
-      const {data:d,active}=window.calls[0],f=d.files[0],bytes=new Uint8Array(await f.arrayBuffer());
-      const bitmap=await createImageBitmap(f);
-      return{active,name:f.name,type:f.type,size:f.size,signature:[...bytes.slice(0,8)],width:bitmap.width,height:bitmap.height,text:d.text,
-        calls:window.calls.length,events:window.events,copies:window.copies,preview:document.querySelector('#non-receipt img').src};
-    });
-    assert.equal(data.active,true,'share riceve attivazione del click');assert.equal(data.calls,1);
-    assert.equal(data.name,'netto-o-niente-12.png');assert.equal(data.type,'image/png');
-    assert.deepEqual(data.signature,[137,80,78,71,13,10,26,10]);assert.equal(data.width,1080);assert.equal(data.height,1350);
-    assert.ok(data.size>10000&&data.size<1000000);assert.ok(data.text.endsWith('&t=12'));assert.deepEqual(data.copies,[]);
-    assert.deepEqual(data.events.map(e=>[e[1],e[2]]),[['non_share',{method:'web_share_file'}]]);
-    fs.writeFileSync(path.join(out,'scontrino-12.png'),Buffer.from(data.preview.split(',')[1],'base64'));
-    await page.reload();await page.waitForSelector('#non-receipt img');
-    assert.equal(await page.locator('#non-receipt img').getAttribute('src'),data.preview,'stesso risultato dopo reload');
-    checks.push('PNG reale 1080×1350, score run e link, file pronto nel click con attivazione, reload stabile e nessun upload');
-    // Download reale riusa lo stesso PNG, non rigenera o carica dati altrove.
-    await page.locator('#non-share-options summary').click();
-    const [download]=await Promise.all([page.waitForEvent('download'),page.locator('#non-save-receipt').click()]);
-    assert.equal(download.suggestedFilename(),'netto-o-niente-12.png');
-    assert.deepEqual(fs.readFileSync(await download.path()),Buffer.from(data.preview.split(',')[1],'base64'));
-    checks.push('download opzionale reale e byte identici all’immagine condivisa');
-    for(const mode of ['text','cancel','error','absent','canvas-error','png-error','no-file']){
-      const {page:p}=await setup(0,375,mode);await click(p,'share');
-      await p.waitForFunction(()=>!document.querySelector('[data-action="share"]').disabled);
-      const result=await p.evaluate(()=>({calls:window.calls.map(x=>({file:!!x.data.files,url:x.data.url,active:x.active})),copies:window.copies,events:window.events,status:document.getElementById('non-share-status').textContent,open:document.getElementById('non-share-options').open}));
-      assert.deepEqual(result.copies,[]);
-      if(mode==='cancel'){assert.equal(result.status,'');assert.equal(result.open,false);assert.deepEqual(result.events,[]);}
-      else if(mode==='absent'||mode==='error'){
-        assert.equal(result.open,true);assert.deepEqual(result.events,[]);await click(p,'copy');
-        assert.equal(await p.locator('#non-share-status').textContent(),'Risultato e link copiati');
-        assert.match(await p.evaluate(()=>window.copies[0]),/&t=0$/);
-        if(mode==='absent')await p.screenshot({path:path.join(out,'alternative-mobile.png'),fullPage:true});
-      }else{assert.equal(result.calls[0].file,false);assert.match(result.calls[0].url,/&t=0$/);assert.equal(result.calls[0].active,true);}
-      await checkFits(p);
+    const {page,context}=await setup();await click(page,'share');
+    assert.equal(await page.locator('#non-share-dialog').evaluate(d=>d.open),true);
+    assert.deepEqual(await page.locator('[data-share-destination]').evaluateAll(els=>els.map(e=>e.dataset.shareDestination)),['linkedin','x','whatsapp','telegram']);
+    await fits(page);await page.screenshot({path:path.join(out,'finestra-mobile.png')});
+    const links=L.crea({seed:123456789,score:12},base);
+    assert.equal(await page.locator('.non-social-preview').getAttribute('href'),links.url);
+    assert.equal(await page.locator('#non-og-preview').getAttribute('src'),links.immagine);
+    assert.equal(await page.evaluate(()=>window.calls.length),0);
+    await click(page,'copy');assert.equal(await page.evaluate(()=>window.copies[0]),links.url);
+    assert.equal(await page.locator('#non-share-status').textContent(),'Link copiato');
+    // Popup reali, destinazioni intercettate: nessuna pubblicazione esterna.
+    for(const method of ['linkedin','x','whatsapp','telegram']){
+      const a=page.locator(`[data-share-destination="${method}"]`),url=await a.getAttribute('href'),parsed=new URL(url);
+      if(method==='whatsapp')assert.ok(parsed.searchParams.get('text').endsWith(links.url));else assert.equal(parsed.searchParams.get('url'),links.url);
+      await context.route(url,r=>r.fulfill({contentType:'text/html',body:'Destinazione social intercettata: nessuna pubblicazione.'}));
+      const [popup]=await Promise.all([page.waitForEvent('popup'),a.click()]);await popup.waitForLoadState();assert.equal(popup.url(),url);await popup.close();
     }
-    checks.push('testo senza file, cancel senza effetti collaterali, errore nativo, API assente, canvas/PNG/File indisponibili');
-    const {page:pending}=await setup(1,390,'pending');await click(pending,'share');
-    // Tentativo di share concorrente + nuova run mentre il sistema è aperto.
-    await pending.locator('#non-share-options summary').click();await click(pending,'share-link');
-    assert.equal(await pending.evaluate(()=>window.calls.length),1);
-    await click(pending,'new');await pending.evaluate(()=>window.finishShare());
-    assert.equal(await pending.locator('.non-result').count(),0);
-    assert.deepEqual(await pending.evaluate(()=>window.events.filter(e=>e[1]==='non_share')),[]);
-    checks.push('condivisione concorrente bloccata e completamento vecchia run ignorato');
-    const {page:double}=await setup(1,390,'pending');await double.locator('[data-action="share"]').dblclick();
-    assert.equal(await double.evaluate(()=>window.calls.length),1);await double.evaluate(()=>window.finishShare());
-    const {page:desktop}=await setup(12,1440);await desktop.screenshot({path:path.join(out,'risultato-desktop.png'),fullPage:true});
-    for(const width of [375,390,1440]){await desktop.setViewportSize({width,height:844});await checkFits(desktop);}
-    await desktop.setViewportSize({width:375,height:844});await desktop.evaluate(()=>document.body.style.zoom='2');await checkFits(desktop);
-    await desktop.screenshot({path:path.join(out,'risultato-zoom-200.png'),fullPage:true});
-    const {page:zero}=await setup(0);await zero.screenshot({path:path.join(out,'risultato-zero.png'),fullPage:true});
-    // Schermo corto e percorso reale: la CTA non richiede scroll dopo la sconfitta.
-    await zero.setViewportSize({width:375,height:667});await click(zero,'new');
-    const winner=await zero.evaluate(()=>{
-      const raw=NON.leggiRun(sessionStorage.getItem('non:run:'+NON.VERSIONE));
-      return NON.creaPartita(raw).round.vincitore;
-    });
-    await click(zero,winner==='A'?'B':'A');
-    assert.equal(await zero.evaluate(()=>document.activeElement.id),'non-result-title');
-    const rect=await zero.locator('[data-action="share"]').boundingBox();
-    assert.ok(rect.y>=64&&rect.y+rect.height<=667,'Condividi visibile senza scroll anche a 375×667');
-    await zero.screenshot({path:path.join(out,'risultato-schermo-corto.png')});
-    // Sequenza del link ricevuto in un contesto pulito.
+    assert.equal(await page.evaluate(()=>window.events.filter(e=>e[1]==='non_share_destination').length),4);
+    await page.bringToFront();await page.locator('[data-action="close-share"]').focus();
+    for(let n=0;n<15;n++){await page.keyboard.press('Tab');assert.ok(await page.evaluate(()=>!!document.activeElement.closest('dialog')));}
+    await page.keyboard.press('Escape');assert.equal(await page.locator('#non-share-dialog').evaluate(d=>d.open),false);
+    assert.equal(await page.evaluate(()=>document.activeElement.dataset.action),'share');
+    await page.locator('[data-action="share"]').dblclick();assert.equal(await page.locator('dialog[open]').count(),1);
+    await click(page,'close-share');assert.equal(await page.evaluate(()=>document.activeElement.dataset.action),'share');
+    checks.push('dialog nostro, 4 social, popup intercettati senza post, copia, Tab/Escape/focus/doppio click');
+    for(const ua of ['LinkedInBot/1.0','Twitterbot/1.0','WhatsApp/2.0']){
+      const r=await context.request.get(links.url,{headers:{'User-Agent':ua}});assert.equal(r.status(),200);
+      const html=await r.text();for(const tag of ['og:title','og:description','og:url','og:image','twitter:card'])assert.ok(html.includes(tag));
+      assert.ok(html.includes(links.immagine));assert.ok(html.includes('summary_large_image'));assert.ok(html.includes('noindex,follow'));
+    }
+    const png=await context.request.get(links.immagine);assert.equal(png.status(),200);assert.match(png.headers()['content-type'],/image\/png/);
+    const bytes=await png.body();assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
+    assert.equal(bytes.readUInt32BE(16),1200);assert.equal(bytes.readUInt32BE(20),630);assert.ok(bytes.length<1000000);
+    fs.writeFileSync(path.join(out,'anteprima-social-12.png'),bytes);
+    const nojs=await browser.newContext({javaScriptEnabled:false,viewport:{width:390,height:844}});contexts.push(nojs);
+    const landing=await nojs.newPage();await landing.goto(links.url);assert.match(await landing.locator('h1').textContent(),/12 di fila/);
+    assert.equal(await landing.locator('img').evaluate(i=>i.complete&&i.naturalWidth),1200);
+    assert.equal(await landing.getByRole('link',{name:'Accetta la sfida',exact:true}).getAttribute('href'),links.gioco);
+    await landing.screenshot({path:path.join(out,'risultato-pubblico-mobile.png'),fullPage:true});
     const recipient=await browser.newContext();contexts.push(recipient);await recipient.route('**/analytics.js',r=>r.fulfill({body:''}));
-    const rp=await recipient.newPage();await rp.goto(base+'/netto-o-niente.html#'+data.text.split('#')[1]);
-    await rp.waitForSelector('[data-action="start"]');assert.match(await rp.locator('.non-target').textContent(),/ha fatto 12/);
-    await click(rp,'start');assert.equal(await rp.locator('.non-ral').first().textContent(),new Intl.NumberFormat('it-IT').format(Number(N.creaPartita({seed:123456789}).round.A.ralRaw))+' €');
-    checks.push('doppio tap, mobile 375/390, desktop 1440, zoom 200%, score zero e sfida ricevuta in altro contesto');
-    assert.deepEqual(errors,[]);console.log(JSON.stringify({ok:true,base,checks,errors},null,2));
+    const rp=await recipient.newPage();await rp.goto(links.url);await rp.getByRole('link',{name:'Accetta la sfida',exact:true}).click();
+    await rp.waitForSelector('[data-action="start"]');assert.match(await rp.locator('.non-target').textContent(),/ha fatto 12/);await click(rp,'start');
+    assert.equal(await rp.locator('.non-ral').first().textContent(),new Intl.NumberFormat('it-IT').format(Number(N.creaPartita({seed:123456789}).round.A.ralRaw))+' €');
+    checks.push('HTML OG/Twitter con user-agent bot, PNG 1200×630, landing senza JS e sfida identica in contesto pulito');
+    for(const suffix of ['?x=1','?s=0'])assert.equal((await context.request.get(links.url+suffix)).status(),400);
+    for(const q of ['v=bad&s=0&t=0',`v=${N.VERSIONE}&s=0&s=1&t=0`,`v=${N.VERSIONE}&s=0&t=%3Cscript%3E`])assert.equal((await context.request.get(base+'/api/risultato?'+q)).status(),400);
+    assert.equal((await context.request.post(links.url)).status(),405);assert.equal((await context.request.head(links.immagine)).status(),200);
+    checks.push('malformati/duplicati/chiavi aggiuntive rifiutati, POST 405, HEAD 200');
+    for(const mode of ['denied','canvas-error','pending']){
+      const {page:p}=await setup(0,375,mode);await click(p,'share');if(mode==='canvas-error')assert.equal(await p.locator('#non-save-receipt').isVisible(),false);
+      await click(p,'copy');if(mode==='denied')assert.equal(await p.locator('textarea:focus').inputValue(),L.crea({seed:123456789,score:0},base).url);
+      if(mode==='pending'){await click(p,'close-share');await click(p,'new');await p.evaluate(()=>window.finishCopy());assert.equal(await p.locator('dialog').count(),0);assert.equal(await p.evaluate(()=>window.events.filter(e=>e[1]==='non_share').length),0);}
+    }
+    for(const [width,height] of [[375,667],[390,844],[1440,900]]){
+      await page.setViewportSize({width,height});await click(page,'share');await fits(page);await page.screenshot({path:path.join(out,`finestra-${width}.png`)});await click(page,'close-share');
+    }
+    await page.setViewportSize({width:375,height:667});await page.evaluate(()=>document.body.style.zoom='2');await click(page,'share');await fits(page);await page.screenshot({path:path.join(out,'finestra-zoom-200.png')});
+    const events=await page.evaluate(()=>window.events);for(const e of events)for(const k of Object.keys(e[2]))assert.ok(!['seed','url','A','B','target'].includes(k));
+    assert.deepEqual(errors,[]);checks.push('canvas indisponibile, clipboard rifiutata/tardiva, zero, 375/390/1440, zoom 200%, zero errori console');
+    console.log(JSON.stringify({ok:true,base,checks,errors},null,2));
   }finally{for(const c of contexts)await c.close();await browser.close();}
 }
 main().catch(e=>{console.error(e);process.exitCode=1;});
