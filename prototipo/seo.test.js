@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const { readFileSync } = require('node:fs');
+const { readFileSync, existsSync } = require('node:fs');
 const { test } = require('node:test');
 const { resolve } = require('node:path');
 
@@ -13,6 +13,7 @@ const publicPages = [
   ['compara.html', `${canonicalOrigin}/compara.html`],
   ['netto-ral.html', `${canonicalOrigin}/netto-ral.html`],
   ['ccnl-livello.html', `${canonicalOrigin}/ccnl-livello.html`],
+  ['netto-o-niente.html', `${canonicalOrigin}/netto-o-niente.html`],
   ['confronti-ral/index.html', `${canonicalOrigin}/confronti-ral/`],
   ...Array.from({ length: 17 }, (_, index) => {
     const ral = 20000 + index * 5000;
@@ -82,7 +83,19 @@ test('sitemap contiene esattamente le pagine pubbliche self-canonical', () => {
 
 test('i prototipi restano esclusi dall’indicizzazione', () => {
   for (const file of ['prototype-famiglia-pacchetto.html', 'prototype-ral-feedback.html']) {
+    assert.ok(!publicPages.some(([page]) => page === file));
+    assert.ok(!readPublic('sitemap.xml').includes(file));
+    if (!existsSync(resolve(publicDir, file))) continue;
     assert.match(readPublic(file), /<meta\s+name="robots"\s+content="noindex, nofollow"\s*\/?>/i);
+  }
+});
+
+test('Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco', () => {
+  for (const [file] of publicPages) {
+    const nav = oneMatch(readPublic(file), /<nav[^>]*id="site-nav"[^>]*>([\s\S]*?)<\/nav>/g, `${file}: navigazione`);
+    const prefix = file.includes('/') ? '../' : '';
+    assert.ok(nav.includes(`href="${prefix}netto-o-niente.html"`), file);
+    if (file === 'netto-o-niente.html') assert.match(nav, /href="netto-o-niente.html" aria-current="page">Gioca/);
   }
 });
 
