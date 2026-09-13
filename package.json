@@ -1,0 +1,10 @@
+{
+  "name": "dovevalatuaral",
+  "private": true,
+  "scripts": {
+    "test": "node --test prototipo/*.test.js server/*.test.js",
+    "dev": "node processo/attrezzi/server-preview.cjs"
+  },
+  "engines": { "node": "22.x" },
+  "dependencies": { "@resvg/resvg-js": "2.6.2" }
+}

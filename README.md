@@ -3,6 +3,9 @@
 **Dove va la tua RAL**: da una RAL stima il netto annuale e mensile e mostra, voce per voce,
 contributi e imposte trattenuti. Regole 2026, lavoro dipendente privato.
 
+Il progetto include **Netto o niente**, un browser game con offerte fittizie,
+serie fino al primo errore, record e sfide fra amici. [Documentazione del gioco](prototipo/netto-o-niente.md).
+
 **[Apri il calcolatore](https://jethr.riccsartori.com)** ·
 **[La storia, con i numeri e i commenti](https://jethr.riccsartori.com/la-storia.html)**
 

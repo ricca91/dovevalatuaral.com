@@ -11,6 +11,7 @@ const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/compara.html`,
   `${ORIGIN}/netto-ral.html`,
   `${ORIGIN}/ccnl-livello.html`,
+  `${ORIGIN}/netto-o-niente.html`,
   `${ORIGIN}/confronti-ral/`,
 ]);
 

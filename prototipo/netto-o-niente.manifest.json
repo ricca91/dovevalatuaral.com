@@ -1,0 +1,138 @@
+{
+  "versione": "non-v1-2026-01",
+  "baseCommit": "d1b9245a052b6c30627a0172db6396fef84568df",
+  "sources": {
+    "motore.js": "3cc100adf05dadc57611697db8d9e52f474c22c787b411c088d6a753176dfa1c",
+    "compara.js": "c4ce4a149fa912fd7c1d536497a7f167fe808fe353912be301126bb9f0eab269",
+    "geografia.js": "9f701482479f5a089ca32e666245078a5650c95a5efdc9cf7b24283ead7df053",
+    "nucleo.js": "0b64f763cf7ff0c5f0d4f7213025d9bcbc4dd1cefddd5823da28cd229218af9e",
+    "dati-addizionali-2026.js": "33011a349b4d95b4deef1795ef9a25f9bb2791f86ed3be93f46845baa537c001",
+    "netto-o-niente-scenari.js": "d4531abaa94bd2b76ec25e4ee4bc4851f8bd92c9c333be060b37a7dc3e4addc3",
+    "netto-o-niente.js": "531c1232bf24a34d602335dbff0d831cc4c3c6e4b6d19b2f0425d053ebd80fe7"
+  },
+  "vettori": [
+    {
+      "seed": 0,
+      "rounds": 100,
+      "sha256": "b49723be612ae8ead779e51d04b523894b4b935f42de6dee6495f49245f6dacc",
+      "primo": {
+        "A": {
+          "ralRaw": "56500",
+          "mensilitaRaw": "13",
+          "comune": "F205",
+          "nucleo": [],
+          "welfareRaw": "0",
+          "fringeRaw": "0",
+          "buoniTipo": "elettronici",
+          "buoniValoreRaw": "",
+          "buoniNumeroRaw": "",
+          "trasportoRaw": "0",
+          "altreSpeseRaw": "0",
+          "oreSettimanaliRaw": "",
+          "giorniPresenzaRaw": "",
+          "minutiViaggioRaw": ""
+        },
+        "B": {
+          "ralRaw": "51000",
+          "mensilitaRaw": "13",
+          "comune": "F205",
+          "nucleo": [],
+          "welfareRaw": "0",
+          "fringeRaw": "0",
+          "buoniTipo": "elettronici",
+          "buoniValoreRaw": "",
+          "buoniNumeroRaw": "",
+          "trasportoRaw": "0",
+          "altreSpeseRaw": "0",
+          "oreSettimanaliRaw": "",
+          "giorniPresenzaRaw": "",
+          "minutiViaggioRaw": ""
+        },
+        "vincitore": "A",
+        "deltaCentesimi": -276816
+      }
+    },
+    {
+      "seed": 123456789,
+      "rounds": 100,
+      "sha256": "35e583d52c923df2972e635b1873f12587a54f00b08b95ac983a39675aebc0df",
+      "primo": {
+        "A": {
+          "ralRaw": "37500",
+          "mensilitaRaw": "13",
+          "comune": "F205",
+          "nucleo": [],
+          "welfareRaw": "0",
+          "fringeRaw": "0",
+          "buoniTipo": "elettronici",
+          "buoniValoreRaw": "",
+          "buoniNumeroRaw": "",
+          "trasportoRaw": "0",
+          "altreSpeseRaw": "0",
+          "oreSettimanaliRaw": "",
+          "giorniPresenzaRaw": "",
+          "minutiViaggioRaw": ""
+        },
+        "B": {
+          "ralRaw": "43500",
+          "mensilitaRaw": "13",
+          "comune": "F205",
+          "nucleo": [],
+          "welfareRaw": "0",
+          "fringeRaw": "0",
+          "buoniTipo": "elettronici",
+          "buoniValoreRaw": "",
+          "buoniNumeroRaw": "",
+          "trasportoRaw": "0",
+          "altreSpeseRaw": "0",
+          "oreSettimanaliRaw": "",
+          "giorniPresenzaRaw": "",
+          "minutiViaggioRaw": ""
+        },
+        "vincitore": "B",
+        "deltaCentesimi": 229407
+      }
+    },
+    {
+      "seed": 4294967295,
+      "rounds": 100,
+      "sha256": "8333068e14e3b690411f854872a06e878a8c3718a32206e19f73f278fef13b8d",
+      "primo": {
+        "A": {
+          "ralRaw": "48500",
+          "mensilitaRaw": "13",
+          "comune": "F205",
+          "nucleo": [],
+          "welfareRaw": "0",
+          "fringeRaw": "0",
+          "buoniTipo": "elettronici",
+          "buoniValoreRaw": "",
+          "buoniNumeroRaw": "",
+          "trasportoRaw": "0",
+          "altreSpeseRaw": "0",
+          "oreSettimanaliRaw": "",
+          "giorniPresenzaRaw": "",
+          "minutiViaggioRaw": ""
+        },
+        "B": {
+          "ralRaw": "39500",
+          "mensilitaRaw": "13",
+          "comune": "F205",
+          "nucleo": [],
+          "welfareRaw": "0",
+          "fringeRaw": "0",
+          "buoniTipo": "elettronici",
+          "buoniValoreRaw": "",
+          "buoniNumeroRaw": "",
+          "trasportoRaw": "0",
+          "altreSpeseRaw": "0",
+          "oreSettimanaliRaw": "",
+          "giorniPresenzaRaw": "",
+          "minutiViaggioRaw": ""
+        },
+        "vincitore": "A",
+        "deltaCentesimi": -404406
+      }
+    }
+  ]
+}
