@@ -16,8 +16,9 @@ obbligatorio. Il PNG è l'anteprima del link, non un allegato fotografico.
   Twitterbot e WhatsApp; PNG decodificato 1200×630, sotto 1 MB.
 - Pagina risultato senza JavaScript: immagine e CTA visibili. Accetta la sfida
   ricostruisce gli stessi confronti in un contesto browser nuovo.
-- Richieste invalide, duplicate, aggiuntive e malevole rifiutate; POST 405,
-  HEAD 200. Nessuna fiducia in Host forniti dal client.
+- Richieste invalide, duplicate nell'API diretta, chiavi extra e input malevoli
+  rifiutati; POST 405, HEAD 200. Sui link pubblici il path prevale sui parametri
+  omonimi: la sfida non cambia. Nessuna fiducia in Host forniti dal client.
 - Canvas indisponibile non blocca i social; clipboard rifiutata e completata
   dopo una nuova partita gestite. Il punteggio condiviso è quello della run,
   non il record personale.

@@ -11,7 +11,8 @@ http.createServer((req,res)=>{
   if(match||api){
     const query={};for(const [k,v] of url.searchParams){query[k]=Object.hasOwn(query,k)?[].concat(query[k],v):v;}
     if(match){
-      for(const [k,v] of Object.entries({v:match[2],s:match[3],t:match[1]==='risultato-immagine'?match[4].replace(/\.png$/,''):match[4]}))query[k]=Object.hasOwn(query,k)?[query[k],v]:v;
+      // Come le rewrite Vercel: il path prevale sui parametri omonimi.
+      Object.assign(query,{v:match[2],s:match[3],t:match[1]==='risultato-immagine'?match[4].replace(/\.png$/,''):match[4]});
     }
     req.query=query;return handlers[(match||api)[1]](req,res);
   }

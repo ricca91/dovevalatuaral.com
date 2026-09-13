@@ -86,7 +86,12 @@ async function main(){
     await rp.waitForSelector('[data-action="start"]');assert.match(await rp.locator('.non-target').textContent(),/ha fatto 12/);await click(rp,'start');
     assert.equal(await rp.locator('.non-ral').first().textContent(),new Intl.NumberFormat('it-IT').format(Number(N.creaPartita({seed:123456789}).round.A.ralRaw))+' €');
     checks.push('HTML OG/Twitter con user-agent bot, PNG 1200×630, landing senza JS e sfida identica in contesto pulito');
-    for(const suffix of ['?x=1','?s=0'])assert.equal((await context.request.get(links.url+suffix)).status(),400);
+    assert.equal((await context.request.get(links.url+'?x=1')).status(),400);
+    // La rewrite dà precedenza al path: la query non cambia sfida/punteggio.
+    for(const suffix of ['?s=0','?t=0','?v=old','?s=0&s=1']){
+      const r=await context.request.get(links.url+suffix);assert.equal(r.status(),200);
+      assert.ok((await r.text()).includes(links.gioco.replaceAll('&','&amp;')));
+    }
     for(const q of ['v=bad&s=0&t=0',`v=${N.VERSIONE}&s=0&s=1&t=0`,`v=${N.VERSIONE}&s=0&t=%3Cscript%3E`])assert.equal((await context.request.get(base+'/api/risultato?'+q)).status(),400);
     assert.equal((await context.request.post(links.url)).status(),405);assert.equal((await context.request.head(links.immagine)).status(),200);
     checks.push('malformati/duplicati/chiavi aggiuntive rifiutati, POST 405, HEAD 200');

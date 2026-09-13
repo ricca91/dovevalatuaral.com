@@ -159,7 +159,9 @@ orizzontale è una variante dello scontrino, non un semplice ritaglio del vertic
 Produzione: canonical `www.dovevalatuaral.com`. Preview: link/PNG/CTA restano
 sull'origine preview. Il server usa `VERCEL_URL` solo con `VERCEL_ENV=preview`
 e hostname validato, mai `Host`/`X-Forwarded-Host`. API GET/HEAD, POST 405;
-versione errata, duplicati, valori fuori limite o chiavi extra danno 400/no-store.
+versione errata, duplicati nell'API diretta, valori fuori limite o chiavi extra
+danno 400/no-store. Sui link pubblici le rewrite danno precedenza ai valori
+del path: parametri omonimi nella query non possono cambiare la sfida.
 Template chiuso, nessun input SVG o URL remoto accettato dal renderer. Cache
 pubblica 1h client / 24h CDN. Nessuna cache applicativa illimitata per seed.
 Pagine noindex/follow ed escluse dalla sitemap, ma accessibili ai crawler social.
