@@ -2,9 +2,9 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const L=require('../prototipo/netto-o-niente-link.js'),S=require('./risultato.js');
 const page=require('../api/risultato.js'),image=require('../api/risultato-immagine.js');
 const query={v:L.VERSIONE,s:'123456789',t:'12'};
-function request(handler,queryValue=query,method='GET',headers={}){
+function request(handler,queryValue=query,method='GET',headers={},url='/api/risultato'){
   const result={headers:{},statusCode:200,body:null};
-  handler({query:queryValue,method,headers},{set statusCode(n){result.statusCode=n;},
+  handler({query:queryValue,method,headers,url},{set statusCode(n){result.statusCode=n;},
     setHeader(k,v){result.headers[k.toLowerCase()]=v;},end(body){result.body=body;}});
   return result;
 }
@@ -20,6 +20,10 @@ test('query valide: zero, uint32 massimo e punteggio massimo',()=>{
   }
 });
 test('query non fidate: array/duplicati, chiavi extra, versione, enormi, HTML e numeri non canonici',()=>{
+  // Query già normalizzata dalla piattaforma: il duplicato resta nell'URL originale.
+  for(const suffix of ['?s=0','?t=0','?v=old','?x=1']){
+    assert.equal(request(page,query,'GET',{},`/risultato/${query.v}/${query.s}/${query.t}${suffix}`).statusCode,400);
+  }
   for(const p of [null,{}, {...query,x:'1'},{...query,s:['0','1']},{...query,t:['1','2']},
     {...query,v:'old'},...['-1','01','1.0','1e2','4294967296','<script>','9'.repeat(10000)].map(s=>({...query,s})),
     ...['-1','01','1.0','NaN','1000000000000000','<img>'].map(t=>({...query,t}))]){

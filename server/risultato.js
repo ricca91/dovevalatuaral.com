@@ -61,7 +61,11 @@ function svg(m){
 function rispondi(req,res,render,type){
   res.setHeader('X-Content-Type-Options','nosniff');
   if(!['GET','HEAD'].includes(req.method)){res.setHeader('Allow','GET, HEAD');res.statusCode=405;return res.end();}
-  const m=modello(req.query);
+  // La rewrite Vercel può sovrascrivere parametri omonimi prima di req.query.
+  // Per i link pubblici il risultato è interamente nel path: niente query.
+  const rawUrl=new URL(req.url||'/api/risultato','http://localhost');
+  const publicQuery=/^\/risultato(?:-immagine)?\//.test(rawUrl.pathname)&&rawUrl.search!=='';
+  const m=publicQuery?null:modello(req.query);
   if(!m){res.statusCode=400;res.setHeader('Cache-Control','no-store');res.setHeader('Content-Type','text/plain; charset=utf-8');return res.end(req.method==='HEAD'?'':'Risultato non valido o versione non supportata.');}
   try{
     const body=render(m);
