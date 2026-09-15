@@ -19,22 +19,18 @@ body{padding-bottom:0}
 .chainwrap{overflow-x:auto}
 
 /* --- intestazione: carta a griglia, titolo in Archivo --------------------
-   Sta stretta apposta. È uno strumento, non una landing: il campo RAL deve
-   vedersi senza scorrere, quindi la fascia paga il minimo indispensabile e
-   usa la metà destra invece di lasciarla vuota. */
+   Il testo usa tutta la larghezza del contenitore, allineato al modulo. */
 .pagehero{position:relative;padding:clamp(26px,3.2vw,46px) 0 clamp(22px,2.6vw,34px);
   background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0),
     linear-gradient(to right,var(--line) 1px,transparent 1px),
     linear-gradient(to bottom,var(--line) 1px,transparent 1px);
   background-size:24px 24px,192px 192px,192px 192px;
   border-bottom:var(--bw) dashed var(--line-strong)}
-.pagehero .inner{position:relative;display:grid;gap:var(--s-6);align-items:end}
-@media(min-width:900px){.pagehero .inner{
-  grid-template-columns:minmax(0,1.4fr) minmax(0,.6fr);gap:var(--s-10)}}
+.pagehero .inner{position:relative}
 .pagehero h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);
   font-size:clamp(2rem,3.6vw,3.15rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);
   margin:0 0 var(--s-3);max-width:18ch;text-wrap:balance}
-.pagehero p{margin:0;max-width:56ch;font-size:var(--t-body);line-height:1.55;color:var(--fg-muted)}
+.pagehero p{margin:0;font-size:var(--t-body);line-height:1.55;color:var(--fg-muted)}
 /* le assunzioni dichiarate, sotto il sottotitolo */
 .pagehero .meta{display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-5)}
 /* la colonna di destra porta il solo approfondimento, allineato in basso */
@@ -414,8 +410,10 @@ function hero(st){
     <div>
       <div class="eyebrow">Calcolatore netto 2026</div>
       <h1>Dove va la tua RAL</h1>
-      <p>Inserisci il lordo annuo: vedi quanto resta, dove finisce il resto e perché.
-         Ogni euro è verificabile e ogni regola ha una fonte.</p>
+      <p>Calcola il tuo stipendio netto dalla RAL, la retribuzione annua lorda.
+         Inserisci il lordo annuo, il comune e le mensilità: ottieni una stima del netto annuo
+         e della media mensile, con il dettaglio di contributi e imposte e le fonti delle regole applicate.
+         La media mensile non è l’importo del singolo cedolino.</p>
       <div class="meta">
         <span class="tag tag--flux">Regole 2026</span>
         <span class="tag">Settore privato</span>
