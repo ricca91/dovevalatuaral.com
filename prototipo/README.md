@@ -11,6 +11,14 @@ del 21 febbraio 2026.
 
 ## I file
 
+**Ti spiego la busta paga** (`busta-paga.html`) è il percorso di RIC-68, in prova e
+non raggiungibile dalla navigazione: si carica un cedolino in PDF, viene letto
+**nel browser** e il testo oscurato viene mostrato per intero prima di qualunque
+invio — che in questa versione è disattivato. È l'unica pagina che non si apre con
+un doppio clic: la libreria di lettura (`vendor/pdfjs/`, copia locale, non una CDN)
+è un modulo ES e vuole un server. Google Analytics 4 non viene caricato qui.
+[Contratti, euristiche e limiti](busta-paga.md).
+
 **Netto o niente** (`netto-o-niente.html`) è il gioco di RIC-62: confronti fra
 offerte fittizie fino al primo errore, record locale e sfide tramite link.
 “Condividi” apre LinkedIn, X, WhatsApp e Telegram in una finestra dedicata.
@@ -20,6 +28,13 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | File | Che cos'è |
 |---|---|
 | `index.html` | la pagina |
+| `busta-paga.html` | il percorso del cedolino: promessa, limiti, upload, revisione, conferma |
+| `busta-paga-estrazione.js` | da frammenti con coordinate a righe, più limiti e codici di errore |
+| `busta-paga-redazione.js` | da righe a righe oscurate, con l'elenco di che cosa è stato oscurato e perché |
+| `busta-paga-pdf.js` | l'unico file che tocca pdf.js, modulo ES |
+| `busta-paga-ui.js` | il controller della pagina: campo file, riquadro, commutazione, consenso |
+| `privacy.html` | l'informativa di tutto il sito |
+| `analytics-datafast.js` | l'analytics del solo percorso busta paga: Datafast, senza GA4 |
 | `compara.html` | il confronto fra due offerte: modulo, tabella e controller |
 | `compara.js` | le funzioni pure del confronto: normalizzazione, delta e codec dell'URL |
 | `compara.test.js` | le prove dei contratti del confronto |

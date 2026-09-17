@@ -1,0 +1,63 @@
+/* Busta paga — stile della sola pagina del cedolino.
+   Il resto (colori, caratteri, bottoni, riquadri) viene da draftsman.css. */
+
+.bp-page{background:var(--bg);color:var(--fg)}
+/* `.callout` porta display:grid, che da solo batte la regola del browser per
+   l'attributo hidden: senza questa riga il riquadro d'errore nascerebbe vuoto
+   e visibile. */
+.bp-page [hidden]{display:none}
+.bp-main{max-width:940px;margin:0 auto;padding:var(--s-8) var(--s-6) var(--s-16)}
+.bp-heading{margin-bottom:var(--s-8)}
+.bp-eyebrow{font:12px var(--font-mono);letter-spacing:.08em;margin:0 0 var(--s-4)}
+.bp-heading h1{font-family:var(--font-display);font-size:clamp(34px,5.4vw,60px);font-weight:800;
+  letter-spacing:-.05em;line-height:1.02;margin:0 0 var(--s-4)}
+.bp-lead{font-size:var(--t-lead);line-height:1.5;max-width:60ch;margin:0}
+
+.bp-sezione{margin-top:var(--s-12)}
+.bp-sezione > h2{font-size:var(--t-h3);letter-spacing:-.02em;margin:0 0 var(--s-3)}
+.bp-sezione p{max-width:68ch}
+.bp-limiti{margin:var(--s-4) 0 0;padding-left:1.1em}
+.bp-limiti li{margin-bottom:var(--s-2)}
+
+.bp-carica{display:grid;gap:var(--s-3);padding:var(--s-6);background:var(--bg-raised);
+  border:var(--bw) solid var(--line-strong);box-shadow:6px 6px 0 var(--fg)}
+.bp-carica input[type="file"]{font:400 var(--t-sm)/1.4 var(--font-mono);max-width:100%}
+.bp-carica input[type="file"]:disabled{opacity:.55}
+
+/* Il riquadro è la promessa della pagina: quello che si legge qui è, carattere
+   per carattere, quello che partirebbe. Niente ellissi, niente riassunti. */
+.bp-payload{margin:var(--s-4) 0 0;padding:var(--s-4);background:var(--c-graphite);color:var(--c-fog);
+  border:var(--bw) solid var(--fg);max-height:62vh;overflow:auto;overscroll-behavior:contain}
+.bp-riga,.bp-pagina{margin:0;font:400 13px/1.9 var(--font-mono);white-space:pre-wrap;word-break:break-word}
+.bp-pagina{color:var(--c-flux);margin-top:var(--s-3)}
+
+.bp-parola{font:inherit;color:inherit;background:none;border:0;padding:0 1px;margin:0;
+  border-bottom:1px dotted rgba(242,241,236,.25);cursor:pointer;border-radius:0}
+.bp-parola:hover{background:var(--c-flux);color:var(--c-graphite)}
+.bp-parola:focus-visible{outline:2px solid var(--c-citron);outline-offset:1px}
+.bp-parola[data-oscurato]{background:var(--c-blush);color:var(--c-graphite);
+  border-bottom:1px solid var(--c-graphite);letter-spacing:.02em}
+.bp-parola[data-oscurato]:hover{background:var(--c-citron)}
+@media (pointer:coarse){.bp-riga,.bp-pagina{line-height:2.2}.bp-parola{padding:2px 3px}}
+
+.bp-conteggio{font:400 var(--t-sm)/1.4 var(--font-mono);margin:var(--s-3) 0 0}
+.bp-sezione__sub{font-size:var(--t-h4);margin:var(--s-8) 0 0}
+.bp-legenda{list-style:none;margin:var(--s-4) 0 0;padding:0;display:grid;gap:var(--s-3)}
+.bp-legenda li{border-left:3px solid var(--c-blush);padding-left:var(--s-3)}
+.bp-legenda__titolo{margin:0;font-size:var(--t-sm)}
+.bp-legenda__conteggio{color:var(--fg-muted)}
+.bp-legenda__motivo{margin:2px 0 0;font-size:var(--t-sm);color:var(--fg-muted);max-width:68ch}
+
+.bp-conferma{margin-top:var(--s-6);padding:var(--s-5);background:var(--bg-raised);
+  border:var(--bw) solid var(--line-strong)}
+.bp-conferma .check{margin-bottom:var(--s-4)}
+.bp-azioni{display:flex;flex-wrap:wrap;gap:var(--s-3);align-items:center}
+.bp-invio-nota{font-size:var(--t-sm);color:var(--fg-muted);margin:var(--s-3) 0 0;max-width:68ch}
+.bp-note{margin-top:var(--s-12);font-size:var(--t-sm);color:var(--fg-muted)}
+.bp-note p{max-width:72ch}
+
+@media (max-width:600px){
+  .bp-main{padding:var(--s-6) var(--s-4) var(--s-12)}
+  .bp-carica{padding:var(--s-4);box-shadow:4px 4px 0 var(--fg)}
+  .bp-payload{max-height:none}
+}

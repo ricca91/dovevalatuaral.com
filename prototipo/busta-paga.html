@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ti spiego la busta paga | Dove va la tua RAL</title>
+<meta name="description" content="Carica il cedolino: il PDF resta nel tuo browser, il testo viene oscurato dove serve e tu vedi esattamente che cosa partirebbe. In questa versione l’invio è disattivato.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%231E1C2B' d='M0 0h32v32H0z'/%3E%3Ctext x='16' y='24' fill='%2321D4E3' text-anchor='middle' font-size='24'%3E€%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="draftsman.css">
+<link rel="stylesheet" href="busta-paga.css">
+<!-- Solo Datafast: su questa pagina Google Analytics 4 non viene caricato. -->
+<script src="analytics-datafast.js" async></script>
+</head>
+<body class="bp-page">
+<a class="skip-link" href="#contenuto">Vai al contenuto</a>
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
+    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a></div></div>
+    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div>
+    <a href="netto-o-niente.html">Gioca</a><a href="la-storia.html">La storia</a>
+  </nav>
+</div></header>
+
+<main id="contenuto" class="bp-main">
+  <header class="bp-heading">
+    <p class="bp-eyebrow">[ VERSIONE DI PROVA — NIENTE ESCE DA QUESTA SCHEDA ]</p>
+    <h1>Ti spiego la busta paga</h1>
+    <p class="bp-lead">Carica il cedolino: lo leggiamo qui dentro, oscuriamo i dati che ti identificano e ti facciamo vedere, carattere per carattere, il testo che un giorno partirà per essere spiegato. Oggi non parte: la spiegazione arriva con il prossimo rilascio.</p>
+  </header>
+
+  <section class="bp-sezione" aria-labelledby="bp-h-funziona">
+    <h2 id="bp-h-funziona">Come funziona</h2>
+    <ol class="bp-limiti">
+      <li><strong>Il PDF resta nel browser.</strong> Viene aperto in questa scheda e non viene caricato da nessuna parte: non lo salviamo, non lo inviamo, non resta niente quando chiudi la pagina.</li>
+      <li><strong>Il testo viene oscurato.</strong> Riconosciamo nome, codice fiscale, IBAN, indirizzo, matricola, partita IVA e data di nascita. Oscuriamo anche le sigle sindacali e i motivi di assenza, tenendo gli importi: sono dati particolari, ma il conto deve continuare a tornare.</li>
+      <li><strong>Decidi tu, parola per parola.</strong> Nel riquadro nero ogni parola è un bottone: premila per oscurarla, premi un segnaposto per riportarla. Il riconoscimento automatico non è mai completo — l'ultima lettura è la tua.</li>
+    </ol>
+  </section>
+
+  <section class="bp-sezione" aria-labelledby="bp-h-limiti">
+    <h2 id="bp-h-limiti">Che cosa accetta, e che cosa no</h2>
+    <p>Un cedolino italiano da lavoro dipendente, in <strong>PDF digitale con testo selezionabile</strong>, fino a 3 pagine e 5 MB, una mensilità per volta.</p>
+    <p>Restano fuori foto e scansioni (non facciamo OCR), Certificazione Unica, 730, cedolini esteri, più mensilità nello stesso file e documenti di partita IVA. Se il PDF non contiene testo te lo diciamo invece di lavorare a metà.</p>
+  </section>
+
+  <section class="bp-sezione" aria-labelledby="bp-h-privacy">
+    <h2 id="bp-h-privacy">In breve, sui tuoi dati</h2>
+    <div class="callout callout--info">
+      <span class="callout__mark" aria-hidden="true">i</span>
+      <div>
+        <p>Il PDF non lascia il browser. Il testo oscurato, quando l'invio sarà attivo, verrà mandato a un modello linguistico per essere spiegato: sarà testo <strong>pseudonimizzato, non anonimo</strong>, perché importi, livello, CCNL, comune e mese restano dati personali. Per questo la schermata di conferma ti mostra il testo esatto, e per questo il consenso è esplicito.</p>
+        <p>In questa versione non parte niente: nessuna richiesta di rete trasporta il contenuto del documento. <a href="privacy.html">Leggi l'informativa completa</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bp-sezione" aria-labelledby="bp-h-carica">
+    <h2 id="bp-h-carica">1. Carica il cedolino</h2>
+    <div class="bp-carica">
+      <label class="label" for="bp-file">Il tuo cedolino in PDF</label>
+      <input type="file" id="bp-file" accept="application/pdf,.pdf" disabled>
+      <p id="bp-stato" class="status" role="status">Preparo il lettore…</p>
+    </div>
+    <div class="callout callout--err" id="bp-errore" hidden>
+      <span class="callout__mark" aria-hidden="true">!</span>
+      <div>
+        <p><strong id="bp-errore-titolo"></strong></p>
+        <p id="bp-errore-cosa"></p>
+      </div>
+    </div>
+    <noscript><p class="bp-invio-nota">Questa pagina legge il PDF con JavaScript, dentro il tuo browser. Senza JavaScript non c'è niente da mostrare — ed è anche il motivo per cui il file non viene caricato da nessuna parte.</p></noscript>
+  </section>
+
+  <section class="bp-sezione" id="bp-revisione" aria-labelledby="bp-h-revisione" hidden>
+    <h2 id="bp-h-revisione">2. Questo è il testo che partirebbe</h2>
+    <p>Non è un riassunto di quello che abbiamo oscurato: è il testo, esattamente com'è. Premi una parola per oscurarla, premi un segnaposto per riportarla nel testo.</p>
+    <p class="bp-invio-nota">Da tastiera: entra nel riquadro con il tabulatore, muoviti fra le parole con le frecce, oscura o riporta con Invio o barra spaziatrice. Un altro tabulatore esce dal riquadro.</p>
+    <div class="bp-payload" id="bp-payload" tabindex="0" role="group" aria-label="Testo del cedolino, parola per parola"></div>
+    <p class="bp-conteggio" id="bp-conteggio"></p>
+    <p class="sr" id="bp-live" aria-live="polite" aria-atomic="true"></p>
+
+    <h3 class="bp-sezione__sub">Che cosa abbiamo oscurato, e perché</h3>
+    <ul class="bp-legenda" id="bp-legenda"></ul>
+
+    <form class="bp-conferma" id="bp-conferma" novalidate>
+      <label class="check" for="bp-consenso">
+        <input type="checkbox" id="bp-consenso" required>
+        <span>Acconsento all'invio del testo qui sopra a un modello linguistico perché lo spieghi. So che è testo pseudonimizzato e non anonimo, e che può contenere <strong>dati particolari ex art. 9 GDPR</strong> — come l'appartenenza sindacale o informazioni sullo stato di salute — se ho scelto di non oscurarli.</span>
+      </label>
+      <div class="bp-azioni">
+        <button class="btn btn--primary" type="submit" id="bp-invia" disabled>Invia il testo oscurato</button>
+        <button class="btn btn--ghost" type="button" id="bp-ricomincia">Cancella e ricomincia</button>
+      </div>
+      <p class="bp-invio-nota" id="bp-invio-nota"></p>
+    </form>
+  </section>
+
+  <footer class="bp-note">
+    <p><strong>Limiti dichiarati.</strong> Il riconoscimento dei dati da oscurare è deterministico: riconosce schemi noti, non capisce il documento. Il nome è il caso più fragile, perché non ha una forma fissa. Controlla il riquadro prima di confermare.</p>
+    <p>Questa pagina non è raggiungibile dalla navigazione del sito: è in prova. Non sostituisce un consulente del lavoro, un CAF o un sindacato, e non certifica la correttezza di quello che ha fatto il datore.</p>
+    <p><a href="privacy.html">Informativa privacy</a> · <a href="index.html">Il calcolatore</a> · <a href="come-ho-lavorato.html">Come ho lavorato</a></p>
+  </footer>
+</main>
+
+<script src="busta-paga-estrazione.js"></script>
+<script src="busta-paga-redazione.js"></script>
+<script src="site-nav.js"></script>
+<script src="busta-paga-ui.js"></script>
+<script type="module" src="busta-paga-pdf.js"></script>
+</body>
+</html>
