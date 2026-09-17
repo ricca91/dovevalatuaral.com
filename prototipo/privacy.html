@@ -80,14 +80,18 @@ dd{margin:0 0 var(--s-4)}
     <dd>Viene aperto e letto <strong>dentro il tuo browser</strong>. Non viene caricato su nessun server, non viene salvato su disco, non viene messo in <code>localStorage</code>: resta un'area di memoria della scheda e sparisce quando la chiudi o premi «Cancella e ricomincia». La libreria che lo legge è ospitata sul nostro dominio, quindi aprendo il cedolino non parte nessuna richiesta verso terzi.</dd>
     <dt>L'oscuramento</dt>
     <dd>Prima di qualunque invio il testo estratto viene ripulito: nome, codice fiscale, IBAN, indirizzo, CAP, matricola, partita IVA e data di nascita vengono sostituiti da segnaposto. Lo stesso accade a <strong>sigle sindacali</strong> e <strong>motivi di assenza</strong> — malattia, infortunio, permessi legge 104 — che rivelano appartenenza sindacale e stato di salute: di queste voci resta l'importo, non l'etichetta. Il riconoscimento è automatico e imperfetto: la schermata di conferma ti mostra il testo esatto e ti lascia oscurare o riportare ogni singola parola.</dd>
-    <dt>Che cosa uscirà, quando l'invio sarà attivo</dt>
-    <dd>Solo il testo oscurato che hai confermato, mai il PDF. È testo <strong>pseudonimizzato, non anonimo</strong>: importi, livello, CCNL, comune e mese restano dati personali riferibili a te. Sarà trasmesso a un fornitore di modelli linguistici, instradato tramite Vercel AI Gateway con conservazione azzerata e divieto di utilizzo per l'addestramento, con la funzione eseguita in regione europea. Il fornitore agirà come responsabile del trattamento e sarà nominato in questa pagina <em>prima</em> che l'invio venga attivato. Il testo non viene salvato in database, archivi di file, log applicativi o strumenti di misurazione.</dd>
-    <dt>Oggi</dt>
-    <dd>Nella versione attualmente pubblicata <strong>l'invio è disattivato</strong>: il testo resta nella pagina e nessuna richiesta di rete trasporta il contenuto del documento.</dd>
+    <dt>Che cosa esce, e verso chi</dt>
+    <dd>Solo il testo oscurato che hai confermato, mai il PDF. È testo <strong>pseudonimizzato, non anonimo</strong>: importi, livello, CCNL, comune e mese restano dati personali riferibili a te. Viene trasmesso a <strong>Anthropic PBC</strong>, che lo elabora con il modello <strong>Claude Sonnet 5</strong> e agisce come <strong>responsabile del trattamento</strong>. L'instradamento passa da <a href="https://vercel.com/legal/privacy-policy" rel="noopener">Vercel AI Gateway</a>, con <strong>conservazione azzerata</strong> (zero data retention), <strong>divieto di utilizzo dei prompt per l'addestramento</strong> e <strong>inferenza in regione europea</strong>. Sono tre condizioni imposte a ogni singola richiesta: se il gateway non trova un fornitore che le rispetti tutte e tre, la richiesta fallisce e non viene instradata altrove.</dd>
+    <dt>Dove gira il nostro codice</dt>
+    <dd>La funzione che riceve il testo è eseguita in <strong>regione europea</strong> (Francoforte). Non scrive il testo in nessun database, archivio di file, strumento di misurazione o log applicativo: esiste come variabile in memoria per la durata della richiesta e sparisce con essa. Nei log tecnici finisce, al massimo, un codice di errore.</dd>
+    <dt>Tetti e abuso</dt>
+    <dd>Per evitare che una pagina aperta a tutti diventi una spesa aperta a tutti, l'endpoint applica un tetto di caratteri sul testo, un tetto di richieste per chiamante e un budget giornaliero. Il conteggio per chiamante non conserva il tuo indirizzo IP: ne conserva un'impronta accorciata e non reversibile, calcolata con un valore che cambia ogni giorno, quindi il giorno dopo non è più collegabile a nulla.</dd>
     <dt>Base giuridica</dt>
     <dd>Il tuo <strong>consenso</strong> (art. 6, par. 1, lett. a GDPR) e, per le eventuali categorie particolari di dati che scegli di non oscurare, il <strong>consenso esplicito</strong> (art. 9, par. 2, lett. a GDPR), raccolto con la spunta nella schermata di conferma. Puoi revocarlo in qualsiasi momento: siccome il trattamento dura quanto la richiesta, revocarlo significa semplicemente non inviare o chiudere la pagina.</dd>
     <dt>Errori e misurazione</dt>
-    <dd>I messaggi di errore e gli eventi di misurazione contengono solo codici — per esempio «PDF senza testo» — mai il nome del file, il contenuto del cedolino, gli importi o gli identificativi.</dd>
+    <dd>I messaggi di errore e gli eventi di misurazione contengono solo codici — per esempio «PDF senza testo» — mai il nome del file, il contenuto del cedolino, gli importi o gli identificativi. Il voto «questa spiegazione ti è stata utile» trasmette un sì o un no e nient'altro: non c'è un campo di testo libero, di proposito.</dd>
+    <dt>Un limite che preferiamo scrivere</dt>
+    <dd>Nessuno ha verificato, su buste paga vere, quanto bene il modello le legga: per farlo avremmo dovuto raccogliere i cedolini di altre persone, e abbiamo scelto di non farlo. Al posto della verifica ci sono controlli automatici sulla risposta — ogni voce mostrata deve citare alla lettera il testo che hai inviato, le somme le rifacciamo noi, una risposta fuori formato non viene mostrata. Impediscono di mostrarti numeri inventati; non garantiscono che i numeri veri siano stati capiti.</dd>
   </dl>
 </div></section>
 
@@ -100,13 +104,15 @@ dd{margin:0 0 var(--s-4)}
   <h2>6. Destinatari e trasferimenti fuori dall'Unione europea</h2>
   <p>I soli destinatari sono i fornitori citati sopra, ciascuno nel ruolo indicato: nessun dato viene venduto, ceduto o usato per profilazione pubblicitaria.</p>
   <p>Alcuni di questi fornitori sono società statunitensi. I trasferimenti avvengono sulla base degli strumenti previsti dal Capo V del GDPR — clausole contrattuali standard e, dove applicabile, l'EU-U.S. Data Privacy Framework — come dichiarato nelle rispettive informative, che trovi collegate qui sopra.</p>
+  <p>Per il testo del cedolino c'è una precisazione che vale la pena fare: <a href="https://www.anthropic.com/legal/privacy" rel="noopener">Anthropic PBC</a> è una società statunitense, ma l'elaborazione è richiesta esplicitamente in <strong>regione europea</strong>, con conservazione azzerata. La richiesta fallisce se questa condizione non può essere soddisfatta: preferiamo non spiegarti il cedolino piuttosto che spiegartelo altrove.</p>
 </div></section>
 
 <section id="conservazione"><div class="wrap">
   <h2>7. Per quanto tempo</h2>
   <ul>
     <li><strong>Dati del calcolatore:</strong> non li conserviamo, perché non ci arrivano.</li>
-    <li><strong>Cedolino e testo oscurato:</strong> il PDF vive quanto la scheda del browser; il testo oscurato, quando l'invio sarà attivo, vivrà quanto la richiesta e verrà cancellato con il risultato.</li>
+    <li><strong>Cedolino e testo oscurato:</strong> il PDF vive quanto la scheda del browser; il testo oscurato vive quanto la richiesta e viene cancellato con il risultato. Né noi né il fornitore del modello lo conserviamo dopo la risposta.</li>
+    <li><strong>Conteggio delle richieste:</strong> l'impronta del chiamante vive al massimo un giorno, poi il valore con cui è calcolata cambia e le impronte precedenti non sono più collegabili.</li>
     <li><strong>Misurazione e log tecnici:</strong> secondo i tempi dichiarati dai rispettivi fornitori, e comunque in forma aggregata o pseudonimizzata.</li>
   </ul>
 </div></section>
@@ -120,7 +126,7 @@ dd{margin:0 0 var(--s-4)}
 
 <section id="modifiche"><div class="wrap">
   <h2>9. Modifiche</h2>
-  <p>Questa informativa cambierà quando cambierà il prodotto — in particolare quando l'invio del testo oscurato verrà attivato e il fornitore del modello verrà nominato. La data in alto dice sempre a quando risale la versione che stai leggendo.</p>
+  <p>Questa informativa cambierà quando cambierà il prodotto — per esempio se cambiasse il fornitore del modello, che oggi è nominato al punto 4. La data in alto dice sempre a quando risale la versione che stai leggendo.</p>
   <p><a href="index.html">Torna al calcolatore</a> · <a href="come-ho-lavorato.html">Come ho lavorato</a></p>
 </div></section>
 </main><footer class="footer"><div class="wrap mono">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR. · <a href="privacy.html">Privacy</a></div></footer>

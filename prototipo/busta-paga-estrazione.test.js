@@ -1,6 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const E=require('./busta-paga-estrazione.js');
+const C=require('../server/busta-paga-contratto.js');
 
 /* Le coordinate sono scritte a mano: nessun PDF entra in queste prove.
    Convenzione, la stessa di pdf.js: y è la linea di base misurata dal fondo
@@ -151,8 +152,13 @@ test('scansione e documento quasi vuoto hanno codici distinti',()=>{
 });
 
 test('ogni codice di errore ha un messaggio, e nessun messaggio cita il documento',()=>{
-  const codici=['FILE_NON_PDF','FILE_TROPPO_GRANDE','FILE_VUOTO','TROPPE_PAGINE',
+  /* Gli otto errori di lettura, che nascono qui. */
+  const lettura=['FILE_NON_PDF','FILE_TROPPO_GRANDE','FILE_VUOTO','TROPPE_PAGINE',
     'PDF_SENZA_TESTO','ESTRAZIONE_VUOTA','PDF_PROTETTO','PDF_ILLEGGIBILE'];
+  /* Più quelli dell'analisi, che nascono sul server. L'elenco non è ricopiato:
+     è preso da lì, così un codice nuovo rompe questa prova finché qualcuno non
+     scrive la copy, che è il punto. */
+  const codici=[...lettura,...Object.values(C.CODICI)];
   for(const codice of codici){
     const messaggio=E.MESSAGGI[codice];
     assert.ok(messaggio&&messaggio.titolo&&messaggio.cosaFare,codice);

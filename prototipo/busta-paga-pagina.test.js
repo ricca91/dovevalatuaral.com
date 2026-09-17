@@ -11,9 +11,14 @@ const senzaCommenti=sorgente=>sorgente
   .replace(/\/\*[\s\S]*?\*\//g,'')
   .split('\n').filter(riga=>!riga.trim().startsWith('//')).join('\n');
 const pagina=leggi('busta-paga.html');
-/* I file che compongono il percorso. Qualunque cosa esca da qui esce da uno di questi. */
+/* I file che compongono il percorso. Qualunque cosa esca da qui esce da uno di
+   questi — e da uno solo: `busta-paga-invio.js` è l'unico a cui la rete è
+   concessa, e sta apposta fuori da questo elenco. Il valore della prova qui
+   sotto è che l'assenza di rete è dimostrata file per file, non promessa. */
 const FILE_PERCORSO=['busta-paga-estrazione.js','busta-paga-redazione.js',
-  'busta-paga-ui.js','busta-paga-pdf.js','analytics-datafast.js'];
+  'busta-paga-ui.js','busta-paga-pdf.js','analytics-datafast.js',
+  'busta-paga-misura.js','busta-paga-risultato.js'];
+const FILE_CHE_ESCE='busta-paga-invio.js';
 
 test('Google Analytics 4 non viene caricato, Datafast sì',()=>{
   assert.doesNotMatch(pagina,/<script[^>]+src="analytics\.js"/);
@@ -50,7 +55,8 @@ test('la libreria di lettura è locale, non su una CDN',()=>{
 test('la pagina carica il percorso completo, nell’ordine che serve',()=>{
   const script=[...pagina.matchAll(/<script[^>]*src="([^"]+)"/g)].map(m=>m[1]);
   assert.deepEqual(script,['analytics-datafast.js','busta-paga-estrazione.js',
-    'busta-paga-redazione.js','site-nav.js','busta-paga-ui.js','busta-paga-pdf.js']);
+    'busta-paga-redazione.js','busta-paga-misura.js','busta-paga-invio.js',
+    'busta-paga-risultato.js','site-nav.js','busta-paga-ui.js','busta-paga-pdf.js']);
   assert.match(pagina,/<script type="module" src="busta-paga-pdf\.js"><\/script>/);
 });
 
@@ -63,9 +69,77 @@ test('il consenso è esplicito, obbligatorio e nomina i dati particolari',()=>{
   assert.match(blocco[1],/salute/i);
 });
 
-test('in questa versione il pulsante di invio nasce disattivato',()=>{
+test('l’invio è attivo, ma il pulsante nasce disattivato e lo sblocca solo il consenso',()=>{
   assert.match(pagina,/<button class="btn btn--primary" type="submit" id="bp-invia" disabled>/);
-  assert.match(leggi('busta-paga-ui.js'),/const INVIO_ATTIVO=false;/);
+  const controller=leggi('busta-paga-ui.js');
+  assert.match(controller,/const INVIO_ATTIVO=true;/);
+  /* La spunta resta l'unica cosa che apre il pulsante: l'interruttore non la
+     scavalca, li mette in AND. */
+  assert.match(controller,/invia\.disabled=!INVIO_ATTIVO\|\|!consentito/);
+  assert.match(controller,/if\(!\(consenso&&consenso\.checked\)\)return;/);
+});
+
+test('esce solo il testo redatto: un file solo, una chiamata sola, un campo solo',()=>{
+  const invio=senzaCommenti(leggi(FILE_CHE_ESCE));
+  assert.equal([...invio.matchAll(/\bfetch\s*\(/g)].length,1,'una sola chiamata di rete in tutto il percorso');
+  assert.match(invio,/body:JSON\.stringify\(\{testo\}\)/);
+  assert.match(invio,/const ENDPOINT='\/api\/busta-paga'/);
+  /* Il `File`, il suo buffer e il suo nome non compaiono nemmeno come parola:
+     il nome di un cedolino contiene quasi sempre il cognome. */
+  for(const vietato of [/\bFormData\b/,/\bBlob\b/,/arrayBuffer/,/\.files\b/,/fileName|filename/i,
+    /localStorage/,/sessionStorage/,/document\.cookie/])
+    assert.doesNotMatch(invio,vietato,String(vietato));
+  /* E il controller non ricostruisce il testo: lo prende da `applica()`, la
+     stessa chiamata che ha disegnato il riquadro. */
+  const controller=senzaCommenti(leggi('busta-paga-ui.js'));
+  assert.match(controller,/const \{testo\}=R\.applica\(righe,redazione\);/);
+  assert.match(controller,/I\.analizza\(testo\)/);
+});
+
+test('il tetto di caratteri dichiarato dal codice è quello che il controller applica',()=>{
+  assert.match(senzaCommenti(leggi('busta-paga-ui.js')),/testo\.length>E\.LIMITI\.caratteriMassimi/);
+  assert.ok(leggi('privacy.html').includes('tetto di caratteri'));
+});
+
+test('gli eventi di misurazione sono un elenco chiuso, e non trasportano contenuto',()=>{
+  const misura=leggi('busta-paga-misura.js');
+  const nomi=[...misura.matchAll(/^\s{4}(payslip_[a-z_]+):/gm)].map(m=>m[1]);
+  assert.deepEqual(nomi,['payslip_view','payslip_upload_selected','payslip_extraction',
+    'payslip_redaction_confirmed','payslip_analysis','payslip_guards','payslip_feedback']);
+  /* Le sole proprietà ammesse sono quelle del ticket: booleani, codici e fasce. */
+  const proprieta=[...misura.matchAll(/'([a-z_]+)'/g)].map(m=>m[1]);
+  for(const ammessa of ['file_type','page_bucket','success','error_code','dropped_bucket','useful'])
+    assert.ok(proprieta.includes(ammessa),ammessa);
+  /* Nessun modo di far passare testo libero: il valore è un'espressione breve. */
+  assert.match(misura,/VALORE=\/\^\[a-z0-9_-\]\{1,32\}\$\//);
+  const controller=senzaCommenti(leggi('busta-paga-ui.js'));
+  const eventi=[...controller.matchAll(/misura\('([a-z_]+)'/g)].map(m=>m[1]);
+  for(const nome of eventi)assert.ok(nomi.includes(nome),`evento fuori elenco: ${nome}`);
+});
+
+test('il risultato si scrive come testo, mai come HTML',()=>{
+  const renderer=senzaCommenti(leggi('busta-paga-risultato.js'));
+  for(const vietato of [/innerHTML/,/outerHTML/,/insertAdjacentHTML/,/document\.write/,/\beval\(/])
+    assert.doesNotMatch(renderer,vietato,String(vietato));
+  /* Le quattro sezioni del ticket padre. */
+  for(const titolo of ['In breve','Le voci spiegate','Come torna il conto','Cose da verificare'])
+    assert.ok(renderer.includes(`'${titolo}'`),titolo);
+  /* Un totale mancante si scrive, non si stima. */
+  assert.ok(renderer.includes("'non individuato'"));
+});
+
+test('la pagina dichiara a schermo il limite sull’assenza di valutazione',()=>{
+  assert.match(pagina,/Nessuno ha verificato che il modello legga bene un cedolino vero/);
+  assert.match(pagina,/non sostituisce un consulente del lavoro/i);
+  assert.match(leggi('privacy.html'),/Nessuno ha verificato, su buste paga vere/);
+});
+
+test('il voto è un sì o un no, senza campi di testo',()=>{
+  const blocco=pagina.match(/<div class="bp-feedback" id="bp-feedback">([\s\S]*?)<\/div>\s*<p class="bp-feedback__grazie"/);
+  assert.ok(blocco,'il riquadro del voto deve esserci');
+  assert.match(blocco[1],/data-utile="si"/);
+  assert.match(blocco[1],/data-utile="no"/);
+  assert.doesNotMatch(blocco[1],/<textarea|type="text"|type="email"/);
 });
 
 test('la pagina rimanda all’informativa e dichiara i limiti che il codice applica',()=>{

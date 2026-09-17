@@ -1,7 +1,9 @@
 {
   "outputDirectory": "prototipo",
+  "regions": ["fra1"],
   "functions": {
-    "api/risultato-immagine.js": { "includeFiles": "server/fonts/**", "maxDuration": 10 }
+    "api/risultato-immagine.js": { "includeFiles": "server/fonts/**", "maxDuration": 10 },
+    "api/busta-paga.js": { "maxDuration": 60 }
   },
   "rewrites": [
     { "source": "/risultato/:v/:s/:t", "destination": "/api/risultato?v=:v&s=:s&t=:t" },

@@ -61,3 +61,64 @@
   .bp-carica{padding:var(--s-4);box-shadow:4px 4px 0 var(--fg)}
   .bp-payload{max-height:none}
 }
+
+/* ------------------------------------------------------------
+   Il risultato.
+   Il lavoro dello stile qui è uno solo: far vedere a colpo d'occhio
+   la differenza fra un dato letto dal documento (caratteri fissi,
+   com'era scritto), una spiegazione (prosa, viene dal modello) e un
+   numero calcolato da noi. Se si assomigliassero, la pagina
+   starebbe spacciando una deduzione per una lettura.
+   ------------------------------------------------------------ */
+.bp-ris{display:grid;gap:var(--s-8);margin-top:var(--s-4)}
+.bp-ris__blocco{border-left:3px solid var(--line-strong);padding-left:var(--s-4)}
+.bp-ris__blocco--piede{border-left-color:var(--fg-muted)}
+.bp-ris__h{font-size:var(--t-h4);margin:0 0 var(--s-2)}
+.bp-ris__nota{font-size:var(--t-sm);color:var(--fg-muted);margin:0 0 var(--s-3);max-width:68ch}
+
+.bp-ris__breve{display:grid;grid-template-columns:minmax(12ch,auto) 1fr;gap:var(--s-2) var(--s-4);margin:0}
+.bp-ris__breve dt{font-size:var(--t-sm);color:var(--fg-muted)}
+.bp-ris__breve dd{margin:0;font-size:var(--t-sm)}
+.bp-ris__letto .mono{font-weight:700}
+.bp-ris__assente .mono{color:var(--fg-muted);font-style:italic}
+.bp-ris__dove{color:var(--fg-muted);font-size:var(--t-sm)}
+
+.bp-voci{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-4)}
+.bp-voce{border-top:var(--bw) solid var(--line);padding-top:var(--s-3)}
+.bp-voce[data-categoria="sconosciuta"]{border-top-color:var(--c-blush)}
+.bp-voce__testa{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-4);justify-content:space-between;margin:0}
+.bp-voce__dicitura{font-weight:700;font-size:var(--t-sm)}
+.bp-voce__importo{font-size:var(--t-sm);white-space:nowrap}
+.bp-voce__etichette{display:flex;flex-wrap:wrap;gap:var(--s-2);margin:var(--s-2) 0 0}
+.bp-tag{font:400 11px/1.6 var(--font-mono);letter-spacing:.04em;text-transform:uppercase;
+  border:1px solid var(--line-strong);padding:0 var(--s-2)}
+.bp-tag--effetto{background:var(--c-citron);color:var(--c-graphite);border-color:var(--c-graphite)}
+.bp-tag--conf{color:var(--fg-muted)}
+.bp-voce__spiega{margin:var(--s-2) 0 0;max-width:68ch}
+.bp-voce__dove,.bp-voce__avvisi{font-size:var(--t-sm);color:var(--fg-muted);margin:var(--s-2) 0 0}
+.bp-voce__avvisi{padding-left:1.1em}
+
+.bp-conto__riga{display:flex;justify-content:space-between;gap:var(--s-4);margin:0;padding:var(--s-2) 0;
+  border-bottom:1px dotted var(--line);font-size:var(--t-sm);max-width:56ch}
+.bp-conto__riga--calcolo{background:var(--bg-raised);font-weight:700}
+.bp-conto__cifra{white-space:nowrap}
+.bp-conto__esito{margin:var(--s-3) 0 0;max-width:68ch;padding-left:var(--s-3);border-left:3px solid var(--line-strong)}
+.bp-conto__esito--ok{border-left-color:var(--c-citron)}
+.bp-conto__esito--no{border-left-color:var(--c-blush)}
+
+.bp-verifiche{list-style:none;margin:0;padding:0;display:grid;gap:var(--s-3)}
+.bp-verifiche li{border-left:3px solid var(--c-blush);padding-left:var(--s-3)}
+.bp-verifiche__titolo{margin:0;font-weight:700;font-size:var(--t-sm)}
+.bp-verifiche__dettaglio{margin:2px 0 0;font-size:var(--t-sm);color:var(--fg-muted);max-width:68ch}
+
+.bp-feedback{margin-top:var(--s-8);padding:var(--s-5);background:var(--bg-raised);
+  border:var(--bw) solid var(--line-strong)}
+.bp-feedback p{margin:0 0 var(--s-3)}
+.bp-feedback__grazie{margin-top:var(--s-8);padding:var(--s-5);background:var(--bg-raised);
+  border:var(--bw) solid var(--line-strong)}
+
+@media (max-width:600px){
+  .bp-ris__breve{grid-template-columns:1fr;gap:0 0}
+  .bp-ris__breve dt{margin-top:var(--s-3)}
+  .bp-conto__riga{max-width:none}
+}

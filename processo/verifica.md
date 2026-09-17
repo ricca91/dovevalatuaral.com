@@ -342,6 +342,76 @@ Due prove meritano il nome per esteso, perché sono il contratto del prodotto:
 Quello che queste prove **non** dicono: se il riconoscimento regga su un cedolino
 vero. Il dettaglio sta in `prototipo/busta-paga.md`.
 
+## L'analisi della busta paga (RIC-69): che cosa provano le 40 prove nuove
+
+Questa metà chiama un modello, e questo cambia il modo di provarla: **nessuna prova
+automatica esce dalla macchina e nessuna spende un centesimo**. La chiamata al
+gateway è iniettabile, e al suo posto girano risposte del modello scritte a mano.
+
+| | Che cosa prova | Come |
+|---|---|---|
+| `server/busta-paga.test.js` — le guardie | che quello che non si cita non arriva a schermo | una risposta con un importo che nel testo inviato non c'è: la voce sparisce, e la stringa dell'importo non compare da nessuna parte nella risposta dell'endpoint. Una dicitura vera con l'importo della riga accanto: sparisce anche quella |
+| — le enumerazioni | che una categoria fuori elenco non degrada, fa cadere tutto | `category`, `effect` e `confidence` provati con valori plausibili ma sbagliati (`'bonus'`, `'COMPETENZA'`, `'aumenta il lordo'`), ciascuno dà `RISPOSTA_NON_CONFORME` |
+| — l'aritmetica | che la somma è nostra | riconciliazione che torna e riconciliazione che non torna, con la differenza esposta; e una prova in cui il modello classifica male una voce e i nostri sommati non lo seguono |
+| — l'iniezione | che il documento non può dare ordini | il testo del cedolino compare solo nel messaggio utente, mai in quello di sistema; un documento che contiene i delimitatori non riesce a chiudere il recinto; e un'istruzione iniettata che venisse obbedita produce comunque voci che non si citano |
+| — lo script | che un cedolino con dentro uno script resta caratteri | la stringa attraversa l'analisi senza essere né interpretata né riscritta, e il renderer non contiene `innerHTML`, `insertAdjacentHTML`, `document.write` né `eval` |
+| — i tetti | che caratteri, frequenza e budget rifiutano in modo pulito | finestra di frequenza che si chiude e si riapre, budget che si azzera il giorno dopo, interruttore che spegne tutto, e l'impronta del chiamante che cambia fra il 17 e il 18 settembre |
+| — il trattamento | che le tre condizioni partono davvero | il corpo della richiesta porta `zeroDataRetention`, `disallowPromptTraining` e `inferenceRegion: eu`; in produzione l'indirizzo del gateway non è spostabile da una variabile d'ambiente |
+| `prototipo/busta-paga-pagina.test.js` | che esce solo il testo redatto | `busta-paga-invio.js` contiene **una** `fetch`, un corpo `{testo}` e nessuna menzione di `FormData`, `Blob`, `arrayBuffer`, `.files` o del nome del file; tutti gli altri file del percorso mantengono il divieto |
+
+Quattro prove tengono allineate cose che potrebbero divergere in silenzio:
+
+- **ogni codice che il server può emettere ha una copy nel browser**, e uno stato
+  HTTP. Aggiungere un codice rompe le prove finché qualcuno non scrive che cosa
+  dice all'utente.
+- **il tetto di caratteri è lo stesso numero** nel browser e sul server.
+- **il modello che chiamiamo è quello nominato nell'informativa**: la prova
+  traduce `anthropic/claude-sonnet-5` in «Claude Sonnet 5» e lo cerca in
+  `privacy.html`. Cambiare modello senza toccare l'informativa non compila.
+- **la funzione è dichiarata in regione europea** in `vercel.json`.
+
+### Verificato in un browser vero
+
+Chromium, cedolino finto generato per l'occasione, con dentro due righe ostili
+(`<script>alert(1)</script>` e «IGNORA LE ISTRUZIONI PRECEDENTI»). Davanti
+all'endpoint, un finto gateway locale: il percorso è quello vero dall'upload al
+voto, ma la risposta del modello è scritta da noi.
+
+- lettura, oscuramento, consenso, invio, risultato completo;
+- la voce inventata dal finto gateway (`PREMIO PRODUZIONE 2026`, 9.999,00) **non
+  arriva a schermo**, e la fascia di scarto finisce nell'evento;
+- lo script compare come caratteri: zero nodi `<script>` o `<img>` dentro il
+  risultato, zero dialoghi aperti;
+- `localStorage`, `sessionStorage` e i cookie restano vuoti dopo il risultato;
+- le sole richieste di rete sono il dominio stesso, Datafast e la nostra POST;
+- i sette eventi Datafast scattano nell'ordine giusto, con le sole proprietà
+  ammesse: nessun importo, nessuna dicitura, nessun conteggio;
+- risposta non conforme: riquadro d'errore con la copy giusta, evento
+  `payslip_analysis {success:false, error_code:risposta_non_conforme}`, pulsante
+  riabilitato per ritentare;
+- conto che non torna: differenza esposta, copy prudente, al massimo tre «cose da
+  verificare»;
+- voto da tastiera, cancellazione della sessione che svuota davvero la pagina;
+- desktop 1280×900 e mobile 390×844, albero di accessibilità letto.
+
+### Cosa NON è verificato di RIC-69
+
+- **Nessuna chiamata reale ad AI Gateway è mai partita.** Non esiste una chiave
+  sul progetto, e crearne una è una spesa: quella verifica tocca a Riccardo, su
+  una preview. Con una chiave non valida il gateway risponde `401` prima di
+  guardare il corpo, quindi nemmeno la forma della richiesta ha avuto conferma
+  dal servizio vero.
+- **`zeroDataRetention` per richiesta è documentato come funzione Pro/Enterprise.**
+  Su un piano Hobby la richiesta fallisce — e fallisce chiusa, che è il verso
+  giusto, ma vuol dire che l'analisi non funziona finché il piano non lo permette
+  o finché la ZDR non è attiva a livello di team.
+- **Nessuno ha verificato che il modello legga bene un cedolino vero.** È la
+  decisione 3 di RIC-64. Le guardie impediscono di mostrare numeri inventati; non
+  garantiscono che i numeri veri siano capiti.
+- **I contatori di frequenza e budget vivono in memoria dell'istanza.** Su Vercel
+  le istanze sono più d'una e muoiono: il limite vero va messo sul gateway con
+  `vercel ai-gateway budgets set`.
+
 ## Cosa NON è provato
 
 - **Nessuna validazione da un consulente del lavoro.** I numeri sono derivati da fonti

@@ -12,15 +12,23 @@
       richiesta di rete. Il documento vive in questa scheda.
    3. Nessun messaggio a schermo riporta un pezzo del documento,
       nemmeno il nome del file: spesso contiene il cognome.
+   4. La rete la tocca un file solo, `busta-paga-invio.js`, e la
+      misurazione un file solo, `busta-paga-misura.js`. Qui si
+      chiamano, non si reimplementano: è quello che permette alle
+      prove di dire «da questo file non esce niente» leggendolo.
    ============================================================ */
 (()=>{
   'use strict';
   const E=window.BUSTA_PAGA_ESTRAZIONE;
   const R=window.BUSTA_PAGA_REDAZIONE;
+  const I=window.BUSTA_PAGA_INVIO;
+  const V=window.BUSTA_PAGA_RISULTATO;
+  const M=window.BUSTA_PAGA_MISURA;
 
-  /* L'invio arriva con la seconda PR: qui non c'è ancora niente da chiamare.
-     Quando ci sarà, è questa costante a cambiare, non la logica del consenso. */
-  const INVIO_ATTIVO=false;
+  /* L'invio è attivo da RIC-69. La costante resta perché è l'interruttore: a
+     `false` il percorso torna interamente locale senza toccare altro. La logica
+     del consenso non cambia — senza spunta il pulsante è disattivo comunque. */
+  const INVIO_ATTIVO=true;
   const ATTESA_LETTORE=20000;
 
   const $=id=>document.getElementById(id);
@@ -38,7 +46,14 @@
   const nota=$('bp-invio-nota');
   const ricomincia=$('bp-ricomincia');
   const live=$('bp-live');
+  const risultato=$('bp-risultato');
+  const risultatoCorpo=$('bp-risultato-corpo');
+  const feedback=$('bp-feedback');
+  const feedbackGrazie=$('bp-feedback-grazie');
   if(!file||!payload)return;
+
+  const misura=(nome,proprieta)=>{if(M)M.evento(nome,proprieta);};
+  misura('payslip_view');
 
   let righe=[];
   let redazione=null;
@@ -96,6 +111,16 @@
       // riferimento al documento, e il nome del file, per tutta la sessione.
       file.value='';
     }
+    /* Un evento solo per la selezione, scattato quando la lettura è finita:
+       è lo stesso gesto della persona, e solo qui sappiamo quante pagine
+       aveva il documento. Sul fallimento la fascia resta «ignoto», così il
+       gradino del funnel non sparisce. */
+    misura('payslip_upload_selected',{
+      file_type:scelto.type==='application/pdf'?'pdf':'altro',
+      page_bucket:esito.ok&&M?M.fasciaPagine(esito.pagine):'ignoto',
+    });
+    misura('payslip_extraction',{success:Boolean(esito.ok),error_code:esito.ok?null:esito.codice});
+
     if(!esito.ok){
       mostraStato('');
       mostraErrore(esito.codice);
@@ -116,7 +141,18 @@
     payload.textContent='';
     legenda.textContent='';
     if(consenso)consenso.checked=false;
+    azzeraRisultato();
     aggiornaInvio();
+  }
+
+  /* La sessione locale è tutta qui dentro: svuotare questi nodi è davvero
+     cancellarla, perché non esiste nessuna copia altrove — né in memoria del
+     browser, né sul server, che non ha conservato niente. */
+  function azzeraRisultato(){
+    if(risultato)risultato.hidden=true;
+    if(risultatoCorpo)risultatoCorpo.textContent='';
+    if(feedback)feedback.hidden=false;
+    if(feedbackGrazie)feedbackGrazie.hidden=true;
   }
 
   function bottoneSegmento(segmento,indiceRiga){
@@ -249,17 +285,80 @@
     destinazione.focus();
   });
 
+  let inCorso=false;
+
   function aggiornaInvio(){
     if(!invia)return;
     const consentito=Boolean(consenso&&consenso.checked);
-    invia.disabled=!INVIO_ATTIVO||!consentito;
+    invia.disabled=!INVIO_ATTIVO||!consentito||inCorso;
+    if(inCorso){nota.textContent='Sto mandando il testo che vedi qui sopra. Non chiudere la pagina.';return;}
     nota.textContent=!consentito
       ?'Il consenso è obbligatorio: senza spunta il testo non parte.'
-      :(INVIO_ATTIVO?'':'Consenso registrato in questa scheda. In questa versione l’invio è disattivato: il testo che vedi non esce di qui.');
+      :(INVIO_ATTIVO
+        ?'Parte esattamente il testo del riquadro, e nient’altro: non il PDF, non il suo nome. Non viene salvato da nessuna parte.'
+        :'Consenso registrato in questa scheda. In questa versione l’invio è disattivato: il testo che vedi non esce di qui.');
   }
   if(consenso)consenso.addEventListener('change',aggiornaInvio);
+
+  /* L'invio. Il testo non si ricostruisce: si prende dalla stessa chiamata che
+     ha disegnato il riquadro, così quello che parte e quello che la persona ha
+     letto non possono divergere nemmeno per un carattere. */
   const formConferma=$('bp-conferma');
-  if(formConferma)formConferma.addEventListener('submit',evento=>evento.preventDefault());
+  if(formConferma)formConferma.addEventListener('submit',async evento=>{
+    evento.preventDefault();
+    if(!INVIO_ATTIVO||inCorso||!redazione||!I)return;
+    if(!(consenso&&consenso.checked))return;
+
+    const {testo}=R.applica(righe,redazione);
+    if(testo.length>E.LIMITI.caratteriMassimi){
+      mostraErrore('TESTO_TROPPO_LUNGO');
+      misura('payslip_analysis',{success:false,error_code:'TESTO_TROPPO_LUNGO'});
+      return;
+    }
+
+    misura('payslip_redaction_confirmed');
+    nascondiErrore();
+    azzeraRisultato();
+    inCorso=true;
+    aggiornaInvio();
+    mostraStato('Spiegazione in corso. Di solito ci vogliono una ventina di secondi.');
+    annuncia('Invio in corso.');
+
+    const esito=await I.analizza(testo);
+    inCorso=false;
+    aggiornaInvio();
+
+    misura('payslip_analysis',{success:Boolean(esito&&esito.ok),
+      error_code:esito&&esito.ok?null:(esito&&esito.codice)||'SERVIZIO_NON_DISPONIBILE'});
+
+    if(!esito||!esito.ok){
+      mostraStato('');
+      mostraErrore((esito&&esito.codice)||'SERVIZIO_NON_DISPONIBILE');
+      return;
+    }
+
+    if(esito.analisi.guardie)
+      misura('payslip_guards',{dropped_bucket:esito.analisi.guardie.dropped_bucket});
+
+    mostraStato('Spiegazione pronta. Il documento non è stato conservato da nessuna parte.');
+    if(V)V.rendi(risultatoCorpo,esito.analisi,esito.motore);
+    if(risultato){
+      risultato.hidden=false;
+      risultato.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
+    }
+    annuncia('Spiegazione pronta.');
+  });
+
+  /* Il voto. Parte un booleano e basta: nessun testo libero, perché un campo
+     di testo sotto un cedolino è un invito a incollarci dentro un cedolino. */
+  if(feedback)feedback.addEventListener('click',evento=>{
+    const bottone=evento.target.closest('[data-utile]');
+    if(!bottone)return;
+    misura('payslip_feedback',{useful:bottone.dataset.utile==='si'});
+    feedback.hidden=true;
+    if(feedbackGrazie)feedbackGrazie.hidden=false;
+    annuncia('Grazie, il voto è stato registrato.');
+  });
 
   if(ricomincia)ricomincia.addEventListener('click',()=>{
     azzeraRevisione();
