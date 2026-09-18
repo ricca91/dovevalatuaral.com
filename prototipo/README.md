@@ -11,13 +11,16 @@ del 21 febbraio 2026.
 
 ## I file
 
-**Ti spiego la busta paga** (`busta-paga.html`) è il percorso di RIC-68, in prova e
+**Ti spiego la busta paga** (`busta-paga.html`) è il percorso di RIC-64, in prova e
 non raggiungibile dalla navigazione: si carica un cedolino in PDF, viene letto
-**nel browser** e il testo oscurato viene mostrato per intero prima di qualunque
-invio — che in questa versione è disattivato. È l'unica pagina che non si apre con
-un doppio clic: la libreria di lettura (`vendor/pdfjs/`, copia locale, non una CDN)
-è un modulo ES e vuole un server. Google Analytics 4 non viene caricato qui.
-[Contratti, euristiche e limiti](busta-paga.md).
+**nel browser**, il testo oscurato viene mostrato per intero prima dell'invio, e
+dopo il consenso viene spiegato voce per voce. Il PDF non esce mai; esce solo la
+stringa che si legge nel riquadro. Ogni voce mostrata deve citare alla lettera
+quel testo, le somme le rifacciamo noi, e una risposta fuori formato non viene
+mostrata. È l'unica pagina che non si apre con un doppio clic: la libreria di
+lettura (`vendor/pdfjs/`, copia locale, non una CDN) è un modulo ES e vuole un
+server, e l'analisi vuole `api/busta-paga.js`. Google Analytics 4 non viene
+caricato qui. [Contratti, guardie e limiti](busta-paga.md).
 
 **Netto o niente** (`netto-o-niente.html`) è il gioco di RIC-62: confronti fra
 offerte fittizie fino al primo errore, record locale e sfide tramite link.
@@ -28,11 +31,14 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | File | Che cos'è |
 |---|---|
 | `index.html` | la pagina |
-| `busta-paga.html` | il percorso del cedolino: promessa, limiti, upload, revisione, conferma |
+| `busta-paga.html` | il percorso del cedolino: promessa, limiti, upload, revisione, conferma, risultato |
 | `busta-paga-estrazione.js` | da frammenti con coordinate a righe, più limiti e codici di errore |
 | `busta-paga-redazione.js` | da righe a righe oscurate, con l'elenco di che cosa è stato oscurato e perché |
 | `busta-paga-pdf.js` | l'unico file che tocca pdf.js, modulo ES |
-| `busta-paga-ui.js` | il controller della pagina: campo file, riquadro, commutazione, consenso |
+| `busta-paga-ui.js` | il controller della pagina: campo file, riquadro, commutazione, consenso, invio |
+| `busta-paga-invio.js` | l'unico file del percorso che tocca la rete: manda il testo oscurato e basta |
+| `busta-paga-risultato.js` | le quattro sezioni del risultato, scritte come testo e mai come HTML |
+| `busta-paga-misura.js` | gli eventi Datafast del percorso, con nomi e proprietà a elenco chiuso |
 | `privacy.html` | l'informativa di tutto il sito |
 | `analytics-datafast.js` | l'analytics del solo percorso busta paga: Datafast, senza GA4 |
 | `compara.html` | il confronto fra due offerte: modulo, tabella e controller |

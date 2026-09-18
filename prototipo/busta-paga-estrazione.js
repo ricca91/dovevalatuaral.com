@@ -145,8 +145,15 @@
     return AMMESSO;
   }
 
-  /* Copy degli errori. Nessun messaggio riporta una parte del documento: il
-     testo del cedolino non esce da qui, nemmeno dentro un errore. */
+  /* Copy degli errori, di lettura e di analisi. Nessun messaggio riporta una
+     parte del documento: il testo del cedolino non esce da qui, nemmeno dentro
+     un errore — e il server non manda mai copy, manda solo codici.
+
+     I codici dell'analisi sono definiti in `server/busta-paga-contratto.js`,
+     dentro `CODICI`, perché è il server a emetterli. Stanno però qui, insieme
+     agli altri, perché la copy è una cosa sola: una prova impone che i due
+     elenchi combacino esattamente, così nessun codice nuovo può arrivare a
+     schermo senza qualcuno che lo spieghi. */
   const MESSAGGI=Object.freeze({
     FILE_NON_PDF:{
       titolo:'Serve un PDF, non un’immagine.',
@@ -179,6 +186,34 @@
     PDF_ILLEGGIBILE:{
       titolo:'Non siamo riusciti ad aprire il file.',
       cosaFare:'Il PDF potrebbe essere danneggiato o creato da un programma che non riusciamo a leggere. Prova a riscaricarlo dal portale.',
+    },
+    TESTO_NON_VALIDO:{
+      titolo:'Il testo da spiegare non è arrivato come doveva.',
+      cosaFare:'Ricarica la pagina e riprova con lo stesso cedolino. Se succede di nuovo, il problema è nostro, non tuo.',
+    },
+    TESTO_TROPPO_LUNGO:{
+      titolo:'Il testo oscurato è troppo lungo per essere analizzato.',
+      cosaFare:'Questa versione legge una sola mensilità, fino a 20.000 caratteri. Se il PDF contiene più cedolini o allegati, caricane uno per volta.',
+    },
+    TROPPE_RICHIESTE:{
+      titolo:'Hai fatto troppe analisi in poco tempo.',
+      cosaFare:'È un limite che teniamo apposta: l’analisi costa e la pagina è aperta a tutti. Riprova fra un’ora. Il tuo documento non è stato conservato.',
+    },
+    BUDGET_SUPERATO:{
+      titolo:'Per oggi le analisi sono finite.',
+      cosaFare:'C’è un tetto di spesa giornaliero su questo strumento, e oggi è stato raggiunto. Riprova domani: il testo che vedi non è uscito da qui.',
+    },
+    RISPOSTA_NON_CONFORME:{
+      titolo:'La spiegazione che è tornata non rispetta il formato che pretendiamo.',
+      cosaFare:'Preferiamo non mostrarti niente piuttosto che mostrarti qualcosa che non abbiamo potuto controllare. Riprova: capita, e quasi sempre al secondo tentativo funziona.',
+    },
+    NESSUNA_VOCE:{
+      titolo:'Nessuna voce ha superato i nostri controlli.',
+      cosaFare:'Mostriamo solo le voci la cui dicitura e il cui importo compaiono alla lettera nel testo che hai inviato, e stavolta non ne è passata nessuna. Può capitare con un cedolino dal layout insolito.',
+    },
+    SERVIZIO_NON_DISPONIBILE:{
+      titolo:'Il servizio che spiega le voci non risponde.',
+      cosaFare:'Riprova fra qualche minuto. Il tuo cedolino non è stato conservato da nessuna parte: quando riprovi si riparte dal file.',
     },
   });
 

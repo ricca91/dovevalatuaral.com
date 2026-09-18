@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ti spiego la busta paga | Dove va la tua RAL</title>
-<meta name="description" content="Carica il cedolino: il PDF resta nel tuo browser, il testo viene oscurato dove serve e tu vedi esattamente che cosa partirebbe. In questa versione l’invio è disattivato.">
+<meta name="description" content="Carica il cedolino: il PDF resta nel tuo browser, il testo viene oscurato dove serve e tu vedi esattamente che cosa parte. Poi ti spieghiamo voce per voce che cosa significa.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%231E1C2B' d='M0 0h32v32H0z'/%3E%3Ctext x='16' y='24' fill='%2321D4E3' text-anchor='middle' font-size='24'%3E€%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="draftsman.css">
@@ -26,9 +26,9 @@
 
 <main id="contenuto" class="bp-main">
   <header class="bp-heading">
-    <p class="bp-eyebrow">[ VERSIONE DI PROVA — NIENTE ESCE DA QUESTA SCHEDA ]</p>
+    <p class="bp-eyebrow">[ VERSIONE DI PROVA — IL PDF NON LASCIA QUESTA SCHEDA ]</p>
     <h1>Ti spiego la busta paga</h1>
-    <p class="bp-lead">Carica il cedolino: lo leggiamo qui dentro, oscuriamo i dati che ti identificano e ti facciamo vedere, carattere per carattere, il testo che un giorno partirà per essere spiegato. Oggi non parte: la spiegazione arriva con il prossimo rilascio.</p>
+    <p class="bp-lead">Carica il cedolino: lo leggiamo qui dentro, oscuriamo i dati che ti identificano e ti facciamo vedere, carattere per carattere, il testo che parte. Poi ti spieghiamo ogni riga: che cos’è, se aumenta il lordo o riduce il netto, e che cosa varrebbe la pena verificare.</p>
   </header>
 
   <section class="bp-sezione" aria-labelledby="bp-h-funziona">
@@ -37,6 +37,7 @@
       <li><strong>Il PDF resta nel browser.</strong> Viene aperto in questa scheda e non viene caricato da nessuna parte: non lo salviamo, non lo inviamo, non resta niente quando chiudi la pagina.</li>
       <li><strong>Il testo viene oscurato.</strong> Riconosciamo nome, codice fiscale, IBAN, indirizzo, matricola, partita IVA e data di nascita. Oscuriamo anche le sigle sindacali e i motivi di assenza, tenendo gli importi: sono dati particolari, ma il conto deve continuare a tornare.</li>
       <li><strong>Decidi tu, parola per parola.</strong> Nel riquadro nero ogni parola è un bottone: premila per oscurarla, premi un segnaposto per riportarla. Il riconoscimento automatico non è mai completo — l'ultima lettura è la tua.</li>
+      <li><strong>Parte solo quel testo, e solo se lo dici tu.</strong> Dopo la spunta di consenso il testo del riquadro viene mandato a un modello linguistico perché lo spieghi. Mostriamo una voce solo se dicitura e importo compaiono alla lettera in quel testo: quelle che non superano il controllo non te le facciamo vedere. Le somme le rifacciamo noi, non il modello.</li>
     </ol>
   </section>
 
@@ -51,8 +52,8 @@
     <div class="callout callout--info">
       <span class="callout__mark" aria-hidden="true">i</span>
       <div>
-        <p>Il PDF non lascia il browser. Il testo oscurato, quando l'invio sarà attivo, verrà mandato a un modello linguistico per essere spiegato: sarà testo <strong>pseudonimizzato, non anonimo</strong>, perché importi, livello, CCNL, comune e mese restano dati personali. Per questo la schermata di conferma ti mostra il testo esatto, e per questo il consenso è esplicito.</p>
-        <p>In questa versione non parte niente: nessuna richiesta di rete trasporta il contenuto del documento. <a href="privacy.html">Leggi l'informativa completa</a>.</p>
+        <p>Il PDF non lascia il browser. Il testo oscurato sì: viene mandato a un modello linguistico perché lo spieghi, ed è testo <strong>pseudonimizzato, non anonimo</strong>, perché importi, livello, CCNL, comune e mese restano dati personali. Per questo la schermata di conferma ti mostra il testo esatto, e per questo il consenso è esplicito.</p>
+        <p>L'analisi gira su <strong>Claude Sonnet 5 di Anthropic</strong>, instradato via Vercel AI Gateway con <strong>inferenza in regione europea</strong> e con il divieto di usare il testo per addestrare il modello. Prima di ogni invio controlliamo che in quella regione il modello sia servito solo da fornitori che <strong>non conservano</strong> i prompt: se non fosse così, il testo non partirebbe. Da noi non viene salvato in nessun database, in nessun archivio e in nessun log — esiste per la durata della richiesta. <a href="privacy.html">Leggi l'informativa completa</a>.</p>
       </div>
     </div>
   </section>
@@ -75,7 +76,7 @@
   </section>
 
   <section class="bp-sezione" id="bp-revisione" aria-labelledby="bp-h-revisione" hidden>
-    <h2 id="bp-h-revisione">2. Questo è il testo che partirebbe</h2>
+    <h2 id="bp-h-revisione">2. Questo è il testo che parte</h2>
     <p>Non è un riassunto di quello che abbiamo oscurato: è il testo, esattamente com'è. Premi una parola per oscurarla, premi un segnaposto per riportarla nel testo.</p>
     <p class="bp-invio-nota">Da tastiera: entra nel riquadro con il tabulatore, muoviti fra le parole con le frecce, oscura o riporta con Invio o barra spaziatrice. Un altro tabulatore esce dal riquadro.</p>
     <div class="bp-payload" id="bp-payload" tabindex="0" role="group" aria-label="Testo del cedolino, parola per parola"></div>
@@ -98,8 +99,26 @@
     </form>
   </section>
 
+  <section class="bp-sezione" id="bp-risultato" aria-labelledby="bp-h-risultato" hidden>
+    <h2 id="bp-h-risultato">3. Che cosa dice il tuo cedolino</h2>
+    <div class="bp-ris" id="bp-risultato-corpo"></div>
+
+    <div class="bp-feedback" id="bp-feedback">
+      <p><strong>Questa spiegazione ti è stata utile?</strong></p>
+      <div class="bp-azioni">
+        <button class="btn btn--ghost" type="button" data-utile="si">Sì</button>
+        <button class="btn btn--ghost" type="button" data-utile="no">No</button>
+      </div>
+      <p class="bp-invio-nota">Parte un sì o un no, nient'altro: nessun testo, nessun importo, nessuna voce del tuo cedolino.</p>
+    </div>
+    <p class="bp-feedback__grazie" id="bp-feedback-grazie" hidden>Grazie. È il segnale che ci dice se questo strumento vale la pena.</p>
+
+    <p class="bp-invio-nota">Quando hai finito, <strong>cancella la sessione</strong> con il pulsante qui sopra: svuota la pagina. Non c'è niente da cancellare altrove, perché non è stato salvato niente altrove.</p>
+  </section>
+
   <footer class="bp-note">
     <p><strong>Limiti dichiarati.</strong> Il riconoscimento dei dati da oscurare è deterministico: riconosce schemi noti, non capisce il documento. Il nome è il caso più fragile, perché non ha una forma fissa. Controlla il riquadro prima di confermare.</p>
+    <p><strong>Nessuno ha verificato che il modello legga bene un cedolino vero prima di te.</strong> È una conseguenza voluta: per provarlo avremmo dovuto raccogliere buste paga di altre persone, e abbiamo preferito non farlo. Al posto della prova ci sono controlli meccanici — ogni voce deve citare alla lettera il testo che hai inviato, le somme le rifacciamo noi, una risposta fuori formato non viene mostrata. Impediscono di mostrarti numeri inventati; non garantiscono che i numeri veri siano stati capiti. Questa spiegazione non sostituisce un consulente del lavoro, un CAF o un sindacato.</p>
     <p>Questa pagina non è raggiungibile dalla navigazione del sito: è in prova. Non sostituisce un consulente del lavoro, un CAF o un sindacato, e non certifica la correttezza di quello che ha fatto il datore.</p>
     <p><a href="privacy.html">Informativa privacy</a> · <a href="index.html">Il calcolatore</a> · <a href="come-ho-lavorato.html">Come ho lavorato</a></p>
   </footer>
@@ -107,6 +126,9 @@
 
 <script src="busta-paga-estrazione.js"></script>
 <script src="busta-paga-redazione.js"></script>
+<script src="busta-paga-misura.js"></script>
+<script src="busta-paga-invio.js"></script>
+<script src="busta-paga-risultato.js"></script>
 <script src="site-nav.js"></script>
 <script src="busta-paga-ui.js"></script>
 <script type="module" src="busta-paga-pdf.js"></script>
