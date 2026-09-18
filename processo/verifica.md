@@ -356,7 +356,8 @@ gateway è iniettabile, e al suo posto girano risposte del modello scritte a man
 | — l'iniezione | che il documento non può dare ordini | il testo del cedolino compare solo nel messaggio utente, mai in quello di sistema; un documento che contiene i delimitatori non riesce a chiudere il recinto; e un'istruzione iniettata che venisse obbedita produce comunque voci che non si citano |
 | — lo script | che un cedolino con dentro uno script resta caratteri | la stringa attraversa l'analisi senza essere né interpretata né riscritta, e il renderer non contiene `innerHTML`, `insertAdjacentHTML`, `document.write` né `eval` |
 | — i tetti | che caratteri, frequenza e budget rifiutano in modo pulito | finestra di frequenza che si chiude e si riapre, budget che si azzera il giorno dopo, interruttore che spegne tutto, e l'impronta del chiamante che cambia fra il 17 e il 18 settembre |
-| — il trattamento | che le tre condizioni partono davvero | il corpo della richiesta porta `zeroDataRetention`, `disallowPromptTraining` e `inferenceRegion: eu`; in produzione l'indirizzo del gateway non è spostabile da una variabile d'ambiente |
+| — il trattamento | che le condizioni partono davvero | il corpo della richiesta porta `disallowPromptTraining` e `inferenceRegion: eu`; in produzione l'indirizzo del gateway non è spostabile da una variabile d'ambiente |
+| — la non conservazione | che nessun fornitore raggiungibile in UE conservi il prompt | cataloghi scritti a mano: uno pulito passa; uno con un fornitore `has_zdr: false` **in regione** blocca; uno con lo stesso fornitore fuori regione no, perché non possiamo finirci; catalogo illeggibile, vuoto o irraggiungibile bloccano. Senza garanzia il modello non viene interpellato e il gettone del budget non si consuma |
 | `prototipo/busta-paga-pagina.test.js` | che esce solo il testo redatto | `busta-paga-invio.js` contiene **una** `fetch`, un corpo `{testo}` e nessuna menzione di `FormData`, `Blob`, `arrayBuffer`, `.files` o del nome del file; tutti gli altri file del percorso mantengono il divieto |
 
 Quattro prove tengono allineate cose che potrebbero divergere in silenzio:
@@ -401,10 +402,14 @@ voto, ma la risposta del modello è scritta da noi.
   una preview. Con una chiave non valida il gateway risponde `401` prima di
   guardare il corpo, quindi nemmeno la forma della richiesta ha avuto conferma
   dal servizio vero.
-- **`zeroDataRetention` per richiesta è documentato come funzione Pro/Enterprise.**
-  Su un piano Hobby la richiesta fallisce — e fallisce chiusa, che è il verso
-  giusto, ma vuol dire che l'analisi non funziona finché il piano non lo permette
-  o finché la ZDR non è attiva a livello di team.
+- **La non conservazione non è imposta al gateway, è verificata prima.** Il
+  filtro `zeroDataRetention` per richiesta è funzione Pro/Enterprise e questo
+  progetto sta su Hobby, quindi non viene mandato. Al suo posto
+  `server/busta-paga-ritenzione.js` legge il catalogo pubblico e blocca se in UE
+  esiste un fornitore che conserva. È una garanzia equivalente ma **di natura
+  diversa**: si appoggia a ciò che Vercel dichiara nel catalogo, non a un
+  comportamento del gateway. Se un giorno il catalogo dicesse il falso, questa
+  verifica non se ne accorgerebbe.
 - **Nessuno ha verificato che il modello legga bene un cedolino vero.** È la
   decisione 3 di RIC-64. Le guardie impediscono di mostrare numeri inventati; non
   garantiscono che i numeri veri siano capiti.

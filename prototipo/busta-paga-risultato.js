@@ -208,9 +208,18 @@
   function provenienza(motore){
     const sezione=elemento('section','bp-ris__blocco bp-ris__blocco--piede');
     sezione.appendChild(elemento('h3','bp-ris__h','Da dove viene questa spiegazione'));
-    if(motore&&motore.modello)
+    if(motore&&motore.modello){
+      const dove=motore.fornitore
+        ?`${motore.fornitore}, in regione «${motore.regione}»`
+        :`un fornitore in regione «${motore.regione}»`;
       sezione.appendChild(elemento('p','bp-ris__nota',
-        `Il testo oscurato è stato spiegato da ${motore.modello}, instradato via Vercel AI Gateway con inferenza in regione europea, retention zero e divieto di addestramento sui prompt. Non è stato salvato da nessuna parte: né da noi, né nei log.`));
+        `Il testo oscurato è stato spiegato da ${motore.modello}, instradato via Vercel AI Gateway ed eseguito da ${dove}. Il divieto di usare il testo per addestrare il modello viaggia nella richiesta. Non è stato salvato da nessuna parte: né da noi, né nei log.`));
+      /* Il nome dei fornitori non è decorazione: è il modo in cui la promessa
+         «nessuno lo conserva» diventa una cosa che si può controllare. */
+      if(motore.fornitoriVerificati&&motore.fornitoriVerificati.length)
+        sezione.appendChild(elemento('p','bp-ris__nota',
+          `Prima di mandarlo abbiamo verificato sul catalogo pubblico di Vercel che in regione europea questo modello sia servito solo da fornitori che non conservano i prompt e non ci addestrano sopra: ${motore.fornitoriVerificati.join(' e ')}. Se un giorno ne comparisse uno che conserva, il testo non partirebbe affatto.`));
+    }
     sezione.appendChild(elemento('p','bp-ris__nota',
       'Limite dichiarato: nessuno ha verificato su cedolini veri quanto bene il modello li legga. Abbiamo scelto controlli meccanici — ogni voce deve citarsi, le somme le facciamo noi — invece di una valutazione su documenti di altre persone. Impediscono di mostrarti numeri inventati; non garantiscono che quelli veri siano capiti.'));
     return sezione;

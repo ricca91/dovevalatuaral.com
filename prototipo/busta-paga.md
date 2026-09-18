@@ -28,6 +28,7 @@ navigazione del sito: la pagina è ancora in prova.
 | `server/busta-paga-contratto.js` | schema, guardie, riconciliazione, cose da verificare |
 | `server/busta-paga-prompt.js` | il messaggio di sistema e il recinto attorno al documento |
 | `server/busta-paga-tetti.js` | caratteri, frequenza per chiamante, budget giornaliero |
+| `server/busta-paga-ritenzione.js` | la verifica che in UE nessun fornitore raggiungibile conservi il prompt |
 | `privacy.html` | l'informativa di tutto il sito, non solo di questo percorso |
 | `analytics-datafast.js` | solo Datafast: su questa pagina GA4 non viene caricato |
 | `vendor/pdfjs/` | pdf.js 6.3.289, copia locale ([perché](vendor/pdfjs/README.md)) |
@@ -101,24 +102,59 @@ verificato riga per riga da una prova. È quello che rende «il PDF non lascia i
 browser» una proprietà leggibile dal codice invece di una promessa.
 
 L'endpoint gira in **regione europea** (`fra1` in `vercel.json`) e instrada la
-richiesta via Vercel AI Gateway a **`anthropic/claude-sonnet-5`**, con tre
-condizioni imposte a ogni singola richiesta:
+richiesta via Vercel AI Gateway a **`anthropic/claude-sonnet-5`**.
+
+Il modello non è sovrascrivibile da variabile d'ambiente — è nominato
+nell'informativa come responsabile del trattamento, quindi cambia con un deploy,
+non con una configurazione — e l'indirizzo del gateway è spostabile solo fuori
+produzione, dove serve a metterci davanti un finto gateway per le prove in
+browser.
+
+## Le tre condizioni, e perché una arriva da un'altra strada
+
+RIC-64 ne pretende tre: inferenza in UE, divieto di addestramento, non
+conservazione. Due viaggiano nella richiesta:
 
 ```js
 providerOptions: { gateway: {
-  zeroDataRetention: true,
   disallowPromptTraining: true,
   inferenceRegion: { scope: 'zone', geoRegion: 'eu' },
 }}
 ```
 
-Se il gateway non trova un fornitore che le rispetti tutte e tre, la richiesta
-**fallisce**. È voluto: meglio non spiegare un cedolino che spiegarlo altrove.
-Per lo stesso motivo il modello non è sovrascrivibile da variabile d'ambiente —
-è nominato nell'informativa come responsabile del trattamento, quindi cambia con
-un deploy, non con una configurazione — e l'indirizzo del gateway è spostabile
-solo fuori produzione, dove serve a metterci davanti un finto gateway per le
-prove in browser.
+Se il gateway non può onorare la regione, la richiesta **fallisce** invece di
+correre altrove — lo dice la documentazione, e la risposta riporta comunque dove
+ha girato davvero, che leggiamo e mostriamo a schermo.
+
+Manca `zeroDataRetention: true`, e la ragione non è una svista. Vercel offre quel
+filtro per richiesta **solo sui piani Pro ed Enterprise**, e questo progetto sta
+su Hobby: mandarlo farebbe fallire ogni analisi.
+
+Al suo posto c'è `server/busta-paga-ritenzione.js`, e il ragionamento è questo.
+Il filtro serve a **escludere** i fornitori che conservano; noi verifichiamo
+invece che in regione europea non ce ne sia **nessuno da escludere**. Il catalogo
+pubblico di Vercel dichiara `has_zdr` e `has_no_training` per ogni coppia
+fornitore-modello, non vuole una chiave e non costa niente: prima di ogni invio
+lo leggiamo, teniamo solo gli endpoint che servono la UE, e se anche uno solo
+conserva — o se il catalogo non risponde — **il cedolino non parte**.
+
+Le due strade arrivano allo stesso punto da direzioni opposte, e la differenza
+sta in dove metti la fiducia: con il filtro ti fidi che il gateway lo applichi,
+qui leggi tu il catalogo prima di mandare. Oggi in UE questo modello è servito da
+`bedrock` e `vertexAnthropic`, entrambi con accordo di conservazione azzerata.
+I loro nomi finiscono a schermo insieme al risultato, perché una promessa
+controllabile vale più di una promessa.
+
+L'esito positivo si ricorda per istanza — il catalogo cambia di rado — mentre un
+fallimento si riprova: un problema di rete non deve restare appiccicato
+all'istanza per sempre. Su un piano Pro il filtro si può rimettere con
+`BUSTA_PAGA_ZDR=1`, come cintura sopra le bretelle.
+
+Per guardare con i propri occhi prima di un rilascio:
+
+```
+node server/busta-paga-ritenzione.js
+```
 
 ## Le guardie, al posto della valutazione
 

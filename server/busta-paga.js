@@ -17,12 +17,21 @@
      codici, e la copy dei codici sta nel browser.
    - **Gira in regione europea.** `vercel.json` dichiara `fra1`
      per le funzioni; la richiesta al gateway chiede a sua volta
-     inferenza in UE, retention zero e divieto di addestramento.
-     Se il gateway non trova un fornitore che rispetti tutte e
-     tre le condizioni, la richiesta **fallisce** invece di
-     ripiegare su uno che non le rispetta. Fallire chiuso è la
-     scelta: preferiamo non spiegare un cedolino piuttosto che
-     spiegarlo altrove.
+     inferenza in UE, e se il gateway non può onorare la regione
+     la richiesta **fallisce** invece di correre altrove.
+   - **Non conservazione e divieto di addestramento.** Il divieto
+     di addestramento viaggia nella richiesta
+     (`disallowPromptTraining`, che il gateway concede a tutti).
+     La non conservazione no: chiederla per richiesta è funzione
+     dei piani Pro, e questo progetto sta su Hobby. Al suo posto
+     c'è `busta-paga-ritenzione.js`, che prima di ogni invio
+     verifica sul catalogo pubblico che in regione europea questo
+     modello sia servito **solo** da fornitori che non conservano
+     — e blocca se non è così. Le due strade arrivano allo stesso
+     punto da direzioni opposte: una esclude chi conserva,
+     l'altra accerta che non ci sia nessuno da escludere.
+     Fallire chiuso è la scelta in entrambi i casi: preferiamo
+     non spiegare un cedolino piuttosto che spiegarlo altrove.
 
    Il limite dichiarato, che non va fatto sparire: nessuno ha
    verificato che il modello legga bene un cedolino vero prima
@@ -36,6 +45,7 @@
 const C=require('./busta-paga-contratto.js');
 const P=require('./busta-paga-prompt.js');
 const T=require('./busta-paga-tetti.js');
+const R=require('./busta-paga-ritenzione.js');
 
 const GATEWAY='https://ai-gateway.vercel.sh/v1/chat/completions';
 /* Scelto il 17 settembre 2026 fra i modelli che il catalogo del gateway dà
@@ -46,11 +56,17 @@ const REGIONE_INFERENZA='eu';
 const GETTONI_MASSIMI=8000;
 const ATTESA=55000;
 
-/* Le tre condizioni di trattamento, in un posto solo. Sono requisito di
-   prodotto (RIC-64), non configurazione: per questo non sono sovrascrivibili
-   da variabile d'ambiente. */
+/* Le condizioni di trattamento che viaggiano nella richiesta. Sono requisito
+   di prodotto (RIC-64), non configurazione: per questo non sono sovrascrivibili
+   da variabile d'ambiente.
+
+   `zeroDataRetention` manca apposta. Non perché non la vogliamo — è il cuore
+   della promessa — ma perché Vercel la offre per richiesta solo ai piani Pro, e
+   mandarla da un piano Hobby farebbe fallire ogni analisi. La stessa garanzia
+   arriva da `busta-paga-ritenzione.js`, che verifica prima di mandare. Su un
+   piano Pro si può rimettere il filtro con `BUSTA_PAGA_ZDR=1`: è una cintura in
+   più sopra le bretelle, non un sostituto della verifica. */
 const CONDIZIONI=Object.freeze({
-  zeroDataRetention:true,
   disallowPromptTraining:true,
   inferenceRegion:Object.freeze({scope:'zone',geoRegion:REGIONE_INFERENZA}),
 });
@@ -72,14 +88,35 @@ function indirizzo(ambiente={}){
   return ambiente.BUSTA_PAGA_GATEWAY||GATEWAY;
 }
 
-function corpoRichiesta(testo){
+function corpoRichiesta(testo,ambiente={}){
+  const gateway={...CONDIZIONI};
+  if(ambiente.BUSTA_PAGA_ZDR==='1')gateway.zeroDataRetention=true;
   return{
     model:MODELLO,
     messages:P.messaggi(testo),
     max_tokens:GETTONI_MASSIMI,
     stream:false,
-    providerOptions:{gateway:{...CONDIZIONI}},
+    providerOptions:{gateway},
   };
+}
+
+/* Dove il gateway ha eseguito davvero, letto dalla risposta. Il documento dice
+   che una regione che non può essere onorata fa fallire la richiesta, quindi
+   questo è un secondo paio d'occhi, non la difesa: serve a poterlo scrivere a
+   schermo invece di dare per scontato dove è finito il testo. */
+function doveHaGirato(corpo){
+  const scelta=corpo&&Array.isArray(corpo.choices)?corpo.choices[0]:null;
+  const gateway=scelta&&scelta.message&&scelta.message.provider_metadata
+    ?scelta.message.provider_metadata.gateway:null;
+  const instradamento=gateway&&gateway.routing?gateway.routing:null;
+  if(!instradamento)return{regione:null,fornitore:null};
+  const tentativi=Array.isArray(instradamento.modelAttempts)?instradamento.modelAttempts:[];
+  for(const tentativo of tentativi)
+    for(const prova of (tentativo.providerAttempts||[]))
+      if(prova&&prova.inferenceEndpoint&&prova.inferenceEndpoint.geoRegion)
+        return{regione:prova.inferenceEndpoint.geoRegion,
+          fornitore:instradamento.finalProvider||prova.provider||null};
+  return{regione:null,fornitore:instradamento.finalProvider||null};
 }
 
 /* Solo il codice e lo stato HTTP. Niente corpo, niente risposta, niente
@@ -92,17 +129,17 @@ function registra(codice,stato){
 
 /* La chiamata vera. È isolata perché nei test si sostituisce: nessuna prova
    automatica spende un centesimo né esce dalla macchina. */
-async function chiamaGateway(testo,ambiente={},{attesa=ATTESA}={}){
+async function chiamaGateway(testo,ambiente={},{attesa=ATTESA,preleva=fetch}={}){
   const chiave=credenziale(ambiente);
   if(!chiave)return{ok:false,codice:C.CODICI.SERVIZIO_NON_DISPONIBILE,speso:false};
 
   const stop=new AbortController();
   const scadenza=setTimeout(()=>stop.abort(),attesa);
   try{
-    const risposta=await fetch(indirizzo(ambiente),{
+    const risposta=await preleva(indirizzo(ambiente),{
       method:'POST',
       headers:{'Content-Type':'application/json',Authorization:`Bearer ${chiave}`},
-      body:JSON.stringify(corpoRichiesta(testo)),
+      body:JSON.stringify(corpoRichiesta(testo,ambiente)),
       signal:stop.signal,
     });
     if(!risposta.ok){
@@ -117,7 +154,16 @@ async function chiamaGateway(testo,ambiente={},{attesa=ATTESA}={}){
     const contenuto=scelta&&scelta.message?scelta.message.content:null;
     if(typeof contenuto!=='string'||!contenuto.trim())
       return{ok:false,codice:C.CODICI.RISPOSTA_NON_CONFORME,speso:true};
-    return{ok:true,contenuto};
+    /* Non dovrebbe succedere mai: il gateway fallisce da solo quando non può
+       onorare la regione. Se succede, il testo è già partito e non lo si
+       richiama indietro — ma almeno non mostriamo un risultato nato fuori da
+       dove avevamo promesso. */
+    const dove=doveHaGirato(corpo);
+    if(dove.regione&&dove.regione!==REGIONE_INFERENZA){
+      registra('regione-inattesa');
+      return{ok:false,codice:C.CODICI.SERVIZIO_NON_DISPONIBILE,speso:true};
+    }
+    return{ok:true,contenuto,dove};
   }catch(_){
     /* L'errore non si propaga e non si stampa: potrebbe portarsi dietro il
        corpo della richiesta, e il corpo della richiesta è un cedolino. */
@@ -141,11 +187,20 @@ function testoDaCorpo(corpo){
 
 /* Il passaggio completo, senza HTTP intorno: serve ai test e tiene l'handler
    sottile. `chiama` è iniettabile; `tetti` è condiviso fra le richieste. */
-async function analizza(corpo,{tetti,chiama=chiamaGateway,ambiente=process.env,
-  chiamante='',adesso=Date.now()}={}){
+async function analizza(corpo,{tetti,chiama=chiamaGateway,garanzia=R.garanzia,
+  ambiente=process.env,chiamante='',adesso=Date.now()}={}){
   const testo=testoDaCorpo(corpo);
   const ammesso=T.verificaTesto(testo);
   if(!ammesso.ok)return{ok:false,codice:ammesso.codice};
+
+  /* Prima di spendere e prima di mandare: c'è qualcuno, in regione europea,
+     che potrebbe conservare questo testo? Se sì, o se non riusciamo a
+     saperlo, non si parte. */
+  const conservazione=await garanzia(MODELLO,REGIONE_INFERENZA);
+  if(!conservazione.ok){
+    registra(`ritenzione:${conservazione.motivo}`);
+    return{ok:false,codice:C.CODICI.SERVIZIO_NON_DISPONIBILE};
+  }
 
   const gettone=tetti.consuma(chiamante,adesso);
   if(!gettone.ok)return{ok:false,codice:gettone.codice};
@@ -162,8 +217,11 @@ async function analizza(corpo,{tetti,chiama=chiamaGateway,ambiente=process.env,
     return{ok:false,codice:analisi.codice};
   }
   return{ok:true,analisi:analisi.analisi,
-    motore:{modello:MODELLO,regione:REGIONE_INFERENZA,
-      ritenzione:'zero',addestramento:'vietato'}};
+    motore:{modello:MODELLO,
+      regione:(esito.dove&&esito.dove.regione)||REGIONE_INFERENZA,
+      fornitore:(esito.dove&&esito.dove.fornitore)||null,
+      ritenzione:'zero',addestramento:'vietato',
+      fornitoriVerificati:conservazione.fornitori||[]}};
 }
 
 /* Lo stato HTTP per ogni codice. Il corpo porta comunque il codice: il numero
@@ -199,6 +257,7 @@ async function rispondi(req,res,opzioni={}){
   const esito=await analizza(req.body,{
     tetti:opzioni.tetti||tettiDi(ambiente),
     chiama:opzioni.chiama||chiamaGateway,
+    garanzia:opzioni.garanzia||R.garanzia,
     ambiente,
     chiamante:T.chiamanteDa(req.headers||{}),
     adesso:opzioni.adesso||Date.now(),
@@ -209,4 +268,5 @@ async function rispondi(req,res,opzioni={}){
 }
 
 module.exports={GATEWAY,MODELLO,REGIONE_INFERENZA,CONDIZIONI,GETTONI_MASSIMI,STATI,
-  indirizzo,corpoRichiesta,credenziale,testoDaCorpo,chiamaGateway,analizza,rispondi};
+  indirizzo,corpoRichiesta,credenziale,testoDaCorpo,doveHaGirato,chiamaGateway,
+  analizza,rispondi};

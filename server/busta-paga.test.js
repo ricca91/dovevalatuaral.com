@@ -20,6 +20,7 @@ const {resolve}=require('node:path');
 const C=require('./busta-paga-contratto.js');
 const P=require('./busta-paga-prompt.js');
 const T=require('./busta-paga-tetti.js');
+const RIT=require('./busta-paga-ritenzione.js');
 const S=require('./busta-paga.js');
 const handler=require('../api/busta-paga.js');
 const E=require('../prototipo/busta-paga-estrazione.js');
@@ -44,6 +45,10 @@ const TESTO=[
   'NETTO DEL MESE 1.700,00',
   'FERIE RESIDUE 12,50',
 ].join('\n');
+
+/* La verifica di non conservazione, sostituita: nessuna prova tocca la rete.
+   Il suo vero comportamento ha prove sue, piu' sotto, su cataloghi scritti a mano. */
+const GARANZIA=async()=>({ok:true,fornitori:['bedrock','vertexAnthropic']});
 
 const voce=(dati={})=>({sourceLabel:'RETRIBUZIONE ORDINARIA',sourceAmount:'2.000,00',
   category:'competenza',effect:'aumenta_il_lordo',plainExplanation:'La paga base del mese.',
@@ -334,12 +339,18 @@ test('in produzione l’indirizzo del gateway non è spostabile da una variabile
   assert.equal(S.indirizzo({}),S.GATEWAY);
 });
 
-test('la richiesta al gateway porta le tre condizioni di trattamento',()=>{
+test('la richiesta al gateway porta le condizioni che il piano concede',()=>{
   const corpo=S.corpoRichiesta(TESTO);
   assert.equal(corpo.model,S.MODELLO);
+  /* Niente `zeroDataRetention`: e' funzione dei piani Pro, e mandarla da Hobby
+     farebbe fallire ogni analisi. La garanzia arriva dalla verifica del
+     catalogo, non da questo campo. */
   assert.deepEqual(corpo.providerOptions.gateway,{
-    zeroDataRetention:true,disallowPromptTraining:true,
+    disallowPromptTraining:true,
     inferenceRegion:{scope:'zone',geoRegion:'eu'}});
+  /* Su un piano Pro il filtro si rimette, come cintura sopra le bretelle. */
+  assert.equal(S.corpoRichiesta(TESTO,{BUSTA_PAGA_ZDR:'1'})
+    .providerOptions.gateway.zeroDataRetention,true);
   assert.equal(corpo.stream,false);
   assert.equal(corpo.messages.length,2);
   /* Il documento sta solo nel messaggio utente. */
@@ -350,7 +361,7 @@ test('la richiesta al gateway porta le tre condizioni di trattamento',()=>{
 test('senza credenziale non parte niente, e il gettone del budget torna indietro',async()=>{
   const tetti=T.crea({BUSTA_PAGA_SALE:'prova'});
   const prima=tetti.stato().spese;
-  const esito=await S.analizza({testo:TESTO},{tetti,ambiente:{},chiamante:'a'});
+  const esito=await S.analizza({testo:TESTO},{tetti,garanzia:GARANZIA,ambiente:{},chiamante:'a'});
   assert.deepEqual(esito,{ok:false,codice:'SERVIZIO_NON_DISPONIBILE'});
   assert.equal(tetti.stato().spese,prima,'una chiamata mai partita non si paga');
 });
@@ -361,7 +372,7 @@ test('al modello arriva il testo e nient’altro',async()=>{
     return{ok:true,contenuto:JSON.stringify(risposta())};};
   const tetti=T.crea({BUSTA_PAGA_SALE:'prova'});
   const esito=await S.analizza({testo:`  ${TESTO}  `,nomeFile:'cedolino-rossi.pdf',pdf:'AAAA'},
-    {tetti,chiama,ambiente:{AI_GATEWAY_API_KEY:'finta'},chiamante:'a'});
+    {tetti,chiama,garanzia:GARANZIA,ambiente:{AI_GATEWAY_API_KEY:'finta'},chiamante:'a'});
   assert.equal(esito.ok,true);
   assert.equal(visti.length,1);
   assert.equal(visti[0].testo,TESTO,'il testo arriva ripulito ai bordi');
@@ -377,7 +388,8 @@ test('l’endpoint risponde JSON, senza cache, e solo in POST',async()=>{
     const esito={headers:{},statusCode:200,body:null};
     const res={set statusCode(n){esito.statusCode=n;},get statusCode(){return esito.statusCode;},
       setHeader(k,v){esito.headers[k.toLowerCase()]=v;},end(corpo){esito.body=corpo;}};
-    return S.rispondi(req,res,{tetti,chiama,ambiente:{AI_GATEWAY_API_KEY:'finta'}}).then(()=>esito);
+    return S.rispondi(req,res,{tetti,chiama,garanzia:GARANZIA,
+      ambiente:{AI_GATEWAY_API_KEY:'finta'}}).then(()=>esito);
   };
 
   const ko=await chiamata({method:'GET',headers:{}});
@@ -406,6 +418,111 @@ test('l’endpoint risponde JSON, senza cache, e solo in POST',async()=>{
 test('l’handler di Vercel è un guscio sottile sopra il server',()=>{
   assert.equal(typeof handler,'function');
   assert.match(leggi('api/busta-paga.js'),/require\('\.\.\/server\/busta-paga\.js'\)/);
+});
+
+
+/* ------------------------------------------------------------
+   La garanzia di non conservazione
+   ------------------------------------------------------------ */
+const catalogo = endpoints => ({data: {endpoints}});
+const endpoint = (nome, dati = {}) => ({
+  provider_name: nome, has_zdr: true, has_no_training: true,
+  inference_regions: [{scope: 'zone', geo_region: 'eu'}], ...dati,
+});
+const preleva = (corpo, ok = true) => async () => ({ok, json: async () => corpo});
+
+test('passa solo se ogni fornitore raggiungibile in quella regione non conserva', async () => {
+  const buono = catalogo([
+    endpoint('bedrock'),
+    endpoint('vertexAnthropic'),
+    /* Un fornitore che conserva ma sta fuori dalla UE non ci riguarda: con
+       `inferenceRegion: eu` non possiamo finirci. */
+    endpoint('altrove', {has_zdr: false, inference_regions: [{scope: 'zone', geo_region: 'us'}]}),
+  ]);
+  const esito = await RIT.verifica('m', 'eu', {preleva: preleva(buono)});
+  assert.deepEqual(esito, {ok: true, fornitori: ['bedrock', 'vertexAnthropic']});
+});
+
+test('basta un fornitore in regione che conserva, e non si parte', async () => {
+  for (const guasto of [{has_zdr: false}, {has_no_training: false}]) {
+    const cattivo = catalogo([endpoint('bedrock'), endpoint('goloso', guasto)]);
+    const esito = await RIT.verifica('m', 'eu', {preleva: preleva(cattivo)});
+    assert.equal(esito.ok, false);
+    assert.equal(esito.motivo, 'fornitore-che-conserva');
+    assert.deepEqual(esito.fornitori, ['goloso']);
+  }
+});
+
+test('se il catalogo non si legge, o nessuno serve la regione, non si parte', async () => {
+  const casi = [
+    [catalogo([]), 'nessun-fornitore-in-regione'],
+    [catalogo([endpoint('solo-us', {inference_regions: [{geo_region: 'us'}]})]), 'nessun-fornitore-in-regione'],
+    [{data: {}}, 'catalogo-illeggibile'],
+    [{}, 'catalogo-illeggibile'],
+  ];
+  for (const [corpo, motivo] of casi) {
+    const esito = await RIT.verifica('m', 'eu', {preleva: preleva(corpo)});
+    assert.deepEqual(esito, {ok: false, motivo});
+  }
+  /* Rete giu' o risposta non valida: si blocca, non si tira a indovinare. */
+  assert.deepEqual(await RIT.verifica('m', 'eu', {preleva: preleva({}, false)}),
+    {ok: false, motivo: 'catalogo-irraggiungibile'});
+  assert.deepEqual(await RIT.verifica('m', 'eu', {preleva: async () => {throw new Error('giu');}}),
+    {ok: false, motivo: 'catalogo-irraggiungibile'});
+});
+
+test('il si\u0300 si ricorda per istanza, il no si riprova', async () => {
+  RIT.dimentica();
+  let chiamate = 0;
+  const conta = corpo => async () => {chiamate += 1; return {ok: true, json: async () => corpo};};
+
+  const no = conta(catalogo([endpoint('goloso', {has_zdr: false})]));
+  await RIT.garanzia('m', 'eu', {preleva: no});
+  await RIT.garanzia('m', 'eu', {preleva: no});
+  assert.equal(chiamate, 2, 'un fallimento non resta appiccicato all\u2019istanza');
+
+  chiamate = 0;
+  const si = conta(catalogo([endpoint('bedrock')]));
+  await RIT.garanzia('m', 'eu', {preleva: si});
+  await RIT.garanzia('m', 'eu', {preleva: si});
+  assert.equal(chiamate, 1, 'il catalogo si interroga una volta per istanza');
+  RIT.dimentica();
+});
+
+test('senza garanzia il cedolino non parte, e non si paga niente', async () => {
+  const tetti = T.crea({BUSTA_PAGA_SALE: 'prova'});
+  let chiamato = false;
+  const esito = await S.analizza({testo: TESTO}, {
+    tetti,
+    chiama: async () => {chiamato = true; return {ok: true, contenuto: '{}'};},
+    garanzia: async () => ({ok: false, motivo: 'fornitore-che-conserva'}),
+    ambiente: {AI_GATEWAY_API_KEY: 'finta'}, chiamante: 'a',
+  });
+  assert.deepEqual(esito, {ok: false, codice: 'SERVIZIO_NON_DISPONIBILE'});
+  assert.equal(chiamato, false, 'il modello non viene nemmeno interpellato');
+  assert.equal(tetti.stato().spese, 0, 'e il gettone non viene consumato');
+});
+
+test('la regione in cui ha girato si legge dalla risposta, e si mostra', async () => {
+  const risposta_ = corpo => ({ok: true, json: async () => corpo});
+  const conRegione = regione => ({choices: [{message: {
+    content: JSON.stringify(risposta()),
+    provider_metadata: {gateway: {routing: {finalProvider: 'vertexAnthropic',
+      modelAttempts: [{providerAttempts: [{provider: 'vertexAnthropic',
+        inferenceEndpoint: {scope: 'zone', geoRegion: regione}}]}]}}},
+  }}]});
+
+  assert.deepEqual(S.doveHaGirato(conRegione('eu')),
+    {regione: 'eu', fornitore: 'vertexAnthropic'});
+  assert.deepEqual(S.doveHaGirato({choices: [{message: {content: 'x'}}]}),
+    {regione: null, fornitore: null});
+
+  /* E se avesse girato fuori, il risultato non si mostra: il testo e' gia'
+     partito e non si richiama indietro, ma non ci costruiamo sopra una pagina. */
+  const fuori = await S.chiamaGateway(TESTO, {AI_GATEWAY_API_KEY: 'finta'},
+    {attesa: 5000, preleva: async () => risposta_(conRegione('us'))});
+  assert.equal(fuori.ok, false);
+  assert.equal(fuori.codice, 'SERVIZIO_NON_DISPONIBILE');
 });
 
 /* ------------------------------------------------------------
@@ -447,12 +564,22 @@ test('il modello che chiamiamo è quello nominato nell’informativa',()=>{
 });
 
 test('il server non scrive mai il contenuto, e non conserva niente',()=>{
-  const sorgenti=['server/busta-paga.js','server/busta-paga-contratto.js',
-    'server/busta-paga-prompt.js','server/busta-paga-tetti.js','api/busta-paga.js']
-    .map(nome=>senzaCommenti(leggi(nome))).join('\n');
-  /* Nessun archivio: se un giorno servisse, deve essere una decisione, non un import. */
-  for(const vietato of [/require\(['"](?:fs|node:fs)/,/@vercel\/(?:blob|postgres|kv)/,
-    /localStorage/,/createWriteStream/,/console\.log\(/,/console\.info\(/])
+  /* I file che vedono il cedolino. Qui nemmeno un `console.log`. */
+  const CHE_VEDONO=['server/busta-paga.js','server/busta-paga-contratto.js',
+    'server/busta-paga-prompt.js','server/busta-paga-tetti.js','api/busta-paga.js'];
+  /* La verifica di non conservazione non vede mai il documento: interroga un
+     catalogo pubblico e stampa nomi di fornitori quando la lanci a mano. Il
+     divieto di archiviare vale anche per lei; quello di stampare no, ed e'
+     l'unica eccezione di tutto il server. */
+  const TUTTI=[...CHE_VEDONO,'server/busta-paga-ritenzione.js'];
+  const archivio=[/require\(['"](?:fs|node:fs)/,/@vercel\/(?:blob|postgres|kv)/,
+    /localStorage/,/createWriteStream/];
+  for(const nome of TUTTI)
+    for(const vietato of archivio)
+      assert.doesNotMatch(senzaCommenti(leggi(nome)),vietato,`${nome}: ${vietato}`);
+
+  const sorgenti=CHE_VEDONO.map(nome=>senzaCommenti(leggi(nome))).join('\n');
+  for(const vietato of [/console\.log\(/,/console\.info\(/])
     assert.doesNotMatch(sorgenti,vietato,String(vietato));
   /* L’unico log è il codice, e si vede. */
   const server=senzaCommenti(leggi('server/busta-paga.js'));
