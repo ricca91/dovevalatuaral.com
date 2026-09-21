@@ -1,0 +1,230 @@
+{
+  "checked": "2026-09-15",
+  "property": "sc-domain:dovevalatuaral.com",
+  "period": {
+    "start": "2026-06-16",
+    "end": "2026-09-13"
+  },
+  "pages": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"rows\": [\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\"\n      ],\n      \"clicks\": 7,\n      \"impressions\": 43,\n      \"ctr\": 0.16279069767441862,\n      \"position\": 45.97674418604651\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/la-storia.html\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 7,\n      \"ctr\": 0,\n      \"position\": 2.571428571428571\n    }\n  ],\n  \"responseAggregationType\": \"byPage\"\n}"
+      }
+    ],
+    "structuredContent": {
+      "rows": [
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/"
+          ],
+          "clicks": 7,
+          "impressions": 43,
+          "ctr": 0.16279069767441862,
+          "position": 45.97674418604651
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/la-storia.html"
+          ],
+          "clicks": 0,
+          "impressions": 7,
+          "ctr": 0,
+          "position": 2.571428571428571
+        }
+      ],
+      "responseAggregationType": "byPage"
+    }
+  },
+  "queriesByPage": {
+    "content": [
+      {
+        "type": "text",
+        "text": "{\n  \"rows\": [\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"28k ral netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 76\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"calcola lordo dal netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 79\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"calcolare ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 89\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"calcolare stipendio netto dalla ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 76\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"calcolo della ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 90\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"calcolo netto da ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 81\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"calcolo netto ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 78\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"come calcolare il ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 96\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"netto da ral\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 85\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"ral 28.000 stipendio netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 76\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"ral 39000 stipendio netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 75\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"ral 40.000 stipendio netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 84\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"ral a netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 90\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"ral calcolo netto\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 2,\n      \"ctr\": 0,\n      \"position\": 86\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"ral euro\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 15,\n      \"ctr\": 0,\n      \"position\": 39.86666666666667\n    },\n    {\n      \"keys\": [\n        \"https://www.dovevalatuaral.com/\",\n        \"retribuzione lorda annua\"\n      ],\n      \"clicks\": 0,\n      \"impressions\": 1,\n      \"ctr\": 0,\n      \"position\": 98\n    }\n  ],\n  \"responseAggregationType\": \"byPage\"\n}"
+      }
+    ],
+    "structuredContent": {
+      "rows": [
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "28k ral netto"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 76
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "calcola lordo dal netto"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 79
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "calcolare ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 89
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "calcolare stipendio netto dalla ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 76
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "calcolo della ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 90
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "calcolo netto da ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 81
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "calcolo netto ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 78
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "come calcolare il ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 96
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "netto da ral"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 85
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "ral 28.000 stipendio netto"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 76
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "ral 39000 stipendio netto"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 75
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "ral 40.000 stipendio netto"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 84
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "ral a netto"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 90
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "ral calcolo netto"
+          ],
+          "clicks": 0,
+          "impressions": 2,
+          "ctr": 0,
+          "position": 86
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "ral euro"
+          ],
+          "clicks": 0,
+          "impressions": 15,
+          "ctr": 0,
+          "position": 39.86666666666667
+        },
+        {
+          "keys": [
+            "https://www.dovevalatuaral.com/",
+            "retribuzione lorda annua"
+          ],
+          "clicks": 0,
+          "impressions": 1,
+          "ctr": 0,
+          "position": 98
+        }
+      ],
+      "responseAggregationType": "byPage"
+    }
+  },
+  "serps": [
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"09152009-9717-0139-0000-1683d0bcaff4\",\n  \"status_code\": 20000,\n  \"status_message\": \"Ok.\",\n  \"items\": [\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 1,\n      \"rank_absolute\": 1,\n      \"page\": 1,\n      \"domain\": \"www.pmi.it\",\n      \"title\": \"Calcolo stipendio netto da lordo e RAL: regole 2026 e 2027\",\n      \"url\": \"https://www.pmi.it/servizi/292472/calcolo-stipendio-netto.html\",\n      \"breadcrumb\": \"https://www.pmi.it › servizi › calcolo-stipendio-netto\",\n      \"website_name\": \"PMI.it\",\n      \"description\": \"La RAL (acronimo di Retribuzione Annua Lorda) indica l'insieme degli stipendi versati al lavoratore dal proprio datore, al lordo delle trattenute fiscali e ...\",\n      \"highlighted\": [\n        \"indica l'insieme degli stipendi versati al lavoratore dal proprio datore\"\n      ]\n    },\n    {\n      \"type\": \"ai_overview\",\n      \"rank_group\": 1,\n      \"rank_absolute\": 2,\n      \"page\": 1,\n      \"asynchronous_ai_overview\": true\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 2,\n      \"rank_absolute\": 3,\n      \"page\": 1,\n      \"domain\": \"www.stipendee.it\",\n      \"title\": \"Calcolo stipendio netto online | Aggiornato al 2026\",\n      \"url\": \"https://www.stipendee.it/\",\n      \"breadcrumb\": \"https://www.stipendee.it\",\n      \"website_name\": \"Stipendee\",\n      \"description\": \"Es. per 2.000 euro netti al mese in busta servono 39.700 euro di RAL, cioè 2.836 euro lordi al mese (14 mensilità, addizionale comunale 0,80%) ...\",\n      \"highlighted\": [\n        \"euro\",\n        \"RAL\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 3,\n      \"rank_absolute\": 4,\n      \"page\": 1,\n      \"domain\": \"www.calcolastipendionetto.it\",\n      \"title\": \"Calcolo Stipendio Netto | Da lordo a netto 2026\",\n      \"url\": \"https://www.calcolastipendionetto.it/\",\n      \"breadcrumb\": \"https://www.calcolastipendionetto.it\",\n      \"website_name\": \"Calcolo Stipendio Netto\",\n      \"description\": \"Calcola online il tuo stipendio netto mensile partendo dallo stipendio lordo annuale in pochi click! Calcolo aggiornato con nuovi scaglioni IRPEF 2026.\",\n      \"highlighted\": [\n        \"Calcola online il tuo stipendio netto mensile\"\n      ]\n    },\n    {\n      \"type\": \"people_also_ask\",\n      \"rank_group\": 1,\n      \"rank_absolute\": 5,\n      \"page\": 1,\n      \"items\": [\n        {\n          \"type\": \"people_also_ask_element\",\n          \"title\": \"Quanto RAL devo avere per avere 2000 € netti al mese?\",\n          \"expanded_element\": [\n            {\n              \"type\": \"people_also_ask_ai_overview_expanded_element\",\n              \"asynchronous_ai_overview\": true\n            }\n          ]\n        },\n        {\n          \"type\": \"people_also_ask_element\",\n          \"title\": \"Quanto è una RAL di 40.000 euro?\",\n          \"expanded_element\": [\n            {\n              \"type\": \"people_also_ask_ai_overview_expanded_element\",\n              \"asynchronous_ai_overview\": true\n            }\n          ]\n        },\n        {\n          \"type\": \"people_also_ask_element\",\n          \"title\": \"Quanto è una RAL di 30000 euro?\",\n          \"expanded_element\": [\n            {\n              \"type\": \"people_also_ask_ai_overview_expanded_element\",\n              \"asynchronous_ai_overview\": true\n            }\n          ]\n        },\n        {\n          \"type\": \"people_also_ask_element\",\n          \"title\": \"Quanto è una RAL di 28000 euro?\",\n          \"expanded_element\": [\n            {\n              \"type\": \"people_also_ask_ai_overview_expanded_element\",\n              \"asynchronous_ai_overview\": true\n            }\n          ]\n        }\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 4,\n      \"rank_absolute\": 6,\n      \"page\": 1,\n      \"domain\": \"www.jethr.com\",\n      \"title\": \"Calcolo netto dipendente dalla RAL (aggiornato 2026)\",\n      \"url\": \"https://www.jethr.com/strumenti/calcolo-stipendio-netto\",\n      \"breadcrumb\": \"https://www.jethr.com › Strumenti\",\n      \"website_name\": \"Jet HR\",\n      \"description\": \"In generale, più alta è la RAL e maggiore è l'incidenza fiscale: per i redditi medio-alti la tassazione può arrivare vicino al 50%. Open. Stipendio (RAL).\",\n      \"highlighted\": [\n        \"RAL\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 5,\n      \"rank_absolute\": 7,\n      \"page\": 1,\n      \"domain\": \"calculator.graber-partner.com\",\n      \"title\": \"Calcolo stipendio netto 2026 ✔️ da lordo (RAL) | Calcolatore ...\",\n      \"url\": \"https://calculator.graber-partner.com/it/calcolo-stipendio-netto.html\",\n      \"breadcrumb\": \"https://calculator.graber-partner.com › calcolo-stipendio...\",\n      \"website_name\": \"Graber & Partner\",\n      \"description\": \"Calcola il tuo stipendio mensile e annuale netto ➡️Confronta lordo/netto e costi aziendali. Calcola le tasse per lavoratori e i costi aziendali.\",\n      \"highlighted\": [\n        \"Calcola il tuo stipendio mensile e annuale netto\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 6,\n      \"rank_absolute\": 8,\n      \"page\": 1,\n      \"domain\": \"www.coverflex.com\",\n      \"title\": \"Calcolo stipendio netto 2026: da lordo a netto\",\n      \"url\": \"https://www.coverflex.com/it/calcolo-stipendio-netto\",\n      \"breadcrumb\": \"https://www.coverflex.com › calcolo-stipendio-netto\",\n      \"website_name\": \"Coverflex\",\n      \"description\": \"Dal 2026, gli scaglioni IRPEF sono organizzati in tre fasce: - 23% per i redditi fino a 28.000 euro; - 33% per i redditi tra 28.000 e 50.000 euro; - 43% per i ...\",\n      \"rating\": {\n        \"rating_type\": \"Max5\",\n        \"value\": 4.2,\n        \"votes_count\": 68,\n        \"rating_max\": 5\n      },\n      \"highlighted\": [\n        \"euro\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 7,\n      \"rank_absolute\": 9,\n      \"page\": 1,\n      \"domain\": \"commercialistatelematico.net\",\n      \"title\": \"Calcolo stipendi netti 2026: da RAL a netto online gratis\",\n      \"url\": \"https://commercialistatelematico.net/software-modelli/da-ral-a-netto/\",\n      \"breadcrumb\": \"https://commercialistatelematico.net › software-modelli\",\n      \"website_name\": \"Commercialista telematico .Net\",\n      \"description\": \"6 mar 2026 — Calcolo stipendi netti 2026 da RAL a netto: simulatore online gratuito con IRPEF, contributi, addizionali, detrazioni, 12, 13 e 14 mensilità ...\",\n      \"pre_snippet\": \"03/06/2026 00:00:00\",\n      \"highlighted\": [\n        \"Calcolo stipendi netti 2026 da RAL a netto\"\n      ],\n      \"timestamp\": \"2026-03-06 00:00:00 +00:00\"\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 8,\n      \"rank_absolute\": 10,\n      \"page\": 1,\n      \"domain\": \"stipendionettocalcolatore.it\",\n      \"title\": \"Calcolatore Stipendio Netto 2026 | Da RAL a Netto\",\n      \"url\": \"https://stipendionettocalcolatore.it/\",\n      \"breadcrumb\": \"https://stipendionettocalcolatore.it\",\n      \"website_name\": \"stipendionettocalcolatore.it\",\n      \"description\": \"Calcola il tuo stipendio netto mensile e annuale dalla RAL. Scaglioni IRPEF 23%-33%-43%, INPS, detrazioni, cuneo fiscale e addizionali per comune.\",\n      \"highlighted\": [\n        \"Calcola il tuo stipendio netto mensile e annuale dalla RAL\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 9,\n      \"rank_absolute\": 11,\n      \"page\": 1,\n      \"domain\": \"www.apensione.it\",\n      \"title\": \"Calcolo Stipendio Netto sempre aggiornato: da RAL o ...\",\n      \"url\": \"https://www.apensione.it/calcolo-stipendio-netto/\",\n      \"breadcrumb\": \"https://www.apensione.it › calcolo-stipendio-netto\",\n      \"website_name\": \"aPensione\",\n      \"description\": \"La RAL, ovvero retribuzione annua lorda, è la somma degli stipendi mensili lordi che vengono corrisposti al lavoratore al lordo delle trattenute previdenziali e ...\",\n      \"highlighted\": [\n        \"retribuzione annua lorda\"\n      ]\n    },\n    {\n      \"type\": \"related_searches\",\n      \"rank_group\": 1,\n      \"rank_absolute\": 12,\n      \"page\": 1,\n      \"items\": [\n        \"RAL 50.000 stipendio netto\",\n        \"Calcolo RAL netto\",\n        \"RAL 45.000 stipendio netto\",\n        \"RAL 35.000 stipendio netto\",\n        \"RAL 35.000 stipendio netto 14 mensilità\",\n        \"RAL 30.000 stipendio netto\",\n        \"RAL 40.000 stipendio netto\",\n        \"Tabella lordo netto\"\n      ]\n    }\n  ]\n}"
+        }
+      ]
+    },
+    {
+      "content": [
+        {
+          "type": "text",
+          "text": "{\n  \"id\": \"09152009-9717-0139-0000-9194563a1e01\",\n  \"status_code\": 20000,\n  \"status_message\": \"Ok.\",\n  \"items\": [\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 1,\n      \"rank_absolute\": 1,\n      \"page\": 1,\n      \"domain\": \"www.calcolastipendionetto.it\",\n      \"title\": \"Calcolo Stipendio Netto | Da lordo a netto 2026\",\n      \"url\": \"https://www.calcolastipendionetto.it/\",\n      \"breadcrumb\": \"https://www.calcolastipendionetto.it\",\n      \"website_name\": \"Calcolo Stipendio Netto\",\n      \"description\": \"Calcola online il tuo stipendio netto mensile partendo dallo stipendio lordo annuale in pochi click! Calcolo aggiornato con nuovi scaglioni IRPEF 2026.\",\n      \"highlighted\": [\n        \"Calcola online il tuo stipendio netto mensile partendo dallo stipendio lordo annuale\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 2,\n      \"rank_absolute\": 2,\n      \"page\": 1,\n      \"domain\": \"www.stipendee.it\",\n      \"title\": \"Calcolo stipendio netto online | Aggiornato al 2026\",\n      \"url\": \"https://www.stipendee.it/\",\n      \"breadcrumb\": \"https://www.stipendee.it\",\n      \"website_name\": \"Stipendee\",\n      \"description\": \"Da RAL a Netto: parti dalla retribuzione annua lorda (RAL) e inserisci i dati qui sotto. Otterrai una stima precisa dello stipendio netto annuale, delle tasse, ...\",\n      \"highlighted\": [\n        \"Da RAL\",\n        \"Netto\",\n        \"dalla\",\n        \"RAL\",\n        \"netto\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 3,\n      \"rank_absolute\": 3,\n      \"page\": 1,\n      \"domain\": \"www.coverflex.com\",\n      \"title\": \"Calcolo stipendio netto 2026: da lordo a netto\",\n      \"url\": \"https://www.coverflex.com/it/calcolo-stipendio-netto\",\n      \"breadcrumb\": \"https://www.coverflex.com › calcolo-stipendio-netto\",\n      \"website_name\": \"Coverflex\",\n      \"description\": \"L'applicazione calcola lo stipendio netto mensile e annuale partendo dalla RAL (Retribuzione Annuale Lorda) e dagli altri dati inseriti, calcolando i contributi ...\",\n      \"rating\": {\n        \"rating_type\": \"Max5\",\n        \"value\": 4.2,\n        \"votes_count\": 68,\n        \"rating_max\": 5\n      },\n      \"highlighted\": [\n        \"L'applicazione calcola lo stipendio netto mensile e annuale partendo dalla RAL\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 4,\n      \"rank_absolute\": 4,\n      \"page\": 1,\n      \"domain\": \"calculator.graber-partner.com\",\n      \"title\": \"Calcolo stipendio netto 2026 ✔️ da lordo (RAL) | Calcolatore ...\",\n      \"url\": \"https://calculator.graber-partner.com/it/calcolo-stipendio-netto.html\",\n      \"breadcrumb\": \"https://calculator.graber-partner.com › calcolo-stipendio...\",\n      \"website_name\": \"Graber & Partner\",\n      \"description\": \"Calcola il tuo stipendio mensile e annuale netto ➡️Confronta lordo/netto e costi aziendali. Calcola le tasse per lavoratori e i costi aziendali.\",\n      \"highlighted\": [\n        \"Calcola il tuo stipendio mensile e annuale netto\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 5,\n      \"rank_absolute\": 5,\n      \"page\": 1,\n      \"domain\": \"www.jethr.com\",\n      \"title\": \"Calcolo netto dipendente dalla RAL (aggiornato 2026)\",\n      \"url\": \"https://www.jethr.com/strumenti/calcolo-stipendio-netto\",\n      \"breadcrumb\": \"https://www.jethr.com › Strumenti\",\n      \"website_name\": \"Jet HR\",\n      \"description\": \"Scopri subito il netto in busta paga con il calcolo netto dipendente Jet HR. Inserisci RAL, contratto e detrazioni: risultato veloce, gratuito e aggiornato.\",\n      \"highlighted\": [\n        \"Scopri subito il netto in busta paga con il calcolo netto dipendente Jet HR\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 6,\n      \"rank_absolute\": 6,\n      \"page\": 1,\n      \"domain\": \"calcolostipendionettoaffidabile.it\",\n      \"title\": \"Calcolo Stipendio Netto Italia 2026 | Da Lordo a Netto\",\n      \"url\": \"https://calcolostipendionettoaffidabile.it/\",\n      \"breadcrumb\": \"https://calcolostipendionettoaffidabile.it\",\n      \"website_name\": \"calcolostipendionettoaffidabile.it\",\n      \"description\": \"Calcola il tuo stipendio netto dal lordo con un calcolo stipendio netto affidabile 2026 aggiornato con IRPEF, detrazioni e cuneo fiscale in pochi click.\",\n      \"highlighted\": [\n        \"Calcola il tuo stipendio netto dal lordo\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 7,\n      \"rank_absolute\": 7,\n      \"page\": 1,\n      \"domain\": \"commercialistatelematico.net\",\n      \"title\": \"Calcolo stipendi netti 2026: da RAL a netto online gratis\",\n      \"url\": \"https://commercialistatelematico.net/software-modelli/da-ral-a-netto/\",\n      \"breadcrumb\": \"https://commercialistatelematico.net › software-modelli\",\n      \"website_name\": \"Commercialista telematico .Net\",\n      \"description\": \"6 mar 2026 — Calcolo stipendi netti 2026 da RAL a netto: simulatore online gratuito con IRPEF, contributi, addizionali, detrazioni, 12, 13 e 14 mensilità ...\",\n      \"pre_snippet\": \"03/06/2026 00:00:00\",\n      \"highlighted\": [\n        \"Calcolo stipendi netti 2026 da RAL a netto\"\n      ],\n      \"timestamp\": \"2026-03-06 00:00:00 +00:00\"\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 8,\n      \"rank_absolute\": 8,\n      \"page\": 1,\n      \"domain\": \"www.pmi.it\",\n      \"title\": \"Calcolo stipendio netto da lordo e RAL: regole 2026 e 2027\",\n      \"url\": \"https://www.pmi.it/servizi/292472/calcolo-stipendio-netto.html\",\n      \"breadcrumb\": \"https://www.pmi.it › servizi › calcolo-stipendio-netto\",\n      \"website_name\": \"PMI.it\",\n      \"description\": \"Il simulatore di PMI.it calcola lo stipendio netto 2026 partendo dalla retribuzione annua lorda (RAL). Lo strumento recepisce la riforma dell'IRPEF e il ...\",\n      \"highlighted\": [\n        \"calcola\",\n        \"netto\",\n        \"dalla\",\n        \"RAL\"\n      ],\n      \"links\": [\n        {\n          \"type\": \"link_element\",\n          \"title\": \"Come si calcola lo stipendio...\",\n          \"url\": \"https://www.pmi.it/servizi/292472/calcolo-stipendio-netto.html#come-si-calcola-lo-stipendio-netto-dal-lordo-nel-2026\",\n          \"domain\": \"www.pmi.it\"\n        },\n        {\n          \"type\": \"link_element\",\n          \"title\": \"Domande frequenti (FAQ) sul...\",\n          \"url\": \"https://www.pmi.it/servizi/292472/calcolo-stipendio-netto.html#domande-frequenti-faq-sul-calcolo-dello-stipendio\",\n          \"domain\": \"www.pmi.it\"\n        }\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 9,\n      \"rank_absolute\": 9,\n      \"page\": 1,\n      \"domain\": \"www.apensione.it\",\n      \"title\": \"Calcolo Stipendio Netto sempre aggiornato: da RAL o ...\",\n      \"url\": \"https://www.apensione.it/calcolo-stipendio-netto/\",\n      \"breadcrumb\": \"https://www.apensione.it › calcolo-stipendio-netto\",\n      \"website_name\": \"aPensione\",\n      \"description\": \"Calcola subito il tuo stipendio netto : IRPEF, addizionali del tuo comune e detrazioni. Gratuito, risultato immediato e scaricabile in PDF.\",\n      \"highlighted\": [\n        \"Calcola subito il tuo stipendio netto\"\n      ]\n    },\n    {\n      \"type\": \"organic\",\n      \"rank_group\": 10,\n      \"rank_absolute\": 10,\n      \"page\": 1,\n      \"domain\": \"it.egovaleo.com\",\n      \"title\": \"Calcolo stipendio netto da RAL (semplificato)\",\n      \"url\": \"https://it.egovaleo.com/geek-lab/strumenti-per-il-tech-recruiting/calcolo-stipendio-netto/\",\n      \"breadcrumb\": \"https://it.egovaleo.com › strumenti-per-il-tech-recruiting\",\n      \"website_name\": \"EgoValeo\",\n      \"description\": \"Come si calcola lo stipendio netto dalla RAL? Partendo dalla RAL si sottraggono i contributi INPS, poi si calcola l'IRPEF sull'imponibile fiscale e infine si ...\",\n      \"highlighted\": [\n        \"Partendo dalla RAL si sottraggono i contributi INPS\"\n      ]\n    },\n    {\n      \"type\": \"related_searches\",\n      \"rank_group\": 1,\n      \"rank_absolute\": 11,\n      \"page\": 1,\n      \"items\": [\n        \"Tabella lordo netto\",\n        \"Calcolo stipendio netto mensile 2026\",\n        \"Calcolo stipendio netto affidabile\",\n        \"Calcolo netto da RAL pmi\",\n        \"Calcolo RAL\",\n        \"RAL 35.000 stipendio netto 14 mensilità\",\n        \"RAL 50.000 stipendio netto\",\n        \"RAL 30.000 stipendio netto\"\n      ]\n    }\n  ]\n}"
+        }
+      ]
+    }
+  ]
+}
