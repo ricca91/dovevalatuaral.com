@@ -1,2 +1,2 @@
-const {rispondi}=require('../server/busta-paga.js');
-module.exports=(req,res)=>rispondi(req,res);
+// Anche la rotta legacy attraversa il paywall.
+module.exports=require('../server/busta-paga-http.js').rispondi;

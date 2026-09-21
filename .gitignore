@@ -9,3 +9,7 @@ base.json
 la-storia-anteprima.jpg
 node_modules/
 .vercel/
+
+# Credenziali di sviluppo e configurazione scaricata dal provider.
+.env*
+!.env.example

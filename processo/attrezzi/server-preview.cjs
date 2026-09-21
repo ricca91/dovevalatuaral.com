@@ -2,12 +2,12 @@
 const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
 const port=4182,root=path.resolve(__dirname,'../../prototipo');
 process.env.NON_DEV_ORIGIN='http://127.0.0.1:'+port;
-const handlers={risultato:require('../../api/risultato.js'),'risultato-immagine':require('../../api/risultato-immagine.js')};
-const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.xml':'application/xml','.txt':'text/plain'};
+const handlers={'busta-paga':require('../../api/busta-paga.js'),'busta-paga-webhook':require('../../server/busta-paga-http.js').webhook,'busta-paga-pulizia':require('../../api/busta-paga-pulizia.js'),risultato:require('../../api/risultato.js'),'risultato-immagine':require('../../api/risultato-immagine.js')};
+const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.mjs':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.xml':'application/xml','.txt':'text/plain'};
 http.createServer((req,res)=>{
   const url=new URL(req.url,'http://127.0.0.1:'+port);
   const match=url.pathname.match(/^\/(risultato|risultato-immagine)\/([^/]+)\/([^/]+)\/([^/]+)$/);
-  const api=url.pathname.match(/^\/api\/(risultato|risultato-immagine)$/);
+  const api=url.pathname.match(/^\/api\/(risultato|risultato-immagine|busta-paga|busta-paga-webhook|busta-paga-pulizia)$/);
   if(match||api){
     const query={};for(const [k,v] of url.searchParams){query[k]=Object.hasOwn(query,k)?[].concat(query[k],v):v;}
     if(match){

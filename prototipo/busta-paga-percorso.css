@@ -1,0 +1,24 @@
+/* RIC-72: solo percorso upload → anteprima → report. */
+#bp-upload { scroll-margin-top: 6rem; }
+#bp-configurazione { padding: 1rem; border: 1px solid currentColor; }
+.bp-acquisto-totali { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin: 1.5rem 0; }
+.bp-acquisto-totali div { padding: 1rem; border: 1px solid currentColor; min-width: 0; }
+.bp-acquisto-totali dt { font-size: .85rem; }
+.bp-acquisto-totali dd { margin: .5rem 0 0; font: 600 1.4rem monospace; overflow-wrap: anywhere; }
+#bp-offerta { border-top: 2px solid currentColor; padding: 1.25rem 0; margin-top: 1.5rem; }
+.bp-prezzo { font-size: 1.2rem; font-weight: 700; }
+#bp-recupero { margin-top: 2rem; }
+#bp-link-recupero { width: 100%; box-sizing: border-box; font: .85rem monospace; padding: .75rem; margin-top: .5rem; }
+#bp-riferimento { overflow-wrap: anywhere; }
+.bp-cancellazione { margin-top: 2rem; }
+.bp-cancellazione summary { cursor: pointer; padding: .75rem 0; }
+#bp-acquisto button { white-space: normal; }
+@media(max-width: 520px) { .bp-acquisto-totali { grid-template-columns: 1fr; gap: .5rem; } }
+@media print {
+  body.bp-page { background: white; color: black; }
+  .site-header,.skip-link,.bp-heading,.bp-note,.bp-sezione:not(#bp-risultato),.bp-feedback,.bp-feedback__grazie { display: none !important; }
+  #bp-risultato[hidden] { display: none !important; }
+  .bp-main { max-width: none; padding: 0; }
+  .bp-ris__sezione { break-inside: avoid; }
+}
+#bp-acquisto, #bp-risultato { scroll-margin-top: 5rem; }
