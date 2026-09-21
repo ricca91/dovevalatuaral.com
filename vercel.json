@@ -1,18 +1,33 @@
 {
-  "outputDirectory": "prototipo",
+  "outputDirectory": "dist",
   "functions": {
-    "api/risultato-immagine.js": { "includeFiles": "server/fonts/**", "maxDuration": 10 }
+    "api/risultato-immagine.js": {
+      "includeFiles": "server/fonts/**",
+      "maxDuration": 10
+    }
   },
   "rewrites": [
-    { "source": "/risultato/:v/:s/:t", "destination": "/api/risultato?v=:v&s=:s&t=:t" },
-    { "source": "/risultato-immagine/:v/:s/:t.png", "destination": "/api/risultato-immagine?v=:v&s=:s&t=:t" }
+    {
+      "source": "/risultato/:v/:s/:t",
+      "destination": "/api/risultato?v=:v&s=:s&t=:t"
+    },
+    {
+      "source": "/risultato-immagine/:v/:s/:t.png",
+      "destination": "/api/risultato-immagine?v=:v&s=:s&t=:t"
+    }
   ],
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "jethr.riccsartori.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "jethr.riccsartori.com"
+        }
+      ],
       "destination": "https://www.dovevalatuaral.com/:path*",
       "permanent": true
     }
-  ]
+  ],
+  "buildCommand": "npm run build"
 }
