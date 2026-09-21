@@ -88,7 +88,7 @@ Per ricreare tutte le pagine RAL, l’hub “Confronti RAL” e la sitemap a par
 template e dal motore:
 
 ```
-node prototipo/genera-pagine-ral.js
+npm run build
 ```
 
 Gli HTML nelle directory `ral-XXXXX-netto/` e `confronti-ral/` sono output generati:
@@ -333,9 +333,24 @@ campo che si corregge a mano. Il formato degli URL della home **non cambia**.
   che ne ha due affiancati. Il CCNL non entra quindi nemmeno nel fragment, e un link che lo
   portasse comunque viene letto ignorandolo.
 
+## Blog da Markdown (RIC-74)
+
+Gli articoli vivono in `prototipo/articoli/{slug}.md`. Il contratto è nella
+[guida di scrittura](../crescita/piano-editoriale-90gg/guida-scrittura-articoli.md#91-cosa-consegna-chi-scrive).
+`npm run build` valida i frontmatter e i link, genera RAL, blog e una sola sitemap, poi
+copia gli asset pubblici in `dist/` senza Markdown, bozze, template o test.
+Solo `pubblicato` esce; `bozza` e `rivisto` no. Le date non pianificano deploy.
+Gli articoli rimossi o ritirati spariscono alla build successiva.
+
+Il parser non ha nuove dipendenze: implementa solo il sottoinsieme editoriale documentato
+(paragrafi, H2/H3, tabelle, liste semplici, link, enfasi, citazioni e codice inline).
+I sorgenti HTML generati continuano a essere ispezionabili in `prototipo/blog/`.
+Per le prove: `node --test prototipo/articoli.test.js`; fixture tecnica in
+`processo/fixtures/articolo-demo.md`, mai inclusa nella produzione.
+
 ## Come si pubblica
 
-La demo è un deploy statico senza passo di build. Il comando va eseguito dalla root del
+La demo è statica; Vercel esegue `npm run build` e pubblica `dist/`. Il comando va eseguito dalla root del
 repository, così Vercel applica `vercel.json` (incluso il redirect del dominio legacy):
 
 ```

@@ -75,7 +75,8 @@ test('sitemap contiene esattamente le pagine pubbliche self-canonical', () => {
   assert.match(sitemap, /^<\?xml version="1\.0" encoding="UTF-8"\?>/);
   assert.match(sitemap, /<urlset\s+xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9">/);
   const locations = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]);
-  assert.deepEqual(locations, publicPages.map(([, canonical]) => canonical));
+  const {readArticles}=require('./genera-articoli.js');
+  assert.deepEqual(locations, [...publicPages.map(([, canonical]) => canonical), `${canonicalOrigin}/blog/`, ...readArticles().map(a=>`${canonicalOrigin}/blog/${a.slug}/`)]);
   for (const location of locations) {
     assert.doesNotMatch(location, /prototype-|jethr\.riccsartori\.com|\?/);
   }
@@ -101,7 +102,7 @@ test('Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco',
 
 test('Vercel reindirizza permanentemente il dominio legacy preservando la path', () => {
   const config = JSON.parse(readFileSync(resolve(root, 'vercel.json'), 'utf8'));
-  assert.equal(config.outputDirectory, 'prototipo');
+  assert.equal(config.outputDirectory, 'dist');
   assert.deepEqual(config.redirects, [{
     source: '/:path*',
     has: [{ type: 'host', value: 'jethr.riccsartori.com' }],

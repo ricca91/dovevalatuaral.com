@@ -9,3 +9,6 @@ base.json
 la-storia-anteprima.jpg
 node_modules/
 .vercel/
+
+# Output di pubblicazione, senza sorgenti editoriali.
+dist/
