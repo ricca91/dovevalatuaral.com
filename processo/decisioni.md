@@ -243,6 +243,38 @@ detrazione.** Un rapporto part-time su anno intero mantiene i 365 giorni ai fini
 Il motore riceve una RAL e nient'altro, quindi non ha modo di sbagliare — la prova serve a
 impedire che qualcuno gliene dia il modo.
 
+## Il blog si pubblica da solo, ma solo se passa cinque cancelli
+
+Il piano editoriale a 90 giorni è una promessa che nessuno mantiene a mano: novanta mattine
+di seguito non le fa nessuno. Da qui `processo/cron/articolo-quotidiano/`, che alle 06:30
+scrive l'articolo del giorno e lo pusha su `main`.
+
+Le tre decisioni che contano.
+
+**Push diretto su main, non una pull request.** Una PR ogni mattina non è automazione: è
+novanta click. E l'agente che apre la PR non può mergiarla, quindi la PR sarebbe comunque
+un lavoro che resta a Riccardo. Il rischio — un articolo brutto che va online da solo — è
+contenuto dalla soglia: sotto 90/90 l'articolo resta `stato: bozza`, e `genera-articoli.js`
+già filtra le bozze fuori dalla build. Per pubblicare una schifezza servirebbe che l'audit
+le desse 90 su 100, e in quel caso il problema è l'audit.
+
+**Il runner è deterministico, l'agente è creativo.** Commit, push, test, build e invio mail
+non sono dell'agente: sono di `run.sh`. Il motivo è una regola già pagata da `daily-x-drafts`
+(otto mail duplicate in otto mattine): un modello non può riferire l'esito di un'azione che
+non ha ancora compiuto. Se fosse lui a mandare la mail, la mail direbbe "pubblicato" anche
+dopo un push fallito. La skill è stata riscritta per fermarsi al report.
+
+**La skill si invoca con la slash, non col tool Skill.** `disable-model-invocation: true`
+su `seo-90-giorni` non è un intralcio da togliere: è ciò che impedisce a una sessione
+interattiva di far partire una pubblicazione per sbaglio. Il flag resta, e il cron passa
+da `claude -p "/seo-90-giorni …"`, che l'harness tratta come invocazione esplicita
+dell'utente. Il flag è stato tolto solo a `seo-article` e `seo-audit`, che l'agente deve
+poter chiamare dall'interno del loop.
+
+**Allowlist esplicita, non `bypassPermissions`.** Un agente che ogni notte pusha su main
+merita di poter toccare l'MCP Airtable, DataForSEO, i file degli articoli e `npm test` —
+e nient'altro.
+
 ## Se un link di un ticket non porta da nessuna parte
 
 I ticket sono stati scritti mentre il lavoro procedeva, quindi citano la repo **com'era in quel

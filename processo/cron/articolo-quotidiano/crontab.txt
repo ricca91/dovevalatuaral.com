@@ -1,0 +1,6 @@
+# articolo-quotidiano — 06:30 ora italiana (CRON_TZ gestisce il cambio ora legale).
+# Alle 06:00 gira già daily-x-drafts: sfalsato di mezz'ora per non avere due run
+# headless di Opus in parallelo.
+# Installa appendendo queste due righe al crontab (vedi README.md).
+CRON_TZ=Europe/Rome
+30 6 * * * /root/ricc-os/projects/dovevalatuaral.com/processo/cron/articolo-quotidiano/run.sh
