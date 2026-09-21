@@ -10,6 +10,8 @@
     "node": "22.x"
   },
   "dependencies": {
-    "@resvg/resvg-js": "2.6.2"
+    "@datafast/ai-crawl": "^1.0.9",
+    "@resvg/resvg-js": "2.6.2",
+    "@vercel/functions": "^3.9.8"
   }
 }
