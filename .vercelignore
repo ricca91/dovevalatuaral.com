@@ -6,3 +6,5 @@ crescita
 integrazioni
 linkedin-post-jethr
 prototipo/prototype-*.html
+# Solo su questo ramo: questo prototipo deve salire sulla preview. Non va in main.
+!prototipo/prototype-homepage-contatore.html
