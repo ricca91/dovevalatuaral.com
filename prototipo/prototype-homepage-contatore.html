@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PROTOTIPO — homepage con contatore pubblico (RIC-66)</title>
+<!-- PROTOTIPO USA-E-GETTA — tre strutture di homepage con il contatore pubblico RIC-66,
+     selezionabili con ?variant=A|B|C. Design system reale (draftsman.css): quello che
+     cambia fra le varianti e' la STRUTTURA e il COPY, mai colori o font.
+     Fonte dell'ispirazione: canivibecodeit.com (domanda + ticker + classifica) e
+     trustmrr.com (database verificato + card + leaderboard).
+     I numeri della classifica sono VERI (motore.js, Milano, 13 mensilita').
+     I numeri del contatore sono FINTI: quelli del ticket, per vedere la forma. -->
+<link rel="stylesheet" href="draftsman.css">
+<style>
+/* --- solo impalcatura del prototipo, nessun colore fuori dal sistema --- */
+.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-inline:auto}
+.variant{display:none}
+.variant.is-on{display:block}
+.pxbanner{position:fixed;top:0;left:0;right:0;z-index:300;padding:5px 10px;background:var(--c-signal-red);
+  color:var(--c-graphite);font:500 var(--t-label)/1.5 var(--font-mono);letter-spacing:var(--ls-label);text-transform:uppercase}
+/* il fumetto del sistema e' nowrap: su mobile esce dallo schermo. Qui lo mando a capo
+   — da riportare nell'implementazione vera, non e' un problema del prototipo. */
+.tooltip__bubble{white-space:normal;width:max-content;max-width:min(80vw,22rem)}
+/* ancorato a destra dentro la banda: centrato uscirebbe dallo schermo stretto */
+.counter-band .tooltip__bubble{left:auto;right:0;transform:translateY(4px)}
+.counter-band .tooltip:hover .tooltip__bubble,
+.counter-band .tooltip:focus-within .tooltip__bubble{transform:translateY(0)}
+body{padding-bottom:96px}
+
+/* --- il contatore, tre vestiti diversi della stessa cosa --- */
+[data-stato="giu"] .counter,[data-stato="soglia"] .counter{display:none!important}
+.odo{display:inline-flex;gap:3px;vertical-align:-2px}
+.odo span{display:grid;place-items:center;min-width:26px;padding:4px 2px;
+  border:var(--bw) solid var(--line-strong);background:var(--bg-raised);
+  font:500 1.05rem/1 var(--font-mono);font-variant-numeric:tabular-nums}
+.odo span.sep{border:0;background:none;min-width:6px}
+.odo span.tick{background:var(--c-citron)}
+.tape{overflow:hidden;border-block:var(--bw) dashed var(--line-strong);padding:7px 0}
+.tape__in{display:inline-flex;gap:var(--s-6);white-space:nowrap;
+  font:400 var(--t-xs)/1 var(--font-mono);color:var(--fg-muted);animation:slide 38s linear infinite}
+@keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.counter-band{border-block:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);
+  padding:var(--s-5) 0}
+.counter-band .in{display:flex;align-items:center;gap:var(--s-6);flex-wrap:wrap;justify-content:center}
+.counter-line{display:flex;align-items:center;gap:var(--s-3);flex-wrap:wrap;
+  font:400 var(--t-sm)/1.5 var(--font-mono);color:var(--fg-muted)}
+
+/* --- A: la domanda con il buco da riempire --- */
+.qhero h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);
+  font-size:clamp(2.1rem,5vw,3.6rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0}
+.blank{display:inline-flex;align-items:baseline;border-bottom:4px solid var(--c-flux)}
+.blank input{width:5.5ch;border:0;background:none;color:inherit;font:inherit;padding:0 2px;text-align:center}
+.blank input:focus{outline:0;background:var(--c-citron)}
+.blank .cur{font:inherit}
+
+/* --- B: riga di card con tre numeri, alla trustmrr --- */
+.statcard{border:var(--bw) solid var(--line-strong);background:var(--bg-raised);padding:var(--s-5)}
+.statcard__top{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-3);
+  padding-bottom:var(--s-3);border-bottom:var(--bw) dashed var(--line-strong)}
+.statcard__nums{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-3);margin-top:var(--s-4)}
+.statcard{text-decoration:none;color:inherit;display:block}
+.statcard__nums b{display:block;font-family:var(--font-mono);font-size:var(--t-sm);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+.statcard__nums span{display:block;font:500 var(--t-label)/1.4 var(--font-mono);
+  letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--fg-muted);margin-top:2px}
+.rowscroll{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(268px,1fr);gap:var(--s-4);
+  overflow-x:auto;padding-bottom:var(--s-3)}
+.centered{text-align:center;max-width:48rem;margin-inline:auto}
+.searchrow{display:flex;gap:var(--s-3);flex-wrap:wrap;justify-content:center;margin-top:var(--s-6)}
+.searchrow .input{max-width:24rem}
+.quicklinks{display:flex;gap:var(--s-4);flex-wrap:wrap;justify-content:center;margin-top:var(--s-5);
+  font:400 var(--t-sm)/1 var(--font-mono)}
+
+/* --- C: il registro, il numero e' la pagina --- */
+.ledger{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-8);align-items:end}
+.ledger .big{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);
+  font-size:clamp(3rem,9vw,7rem);line-height:.9;letter-spacing:var(--ls-display);font-variant-numeric:tabular-nums}
+.addrow{display:grid;grid-template-columns:1.2fr 1fr .7fr auto;gap:var(--s-4);align-items:end;
+  border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:var(--s-6);
+  box-shadow:var(--lift-md) var(--line-solid)}
+
+/* --- barra da laboratorio --- */
+.switcher{position:fixed;z-index:310;bottom:16px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:var(--s-2);padding:8px;background:var(--c-graphite);
+  border:var(--bw) solid var(--line-on-ink-strong);box-shadow:var(--lift-md) rgba(0,0,0,.35)}
+.switcher button{appearance:none;border:0;background:none;color:var(--c-fog);cursor:pointer;
+  padding:8px 12px;font:500 var(--t-label)/1 var(--font-mono);letter-spacing:var(--ls-label);text-transform:uppercase}
+.switcher button:hover{background:var(--c-graphite-3)}
+.switcher .lab{min-width:16rem;text-align:center;color:var(--c-fog);
+  font:500 var(--t-xs)/1.5 var(--font-mono)}
+.switcher .lab small{display:block;color:var(--c-flux);letter-spacing:var(--ls-label);text-transform:uppercase;font-size:var(--t-label)}
+@media(max-width:820px){.ledger,.addrow,.statcard__nums{grid-template-columns:1fr}
+  .switcher .lab{min-width:11rem}}
+@media(prefers-reduced-motion:reduce){.tape__in{animation:none}}
+</style>
+</head>
+<body>
+<div class="pxbanner">Prototipo · il contatore è finto · la classifica è vera</div>
+<a class="skip-link" href="#app">Vai al contenuto</a>
+
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="index.html">Dove va la tua RAL</a>
+  <nav class="site-nav" aria-label="Navigazione principale">
+    <a href="index.html">Calcola</a><a href="compara.html">Confronta</a>
+    <a href="netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="la-storia.html">La storia</a>
+  </nav>
+</div></header>
+
+<main id="app" data-stato="ok">
+
+<!-- ============================================================
+     A — IL BANCO. La domanda è il titolo, il nastro dice quanto
+     pesa il banco, la classifica è il contenuto.
+     DNA: canivibecodeit.
+     ============================================================ -->
+<section class="variant" data-variant="A" aria-label="Variante A">
+  <div class="pagehero paper-ruled qhero" style="padding-block:clamp(30px,4vw,60px)">
+    <div class="pg">
+      <p class="eyebrow">Calcolatore netto 2026</p>
+      <h1>Dove va la tua RAL di <span class="blank">€ <input inputmode="numeric" value="35.000" aria-label="La tua RAL" data-ral-input></span>?</h1>
+      <p class="lead" style="margin-top:var(--s-5);max-width:62ch">Una domanda sola, per 7.894 comuni e 20 regioni:
+        quanto ti resta e dove finisce il resto, voce per voce, con la formula e la fonte in Gazzetta.</p>
+      <div class="row" style="margin-top:var(--s-6)">
+        <button class="btn btn--primary btn--lg" data-calcola>Calcola</button>
+        <span class="small muted">Nessun account. Niente viene salvato.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tape" aria-hidden="true"><div class="tape__in">
+    <span data-tape></span><span data-tape></span>
+  </div></div>
+
+  <div class="counter-band counter"><div class="pg in">
+    <div style="text-align:center">
+      <span class="odo" data-odo></span>
+      <p class="tile__label" style="margin-top:var(--s-3)">Calcoli completati</p>
+    </div>
+    <div class="hatch" style="width:2px;align-self:stretch" aria-hidden="true"></div>
+    <div style="text-align:center">
+      <span class="mono" style="font-size:1.6rem;font-variant-numeric:tabular-nums" data-ral>—</span>
+      <p class="tile__label" style="margin-top:var(--s-3)">Di RAL analizzate</p>
+    </div>
+    <span class="tooltip">
+      <button class="btn btn--ghost btn--sm" type="button" aria-label="Come lo contiamo">?</button>
+      <span class="tooltip__bubble">Un risultato valido e riconciliato, ottenuto nel calcolatore.<br>Refresh, digitazione e pagine precalcolate non contano.</span>
+    </span>
+  </div></div>
+
+  <section class="section section--tight"><div class="pg">
+    <p class="eyebrow">Classifica</p>
+    <h2 class="card__title" style="font-size:var(--t-h2);margin-bottom:var(--s-3)">La classifica dei lordi</h2>
+    <p class="lead" style="max-width:56ch">Le RAL più consultate. Milano, 13 mensilità, nessun familiare a carico.
+      Cambia il comune e la riga si muove: è il punto.</p>
+    <div class="row" style="margin-block:var(--s-6)">
+      <span class="segmented"><button aria-pressed="false">12</button><button aria-pressed="true">13</button><button aria-pressed="false">14</button></span>
+      <span class="tag">Milano</span><span class="tag">Settore privato</span><span class="tag">Nessun familiare</span>
+    </div>
+    <div class="table-wrap"><table class="table">
+      <thead><tr><th>#</th><th>RAL</th><th>Netto annuo</th><th>Media mensile</th><th>Trattenuto</th><th></th></tr></thead>
+      <tbody data-classifica></tbody>
+    </table></div>
+  </div></section>
+
+  <section class="section section--tight"><div class="pg">
+    <p class="eyebrow">Anomalie</p>
+    <h2 class="card__title" style="font-size:var(--t-h2);margin-bottom:var(--s-3)">I sette salti</h2>
+    <p class="lead" style="max-width:56ch">Sette RAL in cui il netto <b>scende</b> mentre il lordo sale.
+      Non è un errore del calcolatore: è la norma che si attiva o decade di colpo.</p>
+    <div class="grid grid--2" style="margin-top:var(--s-6)" data-salti></div>
+  </div></section>
+
+  <section class="section--tight" style="border-top:var(--bw-thick) solid var(--line-solid)"><div class="pg row" style="justify-content:space-between">
+    <p class="mono small" style="margin:0">Zero dati conservati · zero account · zero cookie di profilazione</p>
+    <a class="btn btn--link" href="index.html">Le fonti di ogni regola →</a>
+  </div></section>
+</section>
+
+<!-- ============================================================
+     B — IL DATABASE VERIFICATO. Rivendicazione al centro, il
+     contatore dentro la frase, righe di card, leaderboard, e una
+     sezione che spiega perché ci si può fidare.
+     DNA: trustmrr.
+     ============================================================ -->
+<section class="variant" data-variant="B" aria-label="Variante B">
+  <div class="pagehero paper" style="padding-block:clamp(34px,4.5vw,64px)">
+    <div class="pg centered">
+      <p class="eyebrow eyebrow--accent">Regole 2026 · settore privato</p>
+      <h1 style="font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);
+        font-size:clamp(2.2rem,4.4vw,3.5rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0">
+        Il database dei netti italiani, riga per riga</h1>
+      <p class="lead" style="margin-top:var(--s-5)">Ogni trattenuta con la sua formula e la sua fonte primaria.
+        Nessun account, nessun dato conservato: quello che calcoli resta nel tuo browser.</p>
+
+      <div class="searchrow">
+        <input class="input" value="35.000" inputmode="numeric" aria-label="La tua RAL" data-ral-input>
+        <select class="select" style="max-width:12rem" aria-label="Comune"><option>Milano</option><option>Roma</option><option>Bolzano</option></select>
+        <button class="btn btn--primary" data-calcola>Calcola</button>
+      </div>
+      <p class="quicklinks">
+        <a href="netto-ral.html">Netto → RAL</a><span class="muted">·</span>
+        <a href="compara.html">Due offerte</a><span class="muted">·</span>
+        <a href="ccnl-livello.html">CCNL e livello</a><span class="muted">·</span>
+        <a href="#numeri">I numeri pubblici</a>
+      </p>
+
+      <p class="counter-line counter" style="justify-content:center;margin-top:var(--s-6)">
+        <span class="tag tag--flux">Aggiornato oggi</span>
+        <span><b data-count>—</b> calcoli completati</span><span class="muted">·</span>
+        <span><b data-ral>—</b> di RAL analizzate</span>
+        <a class="btn btn--link" href="#numeri">come li contiamo →</a>
+      </p>
+    </div>
+  </div>
+
+  <section class="section section--tight"><div class="pg">
+    <div class="row" style="justify-content:space-between;margin-bottom:var(--s-5)">
+      <p class="eyebrow" style="margin:0">Le RAL più consultate</p>
+      <a class="btn btn--link" href="confronti-ral/">Vedi tutte →</a>
+    </div>
+    <div class="rowscroll" data-cards></div>
+  </div></section>
+
+  <section class="section section--tight"><div class="pg">
+    <div class="row" style="justify-content:space-between;margin-bottom:var(--s-5)">
+      <p class="eyebrow" style="margin:0">Stessa RAL, città diversa</p>
+      <span class="small muted mono">35.000 € · 13 mensilità</span>
+    </div>
+    <p class="lead" style="max-width:58ch;margin-bottom:var(--s-6)">La stessa busta paga vale
+      <b>1.104 € l'anno</b> in più a Bolzano che a Roma. Non per il datore: per l'addizionale.</p>
+    <div class="table-wrap"><table class="table">
+      <thead><tr><th>#</th><th>Città</th><th>Netto annuo</th><th>Media mensile</th><th>Addiz. regionale</th><th>Addiz. comunale</th></tr></thead>
+      <tbody data-citta></tbody>
+    </table></div>
+  </div></section>
+
+  <section class="section section--tight" id="numeri"><div class="pg">
+    <p class="eyebrow">Come lo verifichiamo</p>
+    <h2 class="card__title" style="font-size:var(--t-h2);margin-bottom:var(--s-6)">Tre controlli, nessuna fiducia richiesta</h2>
+    <div class="grid grid--3">
+      <div class="step"><p class="step__no">01 — Riconciliazione</p>
+        <p class="small">Le voci di ogni somma, applicate alla loro base, devono ricostruire il risultato dichiarato.
+          Se non torna, il calcolo non esce.</p></div>
+      <div class="step"><p class="step__no">02 — Fonti primarie</p>
+        <p class="small">Istat per i comuni attivi, MEF per le addizionali, TUIR e circolari INPS per il resto.
+          Snapshot datato: 26/08/2026.</p></div>
+      <div class="step"><p class="step__no">03 — Contatore pubblico</p>
+        <p class="small counter"><b data-count>—</b> calcoli completati e <b data-ral>—</b> di RAL analizzate.
+          Contiamo solo i risultati validi, e conserviamo solo questi due numeri.</p></div>
+    </div>
+  </div></section>
+</section>
+
+<!-- ============================================================
+     C — IL REGISTRO. Il numero è la pagina: la prova prima dello
+     strumento, il calcolatore diventa il modo di contribuire.
+     La lettura più radicale del ticket.
+     ============================================================ -->
+<section class="variant" data-variant="C" aria-label="Variante C">
+  <div class="pagehero paper-ruled" style="padding-block:clamp(34px,5vw,72px)">
+    <div class="pg">
+      <p class="eyebrow">Registro pubblico</p>
+      <div class="ledger counter">
+        <div><span class="big" data-count>—</span>
+          <p class="tile__label" style="margin-top:var(--s-4)">Calcoli completati</p></div>
+        <div><span class="big" style="font-size:clamp(2rem,5vw,3.6rem)" data-ral>—</span>
+          <p class="tile__label" style="margin-top:var(--s-4)">Di RAL analizzate</p></div>
+      </div>
+      <p class="lead" style="max-width:58ch;margin-top:var(--s-8)">È tutto quello che sappiamo di chi ci usa:
+        due numeri che crescono insieme. Non salviamo la tua RAL, il tuo comune, il tuo nucleo.
+        Solo il totale. <a class="btn btn--link" href="#metodo">Come li contiamo →</a></p>
+    </div>
+  </div>
+
+  <section class="section--tight"><div class="pg">
+    <div class="addrow">
+      <div class="field"><label class="label" for="ral-c">La tua RAL</label>
+        <input class="input" id="ral-c" value="35.000" inputmode="numeric" data-ral-input></div>
+      <div class="field"><label class="label" for="com-c">Comune</label>
+        <select class="select" id="com-c"><option>Milano</option><option>Roma</option><option>Bolzano</option></select></div>
+      <div class="field"><label class="label" for="men-c">Mensilità</label>
+        <select class="select" id="men-c"><option>13</option><option>12</option><option>14</option></select></div>
+      <button class="btn btn--primary" data-calcola>Calcola</button>
+    </div>
+    <p class="hint" style="margin-top:var(--s-3)">Il tuo calcolo entra nel totale qui sopra. Nient'altro.</p>
+  </div></section>
+
+  <section class="section section--tight" id="metodo"><div class="pg">
+    <p class="eyebrow">Cosa dicono i numeri</p>
+    <div class="grid grid--3" style="margin-top:var(--s-5)">
+      <div class="tile counter"><div class="tile__value" data-media>—</div><p class="tile__label">RAL media analizzata</p></div>
+      <div class="tile"><div class="tile__value">7</div><p class="tile__label">Salti mappati nella curva</p></div>
+      <div class="tile"><div class="tile__value">7.894</div><p class="tile__label">Comuni nello snapshot Istat</p></div>
+    </div>
+    <p class="small muted" style="margin-top:var(--s-5);max-width:62ch">La RAL media è l'unica cosa che
+      ricaviamo dal registro: totale diviso calcoli. Non sappiamo chi l'ha inserita, da dove, né quando.</p>
+  </div></section>
+
+  <section class="section section--tight"><div class="pg">
+    <p class="eyebrow">Il resto</p>
+    <div class="grid-sheet grid--2" style="margin-top:var(--s-5)">
+      <a href="confronti-ral/"><b>Classifica dei lordi</b><p class="small muted" style="margin:6px 0 0">Da 20.000 a 100.000 €, netto e percentuale trattenuta.</p></a>
+      <a href="compara.html"><b>Due offerte a confronto</b><p class="small muted" style="margin:6px 0 0">Quale conviene davvero, a parità di comune.</p></a>
+      <a href="netto-ral.html"><b>Netto → RAL</b><p class="small muted" style="margin:6px 0 0">Quanto devi chiedere per portare a casa quella cifra.</p></a>
+      <a href="netto-o-niente.html"><b>Netto o niente</b><p class="small muted" style="margin:6px 0 0">Il gioco. Non conta nel registro: gli scenari sono finti.</p></a>
+    </div>
+  </div></section>
+</section>
+
+</main>
+
+<nav class="switcher" aria-label="Controlli del prototipo">
+  <button data-prev aria-label="Variante precedente">←</button>
+  <span class="lab" data-lab></span>
+  <button data-next aria-label="Variante successiva">→</button>
+  <span class="hatch" style="width:1px;align-self:stretch" aria-hidden="true"></span>
+  <button data-stato-btn>Stato: ok</button>
+</nav>
+
+<script>
+/* ---- dati veri, calcolati con motore.js (Milano, 13 mensilita') ---- */
+const CLASSIFICA=[[20000,17433,1341,12.8],[25000,20570,1582,17.7],[30000,23425,1802,21.9],
+  [35000,26032,2002,25.6],[40000,27960,2151,30.1],[45000,30034,2310,33.3],[50000,32568,2505,34.9],
+  [60000,37555,2889,37.4],[80000,47339,3641,40.8],[100000,57122,4394,42.9]];
+const CITTA=[['Bolzano',26741,2057,0,0],['Firenze',26153,2012,525,64],['Milano',26032,2002,455,254],
+  ['Palermo',26023,2002,391,327],['Genova',25955,1997,465,322],['Bologna',25932,1995,556,254],
+  ['Bari',25889,1991,599,254],['Torino',25759,1981,717,266],['Napoli',25658,1974,765,318],
+  ['Roma',25637,1972,818,286]];
+const SALTI=[[9001,'si attiva il trattamento integrativo'],[9360,'la somma non imponibile passa dal 7,1% al 5,3%'],
+  [16518,'decade il trattamento integrativo'],[22024,'la somma non imponibile lascia il posto all’ulteriore detrazione'],
+  [25328,'salta l’esenzione dell’addizionale comunale di Milano'],[27530,'si attiva la maggiorazione di 65 €'],
+  [38542,'decade la maggiorazione di 65 €']];
+
+/* ---- contatore FINTO: i numeri del ticket, solo per vedere la forma ---- */
+let conteggio=23418,totaleRal=872400000;
+
+/* it-IT non raggruppa i numeri di 4 cifre: 1341, non 1.341. Serve useGrouping
+   esplicito, altrimenti il contatore fra 1.000 e 9.999 perde il separatore. */
+const nf=new Intl.NumberFormat('it-IT',{useGrouping:'always'});
+const eur=n=>nf.format(Math.round(n))+' €';
+const compatta=n=>n>=1e9?nf.format(+(n/1e9).toFixed(1))+' miliardi €'
+  :n>=1e6?nf.format(+(n/1e6).toFixed(1))+' milioni €':eur(n);
+const parseRal=v=>{const n=Number(String(v).replace(/[^\d]/g,''));return Number.isFinite(n)?n:0};
+
+function righe(){
+  document.querySelector('[data-classifica]').innerHTML=CLASSIFICA.map(([r,n,m,p],i)=>
+    `<tr><td class="mono muted">${String(i+1).padStart(2,'0')}</td><td><b>${eur(r)}</b></td>
+     <td class="num">${eur(n)}</td><td class="num">${eur(m)}</td><td class="num">${String(p).replace('.',',')}%</td>
+     <td><a class="btn btn--link" href="ral-${r}-netto/">apri →</a></td></tr>`).join('');
+  document.querySelector('[data-citta]').innerHTML=CITTA.map(([c,n,m,r,k],i)=>
+    `<tr><td class="mono muted">${String(i+1).padStart(2,'0')}</td><td><b>${c}</b></td>
+     <td class="num">${eur(n)}</td><td class="num">${eur(m)}</td><td class="num">${eur(r)}</td><td class="num">${eur(k)}</td></tr>`).join('');
+  document.querySelector('[data-salti]').innerHTML=SALTI.map(([r,t])=>
+    `<div class="card card--dashed"><p class="mono" style="font-size:1.15rem;margin:0 0 6px">${eur(r)}</p>
+     <p class="small muted" style="margin:0">${t}</p></div>`).join('');
+  document.querySelector('[data-cards]').innerHTML=CLASSIFICA.slice(2,8).map(([r,n,m,p])=>
+    `<a class="statcard card--lift" href="ral-${r}-netto/">
+      <div class="statcard__top"><b>${eur(r)}</b><span class="tag">Milano</span></div>
+      <div class="statcard__nums">
+        <div><b>${eur(n)}</b><span>Netto annuo</span></div>
+        <div><b>${eur(m)}</b><span>Al mese</span></div>
+        <div><b>${String(p).replace('.',',')}%</b><span>Trattenuto</span></div>
+      </div></a>`).join('');
+  const tape=SALTI.map(([r,t])=>`SALTO ${eur(r)} — ${t.toUpperCase()}`).join('   ·   ')+'   ·   ';
+  document.querySelectorAll('[data-tape]').forEach(x=>x.textContent=tape);
+}
+
+function odometro(el,valore){
+  const cifre=nf.format(valore).split('');
+  const vecchie=[...el.querySelectorAll('span')].map(s=>s.textContent);
+  el.innerHTML=cifre.map((c,i)=>{
+    const sep=!/\d/.test(c),cambiata=vecchie[i]!==undefined&&vecchie[i]!==c;
+    return `<span class="${sep?'sep':''}${cambiata?' tick':''}">${c}</span>`;
+  }).join('');
+  setTimeout(()=>el.querySelectorAll('.tick').forEach(s=>s.classList.remove('tick')),450);
+}
+
+function dipingi(){
+  document.querySelectorAll('[data-count]').forEach(x=>x.textContent=nf.format(conteggio));
+  document.querySelectorAll('[data-ral]').forEach(x=>x.textContent=compatta(totaleRal));
+  document.querySelectorAll('[data-odo]').forEach(x=>odometro(x,conteggio));
+  document.querySelectorAll('[data-media]').forEach(x=>x.textContent=eur(totaleRal/conteggio));
+}
+
+/* un calcolo qualificato: +1 e la RAL entra nel totale, dopo la conferma del server */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-calcola]');if(!b)return;
+  const scope=b.closest('.variant'),ral=parseRal(scope.querySelector('[data-ral-input]').value);
+  if(!ral||ral>1000000)return;
+  b.disabled=true;
+  setTimeout(()=>{conteggio+=1;totaleRal+=ral;dipingi();b.disabled=false;},650);
+});
+
+/* ---- barra da laboratorio ---- */
+const VARIANTI=[['A','Il banco'],['B','Il database verificato'],['C','Il registro']];
+const STATI=[['ok','contatore attivo'],['soglia','sotto le 100 — nascosto'],['giu','backend giù — nascosto']];
+let variante='A',stato=0;
+function mostra(k){
+  variante=VARIANTI.some(v=>v[0]===k)?k:'A';
+  document.querySelectorAll('.variant').forEach(v=>v.classList.toggle('is-on',v.dataset.variant===variante));
+  const v=VARIANTI.find(v=>v[0]===variante);
+  document.querySelector('[data-lab]').innerHTML=`${v[0]} — ${v[1]}<small>← → per confrontare</small>`;
+  const p=new URLSearchParams(location.search);p.set('variant',variante);history.replaceState(null,'','?'+p);
+  window.scrollTo(0,0);
+}
+function ciclo(d){const i=VARIANTI.findIndex(v=>v[0]===variante);mostra(VARIANTI[(i+d+VARIANTI.length)%VARIANTI.length][0]);}
+document.querySelector('[data-prev]').onclick=()=>ciclo(-1);
+document.querySelector('[data-next]').onclick=()=>ciclo(1);
+document.querySelector('[data-stato-btn]').onclick=e=>{
+  stato=(stato+1)%STATI.length;
+  document.getElementById('app').dataset.stato=STATI[stato][0];
+  e.currentTarget.textContent='Stato: '+STATI[stato][1];
+};
+document.addEventListener('keydown',e=>{
+  if(['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)||e.target.isContentEditable)return;
+  if(e.key==='ArrowLeft')ciclo(-1);if(e.key==='ArrowRight')ciclo(1);
+});
+righe();dipingi();mostra(new URLSearchParams(location.search).get('variant')||'A');
+if(location.hostname==='www.dovevalatuaral.com')document.querySelector('.switcher').hidden=true;
+</script>
+</body>
+</html>
