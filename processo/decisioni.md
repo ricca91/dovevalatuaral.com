@@ -284,6 +284,31 @@ delle Cooperative sociali dal 2025, non una preferenza di presentazione. I selet
 restano sugli interi. È l'unica riga cambiata in `motore.js`, fuori dalle formule fiscali: le
 2.001 corse del confronto non hanno una divergenza.
 
+## Le pagine per livello seguono la domanda, non il dataset (RIC-59)
+
+Il dataset ha 233 righe di livello su tredici contratti. Una pagina per riga sarebbe stata
+facile e sbagliata: la maggior parte non ha una ricerca dietro, e duecento pagine quasi
+identiche sono quello che Google chiama doorway. Quindi tre strati, con regole diverse:
+
+- **Hub e una tabella per ciascuno dei tredici contratti.** La tabella ha sempre senso: la
+  query «ccnl X» e «ccnl X tabelle retributive» esiste per tutti (da 50 a 27.100 al mese).
+- **Pagine per livello solo dove il volume è misurato.** Commercio 2°–5° e i nove livelli
+  metalmeccanici (ricerca del 6 settembre); Cooperative sociali (otto posizioni, fino a
+  ~1.000/mese per D2 sommando le varianti), Studi professionali 2°, 3°, 4°, 4°S, Multiservizi
+  1°–4°, Turismo 3°–6° (ricerca DataForSEO del 22 settembre). Confapi, DMO, Logistica,
+  Grafici, Poligrafici, Vetro e FIPE per livello restano sotto le 30 ricerche al mese: niente
+  pagina, per ora.
+- **Il Turismo per livello mostra anche il FIPE.** «ccnl turismo 5 livello» lo scrive anche
+  chi lavora in un bar, perché il FIPE si chiama «Pubblici esercizi… e turismo». Scegliere
+  un contratto solo avrebbe dato la risposta sbagliata a metà dei lettori.
+
+Slug sul modo in cui la gente scrive: `5-livello`, `livello-c3`, `livello-d2`. Nessuna pagina
+porta «paga oraria», anche se Multiservizi e Turismo la cercano: il divisore orario di
+ciascun contratto non è nel dataset, e inventarlo sarebbe il primo numero non citabile.
+
+I numeri non vivono nelle pagine: escono da `componiRal()` e dal motore alla data della
+build. Un solo scrittore del sitemap (`genera-pagine-ral.js`) raccoglie RAL, CCNL e blog.
+
 ## Il blog si pubblica da solo, ma solo se passa cinque cancelli
 
 Il piano editoriale a 90 giorni è una promessa che nessuno mantiene a mano: novanta mattine
