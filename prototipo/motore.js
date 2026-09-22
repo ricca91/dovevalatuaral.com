@@ -873,8 +873,14 @@ const SALTI=Object.freeze(soglie().map(s=>Object.freeze([s.ral.toFixed(2),s.caus
    richiamare calcola() — è ciò che rende vera a schermo la tesi
    del contratto: cambiare mensilità non può muovere il netto. */
 const MENSILITA_AMMESSE=Object.freeze([12,13,14,15,16]);
+/* Un contratto può fissare una mensilità a metà: le Cooperative
+   sociali pagano dal 2025 una quattordicesima pari a mezza
+   mensilità (art. 79 bis), cioè 13,5. La media si divide anche
+   per quella. Il selettore resta sugli interi: 13,5 non è una
+   preferenza di presentazione, è il numero di quel contratto. */
+const MENSILITA_CONTRATTUALI=Object.freeze([...MENSILITA_AMMESSE,13.5]);
 function applicaMensilita(res,mensilita=13){
-  if(!MENSILITA_AMMESSE.includes(mensilita))
+  if(!MENSILITA_CONTRATTUALI.includes(mensilita))
     throw new RangeError(`Mensilità non ammessa: ${mensilita}`);
   const netto=dec(res.kpi.nettoAnnuo.toFixed(2));
   const media=arrotondaCentesimi(div(netto,dec(String(mensilita))));
@@ -885,7 +891,7 @@ function applicaMensilita(res,mensilita=13){
 /* Node: require('./motore.js'). Browser: `module` non esiste e
    le dichiarazioni qui sopra sono già globali per la pagina. */
 if(typeof module!=='undefined'&&module.exports){
-  module.exports={calcola,applicaMensilita,MENSILITA_AMMESSE,parseRal,soglie,SALTI,fmt,eur,K,
+  module.exports={calcola,applicaMensilita,MENSILITA_AMMESSE,MENSILITA_CONTRATTUALI,parseRal,soglie,SALTI,fmt,eur,K,
     NETTO_LAVORATORE,
     /* impalcatura, per provare le voci con soli numeri */
     dec,toNumber,

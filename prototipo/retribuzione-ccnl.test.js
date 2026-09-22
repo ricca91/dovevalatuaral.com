@@ -7,6 +7,12 @@ const {CCNL}=require('./ccnl.js');
 
 const TERZIARIO='terziario-confcommercio-h011';
 const METAL='metalmeccanica-industria-c011';
+
+/* Ogni coppia contratto × sezione del dataset: dove il contratto non
+   ha sezioni, una sola coppia con sezione null. */
+const coppie=()=>R.CONTRATTI.flatMap(c=>c.sezioni
+  ?c.sezioni.map(s=>({contratto:c,sezione:s.id,tabelle:s.tabelle}))
+  :[{contratto:c,sezione:null,tabelle:c.tabelle}]);
 /* Le tabelle future sono già nel dataset: senza una data fissa le
    prove cambierebbero risultato al passaggio della prossima tranche. */
 const OGGI='2026-09-07';
@@ -73,17 +79,25 @@ test.describe('dataset retributivo — le tabelle come le pubblica il contratto'
   /* La guardia sulla trascrizione: somma delle voci = totale pubblicato,
      su ogni livello di ogni decorrenza, futura compresa. */
   test('in ogni tabella le voci riconciliano con il totale pubblicato',()=>{
-    let righe=0;
-    for(const contratto of R.CONTRATTI)
-      for(const tabella of contratto.tabelle)
+    for(const {contratto,sezione,tabelle} of coppie())
+      for(const tabella of tabelle)
         for(const livello of tabella.livelli){
           const conti=R.riconciliaLivello(livello);
           assert.ok(conti.verificata,
-            `${contratto.id} ${tabella.decorrenza} ${livello.codice}: `+
-            `voci ${conti.somma} contro totale ${conti.totale}`);
-          righe++;
+            `${contratto.id} ${sezione||''} ${tabella.decorrenza} ${livello.codice}: `+
+            `voci ${conti.somma} contro totale ${conti.totale}, pubblicato ${conti.totalePubblicato}`);
         }
-    assert.equal(righe,39);   // 10 livelli × 3 tranche Terziario + 9 Metalmeccanica
+    /* I due contratti originari pubblicano il totale su ogni riga,
+       e la somma delle voci lo ritrova al centesimo senza scarti. */
+    for(const [id,righe] of [[TERZIARIO,30],[METAL,9]]){
+      const tutte=R.trovaContratto(id).tabelle.flatMap(t=>t.livelli);
+      assert.equal(tutte.length,righe,id);
+      for(const livello of tutte){
+        const conti=R.riconciliaLivello(livello);
+        assert.equal(conti.tipo,'pubblicato',`${id} ${livello.codice}`);
+        assert.equal(conti.scartoFonte,0,`${id} ${livello.codice}`);
+      }
+    }
   });
 
   test('ogni riga porta fonte, decorrenza e data di verifica',()=>{
@@ -92,21 +106,26 @@ test.describe('dataset retributivo — le tabelle come le pubblica il contratto'
       assert.match(contratto.fonte.verificataIl,/^\d{4}-\d{2}-\d{2}$/);
       assert.ok(contratto.fonte.parte,contratto.id);
       assert.ok(R.ESCLUSIONI[contratto.id].length>0,contratto.id);
-      for(const tabella of contratto.tabelle){
-        assert.match(tabella.decorrenza,/^\d{4}-\d{2}-\d{2}$/);
-        assert.ok(tabella.titolo);
-      }
     }
+    for(const {contratto,sezione,tabelle} of coppie())
+      for(const tabella of tabelle){
+        assert.match(tabella.decorrenza,/^\d{4}-\d{2}-\d{2}$/,`${contratto.id} ${sezione}`);
+        assert.ok(tabella.titolo,`${contratto.id} ${sezione}`);
+      }
     assert.equal(R.VERSIONE_DATASET,'2026-09-07');
   });
 
   test('mensilità e orario contrattuale restano allineati al catalogo CCNL',()=>{
-    for(const contratto of R.CONTRATTI){
+    for(const {contratto,sezione} of coppie()){
       const catalogo=CCNL.find(c=>c.id===contratto.id);
       assert.ok(catalogo,`${contratto.id} manca in ccnl.js`);
-      assert.equal(contratto.mensilita,catalogo.mensilita,contratto.id);
-      assert.equal(contratto.oreSettimanali,40,contratto.id);
+      /* Il catalogo porta le mensilità vigenti: dove dipendono dalla
+         data, quelle in vigore al giorno fisso delle prove. */
+      assert.equal(R.mensilitaAlla(contratto.id,OGGI,sezione),catalogo.mensilita,contratto.id);
     }
+    /* L'orario non è 40 per tutti: qui solo i due contratti originari. */
+    assert.equal(R.oreContrattuali(TERZIARIO),40);
+    assert.equal(R.oreContrattuali(METAL),40);
     /* Funzioni Centrali resta nel catalogo delle mensilità e fuori
        dal generatore: il motore applica aliquote del privato. */
     assert.ok(CCNL.some(c=>c.id==='funzioni-centrali'));
@@ -257,7 +276,10 @@ test.describe('composizione della RAL — l’identità del prodotto',()=>{
   });
 
   test('l’identità RAL = (base + scatti + superminimo) × mensilità tiene su ogni livello',()=>{
-    for(const contratto of R.CONTRATTI)
+    /* Solo dove tutte le voci entrano in tutte le mensilità: i due
+       contratti originari. Gli altri la verificano, o la smentiscono
+       per una ragione dichiarata, nelle loro fixture. */
+    for(const contratto of [R.trovaContratto(TERZIARIO),R.trovaContratto(METAL)])
       for(const livello of R.livelli(contratto.id,OGGI)){
         const r=R.componiRal({ccnl:contratto.id,livello:livello.codice,
           dataAnzianita:'2013-08-01',superminimoMensile:150,alla:OGGI});
@@ -275,6 +297,42 @@ test.describe('composizione della RAL — l’identità del prodotto',()=>{
     assert.throws(()=>R.componiRal({ccnl:TERZIARIO,livello:'C3',alla:OGGI}),RangeError);
     assert.throws(()=>R.componiRal({ccnl:METAL,livello:'OV1',alla:OGGI}),RangeError);
     assert.throws(()=>R.componiRal({ccnl:'funzioni-centrali',livello:'1'}),RangeError);
+  });
+});
+
+/* C — NON REGRESSIONE di H011 e C011. Le RAL di ogni livello, a ogni
+   decorrenza, in tre casi, calcolate con il codice di main al commit
+   9206fbb prima dell'estensione del modello e scritte qui per esteso:
+   [livello, senza scatti, 3 scatti + superminimo 150 €, 3 scatti a 24 ore]. */
+test.describe('H011 e C011 — le RAL di prima dell’estensione non si muovono',()=>{
+  const ATTESE={
+    [`${TERZIARIO}|2026-09-07`]:[["Q",41808.06,44977.38,25726.4],["1",35085.82,38229.1,21677.46],["2",31299.1,34357.96,19354.72],["3",27774.74,30796.64,17218.04],["4",24972.5,27940.22,15504.16],["5",23241.12,26193.72,14456.26],["6",21584.78,24513.44,13447.98],["7",19571.44,22489.18,12233.62],["OV1",24038.56,26789.56,14813.68],["OV2",21294.98,24002.3,13141.38]],
+    [`${TERZIARIO}|2026-11-01`]:[["Q",42658.7,45828.02,26236.84],["1",35852.18,38995.46,22137.22],["2",31962,35020.86,19752.46],["3",28341.32,31363.22,17557.96],["4",25462.5,28430.22,15798.16],["5",23683.8,26636.4,14721.84],["6",21982.24,24910.9,13686.54],["7",19911.78,22829.52,12437.74],["OV1",24501.12,27252.12,15091.3],["OV2",21683.34,24390.66,13374.48]],
+    [`${TERZIARIO}|2027-02-01`]:[["Q",43630.86,46800.18,26820.08],["1",36728.02,39871.3,22662.78],["2",32719.54,35778.4,20207.04],["3",28988.82,32010.72,17946.46],["4",26022.5,28990.22,16134.16],["5",24189.76,27142.36,15025.36],["6",22436.4,25365.06,13958.98],["7",20300.7,23218.44,12671.12],["OV1",25029.76,27780.76,15408.4],["OV2",22127.14,24834.46,13640.76]],
+    [`${METAL}|2026-09-07`]:[["D1",23204.22,26276.9,14596.14],["D2",25731.81,28984.41,16220.62],["C1",26287.56,29540.16,16554.07],["C2",26843.44,30184.44,16940.69],["C3",28748.59,32239.87,18174],["B1",30814.29,34450.65,19500.39],["B2",33058.74,36902.06,20971.21],["B3",36906.87,40986.79,23421.97],["A1",37791.13,41871.05,23952.63]],
+  };
+  for(const [chiave,righe] of Object.entries(ATTESE)){
+    const [ccnl,alla]=chiave.split('|');
+    test(`${ccnl} al ${alla}`,()=>{
+      assert.deepEqual(R.livelli(ccnl,alla).map(l=>l.codice),righe.map(r=>r[0]));
+      for(const [livello,semplice,conScatti,partTime] of righe){
+        assert.equal(R.componiRal({ccnl,livello,alla}).ral,semplice,livello);
+        assert.equal(R.componiRal({ccnl,livello,dataAnzianita:'2017-08-01',
+          superminimoMensile:150,alla}).ral,conScatti,livello);
+        assert.equal(R.componiRal({ccnl,livello,dataAnzianita:'2017-08-01',
+          oreSettimanali:24,alla}).ral,partTime,livello);
+      }
+    });
+  }
+  test('nessuna sezione, identità semplice, scatti in cifra fissa',()=>{
+    for(const ccnl of [TERZIARIO,METAL]){
+      assert.deepEqual(R.sezioni(ccnl),[]);
+      assert.equal(R.regolaScatti(ccnl).tipo,'cifraFissa');
+      const r=R.componiRal({ccnl,livello:R.livelli(ccnl,OGGI)[0].codice,scatti:1,
+        superminimoMensile:100,alla:OGGI});
+      assert.equal(r.identitaSemplice,true,ccnl);
+      assert.equal(r.sezione,null);
+    }
   });
 });
 
@@ -376,18 +434,21 @@ test.describe('la RAL composta entra nel motore come qualsiasi altra',()=>{
     assert.ok(risultato.riconciliazione.verificata);
   });
 
-  test('ogni livello di ogni CCNL produce una RAL che il motore riconcilia',()=>{
-    for(const contratto of R.CONTRATTI)
-      for(const livello of R.livelli(contratto.id,OGGI))
-        for(const ore of [40,24]){
-          const r=R.componiRal({ccnl:contratto.id,livello:livello.codice,
-            dataAnzianita:'2019-08-01',oreSettimanali:ore,alla:OGGI});
-          const risultato=calcola(String(r.ral),{comune:'F205',nucleo:[]});
-          assert.ok(risultato.riconciliazione.verificata,
-            `${contratto.id} ${livello.codice} ${ore}h`);
-          assert.ok(risultato.kpi.nettoAnnuo>0,
-            `${contratto.id} ${livello.codice} ${ore}h`);
-        }
+  test('ogni livello di ogni CCNL e sezione produce una RAL che il motore riconcilia',()=>{
+    for(const {contratto,sezione} of coppie())
+      for(const livello of R.livelli(contratto.id,OGGI,sezione))
+        for(const profilo of [null,...livello.profili.map(p=>p.id)])
+          for(const ore of [R.oreContrattuali(contratto.id,sezione),24]){
+            const etichetta=`${contratto.id} ${sezione||''} ${livello.codice} ${profilo||''} ${ore}h`;
+            const r=R.componiRal({ccnl:contratto.id,sezione,livello:livello.codice,profilo,
+              oreSettimanali:ore,alla:OGGI});
+            assert.ok(Number.isFinite(r.ral)&&r.ral>0,etichetta);
+            const risultato=applicaMensilita(
+              calcola(String(r.ral),{comune:'F205',nucleo:[]}),r.mensilita);
+            assert.ok(risultato.riconciliazione.verificata,etichetta);
+            assert.ok(risultato.kpi.nettoAnnuo>0,etichetta);
+            assert.ok(Number.isFinite(risultato.kpi.mediaMensile),etichetta);
+          }
   });
 
   /* C — NON REGRESSIONE. Comporre una RAL non tocca il motore:

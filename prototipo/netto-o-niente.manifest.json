@@ -2,7 +2,7 @@
   "versione": "non-v1-2026-01",
   "baseCommit": "d1b9245a052b6c30627a0172db6396fef84568df",
   "sources": {
-    "motore.js": "3cc100adf05dadc57611697db8d9e52f474c22c787b411c088d6a753176dfa1c",
+    "motore.js": "bd97716fb5c2be31fdbc7de9b4a599f64c7b8ef6d982aa1c999fde6d8e011e99",
     "compara.js": "c4ce4a149fa912fd7c1d536497a7f167fe808fe353912be301126bb9f0eab269",
     "geografia.js": "9f701482479f5a089ca32e666245078a5650c95a5efdc9cf7b24283ead7df053",
     "nucleo.js": "0b64f763cf7ff0c5f0d4f7213025d9bcbc4dd1cefddd5823da28cd229218af9e",

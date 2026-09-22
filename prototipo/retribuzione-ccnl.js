@@ -183,80 +183,79 @@
   ];
 
   /* ------------------------------------------------------------
-     COSTRUZIONE DEL CATALOGO
+     COSTRUZIONE DELLE RIGHE
+
+     Ogni contratto stampa la riga a modo suo. Qui la si porta nella
+     forma comune — voci come le pubblica il contratto, totale
+     pubblicato dove esiste — senza sommare niente al posto della fonte.
      ------------------------------------------------------------ */
 
+  const voce=(id,nome,importo,extra={})=>({id,nome,importo,...extra});
+
   function livelloTerziario([codice,nome,pagaBase,contingenza,indennitaFunzione,
-    elementoAggiuntivo,terzoElemento,totalePubblicato],ordine){
-    return congela({codice,nome,ordine,exCategoria:null,
-      voci:congela([
-        congela({id:'pagaBase',nome:'Paga base nazionale conglobata',importo:pagaBase}),
-        congela({id:'contingenza',nome:'Ex indennità di contingenza',importo:contingenza}),
-        ...(indennitaFunzione?[congela({id:'indennitaFunzione',
-          nome:'Indennità di funzione',importo:indennitaFunzione})]:[]),
-        ...(elementoAggiuntivo?[congela({id:'elementoAggiuntivo',
-          nome:'Elemento aggiuntivo della paga base',importo:elementoAggiuntivo})]:[]),
-        ...(terzoElemento?[congela({id:'terzoElemento',
-          nome:'Terzo elemento nazionale',importo:terzoElemento})]:[]),
-      ]),
-      totale:totalePubblicato,
-      scatto:SCATTI_TERZIARIO[codice]});
+    elementoAggiuntivo,terzoElemento,totalePubblicato]){
+    return {codice,nome,
+      voci:[
+        voce('pagaBase','Paga base nazionale conglobata',pagaBase),
+        voce('contingenza','Ex indennità di contingenza',contingenza),
+        ...(indennitaFunzione?[voce('indennitaFunzione','Indennità di funzione',indennitaFunzione)]:[]),
+        ...(elementoAggiuntivo?[voce('elementoAggiuntivo','Elemento aggiuntivo della paga base',elementoAggiuntivo)]:[]),
+        ...(terzoElemento?[voce('terzoElemento','Terzo elemento nazionale',terzoElemento)]:[]),
+      ],
+      totalePubblicato,
+      scatto:SCATTI_TERZIARIO[codice]};
   }
 
-  function livelloMetalmeccanica([codice,nome,exCategoria,minimo,scatto],ordine){
-    return congela({codice,nome,ordine,exCategoria,
-      voci:congela([congela({id:'minimo',nome:'Minimo tabellare',importo:minimo})]),
-      totale:minimo,scatto});
+  function livelloMetalmeccanica([codice,nome,exCategoria,minimo,scatto]){
+    return {codice,nome,exCategoria,
+      voci:[voce('minimo','Minimo tabellare',minimo)],
+      totalePubblicato:minimo,scatto};
   }
 
-  const CONTRATTI=Object.freeze([
-    congela({
+  const CONTRATTI_DATI=[
+    {
       id:'terziario-confcommercio-h011',
       nome:'Terziario, Distribuzione e Servizi',
       parti:'Confcommercio',
       codiceCnel:'H011',
       mensilita:14,
       oreSettimanali:40,
-      scatti:congela({cadenzaAnni:3,massimo:10,
+      scatti:{tipo:'cifraFissa',cadenzaAnni:3,massimo:10,
         base:'anzianità di servizio presso la stessa azienda o gruppo aziendale',
         articolo:'art. 205 — aumenti periodici di anzianità',
-        decorrenza:'dal primo giorno del mese successivo a quello in cui si compie il triennio'}),
+        decorrenza:'dal primo giorno del mese successivo a quello in cui si compie il triennio'},
       fonte:FONTE_TERZIARIO,
       fonteAccordo:FONTE_ACCORDO_TERZIARIO,
-      tabelle:Object.freeze(TABELLE_TERZIARIO.map(([decorrenza,titolo,righe])=>congela({
-        decorrenza,titolo,
-        livelli:Object.freeze(righe.map(livelloTerziario)),
-      }))),
-    }),
-    congela({
+      tabelle:TABELLE_TERZIARIO.map(([decorrenza,titolo,righe])=>({
+        decorrenza,titolo,livelli:righe.map(livelloTerziario)})),
+    },
+    {
       id:'metalmeccanica-industria-c011',
       nome:'Industria Metalmeccanica e Installazione Impianti',
       parti:'Federmeccanica / Assistal',
       codiceCnel:'C011',
       mensilita:13,
       oreSettimanali:40,
-      scatti:congela({cadenzaAnni:2,massimo:5,
+      scatti:{tipo:'cifraFissa',cadenzaAnni:2,massimo:5,
         base:'anzianità di servizio presso la stessa azienda o gruppo aziendale',
         articolo:'aumenti periodici di anzianità — massimo 5 bienni',
-        decorrenza:'dal primo giorno del mese successivo a quello in cui si compie il biennio'}),
+        decorrenza:'dal primo giorno del mese successivo a quello in cui si compie il biennio'},
       fonte:FONTE_METALMECCANICA,
       fonteDisciplinaScatti:FONTE_DISCIPLINA_SCATTI_METALMECCANICA,
       fonteAccordo:null,
-      tabelle:Object.freeze([congela({
+      tabelle:[{
         decorrenza:'2026-06-01',
         titolo:'adeguamento IPCA-NEI del verbale di accordo 16 giugno 2026',
-        livelli:Object.freeze(TABELLA_METALMECCANICA.map(livelloMetalmeccanica)),
-      })]),
-    }),
-  ]);
-
-  const perId=new Map(CONTRATTI.map(contratto=>[contratto.id,contratto]));
+        livelli:TABELLA_METALMECCANICA.map(livelloMetalmeccanica),
+      }],
+    },
+  ];
 
   /* Ciò che il numero non contiene. Sta nel dataset e non nella
      pagina perché è parte del dato: una base nazionale presentata
      come «il minimo applicabile» sarebbe una bugia, e l'elenco
      delle esclusioni è ciò che la rende un'affermazione onesta. */
-  const ESCLUSIONI=Object.freeze({
+  const ESCLUSIONI_DATI={
     'terziario-confcommercio-h011':Object.freeze([
       'Terzo elemento provinciale: la tabella usa quello nazionale di 2,07 €. Dove la contrattazione territoriale ne prevede uno più alto, il minimo effettivo è superiore.',
       'Contrattazione integrativa aziendale e territoriale.',
@@ -267,51 +266,13 @@
       'Contrattazione integrativa aziendale e premi di risultato.',
       'Indennità legate alla mansione o all’orario: turni, notturno, straordinario, trasferta.',
     ]),
-  });
+  };
 
   /* ------------------------------------------------------------
-     LOOKUP
+     DATE
      ------------------------------------------------------------ */
+  const oggi=()=>new Date().toISOString().slice(0,10);
 
-  const trovaContratto=id=>id?perId.get(id)||null:null;
-
-  /* Il dataset porta anche le tranche future già firmate. Vigente
-     è l'ultima decorrenza non successiva alla data chiesta: le
-     stringhe ISO si ordinano da sole, quindi il confronto è
-     testuale e non passa da Date. */
-  function tabellaVigente(id,alla=new Date().toISOString().slice(0,10)){
-    const contratto=trovaContratto(id);
-    if(!contratto)throw new RangeError(`CCNL sconosciuto: ${id}`);
-    const applicabili=contratto.tabelle.filter(t=>t.decorrenza<=alla);
-    if(!applicabili.length)
-      throw new RangeError(`Nessuna tabella in vigore al ${alla} per ${id}`);
-    return applicabili[applicabili.length-1];
-  }
-
-  function prossimaTabella(id,alla=new Date().toISOString().slice(0,10)){
-    const contratto=trovaContratto(id);
-    if(!contratto)throw new RangeError(`CCNL sconosciuto: ${id}`);
-    return contratto.tabelle.find(t=>t.decorrenza>alla)||null;
-  }
-
-  function livelli(id,alla){
-    return tabellaVigente(id,alla).livelli;
-  }
-
-  function trovaLivello(id,codice,alla){
-    return livelli(id,alla).find(livello=>livello.codice===codice)||null;
-  }
-
-  /* ------------------------------------------------------------
-     GLI SCATTI
-
-     L'input è la data d'inizio dell'anzianità in azienda, non gli
-     anni nel livello corrente. Così si modella anche il mese fra
-     maturazione e decorrenza: entrambi i contratti fanno partire
-     lo scatto il primo giorno del mese successivo. Il numero già
-     maturato resta sovrascrivibile per anzianità convenzionale,
-     passaggi di livello o servizio pregresso.
-     ------------------------------------------------------------ */
   function dataIsoValida(valore){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(String(valore)))return false;
     const [anno,mese,giorno]=String(valore).split('-').map(Number);
@@ -330,29 +291,13 @@
     return new Date(Date.UTC(anno,mese,1)).toISOString().slice(0,10);
   }
 
-  function scattiMaturati(id,dataInizio,alla=new Date().toISOString().slice(0,10)){
-    const contratto=trovaContratto(id);
-    if(!contratto)throw new RangeError(`CCNL sconosciuto: ${id}`);
-    if(!dataIsoValida(dataInizio)||!dataIsoValida(alla)||dataInizio>alla)
-      throw new RangeError(`Data di anzianità non valida: ${dataInizio}`);
-    let numero=0;
-    for(let n=1;n<=contratto.scatti.massimo;n++){
-      const maturazione=aggiungiAnni(dataInizio,n*contratto.scatti.cadenzaAnni);
-      if(primoDelMeseSuccessivo(maturazione)>alla)break;
-      numero=n;
-    }
-    return numero;
-  }
-
   /* ------------------------------------------------------------
      LA RIPROPORZIONE
 
-     Il CCNL Metalmeccanica (art. 4, sezione C) dispone la
-     proporzione di tutti gli istituti contrattuali per il tempo
-     parziale; il Terziario non deroga alla regola legale. L'art.
-     7 c. 2 del D.Lgs. 81/2015 impone la proporzione alla ridotta
-     entità della prestazione. Gli scatti sono retribuzione e
-     seguono la stessa proporzione.
+     Il D.Lgs. 81/2015, art. 7 c. 2, impone la proporzione alla
+     ridotta entità della prestazione, e i contratti che ne parlano
+     la ripetono. Le voci contrattuali e gli scatti sono retribuzione
+     e seguono la stessa proporzione.
 
      Il superminimo no. È l'importo mensile che l'utente dichiara
      di percepire *già* al proprio orario: ridurlo di nuovo lo
@@ -370,77 +315,347 @@
   });
 
   /* ------------------------------------------------------------
-     LA COMPOSIZIONE — l'unica funzione che produce un numero
+     IL CATALOGO
+
+     Il modello è una funzione dei dati, non il contrario: le stesse
+     regole girano sul dataset vero e sui contratti inventati delle
+     prove del modello. Nessuna regola conosce il nome di un CCNL.
+
+     Che cosa un contratto può dichiarare, oltre a tabelle e livelli:
+
+       · sezioni — parti del contratto con tabelle, calendario,
+         scatti o orario propri (FIPE, Logistica, Multiservizi…).
+         Chi non ne ha non ne dichiara, e la pagina non le mostra;
+       · mensilità che dipendono dalla data ([{dal,mensilita}]);
+       · per ogni voce, le mensilità in cui entra, quando sono meno
+         di quelle del contratto (l'EDR del 1992 su 13);
+       · per gli scatti, la famiglia di regole — cifra fissa,
+         percentuale alla maturazione, quota unica, assenti — e le
+         mensilità in cui entrano;
+       · per ogni livello, i profili che portano una voce propria;
+       · per ogni riga, il totale pubblicato e le voci che somma,
+         o nessun totale se la fonte non lo stampa.
      ------------------------------------------------------------ */
-  function componiRal({ccnl,livello:codiceLivello,dataAnzianita=null,scatti=null,
-    oreSettimanali=null,superminimoMensile=0,alla}={}){
-    const contratto=trovaContratto(ccnl);
-    if(!contratto)throw new RangeError(`CCNL sconosciuto: ${ccnl}`);
-    const tabella=tabellaVigente(ccnl,alla);
-    const livello=tabella.livelli.find(l=>l.codice===codiceLivello);
-    if(!livello)
-      throw new RangeError(`Livello sconosciuto per ${ccnl}: ${codiceLivello}`);
+  function creaCatalogo({versione,contratti,esclusioni}){
 
-    const ore=oreSettimanali===null||oreSettimanali===undefined
-      ? contratto.oreSettimanali:Number(oreSettimanali);
-    if(!Number.isFinite(ore)||ore<=0||ore>contratto.oreSettimanali)
-      throw new RangeError(`Orario settimanale non valido per ${ccnl}: ${oreSettimanali}`);
+    function normalizzaScatti(regola){
+      const tipo=regola.tipo||'cifraFissa';
+      const massimo=tipo==='assenti'?0:tipo==='quotaUnica'?1:regola.massimo;
+      return congela({...regola,tipo,massimo,decorre:regola.decorre||'meseSuccessivo',
+        ...(regola.importi?{importi:congela({...regola.importi})}:{}),
+        ...(regola.finestre?{finestre:congela(regola.finestre.map(f=>
+          congela({...f,importi:congela({...f.importi})})))}:{})});
+    }
 
-    /* Anzianità non dichiarata significa zero scatti, e la pagina
-       lo dice invece di lasciarlo intendere. Un numero esplicito
-       di scatti vince sull'anzianità, che è una stima. */
-    const dichiarati=scatti===null||scatti===undefined?null:Number(scatti);
-    if(dichiarati!==null&&(!Number.isInteger(dichiarati)||dichiarati<0
-      ||dichiarati>contratto.scatti.massimo))
-      throw new RangeError(`Numero di scatti non valido per ${ccnl}: ${scatti}`);
-    const numeroScatti=dichiarati!==null?dichiarati
-      :dataAnzianita===null||dataAnzianita===undefined?0
-      :scattiMaturati(ccnl,dataAnzianita,alla);
+    function normalizzaLivello(livello,ordine){
+      const voci=congela(livello.voci.map(v=>congela({...v})));
+      const totale=euro(voci.reduce((s,v)=>s+cent(v.importo),0));
+      return congela({
+        codice:livello.codice,nome:livello.nome,ordine,
+        exCategoria:livello.exCategoria??null,
+        voci,totale,
+        totalePubblicato:livello.totalePubblicato??null,
+        vociTotalePubblicato:livello.vociTotalePubblicato
+          ?congela([...livello.vociTotalePubblicato]):null,
+        discrepanzaFonte:livello.discrepanzaFonte?congela({...livello.discrepanzaFonte}):null,
+        scatto:livello.scatto===undefined?null:livello.scatto,
+        profili:congela((livello.profili||[]).map(p=>congela({...p,voce:congela({...p.voce})}))),
+        ...(livello.nota?{nota:livello.nota}:{}),
+      });
+    }
 
-    const baseCent=riproporziona(cent(livello.totale),ore,contratto.oreSettimanali);
-    const scattiCent=riproporziona(cent(livello.scatto)*numeroScatti,ore,contratto.oreSettimanali);
-    const superminimoCent=cent(superminimoMensile||0);
-    if(!Number.isFinite(superminimoCent)||superminimoCent<0)
-      throw new RangeError(`Superminimo non valido: ${superminimoMensile}`);
+    function normalizzaTabelle(tabelle,codiciLivello){
+      return congela(tabelle.map(t=>congela({decorrenza:t.decorrenza,titolo:t.titolo,
+        livelli:congela(t.livelli
+          .filter(l=>!codiciLivello||codiciLivello.includes(l.codice))
+          .map((l,i)=>normalizzaLivello(l,i)))})));
+    }
 
-    const mensileCent=baseCent+scattiCent+superminimoCent;
-    const ralCent=mensileCent*contratto.mensilita;
+    const normalizzaMensilita=m=>Array.isArray(m)
+      ?congela(m.map(f=>congela({...f}))):m;
 
-    return Object.freeze({
-      ccnl:contratto.id,
-      livello:livello.codice,
-      decorrenza:tabella.decorrenza,
-      mensilita:contratto.mensilita,
-      oreSettimanali:ore,
-      oreContrattuali:contratto.oreSettimanali,
-      partTime:ore<contratto.oreSettimanali,
-      anzianitaDichiarata:dataAnzianita!==null&&dataAnzianita!==undefined,
-      scattiOverride:dichiarati!==null,
-      numeroScatti,
-      scattiAlTetto:numeroScatti>=contratto.scatti.massimo,
-      valoreScatto:euro(riproporziona(cent(livello.scatto),ore,contratto.oreSettimanali)),
-      baseMensile:euro(baseCent),
-      baseMensileIntera:livello.totale,
-      scattiMensili:euro(scattiCent),
-      superminimoMensile:euro(superminimoCent),
-      mensileTotale:euro(mensileCent),
-      ral:euro(ralCent),
-      esclusioni:ESCLUSIONI[contratto.id],
-    });
+    function normalizzaContratto(c){
+      const base={...c,
+        mensilita:normalizzaMensilita(c.mensilita),
+        scatti:normalizzaScatti(c.scatti)};
+      delete base.sezioni;delete base.tabelle;
+      if(!c.sezioni)
+        return congela({...base,tabelle:normalizzaTabelle(c.tabelle)});
+      return congela({...base,sezioni:congela(c.sezioni.map(s=>congela({
+        ...s,
+        oreSettimanali:s.oreSettimanali??c.oreSettimanali,
+        mensilita:normalizzaMensilita(s.mensilita??c.mensilita),
+        scatti:s.scatti?normalizzaScatti(s.scatti):normalizzaScatti(c.scatti),
+        codiciLivello:s.codiciLivello?congela([...s.codiciLivello]):null,
+        tabelle:normalizzaTabelle(s.tabelle,s.codiciLivello),
+      })))});
+    }
+
+    const CONTRATTI=congela(contratti.map(normalizzaContratto));
+    const ESCLUSIONI=congela(Object.fromEntries(Object.entries(esclusioni)
+      .map(([id,voci])=>[id,congela([...voci])])));
+    const perId=new Map(CONTRATTI.map(contratto=>[contratto.id,contratto]));
+
+    /* --- LOOKUP ------------------------------------------------ */
+
+    const trovaContratto=id=>id?perId.get(id)||null:null;
+
+    function contrattoNoto(id){
+      const contratto=trovaContratto(id);
+      if(!contratto)throw new RangeError(`CCNL sconosciuto: ${id}`);
+      return contratto;
+    }
+
+    /* Il profilo da cui leggono tutte le regole: la sezione dove il
+       contratto ne ha, il contratto stesso dove non ne ha. Chiedere
+       un contratto sezionato senza dire quale sezione non ha una
+       risposta onesta, quindi si ferma. */
+    function profilo(id,sezione){
+      const contratto=contrattoNoto(id);
+      const nessuna=sezione===null||sezione===undefined||sezione==='';
+      if(!contratto.sezioni){
+        if(!nessuna)throw new RangeError(`${id} non ha sezioni: ${sezione}`);
+        return {contratto,sezione:null,oreSettimanali:contratto.oreSettimanali,
+          mensilita:contratto.mensilita,scatti:contratto.scatti,tabelle:contratto.tabelle,
+          fonte:contratto.fonte};
+      }
+      if(nessuna)throw new RangeError(`Per ${id} serve la sezione del contratto`);
+      const s=contratto.sezioni.find(x=>x.id===sezione);
+      if(!s)throw new RangeError(`Sezione sconosciuta per ${id}: ${sezione}`);
+      return {contratto,sezione:s,oreSettimanali:s.oreSettimanali,mensilita:s.mensilita,
+        scatti:s.scatti,tabelle:s.tabelle,fonte:s.fonte||contratto.fonte};
+    }
+
+    const sezioni=id=>contrattoNoto(id).sezioni||congela([]);
+
+    /* Il dataset porta anche le tranche future già firmate. Vigente
+       è l'ultima decorrenza non successiva alla data chiesta: le
+       stringhe ISO si ordinano da sole, quindi il confronto è
+       testuale e non passa da Date. */
+    function tabellaVigente(id,alla=oggi(),sezione){
+      const {tabelle}=profilo(id,sezione);
+      const applicabili=tabelle.filter(t=>t.decorrenza<=alla);
+      if(!applicabili.length)
+        throw new RangeError(`Nessuna tabella in vigore al ${alla} per ${id}`);
+      return applicabili[applicabili.length-1];
+    }
+
+    function prossimaTabella(id,alla=oggi(),sezione){
+      return profilo(id,sezione).tabelle.find(t=>t.decorrenza>alla)||null;
+    }
+
+    const livelli=(id,alla,sezione)=>tabellaVigente(id,alla,sezione).livelli;
+
+    function trovaLivello(id,codice,alla,sezione){
+      return livelli(id,alla,sezione).find(livello=>livello.codice===codice)||null;
+    }
+
+    const oreContrattuali=(id,sezione)=>profilo(id,sezione).oreSettimanali;
+    const regolaScatti=(id,sezione)=>profilo(id,sezione).scatti;
+
+    function mensilitaDi(mensilita,alla,id){
+      if(!Array.isArray(mensilita))return mensilita;
+      const applicabili=mensilita.filter(f=>f.dal<=alla);
+      if(!applicabili.length)
+        throw new RangeError(`Mensilità non definite al ${alla} per ${id}`);
+      return applicabili[applicabili.length-1].mensilita;
+    }
+
+    const mensilitaAlla=(id,alla=oggi(),sezione)=>
+      mensilitaDi(profilo(id,sezione).mensilita,alla,id);
+
+    /* --- GLI SCATTI ---------------------------------------------
+
+       L'input è la data d'inizio dell'anzianità, non gli anni nel
+       livello corrente: così si modella il mese fra maturazione e
+       decorrenza. Il numero già maturato resta sovrascrivibile per
+       anzianità convenzionale, passaggi di livello o servizio
+       pregresso — tranne dove il valore di ogni scatto dipende da
+       quando è maturato, e un numero da solo non basta. */
+    function scadenze(regola,dataInizio,alla){
+      if(!dataIsoValida(dataInizio)||!dataIsoValida(alla)||dataInizio>alla)
+        throw new RangeError(`Data di anzianità non valida: ${dataInizio}`);
+      const anni=regola.tipo==='quotaUnica'
+        ?[regola.dopoAnni]
+        :Array.from({length:regola.massimo},(_,i)=>(i+1)*regola.cadenzaAnni);
+      const elenco=[];
+      for(const [i,a] of anni.entries()){
+        const maturazione=aggiungiAnni(dataInizio,a);
+        const decorrenza=regola.decorre==='anniversario'
+          ?maturazione:primoDelMeseSuccessivo(maturazione);
+        if(decorrenza>alla)break;
+        elenco.push({n:i+1,maturazione,decorrenza});
+      }
+      return elenco;
+    }
+
+    function scattiMaturati(id,dataInizio,alla=oggi(),sezione){
+      return scadenze(profilo(id,sezione).scatti,dataInizio,alla).length;
+    }
+
+    function importoScatto(regola,livello){
+      if(regola.importi)return regola.importi[livello.codice]??null;
+      return livello.scatto;
+    }
+
+    function scattiDocumentati(regola,livello){
+      if(regola.tipo==='assenti')return true;
+      if(regola.tipo==='percentualeMaturazione')
+        return regola.finestre.some(f=>f.importi[livello.codice]!==undefined);
+      return importoScatto(regola,livello)!==null;
+    }
+
+    function valorePercentuale(regola,livello,maturazione,id){
+      const finestre=regola.finestre.filter(f=>f.dal<=maturazione);
+      const finestra=finestre[finestre.length-1];
+      const importo=finestra?finestra.importi[livello.codice]:undefined;
+      if(importo===undefined)
+        throw new RangeError(`Scatto maturato il ${maturazione}: valore non documentato `+
+          `per ${id} ${livello.codice} (le fonti partono dal ${regola.finestre[0].dal})`);
+      return importo;
+    }
+
+    /* --- LA COMPOSIZIONE — l'unica funzione che produce un numero --- */
+    function componiRal({ccnl,sezione=null,livello:codiceLivello,profilo:codiceProfilo=null,
+      dataAnzianita=null,scatti=null,oreSettimanali=null,superminimoMensile=0,alla=oggi()}={}){
+      const P=profilo(ccnl,sezione);
+      const contratto=P.contratto;
+      const tabella=tabellaVigente(ccnl,alla,sezione);
+      const livello=tabella.livelli.find(l=>l.codice===codiceLivello);
+      if(!livello)
+        throw new RangeError(`Livello sconosciuto per ${ccnl}: ${codiceLivello}`);
+      const M=mensilitaDi(P.mensilita,alla,ccnl);
+
+      const ore=oreSettimanali===null||oreSettimanali===undefined
+        ?P.oreSettimanali:Number(oreSettimanali);
+      if(!Number.isFinite(ore)||ore<=0||ore>P.oreSettimanali)
+        throw new RangeError(`Orario settimanale non valido per ${ccnl}: ${oreSettimanali}`);
+      const prop=c=>riproporziona(c,ore,P.oreSettimanali);
+
+      const scelto=codiceProfilo===null||codiceProfilo===undefined||codiceProfilo===''
+        ?null:livello.profili.find(p=>p.id===codiceProfilo);
+      if(scelto===undefined)
+        throw new RangeError(`Profilo non previsto per ${ccnl} ${livello.codice}: ${codiceProfilo}`);
+
+      /* Anzianità non dichiarata significa zero scatti, e la pagina
+         lo dice invece di lasciarlo intendere. Un numero esplicito
+         di scatti vince sull'anzianità, che è una stima. */
+      const regola=P.scatti;
+      const anzianitaDichiarata=dataAnzianita!==null&&dataAnzianita!==undefined&&dataAnzianita!=='';
+      const dichiarati=scatti===null||scatti===undefined||scatti===''?null:Number(scatti);
+      if(dichiarati!==null&&(!Number.isInteger(dichiarati)||dichiarati<0
+        ||dichiarati>regola.massimo))
+        throw new RangeError(`Numero di scatti non valido per ${ccnl}: ${scatti}`);
+      const documentati=scattiDocumentati(regola,livello);
+      if(!documentati&&(anzianitaDichiarata||dichiarati>0))
+        throw new RangeError(`Scatti non calcolabili per ${ccnl} ${livello.codice}: `+
+          'il contratto non ne pubblica il valore per questo livello');
+      if(regola.tipo==='percentualeMaturazione'&&dichiarati>0)
+        throw new RangeError(`Per ${ccnl} ogni scatto vale quanto la tabella del giorno in cui `+
+          'è maturato: serve la data di anzianità, il numero da solo non basta');
+
+      let dettaglio=[];
+      if(dichiarati===null&&anzianitaDichiarata&&documentati)
+        dettaglio=scadenze(regola,dataAnzianita,alla);
+      else if(dichiarati!==null){
+        if(anzianitaDichiarata)scadenze(regola,dataAnzianita,alla);   // la data resta validata
+        dettaglio=Array.from({length:dichiarati},(_,i)=>({n:i+1,maturazione:null,decorrenza:null}));
+      }else if(anzianitaDichiarata)scadenze(regola,dataAnzianita,alla);
+      dettaglio=dettaglio.map(s=>({...s,importo:regola.tipo==='percentualeMaturazione'
+        ?valorePercentuale(regola,livello,s.maturazione,ccnl)
+        :importoScatto(regola,livello)}));
+      const numeroScatti=dettaglio.length;
+      const uniforme=regola.tipo!=='percentualeMaturazione'&&documentati&&regola.tipo!=='assenti';
+
+      /* Le quote: una per gruppo di incidenza. Le voci che entrano in
+         tutte le mensilità del contratto stanno insieme, riproporzionate
+         sul loro totale come il contratto le stampa; ogni voce con
+         un'incidenza diversa fa quota a sé. Poi il profilo, gli scatti,
+         il superminimo. Dove tutto entra nelle stesse mensilità torna
+         l'identità semplice (base + scatti + superminimo) × mensilità. */
+      const quote=[];
+      const quota=(id,nome,mensileCent,mensilita)=>
+        quote.push({id,nome,mensileCent,mensilita,annuoCent:Math.round(mensileCent*mensilita)});
+      const piene=livello.voci.filter(v=>(v.mensilita??M)===M);
+      quota('base','Retribuzione contrattuale',prop(piene.reduce((s,v)=>s+cent(v.importo),0)),M);
+      for(const v of livello.voci.filter(v=>(v.mensilita??M)!==M))
+        quota(v.id,v.nome,prop(cent(v.importo)),v.mensilita);
+      const nVoci=quote.length;
+      if(scelto)quota(scelto.voce.id,scelto.voce.nome,prop(cent(scelto.voce.importo)),
+        scelto.voce.mensilita??M);
+      const scattiCent=prop(dettaglio.reduce((s,x)=>s+cent(x.importo),0));
+      quota('scatti','Scatti di anzianità',scattiCent,regola.mensilita??M);
+      const superminimoCent=cent(superminimoMensile||0);
+      if(!Number.isFinite(superminimoCent)||superminimoCent<0)
+        throw new RangeError(`Superminimo non valido: ${superminimoMensile}`);
+      quota('superminimo','Superminimo',superminimoCent,M);
+
+      const baseCent=quote.slice(0,nVoci).reduce((s,q)=>s+q.mensileCent,0);
+      const mensileCent=quote.reduce((s,q)=>s+q.mensileCent,0);
+      const ralCent=quote.reduce((s,q)=>s+q.annuoCent,0);
+
+      return congela({
+        ccnl:contratto.id,
+        sezione:P.sezione?P.sezione.id:null,
+        livello:livello.codice,
+        profilo:scelto?scelto.id:null,
+        decorrenza:tabella.decorrenza,
+        mensilita:M,
+        oreSettimanali:ore,
+        oreContrattuali:P.oreSettimanali,
+        partTime:ore<P.oreSettimanali,
+        anzianitaDichiarata,
+        scattiOverride:dichiarati!==null,
+        famigliaScatti:regola.tipo,
+        scattiPrevisti:regola.tipo!=='assenti',
+        scattiDocumentati:documentati,
+        numeroScatti,
+        scattiAlTetto:regola.massimo>0&&numeroScatti>=regola.massimo,
+        valoreScatto:uniforme?euro(prop(cent(importoScatto(regola,livello)))):null,
+        dettaglioScatti:congela(dettaglio.map(s=>congela({...s}))),
+        baseMensile:euro(baseCent),
+        baseMensileIntera:livello.totale,
+        scattiMensili:euro(scattiCent),
+        superminimoMensile:euro(superminimoCent),
+        mensileTotale:euro(mensileCent),
+        ral:euro(ralCent),
+        quote:congela(quote.map(q=>congela({id:q.id,nome:q.nome,mensile:euro(q.mensileCent),
+          mensilita:q.mensilita,annuo:euro(q.annuoCent)}))),
+        identitaSemplice:quote.every(q=>q.mensilita===M),
+        esclusioni:congela([...(ESCLUSIONI[contratto.id]||[]),
+          ...((P.sezione&&P.sezione.esclusioni)||[])]),
+      });
+    }
+
+    /* Il totale che il contratto stampa e la somma delle voci che
+       stampa accanto devono coincidere. Non è una prova che i
+       numeri siano quelli giusti — è la guardia che li tiene
+       insieme mentre li si trascrive, ed è ciò che fa cadere un
+       refuso invece di lasciarlo entrare nel motore. Dove la fonte
+       stessa sbaglia la somma, lo scarto va registrato nel dato con
+       il suo importo esatto: uno scarto diverso fa cadere la prova. */
+    function riconciliaLivello(livello){
+      const somma=livello.voci.reduce((totale,v)=>totale+cent(v.importo),0);
+      const pubblicato=livello.totalePubblicato??null;
+      let scarto=0;
+      if(pubblicato!==null){
+        const comprese=livello.vociTotalePubblicato
+          ?livello.voci.filter(v=>livello.vociTotalePubblicato.includes(v.id)):livello.voci;
+        scarto=cent(pubblicato)-comprese.reduce((t,v)=>t+cent(v.importo),0);
+      }
+      const atteso=livello.discrepanzaFonte?cent(livello.discrepanzaFonte.scarto):0;
+      return{somma:euro(somma),totale:livello.totale,
+        verificata:somma===cent(livello.totale)&&scarto===atteso,
+        tipo:pubblicato===null?'derivato':'pubblicato',
+        totalePubblicato:pubblicato,scartoFonte:euro(scarto)};
+    }
+
+    return congela({VERSIONE_DATASET:versione,CONTRATTI,ESCLUSIONI,FONTE_RIPROPORZIONE,
+      trovaContratto,sezioni,tabellaVigente,prossimaTabella,livelli,trovaLivello,
+      oreContrattuali,regolaScatti,mensilitaAlla,
+      scattiMaturati,riproporziona,componiRal,riconciliaLivello});
   }
 
-  /* Il totale che il contratto stampa e la somma delle voci che
-     stampa accanto devono coincidere. Non è una prova che i
-     numeri siano quelli giusti — è la guardia che li tiene
-     insieme mentre li si trascrive, ed è ciò che fa cadere un
-     refuso invece di lasciarlo entrare nel motore. */
-  function riconciliaLivello(livello){
-    const somma=livello.voci.reduce((totale,voce)=>totale+cent(voce.importo),0);
-    return{somma:euro(somma),totale:livello.totale,
-      verificata:somma===cent(livello.totale)};
-  }
-
-  return Object.freeze({VERSIONE_DATASET,CONTRATTI,ESCLUSIONI,FONTE_RIPROPORZIONE,
-    trovaContratto,tabellaVigente,prossimaTabella,livelli,trovaLivello,
-    scattiMaturati,riproporziona,componiRal,riconciliaLivello});
+  return congela({...creaCatalogo({versione:VERSIONE_DATASET,
+    contratti:CONTRATTI_DATI,esclusioni:ESCLUSIONI_DATI}),creaCatalogo});
 });
