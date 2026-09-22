@@ -13,7 +13,7 @@ Node 18 o successivo. Nessuna dipendenza, nessun `package.json`, niente da insta
 Il motore (`prototipo/motore.js`) è uno script classico: la stessa riga di codice
 gira nella pagina aperta con un doppio clic e in Node, senza duplicati.
 
-Stato al 7 settembre 2026: **300 prove, tutte verdi** (Node v22.22.2).
+Stato al 17 settembre 2026: **389 prove, tutte verdi** (Node v22.22.2).
 
 Gli attrezzi di verifica stanno in `processo/attrezzi/`, e girano anche loro senza
 dipendenze:
@@ -317,6 +317,30 @@ quindi un netto: la prova che serve non è la stessa del calcolo fiscale.
   successivo. Restano fuori le eccezioni storiche Terziario anteriori al 1987 e 1995
   e quelle metalmeccaniche per chi era in forza prima del 1979: in quei casi prevale
   il numero di scatti dichiarato dall'utente.
+
+## La busta paga (RIC-68): che cosa provano le 48 prove nuove
+
+Il percorso del cedolino è tutto locale, quindi si prova come si prova una funzione
+pura — e infatti **nessun PDF entra nei test**, né vero né finto.
+
+| | Che cosa prova | Come |
+|---|---|---|
+| `busta-paga-estrazione.test.js` | che le righe nascono dalle coordinate e non dall'ordine dei frammenti | array di coordinate scritti a mano: frammenti mescolati, colonne disallineate di frazioni di punto, righe vicine che non devono fondersi, parole spezzate dalla libreria, pagine diverse con la stessa ordinata |
+| `busta-paga-redazione.test.js` | che ogni schema riconosce quello che deve e **non** quello che gli somiglia | stringhe costruite apposta, ciascuna con il suo falso positivo plausibile: `1234567890123456` non è un codice fiscale, `12.345.678,90` non è una partita IVA, la data del periodo di paga non è una data di nascita, `CISLAGO` non è la CISL, `FERIE GODUTE` non è un motivo di assenza |
+| `busta-paga-pagina.test.js` | che le promesse della pagina sono vere nel sorgente | GA4 assente e Datafast presente; nessun `fetch`, `XMLHttpRequest`, `sendBeacon`, `WebSocket`, `localStorage`, `sessionStorage`, `indexedDB`, cookie nei file del percorso; nessun URL esterno nella pagina; libreria di lettura locale; consenso obbligatorio che nomina l'art. 9; pulsante di invio disattivato; i limiti dichiarati a schermo sono quelli che il codice applica |
+
+Due prove meritano il nome per esteso, perché sono il contratto del prodotto:
+
+- **«il segnaposto non rompe la struttura della riga»**: dopo l'oscuramento la riga
+  ha lo stesso numero di parole e l'importo è ancora l'ultima. È la ragione per cui
+  i segnaposto non contengono spazi.
+- **«il testo del payload è esattamente la concatenazione dei segmenti mostrati»**:
+  la stringa che partirebbe viene ricomposta dai bottoni disegnati a schermo. Se un
+  giorno la pagina mostrasse una cosa e ne inviasse un'altra, questa prova
+  fallirebbe.
+
+Quello che queste prove **non** dicono: se il riconoscimento regga su un cedolino
+vero. Il dettaglio sta in `prototipo/busta-paga.md`.
 
 ## Cosa NON è provato
 

@@ -99,7 +99,7 @@ function renderRalPage({ral,result,previous,next}){
     </div></section>
   <p class="ral-disclaimer">Stima basata sulle regole fiscali 2026. Non costituisce consulenza fiscale o del lavoro. Il risultato può cambiare in base a comune, situazione familiare, inquadramento contributivo e altre condizioni personali.</p>
 </div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../confronti-ral/">Tutti i confronti RAL</a></div></footer>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../confronti-ral/">Tutti i confronti RAL</a><a href="../privacy.html">Privacy</a></div></footer>
 <script src="../site-nav.js"></script></body>
 </html>
 `;
@@ -122,7 +122,7 @@ function renderHub({rals,results}){
 <main id="contenuto" class="ral-main hub-main"><div class="shell"><header class="ral-intro"><div class="eyebrow">Confronti RAL</div><h1>Dal lordo al netto, cifra per cifra</h1><p class="lead">Scegli una RAL e confronta subito lo stesso netto annuo su 12, 13 e 14 mensilità.</p></header>
 <section class="hub-grid" aria-label="Elenco dei confronti RAL">${cards}</section>
 <p class="ral-disclaimer">Stime 2026 per un dipendente privato a Milano, FPLD ordinario, anno completo e nessun familiare a carico.</p></div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span></div></footer><script src="../site-nav.js"></script></body></html>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../privacy.html">Privacy</a></div></footer><script src="../site-nav.js"></script></body></html>
 `;
 }
 

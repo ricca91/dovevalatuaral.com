@@ -14,6 +14,7 @@ const publicPages = [
   ['netto-ral.html', `${canonicalOrigin}/netto-ral.html`],
   ['ccnl-livello.html', `${canonicalOrigin}/ccnl-livello.html`],
   ['netto-o-niente.html', `${canonicalOrigin}/netto-o-niente.html`],
+  ['privacy.html', `${canonicalOrigin}/privacy.html`],
   ['confronti-ral/index.html', `${canonicalOrigin}/confronti-ral/`],
   ...Array.from({ length: 17 }, (_, index) => {
     const ral = 20000 + index * 5000;
@@ -79,6 +80,24 @@ test('sitemap contiene esattamente le pagine pubbliche self-canonical', () => {
   assert.deepEqual(locations, [...publicPages.map(([, canonical]) => canonical), `${canonicalOrigin}/blog/`, ...readArticles().map(a=>`${canonicalOrigin}/blog/${a.slug}/`)]);
   for (const location of locations) {
     assert.doesNotMatch(location, /prototype-|jethr\.riccsartori\.com|\?/);
+  }
+});
+
+test('l’informativa privacy è raggiungibile da ogni pagina pubblica', () => {
+  for (const [file] of publicPages) {
+    const prefix = file.includes('/') ? '../' : '';
+    assert.match(readPublic(file), new RegExp(`href="${prefix}privacy\\.html"`), file);
+  }
+});
+
+test('la pagina busta paga resta fuori da indicizzazione, sitemap e navigazione', () => {
+  const html = readPublic('busta-paga.html');
+  assert.match(html, /<meta\s+name="robots"\s+content="noindex, nofollow"\s*\/?>/i);
+  assert.ok(!publicPages.some(([page]) => page === 'busta-paga.html'));
+  assert.ok(!readPublic('sitemap.xml').includes('busta-paga'));
+  for (const [file] of publicPages) {
+    const nav = oneMatch(readPublic(file), /<nav[^>]*id="site-nav"[^>]*>([\s\S]*?)<\/nav>/g, `${file}: navigazione`);
+    assert.ok(!nav.includes('busta-paga'), `${file}: la busta paga non entra in navigazione`);
   }
 });
 
