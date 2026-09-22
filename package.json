@@ -5,6 +5,15 @@
     "test": "node --test prototipo/*.test.js server/*.test.js",
     "dev": "node processo/attrezzi/server-preview.cjs"
   },
-  "engines": { "node": "22.x" },
-  "dependencies": { "@resvg/resvg-js": "2.6.2" }
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "pg": "8.23.0",
+    "stripe": "22.6.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
 }

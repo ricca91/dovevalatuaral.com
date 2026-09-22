@@ -22,7 +22,8 @@
   const E=window.BUSTA_PAGA_ESTRAZIONE;
   const R=window.BUSTA_PAGA_REDAZIONE;
   const I=window.BUSTA_PAGA_INVIO;
-  const V=window.BUSTA_PAGA_RISULTATO;
+  const P=window.BUSTA_PAGA_PERCORSO;
+  const A=window.BUSTA_PAGA_ACCESSO;
   const M=window.BUSTA_PAGA_MISURA;
 
   /* L'invio è attivo da RIC-69. La costante resta perché è l'interruttore: a
@@ -67,7 +68,8 @@
   const mostraStato=testo=>{if(stato)stato.textContent=testo;};
 
   function mostraErrore(codice){
-    const messaggio=E.MESSAGGI[codice]||E.MESSAGGI.PDF_ILLEGGIBILE;
+    const messaggio=E.MESSAGGI[codice];
+    if(!messaggio){P.errore(codice);return;}
     errore_titolo.textContent=messaggio.titolo;
     errore_cosa.textContent=messaggio.cosaFare;
     errore.hidden=false;
@@ -82,9 +84,12 @@
     window.addEventListener('busta-paga-pdf-pronto',()=>risolvi(window.BUSTA_PAGA_PDF),{once:true});
     setTimeout(()=>rifiuta(new Error('lettore')),ATTESA_LETTORE);
   });
-  lettorePronto.then(()=>{
-    file.disabled=false;
-    mostraStato('Pronto. Il file resta in questa scheda.');
+  let servizioPronto=false;
+  Promise.all([lettorePronto,P.pronto]).then(([,attivo])=>{
+    servizioPronto=attivo;
+    file.disabled=!attivo||Boolean(A.leggi());
+    aggiornaInvio();
+    mostraStato(attivo?'Pronto. Il file resta in questa scheda.':'Upload disponibile dopo la configurazione del servizio.');
   }).catch(()=>{
     mostraStato('');
     errore_titolo.textContent='Il lettore di PDF non si è caricato.';
@@ -94,7 +99,7 @@
 
   file.addEventListener('change',async()=>{
     const scelto=file.files&&file.files[0];
-    if(!scelto)return;
+    if(!scelto||inCorso)return;
     nascondiErrore();
     azzeraRevisione();
     file.disabled=true;
@@ -106,7 +111,7 @@
     }catch(_){
       esito={ok:false,codice:'PDF_ILLEGGIBILE'};
     }finally{
-      file.disabled=false;
+      file.disabled=!servizioPronto||Boolean(A.leggi());
       // Il File non serve più: lasciarlo appeso al campo terrebbe in vita il
       // riferimento al documento, e il nome del file, per tutta la sessione.
       file.value='';
@@ -145,9 +150,7 @@
     aggiornaInvio();
   }
 
-  /* La sessione locale è tutta qui dentro: svuotare questi nodi è davvero
-     cancellarla, perché non esiste nessuna copia altrove — né in memoria del
-     browser, né sul server, che non ha conservato niente. */
+  /* Svuota solo la vista; la cancellazione server passa da I.cancella(). */
   function azzeraRisultato(){
     if(risultato)risultato.hidden=true;
     if(risultatoCorpo)risultatoCorpo.textContent='';
@@ -290,12 +293,12 @@
   function aggiornaInvio(){
     if(!invia)return;
     const consentito=Boolean(consenso&&consenso.checked);
-    invia.disabled=!INVIO_ATTIVO||!consentito||inCorso;
-    if(inCorso){nota.textContent='Sto mandando il testo che vedi qui sopra. Non chiudere la pagina.';return;}
+    invia.disabled=!INVIO_ATTIVO||!consentito||inCorso||!servizioPronto;
+    if(inCorso){nota.textContent='Sto elaborando il testo che vedi qui sopra. Un aggiornamento della pagina recupera lo stesso tentativo.';return;}
     nota.textContent=!consentito
       ?'Il consenso è obbligatorio: senza spunta il testo non parte.'
       :(INVIO_ATTIVO
-        ?'Parte esattamente il testo del riquadro, e nient’altro: non il PDF, non il suo nome. Non viene salvato da nessuna parte.'
+        ?'Parte esattamente il testo del riquadro, e nient’altro: non il PDF, non il suo nome. Il report viene conservato per 48 ore, o 30 giorni dopo l’acquisto. Il testo grezzo non viene salvato.'
         :'Consenso registrato in questa scheda. In questa versione l’invio è disattivato: il testo che vedi non esce di qui.');
   }
   if(consenso)consenso.addEventListener('change',aggiornaInvio);
@@ -321,11 +324,13 @@
     azzeraRisultato();
     inCorso=true;
     aggiornaInvio();
-    mostraStato('Spiegazione in corso. Di solito ci vogliono una ventina di secondi.');
+    mostraStato('Prepariamo l’anteprima. Il pagamento sarà possibile solo dopo un report utilizzabile.');
+    file.disabled=true;payload.inert=true;consenso.disabled=true;
     annuncia('Invio in corso.');
 
     const esito=await I.analizza(testo);
     inCorso=false;
+    file.disabled=!servizioPronto||Boolean(A.leggi());payload.inert=false;consenso.disabled=false;
     aggiornaInvio();
 
     misura('payslip_analysis',{success:Boolean(esito&&esito.ok),
@@ -333,20 +338,16 @@
 
     if(!esito||!esito.ok){
       mostraStato('');
-      mostraErrore((esito&&esito.codice)||'SERVIZIO_NON_DISPONIBILE');
+      P.errore((esito&&esito.codice)||'SERVIZIO_NON_DISPONIBILE');
       return;
     }
 
-    if(esito.analisi.guardie)
-      misura('payslip_guards',{dropped_bucket:esito.analisi.guardie.dropped_bucket});
-
-    mostraStato('Spiegazione pronta. Il documento non è stato conservato da nessuna parte.');
-    if(V)V.rendi(risultatoCorpo,esito.analisi,esito.motore);
-    if(risultato){
-      risultato.hidden=false;
-      risultato.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
-    }
-    annuncia('Spiegazione pronta.');
+    P.mostra(esito);
+    righe=[];redazione=null;payload.textContent='';legenda.textContent='';
+    revisione.hidden=true;consenso.checked=false;
+    mostraStato('Il testo è stato elaborato. Puoi recuperare l’anteprima senza una nuova analisi.');
+    $('bp-acquisto').scrollIntoView({block:'start'});
+    annuncia('Anteprima pronta.');
   });
 
   /* Il voto. Parte un booleano e basta: nessun testo libero, perché un campo
@@ -360,13 +361,23 @@
     annuncia('Grazie, il voto è stato registrato.');
   });
 
-  if(ricomincia)ricomincia.addEventListener('click',()=>{
-    azzeraRevisione();
-    nascondiErrore();
-    mostraStato('Sessione cancellata. Niente è rimasto in questa pagina.');
-    annuncia('Sessione cancellata.');
-    file.focus();
-  });
+  async function cancella(){
+    if(inCorso)return;
+    if(A.leggi()){
+      inCorso=true;aggiornaInvio();
+      const esito=await I.cancella();
+      inCorso=false;aggiornaInvio();
+      if(!esito.ok&&esito.codice!=='ACCESSO_NON_VALIDO'&&esito.codice!=='SESSIONE_SCADUTA'){
+        P.errore(esito.codice);return;
+      }
+      A.dimentica();
+    }
+    P.azzera();azzeraRevisione();nascondiErrore();file.disabled=!servizioPronto;
+    mostraStato('Report cancellato. Puoi iniziare una nuova analisi.');
+    annuncia('Report cancellato.');file.focus();
+  }
+  if(ricomincia)ricomincia.addEventListener('click',cancella);
+  window.addEventListener('bp-cancella',cancella);
 
   aggiornaInvio();
 })();

@@ -17,7 +17,7 @@ const pagina=leggi('busta-paga.html');
    sotto è che l'assenza di rete è dimostrata file per file, non promessa. */
 const FILE_PERCORSO=['busta-paga-estrazione.js','busta-paga-redazione.js',
   'busta-paga-ui.js','busta-paga-pdf.js','analytics-datafast.js',
-  'busta-paga-misura.js','busta-paga-risultato.js'];
+  'busta-paga-misura.js','busta-paga-risultato.js','busta-paga-percorso.js'];
 const FILE_CHE_ESCE='busta-paga-invio.js';
 
 test('Google Analytics 4 non viene caricato, Datafast sì',()=>{
@@ -54,9 +54,9 @@ test('la libreria di lettura è locale, non su una CDN',()=>{
 
 test('la pagina carica il percorso completo, nell’ordine che serve',()=>{
   const script=[...pagina.matchAll(/<script[^>]*src="([^"]+)"/g)].map(m=>m[1]);
-  assert.deepEqual(script,['analytics-datafast.js','busta-paga-estrazione.js',
+  assert.deepEqual(script,['busta-paga-accesso.js','analytics-datafast.js','busta-paga-estrazione.js',
     'busta-paga-redazione.js','busta-paga-misura.js','busta-paga-invio.js',
-    'busta-paga-risultato.js','site-nav.js','busta-paga-ui.js','busta-paga-pdf.js']);
+    'busta-paga-risultato.js','site-nav.js','busta-paga-percorso.js','busta-paga-ui.js','busta-paga-pdf.js']);
   assert.match(pagina,/<script type="module" src="busta-paga-pdf\.js"><\/script>/);
 });
 
@@ -79,10 +79,9 @@ test('l’invio è attivo, ma il pulsante nasce disattivato e lo sblocca solo il
   assert.match(controller,/if\(!\(consenso&&consenso\.checked\)\)return;/);
 });
 
-test('esce solo il testo redatto: un file solo, una chiamata sola, un campo solo',()=>{
+test('la rete resta separata dal PDF, il payload include consenso e testo approvato',()=>{
   const invio=senzaCommenti(leggi(FILE_CHE_ESCE));
-  assert.equal([...invio.matchAll(/\bfetch\s*\(/g)].length,1,'una sola chiamata di rete in tutto il percorso');
-  assert.match(invio,/body:JSON\.stringify\(\{testo\}\)/);
+  assert.match(invio,/richiesta\('analizza','POST',\{testo,consenso:true\}\)/);
   assert.match(invio,/const ENDPOINT='\/api\/busta-paga'/);
   /* Il `File`, il suo buffer e il suo nome non compaiono nemmeno come parola:
      il nome di un cedolino contiene quasi sempre il cognome. */
@@ -105,7 +104,7 @@ test('gli eventi di misurazione sono un elenco chiuso, e non trasportano contenu
   const misura=leggi('busta-paga-misura.js');
   const nomi=[...misura.matchAll(/^\s{4}(payslip_[a-z_]+):/gm)].map(m=>m[1]);
   assert.deepEqual(nomi,['payslip_view','payslip_upload_selected','payslip_extraction',
-    'payslip_redaction_confirmed','payslip_analysis','payslip_guards','payslip_feedback']);
+    'payslip_redaction_confirmed','payslip_analysis','payslip_guards','payslip_preview','payslip_checkout','payslip_feedback']);
   /* Le sole proprietà ammesse sono quelle del ticket: booleani, codici e fasce. */
   const proprieta=[...misura.matchAll(/'([a-z_]+)'/g)].map(m=>m[1]);
   for(const ammessa of ['file_type','page_bucket','success','error_code','dropped_bucket','useful'])

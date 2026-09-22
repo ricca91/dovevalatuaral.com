@@ -2,6 +2,8 @@
 <html lang="it">
 <head>
 <meta charset="utf-8">
+<meta name="referrer" content="no-referrer">
+<script src="busta-paga-accesso.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ti spiego la busta paga | Dove va la tua RAL</title>
 <meta name="description" content="Carica il cedolino: il PDF resta nel tuo browser, il testo viene oscurato dove serve e tu vedi esattamente che cosa parte. Poi ti spieghiamo voce per voce che cosa significa.">
@@ -9,6 +11,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%231E1C2B' d='M0 0h32v32H0z'/%3E%3Ctext x='16' y='24' fill='%2321D4E3' text-anchor='middle' font-size='24'%3E€%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="draftsman.css">
 <link rel="stylesheet" href="busta-paga.css">
+<link rel="stylesheet" href="busta-paga-percorso.css">
 <!-- Solo Datafast: su questa pagina Google Analytics 4 non viene caricato. -->
 <script src="analytics-datafast.js" async></script>
 </head>
@@ -53,12 +56,13 @@
       <span class="callout__mark" aria-hidden="true">i</span>
       <div>
         <p>Il PDF non lascia il browser. Il testo oscurato sì: viene mandato a un modello linguistico perché lo spieghi, ed è testo <strong>pseudonimizzato, non anonimo</strong>, perché importi, livello, CCNL, comune e mese restano dati personali. Per questo la schermata di conferma ti mostra il testo esatto, e per questo il consenso è esplicito.</p>
-        <p>L'analisi gira su <strong>Claude Sonnet 5 di Anthropic</strong>, instradato via Vercel AI Gateway con <strong>inferenza in regione europea</strong> e con il divieto di usare il testo per addestrare il modello. Prima di ogni invio controlliamo che in quella regione il modello sia servito solo da fornitori che <strong>non conservano</strong> i prompt: se non fosse così, il testo non partirebbe. Da noi non viene salvato in nessun database, in nessun archivio e in nessun log — esiste per la durata della richiesta. <a href="privacy.html">Leggi l'informativa completa</a>.</p>
+        <p>L'analisi gira su <strong>Claude Sonnet 5 di Anthropic</strong>, instradato via Vercel AI Gateway con <strong>inferenza in regione europea</strong> e con il divieto di usare il testo per addestrare il modello. Prima di ogni invio controlliamo che in quella regione il modello sia servito solo da fornitori che <strong>non conservano</strong> i prompt: se non fosse così, il testo non partirebbe. Il testo grezzo non viene salvato. Conserviamo il report cifrato per 48 ore senza acquisto, oppure per 30 giorni dal pagamento. Puoi cancellarlo prima. Restano per 90 giorni i soli riferimenti transazionali per assistenza e riconciliazione. <a href="privacy.html">Leggi l'informativa completa</a>.</p>
       </div>
     </div>
   </section>
 
-  <section class="bp-sezione" aria-labelledby="bp-h-carica">
+  <section class="bp-sezione" id="bp-upload" aria-labelledby="bp-h-carica">
+    <p id="bp-configurazione" role="status">Verifico la disponibilità del servizio…</p>
     <h2 id="bp-h-carica">1. Carica il cedolino</h2>
     <div class="bp-carica">
       <label class="label" for="bp-file">Il tuo cedolino in PDF</label>
@@ -89,18 +93,47 @@
     <form class="bp-conferma" id="bp-conferma" novalidate>
       <label class="check" for="bp-consenso">
         <input type="checkbox" id="bp-consenso" required>
-        <span>Acconsento all'invio del testo qui sopra a un modello linguistico perché lo spieghi. So che è testo pseudonimizzato e non anonimo, e che può contenere <strong>dati particolari ex art. 9 GDPR</strong> — come l'appartenenza sindacale o informazioni sullo stato di salute — se ho scelto di non oscurarli.</span>
+        <span>Acconsento all'invio del testo qui sopra a un modello linguistico perché lo spieghi. So che è testo pseudonimizzato e non anonimo, e che può contenere <strong>dati particolari ex art. 9 GDPR</strong> — come l'appartenenza sindacale o informazioni sullo stato di salute — se ho scelto di non oscurarli. Acconsento alla conservazione del report cifrato per 48 ore, o 30 giorni dopo l’acquisto, con possibilità di cancellazione anticipata. <a href="privacy.html">Informativa</a>.</span>
       </label>
       <div class="bp-azioni">
-        <button class="btn btn--primary" type="submit" id="bp-invia" disabled>Invia il testo oscurato</button>
+        <button class="btn btn--primary" type="submit" id="bp-invia" disabled>Prepara la mia anteprima</button>
         <button class="btn btn--ghost" type="button" id="bp-ricomincia">Cancella e ricomincia</button>
       </div>
       <p class="bp-invio-nota" id="bp-invio-nota"></p>
     </form>
   </section>
 
+  <section class="bp-sezione" id="bp-acquisto" aria-labelledby="bp-h-acquisto" hidden>
+    <h2 id="bp-h-acquisto">3. L’anteprima del tuo cedolino</h2>
+    <p id="bp-acquisto-stato" role="status" aria-live="polite"></p>
+    <div id="bp-anteprima"></div>
+    <div id="bp-offerta" hidden>
+      <h3>Nel report completo</h3><div id="bp-sezioni-acquisto"></div>
+      <p id="bp-prezzo-acquisto" class="bp-prezzo"></p>
+      <p>Il report spiega ciò che abbiamo letto. Non certifica la correttezza fiscale della busta paga.</p>
+      <button type="button" class="btn btn--primary" id="bp-paga" disabled>Sblocca il report con Stripe</button>
+    </div>
+    <div class="bp-azioni">
+      <button type="button" class="btn btn--ghost" id="bp-riprova-stato" hidden>Aggiorna stato</button>
+      <button type="button" class="btn btn--ghost" id="bp-stampa" hidden>Stampa / salva PDF</button>
+    </div>
+    <div id="bp-recupero" hidden>
+      <h3>Conserva l’accesso al tuo report</h3>
+      <p>Salva questo link in un posto privato prima di pagare. Chi lo possiede può accedere al report. Nessun account richiesto.</p>
+      <label for="bp-link-recupero">Link privato di recupero (premi per selezionare)</label>
+      <input id="bp-link-recupero" type="text" readonly autocomplete="off" spellcheck="false">
+      <p id="bp-scadenza"></p><p id="bp-riferimento" class="mono"></p>
+    </div>
+    <details class="bp-cancellazione">
+      <summary>Cancellazione e assistenza</summary>
+      <p>La cancellazione elimina anteprima e report anche se acquistato e revoca il link. Non è un rimborso. I riferimenti transazionali restano per 90 giorni.</p>
+      <button type="button" class="btn btn--ghost" id="bp-cancella-server">Elimina definitivamente il report</button>
+      <p>Pagamento riuscito ma report non disponibile? Scrivi a <a href="mailto:riccsartori@gmail.com">riccsartori@gmail.com</a> indicando il riferimento ordine. Non inviare il cedolino né il link privato.</p>
+    </details>
+  </section>
+
   <section class="bp-sezione" id="bp-risultato" aria-labelledby="bp-h-risultato" hidden>
-    <h2 id="bp-h-risultato">3. Che cosa dice il tuo cedolino</h2>
+    <h2 id="bp-h-risultato">4. Il report completo</h2>
     <div class="bp-ris" id="bp-risultato-corpo"></div>
 
     <div class="bp-feedback" id="bp-feedback">
@@ -113,7 +146,7 @@
     </div>
     <p class="bp-feedback__grazie" id="bp-feedback-grazie" hidden>Grazie. È il segnale che ci dice se questo strumento vale la pena.</p>
 
-    <p class="bp-invio-nota">Quando hai finito, <strong>cancella la sessione</strong> con il pulsante qui sopra: svuota la pagina. Non c'è niente da cancellare altrove, perché non è stato salvato niente altrove.</p>
+    <p class="bp-invio-nota">Il report è recuperabile per 30 giorni dal pagamento. Puoi salvarlo in PDF dalla funzione di stampa o eliminarlo prima dalla sezione cancellazione.</p>
   </section>
 
   <footer class="bp-note">
@@ -130,6 +163,7 @@
 <script src="busta-paga-invio.js"></script>
 <script src="busta-paga-risultato.js"></script>
 <script src="site-nav.js"></script>
+<script src="busta-paga-percorso.js"></script>
 <script src="busta-paga-ui.js"></script>
 <script type="module" src="busta-paga-pdf.js"></script>
 </body>

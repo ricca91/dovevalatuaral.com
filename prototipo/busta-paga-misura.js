@@ -29,6 +29,8 @@
     payslip_redaction_confirmed:[],
     payslip_analysis:['success','error_code'],
     payslip_guards:['dropped_bucket'],
+    payslip_preview:[],
+    payslip_checkout:[],
     payslip_feedback:['useful'],
   });
 

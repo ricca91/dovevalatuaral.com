@@ -417,7 +417,7 @@ test('l’endpoint risponde JSON, senza cache, e solo in POST',async()=>{
 
 test('l’handler di Vercel è un guscio sottile sopra il server',()=>{
   assert.equal(typeof handler,'function');
-  assert.match(leggi('api/busta-paga.js'),/require\('\.\.\/server\/busta-paga\.js'\)/);
+  assert.match(leggi('api/busta-paga.js'),/require\('\.\.\/server\/busta-paga-http\.js'\)/);
 });
 
 
@@ -563,7 +563,7 @@ test('il modello che chiamiamo è quello nominato nell’informativa',()=>{
   assert.match(privacy,/addestramento/i);
 });
 
-test('il server non scrive mai il contenuto, e non conserva niente',()=>{
+test('il motore non salva testo grezzo né registra contenuti',()=>{
   /* I file che vedono il cedolino. Qui nemmeno un `console.log`. */
   const CHE_VEDONO=['server/busta-paga.js','server/busta-paga-contratto.js',
     'server/busta-paga-prompt.js','server/busta-paga-tetti.js','api/busta-paga.js'];
