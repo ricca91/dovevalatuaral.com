@@ -149,7 +149,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
   </section>
   </div>
 </main>
-<footer class="ccnl-footer">La RAL è ricostruita dalle tabelle nazionali del CCNL con le regole fiscali 2026: è una stima, non la previsione del tuo cedolino.</footer>
+<footer class="ccnl-footer"><a href="minimi-ccnl/">Tabelle dei minimi per contratto e livello</a> · La RAL è ricostruita dalle tabelle nazionali del CCNL con le regole fiscali 2026: è una stima, non la previsione del tuo cedolino.</footer>
 <script src="dati-addizionali-2026.js"></script><script src="geografia.js"></script><script src="motore.js"></script><script src="retribuzione-ccnl.js"></script><script src="site-nav.js"></script>
 <script>
 (()=>{
@@ -439,8 +439,19 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
     titolo.scrollIntoView({behavior:movimento(),block:'start'});
   });
 
+  /* Le pagine dei minimi CCNL portano qui con contratto, sezione e
+     livello nell'indirizzo. Si preseleziona solo ciò che il dataset
+     conosce: un parametro sbagliato o vecchio lascia il default. */
+  const richiesta=new URLSearchParams(location.search);
+  const scegli=(select,valore)=>{
+    if(valore&&[...select.options].some(o=>o.value===valore))select.value=valore;
+  };
+  scegli(selCcnl,richiesta.get('ccnl'));
   popolaSezioni();
+  scegli(selSezione,richiesta.get('sezione'));
   popolaLivelli();
+  scegli(selLivello,richiesta.get('livello'));
+  popolaProfili();
 })();
 </script>
 </body></html>

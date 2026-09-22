@@ -31,6 +31,9 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | `motore.test.js` | la matrice di prova |
 | `ral-page.template.js` | il template canonico condiviso delle pagine RAL e dell’hub |
 | `genera-pagine-ral.js` | il generatore deterministico delle 17 pagine RAL, dell’hub e della sitemap |
+| `genera-pagine-ccnl.js` | quali pagine dei minimi CCNL esistono (hub, 13 tabelle, 33 pagine per livello) e come si chiamano; nessun importo |
+| `ccnl-page.template.js`, `ccnl-pages.css` | il template e lo stile delle pagine `minimi-ccnl/` |
+| `pagine-ccnl.test.js` | rotte, importi riscontrati sulla fonte, link, breadcrumb strutturato, rigenerazione alla tranche |
 | `ccnl-livello.html` | il generatore da CCNL e livello a RAL e netto: nessun campo RAL in ingresso |
 | `retribuzione-ccnl.js` | il dataset retributivo dei tredici CCNL coperti, il modello (`creaCatalogo()`) e `componiRal()`, la sola funzione che ne produce un numero |
 | `retribuzione-ccnl.test.js` | le prove del dataset, di H011 e C011, degli scatti, del part-time e del contratto della pagina |
@@ -95,8 +98,10 @@ template e dal motore:
 npm run build
 ```
 
-Gli HTML nelle directory `ral-XXXXX-netto/` e `confronti-ral/` sono output generati:
-non vanno modificati a mano. Due esecuzioni consecutive producono gli stessi byte.
+Gli HTML nelle directory `ral-XXXXX-netto/`, `confronti-ral/` e `minimi-ccnl/` sono output generati:
+non vanno modificati a mano. Le pagine `minimi-ccnl/` usano le tabelle in vigore il giorno della
+build: una tranche che decorre cambia le pagine alla prima pubblicazione successiva (il cron del
+blog pubblica ogni mattina, quindi al più un giorno dopo). Due esecuzioni consecutive producono gli stessi byte.
 
 **Anche `sitemap.xml` è output generato**, quindi una pagina scritta a mano — `compara.html`
 è la prima — non basta aggiungerla al file: va aggiunta a `PUBLIC_PAGES` dentro

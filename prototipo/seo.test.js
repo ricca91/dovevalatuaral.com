@@ -19,7 +19,11 @@ const publicPages = [
     const ral = 20000 + index * 5000;
     return [`ral-${ral}-netto/index.html`, `${canonicalOrigin}/ral-${ral}-netto/`];
   }),
+  ...require('./genera-pagine-ccnl.js').ROTTE.map((rotta) => [`${rotta.slice(1)}index.html`, `${canonicalOrigin}${rotta}`]),
 ];
+// Le pagine stanno a profondità diverse: le risorse condivise si
+// raggiungono risalendo fino alla radice.
+const prefix = (file) => '../'.repeat(file.split('/').length - 1);
 
 function readPublic(name) {
   return readFileSync(resolve(publicDir, name), 'utf8');
@@ -48,7 +52,7 @@ test('ogni pagina pubblica ha title, description e self-canonical univoci', () =
 test('ogni pagina pubblica carica lo script di analytics', () => {
   for (const [file] of publicPages) {
     const head = oneMatch(readPublic(file), /<head>([\s\S]*?)<\/head>/gi, `${file}: head`);
-    const src = file.includes('/') ? '../analytics.js' : 'analytics.js';
+    const src = `${prefix(file)}analytics.js`;
     assert.match(head, new RegExp(`<script src="${src.replaceAll('.', '\\.')}" async></script>`));
   }
 });
@@ -94,8 +98,7 @@ test('i prototipi restano esclusi dall’indicizzazione', () => {
 test('Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco', () => {
   for (const [file] of publicPages) {
     const nav = oneMatch(readPublic(file), /<nav[^>]*id="site-nav"[^>]*>([\s\S]*?)<\/nav>/g, `${file}: navigazione`);
-    const prefix = file.includes('/') ? '../' : '';
-    assert.ok(nav.includes(`href="${prefix}netto-o-niente.html"`), file);
+    assert.ok(nav.includes(`href="${prefix(file)}netto-o-niente.html"`), file);
     if (file === 'netto-o-niente.html') assert.match(nav, /href="netto-o-niente.html" aria-current="page">Gioca/);
   }
 });
