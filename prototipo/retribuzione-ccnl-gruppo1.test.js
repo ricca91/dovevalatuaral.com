@@ -289,7 +289,7 @@ test.describe('Multiservizi — K511',()=>{
 
   test('impiegati: prima del luglio 2021 e senza data il valore non si ricostruisce',()=>{
     assert.throws(()=>R.componiRal({ccnl:MULTI,sezione:'impiegati',livello:'5',
-      dataAnzianita:'2019-03-01',alla:OGGI}),/non documentato/);
+      dataAnzianita:'2019-03-01',alla:OGGI}),/non è documentato/);
     assert.throws(()=>R.componiRal({ccnl:MULTI,sezione:'impiegati',livello:'5',
       scatti:2,alla:OGGI}),/data di anzianità/);
     assert.throws(()=>R.componiRal({ccnl:MULTI,sezione:'impiegati',livello:'5',

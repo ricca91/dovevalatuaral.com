@@ -1388,13 +1388,18 @@
       return importoScatto(regola,livello)!==null;
     }
 
-    function valorePercentuale(regola,livello,maturazione,id){
+    /* I messaggi finiscono a schermo: date all'italiana e il nome del
+       contratto, non l'ID. */
+    const dataItaliana=iso=>iso.split('-').reverse().join('/');
+
+    function valorePercentuale(regola,livello,maturazione,contratto){
       const finestre=regola.finestre.filter(f=>f.dal<=maturazione);
       const finestra=finestre[finestre.length-1];
       const importo=finestra?finestra.importi[livello.codice]:undefined;
       if(importo===undefined)
-        throw new RangeError(`Scatto maturato il ${maturazione}: valore non documentato `+
-          `per ${id} ${livello.codice} (le fonti partono dal ${regola.finestre[0].dal})`);
+        throw new RangeError(`Con questa data uno scatto sarebbe maturato il ${dataItaliana(maturazione)}: `+
+          `per ${contratto.nome}, ${livello.nome}, il valore non è documentato: le fonti partono dal `+
+          `${dataItaliana(regola.finestre[0].dal)}. Il calcolo si ferma invece di stimarlo.`);
       return importo;
     }
 
@@ -1431,10 +1436,10 @@
         throw new RangeError(`Numero di scatti non valido per ${ccnl}: ${scatti}`);
       const documentati=scattiDocumentati(regola,livello);
       if(!documentati&&(anzianitaDichiarata||dichiarati>0))
-        throw new RangeError(`Scatti non calcolabili per ${ccnl} ${livello.codice}: `+
+        throw new RangeError(`Scatti non calcolabili per ${contratto.nome}, ${livello.nome}: `+
           'il contratto non ne pubblica il valore per questo livello');
       if(regola.tipo==='percentualeMaturazione'&&dichiarati>0)
-        throw new RangeError(`Per ${ccnl} ogni scatto vale quanto la tabella del giorno in cui `+
+        throw new RangeError(`Per ${contratto.nome} ogni scatto vale quanto la tabella del giorno in cui `+
           'è maturato: serve la data di anzianità, il numero da solo non basta');
 
       let dettaglio=[];
@@ -1445,7 +1450,7 @@
         dettaglio=Array.from({length:dichiarati},(_,i)=>({n:i+1,maturazione:null,decorrenza:null}));
       }else if(anzianitaDichiarata)scadenze(regola,dataAnzianita,alla);
       dettaglio=dettaglio.map(s=>({...s,importo:regola.tipo==='percentualeMaturazione'
-        ?valorePercentuale(regola,livello,s.maturazione,ccnl)
+        ?valorePercentuale(regola,livello,s.maturazione,contratto)
         :importoScatto(regola,livello)}));
       const numeroScatti=dettaglio.length;
       const uniforme=regola.tipo!=='percentualeMaturazione'&&documentati&&regola.tipo!=='assenti';

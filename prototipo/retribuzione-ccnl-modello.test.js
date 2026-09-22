@@ -206,7 +206,7 @@ test.describe('4 — famiglie di scatti',()=>{
   test('percentuale alla maturazione: prima della prima finestra il valore non è documentato',()=>{
     const C=catalogo([percentuale]);
     assert.throws(()=>C.componiRal({ccnl:'percentuale',livello:'A',
-      dataAnzianita:'2019-03-15',alla:'2026-09-22'}),/non documentato/);
+      dataAnzianita:'2019-03-15',alla:'2026-09-22'}),/non è documentato/);
     /* Senza date il valore non si ricostruisce: il numero dichiarato non basta. */
     assert.throws(()=>C.componiRal({ccnl:'percentuale',livello:'A',scatti:2,
       alla:'2026-09-22'}),/data/);
