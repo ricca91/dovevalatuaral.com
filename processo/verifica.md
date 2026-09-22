@@ -13,7 +13,7 @@ Node 18 o successivo. Nessuna dipendenza, nessun `package.json`, niente da insta
 Il motore (`prototipo/motore.js`) è uno script classico: la stessa riga di codice
 gira nella pagina aperta con un doppio clic e in Node, senza duplicati.
 
-Stato al 7 settembre 2026: **300 prove, tutte verdi** (Node v22.22.2).
+Stato al 22 settembre 2026: **440 prove in `prototipo/`, 448 con `server/` (`npm test`), tutte verdi** (Node v22.22.2).
 
 Gli attrezzi di verifica stanno in `processo/attrezzi/`, e girano anche loro senza
 dipendenze:
@@ -317,6 +317,37 @@ quindi un netto: la prova che serve non è la stessa del calcolo fiscale.
   successivo. Restano fuori le eccezioni storiche Terziario anteriori al 1987 e 1995
   e quelle metalmeccaniche per chi era in forza prima del 1979: in quei casi prevale
   il numero di scatti dichiarato dall'utente.
+
+## Undici contratti in più (RIC-60)
+
+Il dataset passa da due a tredici CCNL e da 39 a 1.028 righe. La prova cambia forma, non
+natura: la correttezza viene ancora dal confronto a mano con la fonte.
+
+- **Le fixture sono scritte a mano dalla fonte.** Le tabelle lunghe sono lette dal testo dei
+  documenti archiviati con uno script, non ribattute; gli attesi delle prove invece sono
+  trascritti a mano, con il conto per esteso nel commento. Una trascrizione sbagliata non si
+  conferma da sola. Per ogni contratto e sezione: almeno una riga della fonte, un tempo pieno e
+  un part-time, il giorno prima e il giorno esatto di ogni tranche, gli scatti ai confini.
+- **Le estensioni del modello hanno prove proprie** in `retribuzione-ccnl-modello.test.js`, su
+  contratti inventati con conti che si fanno a mente. Ciascuna è passata dal rosso al verde.
+- **H011 e C011 sono fissati da una non-regressione esplicita**: le RAL di ogni livello a ogni
+  decorrenza, calcolate con il codice di prima dell'estensione.
+- **La riconciliazione ora distingue tre casi**: totale pubblicato che torna, totale derivato
+  perché la fonte non lo stampa, scarto della fonte registrato con il suo importo. I quattordici
+  scarti noti sono elencati in una prova che fallisce se ne compare uno nuovo.
+- **Ogni livello di ogni contratto e sezione arriva al netto**, a tempo pieno e a 24 ore, con
+  ogni profilo, e il motore riconcilia.
+- **Pagina guidata in Chromium** a 1280 × 900 e 390 × 844: 233 combinazioni di contratto,
+  sezione e livello per viewport, ognuna con RAL, netto e media finiti, nessun risultato
+  precedente rimasto visibile al cambio, nessun errore JavaScript. La verifica sulla preview
+  della PR è riportata nella PR.
+- **`motore.js` cambia di una riga, fuori dalle formule fiscali** (`applicaMensilita()` accetta
+  13,5): confronto sulle 2.001 corse senza divergenze, mutazioni 18 su 18 colte, vettori di Netto
+  o Niente invariati e impronta del manifest aggiornata.
+- **Non provato: che le tabelle da fonti non firmatarie siano quelle firmate.** Vetro (2026–2028),
+  Poligrafici (2021) e il punto di partenza di quattro righe dei Grafici vengono da banche dati
+  indipendenti, riscontrate fra loro e con gli aumenti annunciati dalle parti. La pagina lo dice
+  contratto per contratto.
 
 ## Cosa NON è provato
 

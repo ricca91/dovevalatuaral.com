@@ -32,10 +32,13 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | `ral-page.template.js` | il template canonico condiviso delle pagine RAL e dell’hub |
 | `genera-pagine-ral.js` | il generatore deterministico delle 17 pagine RAL, dell’hub e della sitemap |
 | `ccnl-livello.html` | il generatore da CCNL e livello a RAL e netto: nessun campo RAL in ingresso |
-| `retribuzione-ccnl.js` | il dataset retributivo dei due CCNL coperti e `componiRal()`, la sola funzione che ne produce un numero |
-| `retribuzione-ccnl.test.js` | le prove del dataset, degli scatti, del part-time e del contratto della pagina |
+| `retribuzione-ccnl.js` | il dataset retributivo dei tredici CCNL coperti, il modello (`creaCatalogo()`) e `componiRal()`, la sola funzione che ne produce un numero |
+| `retribuzione-ccnl.test.js` | le prove del dataset, di H011 e C011, degli scatti, del part-time e del contratto della pagina |
+| `retribuzione-ccnl-modello.test.js` | le sette estensioni del modello provate su contratti inventati |
+| `retribuzione-ccnl-gruppo1.test.js` | le fixture degli undici contratti del gruppo 1, importi presi dalla fonte |
 | `ccnl-livello.md` | che cosa fa quella pagina e quali decisioni il dataset incorpora |
-| `../processo/fonti-ccnl-2026.md` | da dove viene ogni numero contrattuale, e che cosa resta dichiarato come limite |
+| `../processo/fonti-ccnl-2026.md` | da dove viene ogni numero contrattuale di H011 e C011, e che cosa resta dichiarato come limite |
+| `../processo/fonti-ccnl-gruppo1.md` | lo stesso per gli undici contratti del gruppo 1, con le righe escluse |
 | `righe.js` | l'adapter che trasforma ogni Voce in una Riga |
 | `righe.test.js` | le prove della seam Voce → Riga |
 | `sezioni.js` | i riepiloghi delle due sezioni facoltative del modulo, e quali partono aperte |
