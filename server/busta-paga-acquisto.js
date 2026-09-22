@@ -78,10 +78,10 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     if(o.pagatoIl)base.report=report;
     return base;
   }
-  async function limita(chiaveLimite,massimo,durata){
+  async function limita(chiaveLimite,massimo,durata,contatori=archivio){
     const finestra=Math.floor(adesso()/durata);
     const h=crypto.createHmac('sha256',chiave).update(`${finestra}:${chiaveLimite}`).digest('hex');
-    if(!await archivio.consuma(h,massimo,(finestra+1)*durata))errore('TROPPE_RICHIESTE');
+    if(!await contatori.consuma(h,massimo,(finestra+1)*durata))errore('TROPPE_RICHIESTE');
   }
   async function crea(token,testo,consenso,chiamante){
     const id=idDaToken(token);
@@ -90,10 +90,10 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     if(!verifica.ok)errore(verifica.codice);
     if(ambiente.BUSTA_PAGA_ATTIVO==='0')errore('SERVIZIO_NON_DISPONIBILE');
     const impronta=crypto.createHmac('sha256',chiave).update(id).update(testo).digest('hex');
-    const nuova=await archivio.transazione(id,async(o,salva)=>{
+    const nuova=await archivio.transazione(id,async(o,salva,contatori)=>{
       if(o){attivo(o);if(o.impronta!==impronta)errore('OPERAZIONE_DIVERSA');return false;}
-      await limita('analisi:'+chiamante,5,ORA);
-      await limita('analisi:globale',Number(ambiente.BUSTA_PAGA_ANALISI_GIORNO)||100,GIORNO);
+      await limita('analisi:'+chiamante,5,ORA,contatori);
+      await limita('analisi:globale',Number(ambiente.BUSTA_PAGA_ANALISI_GIORNO)||100,GIORNO,contatori);
       const p=await prezzo(); // Mai spendere per analizzare se non possiamo offrire un acquisto.
       salva({stato:'analisi',impronta,riferimento:crypto.randomUUID(),creatoIl:adesso(),
         scadenza:adesso()+DURATE.anteprima,eliminaIl:adesso()+DURATE.transazione,
@@ -102,7 +102,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     if(nuova){
       let report;
       try{report=await analizza({testo});}catch(_){report={ok:false,codice:'SERVIZIO_NON_DISPONIBILE'};}
-      await archivio.transazione(id,async(o,salva)=>{
+      await archivio.transazione(id,async(o,salva,contatori)=>{
         if(!o||o.stato!=='analisi')return; // Una cancellazione durante l'analisi non rinasce.
         if(!report.ok||!utilizzabile(report)){
           o.stato='errore';o.codice=report.ok?'REPORT_NON_UTILIZZABILE':report.codice;
@@ -133,10 +133,10 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
   }
   async function stato(token,riconcilia=true){
     const id=idDaToken(token);
-    return archivio.transazione(id,async(o,salva)=>{
+    return archivio.transazione(id,async(o,salva,contatori)=>{
       attivo(o);
       if(riconcilia&&o.checkout?.id&&!o.pagatoIl){
-        await limita('stripe:'+id,30,60000);
+        await limita('stripe:'+id,30,60000,contatori);
         const s=await stripe.checkout.sessions.retrieve(o.checkout.id);
         applicaPagamento(s,o,id);salva(o);
       }
@@ -147,11 +147,11 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     const id=idDaToken(token);
     // Persistiamo i parametri PRIMA di chiamare Stripe: anche dopo un timeout o
     // crash l'idempotency key usa esattamente gli stessi parametri.
-    await archivio.transazione(id,async(o,salva)=>{
+    await archivio.transazione(id,async(o,salva,contatori)=>{
       attivo(o);
       if(o.pagatoIl)return;
       if(o.stato!=='pronto'||!utilizzabile(decifra(o.cifrato,chiave,id)))errore('REPORT_NON_UTILIZZABILE');
-      await limita('checkout:'+id,15,ORA);
+      await limita('checkout:'+id,15,ORA,contatori);
       if(o.checkout?.id){
         const s=await stripe.checkout.sessions.retrieve(o.checkout.id);
         applicaPagamento(s,o,id);
@@ -171,7 +171,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
         expires_at:Math.floor(adesso()/1000)+3600,
       }};salva(o);
     });
-    return archivio.transazione(id,async(o,salva)=>{
+    return archivio.transazione(id,async(o,salva,contatori)=>{
       attivo(o);if(o.pagatoIl)return vista(o,id);
       if(!o.checkout.id){
         // Stripe conserva le chiavi >=24 h. Non rischiare un nuovo addebito se
@@ -189,7 +189,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     if(!tipi.includes(event.type)||event.livemode!==live)return;
     const oggetto=event.data.object,id=oggetto.metadata?.ordine;
     if(!/^[a-f0-9]{64}$/.test(id||''))return;
-    await archivio.transazione(id,async(o,salva)=>{
+    await archivio.transazione(id,async(o,salva,contatori)=>{
       if(!o)return;
       // Il webhook può precedere la risposta della creazione della sessione.
       if(!o.checkout?.id)errore('SERVIZIO_NON_DISPONIBILE'); // 5xx => Stripe ritenta.
@@ -200,7 +200,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
   }
   async function cancella(token){
     const id=idDaToken(token);
-    return archivio.transazione(id,async(o,salva)=>{
+    return archivio.transazione(id,async(o,salva,contatori)=>{
       if(!o)errore('ACCESSO_NON_VALIDO');
       if(o.checkout?.id&&!o.pagatoIl){
         const s=await stripe.checkout.sessions.retrieve(o.checkout.id);

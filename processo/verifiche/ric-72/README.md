@@ -58,3 +58,21 @@ Stripe test reale, webhook sul deploy configurato, carta rifiutata dal provider,
 concorrenza multi-istanza del DB ospitato e pulizia programmata su quel provider.
 Il motore reale è una dipendenza aperta di RIC-71. Nessun incasso live verificato.
 I gate e la procedura di prova sono in [operazioni](../../ric-72-operazioni.md).
+
+## Preview reale
+
+[Preview della PR #60](https://dovevalatuaralc-git-2c4413-riccardosartori-outlookcoms-projects.vercel.app/busta-paga.html#bp-upload).
+Deploy Vercel completato. Aperto personalmente in browser: pagina caricata,
+configurazione mancante dichiarata, upload disabilitato, nessun errore JavaScript,
+nessun overflow su desktop e a 390 px. Questo verifica il blocco di attivazione,
+non un acquisto operativo.
+
+Anche la stampa è stata provata nella simulazione: il PDF contiene il report e
+le spiegazioni, senza link privato né pulsanti del checkout. Il PDF sintetico
+non è una prova di qualità del modello.
+
+Suite completa: **23 file di test passati** con `npm test`. Nessuno script
+build/lint dichiarato nel package; controlli sintattici dei nuovi moduli e
+`git diff --check` passati. La build effettiva è quella della preview Vercel.
+
+[Schermata mobile del deploy effettivo](preview-mobile-configurazione-mancante.png).

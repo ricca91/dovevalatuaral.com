@@ -6,7 +6,13 @@ const {PGlite}=require('@electric-sql/pglite');
 const {creaArchivio}=require('./busta-paga-archivio');
 const {scenario}=require('../processo/verifiche/ric-72/supporto.cjs');
 const {creaServizio,idDaToken,DURATE}=require('./busta-paga-acquisto');
-function pool(db){return{on(){},query:(...a)=>db.query(...a),connect:async()=>({query:(...a)=>db.query(...a),release(){}}),end:()=>db.close()};}
+function pool(db){
+  let prenotata=false;
+  return{on(){},query:(...a)=>{
+    assert.equal(prenotata,false,'nessuna seconda connessione per i contatori dentro una transazione');
+    return db.query(...a);
+  },connect:async()=>{prenotata=true;return{query:(...a)=>db.query(...a),release(){prenotata=false;}};},end:()=>db.close()};
+}
 
 test('SQL PostgreSQL reale: rollback, persistenza dopo riapertura e cancellazione per scadenza',async()=>{
   const dir=await mkdtemp(path.join(os.tmpdir(),'ric72-pg-'));

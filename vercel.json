@@ -1,20 +1,66 @@
 {
   "outputDirectory": "prototipo",
-  "regions": ["fra1"],
+  "regions": [
+    "fra1"
+  ],
   "functions": {
-    "api/risultato-immagine.js": { "includeFiles": "server/fonts/**", "maxDuration": 10 },
-    "api/busta-paga.js": { "maxDuration": 60 }
+    "api/risultato-immagine.js": {
+      "includeFiles": "server/fonts/**",
+      "maxDuration": 10
+    },
+    "api/busta-paga.js": {
+      "maxDuration": 60
+    },
+    "api/busta-paga-webhook.mjs": {
+      "maxDuration": 30
+    }
   },
   "rewrites": [
-    { "source": "/risultato/:v/:s/:t", "destination": "/api/risultato?v=:v&s=:s&t=:t" },
-    { "source": "/risultato-immagine/:v/:s/:t.png", "destination": "/api/risultato-immagine?v=:v&s=:s&t=:t" }
+    {
+      "source": "/risultato/:v/:s/:t",
+      "destination": "/api/risultato?v=:v&s=:s&t=:t"
+    },
+    {
+      "source": "/risultato-immagine/:v/:s/:t.png",
+      "destination": "/api/risultato-immagine?v=:v&s=:s&t=:t"
+    }
   ],
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "jethr.riccsartori.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "jethr.riccsartori.com"
+        }
+      ],
       "destination": "https://www.dovevalatuaral.com/:path*",
       "permanent": true
+    }
+  ],
+  "crons": [
+    {
+      "path": "/api/busta-paga-pulizia",
+      "schedule": "15 3 * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/busta-paga.html",
+      "headers": [
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
     }
   ]
 }
