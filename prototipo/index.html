@@ -946,6 +946,7 @@ function pagina(res,st){
         <div class="sec-head"><h2>${s.t}</h2>${s.tool||''}</div>
         ${s.lede?`<p class="lead">${s.lede}</p>`:''}
         <div class="sec-body">${s.body}</div>
+        ${s.id==='risultato'?window.BUSTA_PAGA_INGRESSI.dopoRisultato():''}
       </div></section>`;
   return `${hero(st)}<div class="pg">${form(st)}</div>
     <div class="anchorbar" style="margin-top:clamp(32px,4vw,56px)"><div class="pg"><div class="inner">
@@ -960,6 +961,7 @@ function pagina(res,st){
 const eggDialog=()=>`<dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog>`;
 function vuoto(st){
   return `${hero(st)}<div class="pg">${form(st)}
+    ${window.BUSTA_PAGA_INGRESSI.strumento()}
     <section class="sec">
       <span class="no">§ 01</span>
       <div class="eyebrow">Prima di calcolare</div>
