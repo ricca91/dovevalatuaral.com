@@ -243,6 +243,47 @@ detrazione.** Un rapporto part-time su anno intero mantiene i 365 giorni ai fini
 Il motore riceve una RAL e nient'altro, quindi non ha modo di sbagliare — la prova serve a
 impedire che qualcuno gliene dia il modo.
 
+## Il modello si allarga ai contratti veri, non ai contratti comodi (RIC-60)
+
+Undici contratti nuovi, e le loro fonti hanno smontato l'identità `(base + scatti +
+superminimo) × mensilità` su cui era costruito il RIC-54. Regge per il Turismo e gli Studi
+professionali, non per la FIPE, che esclude gli scatti dalla quattordicesima, né per i
+contratti che pagano l'EDR del 1992 su 13 mensilità dentro un anno da 14. Forzarli in quella
+moltiplicazione avrebbe dato una RAL sbagliata di qualche centinaio di euro, presentata con
+la stessa autorevolezza delle altre.
+
+**Il modello si estende dove il dato lo impone, e da nessun'altra parte.** Sette estensioni,
+ciascuna con un contratto reale che la richiede e una prova su un contratto inventato che la
+isola: sezioni con tabelle, calendari, scatti e orari propri; incidenza di ogni voce sulle
+mensilità; mensilità che dipendono dalla data; quattro famiglie di scatti; voci per profilo;
+orario per contratto o sezione; totale pubblicato contro totale derivato. Il modello è una
+funzione dei dati, `creaCatalogo()`, e nessuna regola conosce il nome di un contratto: il
+gruppo 2 le riusa senza toccarle.
+
+**H011 e C011 non si muovono, e una prova lo dice con i numeri.** Le RAL di ogni loro livello, a
+ogni decorrenza, in tre casi, calcolate dal codice di prima e scritte per esteso. I conteggi
+globali «due contratti» e «39 righe» sono spariti dalle prove: erano asserzioni sul perimetro,
+non sulla correttezza.
+
+**Dove il valore non si ricostruisce, il calcolo si ferma invece di stimarlo.** Gli scatti
+degli impiegati Multiservizi valgono la tabella del giorno in cui maturano: prima del luglio
+2021 le fonti non pubblicano quel valore, e con una data che li comprende il calcolo si ferma.
+Gli scatti di Q e AS dei Grafici non sono pubblicati: il livello si sceglie, gli scatti no. Il
+premio speciale del Vetro ha una base che nessuna fonte pubblica per i livelli attuali: è
+fuori dalla RAL e scritto a schermo.
+
+**Il refuso della fonte si registra con il suo importo, non si corregge in silenzio.** La
+riconciliazione ha trovato quattordici totali stampati che non tornano con le voci accanto: il
+Logistica F2 di 6 centesimi su ogni tranche, l'intera tabella non viaggiante di gennaio 2027,
+che usa già il minimo di giugno, e il 7° dei Poligrafici, dove le fonti divergono di 10
+centesimi. La RAL usa la somma delle voci; lo scarto sta nel dato con la sua spiegazione, e uno
+scarto diverso fa cadere la prova.
+
+**Una mensilità a metà entra nel motore.** `applicaMensilita()` accetta 13,5, perché è il numero
+delle Cooperative sociali dal 2025, non una preferenza di presentazione. I selettori della home
+restano sugli interi. È l'unica riga cambiata in `motore.js`, fuori dalle formule fiscali: le
+2.001 corse del confronto non hanno una divergenza.
+
 ## Il blog si pubblica da solo, ma solo se passa cinque cancelli
 
 Il piano editoriale a 90 giorni è una promessa che nessuno mantiene a mano: novanta mattine
