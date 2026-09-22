@@ -85,6 +85,7 @@ td.s{white-space:nowrap;font:400 var(--t-xs)/1.6 var(--font-mono);text-transform
   letter-spacing:.08em}
 td.s.fatto{color:var(--accent-text);font-weight:500}
 td.s.apre{color:var(--fg-muted)}
+td.s.corso{color:var(--fg-muted);font-weight:500}
 
 .quote{border-left:var(--bw-thick) solid var(--line-solid);padding:var(--s-1) 0 var(--s-1) var(--s-6);
   margin:var(--s-8) 0;font-family:var(--font-display);font-weight:600;font-stretch:var(--wdth);
@@ -214,15 +215,16 @@ code{font-family:var(--font-mono);font-size:.9em}
 <h2>177 commenti. mi hanno praticamente aperto una backlog</h2>
 <p class="lede">Consulenti del lavoro, HR manager, payroll specialist, developer. Mi hanno elencato tutto quello che mancava.</p>
 <p class="para">Li ho scaricati e dati a Claude Code cercando i filoni invece delle singole richieste. Sono usciti sette filoni e sedici ticket, implementabili uno alla volta.</p>
+<p class="para">Questa è la fotografia della backlog: gli stati sono aggiornati al 22 settembre 2026.</p>
 <table>
 <thead><tr><th>Cosa mancava</th><th>Quante volte</th><th>Stato</th></tr></thead>
 <tbody>
 <tr><td>Mensilità oltre la tredicesima</td><td class="n">9</td><td class="s fatto">fatto</td></tr>
-<tr><td>Regione e comune scelti da chi calcola</td><td class="n">7</td><td class="s apre">aperto</td></tr>
-<tr><td>Scelta del CCNL</td><td class="n">5</td><td class="s apre">aperto</td></tr>
-<tr><td>Nucleo familiare e figli a carico</td><td class="n">5</td><td class="s apre">aperto</td></tr>
+<tr><td>Regione e comune scelti da chi calcola</td><td class="n">7</td><td class="s fatto">fatto</td></tr>
+<tr><td>Scelta del CCNL</td><td class="n">5</td><td class="s corso">in corso</td></tr>
+<tr><td>Nucleo familiare e figli a carico</td><td class="n">5</td><td class="s fatto">fatto</td></tr>
 <tr><td>Premi di risultato e MBO</td><td class="n">3</td><td class="s apre">aperto</td></tr>
-<tr><td>Welfare e fringe benefit</td><td class="n">2</td><td class="s apre">aperto</td></tr>
+<tr><td>Welfare e fringe benefit</td><td class="n">2</td><td class="s fatto">fatto</td></tr>
 <tr><td>Costo totale per l'azienda</td><td class="n">1</td><td class="s apre">aperto</td></tr>
 </tbody>
 </table>
@@ -238,7 +240,7 @@ code{font-family:var(--font-mono);font-size:.9em}
 <h2>Da task per un colloquio a strumento che si può usare</h2>
 <p class="lede">I commenti non mi hanno solo detto cosa mancava. Mi hanno fatto vedere quanto lontano poteva andare una cosa nata in due giorni per superare una selezione.</p>
 <p class="para">Quando l'ho pubblicato era un artefatto. Serviva a rispondere a un task, copriva un caso solo, e finito quello avrebbe smesso di servire a qualcosa. Sedici ticket dopo è diventato un'altra cosa: non ancora finita, ma con una direzione.</p>
-<p class="para">La direzione è portarlo dal caso singolo che copre oggi — dipendente privato, Milano, anno intero — verso i casi veri. Regione e comune scelti da chi calcola. Il CCNL. Il nucleo familiare. Il costo per l'azienda accanto al netto del lavoratore. Sono problemi grossi, alcuni più grossi del calcolatore stesso, e li sto affrontando uno alla volta.</p>
+<p class="para">La direzione era portarlo dal caso singolo di partenza — dipendente privato, Milano, anno intero — verso i casi veri. Oggi il comune di domicilio fiscale si sceglie fra tutti quelli italiani attivi, i familiari a carico e il pacchetto retributivo entrano nel calcolo, e il CCNL ha un percorso suo per i contratti pubblicati. Restano aperti i premi di risultato e il costo per l'azienda accanto al netto del lavoratore: sono problemi grossi, alcuni più grossi del calcolatore stesso, e li sto affrontando uno alla volta.</p>
 <p class="para">So che di strumenti così ne esistono già, compreso quello di Jet HR. Non sto provando a sostituirli. Questo serve prima di tutto a me: per imparare a costruire qualcosa che regge davvero, e per mettere insieme un portfolio fatto di cose che funzionano.</p>
 </div></section>
 
@@ -247,9 +249,10 @@ code{font-family:var(--font-mono);font-size:.9em}
 <h2>Dove il calcolo vale e dove smette</h2>
 <p class="lede">La parte tecnica ridotta all'osso: quello che serve sapere prima di fidarsi di un numero con due decimali.</p>
 <div class="grid">
-<article class="card"><h3>Il caso coperto</h3><p>Regole 2026, Milano, impiegato privato a tempo indeterminato, anno intero, un datore e un reddito. Nessun familiare a carico, nessun benefit, premio o agevolazione personale.</p></article>
+<article class="card"><h3>Il perimetro coperto</h3><p>Regole 2026, impiegato privato a tempo indeterminato, anno intero, un datore e un reddito. Il comune di domicilio fiscale si sceglie fra tutti i comuni italiani attivi; familiari a carico e pacchetto retributivo — welfare, fringe benefit e buoni pasto — si dichiarano nel calcolatore. Milano è il caso di riferimento degli esempi, non il limite geografico.</p></article>
 <article class="card"><h3>Che numero è</h3><p>Il netto annuale maturato sulla RAL, e la sua media da 12 a 16 mensilità. Non è la previsione del singolo cedolino né del bonifico che arriva a gennaio.</p></article>
 </div>
+<div class="limit"><h3>Che cosa resta fuori, e che cosa deve ancora arrivare</h3><p>Fuori per scelta di modello: TFR, contributi del datore e INAIL, fondi di settore e previdenza complementare, altri redditi, oneri deducibili e agevolazioni personali. Non ancora coperti ma in backlog: premi di risultato e MBO, e il costo totale per l'azienda. Il welfare va dichiarato già qualificato come esente: il calcolatore non certifica i requisiti del piano aziendale. L'elenco aggiornato sta nel calcolatore, sotto «Metodo e fonti» e nelle domande frequenti.</p></div>
 <div class="limit"><h3>Il 9,19% non vale per ogni dipendente privato</h3><p>Settore, inquadramento INPS, dimensione del datore e fondi speciali cambiano la contribuzione. Il calcolatore assume FPLD ordinario.</p></div>
 <div class="limit"><h3>Sopra 122.295 € la sola RAL non basta</h3><p>Lì scatta il massimale e i contributi si fermano a 11.899,62 €, ma vale solo per chi non aveva anzianità contributiva al 31 dicembre 1995. Il calcolatore mantiene questa assunzione e la segnala nel risultato.</p></div>
 <div class="limit"><h3>Nessun consulente del lavoro ha validato questi numeri</h3><p>Le regole vengono da fonti primarie e le ho controllate a mano, ma è un prototipo, non un parere fiscale. E Jet HR ha già un suo calcolatore pubblico — me l'hanno ricordato nei commenti — che questo non sostituisce.</p></div>

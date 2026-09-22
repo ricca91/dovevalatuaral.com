@@ -26,6 +26,7 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | `draftsman.css` | il design system delle pagine: token, componenti e caratteri incorporati |
 | `come-ho-lavorato.html` | la nota di lavoro: perimetro, modello, verifica, limiti |
 | `la-storia.html` | la storia: cosa è successo dopo la pubblicazione |
+| `perimetro.test.js` | la guardia editoriale: che le due pagine narrative descrivano il perimetro davvero coperto |
 | `motore.js` | il calcolo, separato per poterlo provare fuori dal browser |
 | `motore.test.js` | la matrice di prova |
 | `ral-page.template.js` | il template canonico condiviso delle pagine RAL e dell’hub |
