@@ -483,6 +483,36 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
     assert.match(pagina,/type="submit">Calcola la RAL e il netto/);
   });
 
+  test('il selettore viene dal dataset: nessun contratto scritto a mano',()=>{
+    assert.match(pagina,/<select class="input" id="ccnl" name="ccnl" aria-describedby="ccnl-help"><\/select>/);
+    assert.match(pagina,/for\(const contratto of R\.CONTRATTI\)/);
+    assert.doesNotMatch(pagina,/<option value="terziario-confcommercio-h011">/);
+    assert.doesNotMatch(pagina,/Due CCNL privati/);
+  });
+
+  test('sezione e profilo esistono solo dove servono, e spariscono davvero',()=>{
+    assert.match(pagina,/<div class="field" id="campo-sezione" hidden>/);
+    assert.match(pagina,/<div class="field" id="campo-profilo" hidden>/);
+    assert.match(pagina,/\.field\[hidden\]\{display:none\}/);
+    /* Cambiare contratto o sezione ricostruisce tutto a valle e toglie
+       il risultato; cambiare livello ricostruisce il profilo. */
+    assert.match(pagina,/selCcnl\.addEventListener\('change',\(\)=>\{popolaSezioni\(\);popolaLivelli\(\);nascondi\(\);\}\)/);
+    assert.match(pagina,/selSezione\.addEventListener\('change',\(\)=>\{popolaLivelli\(\);nascondi\(\);\}\)/);
+    assert.match(pagina,/selLivello\.addEventListener\('change',\(\)=>\{popolaProfili\(\);nascondi\(\);\}\)/);
+    assert.match(pagina,/campo\('ore'\)\.value='';campo\('scatti'\)\.value='';/);
+  });
+
+  test('non assume scatti regolari né mensilità identiche',()=>{
+    /* La moltiplicazione unica compare solo dove è vera; altrove le
+       quote annue una per una. */
+    assert.match(pagina,/id="annualizzazione" hidden/);
+    assert.match(pagina,/composta\.identitaSemplice/);
+    assert.match(pagina,/non tutte le voci entrano in tutte le mensilità/);
+    assert.match(pagina,/non calcolabili per questo livello/);
+    assert.match(pagina,/il numero da solo non basta/);
+    assert.match(pagina,/id="nota-affidabilita"/);
+  });
+
   test('orario ridotto e scatti dichiarati stanno nelle opzioni avanzate',()=>{
     assert.match(pagina,/<details class="avanzate" id="avanzate">/);
     assert.match(pagina,/Opzioni avanzate — orario ridotto e scatti già maturati/);
