@@ -4,6 +4,13 @@ const vm=require('node:vm');
 const fs=require('node:fs');
 const path=require('node:path');
 
+test('la landing usa la stessa intestazione delle pagine del sito senza stili dedicati',()=>{
+  const leggi=nome=>fs.readFileSync(path.join(__dirname,nome),'utf8');
+  const intestazione=html=>html.match(/<header class="site-header">[\s\S]*?<\/header>/)[0];
+  assert.equal(intestazione(leggi('busta-paga.html')),intestazione(leggi('privacy.html')));
+  assert.doesNotMatch(leggi('busta-paga-landing.css'),/bl-header/);
+});
+
 // Confine browser/API: codice del percorso reale, rete e DOM come ambiente esterno.
 async function pagina(configurazione){
   const nodi=new Map(),prezzi=Array.from({length:3},()=>({textContent:'Report completo · prezzo da definire'}));

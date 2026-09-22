@@ -22,7 +22,7 @@ try{
   verifica('document.querySelectorAll("input[type=file]").length===1','Upload duplicato');
   verifica('document.querySelector("#bp-consenso").checked===false','Consenso preselezionato');
   verifica('!document.querySelector(".bl-demo-report").hidden','Demo del report assente');
-  browser('click','.bl-header a[href="#bp-upload"]');
+  browser('click','.bl-finale a[href="#bp-upload"]');
   verifica('location.hash==="#bp-upload"','CTA non collegata al percorso');
   browser('upload','#bp-file',path.join(output,'cedolino.pdf'));
   browser('wait','#bp-revisione');
