@@ -12,6 +12,8 @@ let completato=false;
 function browser(...args){return execFileSync('agent-browser',['--session',session,...args],{encoding:'utf8',timeout:30000});}
 function verifica(condizione,messaggio){browser('eval',`if(!(${condizione}))throw new Error(${JSON.stringify(messaggio)});true`);}
 try{
+  // Evita coordinate in movimento fra scroll automatico e clic del driver.
+  browser('set','media','light','reduced-motion');
   browser('open','file://'+path.join(__dirname,'cedolino-sintetico.html'));
   browser('pdf',path.join(output,'cedolino.pdf'));
   browser('set','viewport','1440','1000');
@@ -44,7 +46,9 @@ try{
   browser('set','viewport','390','844');
   verifica('document.documentElement.scrollWidth<=innerWidth','Overflow mobile');
   browser('screenshot',path.join(output,'report-mobile.png'));
-  browser('click','.bp-cancellazione summary');browser('click','#bp-cancella-server');
+  browser('focus','.bp-cancellazione summary');browser('press','Enter');
+  verifica('document.querySelector(".bp-cancellazione").open','Sezione cancellazione chiusa');
+  browser('focus','#bp-cancella-server');browser('press','Enter');
   browser('wait','#bp-file:enabled');
   verifica('document.querySelector("#bp-risultato-corpo").textContent===""','Report non cancellato');
   browser('open',base+'/busta-paga.html');
@@ -52,9 +56,9 @@ try{
   verifica('document.querySelector(".site-menu-toggle").getAttribute("aria-expanded")==="true"','Menu mobile chiuso');
   browser('press','Escape');
   verifica('document.activeElement===document.querySelector(".site-menu-toggle")','Focus non restituito dopo Escape');
-  browser('click','.bl-faq summary');
+  browser('focus','.bl-faq summary');browser('press','Enter');
   verifica('document.querySelector(".bl-faq details").open','FAQ non espandibile');
-  browser('click','.bl-faq summary');
+  browser('press','Enter');
   browser('screenshot','--full',path.join(output,'landing-mobile.png'));
   browser('open',base+'/index.html');
   verifica('!document.querySelector("a[href*=busta-paga]")','Ingresso pubblico attivo prima del rilascio');

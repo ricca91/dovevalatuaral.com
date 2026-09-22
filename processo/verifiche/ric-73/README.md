@@ -8,7 +8,11 @@ Checkout isolato per preservare le modifiche preesistenti nel workspace principa
 
 [Preview Vercel](https://dovevalatuaral-qupn24cor-riccardosartori-outlookcoms-projects.vercel.app/busta-paga.html).
 
-[Desktop, 1440 px](preview-desktop.png) · [Mobile, 390 px](preview-mobile.png).
+[Desktop, pagina completa](preview-desktop.png) · [Mobile, 390 × 844 px](preview-mobile.png) ·
+[Mobile, pagina completa](preview-mobile-completa.png).
+Viewport desktop 1440 × 1000, mobile 390 × 844. Le catture a pagina intera del
+driver escludono i 15 px della scrollbar: i PNG completi sono larghi 1425/375 px;
+la cattura della prima schermata mobile conserva esattamente 390 × 844 px.
 Screenshot del deploy effettivo, aperti e confrontati con la proposta 02.
 Hero con dubbi lavanda, upload affiancato, demo anteprima/report, passi numerati,
 offerte, fonti/limiti, FAQ e fascia ciano conservano la composizione scelta.
@@ -53,6 +57,16 @@ analisi, anteprima e checkout restano misurati dal flusso RIC-72. GA4 escluso.
   Questa base statica non dichiara script typecheck/lint/build. Build Vercel passata.
 - Preview reale: nessun errore JS, nessun overflow a 390/1440 px; prezzo da definire
   e servizio non configurato visibili. Nessuna prova con uno screen reader umano.
+- Link home, privacy e termini verificati sulla preview: tutti HTTP 200.
+- Browser sintetico completato: CTA → PDF → revisione → consenso da tastiera →
+  anteprima; report privato assente prima del pagamento e dopo refresh; pagamento
+  simulato → report; cancellazione → nuovo upload. Menu mobile, Escape, FAQ,
+  nessun overflow e assenza degli ingressi pubblici verificati.
+  Il driver non attivava i disclosure con clic a coordinate: la prova usa focus
+  e Invio e verifica l’apertura prima di attivare i pulsanti interni.
+- Review indipendenti Standards e Spec sul diff dalla base `d3d9ecf`: nessun
+  finding di codice; corretto il rilievo sull’evidenza mobile aggiungendo la
+  cattura esatta 390 × 844 e distinguendola dal PNG a pagina intera.
 
 Prova ripetibile del percorso con soli dati sintetici, usando `agent-browser`:
 
