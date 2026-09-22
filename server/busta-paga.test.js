@@ -50,6 +50,13 @@ const TESTO=[
    Il suo vero comportamento ha prove sue, piu' sotto, su cataloghi scritti a mano. */
 const GARANZIA=async()=>({ok:true,fornitori:['bedrock','vertexAnthropic']});
 
+test('la API key prevale e il token OIDC resta il fallback senza segreti persistenti',()=>{
+  assert.equal(S.credenziale({
+    AI_GATEWAY_API_KEY:'api-locale',VERCEL_OIDC_TOKEN:'oidc-locale',
+  }),'api-locale');
+  assert.equal(S.credenziale({VERCEL_OIDC_TOKEN:'oidc-runtime'}),'oidc-runtime');
+});
+
 const voce=(dati={})=>({sourceLabel:'RETRIBUZIONE ORDINARIA',sourceAmount:'2.000,00',
   category:'competenza',effect:'aumenta_il_lordo',plainExplanation:'La paga base del mese.',
   confidence:'alta',sourceReference:'pagina 1',warnings:[],...dati});

@@ -34,7 +34,8 @@ async function rispondi(req,res,dipendenze){
       if(azione==='analizza'){
         const b=await corpo(req);
         risultato=await servizio.crea(token,b.testo,b.consenso,
-          req.headers?.['x-vercel-forwarded-for']||req.socket?.remoteAddress||'ignoto');
+          req.headers?.['x-vercel-forwarded-for']||req.socket?.remoteAddress||'ignoto',
+          {VERCEL_OIDC_TOKEN:req.headers?.['x-vercel-oidc-token']});
       }else if(azione==='stato')risultato=await servizio.stato(token);
       else if(azione==='checkout')risultato=await servizio.checkout(token);
       else risultato=await servizio.cancella(token);
