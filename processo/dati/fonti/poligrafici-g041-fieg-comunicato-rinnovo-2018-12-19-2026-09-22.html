@@ -1,0 +1,619 @@
+
+<head>
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Federazione Italiana Editori Giornali</title>
+<link href="css/stile.css" rel="stylesheet" type="text/css" />
+<script>
+	function openToPrint(id){
+		window.open("salastampa_print.asp?sta_id=" + id,"","menu=no,width=650,height=500,scrollbars=yes","_blank");
+	}
+</script>
+</head>
+<body bgcolor="#FFFFFF" marginheight="0" marginwidth="0" topmargin="0" leftmargin="0" rightmargin="0" bottommargin="0">
+
+<!-- INTESTAZIONE PAGINA -->
+<link href="css/stile.css" rel="stylesheet" type="text/css" />
+<style media="screen" type="text/css">
+div#fieg_header{
+	margin:0px;
+	padding:0px;
+	width:100%;
+	height:81px;
+	background-image: url(images/layout/top.jpg);
+}
+div#fieg_intestazione{
+	margin:10px;
+	padding:0px;
+	width:442px;
+	height:auto;
+	position:relative;
+	float:right;
+	text-align:right;
+}
+div#menu_container{
+	margin:0px;
+	padding:0px;
+	width:100%;
+	height:28px;
+	background-image: url(images/layout/home_puls_menu_fondo_off.jpg);
+}
+
+div#menu_home{width:auto;z-index:25110;}
+
+div#menu_contatti{width:auto;z-index:5100;}
+
+div#menu_riservata{width:auto;display:none;z-index:5100;}
+
+div#menu_chisiamo{width:auto;z-index:5100;}
+
+div#menu_eventi{width:auto;z-index:5100;}
+
+div#menu_documenti{width:auto;z-index:5100;}
+
+div#menu_studi{width:auto;z-index:5100;}
+
+div#menu_salastampa{width:auto;z-index:5100;}
+
+div#menu_minisite{width:auto;z-index:5110;}
+
+div#menu_link{width:auto;z-index:5100;}
+
+div#menu_lingua{width:auto;vertical-align:middle;z-index:5100;}
+
+#menu_home, #menu_contatti, #menu_riservata, #menu_chisiamo, #menu_eventi, 
+#menu_salastampa, #menu_documenti, #menu_studi, #menu_minisite, #menu_link,
+#menu_lingua{
+	margin:0px;
+	position:relative;
+	padding:9px 20px 5px 20px;
+	height:26px;
+	text-align:center;
+	/*font-family:Verdana, Arial, Helvetica, sans-serif;*/
+	font-family:Tahoma, Geneva, sans-serif;
+	font-weight:bold;
+	color:#000000;
+	font-size:8pt;
+	text-decoration:none;
+	cursor:pointer;
+	background-image: url(images/layout/home_puls_menu_fondo_off.jpg);
+	background-position:center;
+	background-repeat:repeat-x;
+}
+
+/* elementi di sinistra */
+#menu_home, #menu_contatti, #menu_riservata, #menu_chisiamo {
+	border-right: #38569B solid 1px;
+	float:left;
+}
+
+/* elementi di destra */
+#menu_eventi, #menu_salastampa, #menu_documenti, #menu_studi, 
+#menu_minisite, #menu_link, #menu_lingua{
+	border-left: #38569B solid 1px;
+	float:right;
+}
+
+/* sotto menu */
+div#HOME, div#CHI_SIAMO, div#SALA_STAMPA, div#LINK, div#MINISITE{
+	display:none;
+	width:150px;
+	height:auto;
+	overflow:visible;
+	padding:5px;
+	position:absolute;
+	top:18px;
+	left:0px;
+	background-color:#FFFFFF;
+	margin-top:5px;
+	border:#38569B solid 1px;
+	filter:alpha(opacity=100);
+	-moz-opacity:1;
+	opacity:1;
+	text-align:left;
+	z-index:10000;
+	}
+
+div#MINISITE{
+	width:460px;
+	left:-340px;
+}
+</style>
+<script language="javascript" type="text/javascript">
+var opacity = 0
+var opacity_due = 0
+
+function search_all()
+	{var tuttoOK = true
+		if ((document.serchall.cer_parola.value == '') && (tuttoOK == true))
+			{
+				window.alert('Inserire almeno una parola');
+				tuttoOK = false
+			}
+		if (tuttoOK == true)
+			{document.serchall.submit();}
+	}
+	
+	function displai(elemento){
+		OGGETTO = document.getElementById(elemento)
+		OGGETTO.style.display = 'block'
+	}
+	
+	function accendi(elemento){
+		OGGETTO = document.getElementById(elemento)
+		OGGETTO.style.display = 'block'
+	}
+	
+	function spegni(elemento){
+		OGGETTO = document.getElementById(elemento)
+		OGGETTO.style.display = 'none'
+	}
+	
+	function site_navigation(URL){
+		window.open(URL,'_self')
+	}
+	
+	function biancheggia(elemento){
+		//document.getElementById(elemento).style.background = '#FFFFFF'
+		document.getElementById(elemento).style.backgroundImage = 'url(images/layout/home_puls_menu_fondo_on.jpg)'
+		document.getElementById(elemento).style.color = '#FFFFFF'
+	}
+
+</script>
+<a name="menu"></a>
+
+
+<div id="fieg_header">
+	<div id="fieg_intestazione">
+    	<img src="images/layout/federazione.gif" width="442" height="17" /><br /><br />
+		<iframe align="middle" allowtransparency="1" frameborder="0" scrolling="no" src="_clock.asp" height="18" width="250"></iframe>
+    </div>
+</div>
+<div id="menu_container">
+	<div id="menu_home" onclick="site_navigation('index.asp?home=0')" onmouseover="document.getElementById('HOME').style.display='block'" onmouseout="document.getElementById('HOME').style.display='none'">Home<br />
+        <div id="HOME" onmouseover="document.getElementById('HOME').style.display='block'" onmouseout="document.getElementById('HOME').style.display='none'">
+        
+<table border="0" align="center" width="140" cellspacing="0" cellpadding="5">
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('salastampa.asp','_self')" class="servizi_menu_blu" target="_self">Sala stampa</a></td></tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('documenti.asp','_self')" class="servizi_menu_blu" target="_self">Documenti</a></td></tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('studi.asp','_self')" class="servizi_menu_blu" target="_self">Studi</a></td></tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="come_associarsi.asp" class="servizi_menu_blu" target="_self">Come associarsi</a></td>
+</tr></table>
+        </div>
+    </div>
+    
+    <div id="menu_riservata" onclick="site_navigation('index.asp?home=1')">Area riservata</div>
+    
+    
+    <div id="menu_contatti" onclick="site_navigation('contatti.asp')">Contatti</div>
+    
+    <div id="menu_lingua"><a href="/salastampa_item.asp?sta_id=1218&language=en" target="_self"><img src="images/layout/union-jack.gif" border="0" align="baseline" /></a></div>
+        
+    <div id="menu_link" onclick="site_navigation('link.asp')" onmouseout="spegni('LINK')" onmouseover="accendi('LINK')">Link<br />
+        <div id="LINK" onmouseout="spegni('LINK')" onmouseover="accendi('LINK')">					
+            
+
+<table border="0" align="center" width="140" cellspacing="0" cellpadding="5">
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#3" class="servizi_menu_blu" target="_top">Associazioni aderenti</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#2" class="servizi_menu_blu" target="_top">Organismi di settore</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#7" class="servizi_menu_blu" target="_top">Enti previdenziali</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#1" class="servizi_menu_blu" target="_top">Organismi internazionali</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#8" class="servizi_menu_blu" target="_top">Organi Legislativi</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#5" class="servizi_menu_blu" target="_top">Ministeri</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#9" class="servizi_menu_blu" target="_top">Autorità garanti</a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="link.asp#6" class="servizi_menu_blu" target="_top">Istituzioni internazionali</a></td></tr>
+
+</table>
+        </div>   
+    </div>
+    
+    <div id="menu_minisite" onmouseout="spegni('MINISITE')" onmouseover="accendi('MINISITE')">Archivio Eventi<br />
+        <div id="MINISITE" onmouseout="spegni('MINISITE')" onmouseover="accendi('MINISITE')">					
+            
+
+<table border="0" align="center" width="450" cellspacing="0" cellpadding="5">
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('http://www.fieg.it/salastampa_item.asp?sta_id=786','_self')" class="servizi_menu_blu" target="_self">Presentazione de 'La Stampa in Italia 2011-2013'&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 16 aprile 2014)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('http://www.fieg.it/salastampa_item.asp?sta_id=778','_self')" class="servizi_menu_blu" target="_self">Carta, Cultura, Crescita. La Filiera per lo sviluppo del Paese'&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 18 febbraio 2014)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('http://www.fieg.it/salastampa_item.asp?sta_id=742','_self')" class="servizi_menu_blu" target="_self">Presentazione de 'La Stampa in Italia 2010-2012'&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 5 giugno 2013)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('http://www.fieg.it/salastampa_item.asp?sta_id=737','_self')" class="servizi_menu_blu" target="_self">Carta &amp; Web: l'integrazione tra scelte strategiche e tecnologiche&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 10 aprile 2013)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('http://www.fieg.it/salastampa_item.asp?page=2&sta_id=702','_self')" class="servizi_menu_blu" target="_self">Presentazione de 'La Stampa in Italia 2009-2011'&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 18 aprile 2012)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('http://www.fieg.it/salastampa_item.asp?page=2&sta_id=686','_self')" class="servizi_menu_blu" target="_self">Carta, Editoria, Stampa e Trasformazione<br />La carta al tempo di Internet: ri/conciliare valori e conoscenza<br />Conferenza Stampa&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 15 febbraio 2012)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('/upload/documenti_allegati/PressConference22feb2011_documentazione.zip','_self')" class="servizi_menu_blu" target="_self">Carta, Editoria, Stampa e Trasformazione: quali interventi per tornare a crescere?<br />Press Conference&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 22 febbraio 2011)</span></a></td></tr>
+
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('___ms_20100422.asp','_self')" class="servizi_menu_blu" target="_self">Presentazione de 'La Stampa in Italia 2007-2009'&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 26 aprile 2010)</span></a></td></tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('/upload/documenti_allegati/DOCUMENTAZIONE.zip','_self')" class="servizi_menu_blu" target="_self">Carta, Editoria, Stampa e Trasformazione: Quali effetti dalla crisi?<br />Press Conference&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 26 gennaio 2010)</span></a></td></tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('___ms_20090416.asp','_self')" class="servizi_menu_blu" target="_self">La stampa in Italia 2006 - 2008<br />Assemblea pubblica&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 16 aprile 2009)</span></a></td></tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="javascript:window.open('ql.asp','_self')" class="servizi_menu_blu" target="_self">Carta, Editoria, Stampa e Trasformazione:<br />Quali interventi di politica industriale?&nbsp;<span style='font-size:7pt;color:#990000'>(Roma, 9 ottobre 2008)</span></a></td></tr>
+</table>
+        </div>   
+    </div>
+    
+    <div id="menu_eventi" onclick="site_navigation('eventi.asp')">Eventi</div>
+    
+    <div id="menu_chisiamo" onclick="site_navigation('chisiamo.asp')" onmouseout="spegni('CHI_SIAMO')" onmouseover="accendi('CHI_SIAMO')">Chi siamo<br />
+		<div id="CHI_SIAMO" onmouseout="spegni('CHI_SIAMO')" onmouseover="accendi('CHI_SIAMO')">					
+            
+<table border="0" align="center" width="140" cellspacing="0" cellpadding="5">
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="chisiamo.asp?sector=statuto" class="servizi_menu_blu" target="_self">Statuto</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="chisiamo.asp?sector=organi" class="servizi_menu_blu" target="_self">Organi sociali</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="chisiamo.asp?sector=associazioni" class="servizi_menu_blu" target="_self">Associazioni aderenti</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="chisiamo.asp?sector=imprese" class="servizi_menu_blu" target="_self">Imprese associate</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="chisiamo.asp?sector=organismi" class="servizi_menu_blu" target="_self">Organismi internazionali</a></td>
+</tr>
+<tr><td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="chisiamo.asp?sector=rappresentativita" class="servizi_menu_blu" target="_self">Rappresentativit&agrave; esterna</a></td>
+</tr>
+</table>
+		</div>
+    </div>
+    
+    <div id="menu_studi" onclick="site_navigation('studi.asp')">Studi</div>
+    
+    <div id="menu_documenti" onclick="site_navigation('documenti.asp')">Documenti</strong></div>
+    
+    <div id="menu_salastampa" onclick="site_navigation('salastampa.asp')" onmouseout="spegni('SALA_STAMPA')" onmouseover="accendi('SALA_STAMPA')">Sala stampa<br />
+		<div id="SALA_STAMPA" onmouseout="spegni('SALA_STAMPA')" onmouseover="accendi('SALA_STAMPA')">					
+            
+<table border="0" align="center" width="140" cellspacing="0" cellpadding="5">
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="salastampa.asp" class="servizi_menu_blu" target="_self">Comunicati stampa</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="salastampa_presidente.asp" class="servizi_menu_blu" target="_self">Il Presidente</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="salastampa_direttore.asp" class="servizi_menu_blu" target="_self">Il Direttore Generale</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="salastampa_galleria.asp" class="servizi_menu_blu" target="_self">Galleria fotografica</a></td>
+</tr>
+<tr>
+<td valign="top" bgcolor="#FFFFFF" class="td_chi_siamo_bottom" onmouseover="this.className='td_chi_siamo_bottom_evid'" onmouseout="this.className='td_chi_siamo_bottom'"><a href="mailto:comunicazione@fieg.it" class="servizi_menu_blu" target="_self">Scrivi all'Ufficio Stampa</a></td>
+</tr>
+</table>
+		</div>
+    </div>
+    
+</div>
+<table align="center" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF">
+	<tr>
+		<td height="24" valign="middle" align="left" class="td_reserved_bottom"><div class="top_location_gold" style="margin: 2pt;">> <a href='salastampa.asp?page=' class='top_link_gold' target='_self'>Sala stampa</a>  > <b>FIRMATO RINNOVO CONTRATTO NAZIONALE DI LAVORO POLIGRAFICI</B></div></td>
+		<form action="_search_all.asp" name="serchall">
+		<td height="24" colspan="2" align="right" valign="middle" class="td_reserved_bottom"><div class="top_search_black" style="margin: 2pt;"><img src="images/layout/lente.gif" border="0" align="middle" />&nbsp;<input class="input" type="text" name="cer_parola" value="" align="baseline">&nbsp;<input class="button" type="button" value="Cerca" onclick="search_all();" align="baseline"></div></td>
+		</form>
+	</tr>
+</table>
+
+	<script language="javascript">biancheggia('menu_salastampa')</script>
+
+<table border="0" align="center" height="300" width="100%" cellspacing="5" cellpadding="5">
+	<tr>
+		<td valign="top" width="65%" class="seppia">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tr>
+					<td background="images/layout/tit_fondino.jpg" height="27"><img src="images/layout/tit_sala_stampa.jpg" border="0" /></td>
+				</tr>
+				<tr>
+				  <td>
+				  		<div style="margin:25pt">
+						<img src="images/layout/docshead.gif" border="0" /><br /><br />
+						<div align="justify" class="docs_title_long">
+						<b>
+						<b>FIRMATO RINNOVO CONTRATTO NAZIONALE DI LAVORO POLIGRAFICI</B>
+						</b>
+						<br>
+						
+						</div>
+						<br />
+						
+						
+						
+							<div align="justify" class="docs_title">
+							<html dir="ltr">
+    <head>
+        <title></title>
+    </head>
+    <body style="font-family:Georgia;font-size:smaller">
+        <div style="text-align: justify;"><span style="font-size: small;"><span style="font-family: Verdana;"><span style="margin: 0px;">Roma, 19 dicembre 2018 &ndash; In data odierna la Fieg ha sottoscritto, insieme all&rsquo;Asig e alle OO.SS. SLC-CGIL, FISTel-CISL, UILCOM-UIL, il rinnovo del Contratto nazionale di lavoro per i dipendenti di aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa.</span></span></span><span style="font-size: small;"><span style="font-family: Verdana;">&nbsp;</span></span></div>
+        <p style="margin: 0px; text-align: justify; line-height: 115%; text-justify: inter-ideograph;">&nbsp;</p>
+        <div style="text-align: justify;"><span style="font-size: small;"><span style="font-family: Verdana;"><span style="margin: 0px;">Il nuovo Contratto, che entrer&agrave; in vigore il 1 gennaio 2019, vede la luce a quasi dieci anni dall&rsquo;ultimo rinnovo, apportando un profondo rinnovamento a molti istituti contrattuali, con l&rsquo;obiettivo di rendere la regolamentazione dei rapporti di lavoro pi&ugrave; adeguata a un settore in profonda trasformazione e pi&ugrave; in linea con le esigenze delle aziende editoriali, come dichiarato dal Consigliere Incaricato per i problemi sindacali, Franco Capparelli.&nbsp;</span></span></span><span style="font-size: small;"><span style="font-family: Verdana;">&nbsp;</span></span></div>
+        <p style="margin: 0px; text-align: justify; line-height: 115%; text-justify: inter-ideograph;">&nbsp;</p>
+        <div style="text-align: justify;"><span style="font-size: small;"><span style="font-family: Verdana;"><span style="margin: 0px;">Particolare attenzione &egrave; stata posta sui temi della flessibilit&agrave; nella prestazione di lavoro e nella creazione di nuove figure professionali adeguate alle nuove piattaforme multimediali. &Egrave; stato concordato inoltre un protocollo sulle nuove assunzioni per incentivare nuovi ingressi nel mercato del lavoro.</span></span></span><span style="font-size: small;"><span style="font-family: Verdana;">&nbsp;</span></span></div>
+        <p style="margin: 0px; text-align: justify; line-height: 115%; text-justify: inter-ideograph;">&nbsp;</p>
+        <div style="text-align: justify;"><span style="font-size: small;"><span style="font-family: Verdana;"><span style="margin: 0px;">Per i lavoratori il rinnovo comporta un aumento di 90 euro di retribuzione, l&rsquo;introduzione di una forma di assistenza sanitaria a carico delle aziende, oltre ad una <i>una tantum</i> di 300 euro che verr&agrave; erogata all&rsquo;entrata in vigore del contratto.</span></span></span><span style="font-size: small;"><span style="font-family: Verdana;"><span style="margin: 0px;">&nbsp;</span></span></span></div>
+        <p style="margin: 0px; text-align: justify; line-height: 115%; text-justify: inter-ideograph;">&nbsp;</p>
+        <div style="text-align: justify;"><span style="font-size: small;"><span style="font-family: Verdana;"><span style="margin: 0px;">Il Presidente della Fieg Andrea Riffeser Monti ha espresso &ldquo;profonda soddisfazione per la firma del contratto collettivo, che costituisce un&rsquo;importante novit&agrave; attesa da aziende e lavoratori, e che rappresenta anche la condizione per avviare con le OO.SS. un percorso di confronto sul futuro del settore, anche nella prospettiva di un contratto di filiera che comprenda editoria, grafica e carta&rdquo;.</span> <br  />
+        <div><span>&nbsp;&nbsp;</span></div>
+        <div><i><span><span><a href="http://www.fieg.it/upload/salastampa/FIRMA%20RINNOVO%20CONTRATTO%20POLIGRAFICI%2019%2012%202018%20-%20FONTE%20ANSA_MASSIMO%20PERCOSSI.jpeg" target="_blank">Foto in allegato</a></span></span></i><i><span>. Fonte: Ansa/Massimo Percossi</span></i> &nbsp;</div>
+        <div>&nbsp; &nbsp;        <span>
+        <div><i><span>Da sinistra: Gianni Paolucci, Presidente Asig; Franco Capparelli, Consigliere Incaricato Fieg per i Problemi Sindacali; Andrea Riffeser Monti, Presidente Fieg; Salvatore Ugliarolo, Segretario Generale UILCOM-UIL; Vito Antonio Vitale, Segretario Generale FISTel-CISL; Fabrizio Solari, Segretario Generale SLC-CGIL.</span></i></div>
+        </span></div>
+        <br  />
+        <br  />
+        <br type="_moz"  />
+        </span></span></div>
+        <p style="margin: 0px; text-align: justify; line-height: 115%; text-justify: inter-ideograph;"><br  />
+        &nbsp;</p>
+        <div style="text-align: justify;"><span style="font-family: Verdana;"><span style="margin: 0px;">         </span></span></div>
+    </body>
+</html>
+							</div>
+							<br /><br /><img src='images/layout/attach3.gif' border='0'><hr noshade='noshade' size='1' color='#A19742' />
+								<a href="upload/salastampa/19 12 2018 COMUNICATO FIEG RINNOVO CCNL POLIGRAFICI.docx" target="_blank" class="docs_allegato"><b>19 12 2018 COMUNICATO FIEG RINNOVO CCNL POLIGRAFICI.docx</b></a><br />
+							
+								<a href="upload/salastampa/FIRMA RINNOVO CONTRATTO POLIGRAFICI 19 12 2018 - FONTE ANSA_MASSIMO PERCOSSI.jpeg" target="_blank" class="docs_allegato"><b>FIRMA RINNOVO CONTRATTO POLIGRAFICI 19 12 2018 - FONTE ANSA_MASSIMO PERCOSSI.jpeg</b></a><br />
+							
+							<br />
+							<hr noshade="noshade" size="1" color="#CCCCCC" />
+							<div align="right">
+						  <a href="javascript:openToPrint(1218);"><img src="images/layout/print.gif" border="0" /></a>&nbsp;&nbsp;<a href="salastampa.asp?page=" target='_self'><img src="images/layout/chiudi.gif" border="0" /></a>
+						  <hr noshade="noshade" size="1" color="#CCCCCC" />
+						  </div>
+						 
+						
+				   </div>
+				   </td>
+				</tr>
+			</table>
+		</td>
+		<!-- INTESTAZIONE PAGINA -->
+		<script language="javascript" type="text/javascript" src="script/open_functions.js"></script>
+
+<td id="colonna_destra" valign="top" width="25%" bgcolor="#EEEEEE" align="center">
+  <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+            <td background="images/layout/tit_fondino_gray.png" height="27"><img src="images/layout/tit_areariservata.png" border="0" /></td>
+        </tr>
+  		<tr>
+            <td align="center" valign="bottom">		
+                <table border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr><td colspan="3">
+                    
+                    </td></tr>	
+                    <tr>
+                      <td><img src="images/layout/riservata_login_nw.png" width="20" height="20" /></td>
+                      <td background="images/layout/riservata_login_n.png"></td>
+                      <td><img src="images/layout/riservata_login_ne.png" width="20" height="20" /></td>
+                    </tr>
+                    <tr>
+                      <td style="background:url(images/layout/riservata_login_e.png); background-position:center; background-repeat:repeat-y; width:20px;"></td>
+                      <td style="background:url(images/layout/riservata_login_centro.png); background-position:center; background-repeat:no-repeat; width:200px; height:60px;">
+                        <table align="center" border="0" cellpadding="0" width="100%">
+                            <form action="_login_pass.asp" method="post">
+                            <tr>
+                                <td align="right"><span class="docs_abstract"><strong>Utente</strong></span></td>
+                                <td align="left"><input class="input_blu" type="text" name="ute_login" value="" size="15"/></td>
+                            </tr>
+                            <tr>
+                                <td align="right"><span class="docs_abstract"><strong>Password</strong></span></td>
+                                <td align="left"><input class="input_blu" type="password" name="password" value="" size="10"/>
+                                &nbsp;<input class="input_blu" type="submit" value="Login" /></td>
+                            </tr>
+                            </form>
+                        </table>
+                      </td>
+                      <td style="background:url(images/layout/riservata_login_w.png); background-position:center; background-repeat:repeat-y;"></td>
+                  </tr>
+                    <tr>
+                      <td><img src="images/layout/riservata_login_sw.png" width="20" height="20" /></td>
+                      <td background="images/layout/riservata_login_s.png"></td>
+                      <td><img src="images/layout/riservata_login_se.png" width="20" height="20" /></td>
+                  </tr>
+                </table>
+          <br /></td>
+        </tr>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td background="images/layout/tit_fondino_gray.png" height="27"><img src="images/layout/tit_servizi_imprese.png" border="0" /></td>
+        </tr>
+        <tr>
+            <td>
+                <table align="center" width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#EEEEEE">
+                    <div id="rassegna" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Articoli sui temi dell’editoria</div>
+                   	<div id="rassind" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Raccolta settimanale di articoli su materie sindacali</div>
+                        <div id="circolari" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Informative della Fieg su temi di interesse delle Associate</div>
+                        <div id="brevi" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Comunicazioni alle Associate</div>
+                        <div id="contratti" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Contratti dei giornalisti, poligrafici e dirigenti di imprese editrici e stampatrici. Commento agli articoli pi&ugrave; significativi</div>
+                        <div id="osservatorio" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Aggiornamenti sui lavori parlamentari</div>
+                        <div id="agenda" align="center" class="testo_8_black" style="border:solid 1pt #000000;background-color:#FFFFCC; display:none; position:absolute; top:-100px;left:-100px; width:150px; height:auto; margin:5pt;">Riunioni della Fieg ed altri incontri di interesse</div>
+                    <tr onmouseover="javascript:visualizza('rassegna')" onmouseout="nascondi('rassegna')">
+                        <td valign="top" width="190"><a href="rassegna.asp" target="_self"><img src="images/layout/puls_serv_rass.png" border="0" /></a></td>
+                  <td style="background-image:url(images/layout/puls_serv_fond.png); background-repeat:no-repeat; background-position:right; cursor:pointer;">&nbsp;</td></tr>
+                    
+                    <tr onmouseover="javascript:visualizza('circolari')" onmouseout="nascondi('circolari')">
+                        <td width="190"  valign="top"><a href="circolari.asp" target="_self"><img src="images/layout/puls_serv_circ.png" border="0" /></a></td>
+                  <td style="background-image:url(images/layout/puls_serv_fond.png); background-repeat:no-repeat; background-position:right; cursor:pointer;">&nbsp;</td></tr>
+                    <tr onmouseover="javascript:visualizza('brevi')" onmouseout="nascondi('brevi')">
+                        <td width="190" valign="top"><a href="news.asp" target="_self"><img src="images/layout/puls_serv_noti.png" border="0" /></a></td>
+                  <td style="background-image:url(images/layout/puls_serv_fond.png); background-repeat:no-repeat; background-position:right; cursor:pointer;">&nbsp;</td></tr>
+                    
+                  <td style="background-image:url(images/layout/puls_serv_fond.png); background-repeat:no-repeat; background-position:right; cursor:pointer;"></td></tr>
+                  
+                    <tr onmouseover="javascript:visualizza('contratti')" onmouseout="nascondi('contratti')">
+                        <td width="190" valign="top"><a href="contratti.asp" target="_self"><img src="images/layout/puls_serv_cont.png" border="0" /></a></td>
+                  <td style="background-image:url(images/layout/puls_serv_fond.png); background-repeat:no-repeat; background-position:right; cursor:pointer;">&nbsp;</td></tr>
+                    <tr onmouseover="javascript:visualizza('osservatorio')" onmouseout="nascondi('osservatorio')">
+                        <td width="190" valign="top"><a href="osservatorio.asp" target="_self"><img src="images/layout/puls_serv_osse.png" border="0" /></a></td>
+                  <td style="background-image:url(images/layout/puls_serv_fond.png); background-repeat:no-repeat; background-position:right; cursor:pointer;">&nbsp;</td></tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td background="images/layout/tit_fondino_gray.png" height="27"><a href="/come_associarsi.asp" target="_self"><img src="images/layout/tit_come_ass.png" border="0" /></a></td>
+        </tr>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+        <tr>
+            <td background="images/layout/tit_fondino_gray.png" height="27"><a href="/chisiamo.asp?sector=imprese" target="_self"><img src="images/layout/tit_imprese_associate.png" border="0" /></a></td>
+        </tr>
+    </table>
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
+        <tr>
+            <td height="250" align="center" valign="top">
+				
+<style type="text/css">
+#imgv {
+    height: auto; 
+    width: auto; 
+    max-width: 400px; 
+    max-height: 100px;
+    margin: 0px 20px;
+}
+</style>
+
+<marquee scrollamount="5" height="100%" behavior="scroll" direction="up"><div align="center"><img id='imgv' src='upload/gif_testate/0166.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0040.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0086.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0403.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0569.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0409.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0495.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0927.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0989.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0003.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0443.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0077.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0167.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0644.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0474.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0423.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0568.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0053.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0083.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0570.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0064.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0521.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0537.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0558.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0067.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0079.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0060.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0679.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0097.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0435.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0805.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0959.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0322.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0803.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0142.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0575.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0044.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0314.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0497.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0085.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0051.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0980.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0165.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0559.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0035.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0059.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0057.png?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0016.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0114.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0080.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0094.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0564.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0802.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0012.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0970.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0046.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0163.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0539.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0969.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0438.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0093.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0087.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0071.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0405.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0566.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0065.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0658.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0078.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0032.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0024.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0408.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0471.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0074.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0043.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0424.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0508.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0082.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0526.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0919.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0007.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0073.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0418.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0005.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0431.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0496.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0981.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0055.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0042.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0242.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0143.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0512.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0484.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0540.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0031.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0076.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0014.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0120.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0806.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0528.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0437.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0075.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0068.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0334.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0538.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0549.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0506.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0058.gif?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0657.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0045.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0688.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0084.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0653.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0109.jpg?775198'><br><br>
+<img id='imgv' src='upload/gif_testate/0081.jpg?775198'><br><br>
+</div></marquee>
+            </td>
+        </tr>
+    </table>
+</td>
+	</tr>
+</table>
+
+<br />
+<form id="poweredirect" name="poweredirect" action="http://www.stephensoftware.it/poweredir.asp" target="_blank" method="post">
+    	<input type="hidden" name="host" value="204.168.217.249" />
+        <input type="hidden" name="sito" value="www.fieg.it" />
+</form>
+<link href="css/stile.css" rel="stylesheet" type="text/css" />
+<div align="center" style="font-family:Verdana;font-size:7pt;color:#000000">Copyright 2006 Federazione Italiana Editori Giornali - Tutti i diritti riservati&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realizzazione <a style="font-family:Verdana;font-size:7pt;color:#000000" href="javascript:document.getElementById('poweredirect').submit();" title="StephenSoftware Srl" target="_self">StephenSoftware S.r.l.</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Web designer Felipe Risco&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Migliore visualizzazione con risoluzione 1280x1024</div>
+</body>
+</html>

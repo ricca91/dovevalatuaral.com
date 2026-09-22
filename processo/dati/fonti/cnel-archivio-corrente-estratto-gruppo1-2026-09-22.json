@@ -1,0 +1,5540 @@
+{
+ "fonte": "https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/open-data?type=ARCHIVIO_CORRENTE",
+ "file": "archivio_corrente20260922.json",
+ "scaricatoIl": "2026-09-22",
+ "filtro": "codiceCcnl in H011,C011,H05Y,H052,I100,K511,H442,T151,H008,C018,G011,G041,B132",
+ "record": [
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B132",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2026-01-01",
+   "dataScadenzaContrattuale": "2028-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2026-04-09",
+   "dataInserimento": "2026-07-15",
+   "dipendenti": null,
+   "idAccordo": 245535,
+   "idAccordoString": "245535",
+   "idCcnl": 106,
+   "identificativoAccordo": "2026-245535",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOVETRO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B04"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore del vetro e delle lampade"
+   ],
+   "settoriAteco": [
+    "23",
+    "C",
+    "26",
+    "27"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di altri prodotti della lavorazione di minerali non metalliferi",
+    "Fabbricazione di computer e prodotti di elettronica e ottica"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di rinnovo del CCNL per gli addetti delle aziende industriali che producono e trasformano articoli di vetro, comprese le aziende che producono lampade e display",
+   "titoloCcnl": "CCNL per gli addetti delle aziende industriali che producono e trasformano articoli in vetro, comprese le aziende che producono lampade e display",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B132",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2026-01-01",
+   "dataScadenzaContrattuale": "2028-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2026-04-09",
+   "dataInserimento": "2026-07-15",
+   "dipendenti": null,
+   "idAccordo": 245536,
+   "idAccordoString": "245536",
+   "idCcnl": 106,
+   "identificativoAccordo": "2026-245536",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOVETRO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CHIMICI"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B04"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore del vetro e delle lampade"
+   ],
+   "settoriAteco": [
+    "23",
+    "C",
+    "26",
+    "27"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di altri prodotti della lavorazione di minerali non metalliferi",
+    "Fabbricazione di computer e prodotti di elettronica e ottica"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di rinnovo del CCNL per gli addetti delle aziende industriali che producono e trasformano articoli di vetro, comprese le aziende che producono lampade e display",
+   "titoloCcnl": "CCNL per gli addetti delle aziende industriali che producono e trasformano articoli in vetro, comprese le aziende che producono lampade e display",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B132",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2025-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-05-21",
+   "dataInserimento": "2024-06-21",
+   "dipendenti": null,
+   "idAccordo": 192157,
+   "idAccordoString": "192157",
+   "idCcnl": 106,
+   "identificativoAccordo": "20355",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFINDUSTRIA",
+    "ASSOVETRO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CHIMICI",
+    "UGL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B04"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore del vetro e delle lampade"
+   ],
+   "settoriAteco": [
+    "23",
+    "C",
+    "26",
+    "27"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di altri prodotti della lavorazione di minerali non metalliferi",
+    "Fabbricazione di computer e prodotti di elettronica e ottica"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per le aziende industriali che producono e trasformano articoli di vetro, comprese le aziende che producono lampade e display, e per i lavoratori da esse dipendenti",
+   "titoloCcnl": "CCNL per gli addetti delle aziende industriali che producono e trasformano articoli in vetro, comprese le aziende che producono lampade e display",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B132",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2025-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-05-21",
+   "dataInserimento": "2024-06-21",
+   "dipendenti": null,
+   "idAccordo": 192160,
+   "idAccordoString": "192160",
+   "idCcnl": 106,
+   "identificativoAccordo": "20354",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFINDUSTRIA",
+    "ASSOVETRO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CISL",
+    "FEMCA CISL",
+    "UIL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B04"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore del vetro e delle lampade"
+   ],
+   "settoriAteco": [
+    "23",
+    "C",
+    "26",
+    "27"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di altri prodotti della lavorazione di minerali non metalliferi",
+    "Fabbricazione di computer e prodotti di elettronica e ottica"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per le aziende industriali che producono e trasformano articoli di vetro, comprese le aziende che producono lampade e display, e per i lavoratori da esse dipendenti",
+   "titoloCcnl": "CCNL per gli addetti delle aziende industriali che producono e trasformano articoli in vetro, comprese le aziende che producono lampade e display",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-06-11",
+   "dataInserimento": "2024-10-21",
+   "dipendenti": null,
+   "idAccordo": 196364,
+   "idAccordoString": "196364",
+   "idCcnl": 117,
+   "identificativoAccordo": "20495",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verbale di incontro per l'adeguamento dei minimi tabellari",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-06-16",
+   "dataInserimento": "2023-06-29",
+   "dipendenti": null,
+   "idAccordo": 168795,
+   "idAccordoString": "168795",
+   "idCcnl": 117,
+   "identificativoAccordo": "20064",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verbale di incontro per l'adeguamento dei minimi tabellari",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2022-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2022-06-08",
+   "dataInserimento": "2023-08-03",
+   "dipendenti": null,
+   "idAccordo": 170209,
+   "idAccordoString": "170209",
+   "idCcnl": 117,
+   "identificativoAccordo": "20090",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verbale di incontro per l'adeguamento dei minimi tabellari",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-12-22",
+   "dataScadenzaContrattuale": "2024-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-12-22",
+   "dataInserimento": "2025-12-12",
+   "dipendenti": null,
+   "idAccordo": 228029,
+   "idAccordoString": "228029",
+   "idCcnl": 117,
+   "identificativoAccordo": "20893",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL METALMECCANICI (PER ADESIONE)"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di adesione al CCNL 5 febbraio 2021 per l'industria metalmeccanica e della installazione di impianti",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-12-22",
+   "dataScadenzaContrattuale": "2024-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-12-22",
+   "dataInserimento": "2024-07-24",
+   "dipendenti": null,
+   "idAccordo": 195037,
+   "idAccordoString": "195037",
+   "idCcnl": 117,
+   "identificativoAccordo": "20444",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CISAL METALMECCANICI (PER ADESIONE)"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di adesione al CCNL 5 febbraio 2021 per l'industria metalmeccanica e della installazione di impianti",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-06-09",
+   "dataInserimento": "2023-08-03",
+   "dipendenti": null,
+   "idAccordo": 170208,
+   "idAccordoString": "170208",
+   "idCcnl": 117,
+   "identificativoAccordo": "20089",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verbale di incontro per l'adeguamento dei minimi tabellari",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-05-03",
+   "dataInserimento": "2021-11-09",
+   "dipendenti": null,
+   "idAccordo": 139531,
+   "idAccordoString": "139531",
+   "idCcnl": 117,
+   "identificativoAccordo": "19564",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo sulla classificazione del personale",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-02-05",
+   "dataScadenzaContrattuale": "2024-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-02-05",
+   "dataInserimento": "2022-12-14",
+   "dipendenti": null,
+   "idAccordo": 157071,
+   "idAccordoString": "157071",
+   "idCcnl": 117,
+   "identificativoAccordo": "19906",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFINDUSTRIA",
+    "FEDERMECCANICA",
+    "ASSISTAL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CISL",
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL",
+    "CGIL",
+    "UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "24",
+    "C",
+    "25",
+    "26",
+    "D",
+    "27",
+    "E",
+    "F",
+    "28",
+    "29",
+    "K",
+    "N",
+    "O",
+    "T",
+    "95",
+    "30",
+    "74",
+    "31",
+    "32",
+    "33",
+    "35",
+    "36",
+    "37",
+    "38",
+    "81",
+    "82",
+    "62",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "ATTIVITÀ MANIFATTURIERE",
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Fabbricazione di apparecchiature elettriche",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Raccolta, trattamento e fornitura di acqua",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Gestione delle reti fognarie",
+    "Altre attività professionali, scientifiche e tecniche",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL 5 febbraio 2021 per i lavoratori addetti all'industria metalmeccanica privata e alla installazione di impianti",
+   "titoloCcnl": "CCNL per i dipendenti dalle aziende metalmeccaniche e della installazione di impianti",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C018",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-06-11",
+   "dataInserimento": "2024-08-28",
+   "dipendenti": null,
+   "idAccordo": 194736,
+   "idAccordoString": "194736",
+   "idCcnl": 193,
+   "identificativoAccordo": "20405",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "UNIONMECCANICA CONFAPI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "F",
+    "28",
+    "29",
+    "K",
+    "O",
+    "T",
+    "81",
+    "95",
+    "62",
+    "30",
+    "31",
+    "32",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verbale di Accordo in materia di adeguamento dei minimi contrattuali, indennità di trasferta e indennità di reperibilità",
+   "titoloCcnl": " CCNL per i lavoratori addetti alla piccola e media industria metalmeccanica ed alla installazione di impianti Confapi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C018",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-06-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-06-16",
+   "dataInserimento": "2023-06-27",
+   "dipendenti": null,
+   "idAccordo": 168667,
+   "idAccordoString": "168667",
+   "idCcnl": 193,
+   "identificativoAccordo": "20058",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "UNIONMECCANICA CONFAPI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "F",
+    "28",
+    "29",
+    "K",
+    "O",
+    "T",
+    "81",
+    "95",
+    "62",
+    "30",
+    "31",
+    "32",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verbale di Accordo in materia di adeguamento dei minimi contrattuali, indennità di trasferta e indennità di reperibilità",
+   "titoloCcnl": " CCNL per i lavoratori addetti alla piccola e media industria metalmeccanica ed alla installazione di impianti Confapi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C018",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-06-01",
+   "dataScadenzaContrattuale": "2024-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-05-26",
+   "dataInserimento": "2024-12-05",
+   "dipendenti": null,
+   "idAccordo": 199302,
+   "idAccordoString": "199302",
+   "idCcnl": 193,
+   "identificativoAccordo": "20539",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFAPI",
+    "UNIONMECCANICA CONFAPI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FIM CISL",
+    "UILM UIL",
+    "FIOM CGIL",
+    "UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "F",
+    "28",
+    "29",
+    "K",
+    "O",
+    "T",
+    "81",
+    "95",
+    "62",
+    "30",
+    "31",
+    "32",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "COSTRUZIONI",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per le lavoratrici e i lavoratori addetti alla piccola e media industria metalmeccanica, orafa ed alla installazione di impianti Unionmeccanica Confapi",
+   "titoloCcnl": " CCNL per i lavoratori addetti alla piccola e media industria metalmeccanica ed alla installazione di impianti Confapi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-01-01",
+   "dataScadenzaContrattuale": "2026-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-12-19",
+   "dataInserimento": "2024-10-21",
+   "dipendenti": null,
+   "idAccordo": 196244,
+   "idAccordoString": "196244",
+   "idCcnl": 488,
+   "identificativoAccordo": "20494",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di Accordo per il rinnovo del CCNL Grafici Editori",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-01-01",
+   "dataScadenzaContrattuale": "2026-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-12-19",
+   "dataInserimento": "2024-01-10",
+   "dipendenti": null,
+   "idAccordo": 178789,
+   "idAccordoString": "178789",
+   "idCcnl": 488,
+   "identificativoAccordo": "20196",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di Accordo per il rinnovo del CCNL Grafici Editori",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-01-01",
+   "dataScadenzaContrattuale": "2022-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-01-19",
+   "dataInserimento": "2022-02-18",
+   "dipendenti": null,
+   "idAccordo": 147650,
+   "idAccordoString": "147650",
+   "idCcnl": 488,
+   "identificativoAccordo": "19673",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CHIMICI CARTA STAMPA"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di Accordo per il rinnovo del CCNL Grafici Editori",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-01-01",
+   "dataScadenzaContrattuale": "2022-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-01-19",
+   "dataInserimento": "2021-01-28",
+   "dipendenti": null,
+   "idAccordo": 131076,
+   "idAccordoString": "131076",
+   "idCcnl": 488,
+   "identificativoAccordo": "19339",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di Accordo per il rinnovo del CCNL Grafici Editori",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2014-10-16",
+   "dataScadenzaContrattuale": "2015-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2014-10-16",
+   "dataInserimento": "2015-09-24",
+   "dipendenti": null,
+   "idAccordo": 1330,
+   "idAccordoString": "1330",
+   "idCcnl": 488,
+   "identificativoAccordo": "16997",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo per il rinnovo del CCNL per i dipendenti delle aziende grafiche ed affini e delle aziende editoriali anche multimediali",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2011-07-01",
+   "dataScadenzaContrattuale": "2013-03-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2011-05-30",
+   "dataInserimento": "2011-07-22",
+   "dipendenti": null,
+   "idAccordo": 148,
+   "idAccordoString": "148",
+   "idCcnl": 488,
+   "identificativoAccordo": "13952",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE NAZIONALE EDITORIA PERIODICA SPECIALIZZATA",
+    "ASSOCIAZIONE ITALIANA EDITORI",
+    "ASSOGRAFICI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CARTA E STAMPA"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo 30 maggio 2011 per il rinnovo del CCNL per i dipendenti delle aziende grafiche ed affini e delle aziende editoriali anche multimediali",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2011-07-01",
+   "dataScadenzaContrattuale": "2013-03-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2011-05-30",
+   "dataInserimento": "2011-07-12",
+   "dipendenti": null,
+   "idAccordo": 261,
+   "idAccordoString": "261",
+   "idCcnl": 488,
+   "identificativoAccordo": "13671",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo 30 maggio 2011 per il rinnovo del CCNL per i dipendenti delle aziende grafiche ed affini e delle aziende editoriali anche multimediali",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2008-05-01",
+   "dataScadenzaContrattuale": "2012-03-31",
+   "dataScadenzaEconomica": "2010-03-31",
+   "dataStipula": "2008-03-28",
+   "dataInserimento": "2008-12-10",
+   "dipendenti": null,
+   "idAccordo": 1024,
+   "idAccordoString": "1024",
+   "idCcnl": 488,
+   "identificativoAccordo": "9581",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFINDUSTRIA",
+    "ANES",
+    "ASSOGRAFICI",
+    "AIE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G",
+    "G02"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "settore grafico ed editoriale"
+   ],
+   "settoriAteco": [
+    "58",
+    "C",
+    "18",
+    "J",
+    "73",
+    "74",
+    "N"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "ATTIVITÀ MANIFATTURIERE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Attività editoriali",
+    "Stampa e riproduzione di supporti registrati",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per i dipendenti delle aziende grafiche ed affini e delle aziende editoriali anche multimediali",
+   "titoloCcnl": "CCNL Grafici Editori",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G041",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-01-01",
+   "dataScadenzaContrattuale": "2022-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-02-15",
+   "dataInserimento": "2021-02-25",
+   "dipendenti": null,
+   "idAccordo": 132378,
+   "idAccordoString": "132378",
+   "idCcnl": 436,
+   "identificativoAccordo": "19362",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIEG",
+    "ASIG"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G11",
+    "G"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa"
+   ],
+   "settoriAteco": [
+    "58",
+    "J",
+    "60"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Attività editoriali"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di rinnovo del CCNL per i dipendenti di aziende editrici e stampatrici di giornali quotidiani e agenzie di stampa",
+   "titoloCcnl": "CCNL aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G041",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": "2020-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-01-14",
+   "dataInserimento": "2021-03-01",
+   "dipendenti": null,
+   "idAccordo": 132541,
+   "idAccordoString": "132541",
+   "idCcnl": 436,
+   "identificativoAccordo": "19363",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIEG",
+    "ASIG"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G11",
+    "G"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa"
+   ],
+   "settoriAteco": [
+    "58",
+    "J",
+    "60"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Attività editoriali"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di accordo di proroga al 31/12/2020 della validità del CCNL per i dipendenti di aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "titoloCcnl": "CCNL aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G041",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-10-16",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2019-10-16",
+   "dataInserimento": "2019-10-22",
+   "dipendenti": null,
+   "idAccordo": 109144,
+   "idAccordoString": "109144",
+   "idCcnl": 436,
+   "identificativoAccordo": "19031",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIEG",
+    "ASIG"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G11",
+    "G"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa"
+   ],
+   "settoriAteco": [
+    "58",
+    "J",
+    "60"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Attività editoriali"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di accordo su modalità applicative e profili formativi dell'apprendistato professionalizzante nel CCNL per i dipendenti di aziende editrici e stampatrici di giornali quotidiani e agenzie di stampa",
+   "titoloCcnl": "CCNL aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G041",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-01-01",
+   "dataScadenzaContrattuale": "2019-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2018-12-19",
+   "dataInserimento": "2019-01-10",
+   "dipendenti": null,
+   "idAccordo": 98186,
+   "idAccordoString": "98186",
+   "idCcnl": 436,
+   "identificativoAccordo": "18675",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIEG",
+    "ASIG"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G11",
+    "G"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa"
+   ],
+   "settoriAteco": [
+    "58",
+    "J",
+    "60"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Attività editoriali"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "CCNL per i dipendenti di aziende editrici e stampatrici di giornali quotidiani e agenzie di stampa",
+   "titoloCcnl": "CCNL aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G041",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2018-04-01",
+   "dataScadenzaContrattuale": "2019-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2018-02-19",
+   "dataInserimento": "2018-12-06",
+   "dipendenti": null,
+   "idAccordo": 97221,
+   "idAccordoString": "97221",
+   "idCcnl": 436,
+   "identificativoAccordo": "18637",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIEG",
+    "ASIG"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G11",
+    "G"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa"
+   ],
+   "settoriAteco": [
+    "58",
+    "J",
+    "60"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Attività editoriali"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti di aziende editrici e stampatrici di giornali quotidiani e agenzie di stampa",
+   "titoloCcnl": "CCNL aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "G041",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2008-01-01",
+   "dataScadenzaContrattuale": "2011-12-31",
+   "dataScadenzaEconomica": "2010-06-30",
+   "dataStipula": "2008-04-04",
+   "dataInserimento": "2011-10-25",
+   "dipendenti": null,
+   "idAccordo": 1187,
+   "idAccordoString": "1187",
+   "idCcnl": 436,
+   "identificativoAccordo": "14265",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE STAMPATORI ITALIANA GIORNALI",
+    "FIEG"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISTEL CISL",
+    "UILCOM UIL",
+    "SLC CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "G11",
+    "G"
+   ],
+   "settoriDescrizione": [
+    "POLIGRAFICI E SPETTACOLO"
+   ],
+   "sottosettoriDescrizione": [
+    "aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa"
+   ],
+   "settoriAteco": [
+    "58",
+    "J",
+    "60"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Attività editoriali"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "Contratto nazionale di lavoro per i dipendenti di aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "titoloCcnl": "CCNL aziende editrici e stampatrici di giornali quotidiani ed agenzie di stampa",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H008",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-04-01",
+   "dataScadenzaContrattuale": "2027-03-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-09-29",
+   "dataInserimento": "2026-07-09",
+   "dipendenti": null,
+   "idAccordo": 245206,
+   "idAccordoString": "245206",
+   "idCcnl": 539,
+   "identificativoAccordo": "2026-245206",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERDISTRIBUZIONE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CISL",
+    "CGIL",
+    "UIL",
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H01"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "terziario, distribuzione e servizi"
+   ],
+   "settoriAteco": [
+    "46",
+    "47",
+    "G"
+   ],
+   "settoriAtecoDescrizione": [
+    "COMMERCIO ALL'INGROSSO E AL DETTAGLIO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Commercio all'ingrosso",
+    "Commercio al dettaglio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL della Distribuzione Moderna Organizzata (DMO) - Testo unico",
+   "titoloCcnl": "CCNL della Distribuzione Moderna Organizzata (DMO)",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-04-01",
+   "dataScadenzaContrattuale": "2027-03-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2026-02-03",
+   "dataInserimento": "2026-04-08",
+   "dipendenti": null,
+   "idAccordo": 242377,
+   "idAccordoString": "242377",
+   "idCcnl": 509,
+   "identificativoAccordo": "21019",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CISL",
+    "CGIL",
+    "UIL",
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H01"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "terziario, distribuzione e servizi"
+   ],
+   "settoriAteco": [
+    "46",
+    "68",
+    "47",
+    "69",
+    "G",
+    "H",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "Q",
+    "S",
+    "T",
+    "90",
+    "70",
+    "94",
+    "73",
+    "95",
+    "52",
+    "96",
+    "74",
+    "77",
+    "78",
+    "80",
+    "82",
+    "62",
+    "85",
+    "64"
+   ],
+   "settoriAtecoDescrizione": [
+    "TRASPORTO E MAGAZZINAGGIO",
+    "COMMERCIO ALL'INGROSSO E AL DETTAGLIO",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ IMMOBILIARI",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ FINANZIARIE E ASSICURATIVE",
+    "ISTRUZIONE E FORMAZIONE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Commercio all'ingrosso",
+    "Attività di sedi centrali e consulenza gestionale",
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Istruzione e formazione",
+    "Attività immobiliari",
+    "Commercio al dettaglio",
+    "Magazzinaggio, deposito e attività di supporto ai trasporti",
+    "Attività delle organizzazioni associative",
+    "Attività legali e di contabilità",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Attività di creazione artistica e rappresentazioni artistiche",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Attività di ricerca, selezione, fornitura di risorse umane",
+    "Attività di noleggio e leasing operativo",
+    "Attività dei servizi finanziari, escluse le assicurazioni e i fondi pensione",
+    "Attività di servizi alla persona",
+    "Attività di investigazione e vigilanza",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per i dipendenti da aziende del Terziario, della Distribuzione e dei Servizi",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del Terziario della Distribuzione e dei Servizi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-07-01",
+   "dataScadenzaContrattuale": "2027-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-07-05",
+   "dataInserimento": "2024-07-16",
+   "dipendenti": null,
+   "idAccordo": 194291,
+   "idAccordoString": "194291",
+   "idCcnl": 643,
+   "identificativoAccordo": "20381",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FAITA FEDERCAMPING"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti da aziende del settore TURISMO",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-07-14",
+   "dataInserimento": "2020-07-20",
+   "dipendenti": null,
+   "idAccordo": 128931,
+   "idAccordoString": "128931",
+   "idCcnl": 643,
+   "identificativoAccordo": "19313",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Avviso comune per il sostegno dei lavoratori e delle imprese del turismo danneggiati dall'emergenza epidemiologica da Covid-19",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-06-09",
+   "dataInserimento": "2020-09-15",
+   "dipendenti": null,
+   "idAccordo": 129220,
+   "idAccordoString": "129220",
+   "idCcnl": 643,
+   "identificativoAccordo": "19326",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo intervento straordinario bilateralità turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-02-28",
+   "dataInserimento": "2020-09-15",
+   "dipendenti": null,
+   "idAccordo": 129224,
+   "idAccordoString": "129224",
+   "idCcnl": 643,
+   "identificativoAccordo": "19328",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Avviso comune per le politiche attive a sostegno dei lavoratori e delle imprese del turismo danneggiati dall'epidemia Covid-19",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": "2018-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2017-02-09",
+   "dataInserimento": "2017-02-10",
+   "dipendenti": null,
+   "idAccordo": 1643,
+   "idAccordoString": "1643",
+   "idCcnl": 643,
+   "identificativoAccordo": "17774",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di accordo di modifica del contenuto dell'accordo per il rinnovo del CCNL Turismo del 18 gennaio 2014",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2016-11-30",
+   "dataInserimento": "2017-01-12",
+   "dipendenti": null,
+   "idAccordo": 1537,
+   "idAccordoString": "1537",
+   "idCcnl": 643,
+   "identificativoAccordo": "17686",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di accordo di modifica del contenuto dell'accordo per il rinnovo del CCNL Turismo del 18 gennaio 2014",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": "2017-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2016-03-30",
+   "dataInserimento": "2016-05-04",
+   "dipendenti": null,
+   "idAccordo": 1424,
+   "idAccordoString": "1424",
+   "idCcnl": 643,
+   "identificativoAccordo": "17345",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo per la proroga al 31 dicembre 2017 del CCNL TURISMO 20 febbraio 2010",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2014-06-16",
+   "dataInserimento": "2014-07-02",
+   "dipendenti": null,
+   "idAccordo": 293,
+   "idAccordoString": "293",
+   "idCcnl": 643,
+   "identificativoAccordo": "15391",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Attuazione delle disposizioni in materia di contratto a tempo determinatoe di apprendistato di cui alla legge 16 maggio 2014, n. 78 e al titolo IV del CCNL Turismo 18 gennaio 2014",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2013-05-01",
+   "dataScadenzaContrattuale": "2016-08-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2014-01-18",
+   "dataInserimento": "2014-06-03",
+   "dipendenti": null,
+   "idAccordo": 20,
+   "idAccordoString": "20",
+   "idCcnl": 643,
+   "identificativoAccordo": "15352",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERALBERGHI",
+    "FAITA",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti da aziende del settore TURISMO",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2011-04-08",
+   "dataInserimento": "2011-05-17",
+   "dipendenti": null,
+   "idAccordo": 1177,
+   "idAccordoString": "1177",
+   "idCcnl": 643,
+   "identificativoAccordo": "13552",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEDERAZIONE  TERZIARIO UGL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di accordo 8 aprile 2011 visto il CCNL per i dipendenti da aziende del settore turismo del 28 maggio 2010",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2010-01-01",
+   "dataScadenzaContrattuale": "2013-04-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2010-05-28",
+   "dataInserimento": "2010-07-14",
+   "dipendenti": null,
+   "idAccordo": 332,
+   "idAccordoString": "332",
+   "idCcnl": 643,
+   "identificativoAccordo": "11176",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL TERZIARIO"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti da aziende del settore turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2010-01-01",
+   "dataScadenzaContrattuale": "2013-04-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2010-02-20",
+   "dataInserimento": "2010-03-11",
+   "dipendenti": null,
+   "idAccordo": 188,
+   "idAccordoString": "188",
+   "idCcnl": 643,
+   "identificativoAccordo": "10324",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE",
+    "FEDERRETI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FILCAMS CGIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti da aziende del settore turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2008-01-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2008-06-12",
+   "dataInserimento": "2009-01-08",
+   "dipendenti": null,
+   "idAccordo": 1029,
+   "idAccordoString": "1029",
+   "idCcnl": 643,
+   "identificativoAccordo": "9604",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "FIPE",
+    "FEDERRETI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Avviso comune settore turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2006-01-01",
+   "dataScadenzaContrattuale": "2009-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-07-28",
+   "dataInserimento": "2007-09-27",
+   "dipendenti": null,
+   "idAccordo": 912,
+   "idAccordoString": "912",
+   "idCcnl": 643,
+   "identificativoAccordo": "9035",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL COMMERCIO E TURISMO"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti da aziende del settore turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2006-01-01",
+   "dataScadenzaContrattuale": "2009-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-07-26",
+   "dataInserimento": "2007-08-06",
+   "dipendenti": null,
+   "idAccordo": 589,
+   "idAccordoString": "589",
+   "idCcnl": 643,
+   "identificativoAccordo": "8993",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI",
+    "FIPE",
+    "FEDERRETI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per i dipendenti da aziende del settore turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2002-01-01",
+   "dataScadenzaContrattuale": "2005-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2003-07-19",
+   "dataInserimento": "0001-01-01",
+   "dipendenti": null,
+   "idAccordo": 713,
+   "idAccordoString": "713",
+   "idCcnl": 643,
+   "identificativoAccordo": "7796",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "FIPE",
+    "FEDERRETI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FISASCAT-CISL",
+    "UILTUCS-UIL",
+    "FILCAMS-CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "TURISMO (AZIENDE CONFCOMMERCIO)",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2001-11-20",
+   "dataScadenzaContrattuale": "2001-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2001-11-21",
+   "dataInserimento": "0001-01-01",
+   "dipendenti": null,
+   "idAccordo": 712,
+   "idAccordoString": "712",
+   "idCcnl": 643,
+   "identificativoAccordo": "7662",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIPE-CONFCOMMERCIO"
+   ],
+   "partiSindacaliFirmatarie": [],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "TURISMO (AZIENDE CONFCOMMERCIO)",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2001-11-20",
+   "dataScadenzaContrattuale": "2001-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2001-11-20",
+   "dataInserimento": "0001-01-01",
+   "dipendenti": null,
+   "idAccordo": 711,
+   "idAccordoString": "711",
+   "idCcnl": 643,
+   "identificativoAccordo": "7661",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIPE-CONFCOMMERCIO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FISASCAT",
+    "FILCAMS"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "TURISMO (AZIENDE CONFCOMMERCIO)",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H052",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "1998-07-01",
+   "dataScadenzaContrattuale": "2001-12-31",
+   "dataScadenzaEconomica": "2001-12-31",
+   "dataStipula": "1999-01-22",
+   "dataInserimento": "0001-01-01",
+   "dipendenti": null,
+   "idAccordo": 714,
+   "idAccordoString": "714",
+   "idCcnl": 643,
+   "identificativoAccordo": "6878",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "FEDERALBERGHI",
+    "FIAVERT -. FAITA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FISASCAT",
+    "FILCAMS"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H02"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "turismo"
+   ],
+   "settoriAteco": [
+    "55",
+    "I"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "TURISMO (AZIENDE CONFCOMMERCIO)",
+   "titoloCcnl": "CCNL per i dipendenti da aziende del settore Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-06-01",
+   "dataScadenzaContrattuale": "2027-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-06-12",
+   "dataInserimento": "2024-06-12",
+   "dipendenti": null,
+   "idAccordo": 190878,
+   "idAccordoString": "190878",
+   "idCcnl": 656,
+   "identificativoAccordo": "20351",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIPE CONFCOMMERCIO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL TERZIARIO"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-06-01",
+   "dataScadenzaContrattuale": "2027-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-06-05",
+   "dataInserimento": "2024-06-27",
+   "dipendenti": null,
+   "idAccordo": 192253,
+   "idAccordoString": "192253",
+   "idCcnl": 656,
+   "identificativoAccordo": "20358",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "LEGACOOP PRODUZIONE E SERVIZI",
+    "AGCI SERVIZI",
+    "FIPE",
+    "CONFCOOPERATIVE LAVORO E SERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-07-14",
+   "dataInserimento": "2020-07-20",
+   "dipendenti": null,
+   "idAccordo": 128936,
+   "idAccordoString": "128936",
+   "idCcnl": 656,
+   "identificativoAccordo": "19313",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "CONFCOMMERCIO",
+    "FAITA",
+    "FEDERALBERGHI",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Avviso comune per il sostegno dei lavoratori e delle imprese del turismo danneggiati dall'emergenza epidemiologica da Covid-19",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-06-09",
+   "dataInserimento": "2020-09-15",
+   "dipendenti": null,
+   "idAccordo": 129221,
+   "idAccordoString": "129221",
+   "idCcnl": 656,
+   "identificativoAccordo": "19326",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo intervento straordinario bilateralità turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-02-28",
+   "dataInserimento": "2020-09-15",
+   "dipendenti": null,
+   "idAccordo": 129225,
+   "idAccordoString": "129225",
+   "idCcnl": 656,
+   "identificativoAccordo": "19328",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIAVET",
+    "FAITA",
+    "FEDERALBERGHI",
+    "CONFCOMMERCIO IMPRESE PER L'ITALIA",
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Avviso comune per le politiche attive a sostegno dei lavoratori e delle imprese del turismo danneggiati dall'epidemia Covid-19",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2019-05-15",
+   "dataInserimento": "2019-05-21",
+   "dipendenti": null,
+   "idAccordo": 105489,
+   "idAccordoString": "105489",
+   "idCcnl": 656,
+   "identificativoAccordo": "18848",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIPE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Ipotesi di accordo nazionale per la disciplina dei lavoratori dipendenti delle Gaming Hall che costituisce allegato al CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo 8 febbraio 2018",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2018-01-01",
+   "dataScadenzaContrattuale": "2021-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2018-03-01",
+   "dataInserimento": "2022-01-28",
+   "dipendenti": null,
+   "idAccordo": 146889,
+   "idAccordoString": "146889",
+   "idCcnl": 656,
+   "identificativoAccordo": "19648",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FIPE CONFCOMMERCIO"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL TERZIARIO"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H05Y",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2018-01-01",
+   "dataScadenzaContrattuale": "2021-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2018-02-08",
+   "dataInserimento": "2019-04-17",
+   "dipendenti": null,
+   "idAccordo": 103827,
+   "idAccordoString": "103827",
+   "idCcnl": 656,
+   "identificativoAccordo": "18806",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOMMERCIO",
+    "LEGACOOP PRODUZIONE E SERVIZI",
+    "AGCI SERVIZI",
+    "FIPE",
+    "ANGEM",
+    "CONFCOOPERATIVE LAVORO E SERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H03"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pubblici esercizi, ristorazione collettiva e commerciale"
+   ],
+   "settoriAteco": [
+    "55",
+    "56",
+    "S",
+    "92",
+    "I",
+    "93"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività sportive, di intrattenimento e divertimento",
+    "Attività di scommesse, lotterie e altri giochi d'azzardo",
+    "Attività di servizi di ristorazione",
+    "Servizi di alloggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "titoloCcnl": "CCNL per i dipendenti da aziende dei settori Pubblici Esercizi, Ristorazione Collettiva e Commerciale e Turismo",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "H442",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-02-16",
+   "dataScadenzaContrattuale": "2027-02-15",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-02-16",
+   "dataInserimento": "2024-09-26",
+   "dipendenti": null,
+   "idAccordo": 195625,
+   "idAccordoString": "195625",
+   "idCcnl": 751,
+   "identificativoAccordo": "20479",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFPROFESSIONI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FILCAMS CGIL",
+    "UILTUCS UIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "H",
+    "H11"
+   ],
+   "settoriDescrizione": [
+    "TERZIARIO E SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "studi professionali"
+   ],
+   "settoriAteco": [
+    "88",
+    "46",
+    "47",
+    "90",
+    "91",
+    "94",
+    "96",
+    "52",
+    "18",
+    "60",
+    "61",
+    "62",
+    "63",
+    "64",
+    "65",
+    "66",
+    "68",
+    "C",
+    "69",
+    "D",
+    "F",
+    "G",
+    "H",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "70",
+    "71",
+    "72",
+    "73",
+    "74",
+    "75",
+    "32",
+    "78",
+    "35",
+    "80",
+    "81",
+    "82",
+    "85",
+    "41",
+    "86",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ IMMOBILIARI",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO",
+    "ISTRUZIONE E FORMAZIONE",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE",
+    "ATTIVITÀ EDITORIALI, TRASMISSIONI RADIOFONICHE E PRODUZIONE E DISTRIBUZIONE DI CONTENUTI",
+    "FORNITURA DI ENERGIA ELETTRICA, GAS, VAPORE E ARIA CONDIZIONATA",
+    "TRASPORTO E MAGAZZINAGGIO",
+    "ATTIVITÀ MANIFATTURIERE",
+    "COSTRUZIONI",
+    "COMMERCIO ALL'INGROSSO E AL DETTAGLIO",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ FINANZIARIE E ASSICURATIVE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Ricerca scientifica e sviluppo",
+    "Servizi veterinari",
+    "Attività di sedi centrali e consulenza gestionale",
+    "Attività di pubblicità, ricerche di mercato e pubbliche relazioni",
+    "Magazzinaggio, deposito e attività di supporto ai trasporti",
+    "Attività legali e di contabilità",
+    "Assicurazioni, riassicurazioni e fondi pensione, escluse le assicurazioni sociali obbligatorie",
+    "Attività di programmazione, trasmissione, agenzie di stampa e altre attività di distribuzione di contenuti",
+    "Costruzione di edifici residenziali e non residenziali",
+    "Lavori di costruzione specializzati",
+    "Attività di architettura e ingegneria; collaudi e analisi tecniche",
+    "Altre attività manifatturiere",
+    "Attività di investigazione e vigilanza",
+    "Commercio all'ingrosso",
+    "Attività di assistenza sociale non residenziale",
+    "Attività di biblioteche, archivi, musei e altre attività culturali",
+    "Istruzione e formazione",
+    "Attività immobiliari",
+    "Commercio al dettaglio",
+    "Attività delle organizzazioni associative",
+    "Attività per la salute umana",
+    "Stampa e riproduzione di supporti registrati",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese",
+    "Fornitura di energia elettrica, gas, vapore e aria condizionata",
+    "Attività di creazione artistica e rappresentazioni artistiche",
+    "Infrastrutture informatiche, elaborazione dati, hosting e altri servizi di informazione",
+    "Attività ausiliarie dei servizi finanziari e delle attività assicurative",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Attività di ricerca, selezione, fornitura di risorse umane",
+    "Attività dei servizi finanziari, escluse le assicurazioni e i fondi pensione",
+    "Attività di servizi alla persona",
+    "Telecomunicazioni",
+    "Altre attività professionali, scientifiche e tecniche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per i dipendenti degli studi e delle attività professionali",
+   "titoloCcnl": "CCNL per i dipendenti degli studi e delle attività professionali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "I100",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-12-06",
+   "dataScadenzaContrattuale": "2027-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-09-25",
+   "dataInserimento": "2025-10-08",
+   "dipendenti": null,
+   "idAccordo": 223634,
+   "idAccordoString": "223634",
+   "idCcnl": 906,
+   "identificativoAccordo": "20822",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOTIR",
+    "CONFTRASPORTO",
+    "AITI",
+    "AITE",
+    "FEDESPEDI",
+    "FEDIT",
+    "FEDERLOGISTICA",
+    "FEDERTRASLOCHI",
+    "ASSOESPRESSI",
+    "FAI",
+    "ANITA",
+    "TRASPORTOUNITO FIAP",
+    "FIAP",
+    "CONFETRA",
+    "LEGACOOP PRODUZIONE E SERVIZI",
+    "ASSOLOGISTICA",
+    "CLAAI",
+    "UNITAI",
+    "AGCI SERVIZI",
+    "CASARTIGIANI",
+    "CNA FITA",
+    "CONFARTIGIANATO TRASPORTI",
+    "FISI",
+    "CONFCOOPERATIVE LAVORO E SERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTRASPORTI UIL",
+    "FILT CGIL",
+    "FIT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "I",
+    "I01"
+   ],
+   "settoriDescrizione": [
+    "TRASPORTI"
+   ],
+   "sottosettoriDescrizione": [
+    "logistica, trasporto merci e spedizione"
+   ],
+   "settoriAteco": [
+    "49",
+    "H",
+    "52"
+   ],
+   "settoriAtecoDescrizione": [
+    "TRASPORTO E MAGAZZINAGGIO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Trasporto terrestre e trasporto mediante condotte",
+    "Magazzinaggio, deposito e attività di supporto ai trasporti"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL logistica, trasporto merci e spedizione",
+   "titoloCcnl": "CCNL logistica, trasporto merci e spedizione (personale non dirigente)",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "K511",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-08-06",
+   "dataInserimento": "2025-12-24",
+   "dipendenti": null,
+   "idAccordo": 234752,
+   "idAccordoString": "234752",
+   "idCcnl": 1150,
+   "identificativoAccordo": "20904",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "LEGACOOP PRODUZIONE E SERVIZI",
+    "UNIONSERVIZI CONFAPI",
+    "AGCI SERVIZI",
+    "CONFCOOPERATIVE LAVORO E SERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTRASPORTI UIL",
+    "FILCAMS CGIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati"
+   ],
+   "settoriAteco": [
+    "81",
+    "O"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Accordo integrativo all'accordo di rinnovo del CCNL servizi di pulizia, servizi integrati/multiservizi del 13 giugno 2025",
+   "titoloCcnl": "CCNL per il personale dipendente da imprese esercenti servizi di pulizia e servizi integrati/multiservizi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "K511",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2025-06-01",
+   "dataScadenzaContrattuale": "2028-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-06-13",
+   "dataInserimento": "2025-12-24",
+   "dipendenti": null,
+   "idAccordo": 234754,
+   "idAccordoString": "234754",
+   "idCcnl": 1150,
+   "identificativoAccordo": "20903",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "LEGACOOP PRODUZIONE E SERVIZI",
+    "UNIONSERVIZI CONFAPI",
+    "AGCI SERVIZI",
+    "CONFCOOPERATIVE LAVORO E SERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTRASPORTI UIL",
+    "FILCAMS CGIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati"
+   ],
+   "settoriAteco": [
+    "81",
+    "O"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL servizi di pulizia e servizi integrati/multiservizi",
+   "titoloCcnl": "CCNL per il personale dipendente da imprese esercenti servizi di pulizia e servizi integrati/multiservizi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "K511",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2021-06-08",
+   "dataScadenzaContrattuale": "2024-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-06-08",
+   "dataInserimento": "2021-10-25",
+   "dipendenti": null,
+   "idAccordo": 139292,
+   "idAccordoString": "139292",
+   "idCcnl": 1150,
+   "identificativoAccordo": "19555",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "LEGACOOP PRODUZIONE E SERVIZI",
+    "UNIONSERVIZI CONFAPI",
+    "ANIP CONFINDUSTRIA",
+    "AGCI SERVIZI DI LAVORO",
+    "CONFCOOPERATIVE LAVORO E SERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTRASPORTI UIL",
+    "FILCAMS CGIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati"
+   ],
+   "settoriAteco": [
+    "81",
+    "O"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo per il rinnovo del CCNL per il personale dipendente da imprese esercenti servizi di pulizia e servizi integrati/multiservizi",
+   "titoloCcnl": "CCNL per il personale dipendente da imprese esercenti servizi di pulizia e servizi integrati/multiservizi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "K511",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2010-01-01",
+   "dataScadenzaContrattuale": "2013-04-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2011-05-31",
+   "dataInserimento": "2019-06-04",
+   "dipendenti": null,
+   "idAccordo": 105782,
+   "idAccordoString": "105782",
+   "idCcnl": 1150,
+   "identificativoAccordo": "18857",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "UNIONSERVIZI CONFAPI",
+    "FEDERLAVORO CONFCOOPERATIVE",
+    "AGCI SERVIZI",
+    "FISE CONFINDUSTRIA",
+    "LEGACOOPSERVIZI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTRASPORTI UIL",
+    "FILCAMS CGIL",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati"
+   ],
+   "settoriAteco": [
+    "81",
+    "O"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di servizi per edifici e per la cura del paesaggio"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per il personale dipendente da imprese esercenti servizi di pulizia e servizi integrati/multiservizi",
+   "titoloCcnl": "CCNL per il personale dipendente da imprese esercenti servizi di pulizia e servizi integrati/multiservizi",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "T151",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-03-05",
+   "dataInserimento": "2024-03-06",
+   "dipendenti": null,
+   "idAccordo": 183378,
+   "idAccordoString": "183378",
+   "idCcnl": 1309,
+   "identificativoAccordo": "20251",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOOPERATIVE FEDERSOLIDARIETA'",
+    "LEGACOOPSOCIALI",
+    "AGCI IMPRESE SOCIALI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "CGIL FP",
+    "UIL FPL",
+    "CISL FP",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K07",
+    "T",
+    "T01",
+    "T03",
+    "T05",
+    "H",
+    "T04",
+    "H03",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "ISTRUZIONE, SANITA', ASSISTENZA, CULTURA, ENTI",
+    "TERZIARIO E SERVIZI",
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "servizi ambientali",
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati",
+    "pubblici esercizi, ristorazione collettiva e commerciale",
+    "formazione professionale",
+    "scuola non statale",
+    "sanità (escluso servizio sanitario nazionale)",
+    "assistenza"
+   ],
+   "settoriAteco": [
+    "88",
+    "56",
+    "R",
+    "38",
+    "E",
+    "81",
+    "I",
+    "82",
+    "O",
+    "87"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di assistenza sociale non residenziale",
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Attività di assistenza residenziale",
+    "Attività di servizi di ristorazione",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di accordo per lo scioglimento della riserva sull'accordo di rinnovo del 26 gennaio 2024 del CCNL per le lavoratrici e i lavoratori delle cooperative del settore socio-sanitario, assistenziale-educativo e di inserimento lavorativo e tabelle di costo del lavoro aggiornate",
+   "titoloCcnl": "CCNL Cooperative Sociali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "T151",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2025-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-01-24",
+   "dataInserimento": "2024-02-06",
+   "dipendenti": null,
+   "idAccordo": 179967,
+   "idAccordoString": "179967",
+   "idCcnl": 1309,
+   "identificativoAccordo": "20223",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFCOOPERATIVE FEDERSOLIDARIETA'",
+    "LEGACOOPSOCIALI",
+    "AGCI IMPRESE SOCIALI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FP CGIL",
+    "UIL FPL",
+    "FISASCAT CISL",
+    "FP CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K07",
+    "T",
+    "T01",
+    "T03",
+    "T05",
+    "H",
+    "T04",
+    "H03",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "ISTRUZIONE, SANITA', ASSISTENZA, CULTURA, ENTI",
+    "TERZIARIO E SERVIZI",
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "servizi ambientali",
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati",
+    "pubblici esercizi, ristorazione collettiva e commerciale",
+    "formazione professionale",
+    "scuola non statale",
+    "sanità (escluso servizio sanitario nazionale)",
+    "assistenza"
+   ],
+   "settoriAteco": [
+    "88",
+    "56",
+    "R",
+    "38",
+    "E",
+    "81",
+    "I",
+    "82",
+    "O",
+    "87"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di assistenza sociale non residenziale",
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Attività di assistenza residenziale",
+    "Attività di servizi di ristorazione",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Verbale di accordo per il rinnovo del CCNL Cooperative Sociali",
+   "titoloCcnl": "CCNL Cooperative Sociali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "T151",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2019-05-21",
+   "dataInserimento": "2019-06-19",
+   "dipendenti": null,
+   "idAccordo": 106273,
+   "idAccordoString": "106273",
+   "idCcnl": 1309,
+   "identificativoAccordo": "18875",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "AGCI SOLIDARIETA'",
+    "CONFCOOPERATIVE FEDERSOLIDARIETA'",
+    "LEGACOOPSOCIALI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FP CGIL",
+    "UIL FPL",
+    "FISASCAT CISL",
+    "FPS CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K07",
+    "T",
+    "T01",
+    "T03",
+    "T05",
+    "H",
+    "T04",
+    "H03",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "ISTRUZIONE, SANITA', ASSISTENZA, CULTURA, ENTI",
+    "TERZIARIO E SERVIZI",
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "servizi ambientali",
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati",
+    "pubblici esercizi, ristorazione collettiva e commerciale",
+    "formazione professionale",
+    "scuola non statale",
+    "sanità (escluso servizio sanitario nazionale)",
+    "assistenza"
+   ],
+   "settoriAteco": [
+    "88",
+    "56",
+    "R",
+    "38",
+    "E",
+    "81",
+    "I",
+    "82",
+    "O",
+    "87"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di assistenza sociale non residenziale",
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Attività di assistenza residenziale",
+    "Attività di servizi di ristorazione",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale di incontro per sciogliere la riserva posta in data 28 marzo 2019 sull'Accordo di rinnovo del CCNL per le lavoratrici e i lavoratori delle cooperative del settore socio-sanitario assistenziale-educativo e di inserimento lavorativo",
+   "titoloCcnl": "CCNL Cooperative Sociali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "T151",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2017-01-01",
+   "dataScadenzaContrattuale": "2019-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2019-03-28",
+   "dataInserimento": "2019-04-01",
+   "dipendenti": null,
+   "idAccordo": 102590,
+   "idAccordoString": "102590",
+   "idCcnl": 1309,
+   "identificativoAccordo": "18788",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "AGCI SOLIDARIETA'",
+    "CONFCOOPERATIVE FEDERSOLIDARIETA'",
+    "LEGACOOPSOCIALI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FP CGIL",
+    "UIL FPL",
+    "FISASCAT CISL",
+    "FPS CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K07",
+    "T",
+    "T01",
+    "T03",
+    "T05",
+    "H",
+    "T04",
+    "H03",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "ISTRUZIONE, SANITA', ASSISTENZA, CULTURA, ENTI",
+    "TERZIARIO E SERVIZI",
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "servizi ambientali",
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati",
+    "pubblici esercizi, ristorazione collettiva e commerciale",
+    "formazione professionale",
+    "scuola non statale",
+    "sanità (escluso servizio sanitario nazionale)",
+    "assistenza"
+   ],
+   "settoriAteco": [
+    "88",
+    "56",
+    "R",
+    "38",
+    "E",
+    "81",
+    "I",
+    "82",
+    "O",
+    "87"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di assistenza sociale non residenziale",
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Attività di assistenza residenziale",
+    "Attività di servizi di ristorazione",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Verbale di accordo per il rinnovo del CCNL per le lavoratrici e i lavoratori delle cooperative del settore socio-sanitario assistenziale-educativo e di inserimento lavorativo",
+   "titoloCcnl": "CCNL Cooperative Sociali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "T151",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2019-03-28",
+   "dataInserimento": "2019-06-19",
+   "dipendenti": null,
+   "idAccordo": 106272,
+   "idAccordoString": "106272",
+   "idCcnl": 1309,
+   "identificativoAccordo": "18874",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "AGCI SOLIDARIETA'",
+    "CONFCOOPERATIVE FEDERSOLIDARIETA'",
+    "LEGACOOPSOCIALI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILTUCS",
+    "FP CGIL",
+    "UIL FPL",
+    "FISASCAT CISL",
+    "FPS CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K07",
+    "T",
+    "T01",
+    "T03",
+    "T05",
+    "H",
+    "T04",
+    "H03",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "ISTRUZIONE, SANITA', ASSISTENZA, CULTURA, ENTI",
+    "TERZIARIO E SERVIZI",
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "servizi ambientali",
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati",
+    "pubblici esercizi, ristorazione collettiva e commerciale",
+    "formazione professionale",
+    "scuola non statale",
+    "sanità (escluso servizio sanitario nazionale)",
+    "assistenza"
+   ],
+   "settoriAteco": [
+    "88",
+    "56",
+    "R",
+    "38",
+    "E",
+    "81",
+    "I",
+    "82",
+    "O",
+    "87"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di assistenza sociale non residenziale",
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Attività di assistenza residenziale",
+    "Attività di servizi di ristorazione",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo di impegno fra le parti firmatarie del rinnovo del CCNL per le lavoratrici e i lavoratori delle cooperative del settore socio-sanitario assistenziale-educativo e di inserimento lavorativo, avvenuto in data 28 marzo 2019",
+   "titoloCcnl": "CCNL Cooperative Sociali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "T151",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2010-01-01",
+   "dataScadenzaContrattuale": "2012-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2011-12-16",
+   "dataInserimento": "2012-07-03",
+   "dipendenti": null,
+   "idAccordo": 54,
+   "idAccordoString": "54",
+   "idCcnl": 1309,
+   "identificativoAccordo": "14710",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "AGCI SOLIDARIETA'",
+    "LEGACOOPSOCIALI",
+    "FEDERSOLIDARIETA' CONFCOOPERATIVE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FP CGIL",
+    "UIL FPL",
+    "CISL FP",
+    "FISASCAT CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "K05",
+    "K07",
+    "T",
+    "T01",
+    "T03",
+    "T05",
+    "H",
+    "T04",
+    "H03",
+    "K"
+   ],
+   "settoriDescrizione": [
+    "ISTRUZIONE, SANITA', ASSISTENZA, CULTURA, ENTI",
+    "TERZIARIO E SERVIZI",
+    "AZIENDE DI SERVIZI"
+   ],
+   "sottosettoriDescrizione": [
+    "servizi ambientali",
+    "pulizia, facchinaggio, facility management, multiservizi, servizi integrati",
+    "pubblici esercizi, ristorazione collettiva e commerciale",
+    "formazione professionale",
+    "scuola non statale",
+    "sanità (escluso servizio sanitario nazionale)",
+    "assistenza"
+   ],
+   "settoriAteco": [
+    "88",
+    "56",
+    "R",
+    "38",
+    "E",
+    "81",
+    "I",
+    "82",
+    "O",
+    "87"
+   ],
+   "settoriAtecoDescrizione": [
+    "FORNITURA DI ACQUA; GESTIONE DI RETI FOGNARIE, ATTIVITÀ DI TRATTAMENTO DEI RIFIUTI E RISANAMENTO",
+    "ATTIVITÀ DEI SERVIZI DI ALLOGGIO E DI RISTORAZIONE",
+    "ATTIVITÀ PER LA SALUTE UMANA E DI ASSISTENZA SOCIALE",
+    "ATTIVITÀ AMMINISTRATIVE E DI SERVIZI DI SUPPORTO"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività di assistenza sociale non residenziale",
+    "Attività di servizi per edifici e per la cura del paesaggio",
+    "Attività di assistenza residenziale",
+    "Attività di servizi di ristorazione",
+    "Attività di raccolta, recupero e smaltimento dei rifiuti",
+    "Attività amministrative, di supporto per le funzioni di ufficio e altri servizi di supporto alle imprese"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "testo": null,
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per le lavoratrici e i lavoratori delle cooperative del settore socio-sanitario assistenziale-educativo e di inserimento lavorativo triennio 2010-2012",
+   "titoloCcnl": "CCNL Cooperative Sociali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  }
+ ]
+}
