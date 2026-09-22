@@ -254,11 +254,13 @@ async function rispondi(req,res,opzioni={}){
   }
 
   const ambiente=opzioni.ambiente||process.env;
+  const ambienteRichiesta=req.headers&&req.headers['x-vercel-oidc-token']
+    ?{...ambiente,VERCEL_OIDC_TOKEN:req.headers['x-vercel-oidc-token']}:ambiente;
   const esito=await analizza(req.body,{
-    tetti:opzioni.tetti||tettiDi(ambiente),
+    tetti:opzioni.tetti||tettiDi(ambienteRichiesta),
     chiama:opzioni.chiama||chiamaGateway,
     garanzia:opzioni.garanzia||R.garanzia,
-    ambiente,
+    ambiente:ambienteRichiesta,
     chiamante:T.chiamanteDa(req.headers||{}),
     adesso:opzioni.adesso||Date.now(),
   });
