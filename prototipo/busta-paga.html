@@ -5,79 +5,66 @@
 <meta name="referrer" content="no-referrer">
 <script src="busta-paga-accesso.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ti spiego la busta paga | Dove va la tua RAL</title>
-<meta name="description" content="Carica il cedolino: il PDF resta nel tuo browser, il testo viene oscurato dove serve e tu vedi esattamente che cosa parte. Poi ti spieghiamo voce per voce che cosa significa.">
+<title>Ti leggo la busta: capisci il tuo netto | Dove va la tua RAL</title>
+<meta name="description" content="Il netto ti sorprende? Parti dalla tua busta: anteprima gratuita e report completo facoltativo, con pagamento una tantum. Il PDF resta nel browser.">
 <meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://www.dovevalatuaral.com/busta-paga.html">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%231E1C2B' d='M0 0h32v32H0z'/%3E%3Ctext x='16' y='24' fill='%2321D4E3' text-anchor='middle' font-size='24'%3E€%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="draftsman.css">
 <link rel="stylesheet" href="busta-paga.css">
 <link rel="stylesheet" href="busta-paga-percorso.css">
+<link rel="stylesheet" href="busta-paga-landing.css">
 <!-- Solo Datafast: su questa pagina Google Analytics 4 non viene caricato. -->
 <script src="analytics-datafast.js" async></script>
 </head>
 <body class="bp-page">
 <a class="skip-link" href="#contenuto">Vai al contenuto</a>
-<header class="site-header"><div class="site-header__in">
-  <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+<header class="site-header bl-header"><div class="site-header__in">
+  <a class="bl-marchio" href="index.html"><span>Dove va la tua RAL</span><strong>Ti leggo la busta</strong></a>
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
-  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
-    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a></div></div>
-    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div>
-    <a href="netto-o-niente.html">Gioca</a><a href="la-storia.html">La storia</a>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione della busta paga">
+    <a href="#come-funziona">Come funziona</a><a href="#cosa-ottieni">Cosa ottieni</a><a href="#faq">FAQ</a><a class="btn btn--primary" href="#bp-upload">Carica la tua busta</a>
   </nav>
 </div></header>
 
-<main id="contenuto" class="bp-main">
-  <header class="bp-heading">
-    <p class="bp-eyebrow">[ VERSIONE DI PROVA — IL PDF NON LASCIA QUESTA SCHEDA ]</p>
-    <h1>Ti spiego la busta paga</h1>
-    <p class="bp-lead">Carica il cedolino: lo leggiamo qui dentro, oscuriamo i dati che ti identificano e ti facciamo vedere, carattere per carattere, il testo che parte. Poi ti spieghiamo ogni riga: che cos’è, se aumenta il lordo o riduce il netto, e che cosa varrebbe la pena verificare.</p>
-  </header>
-
-  <section class="bp-sezione" aria-labelledby="bp-h-funziona">
-    <h2 id="bp-h-funziona">Come funziona</h2>
-    <ol class="bp-limiti">
-      <li><strong>Il PDF resta nel browser.</strong> Viene aperto in questa scheda e non viene caricato da nessuna parte: non lo salviamo, non lo inviamo, non resta niente quando chiudi la pagina.</li>
-      <li><strong>Il testo viene oscurato.</strong> Riconosciamo nome, codice fiscale, IBAN, indirizzo, matricola, partita IVA e data di nascita. Oscuriamo anche le sigle sindacali e i motivi di assenza, tenendo gli importi: sono dati particolari, ma il conto deve continuare a tornare.</li>
-      <li><strong>Decidi tu, parola per parola.</strong> Nel riquadro nero ogni parola è un bottone: premila per oscurarla, premi un segnaposto per riportarla. Il riconoscimento automatico non è mai completo — l'ultima lettura è la tua.</li>
-      <li><strong>Parte solo quel testo, e solo se lo dici tu.</strong> Dopo la spunta di consenso il testo del riquadro viene mandato a un modello linguistico perché lo spieghi. Mostriamo una voce solo se dicitura e importo compaiono alla lettera in quel testo: quelle che non superano il controllo non te le facciamo vedere. Le somme le rifacciamo noi, non il modello.</li>
-    </ol>
-  </section>
-
-  <section class="bp-sezione" aria-labelledby="bp-h-limiti">
-    <h2 id="bp-h-limiti">Che cosa accetta, e che cosa no</h2>
-    <p>Un cedolino italiano da lavoro dipendente, in <strong>PDF digitale con testo selezionabile</strong>, fino a 3 pagine e 5 MB, una mensilità per volta.</p>
-    <p>Restano fuori foto e scansioni (non facciamo OCR), Certificazione Unica, 730, cedolini esteri, più mensilità nello stesso file e documenti di partita IVA. Se il PDF non contiene testo te lo diciamo invece di lavorare a metà.</p>
-  </section>
-
-  <section class="bp-sezione" aria-labelledby="bp-h-privacy">
-    <h2 id="bp-h-privacy">In breve, sui tuoi dati</h2>
-    <div class="callout callout--info">
-      <span class="callout__mark" aria-hidden="true">i</span>
-      <div>
-        <p>Il PDF non lascia il browser. Il testo oscurato sì: viene mandato a un modello linguistico perché lo spieghi, ed è testo <strong>pseudonimizzato, non anonimo</strong>, perché importi, livello, CCNL, comune e mese restano dati personali. Per questo la schermata di conferma ti mostra il testo esatto, e per questo il consenso è esplicito.</p>
-        <p>L'analisi gira su <strong>Claude Sonnet 5 di Anthropic</strong>, instradato via Vercel AI Gateway con <strong>inferenza in regione europea</strong> e con il divieto di usare il testo per addestrare il modello. Prima di ogni invio controlliamo che in quella regione il modello sia servito solo da fornitori che <strong>non conservano</strong> i prompt: se non fosse così, il testo non partirebbe. Il testo grezzo non viene salvato. Conserviamo il report cifrato per 48 ore senza acquisto, oppure per 30 giorni dal pagamento. Puoi cancellarlo prima. Restano per 90 giorni i soli riferimenti transazionali per assistenza e riconciliazione. <a href="privacy.html">Leggi l'informativa completa</a>.</p>
+<main id="contenuto" class="bp-main bl-main">
+  <div class="bl-hero">
+    <header class="bp-heading">
+      <p class="bp-eyebrow">[ LA TUA BUSTA, PIÙ CHIARA ]</p>
+      <h1>Il netto ti<br>sorprende?<span>Partiamo dalla busta.</span></h1>
+      <p class="bp-lead">Carica la tua busta paga e guarda un’anteprima gratuita dei tuoi importi e di una dicitura spiegata. Poi, se vuoi, sblocchi il report completo.</p>
+      <ul class="bl-dubbi" aria-label="Da dove possiamo partire">
+        <li>Troppe trattenute?</li>
+        <li>Conguaglio poco chiaro?</li>
+        <li>Straordinari da capire?</li>
+      </ul>
+      <a class="bl-mobile-cta" href="#bp-upload">Vai al caricamento <span aria-hidden="true">↘</span></a>
+      <svg class="bl-frecce" viewBox="0 0 310 170" fill="none" aria-hidden="true"><path d="M0 20h80l110 50h110M20 85h280M0 150h95l95-50h110" stroke="currentColor" stroke-dasharray="4 5"/><path d="m292 66 8 4-8 4m0 7 8 4-8 4m0 7 8 4-8 4" stroke="currentColor"/></svg>
+    </header>
+    <section class="bp-sezione bl-upload" id="bp-upload" aria-labelledby="bp-h-carica" tabindex="-1">
+      <h2 id="bp-h-carica" class="bp-eyebrow">[ ANALIZZA LA TUA BUSTA ]</h2>
+      <div class="bp-carica">
+        <svg class="bl-icon" viewBox="0 0 32 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 2h14l8 8v28H5zM19 2v9h8M10 19h12M10 24h12M10 29h8"/></svg>
+        <p>Il tuo cedolino, un po’ più chiaro.</p>
+        <label class="bl-file-label" for="bp-file">Carica la tua busta</label>
+        <input type="file" id="bp-file" accept="application/pdf,.pdf" aria-describedby="bl-formati bl-privacy bp-configurazione bp-stato" disabled>
       </div>
-    </div>
-  </section>
-
-  <section class="bp-sezione" id="bp-upload" aria-labelledby="bp-h-carica">
-    <p id="bp-configurazione" role="status">Verifico la disponibilità del servizio…</p>
-    <h2 id="bp-h-carica">1. Carica il cedolino</h2>
-    <div class="bp-carica">
-      <label class="label" for="bp-file">Il tuo cedolino in PDF</label>
-      <input type="file" id="bp-file" accept="application/pdf,.pdf" disabled>
+      <div class="bl-offerta-breve">
+        <strong>Anteprima gratuita</strong>
+        <span data-bp-prezzo>Report completo · prezzo da definire</span>
+        <span>Pagamento una tantum, dopo l’anteprima.</span>
+      </div>
+      <p id="bl-formati" class="bl-small">PDF digitale con testo selezionabile.<br>Una mensilità · massimo 3 pagine · 5 MB.</p>
+      <p id="bl-privacy" class="bl-small">Il PDF resta nel tuo browser.<br>Invii solo il testo che approvi. <a href="privacy.html">Privacy</a></p>
+      <p id="bp-configurazione" role="status">Verifico la disponibilità del servizio…</p>
       <p id="bp-stato" class="status" role="status">Preparo il lettore…</p>
-    </div>
-    <div class="callout callout--err" id="bp-errore" hidden>
-      <span class="callout__mark" aria-hidden="true">!</span>
-      <div>
-        <p><strong id="bp-errore-titolo"></strong></p>
-        <p id="bp-errore-cosa"></p>
+      <div class="callout callout--err" id="bp-errore" hidden>
+        <span class="callout__mark" aria-hidden="true">!</span>
+        <div><p><strong id="bp-errore-titolo"></strong></p><p id="bp-errore-cosa"></p></div>
       </div>
-    </div>
-    <noscript><p class="bp-invio-nota">Questa pagina legge il PDF con JavaScript, dentro il tuo browser. Senza JavaScript non c'è niente da mostrare — ed è anche il motivo per cui il file non viene caricato da nessuna parte.</p></noscript>
-  </section>
+      <noscript><p>Per leggere il PDF nel tuo browser serve JavaScript. Il caricamento è disattivato.</p></noscript>
+    </section>
+  </div>
 
   <section class="bp-sezione" id="bp-revisione" aria-labelledby="bp-h-revisione" hidden>
     <h2 id="bp-h-revisione">2. Questo è il testo che parte</h2>
@@ -149,12 +136,84 @@
     <p class="bp-invio-nota">Il report è recuperabile per 30 giorni dal pagamento. Puoi salvarlo in PDF dalla funzione di stampa o eliminarlo prima dalla sezione cancellazione.</p>
   </section>
 
-  <footer class="bp-note">
-    <p><strong>Limiti dichiarati.</strong> Il riconoscimento dei dati da oscurare è deterministico: riconosce schemi noti, non capisce il documento. Il nome è il caso più fragile, perché non ha una forma fissa. Controlla il riquadro prima di confermare.</p>
-    <p><strong>Nessuno ha verificato che il modello legga bene un cedolino vero prima di te.</strong> È una conseguenza voluta: per provarlo avremmo dovuto raccogliere buste paga di altre persone, e abbiamo preferito non farlo. Al posto della prova ci sono controlli meccanici — ogni voce deve citare alla lettera il testo che hai inviato, le somme le rifacciamo noi, una risposta fuori formato non viene mostrata. Impediscono di mostrarti numeri inventati; non garantiscono che i numeri veri siano stati capiti. Questa spiegazione non sostituisce un consulente del lavoro, un CAF o un sindacato.</p>
-    <p>Questa pagina non è raggiungibile dalla navigazione del sito: è in prova. Non sostituisce un consulente del lavoro, un CAF o un sindacato, e non certifica la correttezza di quello che ha fatto il datore.</p>
-    <p><a href="privacy.html">Informativa privacy</a> · <a href="index.html">Il calcolatore</a> · <a href="come-ho-lavorato.html">Come ho lavorato</a></p>
+
+  <section class="bl-section" id="esempio" aria-labelledby="bl-esempio">
+    <div class="bl-section-head">
+      <div><p class="bp-eyebrow">[ ESEMPIO DIMOSTRATIVO ]</p><h2 id="bl-esempio">Un esempio, più chiaro.</h2><p>Ecco come appare l’anteprima e una parte del report completo.</p></div>
+      <p class="bl-demo-label"><mark>Esempio dimostrativo · dati sintetici</mark><span>Numeri inventati per mostrare il prodotto.<br>Non sono una verifica fiscale.</span></p>
+    </div>
+    <div class="bl-demo">
+      <article class="bl-demo-preview">
+        <header><h3>Anteprima gratuita</h3><p>I dati disponibili e una prima spiegazione.</p></header>
+        <dl class="bl-totali"><div><dt>Lordo</dt><dd>2.400 €</dd></div><div><dt>Trattenute</dt><dd>600 €</dd></div><div><dt>Netto</dt><dd>1.800 €</dd></div></dl>
+        <div class="bl-estratto"><strong>Un estratto utile, già nell’anteprima</strong><p>Retribuzione ordinaria: il compenso per il lavoro del mese, prima delle trattenute.</p><small>Fonte sintetica: pagina 1, riga 2.</small></div>
+      </article>
+      <article class="bl-demo-report">
+        <header><h3>Report completo</h3><p>Il dettaglio delle diciture riconosciute.</p></header>
+        <div class="bl-dettaglio">
+          <table><caption>Trattenute · esempio sintetico</caption><tbody>
+            <tr><th scope="row">IRPEF</th><td>350,00 €</td></tr>
+            <tr class="bl-evidenza"><th scope="row">Contributi previdenziali</th><td>180,00 €</td></tr>
+            <tr><th scope="row">Addizionale regionale</th><td>40,00 €</td></tr>
+            <tr><th scope="row">Addizionale comunale</th><td>20,00 €</td></tr>
+            <tr><th scope="row">Altre trattenute</th><td>10,00 €</td></tr>
+          </tbody></table>
+          <aside class="bl-spiegazione"><h4>Contributi previdenziali</h4><p>Quota destinata alla previdenza obbligatoria. È una trattenuta: riduce il netto del mese.</p><small>Dato letto: 180,00 €<br>Fonte sintetica: pagina 1, riga 3.</small></aside>
+        </div>
+        <p class="bl-conto"><strong>Come torna il conto</strong><br>2.400 € − 600 € = 1.800 €<br><small>Riconciliazione dei totali, non un ricalcolo fiscale.</small></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="bl-section" id="come-funziona" aria-labelledby="bl-funziona">
+    <p class="bp-eyebrow">[ COME FUNZIONA ]</p>
+    <h2 id="bl-funziona">Tre passaggi, più chiarezza.</h2>
+    <ol class="bl-passi">
+      <li><span class="bl-numero" aria-hidden="true">1</span><svg class="bl-icon" viewBox="0 0 32 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 2h14l8 8v28H5zM19 2v9h8M10 19h12M10 24h12M10 29h8"/></svg><div><h3>Carica e rivedi</h3><p>Apri il PDF e controlla gli oscuramenti. Vedi il testo esatto e dai il consenso prima dell’invio.</p></div></li>
+      <li><span class="bl-numero" aria-hidden="true">2</span><svg class="bl-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="17" cy="17" r="12"/><path d="m26 26 11 11M10 16a7 7 0 0 1 7-7"/></svg><div><h3>Guarda l’anteprima</h3><p>Leggi periodo, totali disponibili e una dicitura spiegata. Senza account e senza pagare.</p></div></li>
+      <li><span class="bl-numero" aria-hidden="true">3</span><svg class="bl-icon" viewBox="0 0 32 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 2h14l8 8v28H5zM19 2v9h8M10 19h12M10 24h12M10 29h8"/></svg><div><h3>Sblocca il report</h3><p>Se vuoi approfondire, paghi una volta con Stripe. Salva il link privato per ritrovare il report.</p></div></li>
+    </ol>
+  </section>
+
+  <section class="bl-section" id="cosa-ottieni" aria-labelledby="bl-ottieni">
+    <p class="bp-eyebrow">[ ANTEPRIMA E REPORT ]</p>
+    <h2 id="bl-ottieni">Cosa ottieni e cosa cambia.</h2>
+    <div class="bl-offerte">
+      <article class="bl-offerta bl-offerta--gratis"><h3>Anteprima gratuita</h3><ul><li>Periodo e totali disponibili: competenze, trattenute, netto.</li><li>Una dicitura spiegata, con riferimento al testo.</li><li>Nessun pagamento richiesto.</li></ul></article>
+      <article class="bl-offerta bl-offerta--report"><h3 data-bp-prezzo>Report completo · prezzo da definire</h3><ul><li>Dettaglio delle diciture riconosciute, con importi e fonti.</li><li>Spiegazioni, riconciliazione, dubbi e dati non individuati.</li><li>Pagamento una tantum. Nessun abbonamento.</li><li>Link privato per 30 giorni dal pagamento; stampa o salva PDF.</li></ul></article>
+    </div>
+  </section>
+
+  <section class="bl-section bl-fonti" aria-labelledby="bl-fonti">
+    <p class="bp-eyebrow">[ FONTI E LIMITI ]</p>
+    <div class="bl-due-colonne"><div><h2 id="bl-fonti">Da dove vengono le informazioni?</h2><p>Dal testo che approvi. Le diciture e gli importi mostrati devono trovare riscontro nel documento; le spiegazioni sono generate da un modello linguistico. Le somme le calcola il software.</p><p>Il riferimento a pagina e riga ti aiuta a tornare alla fonte. Una citazione corretta non garantisce che la dicitura sia stata interpretata bene.</p></div>
+    <div><h2>Cosa non fa il servizio?</h2><ul><li>Non offre consulenza fiscale né certifica la correttezza della busta.</li><li>Non garantisce di individuare errori e non ricalcola il CCNL.</li><li>Non confronta mensilità diverse.</li></ul><p>La qualità dell’analisi su cedolini reali è ancora da verificare. Per una verifica professionale rivolgiti a un consulente del lavoro, CAF o sindacato.</p></div></div>
+  </section>
+
+  <section class="bl-section" id="faq" aria-labelledby="bl-faq">
+    <p class="bp-eyebrow">[ DOMANDE FREQUENTI ]</p>
+    <h2 id="bl-faq">Domande frequenti.</h2>
+    <div class="bl-faq">
+      <details><summary>Devo creare un account?</summary><p>No. Puoi consultare l’anteprima e acquistare senza creare un account. Prima di pagare, salva il link privato: serve per recuperare il report.</p></details>
+      <details><summary>È davvero gratuito?</summary><p>L’anteprima è gratuita: include periodo, totali disponibili e una dicitura spiegata. Il report completo è facoltativo e si paga una sola volta.</p></details>
+      <details><summary>Come avviene il pagamento?</summary><p>Dopo l’anteprima, con Stripe Checkout. Il prezzo viene mostrato prima di pagare. Se l’analisi non produce abbastanza dati per un report utilizzabile, l’acquisto è bloccato. In questa preview gli acquisti reali non sono attivi.</p></details>
+      <details><summary>Quali PDF posso caricare?</summary><p>Un cedolino italiano da lavoro dipendente in PDF digitale con testo selezionabile: una mensilità, massimo 3 pagine e 5 MB. Foto, scansioni, PDF protetti, CU, 730, cedolini esteri e documenti di partita IVA non sono supportati. Se il testo non è leggibile, chiedi il PDF digitale a chi emette il cedolino.</p></details>
+      <details><summary>Che cosa viene inviato e conservato?</summary><p>Il PDF resta nel browser. Parte solo il testo che rivedi e approvi, dopo il consenso esplicito. L’oscuramento automatico può essere incompleto: controllalo. Il testo resta pseudonimizzato, non anonimo.</p><p>Il testo grezzo non viene salvato. Il report cifrato resta 48 ore senza acquisto o 30 giorni dal pagamento; puoi cancellarlo prima. Alla scadenza l’accesso è revocato, il contenuto viene eliminato entro 24 ore. I riferimenti transazionali restano 90 giorni per assistenza. <a href="privacy.html">Leggi l’informativa</a>.</p></details>
+      <details><summary>Come ritrovo o salvo il report?</summary><p>Salva il link privato mostrato insieme all’anteprima: chi lo possiede può accedere. Dopo il pagamento puoi usarlo per 30 giorni e stampare o salvare il report in PDF. Non è previsto un recupero tramite email.</p><p>Se hai pagato ma non accedi, <a href="mailto:riccsartori@gmail.com">contatta l’assistenza</a> indicando il riferimento ordine, senza allegare cedolino o link privato.</p></details>
+    </div>
+  </section>
+
+  <section class="bl-finale" aria-label="Inizia dalla tua busta">
+    <div><svg class="bl-icon" viewBox="0 0 32 40" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 2h14l8 8v28H5zM19 2v9h8M10 19h12M10 24h12M10 29h8"/></svg><p>Il netto ti sorprende ancora?<strong>Carica la tua busta.</strong></p></div>
+    <a class="btn bl-cta-scura" href="#bp-upload">Carica la tua busta <span aria-hidden="true">→</span></a>
+    <p class="bl-small"><strong>Anteprima gratuita</strong><br><span data-bp-prezzo>Report completo · prezzo da definire</span><br>Pagamento una tantum</p>
+  </section>
+  <footer class="bl-footer">
+    <a class="bl-marchio" href="index.html"><span>Dove va la tua RAL</span><strong>Ti leggo la busta</strong></a>
+    <nav aria-label="Link utili"><a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="busta-paga-termini.html">Termini</a><a href="mailto:riccsartori@gmail.com">Contatti</a></nav>
+    <span class="bp-eyebrow">[ PIÙ CONSAPEVOLE,<br> OGNI MESE ]</span>
   </footer>
+
 </main>
 
 <script src="busta-paga-estrazione.js"></script>
@@ -165,6 +224,7 @@
 <script src="site-nav.js"></script>
 <script src="busta-paga-percorso.js"></script>
 <script src="busta-paga-ui.js"></script>
+<script src="busta-paga-landing.js"></script>
 <script type="module" src="busta-paga-pdf.js"></script>
 </body>
 </html>

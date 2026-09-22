@@ -88,7 +88,8 @@
   $('bp-cancella-server').addEventListener('click',()=>window.dispatchEvent(new Event('bp-cancella')));
   function azzera(){versione++;clearTimeout(timer);box.hidden=true;$('bp-anteprima').textContent='';
     $('bp-link-recupero').value='';$('bp-recupero').hidden=true;$('bp-offerta').hidden=true;}
-  const pronto=I.configurazione().then(c=>{
+  const configurazione=I.configurazione();
+  const pronto=configurazione.then(c=>{
     const attivo=c.ok&&A.disponibile;
     $('bp-configurazione').textContent=attivo?
       (c.prezzo.test?'Versione test. ':'')+'Anteprima gratuita; report una tantum a '+
@@ -97,5 +98,5 @@
     if(A.leggi())aggiorna();
     return attivo;
   });
-  window.BUSTA_PAGA_PERCORSO={mostra,errore,azzera,pronto};
+  window.BUSTA_PAGA_PERCORSO={mostra,errore,azzera,pronto,configurazione};
 })();
