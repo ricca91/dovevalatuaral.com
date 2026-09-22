@@ -64,6 +64,12 @@ Due segnali già dall'anagrafica, da verificare sulle fonti:
 - Tabella degli scatti dell'art. 182: nel testo HTML è un'immagine
   (`ccnl24-im18.png`), archiviata come `fipe-h05y-art182-scatti-2026-09-22.png`
   e letta a vista.
+- [Titolo X — Settore ristorazione collettiva](https://www.fipe.it/2025/03/10/area-lavoro/titolo-x-settore-ristorazione-collettiva/)
+  → `fipe-h05y-titolo-x-ristorazione-collettiva-2026-09-22.html` (aggiunto in
+  implementazione: l'art. 182 rinvia al Titolo X per la ristorazione collettiva).
+  Il Titolo X regola il computo dell'anzianità al cambio di gestione (Allegato F),
+  non gli importi degli scatti: nel dataset gli scatti della sezione sono quelli
+  dell'art. 182.
 - Il PDF dell'accordo di rinnovo (`Rinnovo-Contratto-CCNL-2024.pdf`, 23 pagine) è
   una scansione senza testo: non letto, non usato.
 
@@ -383,8 +389,12 @@ totale, non delle voci:
 - **F2, tutte le decorrenze**: totale stampato = minimo + EPA **+ 0,06 €**
   (1.909,20 contro 1.879,14 + 30,00 = 1.909,14; idem 2026, gennaio e giugno 2027).
   Il minimo 1.879,14 / 1.918,09 / 1.927,83 è confermato dalla sintesi ASGB.
-- **3°, 1 gennaio 2027**: totale stampato 1.986,54 contro 1.916,84 + 60,00 =
-  1.976,84 (10 € di scarto; giugno 2027 torna: 1.926,54 + 90,00 = 2.016,54).
+- **Non viaggiante, 1 gennaio 2027, tutte e nove le righe** (corretto in
+  implementazione: la ricerca aveva segnalato solo il 3°). La tranche è di solo EPA,
+  ma ogni totale stampato usa il minimo di giugno 2027: lo scarto di ciascuna riga
+  è l'aumento del minimo di giugno — Quadri 12,81 · 1° 12,05 · 2° 11,06 · 3°S 10,00 ·
+  3° 9,70 (1.986,54 contro 1.916,84 + 60,00 = 1.976,84) · 4° 9,24 · 4°J 9,02 · 5° 8,79 ·
+  6° 8,26. La tabella del viaggiante, nella stessa pagina, torna.
 
 Il dataset usa la somma delle voci come totale e conserva il totale stampato per
 queste righe con la discrepanza dichiarata; la prova lo verifica esplicitamente.
@@ -414,7 +424,7 @@ vigente resta quella dell'ottobre 2025 e il calcolatore non aggiunge nulla.
 
 ### Fonti
 
-- [CCNL Cooperative sociali 2023–2025, testo coordinato](http://www.federsolidarieta.confcooperative.it/Portals/0/CCNL/CCNL%20delle%20Cooperative%20Sociali%202023-2025%20.pdf),
+- [CCNL Cooperative sociali 2023–2025, testo coordinato](https://www.federsolidarieta.confcooperative.it/Portals/0/CCNL/CCNL%20delle%20Cooperative%20Sociali%202023-2025%20.pdf),
   Confcooperative Federsolidarietà (firmataria) →
   `coopsociali-t151-ccnl-2023-2025-federsolidarieta.pdf`, 264 pagine con testo.
   Letti artt. 47 (classificazione e profili), 51, 75, 76, 78, 79, 79 bis, 80.
@@ -780,6 +790,23 @@ Verifica: 22 settembre 2026.
   Regola di riproporzionamento assente dal testo contrattuale, non una lacuna
   di lettura.
 
+### Come il dataset ricava gli importi (implementazione, 22 settembre 2026)
+
+Nessuna fonte firmataria pubblica i valori assoluti 2024–2026. Il dataset li
+**deriva** dal valore firmato al 1° ottobre 2022 (testo 19 gennaio 2021, Parte
+Settima art. 1) più gli incrementi TEM della circolare datoriale, tranche per
+tranche. Il rinnovo 2023 ha riparametrato AS, A, D2 ed E dei Grafici (la nuova
+scala è annunciata in calce alla tabella 2021): per queste quattro righe il punto di
+partenza di marzo 2024 è il valore di lavorofacile.it, poi gli stessi incrementi.
+
+Riscontri: la tabella Kitech al 1° luglio 2026 (archiviata come
+`grafici-editori-g011-kitech-tabella-2026-07-2026-09-22.md`,
+[kitech.it](https://www.kitech.it/Retribuzione-stipendio-ccnl.aspx?CodiceCateg=156))
+coincide al centesimo su 11 righe Grafici su 12 (A: 1.960,88 contro 1.960,89).
+Lavorofacile.it ricalcola ogni tranche sul parametro e diverge di 1–2 centesimi
+dalle somme degli incrementi firmati: non è la base del dato. La contingenza è
+quella dell'Allegato 1 del testo 2021 (B3 525,47; Kitech stampa 525,48).
+
 ### Discrepanze nella fonte
 
 - Il **livello 8 Editori** è presente nel CCNL 19 gennaio 2021 (classificazione,
@@ -867,12 +894,14 @@ CCNL 19 dicembre 2018).
 ### Fonti
 
 - Comunicato Fieg (parte datoriale firmataria) sul rinnovo 19 dicembre 2018,
-  "FIRMATO RINNOVO CONTRATTO NAZIONALE DI LAVORO POLIGRAFICI" →
+  "FIRMATO RINNOVO CONTRATTO NAZIONALE DI LAVORO POLIGRAFICI",
+  [fieg.it/salastampa_item.asp?sta_id=1218](https://www.fieg.it/salastampa_item.asp?sta_id=1218) →
   `poligrafici-g041-fieg-comunicato-rinnovo-2018-12-19-2026-09-22.html`. Conferma
   data di firma, decorrenza (1° gennaio 2019), aumento di 90 € sui minimi, una tantum
   300 €, assistenza sanitaria 120 €/anno.
 - Comunicato unitario Slc-Cgil/Fistel-Cisl/Uilcom-Uil (parti sindacali firmatarie),
-  19 dicembre 2018, pubblicato da Fistel Veneto →
+  19 dicembre 2018, pubblicato da Fistel Veneto,
+  [PDF](https://www.fistelveneto.cisl.it/cms/files/file/472285-na181219-poligrafici---rinnovo-ccnl.pdf) →
   `poligrafici-g041-fistel-comunicato-rinnovo-2018-12-19-2026-09-22.pdf`. Testo con
   testo estraibile, letto integralmente. Riporta decorrenza 1° gennaio 2019 - scadenza
   31/12/2019, tranche degli aumenti, nota sul Fondo Casella.
@@ -900,20 +929,26 @@ CCNL 19 dicembre 2018).
   31 dicembre 2022 e chiede un rinnovo 2023-2025; i suoi contenuti economici non sono
   usati per le tabelle.
 - Nota informativa unitaria Slc-Cgil/Fistel-Cisl/Uilcom-Uil sull'incontro del 17
-  settembre 2025, pubblicata da Uilfpc (ex Uilcom, parte firmataria) →
+  settembre 2025, pubblicata da Uilfpc (ex Uilcom, parte firmataria),
+  [uilfpc.it](https://www.uilfpc.it/news/poligrafici-nota-informativa-incontro-rinnovo-ccnl-poligrafici/) →
   `poligrafici-g041-uilfpc-nota-17set2025-2026-09-22.html`. Conferma che il rinnovo
   economico resta subordinato alla soluzione del "Fondo Casella".
 - Comunicato unitario Slc-Cgil/Fistel-Cisl/Uilcom-Uil sull'incontro del 15 aprile
-  2026, pubblicato da Uilfpc →
-  `poligrafici-g041-uilfpc-comunicato-15apr2026-2026-09-22.html`. Fonte più recente
-  reperita sullo stato della trattativa: nessun accordo, "rischio di stallo",
-  richiamo a Fieg e Asig.
+  2026, pubblicato da Uilfpc, [uilfpc.it](https://www.uilfpc.it/news/poligrafici-telemaco/) →
+  `poligrafici-g041-uilfpc-comunicato-15apr2026-2026-09-22.html`: nessun accordo,
+  "rischio di stallo", richiamo a Fieg e Asig.
+- Comunicato Uilfpc del 24 luglio 2026, [uilfpc.it](https://www.uilfpc.it/news/ccnl-poligrafici-comunicato/)
+  → `poligrafici-g041-uilfpc-comunicato-proposta-fieg-2026-07-24-2026-09-22.md`
+  (aggiunto in implementazione). **Fonte più recente sullo stato della trattativa**:
+  FIEG e ASIG propongono 170 € complessivi fino al 2027, i sindacati la giudicano
+  «del tutto insufficiente». Proposta, non accordo: la tabella 2021 resta in vigore.
 - Comunicato Slc-Cgil sull'incontro del 10 luglio 2025, pubblicato dal sito
   nazionale Slc-Cgil (parte firmataria) →
   `poligrafici-g041-slc-comunicato-10lug2025-2026-09-22.html`. Conferma il tema
   classificazione/nuove figure professionali come nodo aperto.
 - VIII Rapporto sulla contrattazione collettiva, Adapt (ente di ricerca indipendente,
-  non firmatario), capitolo su "CCNL poligrafici – Fieg, Asig (15 febbraio 2021)" →
+  non firmatario), capitolo su "CCNL poligrafici – Fieg, Asig (15 febbraio 2021)"
+  ([pagina del rapporto](https://farecontrattazione.adapt.it/viii-rapporto-adapt-sulla-contrattazione-collettiva-in-italia-2021/)) →
   `poligrafici-g041-adapt-rapporto-contrattazione-2022-2026-09-22.pdf`. Fonte
   indipendente più dettagliata reperita sui contenuti dell'accordo 15 febbraio 2021:
   cita il meccanismo indennità temporanea → conglobamento nei minimi dal 1° aprile
@@ -922,9 +957,11 @@ CCNL 19 dicembre 2018).
   1° aprile 2021 → `poligrafici-g041-kitech-tabella-2021-04-2026-09-22.md`
   (contenuto recuperato via Firecrawl: il fetch diretto via curl è bloccato da un
   errore IIS "999.0 AW Special Error" del sito). Riporta la tabella completa dei
-  dodici livelli con minimo, contingenza, indennità di funzione (solo 10 Q) e scatto
+  dodici livelli con minimo, contingenza, indennità di funzione (solo 10 Q) e scatto,
+  [kitech.it](https://www.kitech.it/Retribuzione-stipendio-ccnl.aspx?CodiceCateg=161)
   di anzianità.
-- Anteprima (parzialmente a pagamento) di ilCCNL.it sulla stessa tabella →
+- Anteprima (parzialmente a pagamento) di ilCCNL.it sulla stessa tabella,
+  [ilccnl.it](https://ilccnl.it/contratto/ccnl/poligrafici---giornali-e-quotidiani) →
   `poligrafici-g041-ilccnl-tabelle-preview-2026-09-22.md` (idem, via Firecrawl).
   Conferma i primi livelli e la decorrenza 1° aprile 2021; conferma anche il
   riferimento "CCNL del 19/12/2018 - Decorrenza 01/01/2019 - Scadenza 31/12/2020" per
