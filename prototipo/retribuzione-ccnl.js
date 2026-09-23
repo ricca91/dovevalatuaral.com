@@ -31,7 +31,7 @@
   else root.RETRIBUZIONE_CCNL=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
 
-  const VERSIONE_DATASET='2026-09-22';
+  const VERSIONE_DATASET='2026-09-23';
 
   /* Gli importi contrattuali sono in euro con due decimali, e le
      somme devono tornare al centesimo con il totale pubblicato.
@@ -513,6 +513,80 @@
         descrizione:'Valori ridotti dell’art. 152 c. 2. Non si applicano a cuoco, cameriere e barista al 5° livello, né a ostelli, bed and breakfast e affittacamere.',
         tabelle:tabelleTurismo(PAGA_TURISMO_MINORI)},
     ],
+  };
+
+
+  /* ------------------------------------------------------------
+     IMPRESE DI VIAGGI E TURISMO — FIAVET, Confcommercio, H04Z
+
+     Agenzie di viaggi e tour operator: non sono alberghi. Il
+     contratto nasce dallo stesso ceppo del Turismo 2010 e ne tiene
+     livelli, scatti e indennità dei Quadri, ma le tranche cadono in
+     altre date e gli importi intermedi non coincidono con H052.
+
+     L'art. 147 dell'accordo 26 luglio 2024 pubblica la paga base al
+     30 giugno 2024 e l'incremento di ogni tranche, non il totale: il
+     totale qui è la loro somma, al centesimo. Le tabelle Filcams
+     riportano su alcune tranche uno o due centesimi di differenza
+     (1° livello settembre 2026: 2.066,26 invece di 2.066,27); vale
+     il testo firmato.
+
+     Una sola tabella: le agenzie minori dell'art. 148 hanno valori
+     ridotti che il rinnovo 2024 non ripubblica, e le fonti secondarie
+     non concordano. Vedi ESCLUSIONI.
+     ------------------------------------------------------------ */
+  const DATE_AGENZIE=[['2024-07-01','prima'],['2025-09-01','seconda'],['2026-09-01','terza'],
+    ['2027-06-01','quarta'],['2027-12-01','quinta']];
+  /* [livello, paga base al 30.6.2024, incrementi per decorrenza] — art. 147 c. 2–3 */
+  const PAGA_AGENZIE=[
+    ['A' ,2210.16,[71.26,57.01,57.01,42.76,57.01]],
+    ['B' ,2046.20,[65.98,52.78,52.78,39.59,52.78]],
+    ['1' ,1906.44,[61.47,49.18,49.18,36.88,49.18]],
+    ['2' ,1742.47,[56.18,44.95,44.95,33.71,44.95]],
+    ['3' ,1643.37,[52.99,42.39,42.39,31.79,42.39]],
+    ['4' ,1550.69,[50.00,40.00,40.00,30.00,40.00]],
+    ['5' ,1454.28,[46.89,37.51,37.51,28.13,37.51]],
+    ['6S',1398.37,[45.09,36.07,36.07,27.05,36.07]],
+    ['6' ,1378.55,[44.45,35.56,35.56,26.67,35.56]],
+    ['7' ,1291.81,[41.65,33.32,33.32,24.99,33.32]],
+  ];
+  /* Art. 155 del CCNL 24 luglio 2019 e art. 140 per la funzione dei
+     Quadri: il rinnovo 2024 non li tocca. */
+  const SCATTI_AGENZIE={A:40.80,B:39.25,'1':37.70,'2':36.15,'3':34.86,'4':33.05,
+    '5':32.54,'6S':31.25,'6':30.99,'7':30.47};
+  const FUNZIONE_AGENZIE={A:75.00,B:70.00};
+  const pagaAgenzie=(base,incrementi,i)=>euro(cent(base)+
+    incrementi.slice(0,i+1).reduce((s,x)=>s+cent(x),0));
+
+  const AGENZIE={
+    id:'agenzie-viaggi-fiavet-h04z',
+    nome:'Turismo — agenzie di viaggi e tour operator',
+    parti:'FIAVET, Confcommercio',
+    codiceCnel:'H04Z',
+    mensilita:14,
+    oreSettimanali:40,
+    scatti:cifraFissa(3,6,'art. 155 — scatti di anzianità',{
+      base:'anzianità di servizio presso la stessa azienda o gruppo, maturata dopo il compimento dei 18 anni'}),
+    fonte:congela({titolo:'Accordo di rinnovo del CCNL Imprese di viaggi e turismo, 26 luglio 2024 — art. 147',
+      parte:'testo dell’accordo, linkato da Filcams CGIL, organizzazione sindacale firmataria',
+      url:'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/AgenzieViaggioTurismo_AccordoRinnovo_26.7.24.pdf',
+      archivio:'processo/dati/fonti/turismo-h04z-agenzie-viaggi-accordo-rinnovo-2024-07-26.pdf',
+      verificataIl:'2026-09-23'}),
+    fonteDisciplinaScatti:congela({titolo:'CCNL Imprese di viaggi e turismo, 24 luglio 2019 — artt. 106, 140, 155, 157–158',
+      parte:'testo firmato, pubblicato da Ebinter, ente bilaterale del settore',
+      url:'https://www.ebinter.it/ebinter-site/wp-content/uploads/2019/07/FIAVET-ccnl-firmato-24-luglio-2019.pdf',
+      archivio:'processo/dati/fonti/turismo-h04z-agenzie-viaggi-ccnl-2019-07-24-ebinter.pdf',
+      verificataIl:'2026-09-23'}),
+    tabelle:DATE_AGENZIE.map(([decorrenza,n],i)=>tabella(decorrenza,
+      `${n} tranche del rinnovo 26 luglio 2024`,PAGA_AGENZIE.map(([codice,base,incrementi])=>{
+        const paga=pagaAgenzie(base,incrementi,i);
+        return {codice,nome:NOMI_TURISMO[codice]||livelloOrdinale(codice),
+          voci:[voce('pagaBase','Paga base nazionale conglobata',paga),
+            ...(FUNZIONE_AGENZIE[codice]?[voce('indennitaFunzione','Indennità di funzione dei Quadri (art. 140)',
+              FUNZIONE_AGENZIE[codice])]:[])],
+          totalePubblicato:paga,vociTotalePubblicato:['pagaBase'],
+          scatto:SCATTI_AGENZIE[codice]};
+      }))),
   };
 
   /* ------------------------------------------------------------
@@ -1070,7 +1144,7 @@
     ],
   };
 
-  const CONTRATTI_GRUPPO_1=[FIPE,TURISMO,LOGISTICA,MULTISERVIZI,STUDI,COOPERATIVE_SOCIALI,
+  const CONTRATTI_GRUPPO_1=[FIPE,TURISMO,AGENZIE,LOGISTICA,MULTISERVIZI,STUDI,COOPERATIVE_SOCIALI,
     DMO,CONFAPI,GRAFICI_EDITORI,POLIGRAFICI,VETRO];
 
   const ESCLUSIONI_GRUPPO_1={
@@ -1088,6 +1162,14 @@
       'Terzi elementi e quote provinciali, contrattazione integrativa.',
       'Personale discontinuo o con orario normale di 44–45 ore, lavoratori extra e di surroga, apprendisti.',
       'Norme transitorie sugli scatti (artt. 226 e 276).',
+    ],
+    'agenzie-viaggi-fiavet-h04z':[
+      'Agenzie minori (art. 148): chi vende direttamente al pubblico senza altre agenzie ha una paga base ridotta di 10,85–17,04 € secondo il livello. Il rinnovo 2024 non ripubblica quei valori e le tabelle secondarie non concordano: il calcolo usa la tabella generale, che per loro è un po’ più alta.',
+      'Scatti: contano solo gli anni dopo il compimento dei 18 anni (art. 155). Il calcolatore non conosce la tua età: se sei stato assunto prima, indica il numero di scatti.',
+      'Indennità di funzione dei Quadri calcolata su 14 mensilità: gli artt. 157–158 non la elencano fra le voci di 13ª e 14ª, quindi è un’assunzione. È assorbibile da trattamenti individuali, e con il superminimo l’assorbimento non è simulato.',
+      'Contrattazione integrativa regionale e aziendale, elemento economico di garanzia.',
+      'Elemento distinto di 16 € per 14 mensilità dovuto solo se l’azienda non versa la sanità integrativa.',
+      'Personale discontinuo a 45 ore, lavoratori extra, apprendisti.',
     ],
     'studi-professionali-confprofessioni-h442':[
       'Elemento nazionale di allineamento contrattuale (42,35 / 102,53 / 110,40 € per 1°, 2° e 3° super): spetta solo a chi era inquadrato nel CCNL Confedertecnica e assunto prima del 1° luglio 2004.',

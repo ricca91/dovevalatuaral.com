@@ -17,16 +17,16 @@ const testo=html=>html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
 const uno=(html,re,label)=>{const m=[...html.matchAll(re)];assert.equal(m.length,1,label);return m[0][1];};
 
 test('le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset',()=>{
-  assert.equal(ROTTE.length,47);
+  assert.equal(ROTTE.length,48);
   assert.equal(new Set(ROTTE).size,ROTTE.length);
   const perContratto=Object.fromEntries(CONTRATTI_SEO.map(c=>[c.slug,ROTTE.filter(r=>r.startsWith(`/minimi-ccnl/${c.slug}/`)&&r!==`/minimi-ccnl/${c.slug}/`).length]));
-  assert.deepEqual(perContratto,{commercio:4,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,logistica:0,
+  assert.deepEqual(perContratto,{commercio:4,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:0,
     multiservizi:4,'studi-professionali':4,'cooperative-sociali':8,dmo:0,'metalmeccanico-confapi':0,
     'grafici-editoriali':0,poligrafici:0,vetro:0});
   for(const rotta of ['/minimi-ccnl/','/minimi-ccnl/commercio/5-livello/','/minimi-ccnl/metalmeccanico/livello-c3/',
     '/minimi-ccnl/cooperative-sociali/livello-d2/','/minimi-ccnl/studi-professionali/4s-livello/'])
     assert.ok(ROTTE.includes(rotta),rotta);
-  /* Tabelle per tutti e tredici i contratti del dataset. */
+  /* Tabelle per tutti e quattordici i contratti del dataset. */
   assert.deepEqual(new Set(CONTRATTI_SEO.map(c=>c.id)),new Set(R.CONTRATTI.map(c=>c.id)));
   for(const rotta of ROTTE)assert.doesNotMatch(rotta,/stipendio/);
 });
@@ -135,6 +135,14 @@ test('«Turismo» a un livello mostra anche il contratto dei pubblici esercizi',
   assert.ok(t.includes('Lavori in un bar, un ristorante o una mensa?'));
   assert.ok(t.includes(eur(fipe.baseMensile)));
   assert.ok(t.includes('1.590,27 €'));
+});
+
+test('«Turismo» nell’hub porta anche alle agenzie di viaggio',()=>{
+  const hub=leggi('/minimi-ccnl/');
+  assert.ok(testo(hub).includes('«Turismo» sono tre contratti'));
+  assert.match(hub,/href="\.\.\/minimi-ccnl\/agenzie-di-viaggio\/"/);
+  /* 1° livello da settembre 2026: 2.066,27 €, art. 147. */
+  assert.ok(testo(leggi('/minimi-ccnl/agenzie-di-viaggio/')).includes('2.066,27 €'));
 });
 
 test('fonti non firmatarie e contratti scaduti lo dichiarano in pagina',()=>{

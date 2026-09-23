@@ -42,6 +42,11 @@ const CONTRATTI_SEO=Object.freeze([
        il FIPE si chiama «Pubblici esercizi… e turismo». La pagina per
        livello mostra i due contratti affiancati invece di sceglierne uno. */
     affianca:{id:'pubblici-esercizi-fipe-h05y',sezione:'generale'}},
+  /* Agenzie di viaggi e tour operator hanno un contratto proprio,
+     non quello degli alberghi. Solo la tabella: la domanda per livello
+     non è misurata. */
+  {id:'agenzie-viaggi-fiavet-h04z',slug:'agenzie-di-viaggio',breve:'Agenzie di viaggio',
+    titoloTabella:'CCNL Agenzie di viaggio e tour operator'},
   {id:'logistica-trasporto-merci-i100',slug:'logistica',breve:'Logistica',
     titoloTabella:'CCNL Logistica e trasporto merci'},
   {id:'multiservizi-pulizia-k511',slug:'multiservizi',breve:'Multiservizi',query:'CCNL Multiservizi',

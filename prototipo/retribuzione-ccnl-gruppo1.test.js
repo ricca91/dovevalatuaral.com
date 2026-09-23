@@ -13,6 +13,7 @@ const OGGI='2026-09-22';
 
 const FIPE='pubblici-esercizi-fipe-h05y';
 const TURISMO='turismo-federalberghi-h052';
+const AGENZIE='agenzie-viaggi-fiavet-h04z';
 const STUDI='studi-professionali-confprofessioni-h442';
 const MULTI='multiservizi-pulizia-k511';
 const DMO='distribuzione-moderna-federdistribuzione-h008';
@@ -190,6 +191,67 @@ test.describe('Turismo — Federalberghi, H052',()=>{
     const testo=R.ESCLUSIONI[TURISMO].join(' ');
     assert.match(testo,/18 anni/);
     assert.match(testo,/artt\. 160–161/);
+  });
+});
+
+test.describe('Imprese di viaggi e turismo — FIAVET Confcommercio, H04Z',()=>{
+
+  /* Art. 147 dell'accordo 26 luglio 2024: paga base al 30 giugno 2024
+     più gli incrementi di ogni tranche. 1° livello: 1.906,44 + 61,47
+     = 1.967,91 (luglio 2024); + 49,18 = 2.017,09 (settembre 2025);
+     + 49,18 = 2.066,27 (settembre 2026). */
+  test('dieci livelli, nessuna sezione, paga base conglobata dell’art. 147',()=>{
+    assert.deepEqual(R.sezioni(AGENZIE),[]);
+    assert.deepEqual(R.livelli(AGENZIE,OGGI).map(l=>l.codice),
+      ['A','B','1','2','3','4','5','6S','6','7']);
+    assert.equal(R.trovaLivello(AGENZIE,'1','2026-08-31').totale,2017.09);
+    assert.equal(R.trovaLivello(AGENZIE,'1',OGGI).totale,2066.27);
+    assert.equal(R.trovaLivello(AGENZIE,'4',OGGI).totale,1680.69);
+    assert.equal(R.trovaLivello(AGENZIE,'7',OGGI).totale,1400.10);
+    /* Quadro A: 2.395,44 + indennità art. 140 di 75,00 = 2.470,44. */
+    const quadro=R.trovaLivello(AGENZIE,'A',OGGI);
+    assert.deepEqual(voci(quadro),[['pagaBase',2395.44],['indennitaFunzione',75]]);
+    assert.equal(quadro.totale,2470.44);
+    assert.equal(R.trovaLivello(AGENZIE,'B',OGGI).voci[1].importo,70);
+  });
+
+  test('cinque tranche firmate, da luglio 2024 a dicembre 2027',()=>{
+    provaDecorrenze(AGENZIE,null,['2024-07-01','2025-09-01','2026-09-01','2027-06-01','2027-12-01']);
+    /* 1° livello a dicembre 2027: 2.066,27 + 36,88 + 49,18 = 2.152,33. */
+    assert.equal(R.trovaLivello(AGENZIE,'1','2027-12-01').totale,2152.33);
+  });
+
+  test('non è il contratto degli alberghi: stesso livello, altra paga',()=>{
+    assert.notEqual(R.trovaLivello(AGENZIE,'1','2026-08-31').totale,
+      R.trovaLivello(TURISMO,'1','2026-08-31','generale').totale);
+  });
+
+  test('scatti triennali, sei, anche nella quattordicesima',()=>{
+    provaScattiFissi({ccnl:AGENZIE,livello:'4',cadenza:3,massimo:6,importo:33.05,mensilita:14});
+    assert.match(R.regolaScatti(AGENZIE).base,/18 anni/);
+  });
+
+  /* 1° livello, tre scatti: (2.066,27 + 113,10) × 14 = 30.511,18.
+     A 20 ore: 1.033,135 → 1.033,14; scatti 56,55;
+     (1.033,14 + 56,55) × 14 = 15.255,66. */
+  test('tempo pieno e part-time',()=>{
+    const pieno=R.componiRal({ccnl:AGENZIE,livello:'1',scatti:3,alla:OGGI});
+    assert.equal(pieno.ral,30511.18);
+    assert.equal(pieno.identitaSemplice,true);
+    assert.equal(R.componiRal({ccnl:AGENZIE,livello:'1',alla:OGGI}).ral,28927.78);
+    const ridotto=R.componiRal({ccnl:AGENZIE,livello:'1',scatti:3,oreSettimanali:20,alla:OGGI});
+    assert.equal(ridotto.baseMensile,1033.14);
+    assert.equal(ridotto.scattiMensili,56.55);
+    assert.equal(ridotto.ral,15255.66);
+    nettoRiconcilia(pieno);nettoRiconcilia(ridotto);
+  });
+
+  test('le esclusioni dicono le agenzie minori, l’età per gli scatti e la funzione',()=>{
+    const testo=R.ESCLUSIONI[AGENZIE].join(' ');
+    assert.match(testo,/agenzie minori/i);
+    assert.match(testo,/art\. 148/);
+    assert.match(testo,/18 anni/);
+    assert.match(testo,/artt\. 157–158/);
   });
 });
 
@@ -679,8 +741,8 @@ test.describe('Vetro, lampade e display — B132',()=>{
 });
 
 test.describe('il gruppo 1 nel suo insieme',()=>{
-  test('tredici codici CNEL distinti, undici nuovi',()=>{
+  test('quattordici codici CNEL distinti, dodici nuovi',()=>{
     assert.deepEqual(R.CONTRATTI.map(c=>c.codiceCnel),
-      ['H011','C011','H05Y','H052','I100','K511','H442','T151','H008','C018','G011','G041','B132']);
+      ['H011','C011','H05Y','H052','H04Z','I100','K511','H442','T151','H008','C018','G011','G041','B132']);
   });
 });

@@ -7,12 +7,13 @@ const MENSILITA_AMMESSE=[12,13,14,15,16];
 
 test.describe('catalogo CCNL',()=>{
   test('identifica precisamente i contratti e le loro fonti',()=>{
-    assert.equal(VERSIONE_CATALOGO,'2026-09-22');
+    assert.equal(VERSIONE_CATALOGO,'2026-09-23');
     assert.deepEqual(CCNL.map(({id,codiceCnel,mensilita})=>({id,codiceCnel,mensilita})),[
       {id:'terziario-confcommercio-h011',codiceCnel:'H011',mensilita:14},
       {id:'metalmeccanica-industria-c011',codiceCnel:'C011',mensilita:13},
       {id:'pubblici-esercizi-fipe-h05y',codiceCnel:'H05Y',mensilita:14},
       {id:'turismo-federalberghi-h052',codiceCnel:'H052',mensilita:14},
+      {id:'agenzie-viaggi-fiavet-h04z',codiceCnel:'H04Z',mensilita:14},
       {id:'logistica-trasporto-merci-i100',codiceCnel:'I100',mensilita:14},
       {id:'multiservizi-pulizia-k511',codiceCnel:'K511',mensilita:14},
       {id:'studi-professionali-confprofessioni-h442',codiceCnel:'H442',mensilita:14},
@@ -34,12 +35,12 @@ test.describe('catalogo CCNL',()=>{
   });
 
   /* Il catalogo delle mensilità e il dataset retributivo parlano degli
-     stessi contratti con gli stessi ID e codici CNEL: tredici CCNL
-     privati, tredici codici distinti. Funzioni Centrali resta solo qui. */
+     stessi contratti con gli stessi ID e codici CNEL: quattordici CCNL
+     privati, quattordici codici distinti. Funzioni Centrali resta solo qui. */
   test('ogni contratto del dataset retributivo è nel catalogo con lo stesso codice',()=>{
     const R=require('./retribuzione-ccnl.js');
-    assert.equal(R.CONTRATTI.length,13);
-    assert.equal(new Set(R.CONTRATTI.map(c=>c.codiceCnel)).size,13);
+    assert.equal(R.CONTRATTI.length,14);
+    assert.equal(new Set(R.CONTRATTI.map(c=>c.codiceCnel)).size,14);
     for(const contratto of R.CONTRATTI){
       const voce=trovaCcnl(contratto.id);
       assert.ok(voce,contratto.id);
@@ -67,6 +68,7 @@ test.describe('catalogo CCNL',()=>{
 
   test('ogni nuovo contratto propone le sue mensilità',()=>{
     for(const [id,mensilita] of [['pubblici-esercizi-fipe-h05y',14],['turismo-federalberghi-h052',14],
+      ['agenzie-viaggi-fiavet-h04z',14],
       ['logistica-trasporto-merci-i100',14],['multiservizi-pulizia-k511',14],
       ['studi-professionali-confprofessioni-h442',14],['distribuzione-moderna-federdistribuzione-h008',14],
       ['metalmeccanica-pmi-confapi-c018',13],['grafici-editori-g011',13],

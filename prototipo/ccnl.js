@@ -5,7 +5,7 @@
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CCNL_CATALOGO=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
-  const VERSIONE_CATALOGO='2026-09-22';
+  const VERSIONE_CATALOGO='2026-09-23';
   const congela=contratto=>Object.freeze({...contratto,fonte:Object.freeze(contratto.fonte)});
   const CCNL=Object.freeze([
     congela({
@@ -58,6 +58,18 @@
       fonte:{
         titolo:'Accordo di rinnovo del CCNL Turismo, 5 luglio 2024',
         url:'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/AlberghiFederalberghi_AccordoRinnovo_5.7.24.pdf',
+      },
+    }),
+    congela({
+      id:'agenzie-viaggi-fiavet-h04z',
+      nome:'Turismo — agenzie di viaggi e tour operator',
+      parti:'FIAVET, Confcommercio',
+      codiceCnel:'H04Z',
+      mensilita:14,
+      dataRiferimento:'2024-07-26',
+      fonte:{
+        titolo:'Accordo di rinnovo del CCNL Imprese di viaggi e turismo, 26 luglio 2024',
+        url:'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/AgenzieViaggioTurismo_AccordoRinnovo_26.7.24.pdf',
       },
     }),
     congela({

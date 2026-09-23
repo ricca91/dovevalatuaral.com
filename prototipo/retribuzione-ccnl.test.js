@@ -112,7 +112,7 @@ test.describe('dataset retributivo — le tabelle come le pubblica il contratto'
         assert.match(tabella.decorrenza,/^\d{4}-\d{2}-\d{2}$/,`${contratto.id} ${sezione}`);
         assert.ok(tabella.titolo,`${contratto.id} ${sezione}`);
       }
-    assert.equal(R.VERSIONE_DATASET,'2026-09-22');
+    assert.equal(R.VERSIONE_DATASET,'2026-09-23');
   });
 
   test('mensilità e orario contrattuale restano allineati al catalogo CCNL',()=>{

@@ -116,14 +116,14 @@ function renderHub({contratti,alla}){
     <h2 id="omonimi-titolo">Due nomi che si confondono</h2>
     <div class="ccnl-omonimi__grid">
       <article><h3>«Commercio» sono due contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/commercio/')}">CCNL Terziario Confcommercio</a> (H011) e il <a href="${verso(rotta,'/minimi-ccnl/dmo/')}">CCNL Distribuzione moderna organizzata</a> (H008), applicato da molte catene della grande distribuzione. Hanno gli stessi livelli, importi vicini ma non identici: controlla quale è scritto nella tua lettera di assunzione.</p></article>
-      <article><h3>«Turismo» sono due contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/turismo/')}">CCNL Turismo Federalberghi</a> (H052) vale per alberghi e campeggi; bar, ristoranti e mense applicano il <a href="${verso(rotta,'/minimi-ccnl/pubblici-esercizi/')}">CCNL Pubblici esercizi FIPE</a> (H05Y), che nel nome dice anche «turismo».</p></article>
+      <article><h3>«Turismo» sono tre contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/turismo/')}">CCNL Turismo Federalberghi</a> (H052) vale per alberghi e campeggi; bar, ristoranti e mense applicano il <a href="${verso(rotta,'/minimi-ccnl/pubblici-esercizi/')}">CCNL Pubblici esercizi FIPE</a> (H05Y), che nel nome dice anche «turismo»; agenzie di viaggi e tour operator hanno il <a href="${verso(rotta,'/minimi-ccnl/agenzie-di-viaggio/')}">CCNL Imprese di viaggi e turismo FIAVET</a> (H04Z), con importi e decorrenze diversi da quelli degli alberghi.</p></article>
     </div>
   </section>
   <section class="hub-grid" aria-label="Elenco dei contratti">${contratti.map(card).join('\n      ')}</section>
   <aside class="personalize"><a class="btn btn--primary btn--lg" href="${calcolatore(rotta,{ccnl:contratti[0].contratto.id})}">Calcola il tuo livello →</a><p>Aggiungi anzianità, superminimo e orario ridotto nel calcolatore CCNL e livello.</p></aside>
   <p class="ral-disclaimer">${PROFILO} Tabelle in vigore al ${data(alla)}. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,title:'Minimi CCNL 2026: tabelle retributive, lordo e netto per livello',
-    description:'Tabelle retributive 2026 di tredici CCNL, dal Commercio al Metalmeccanico: minimo lordo mensile, RAL e netto stimato per ogni livello, con fonti e decorrenze.',
+    description:'Tabelle retributive 2026 di quattordici CCNL, dal Commercio al Metalmeccanico: minimo lordo mensile, RAL e netto stimato per ogni livello, con fonti e decorrenze.',
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta}],body});
 }
 
