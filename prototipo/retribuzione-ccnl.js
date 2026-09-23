@@ -1050,6 +1050,11 @@
       'https://www.lavorofacile.it/rinnovi-ccnl/rinnovato-il-ccnl-vetro-industria',
       'processo/dati/fonti/vetro-b132-lavorofacile-tabelle-2026-2028-2026-09-22.md'),
     notaFonte:'Le tabelle 2026–2028 vengono da fonti secondarie: l’accordo firmato il 9 aprile 2026 non le contiene e la diffusione ufficiale è in una banca dati a pagamento. Sono coerenti con gli aumenti annunciati dalle parti e con la base 2023–2025 firmata.',
+    /* L'art. 34 deduce dal minimo i 137 punti di contingenza conglobati
+       nel 1977: l'allegato 8 li dà in lire, per le categorie di prima del
+       2001, per età e dimensione d'azienda. Nessuna fonte li porta sui
+       livelli attuali, quindi il premio non si stima (RIC-77). */
+    quoteAnnueMancanti:[{id:'premioSpeciale',nome:'premio speciale di giugno',fonte:'art. 34'}],
     sezioni:[
       {id:'meccanizzati',nome:'Settori meccanizzati — prime lavorazioni',
         descrizione:'Categorie da A a F con posizioni organizzative; le posizioni 2 e 3 hanno l’indennità di posizione organizzativa.',
@@ -1143,7 +1148,7 @@
       'Maggiorazioni di turno, notturno e domenicale; welfare contrattuale e Fondo Casella.',
     ],
     'vetro-lampade-display-b132':[
-      'Premio speciale di giugno (art. 34): 100 ore di retribuzione l’anno, calcolate sul minimo tabellare al netto dei 137 punti di contingenza conglobati nel 1977, più IPO e scatti. Quell’importo non è pubblicato per i livelli attuali, quindi il premio non è nella RAL, che risulta più bassa di quella effettiva.',
+      'Premio speciale di giugno (art. 34): 100 ore di retribuzione l’anno, calcolate sul minimo tabellare al netto dei 137 punti di contingenza conglobati nel 1977, più IPO e scatti. La tabella di quei 137 punti è in lire e per le categorie precedenti al 2001: nessuna fonte la riporta sui livelli attuali, quindi il premio non è nella cifra annua, che è più bassa della retribuzione contrattuale effettiva.',
       'EDR nel settore lampade e display: la tabella firmata 2023–2025 non lo riportava, le tabelle secondarie 2026 sì. Il calcolo lo include.',
       'Superminimo contrattuale del 1° livello nel soffio: 5,28 € nelle tabelle secondarie 2026, 5,16 € nel testo 2002 e nella tabella 2023–2025.',
       'Scatti: importi della banca dati Lavoro & Economia, non verificati su un testo firmato.',
@@ -1260,7 +1265,8 @@
     function normalizzaContratto(c){
       const base={...c,
         mensilita:normalizzaMensilita(c.mensilita),
-        scatti:normalizzaScatti(c.scatti)};
+        scatti:normalizzaScatti(c.scatti),
+        quoteAnnueMancanti:congela((c.quoteAnnueMancanti||[]).map(q=>congela({...q})))};
       delete base.sezioni;delete base.tabelle;
       if(!c.sezioni)
         return congela({...base,tabelle:normalizzaTabelle(c.tabelle)});
@@ -1282,6 +1288,19 @@
     /* --- LOOKUP ------------------------------------------------ */
 
     const trovaContratto=id=>id?perId.get(id)||null:null;
+
+    /* Una quota annua che il contratto prevede ma che nessuna fonte
+       quantifica rende la cifra annua parziale: allora non si chiama
+       RAL, né nelle pagine né nel calcolatore. Una sola definizione per
+       tutti, decisa dal dato e non dal nome del contratto (RIC-77). */
+    const ralCompleta=id=>!contrattoNoto(id).quoteAnnueMancanti.length;
+    const etichettaAnnua=id=>ralCompleta(id)?'RAL':'Base tabellare annualizzata';
+    function avvisoRalParziale(id){
+      if(ralCompleta(id))return null;
+      const c=contrattoNoto(id);
+      const mancanti=c.quoteAnnueMancanti.map(q=>`il ${q.nome} previsto dall’${q.fonte}`).join(' e ');
+      return `Base tabellare annualizzata: lordo mensile di tabella × mensilità. Non è la RAL contrattuale completa: manca ${mancanti}, non ancora quantificato da una fonte primaria per i livelli attuali. Anche il netto mostrato è quindi sottostimato.`;
+    }
 
     function contrattoNoto(id){
       const contratto=trovaContratto(id);
@@ -1510,6 +1529,8 @@
         quote:congela(quote.map(q=>congela({id:q.id,nome:q.nome,mensile:euro(q.mensileCent),
           mensilita:q.mensilita,annuo:euro(q.annuoCent)}))),
         identitaSemplice:quote.every(q=>q.mensilita===M),
+        ralCompleta:!contratto.quoteAnnueMancanti.length,
+        quoteAnnueMancanti:contratto.quoteAnnueMancanti,
         esclusioni:congela([...(ESCLUSIONI[contratto.id]||[]),
           ...((P.sezione&&P.sezione.esclusioni)||[])]),
       });
@@ -1540,7 +1561,7 @@
 
     return congela({VERSIONE_DATASET:versione,CONTRATTI,ESCLUSIONI,FONTE_RIPROPORZIONE,
       trovaContratto,sezioni,tabellaVigente,prossimaTabella,livelli,trovaLivello,
-      oreContrattuali,regolaScatti,mensilitaAlla,
+      oreContrattuali,regolaScatti,mensilitaAlla,ralCompleta,etichettaAnnua,avvisoRalParziale,
       scattiMaturati,riproporziona,componiRal,riconciliaLivello});
   }
 
