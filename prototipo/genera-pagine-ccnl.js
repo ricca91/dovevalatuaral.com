@@ -119,6 +119,9 @@ function datiContratto(c,alla){
    tre orari ridotti e la tranche successiva. */
 function datiLivello(c,codice,alla){
   const contratto=R.trovaContratto(c.id);
+  /* La pagina per livello chiama RAL la cifra annua in titolo, KPI e
+     scomposizione: dove una quota annua manca non la si genera (RIC-77). */
+  if(!R.ralCompleta(c.id))throw new RangeError(`${c.id}: cifra annua parziale, niente pagina per livello`);
   const sezioni=profili(c.id).filter(p=>!c.sezioneLivelli||p.sezione===c.sezioneLivelli)
     .filter(p=>R.trovaLivello(c.id,codice,alla,p.sezione));
   if(!sezioni.length)throw new RangeError(`Livello ${codice} assente in ${c.id} al ${alla}`);

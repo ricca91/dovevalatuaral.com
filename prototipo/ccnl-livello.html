@@ -122,10 +122,11 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
     <h2 id="risultato-titolo" tabindex="-1">La retribuzione contrattuale</h2><div class="result__box">
       <p id="frase-risultato"></p><strong class="result__ral" id="ral-risultato"></strong>
       <div class="result__meta">
-        <span>Netto annuo stimato<b id="netto-risultato"></b></span>
-        <span>Netto medio mensile<b id="media-risultato"></b></span>
+        <span><span id="netto-etichetta">Netto annuo stimato</span><b id="netto-risultato"></b></span>
+        <span><span id="media-etichetta">Netto medio mensile</span><b id="media-risultato"></b></span>
         <span>Mensilità<b id="mensilita-risultato"></b></span>
       </div>
+      <div id="avviso-parziale"></div>
       <table class="scomposizione" id="scomposizione">
         <caption id="scomposizione-caption"></caption>
         <thead><tr><th scope="col">Voce</th><th scope="col">Importo mensile</th></tr></thead>
@@ -349,8 +350,18 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       `${contratto.nome}${nomeSezione?` (${nomeSezione})`:''}, ${livello.nome}`+
       `${profilo?`, ${profilo.nome}`:''}`+
       `${composta.partTime?`, ${composta.oreSettimanali} ore settimanali`:', tempo pieno'}: `+
-      `la retribuzione contrattuale annua lorda è`;
+      (composta.ralCompleta?`la retribuzione contrattuale annua lorda è`
+        :`la ${R.etichettaAnnua(contratto.id).toLowerCase()}, senza le quote annue non quantificate, è`);
     campo('ral-risultato').textContent=euro(composta.ral);
+    /* RIC-77: dove il contratto prevede una quota annua che nessuna
+       fonte quantifica, la cifra non si chiama RAL e il netto è
+       dichiarato per quello che è, calcolato su una base parziale. */
+    const suBase=composta.ralCompleta?'':' sulla base parziale';
+    campo('netto-etichetta').textContent=`Netto annuo stimato${suBase}`;
+    campo('media-etichetta').textContent=`Netto medio mensile${suBase}`;
+    campo('avviso-parziale').innerHTML=composta.ralCompleta?'':
+      `<div class="callout callout--warn"><span class="callout__mark">Parziale</span><div>${R.avvisoRalParziale(contratto.id)}</div></div>`;
+    const annua=composta.ralCompleta?'Retribuzione annua lorda':R.etichettaAnnua(contratto.id);
     campo('netto-risultato').textContent=euro(risultato.kpi.nettoAnnuo);
     campo('media-risultato').textContent=euro(risultato.kpi.mediaMensile);
     campo('mensilita-risultato').textContent=mensilitaTesto(composta.mensilita);
@@ -380,13 +391,13 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
          entrano tutte nelle stesse mensilità, la moltiplicazione unica
          sarebbe falsa: le quote stanno nella tabella qui sotto. */
       ...(composta.identitaSemplice
-        ?[riga(`Retribuzione annua lorda — × ${mensilitaTesto(composta.mensilita)} mensilità`,composta.ral,'somma')]:[]),
+        ?[riga(`${annua} — × ${mensilitaTesto(composta.mensilita)} mensilità`,composta.ral,'somma')]:[]),
     ].join('');
     campo('annualizzazione').hidden=composta.identitaSemplice;
     campo('annualizzazione-corpo').innerHTML=composta.identitaSemplice?'':[
       ...composta.quote.filter(q=>q.annuo!==0).map(q=>
         riga(`${q.nome} — ${euro(q.mensile)} × ${mensilitaTesto(q.mensilita)}`,q.annuo)),
-      riga('Retribuzione annua lorda',composta.ral,'somma'),
+      riga(annua,composta.ral,'somma'),
     ].join('');
     campo('scomposizione-caption').textContent=
       `Come si compone il lordo mensile — tabella in vigore dal ${data(composta.decorrenza)}`;
@@ -426,6 +437,8 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
       (composta.partTime?` Riproporzione a norma di ${R.FONTE_RIPROPORZIONE.titolo}.`:'');
     campo('nota-affidabilita').textContent=contratto.notaFonte||'';
 
+    campo('cta-calcolatore').textContent=composta.ralCompleta
+      ?'Apri il calcolatore completo':'Apri il calcolatore completo con questa base parziale';
     campo('cta-calcolatore').href=
       `index.html?ral=${composta.ral}&m=${composta.mensilita}&c=${COMUNE}&calc=1`;
     status.textContent='Calcolo completato.';

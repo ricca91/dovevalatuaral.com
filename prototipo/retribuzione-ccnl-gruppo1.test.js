@@ -672,13 +672,37 @@ test.describe('Vetro, lampade e display — B132',()=>{
     nettoRiconcilia(ridotto);
   });
 
-  test('il premio speciale è dichiarato come lacuna, non stimato',()=>{
+  /* RIC-77. L'art. 34 paga 100 ore l'anno su una base che deduce i 137
+     punti di contingenza del 1977: la tabella allegata è in lire e per
+     le categorie precedenti al 2001, e nessuna fonte la porta sui
+     livelli attuali. Finché manca, la cifra annua non si chiama RAL. */
+  test('il premio speciale manca, e la cifra annua lo dice invece di chiamarsi RAL',()=>{
+    for(const sezione of R.sezioni(VETRO).map(s=>s.id)){
+      const livello=R.livelli(VETRO,OGGI,sezione)[0].codice;
+      const composta=R.componiRal({ccnl:VETRO,sezione,livello,alla:OGGI});
+      assert.equal(composta.ralCompleta,false,sezione);
+      assert.deepEqual(composta.quoteAnnueMancanti.map(q=>[q.id,q.fonte]),[['premioSpeciale','art. 34']],sezione);
+    }
+    assert.equal(R.etichettaAnnua(VETRO),'Base tabellare annualizzata');
+    assert.match(R.avvisoRalParziale(VETRO),/Non è la RAL contrattuale completa: manca il premio speciale di giugno previsto dall’art\. 34/);
+    assert.match(R.avvisoRalParziale(VETRO),/netto mostrato è quindi sottostimato/);
     assert.match(R.ESCLUSIONI[VETRO][0],/Premio speciale/);
-    assert.match(R.ESCLUSIONI[VETRO][0],/non è nella RAL/);
+    assert.doesNotMatch(R.ESCLUSIONI[VETRO][0],/RAL/);
+    /* La cifra resta quella della tabella: 2.245,46 × 13 = 29.190,98,
+       senza premio stimato dentro. */
+    assert.equal(R.componiRal({ccnl:VETRO,sezione:'trasformazione',livello:'5',alla:OGGI}).ral,29190.98);
   });
 });
 
 test.describe('il gruppo 1 nel suo insieme',()=>{
+  test('solo il Vetro ha una quota annua mancante: gli altri danno la RAL',()=>{
+    const parziali=R.CONTRATTI.filter(c=>!R.componiRal({ccnl:c.id,
+      sezione:R.sezioni(c.id)[0]?.id,livello:R.livelli(c.id,OGGI,R.sezioni(c.id)[0]?.id)[0].codice,alla:OGGI}).ralCompleta);
+    assert.deepEqual(parziali.map(c=>c.id),[VETRO]);
+    assert.equal(R.etichettaAnnua(FIPE),'RAL');
+    assert.equal(R.avvisoRalParziale(FIPE),null);
+  });
+
   test('tredici codici CNEL distinti, undici nuovi',()=>{
     assert.deepEqual(R.CONTRATTI.map(c=>c.codiceCnel),
       ['H011','C011','H05Y','H052','I100','K511','H442','T151','H008','C018','G011','G041','B132']);

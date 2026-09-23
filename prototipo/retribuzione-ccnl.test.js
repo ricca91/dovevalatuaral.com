@@ -483,6 +483,13 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
     assert.match(pagina,/type="submit">Calcola la RAL e il netto/);
   });
 
+  test('dove manca una quota annua la cifra non si chiama RAL (RIC-77)',()=>{
+    assert.match(pagina,/composta\.ralCompleta/);
+    assert.match(pagina,/R\.etichettaAnnua\(contratto\.id\)/);
+    assert.match(pagina,/R\.avvisoRalParziale\(contratto\.id\)/);
+    assert.match(pagina,/<div id="avviso-parziale"><\/div>/);
+  });
+
   test('il selettore viene dal dataset: nessun contratto scritto a mano',()=>{
     assert.match(pagina,/<select class="input" id="ccnl" name="ccnl" aria-describedby="ccnl-help"><\/select>/);
     assert.match(pagina,/for\(const contratto of R\.CONTRATTI\)/);

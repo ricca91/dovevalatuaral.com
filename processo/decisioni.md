@@ -270,7 +270,7 @@ degli impiegati Multiservizi valgono la tabella del giorno in cui maturano: prim
 2021 le fonti non pubblicano quel valore, e con una data che li comprende il calcolo si ferma.
 Gli scatti di Q e AS dei Grafici non sono pubblicati: il livello si sceglie, gli scatti no. Il
 premio speciale del Vetro ha una base che nessuna fonte pubblica per i livelli attuali: è
-fuori dalla RAL e scritto a schermo.
+fuori dalla cifra annua, che per questo non si chiama RAL (vedi RIC-77 sotto).
 
 **Il refuso della fonte si registra con il suo importo, non si corregge in silenzio.** La
 riconciliazione ha trovato quattordici totali stampati che non tornano con le voci accanto: il
@@ -354,6 +354,23 @@ momento**. Due cose sono cambiate alla consegna, e vale la pena saperlo prima di
 
 Niente di quello che serve per valutare il lavoro sta in quei link: sta in questa cartella e in
 `prototipo/`.
+
+## Una cifra annua a cui manca una quota non si chiama RAL (RIC-77)
+
+Il premio speciale di giugno del Vetro (art. 34) vale 100 ore di una retribuzione che deduce
+dal minimo i 137 punti di contingenza conglobati nel 1977. L'allegato 8 del testo consolidato
+li dà in lire, per le categorie di prima del 2001, per età e dimensione d'azienda: nessuna fonte
+li porta sui livelli attuali. Stimarli sarebbe inventare, quindi il premio resta fuori; ma
+allora la cifra annua non è la RAL, e chiamarla così la rende confrontabile con quella degli
+altri contratti quando non lo è.
+
+La regola sta nel dato: un contratto può dichiarare `quoteAnnueMancanti`, e da lì
+`componiRal()` restituisce `ralCompleta:false`. Tabella, hub e calcolatore la chiamano «base
+tabellare annualizzata», dichiarano il netto «sulla base parziale» e mostrano lo stesso avviso,
+scritto una volta sola in `avvisoRalParziale()`. Le pagine per livello chiamano RAL la cifra in
+titolo e scomposizione: per un contratto parziale il generatore si ferma invece di produrle.
+Il giorno in cui una fonte firmata quantifica il premio, diventa una quota con la sua base, e
+la lista si svuota.
 
 ## Dove finisce il registro
 
