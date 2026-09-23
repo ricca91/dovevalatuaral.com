@@ -1,5 +1,6 @@
 const {eur}=require('./motore.js');
 const {ORIGIN}=require('./ral-page.template.js');
+const R=require('./retribuzione-ccnl.js');
 
 /* ------------------------------------------------------------
    Template delle pagine dei minimi CCNL: hub, tabella per
@@ -91,6 +92,14 @@ function avvisoFonte(contratto){
     ?`<div class="callout callout--warn"><span class="callout__mark">Fonte</span><div>${esc(contratto.notaFonte)}</div></div>`:'';
 }
 
+/* RIC-77: dove il contratto prevede una quota annua che nessuna fonte
+   quantifica, la cifra annua è una base parziale e il netto pure. */
+function avvisoParziale(contratto){
+  const avviso=R.avvisoRalParziale(contratto.id);
+  return avviso?`<div class="callout callout--warn"><span class="callout__mark">Parziale</span><div>${esc(avviso)}</div></div>`:'';
+}
+const nettoMese=id=>R.ralCompleta(id)?'Netto medio al mese':'Netto medio al mese sulla base parziale';
+
 function esclusioni(voci){
   return `<details class="limiti"><summary>Che cosa questi importi non contengono</summary><ul>${
     voci.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></details>`;
@@ -105,12 +114,16 @@ function renderHub({contratti,alla}){
     const min=Math.min(...righe.map(r=>r.composta.baseMensile));
     const max=Math.max(...righe.map(r=>r.composta.baseMensile));
     const livelli=(d.seo.livelli||[]).length;
-    return `<a class="hub-card" href="${verso(rotta,d.rotta)}"><span class="micro">${esc(d.contratto.codiceCnel)} · ${esc(d.contratto.parti)}</span><b>${esc(d.seo.titoloTabella)}</b><small>${esc(d.contratto.nome)} · da ${eur(min)} a ${eur(max)} lordi al mese${livelli?` · ${livelli} pagine per livello`:''}</small><span aria-hidden="true">→</span></a>`;
+    const parziale=d.contratto.quoteAnnueMancanti.length
+      ?`<small>Copertura parziale: la cifra annua non comprende il ${esc(d.contratto.quoteAnnueMancanti.map(q=>q.nome).join(' e il '))}.</small>`:'';
+    return `<a class="hub-card" href="${verso(rotta,d.rotta)}"><span class="micro">${esc(d.contratto.codiceCnel)} · ${esc(d.contratto.parti)}</span><b>${esc(d.seo.titoloTabella)}</b><small>${esc(d.contratto.nome)} · da ${eur(min)} a ${eur(max)} lordi al mese${livelli?` · ${livelli} pagine per livello`:''}</small>${parziale}<span aria-hidden="true">→</span></a>`;
   };
+  const parziali=contratti.filter(d=>d.contratto.quoteAnnueMancanti.length);
   const body=`<header class="ral-intro"><div class="eyebrow">Minimi CCNL 2026</div>
     <h1>Minimi CCNL: tabelle retributive, lordo e netto</h1>
     <p class="lead">Tredici contratti collettivi, livello per livello: il minimo lordo mensile che il CCNL fissa, la RAL che ne risulta e il netto che ne resta. Tutti ricalcolati con le tabelle in vigore e le regole fiscali 2026.</p>
     <p class="ral-thesis">Gli importi sono la base nazionale: scatti, superminimo e integrativi si aggiungono sopra.</p>
+    ${parziali.map(d=>`<p class="small">Per il ${esc(d.seo.titoloTabella)} la cifra annua è una base tabellare parziale e non va confrontata con la RAL degli altri contratti: manca il ${esc(d.contratto.quoteAnnueMancanti.map(q=>`${q.nome} (${q.fonte})`).join(' e il '))}.</p>`).join('')}
   </header>
   <section class="ccnl-omonimi" aria-labelledby="omonimi-titolo">
     <h2 id="omonimi-titolo">Due nomi che si confondono</h2>
@@ -135,9 +148,10 @@ function tabellaSezione(rotta,d,s){
     const nome=r.livello.exCategoria?`${esc(r.livello.nome)} <small>(ex ${esc(r.livello.exCategoria)}ª cat.)</small>`:esc(r.livello.nome);
     return `<tr><th scope="row">${r.rotta?`<a href="${verso(rotta,r.rotta)}">${nome}</a>`:nome}</th><td>${eur(r.composta.baseMensile)}</td>${futura?`<td>${r.futuraMensile===null?'—':eur(r.futuraMensile)}</td>`:''}<td>${eur(r.composta.ral)}</td><td>${eur(r.nettoMensile)}</td></tr>`;
   }).join('');
+  const id=d.contratto.id;
   return `<div class="ccnl-tabella__scroll"><table class="ccnl-tabella">
     <caption>${s.nome?`${esc(s.nome)} — `:''}tabella in vigore dal ${data(s.decorrenza)} · ${mensilitaTesto(s.mensilita)} mensilità · ${s.ore} ore settimanali</caption>
-    <thead><tr><th scope="col">Livello</th><th scope="col">Minimo lordo mensile</th>${futura?`<th scope="col">Dal ${data(s.prossima)}</th>`:''}<th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead>
+    <thead><tr><th scope="col">Livello</th><th scope="col">Minimo lordo mensile</th>${futura?`<th scope="col">Dal ${data(s.prossima)}</th>`:''}<th scope="col">${esc(R.etichettaAnnua(id))}</th><th scope="col">${nettoMese(id)}</th></tr></thead>
     <tbody>${righe}</tbody></table></div>`;
 }
 
@@ -157,9 +171,9 @@ function renderTabella(d){
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
     <h1>${esc(seo.titoloTabella)} 2026: tabelle retributive</h1>
-    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: RAL su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese.</p>
+    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
-  ${avvisoFonte(contratto)}
+  ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
   ${pagine.length?`<section class="related" aria-labelledby="livelli-titolo"><h2 id="livelli-titolo">Approfondisci un livello</h2><div class="related__grid">${pagine.map(r=>`
@@ -172,7 +186,7 @@ function renderTabella(d){
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,
     title:`${seo.titoloTabella} 2026: tabelle retributive e netto`,
-    description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, RAL e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`,
+    description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, ${R.ralCompleta(contratto.id)?'RAL':'base annua'} e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`,
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},{nome:seo.titoloTabella,rotta}],body});
 }
 

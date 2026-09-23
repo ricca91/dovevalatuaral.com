@@ -170,3 +170,31 @@ test('un solo sitemap raccoglie RAL, CCNL e blog senza doppioni',()=>{
   for(const ral of RALS)assert.ok(locs.includes(`${ORIGIN}/ral-${ral}-netto/`));
   assert.ok(locs.includes(`${ORIGIN}/blog/prova/`));
 });
+
+/* RIC-77: il Vetro esclude il premio speciale di giugno, quindi la sua
+   cifra annua non si chiama RAL da nessuna parte e il netto è dichiarato
+   parziale. Le altre tabelle continuano a chiamarla RAL. */
+test('Vetro: base tabellare annualizzata, non RAL, e netto dichiarato parziale',()=>{
+  const html=leggi('/minimi-ccnl/vetro/');
+  const t=testo(html);
+  assert.doesNotMatch(html,/<th scope="col">RAL<\/th>/);
+  assert.match(html,/<th scope="col">Base tabellare annualizzata<\/th>/);
+  assert.match(html,/<th scope="col">Netto medio al mese sulla base parziale<\/th>/);
+  assert.doesNotMatch(t,/RAL su 13 mensilità/);
+  assert.ok(t.includes('Non è la RAL contrattuale completa: manca il premio speciale di giugno previsto dall’art. 34'));
+  assert.ok(t.includes('Anche il netto mostrato è quindi sottostimato'));
+  /* Trasformazione 5: 2.245,46 × 13 = 29.190,98, cifra della tabella. */
+  assert.ok(t.includes('29.190,98 €'));
+  assert.doesNotMatch(leggi('/minimi-ccnl/vetro/').match(/<title>[^<]*/)[0],/RAL/);
+  const commercio=leggi('/minimi-ccnl/commercio/');
+  assert.match(commercio,/<th scope="col">RAL<\/th>/);
+  assert.doesNotMatch(testo(commercio),/Base tabellare annualizzata/);
+});
+
+test('hub: il Vetro è segnalato come copertura parziale, fuori dai confronti di RAL',()=>{
+  const html=leggi('/minimi-ccnl/');
+  const card=html.match(/<a class="hub-card" href="[^"]*vetro\/">[\s\S]*?<\/a>/)[0];
+  assert.match(testo(card),/Copertura parziale: la cifra annua non comprende il premio speciale di giugno/);
+  assert.equal((html.match(/Copertura parziale/g)||[]).length,1);
+  assert.match(testo(html),/Per il CCNL Vetro la cifra annua è una base tabellare parziale e non va confrontata con la RAL degli altri contratti/);
+});
