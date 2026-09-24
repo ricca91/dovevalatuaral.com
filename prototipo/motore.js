@@ -726,7 +726,13 @@ function calcola(ralInput,opzioni={}){
   const conti=riconcilia(RAL,voci);
   const contiBenefit=riconcilia(0n,voci,BENEFIT_SPENDIBILI);
   const netto=conti.netto;
-  const imposte=arrotondaCentesimi(netta)+arrotondaCentesimi(reg)+arrotondaCentesimi(com);
+  /* Imposte e IRPEF netta si leggono dalle voci già arrotondate, come
+     il netto: arrotondare `netta` in blocco può scostarsi di un
+     centesimo da lorda − detrazioni e rompere l'identità sui KPI. */
+  const dalleVoci=scelta=>voci.filter(v=>v.somma===NETTO_LAVORATORE&&scelta(v))
+    .reduce((a,v)=>a-v._i,0n);
+  const imposte=dalleVoci(v=>v.tipo==='imposta'||v.tipo==='detrazione');
+  const irpefNetta=dalleVoci(v=>v.id==='lorda'||v.tipo==='detrazione');
   const spendibili=arrotondaCentesimi(benefit.spendibile);
   const valorePacchetto=netto+spendibili;
   const mediaMensileBuoni=arrotondaCentesimi(div(benefit.buoni.valore,dec('12')));
@@ -738,7 +744,7 @@ function calcola(ralInput,opzioni={}){
       benefitSpendibili:toNumber(spendibili),valorePacchetto:toNumber(valorePacchetto),
       mediaMensileBuoni:toNumber(mediaMensileBuoni),totaleImposte:toNumber(imposte),
       totaleContributi:toNumber(contributiTotali)},
-    imponibile:toNumber(I),irpefNetta:toNumber(arrotondaCentesimi(netta)),
+    imponibile:toNumber(I),irpefNetta:toNumber(irpefNetta),
     integrazioni:toNumber(arrotondaCentesimi(cuneo.importo)+arrotondaCentesimi(ti)),
     aliquotaContributivaEffettiva:RAL>0n?toNumber(mul(div(contributiTotali,RAL),dec('100'))):0,
     riconciliazione:{verificata:conti.verificata&&

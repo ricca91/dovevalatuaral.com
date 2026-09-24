@@ -93,3 +93,23 @@ test('due esecuzioni consecutive del generatore sono idempotenti',()=>{
   generate();
   assert.equal(digest(),first);
 });
+
+test('la composizione annua ricompone la RAL al 100% e nomina le integrazioni',()=>{
+  const cents=text=>Math.round(Number(text.replace(/[^\d,-]/g,'').replace(',','.'))*100);
+  for(const ral of rals){
+    const html=htmlFor(ral);
+    const result=calcola(String(ral));
+    const composition=html.match(/<div class="annual__composition">[\s\S]*?<\/section>/)[0];
+    const parts=[...composition.matchAll(/data-importo="([\d.]+)"/g)].map(m=>Math.round(Number(m[1])*100));
+    assert.equal(parts.length,3,`${ral}: tre parti nella barra`);
+    assert.equal(parts.reduce((a,b)=>a+b,0),ral*100,`${ral}: importi della barra`);
+    const shares=[...composition.matchAll(/data-quota="([\d,]+)"/g)].map(m=>cents(m[1]));
+    assert.equal(shares.reduce((a,b)=>a+b,0),10000,`${ral}: percentuali della barra`);
+    if(result.integrazioni>0){
+      assert.match(composition,/Somma esente \(cuneo fiscale\)/,`${ral}: integrazione nominata`);
+      assert.match(composition,new RegExp(escapeRegExp(`+ ${eur(result.integrazioni)}`)),`${ral}: segno positivo`);
+    }else{
+      assert.doesNotMatch(composition,/cuneo fiscale|Trattamento integrativo/,`${ral}: nessuna integrazione`);
+    }
+  }
+});

@@ -18,14 +18,13 @@ Il gioco rifiuta risultati non riconciliati, avvisi di inaffidabilità, valori
 non finiti/non sicuri, disponibile non positivo e parità nel generatore. La
 catena visualizzata verifica anche la propria identità su centesimi interi.
 
-**Un arrotondamento preesistente:** a RAL 38.000 il motore restituisce netto
-27.238,70 e KPI imposte 7.269,11, ma le voci fiscali arrotondate sommano a
-7.269,10. Il netto nasce proprio dalle voci (38.000 − 3.492,20 − 7.269,10).
-Anche a 24.000 il KPI imposte 1.826,58 differisce dalle voci, 1.826,57.
-`catenaContabile()` somma quelle voci per tipo, includendo le detrazioni nelle
-imposte nette una sola volta. Non modifica motore, KPI o risultati del
-comparatore e non inventa una riga di rettifica. Il dettaglio UI dichiara la
-differenza; le sei fixture del ticket mantengono i netti e i disponibili attesi.
+**Un arrotondamento risolto (RIC-78):** fino a settembre 2026 il KPI imposte
+del motore arrotondava l'IRPEF netta in blocco e poteva differire di un
+centesimo dalla somma delle voci (a RAL 24.000 e 38.000, per esempio). Ora il
+motore ricava imposte e IRPEF netta dalle stesse voci arrotondate da cui nasce
+il netto. `catenaContabile()` continua a sommare le voci per tipo, includendo
+le detrazioni nelle imposte nette una sola volta; netti, vincitori e sequenze
+dei vettori non sono cambiati.
 
 Il pulsante “Apri questo confronto” usa `COMPARA.codificaStato({A,B})` con i lati
 effettivamente mostrati. Si apre in un'altra scheda; `componiRighe(res.voci)`

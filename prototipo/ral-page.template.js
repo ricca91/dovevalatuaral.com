@@ -3,6 +3,11 @@ const {applicaMensilita,eur}=require('./motore.js');
 const ORIGIN='https://www.dovevalatuaral.com';
 const formatRal=ral=>new Intl.NumberFormat('it-IT').format(ral);
 const pct=(value,ral)=>(value/ral*100).toFixed(2).replace('.',',');
+const cents=value=>Math.round(value*100);
+const quota=basisPoints=>(basisPoints/100).toFixed(2).replace('.',',');
+/* Le integrazioni di legge si aggiungono al netto ma non sono una
+   quota della RAL: nella composizione vanno nominate a parte. */
+const NOMI_INTEGRAZIONI={somma:'Somma esente (cuneo fiscale)',ti:'Trattamento integrativo'};
 const query=(ral,mensilita)=>`../index.html?ral=${formatRal(ral)}&amp;m=${mensilita}&amp;c=F205&amp;calc=1`;
 
 function renderRalPage({ral,result,previous,next}){
@@ -15,6 +20,17 @@ function renderRalPage({ral,result,previous,next}){
   const contributions=result.kpi.totaleContributi;
   const taxes=result.kpi.totaleImposte;
   const net=result.kpi.nettoAnnuo;
+  const integrations=result.voci.filter(v=>v.tipo==='integrazione'&&v.somma==='nettoLavoratore')
+    .map(v=>({nome:NOMI_INTEGRAZIONI[v.id]||'Integrazione di legge',importo:v.importo}));
+  const netFromRal=(ral*100-cents(contributions)-cents(taxes))/100;
+  if(cents(netFromRal)+integrations.reduce((a,v)=>a+cents(v.importo),0)!==cents(net))
+    throw new Error(`RAL ${ral}: contributi, imposte e integrazioni non ricompongono il netto`);
+  /* Quote in centesimi di punto: la terza chiude a 100,00 per costruzione. */
+  const shareContrib=Math.round(contributions/ral*10000);
+  const shareTax=Math.round(taxes/ral*10000);
+  const shareNet=10000-shareContrib-shareTax;
+  const netLabel=integrations.length?'Netto dalla RAL':'Netto';
+  const integrationsText=integrations.map(v=>`${v.nome} + ${eur(v.importo)}`).join(', ');
   const neighbours=[previous,next].filter(Boolean).map(value=>`
         <a class="related-card" href="../ral-${value}-netto/">
           <span><b>RAL ${formatRal(value)} €</b><small>Confronta 12, 13 e 14 mensilità</small></span>
@@ -29,7 +45,8 @@ function renderRalPage({ral,result,previous,next}){
         <ul class="month-card__facts">
           <li><span><i class="fact-dot fact-dot--net"></i>Netto annuo</span><b>${eur(net)}</b></li>
           <li><span><i class="fact-dot fact-dot--tax"></i>Imposte totali</span><b>${eur(taxes)}</b></li>
-          <li><span><i class="fact-dot fact-dot--contrib"></i>Contributi totali</span><b>${eur(contributions)}</b></li>
+          <li><span><i class="fact-dot fact-dot--contrib"></i>Contributi totali</span><b>${eur(contributions)}</b></li>${integrations.map(v=>`
+          <li><span><i class="fact-dot fact-dot--integr"></i>${v.nome}</span><b>+ ${eur(v.importo)}</b></li>`).join('')}
         </ul>
       </a>`).join('');
 
@@ -73,12 +90,13 @@ function renderRalPage({ral,result,previous,next}){
   <section class="annual" aria-labelledby="risultato-annuo">
     <div class="annual__result"><div class="micro">Risultato annuo — uguale in ogni caso</div><div id="risultato-annuo" class="annual__label">Netto annuo</div><div class="annual__value">${eur(net)}</div></div>
     <div class="annual__composition"><div class="micro">Composizione annua</div>
-      <div class="moneybar" role="img" aria-label="Su ${formatted} euro lordi: ${eur(contributions)} di contributi, ${eur(taxes)} di imposte e ${eur(net)} netti">
-        <div class="moneybar__part moneybar__contrib" style="width:${(contributions/ral*100).toFixed(4)}%"><b>${pct(contributions,ral)}%</b><span>Contributi</span></div>
-        <div class="moneybar__part moneybar__tax" style="width:${(taxes/ral*100).toFixed(4)}%"><b>${pct(taxes,ral)}%</b><span class="sr">Imposte</span></div>
-        <div class="moneybar__part moneybar__net" style="width:${(net/ral*100).toFixed(4)}%"><b>${eur(net)}</b><span>${pct(net,ral)}%</span></div>
+      <div class="moneybar" role="img" aria-label="Su ${formatted} euro lordi: ${eur(contributions)} di contributi, ${eur(taxes)} di imposte e ${eur(netFromRal)} di netto dalla RAL${integrations.length?`; al netto si aggiungono ${integrationsText}, per ${eur(net)} netti`:''}">
+        <div class="moneybar__part moneybar__contrib" data-importo="${contributions.toFixed(2)}" data-quota="${quota(shareContrib)}" style="width:${(contributions/ral*100).toFixed(4)}%"><b>${quota(shareContrib)}%</b><span>Contributi</span></div>
+        <div class="moneybar__part moneybar__tax" data-importo="${taxes.toFixed(2)}" data-quota="${quota(shareTax)}" style="width:${(taxes/ral*100).toFixed(4)}%"><b>${quota(shareTax)}%</b><span class="sr">Imposte</span></div>
+        <div class="moneybar__part moneybar__net" data-importo="${netFromRal.toFixed(2)}" data-quota="${quota(shareNet)}" style="width:${(netFromRal/ral*100).toFixed(4)}%"><b>${eur(netFromRal)}</b><span>${quota(shareNet)}%</span></div>
       </div>
-      <div class="moneybar__legend" aria-hidden="true"><span><i class="fact-dot fact-dot--contrib"></i>Contributi ${eur(contributions)}</span><span><i class="fact-dot fact-dot--tax"></i>Imposte ${eur(taxes)}</span><span><i class="fact-dot fact-dot--net"></i>Netto ${eur(net)}</span></div>
+      <div class="moneybar__legend" aria-hidden="true"><span><i class="fact-dot fact-dot--contrib"></i>Contributi ${eur(contributions)}</span><span><i class="fact-dot fact-dot--tax"></i>Imposte ${eur(taxes)}</span><span><i class="fact-dot fact-dot--net"></i>${netLabel} ${eur(netFromRal)}</span>${integrations.map(v=>`<span><i class="fact-dot fact-dot--integr"></i>${v.nome} + ${eur(v.importo)}</span>`).join('')}</div>${integrations.length?`
+      <p class="moneybar__note">Il netto annuo di ${eur(net)} comprende ${integrations.map(v=>`${eur(v.importo)} di ${v.nome.toLowerCase()}`).join(' e ')}: non è una quota della RAL, la riconosce lo Stato in busta paga e si aggiunge a quello che resta dopo contributi e imposte.</p>`:''}
     </div>
   </section>
   <section class="assumptions" aria-label="Ipotesi del calcolo">
