@@ -25,3 +25,24 @@ test('titolo e H1 contengono la keyword',()=>{
 test('la sitemap contiene la pagina',()=>{
   assert.match(readFileSync(resolve(__dirname,'sitemap.xml'),'utf8'),/<loc>https:\/\/www\.dovevalatuaral\.com\/calcolo-tredicesima\/<\/loc>/);
 });
+
+const {readdirSync,statSync}=require('node:fs');
+function fileConMenu(dir=__dirname,out=[]){
+  for(const nome of readdirSync(dir)){
+    const p=resolve(dir,nome);
+    if(nome==='node_modules'||nome==='vendor')continue;
+    if(statSync(p).isDirectory())fileConMenu(p,out);
+    else if(/\.(html|js)$/.test(nome)&&!nome.endsWith('.test.js')&&readFileSync(p,'utf8').includes('id="nav-calcola"'))out.push(p);
+  }
+  return out;
+}
+
+test('ogni menu "Calcola" porta alla tredicesima',()=>{
+  const file=fileConMenu();
+  assert.ok(file.length>=70,`trovati solo ${file.length} file con il menu`);
+  for(const f of file)assert.match(readFileSync(f,'utf8'),/<a href="\/calcolo-tredicesima\/"( aria-current="page")?>Tredicesima<\/a>/,f);
+});
+
+test('le pagine RAL linkano la tredicesima a quella RAL',()=>{
+  assert.match(readFileSync(resolve(__dirname,'ral-30000-netto/index.html'),'utf8'),/href="\.\.\/calcolo-tredicesima\/\?ral=30000"/);
+});
