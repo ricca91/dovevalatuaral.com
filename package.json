@@ -2,7 +2,9 @@
   "name": "dovevalatuaral",
   "private": true,
   "scripts": {
+    "pretest": "node prototipo/genera-pagine-ral.js",
     "test": "node --test prototipo/*.test.js server/*.test.js",
+    "predev": "node prototipo/genera-pagine-ral.js",
     "dev": "node processo/attrezzi/server-preview.cjs",
     "build": "node processo/attrezzi/build.cjs"
   },

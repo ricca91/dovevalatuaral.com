@@ -12,3 +12,13 @@ node_modules/
 
 # Output di pubblicazione, senza sorgenti editoriali.
 dist/
+
+# Pagine generate da prototipo/genera-pagine-ral.js (RAL, minimi CCNL, blog,
+# sitemap). Vercel le rigenera a ogni build e `npm test` prima dei test: tenerle
+# in git lasciava ogni checkout sporco dopo una build, e il cron che committa
+# solo l'articolo le faceva andare fuori sincrono con main.
+/prototipo/ral-*-netto/
+/prototipo/confronti-ral/
+/prototipo/minimi-ccnl/
+/prototipo/blog/
+/prototipo/sitemap.xml
