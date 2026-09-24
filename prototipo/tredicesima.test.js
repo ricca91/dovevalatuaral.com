@@ -83,3 +83,45 @@ test('proposta detassata: risparmio sotto soglia, zero sopra',()=>{
   assert.equal(T.calcolaDaRal({ral:'16518'}).detassata.risparmio,92.31);
   assert.deepEqual(T.calcolaDaRal({ral:'20000'}).detassata,{applicabile:false,risparmio:0,soglia:15000,aliquota:0.15});
 });
+
+test('importi scritti come li scrive una persona',()=>{
+  const ral=importo=>T.normalizza({modalita:'ral',importo}).ral;
+  assert.equal(ral('30000'),'30000');
+  assert.equal(ral('30.000'),'30000');
+  assert.equal(ral('30.000,50'),'30000.50');
+  assert.equal(ral('€ 30 000'),'30000');
+  assert.equal(T.normalizza({modalita:'lordo',importo:'2.300,5'}).lordo,'2300.5');
+});
+
+test('input non validi: messaggio sul campo giusto',()=>{
+  const campo=input=>T.normalizza(input).errore?.campo;
+  assert.equal(campo({modalita:'ral',importo:''}),'importo');
+  assert.equal(campo({modalita:'ral',importo:'abc'}),'importo');
+  assert.equal(campo({modalita:'ral',importo:'-5000'}),'importo');
+  assert.equal(campo({modalita:'ral',importo:'999'}),'importo');
+  assert.equal(campo({modalita:'ral',importo:'120001'}),'importo');
+  assert.equal(campo({modalita:'lordo',importo:'99'}),'importo');
+  assert.equal(campo({modalita:'lordo',importo:'9000.01'}),'importo');
+  assert.equal(campo({modalita:'ral',importo:'30000',mesi:'0'}),'mesi');
+  assert.equal(campo({modalita:'ral',importo:'30000',mesi:'13'}),'mesi');
+  assert.equal(campo({modalita:'ral',importo:'30000',mesi:'8.5'}),'mesi');
+  assert.equal(campo({modalita:'ral',importo:'30000',mensilita:'15'}),'mensilita');
+  assert.equal(campo({modalita:'altro',importo:'30000'}),'modalita');
+  assert.match(T.normalizza({modalita:'ral',importo:'120001'}).errore.messaggio,/120\.000/);
+});
+
+test('input valido: calcola passa alla modalità giusta',()=>{
+  const r=T.calcola(T.normalizza({modalita:'ral',importo:'30.000',mensilita:'13',mesi:'12'}));
+  assert.equal(r.modalita,'ral');assert.equal(r.netta,1613.62);
+  assert.equal(T.calcola(T.normalizza({modalita:'lordo',importo:'2.307,69'})).netta,1613.62);
+});
+
+test('query string: precompila, ma non inventa',()=>{
+  assert.deepEqual(T.daQuery('?ral=30000&mesi=8'),{modalita:'ral',importo:'30000',mensilita:'13',mesi:'8'});
+  assert.deepEqual(T.daQuery('?lordo=2300'),{modalita:'lordo',importo:'2300',mesi:'12'});
+  assert.equal(T.daQuery(''),null);
+  assert.equal(T.daQuery('?utm_source=x'),null);
+  /* una query illeggibile si legge, ma normalizza la rifiuta: la pagina resta vuota */
+  assert.ok(T.normalizza(T.daQuery('?ral=abc')).errore);
+  assert.ok(T.normalizza(T.daQuery('?ral=30000&mesi=0')).errore);
+});

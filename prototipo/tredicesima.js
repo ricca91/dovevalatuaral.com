@@ -159,5 +159,45 @@
     return{modalita:'lordo',...presenta(calcolaVoci(ctx),ctx)};
   }
 
-  return{calcolaDaRal,calcolaDaLordo,K,PROPOSTA_DETASSATA,FONTI,imponibileAnnuo,dec,toNumber};
+  /* ---------- l'input come lo scrive una persona ---------- */
+  const LIMITI=Object.freeze({lordo:{min:'100',max:'9000'},ral:{min:'1000',max:'120000'}});
+  const MENSILITA=Object.freeze([13,14]);
+  const euro=s=>Number(s).toLocaleString('it-IT');
+
+  /* "30.000,50" → "30000.50". null se vuoto, undefined se illeggibile. */
+  function leggiImporto(raw){
+    let s=String(raw??'').replace(/[\s €]/g,'');
+    if(!s)return null;
+    if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');
+    else if(/^\d{1,3}(\.\d{3})+$/.test(s))s=s.replace(/\./g,'');
+    return /^\d+(\.\d{1,2})?$/.test(s)?s:undefined;
+  }
+
+  function normalizza({modalita,importo,mensilita='13',mesi='12'}){
+    if(!(modalita in LIMITI))return{errore:{campo:'modalita',messaggio:'Scegli da cosa partire.'}};
+    const nome=modalita==='lordo'?'il lordo mensile':'la RAL';
+    const valore=leggiImporto(importo);
+    if(valore===null)return{errore:{campo:'importo',messaggio:`Inserisci ${nome}.`}};
+    if(valore===undefined)return{errore:{campo:'importo',messaggio:'Usa solo cifre, con la virgola per i centesimi.'}};
+    const{min:da,max:a}=LIMITI[modalita];
+    if(dec(valore)<dec(da)||dec(valore)>dec(a))
+      return{errore:{campo:'importo',messaggio:`Il calcolatore copre ${nome} da ${euro(da)} a ${euro(a)} €.`}};
+    const m=Number(String(mesi).trim()||NaN);
+    if(!Number.isInteger(m)||m<1||m>12)return{errore:{campo:'mesi',messaggio:'I mesi lavorati vanno da 1 a 12.'}};
+    if(modalita==='lordo')return{modalita,lordo:valore,mesi:m};
+    const k=Number(mensilita);
+    if(!MENSILITA.includes(k))return{errore:{campo:'mensilita',messaggio:'Le mensilità possono essere 13 o 14.'}};
+    return{modalita,ral:valore,mensilita:k,mesi:m};
+  }
+
+  function calcola(input){return input.modalita==='lordo'?calcolaDaLordo(input):calcolaDaRal(input);}
+
+  function daQuery(search){
+    const p=new URLSearchParams(search);
+    if(p.has('lordo'))return{modalita:'lordo',importo:p.get('lordo'),mesi:p.get('mesi')??'12'};
+    if(p.has('ral'))return{modalita:'ral',importo:p.get('ral'),mensilita:p.get('mensilita')??'13',mesi:p.get('mesi')??'12'};
+    return null;
+  }
+
+  return{calcolaDaRal,calcolaDaLordo,normalizza,calcola,daQuery,LIMITI,K,PROPOSTA_DETASSATA,FONTI,imponibileAnnuo,dec,toNumber};
 });
