@@ -46,7 +46,8 @@ function anteprima(report){
 }
 
 function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
-  analizza=corpo=>Motore.analizza(corpo,{ambiente,tetti:T.crea(ambiente)})}){
+  analizza=(corpo,runtime={})=>Motore.analizza(corpo,{
+    ambiente:{...ambiente,...runtime},tetti:T.crea(ambiente)})}){
   const chiave=Buffer.from(ambiente.BUSTA_PAGA_CHIAVE_REPORT||'','hex');
   if(!/^[a-f0-9]{64}$/i.test(ambiente.BUSTA_PAGA_CHIAVE_REPORT||'')||chiave.length!==32)errore('CONFIGURAZIONE_MANCANTE');
   const origine=ambiente.BUSTA_PAGA_ORIGINE;
@@ -83,7 +84,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     const h=crypto.createHmac('sha256',chiave).update(`${finestra}:${chiaveLimite}`).digest('hex');
     if(!await contatori.consuma(h,massimo,(finestra+1)*durata))errore('TROPPE_RICHIESTE');
   }
-  async function crea(token,testo,consenso,chiamante){
+  async function crea(token,testo,consenso,chiamante,runtime={}){
     const id=idDaToken(token);
     if(consenso!==true)errore('TESTO_NON_VALIDO');
     const verifica=T.verificaTesto(testo);
@@ -101,7 +102,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     });
     if(nuova){
       let report;
-      try{report=await analizza({testo});}catch(_){report={ok:false,codice:'SERVIZIO_NON_DISPONIBILE'};}
+      try{report=await analizza({testo},runtime);}catch(_){report={ok:false,codice:'SERVIZIO_NON_DISPONIBILE'};}
       await archivio.transazione(id,async(o,salva,contatori)=>{
         if(!o||o.stato!=='analisi')return; // Una cancellazione durante l'analisi non rinasce.
         if(!report.ok||!utilizzabile(report)){
