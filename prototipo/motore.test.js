@@ -1082,3 +1082,19 @@ test.describe('E — un familiare in più non fa mai scendere il netto',()=>{
       [figlio(10),figlio(12)],[figlio(10),figlio(12),figlio(14)]),[]);
   });
 });
+
+/* L'identità che il motore dichiara deve reggere anche sui KPI, non
+   solo sulle voci: chi presenta contributi, imposte e integrazioni
+   come scomposizione della RAL (le landing RAL, la barra della home)
+   somma proprio questi tre numeri. Le imposte vanno quindi prese
+   dalle voci già arrotondate, come il netto: arrotondare l'IRPEF
+   netta in blocco sbaglia di un centesimo in circa una RAL su dieci. */
+test.describe('KPI — la RAL si ricompone al centesimo',()=>{
+  test('RAL − contributi − imposte + integrazioni = netto, da 5.000 a 150.000',()=>{
+    for(let ral=5000;ral<=150000;ral+=250){
+      const r=M.calcola(String(ral));
+      const ricomposto=ral-r.kpi.totaleContributi-r.kpi.totaleImposte+r.integrazioni;
+      assert.equal(Math.round(ricomposto*100),Math.round(r.kpi.nettoAnnuo*100),`RAL ${ral}`);
+    }
+  });
+});

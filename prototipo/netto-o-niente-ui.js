@@ -101,7 +101,7 @@
     const ids=[...new Set([...maps.A.keys(),...maps.B.keys()])];
     const cell=v=>v?`<strong>${euro(C.inCentesimi(v.importo))}</strong><p>${esc(v.formula)}</p><a href="${esc(v.fonte.url)}" target="_blank" rel="noopener noreferrer">${esc(v.fonte.titolo)}</a>`:'Non presente';
     return`<details class="non-detail"><summary>Come sono fatti i conti</summary><div>
-      <p>Importi annui. Le imposte nette sono la somma delle voci arrotondate del motore, detrazioni già incluse. Questa è la catena che ricostruisce il netto al centesimo; il totale imposte aggregato del calcolatore può differire di un centesimo per arrotondamento.</p>
+      <p>Importi annui. Le imposte nette sono la somma delle voci arrotondate del motore, detrazioni già incluse. Questa è la catena che ricostruisce il netto al centesimo.</p>
       <table class="non-table"><caption>Voci e fonti delle offerte A e B</caption><thead><tr><th scope="col">Voce</th><th scope="col">Offerta A</th><th scope="col">Offerta B</th></tr></thead><tbody>
       ${ids.map(id=>`<tr><th scope="row">${esc((maps.A.get(id)||maps.B.get(id)).titolo)}</th><td>${cell(maps.A.get(id))}</td><td>${cell(maps.B.get(id))}</td></tr>`).join('')}
       </tbody></table></div></details>`;

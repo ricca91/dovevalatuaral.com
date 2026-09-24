@@ -2,12 +2,12 @@
   "versione": "non-v1-2026-01",
   "baseCommit": "d1b9245a052b6c30627a0172db6396fef84568df",
   "sources": {
-    "motore.js": "bd97716fb5c2be31fdbc7de9b4a599f64c7b8ef6d982aa1c999fde6d8e011e99",
+    "motore.js": "c9e40c1686b763ed206a8821e93b330a5adf364f9afc13a7cc5e3d1a5df72dad",
     "compara.js": "c4ce4a149fa912fd7c1d536497a7f167fe808fe353912be301126bb9f0eab269",
     "geografia.js": "9f701482479f5a089ca32e666245078a5650c95a5efdc9cf7b24283ead7df053",
     "nucleo.js": "0b64f763cf7ff0c5f0d4f7213025d9bcbc4dd1cefddd5823da28cd229218af9e",
     "dati-addizionali-2026.js": "33011a349b4d95b4deef1795ef9a25f9bb2791f86ed3be93f46845baa537c001",
-    "netto-o-niente-scenari.js": "d4531abaa94bd2b76ec25e4ee4bc4851f8bd92c9c333be060b37a7dc3e4addc3",
+    "netto-o-niente-scenari.js": "052d2b066e62ac22e48904fd31067824ed0ab34714de161bee37aa52e9fedfbf",
     "netto-o-niente.js": "531c1232bf24a34d602335dbff0d831cc4c3c6e4b6d19b2f0425d053ebd80fe7"
   },
   "vettori": [

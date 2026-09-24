@@ -59,9 +59,9 @@
     }catch(_){return{ok:false,errore:'calcolo'};}
   }
   function catenaContabile(r){
-    // Il netto è la somma delle Voci arrotondate. Il KPI aggregato imposte
-    // arrotonda invece l'IRPEF netta: può differire di 1 centesimo, già a
-    // RAL 24.000/38.000. La catena usa le voci, senza cambiare il motore.
+    // Il netto è la somma delle Voci arrotondate. Dal fix di RIC-78 anche il
+    // KPI imposte nasce dalle voci; la catena resta sulle voci per non
+    // dipendere da un aggregato.
     const somma=tipi=>r.voci.filter(v=>v.somma==='nettoLavoratore'&&tipi.includes(v.tipo))
       .reduce((n,v)=>n+C.inCentesimi(v.importo),0);
     return{ral:C.inCentesimi(r.input.ral),contributi:-somma(['contributo']),
