@@ -6,6 +6,7 @@ description: "La tredicesima detassata non è in vigore: è una proposta. Nell'i
 query_principale: "tredicesima detassata"
 cluster: "tredicesima"
 data_pubblicazione: 2026-09-24
+data_aggiornamento: 2026-09-24
 cta: "/"
 link_interni: ["/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/confronti-ral/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
@@ -42,21 +43,21 @@ Prima però va tolto di mezzo un equivoco: la tredicesima non è un premio in pi
 | --- | --- | --- | --- | --- |
 | 15.000 € | 1.153,85 € | −106,04 € | −241,00 € | 806,81 € |
 | 20.000 € | 1.538,46 € | −141,38 € | −321,33 € | 1.075,75 € |
-| 25.000 € | 1.923,08 € | −176,73 € | −401,67 € | 1.344,68 € |
+| 25.000 € | 1.923,08 € | −176,73 € | −401,66 € | 1.344,69 € |
 | 30.000 € | 2.307,69 € | −212,08 € | −481,99 € | 1.613,62 € |
-| 35.000 € | 2.692,31 € | −247,42 € | −806,82 € | 1.638,07 € |
-| 40.000 € | 3.076,92 € | −282,77 € | −922,07 € | 1.872,08 € |
-| 50.000 € | 3.846,15 € | −353,46 € | −1.152,59 € | 2.340,10 € |
+| 35.000 € | 2.692,31 € | −247,42 € | −573,48 € | 1.871,41 € |
+| 40.000 € | 3.076,92 € | −282,77 € | −688,74 € | 2.105,41 € |
+| 50.000 € | 3.846,15 € | −353,46 € | −919,26 € | 2.573,43 € |
 
-Guarda il salto fra 30.000 e 35.000 € di RAL: la tredicesima lorda cresce di 384,62 €, ma il netto cresce di 24,45 €. Il resto se lo prende l'IRPEF, che su quella mensilità passa dal 23% al 33%.
+Guarda il salto fra 30.000 e 35.000 € di RAL: la tredicesima lorda cresce di 384,62 €, e il netto cresce di 257,79 €. Il resto (126,83 €) se lo prende il fisco: 35,34 € in più di INPS e 91,49 € in più di IRPEF. Perché in più di IRPEF? A 35.000 € l'imponibile di dicembre (2.444,89 €) supera i 2.333,33 € del primo scaglione mensile, e solo la parte che li supera (111,56 €) va al 33% invece che al 23%.
 
 ## Perché la tredicesima è tassata più dello stipendio?
 
-Perché si applica l'aliquota marginale e non ci sono detrazioni a compensarla. Sulle mensilità aggiuntive la ritenuta si calcola "con le aliquote dell'imposta sul reddito delle persone fisiche, ragguagliando a mese i corrispondenti scaglioni annui di reddito". Lo dice il D.Lgs. 33/2025, art. 33 c. 3 lett. b, che ha sostituito il vecchio art. 23 del DPR 600/1973.
+Perché non ci sono detrazioni a compensare l'aliquota. Sulle mensilità aggiuntive la ritenuta si calcola "con le aliquote dell'imposta sul reddito delle persone fisiche, ragguagliando a mese i corrispondenti scaglioni annui di reddito". Lo dice il D.Lgs. 33/2025, art. 33 c. 3 lett. b, che ha sostituito il vecchio art. 23 del DPR 600/1973, e lo conferma l'Agenzia delle Entrate nella circolare 15/2007. In pratica gli scaglioni annui (28.000 € e 50.000 €) si dividono per dodici, e alla tredicesima si applica quella scala mensile: 2.333,33 € al 23%, fino a 4.166,67 € al 33%, oltre al 43%.
 
-La lettera precedente è quella che fa la differenza, e lo fa per omissione. Le detrazioni da lavoro dipendente stanno nella lettera a), che riguarda le somme corrisposte **in ciascun periodo di paga**, e sono "rapportate al periodo stesso". La tredicesima non è un periodo di paga. Non si porta dietro una quota di detrazione propria: arriva con l'aliquota piena e senza lo sconto che ogni mese attenua il prelievo sullo stipendio ordinario.
+La lettera precedente è quella che fa la differenza, e lo fa per omissione. Le detrazioni da lavoro dipendente stanno nella lettera a), che riguarda le somme corrisposte **in ciascun periodo di paga**, e sono "rapportate al periodo stesso". La tredicesima non è un periodo di paga. Non si porta dietro una quota di detrazione propria: arriva con l'aliquota ragguagliata a mese, ma senza lo sconto che ogni mese attenua il prelievo sullo stipendio ordinario.
 
-È per questo che a 35.000 € di RAL l'IRPEF sulla tredicesima è 806,82 € contro i 481,99 € di chi sta a 30.000. Quella mensilità cade per intero nel secondo scaglione. Se vuoi vedere dove sta materialmente la voce nel documento, l'ho spiegata in [come si legge una busta paga](/blog/come-leggere-busta-paga/).
+È per questo che a 35.000 € di RAL l'IRPEF sulla tredicesima è 573,48 € contro i 481,99 € di chi sta a 30.000: l'imponibile di dicembre (2.444,89 €) supera di 111,56 € il primo scaglione mensile, e solo quella parte va al 33%, non l'intera mensilità. Un numero diverso, 806,82 €, salta fuori se invece applichi l'aliquota marginale sull'intero reddito annuo (33%) a tutta la tredicesima: non è la ritenuta che vedi in busta a dicembre, ma il peso della tredicesima sull'imposta annua — quello con cui il conguaglio di fine anno riallinea il conto. Se vuoi vedere dove sta materialmente la voce nel documento, l'ho spiegata in [come si legge una busta paga](/blog/come-leggere-busta-paga/).
 
 ## Quanto varrebbe la tredicesima detassata nel tuo caso?
 
@@ -66,11 +67,11 @@ Dipende da quale ipotesi passa, e le due sul tavolo valgono cifre che differisco
 | --- | --- | --- |
 | 15.000 € | 83,83 € | 241,00 € |
 | 20.000 € | 111,77 € | 321,33 € |
-| 25.000 € | 139,72 € | 401,67 € |
+| 25.000 € | 139,71 € | 401,66 € |
 | 30.000 € | 167,65 € | 481,99 € |
-| 35.000 € | 440,09 € | 806,82 € |
-| 40.000 € | 502,95 € | 922,07 € |
-| 50.000 € | 628,69 € | 1.152,59 € |
+| 35.000 € | 206,75 € | 573,48 € |
+| 40.000 € | 269,62 € | 688,74 € |
+| 50.000 € | 395,36 € | 919,26 € |
 
 C'è un avvertimento grosso su questa tabella, ed è la ragione per cui la maggior parte dei lettori può fermarsi qui. **Nell'ipotesi di governo la colonna del 15% si applica solo sotto la soglia dei 15.000 € di reddito.** Sopra, il risparmio non è la cifra che leggi: è zero. Quella colonna mostra cosa varrebbe una tredicesima detassata senza tetto di reddito, che al momento nessuno ha messo per iscritto.
 
@@ -98,7 +99,8 @@ Il conto di questa pagina vale per un dipendente privato a tempo pieno, anno int
 - Chi è **entrato in corso d'anno** matura la tredicesima in ratei e ha un imponibile annuo diverso, quindi un'aliquota marginale diversa.
 - I **pensionati** non sono in questo conto, anche se le proposte li nominano: la loro tredicesima segue regole di ritenuta che qui non ho ricalcolato.
 - Le **addizionali regionale e comunale** non sono trattenute sulla tredicesima, ma sono dovute sul totale annuo che la comprende. Nessuna delle proposte dice se la sostitutiva le sostituirebbe: l'ho lasciata fuori da entrambe le colonne di risparmio.
-- Il motore calcola **l'anno, non la singola busta paga**. La tredicesima qui è la quota marginale di reddito che quella mensilità aggiunge, che è il modo in cui il sostituto d'imposta la tassa a dicembre.
+- La tabella mostra la **ritenuta di dicembre**: gli scaglioni annui ragguagliati a mese, applicati alla sola tredicesima al netto dei contributi. È quello che il sostituto d'imposta trattiene in busta paga quel mese. A fine anno il conguaglio ricalcola l'IRPEF sul reddito complessivo e riallinea la differenza, in più o in meno.
+- A dicembre la tredicesima si somma allo stipendio del mese. Se il totale supera 4.685 € circa, può scattare anche il **contributo aggiuntivo IVS dell'1%**, che si applica alla parte di reddito oltre la prima fascia pensionabile. Il conguaglio di fine anno lo restituisce se nell'anno resti sotto 56.224 € di imponibile. Non l'ho incluso nei conti sopra: riguarda solo chi supera quella soglia mensile o annua.
 
 Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pubblico, con le regole 2026 e le ipotesi dichiarate qui sopra, e [come ho lavorato](/come-ho-lavorato.html) è scritto per intero. Se la manovra prende una forma diversa, questa pagina va rifatta, e la rifarò.
 
@@ -109,4 +111,6 @@ Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pub
 - L. 30 dicembre 2024, n. 207, art. 1 c. 2 e c. 6 — soglie degli scaglioni a 28.000 e 50.000 € e ulteriore detrazione fra 20.000 e 40.000 € ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)) · verificata il 24 settembre 2026
 - TUIR, art. 51 c. 2 lett. a — i contributi previdenziali obbligatori non concorrono a formare il reddito di lavoro dipendente ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:1986;917~art51)) · verificata il 24 settembre 2026
 - INPS, circolare 101/2024 — aliquota IVS 9,19% a carico del lavoratore nel FPLD ordinario ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · link verificato il 24 settembre 2026
+- Agenzia delle Entrate, circolare 15/2007 — conferma che sulle mensilità aggiuntive la ritenuta segue gli scaglioni annui ragguagliati a mese, senza detrazioni, richiamando la circolare 326/1997 ([def.finanze.it](https://def.finanze.it/DocTribFrontend/getPrassiDetail.do?id=%7BD20F6A55-3E47-44DC-A55F-A88025D3249C%7D)) · verificata il 24 settembre 2026
+- INPS, circolare 6/2026 — contributo aggiuntivo IVS dell'1% oltre la prima fascia di retribuzione pensionabile (56.224 €), restituito in conguaglio se nell'anno non si supera la soglia ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.01.circolare-numero-6-del-30-01-2026_15151.html)) · verificata il 24 settembre 2026
 - Sky TG24, 28 agosto 2026 — ipotesi di sostitutiva al 15% fino a 15.000 € di reddito, ipotesi al 10% e richiesta di azzeramento: dichiarazioni politiche riportate, non norma vigente ([Sky TG24](https://tg24.sky.it/economia/2026/08/28/manovra-2027-detassazione-tredicesime)) · verificata il 24 settembre 2026
