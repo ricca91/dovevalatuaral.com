@@ -8,7 +8,7 @@ cluster: "tredicesima"
 data_pubblicazione: 2026-09-24
 data_aggiornamento: 2026-09-24
 cta: "/"
-link_interni: ["/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/confronti-ral/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html"]
+link_interni: ["/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/confronti-ral/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html", "/calcolo-tredicesima/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
 fonti_verificate: 2026-09-24
 stato: pubblicato
@@ -48,6 +48,8 @@ Prima però va tolto di mezzo un equivoco: la tredicesima non è un premio in pi
 | 35.000 € | 2.692,31 € | −247,42 € | −573,48 € | 1.871,41 € |
 | 40.000 € | 3.076,92 € | −282,77 € | −688,74 € | 2.105,41 € |
 | 50.000 € | 3.846,15 € | −353,46 € | −919,26 € | 2.573,43 € |
+
+Per il tuo caso, con i mesi lavorati e il tuo lordo, usa il [calcolatore della tredicesima](/calcolo-tredicesima/).
 
 Guarda il salto fra 30.000 e 35.000 € di RAL: la tredicesima lorda cresce di 384,62 €, e il netto cresce di 257,79 €. Il resto (126,83 €) se lo prende il fisco: 35,34 € in più di INPS e 91,49 € in più di IRPEF. Perché in più di IRPEF? A 35.000 € l'imponibile di dicembre (2.444,89 €) supera i 2.333,33 € del primo scaglione mensile, e solo la parte che li supera (111,56 €) va al 33% invece che al 23%.
 
