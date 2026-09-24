@@ -125,3 +125,10 @@ test('query string: precompila, ma non inventa',()=>{
   assert.ok(T.normalizza(T.daQuery('?ral=abc')).errore);
   assert.ok(T.normalizza(T.daQuery('?ral=30000&mesi=0')).errore);
 });
+
+test('importi col punto delle migliaia anche sotto 10.000, come nel resto del sito',()=>{
+  assert.equal(T.formattaEuro(3076.92),'3.076,92 €');
+  assert.equal(T.formattaEuro(862.34),'862,34 €');
+  assert.equal(T.formattaEuro(120000),'120.000,00 €');
+  assert.match(T.normalizza({modalita:'lordo',importo:'9000.01'}).errore.messaggio,/da 100 a 9\.000 €/);
+});

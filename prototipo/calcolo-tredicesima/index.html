@@ -124,7 +124,7 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
 (()=>{
   const $=id=>document.getElementById(id);
   const form=$('t-form'),box=$('risultato');
-  const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+  const euro=TREDICESIMA.formattaEuro;
   const perc=n=>`${(n*100).toLocaleString('it-IT',{maximumFractionDigits:2})}%`;
   const modalita=()=>form.querySelector('input[name="modalita"]:checked').value;
   const CAMPI=['importo','mensilita','mesi'];

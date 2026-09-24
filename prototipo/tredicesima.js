@@ -162,7 +162,11 @@
   /* ---------- l'input come lo scrive una persona ---------- */
   const LIMITI=Object.freeze({lordo:{min:'100',max:'9000'},ral:{min:'1000',max:'120000'}});
   const MENSILITA=Object.freeze([13,14]);
-  const euro=s=>Number(s).toLocaleString('it-IT');
+  /* Come eur() del motore: il punto delle migliaia anche a 4 cifre,
+     che Intl it-IT invece omette ("3076,92"). */
+  const grp=i=>i.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  function formattaEuro(n){const neg=n<0,[i,d]=Math.abs(n).toFixed(2).split('.');return`${neg?'−':''}${grp(i)},${d} €`;}
+  const euro=s=>grp(String(Number(s)));
 
   /* "30.000,50" → "30000.50". null se vuoto, undefined se illeggibile. */
   function leggiImporto(raw){
@@ -199,5 +203,5 @@
     return null;
   }
 
-  return{calcolaDaRal,calcolaDaLordo,normalizza,calcola,daQuery,LIMITI,K,PROPOSTA_DETASSATA,FONTI,imponibileAnnuo,dec,toNumber};
+  return{calcolaDaRal,calcolaDaLordo,normalizza,calcola,daQuery,formattaEuro,LIMITI,K,PROPOSTA_DETASSATA,FONTI,imponibileAnnuo,dec,toNumber};
 });
