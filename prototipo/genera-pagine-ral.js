@@ -13,6 +13,7 @@ const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/netto-ral.html`,
   `${ORIGIN}/ccnl-livello.html`,
   `${ORIGIN}/netto-o-niente.html`,
+  `${ORIGIN}/calcolo-tredicesima/`,
   `${ORIGIN}/confronti-ral/`,
 ]);
 
