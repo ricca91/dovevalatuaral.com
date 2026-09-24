@@ -39,15 +39,17 @@ Su una RAL di 30.000 € la tredicesima lorda è 2.307,69 € e te ne restano **
 
 Prima però va tolto di mezzo un equivoco: la tredicesima non è un premio in più. È la tua retribuzione annua divisa in 13 parti invece che in 12. Su una RAL di 30.000 € il netto medio è 1.801,96 € al mese su 13 mensilità. Il [dettaglio completo di quel caso](/ral-30000-netto/) è in pagina, e per le altre cifre ci sono i [confronti per importo](/confronti-ral/) da 20.000 a 100.000 €.
 
-| RAL | Tredicesima lorda | Contributi INPS | IRPEF | Netto della tredicesima |
-| --- | --- | --- | --- | --- |
-| 15.000 € | 1.153,85 € | −106,04 € | −241,00 € | 806,81 € |
-| 20.000 € | 1.538,46 € | −141,38 € | −321,33 € | 1.075,75 € |
-| 25.000 € | 1.923,08 € | −176,73 € | −401,66 € | 1.344,69 € |
-| 30.000 € | 2.307,69 € | −212,08 € | −481,99 € | 1.613,62 € |
-| 35.000 € | 2.692,31 € | −247,42 € | −573,48 € | 1.871,41 € |
-| 40.000 € | 3.076,92 € | −282,77 € | −688,74 € | 2.105,41 € |
-| 50.000 € | 3.846,15 € | −353,46 € | −919,26 € | 2.573,43 € |
+| RAL | Tredicesima lorda | Contributi INPS | IRPEF | Bonus cuneo | Netto della tredicesima |
+| --- | --- | --- | --- | --- | --- |
+| 15.000 € | 1.153,85 € | −106,04 € | −241,00 € | +55,53 € | 862,34 € |
+| 20.000 € | 1.538,46 € | −141,38 € | −321,33 € | +67,06 € | 1.142,81 € |
+| 25.000 € | 1.923,08 € | −176,73 € | −401,66 € | — | 1.344,69 € |
+| 30.000 € | 2.307,69 € | −212,08 € | −481,99 € | — | 1.613,62 € |
+| 35.000 € | 2.692,31 € | −247,42 € | −573,48 € | — | 1.871,41 € |
+| 40.000 € | 3.076,92 € | −282,77 € | −688,74 € | — | 2.105,41 € |
+| 50.000 € | 3.846,15 € | −353,46 € | −919,26 € | — | 2.573,43 € |
+
+Fino a 20.000 € di reddito sulla tredicesima si applica anche la somma esente del cuneo fiscale, calcolata sul reddito corrisposto nel mese (circolare AdE 4/2025).
 
 Per il tuo caso, con i mesi lavorati e il tuo lordo, usa il [calcolatore della tredicesima](/calcolo-tredicesima/).
 
@@ -111,6 +113,7 @@ Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pub
 - D.Lgs. 24 marzo 2025, n. 33, art. 33 c. 3 lett. a e b — sulle mensilità aggiuntive la ritenuta si applica con le aliquote IRPEF ragguagliando a mese gli scaglioni annui; le detrazioni sono previste dalla sola lett. a, rapportate al periodo di paga. Ha sostituito l'art. 23 del DPR 600/1973, abrogato ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-03-24;33)) · verificata il 24 settembre 2026
 - L. 30 dicembre 2025, n. 199, art. 1 c. 3 — scaglioni IRPEF 2026 al 23 / 33 / 43% ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · verificata il 24 settembre 2026
 - L. 30 dicembre 2024, n. 207, art. 1 c. 2 e c. 6 — soglie degli scaglioni a 28.000 e 50.000 € e ulteriore detrazione fra 20.000 e 40.000 € ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)) · verificata il 24 settembre 2026
+- L. 30 dicembre 2024, n. 207, art. 1 c. 4-5, e Agenzia delle Entrate, circolare 4/2025 — la somma esente del cuneo si calcola sul reddito di lavoro dipendente corrisposto nel mese, tredicesima compresa ([Agenzia delle Entrate](https://www.agenziaentrate.gov.it/portale/documents/20143/8410823/Circolare+lavoro+dipendente+LB2025+DD+IRPEF+n.+4+del+16+maggio+2025.pdf/36979eaa-9fc5-a4ec-a7aa-136497c53f91)) · verificata il 24 settembre 2026
 - TUIR, art. 51 c. 2 lett. a — i contributi previdenziali obbligatori non concorrono a formare il reddito di lavoro dipendente ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:1986;917~art51)) · verificata il 24 settembre 2026
 - INPS, circolare 101/2024 — aliquota IVS 9,19% a carico del lavoratore nel FPLD ordinario ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · link verificato il 24 settembre 2026
 - Agenzia delle Entrate, circolare 15/2007 — conferma che sulle mensilità aggiuntive la ritenuta segue gli scaglioni annui ragguagliati a mese, senza detrazioni, richiamando la circolare 326/1997 ([def.finanze.it](https://def.finanze.it/DocTribFrontend/getPrassiDetail.do?id=%7BD20F6A55-3E47-44DC-A55F-A88025D3249C%7D)) · verificata il 24 settembre 2026
