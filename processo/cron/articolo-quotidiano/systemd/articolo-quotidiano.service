@@ -1,0 +1,23 @@
+[Unit]
+Description=articolo-quotidiano — scrive e pubblica l'articolo del piano editoriale 90 giorni
+Documentation=https://github.com/ricca91/dovevalatuaral.com/tree/main/processo/cron/articolo-quotidiano
+After=network-online.target
+Wants=network-online.target
+# Se il servizio muore prima che run.sh possa mandare la sua mail (fetch fallito,
+# npm ci fallito, 203/EXEC), almeno questa parte.
+OnFailure=articolo-quotidiano-fallito.service
+
+[Service]
+Type=oneshot
+# lancia.sh crea un worktree usa e getta di origin/main dal clone bare
+# /root/cron/dovevalatuaral.git e ci lancia run.sh. Nessun checkout fisso su main:
+# fino al 2026-09-24 ce n'era uno, e teneva main occupato per tutti gli altri
+# worktree. Log e guardia anti-doppione in /root/cron/articolo-quotidiano/logs.
+ExecStart=/root/cron/articolo-quotidiano/lancia.sh
+WorkingDirectory=/root/cron/articolo-quotidiano
+# systemd parte con un PATH ancora più scarno di cron: `claude` vive in ~/.local/bin.
+Environment=PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Senza HOME, claude non trova ~/.claude/.credentials.json e il run muore muto.
+Environment=HOME=/root
+# run.sh ha già il suo `timeout 45m` sulla chiamata: questo è la rete sotto la rete.
+TimeoutStartSec=3600

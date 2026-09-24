@@ -1,0 +1,7 @@
+[Unit]
+Description=Avvisa via mail se articolo-quotidiano.service fallisce
+
+[Service]
+Type=oneshot
+Environment=HOME=/root
+ExecStart=/bin/bash -c '. /root/.config/agentmail/env; /usr/bin/agentmail inboxes:messages send --inbox-id claude.sartori@agentmail.to --to riccsartori@gmail.com --subject "articolo-quotidiano FALLITO $(date +%%F)" --text "$(systemctl status articolo-quotidiano.service --no-pager -n 30 2>&1)"'

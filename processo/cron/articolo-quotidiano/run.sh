@@ -25,7 +25,9 @@ CURL_BIN="${CURL_BIN:-curl}"
 DRY_RUN="${DRY_RUN:-0}"          # 1 = fa tutto tranne push, Airtable e avanzamento stato
 
 DIR="$REPO/processo/cron/articolo-quotidiano"
-LOGDIR="$DIR/logs"
+# lancia.sh gira in un worktree usa e getta: log e guardia anti-doppione devono
+# sopravvivergli, quindi li tiene fuori e passa la cartella da qui.
+LOGDIR="${ARTICOLO_LOGDIR:-$DIR/logs}"
 STATE="$LOGDIR/state"
 ARTICOLI="prototipo/articoli"
 
@@ -90,24 +92,23 @@ avvisa() {
   fi
 
   # --- il repo deve essere in uno stato da cui si può pushare ----------------
-  BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-  if [ "$BRANCH" != "main" ]; then
-    avvisa "Articolo $RUN_DATE — non parte: repo su $BRANCH" \
-"Il repo dovevalatuaral.com è sul branch '$BRANCH', non su main.
+  # Il checkout deve essere esattamente origin/main: lancia.sh lo crea così, staccato.
+  # Non conta il nome del branch ma il commit: un articolo scritto sopra un altro
+  # commit porterebbe su main anche quello, o verrebbe rifiutato dopo aver speso il run.
+  if ! git fetch --quiet origin main 2>>"$LOG"; then
+    avvisa "Articolo $RUN_DATE — non parte: fetch fallito" \
+"git fetch da origin è fallito: non so qual è l'ultimo main.
 
-Non ho scritto niente: un articolo committato sul branch sbagliato non arriva sul sito
-e te lo ritrovi fra giorni. Rimetti il repo su main e domani riparte da solo.
-
-Log: $LOG"
+Non ho scritto niente. Log: $LOG"
     exit 1
   fi
+  HEAD_SHA="$(git rev-parse HEAD)"; MAIN_SHA="$(git rev-parse FETCH_HEAD)"
+  if [ "$HEAD_SHA" != "$MAIN_SHA" ]; then
+    avvisa "Articolo $RUN_DATE — non parte: checkout diverso da origin/main" \
+"Il checkout $REPO è su ${HEAD_SHA:0:7}, origin/main è su ${MAIN_SHA:0:7}.
 
-  if ! git pull --ff-only --quiet 2>>"$LOG"; then
-    avvisa "Articolo $RUN_DATE — non parte: pull fallito" \
-"git pull --ff-only su main è fallito: il repo locale è divergente da origin.
-
-Non ho scritto niente. Committare sopra una divergenza significa o un merge che non
-ho chiesto, o un push rifiutato dopo aver speso il run. Sistema il repo a mano.
+Non ho scritto niente: un articolo committato lì non arriverebbe pulito sul sito.
+Il job va lanciato da lancia.sh, che crea ogni volta un checkout fresco di origin/main.
 
 Log: $LOG"
     exit 1
@@ -132,7 +133,7 @@ Log: $LOG"
   # `< /dev/null`: senza, claude aspetta 3 secondi stdin e lo scrive nell'output.
   BODY="$(timeout "$TIMEOUT" "$CLAUDE_BIN" -p "/seo-90-giorni RUNNER FACTS (calcolati da run.sh, autoritativi: usali, non ri-derivarli)
 - Data di oggi: $RUN_DATE
-- Repo: $REPO (branch main, allineato a origin)
+- Repo: $REPO (checkout fresco di origin/main)
 - https://www.dovevalatuaral.com/busta-paga.html risponde: HTTP $BUSTA_STATUS
 - Commit, push, aggiornamento Airtable a Pubblicato e invio mail NON sono tuoi: li fa run.sh dopo di te.
 - Chiudi col blocco REPORT_, una coppia chiave=valore per riga, senza code fence." \
@@ -249,8 +250,8 @@ Log: $LOG"
   fi
 
   # --- pubblicazione ------------------------------------------------------------
-  # `git add` SOLO del file dell'articolo. Il working tree di questo repo ha una ventina
-  # di file untracked di lavoro in corso: un `git add -A` li spedirebbe tutti su main.
+  # `git add` SOLO del file dell'articolo: è l'unica cosa che il job deve portare su
+  # main, anche se la build o l'agente hanno lasciato altro nel checkout.
   PUSH_OK=0
   if [ "$DRY_RUN" = "1" ]; then
     echo "DRY_RUN: salto commit e push. Avrei committato solo $FILE."
@@ -262,18 +263,31 @@ Log: $LOG"
 Query principale: ${R_QUERY:-?}
 SEO ${R_SEO:-?} / AEO ${R_AEO:-?} in ${R_ITER:-?} iterazioni.
 
-Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>" 2>>"$LOG" && git push --quiet origin main 2>>"$LOG"; then
-      PUSH_OK=1
-      echo "--- push ok ---"
-    else
-      echo "--- push FALLITO ---"
+Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>" 2>>"$LOG"; then
+      if git push --quiet origin HEAD:main 2>>"$LOG"; then
+        PUSH_OK=1
+      else
+        # Il run dura fino a 45 minuti: se nel frattempo è stato mergiato un PR, main
+        # è andato avanti e il push viene rifiutato. Il commit tocca un solo file nuovo,
+        # quindi il rebase è pulito; test e build si rifanno sul main nuovo, perché i
+        # link dell'articolo li ho validati sul vecchio. Un tentativo solo.
+        echo "--- push rifiutato: main è andato avanti, rebase e riprovo ---"
+        if git fetch --quiet origin main 2>>"$LOG" && git rebase -q --autostash FETCH_HEAD 2>>"$LOG" \
+          && "$NPM_BIN" test >>"$LOG" 2>&1 && node prototipo/genera-articoli.js >>"$LOG" 2>&1 \
+          && git push --quiet origin HEAD:main 2>>"$LOG"; then
+          PUSH_OK=1
+        else
+          git rebase --abort 2>/dev/null
+        fi
+      fi
     fi
+    if [ "$PUSH_OK" -eq 1 ]; then echo "--- push ok ---"; else echo "--- push FALLITO ---"; fi
   fi
 
   if [ "$DRY_RUN" != "1" ] && [ "$PUSH_OK" -ne 1 ]; then
     avvisa "Articolo $RUN_DATE — scritto ma NON pushato" \
 "L'articolo ha passato test, build e soglia, ma commit o push sono falliti.
-È sul VPS, non su GitHub, non online.
+È sul VPS, non su GitHub, non online: il commit è in $REPO, che resta lì.
 
 File: $FILE
 Titolo: ${R_TITOLO:-?}

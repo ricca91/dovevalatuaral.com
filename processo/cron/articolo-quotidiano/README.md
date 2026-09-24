@@ -9,7 +9,7 @@ Vercel lo mette online. Poi ti manda una mail da `claude.sartori@agentmail.to`.
 | | fa |
 |---|---|
 | l'agente<br>(`.claude/skills/seo-90-giorni`) | sceglie la riga Airtable del giorno, scrive, fa l'audit fino a 90/90 (max 5 iterazioni), salva `prototipo/articoli/{slug}.md`, chiude con un blocco `REPORT_` |
-| `run.sh` | la data, la guardia anti-doppione, `git pull`, `npm test`, la build, il commit, il push, l'aggiornamento Airtable e **l'invio della mail** |
+| `run.sh` | la data, la guardia anti-doppione, il controllo che il checkout sia origin/main, `npm test`, la build, il commit, il push, l'aggiornamento Airtable e **l'invio della mail** |
 
 La divisione non è estetica. Un agente non può riferire l'esito di un'azione che non ha
 ancora compiuto: se fosse lui a mandare la mail, quella mail direbbe "pubblicato" anche
@@ -19,11 +19,29 @@ quando il push è fallito. Il runner manda la mail dopo, e sa com'è andata davv
 
 | file | a cosa serve |
 |---|---|
-| `run.sh` | il lanciatore e l'unico responsabile di tutto ciò che deve andare bene sempre |
-| `crontab.txt` | le due righe da appendere al crontab |
-| `test/test.sh` | 10 casi, 41 assert, su repo fixture con stub: nessun Opus, nessuna mail, nessun push veri |
-| `logs/` | un log per giorno (ignorato da git) |
-| `logs/state` | la guardia anti-doppione: data e slug dell'ultimo articolo pubblicato |
+| `lancia.sh` | crea un worktree usa e getta di origin/main, ci lancia `run.sh`, poi lo rimuove |
+| `run.sh` | l'unico responsabile di tutto ciò che deve andare bene sempre |
+| `systemd/` | timer, servizio e avviso di fallimento, come installati in `/etc/systemd/system/` |
+| `test/test.sh` | 14 casi su repo fixture con stub: nessun Opus, nessuna mail, nessun push veri |
+
+Fuori dal repo, sul VPS:
+
+| percorso | cos'è |
+|---|---|
+| `/root/cron/dovevalatuaral.git` | clone bare: il database git del job, nessun branch in uso |
+| `/root/cron/articolo-quotidiano/lancia.sh` | la copia installata di `lancia.sh`, quella che systemd esegue |
+| `/root/cron/articolo-quotidiano/logs/` | un log per giorno |
+| `/root/cron/articolo-quotidiano/logs/state` | la guardia anti-doppione: data e slug dell'ultimo articolo pubblicato |
+| `/root/cron/articolo-quotidiano/run-*` | worktree di un run; resta solo se c'è un articolo non arrivato su origin |
+
+## Perché un worktree usa e getta
+
+Fino al 2026-09-24 il job aveva un checkout fisso su `main`. Due problemi: git non
+permette lo stesso branch in due worktree, quindi nessun'altra cartella poteva più
+fare `git checkout main`; e ogni run lasciava lì il suo output, che il run dopo doveva
+ripulire. Ora ogni run parte da un checkout nuovo di origin/main e lo butta alla fine.
+Se l'articolo non è arrivato su origin (bozza, build rotta, push fallito) il worktree
+resta, e la mail dice dove.
 
 Le istruzioni editoriali **non** stanno qui: stanno nella skill. Questo file non le duplica.
 
@@ -31,7 +49,7 @@ Le istruzioni editoriali **non** stanno qui: stanno nella skill. Questo file non
 
 Un articolo arriva online solo se passa tutti e cinque:
 
-1. il repo è su `main` e allineato a `origin` (altrimenti non parte nemmeno)
+1. il checkout è esattamente origin/main (altrimenti non parte nemmeno)
 2. `claude` è uscito con rc=0 entro 45 minuti
 3. in `prototipo/articoli/` è comparso davvero un file nuovo
 4. `npm test` **e** `node prototipo/genera-articoli.js` passano — rieseguiti dal runner
@@ -43,8 +61,9 @@ Sotto soglia l'articolo resta `bozza`: la build lo scarta (`genera-articoli.js` 
 successo, bozza, build rotta, run fallito — produce una mail. Il silenzio significa che
 il cron non è partito, non che è andato tutto bene.
 
-Il `git add` prende **solo** il file dell'articolo. Il working tree di questo repo ha una
-ventina di file di lavoro non tracciati: un `git add -A` notturno li spedirebbe su main.
+Il `git add` prende **solo** il file dell'articolo, e il push è `HEAD:main`. Se nei minuti
+del run è stato mergiato un PR, il push viene rifiutato: `run.sh` fa un rebase, rifà test
+e build sul main nuovo e riprova **una** volta. Se fallisce ancora, mail e worktree lasciato.
 
 ## Testarlo
 
@@ -53,19 +72,32 @@ ventina di file di lavoro non tracciati: un `git add -A` notturno li spedirebbe 
 processo/cron/articolo-quotidiano/test/test.sh
 
 # prova vera ma senza pubblicare: scrive l'articolo, gira test e build,
-# NON pusha, NON tocca Airtable, NON manda la mail (te la stampa nel log)
-DRY_RUN=1 processo/cron/articolo-quotidiano/run.sh
-cat processo/cron/articolo-quotidiano/logs/$(date +%F).log
+# NON pusha, NON tocca Airtable, NON manda la mail (te la stampa nel log).
+# Il worktree resta (c'è un articolo non committato): cancellalo dopo averlo letto.
+DRY_RUN=1 /root/cron/articolo-quotidiano/lancia.sh
+cat /root/cron/articolo-quotidiano/logs/$(date +%F).log
 ```
 
 ## Accenderlo
 
+È un timer systemd, non cron: il cron di questo VPS (3.0pl1) ignora `CRON_TZ`, e
+l'articolo deve uscire alle 06:30 di Roma anche col cambio d'ora.
+
 ```bash
-( crontab -l 2>/dev/null; cat /root/ricc-os/projects/dovevalatuaral.com/processo/cron/articolo-quotidiano/crontab.txt ) | crontab -
-crontab -l
+# una volta: il database git del job
+git clone --bare git@github.com:ricca91/dovevalatuaral.com.git /root/cron/dovevalatuaral.git
+git -C /root/cron/dovevalatuaral.git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+git -C /root/cron/dovevalatuaral.git fetch origin
+
+# a ogni modifica di lancia.sh o delle unit (da un checkout aggiornato di main)
+install -D -m 755 processo/cron/articolo-quotidiano/lancia.sh /root/cron/articolo-quotidiano/lancia.sh
+cp processo/cron/articolo-quotidiano/systemd/* /etc/systemd/system/
+systemctl daemon-reload && systemctl enable --now articolo-quotidiano.timer
+systemctl list-timers articolo-quotidiano.timer
 ```
 
-Per fermarlo, commenta la riga `30 6 * * *` con un `#`.
+`run.sh` invece non si installa: arriva ogni mattina da origin/main.
+Per fermarlo: `systemctl disable --now articolo-quotidiano.timer`.
 
 ## Come viene invocata la skill (e perché non col tool Skill)
 
@@ -123,5 +155,5 @@ in basso, il tetto va abbassato.
 - [ ] `test/test.sh` è verde
 - [ ] un `DRY_RUN=1` ha scritto un articolo vero e passato test e build
 - [ ] un run vero ha pushato e la mail è arrivata
-- [ ] le due righe compaiono in `crontab -l`
+- [ ] il timer compare in `systemctl list-timers`
 - [ ] il primo run notturno lascia un log senza errori

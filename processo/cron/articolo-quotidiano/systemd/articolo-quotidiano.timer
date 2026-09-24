@@ -1,0 +1,15 @@
+[Unit]
+Description=Articolo quotidiano alle 06:30 ora italiana
+
+[Timer]
+# Il fuso nell'OnCalendar è la ragione di tutto questo: CRON_TZ su questa macchina
+# non viene onorato (cron 3.0pl1) e i job giravano all'ora di sistema, cioè UTC.
+# systemd 255 il fuso lo rispetta, cambio d'ora compreso.
+OnCalendar=*-*-* 06:30:00 Europe/Rome
+# Se il VPS era spento all'orario, recupera all'avvio. La guardia anti-doppione
+# in run.sh impedisce che il recupero scriva un secondo articolo nello stesso giorno.
+Persistent=true
+Unit=articolo-quotidiano.service
+
+[Install]
+WantedBy=timers.target
