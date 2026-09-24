@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Calcolo della tredicesima 2026, lorda e netta: parti dal lordo mensile o dalla RAL, indica i mesi lavorati e vedi contributi, IRPEF trattenuta a dicembre e fonti.">
+<title>Calcolo tredicesima 2026: lorda e netta, con i mesi lavorati | Dove va la tua RAL</title>
+<link rel="canonical" href="https://www.dovevalatuaral.com/calcolo-tredicesima/">
+<link rel="stylesheet" href="../draftsman.css">
+<style>
+body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-inline:auto}
+.pagehero{position:relative;padding:clamp(26px,3.2vw,46px) 0 clamp(22px,2.6vw,34px);background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0),linear-gradient(to right,var(--line) 1px,transparent 1px),linear-gradient(to bottom,var(--line) 1px,transparent 1px);background-size:24px 24px,192px 192px,192px 192px;border-bottom:var(--bw) dashed var(--line-strong)}
+.pagehero h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);font-size:clamp(2rem,3.6vw,3.15rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0 0 var(--s-3);max-width:22ch;text-wrap:balance}
+.pagehero p{margin:0;max-width:62ch;font-size:var(--t-body);line-height:1.55;color:var(--fg-muted)}
+.pagehero .meta{display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-5)}
+.t-form{margin-top:clamp(18px,2vw,26px);border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,26px);box-shadow:var(--lift-md) var(--line-solid)}
+.t-form h2{margin:0 0 var(--s-5);font-size:var(--t-h4)}
+.modi{display:flex;gap:0;border:0;padding:0;margin:0 0 var(--s-5)}.modi legend{margin-bottom:var(--s-2);font:500 var(--t-sm)/1.4 var(--font-mono)}
+.modi label{display:inline-flex;align-items:center;gap:var(--s-2);padding:var(--s-2) var(--s-4);border:var(--bw) solid var(--line-strong);cursor:pointer}
+.modi label+label{border-left:0}.modi input{accent-color:currentColor}
+.campi{display:grid;gap:var(--s-5);grid-template-columns:repeat(auto-fit,minmax(200px,1fr));max-width:760px}
+.campi [hidden]{display:none}
+.ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:44px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono);color:var(--fg-muted)}
+.ingroup .input{flex:1;min-width:0}.errore{margin:var(--s-2) 0 0;font:400 var(--t-xs)/1.5 var(--font-mono);color:var(--danger,#b3261e)}
+.azioni{display:flex;align-items:center;gap:var(--s-4);flex-wrap:wrap;margin-top:var(--s-5);padding-top:var(--s-5);border-top:var(--bw) dashed var(--line-strong)}
+.result{margin-top:clamp(28px,3.4vw,48px);padding-top:var(--s-8);border-top:var(--bw) solid var(--line-strong)}.result[hidden]{display:none}
+.result h2{margin:0 0 var(--s-4);font-size:var(--t-h3)}
+.result__box{border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,28px);box-shadow:var(--lift-md) var(--line-solid)}
+.result__netta{display:block;margin:var(--s-2) 0 var(--s-5);font:800 clamp(1.9rem,3.4vw,2.75rem)/var(--lh-snug) var(--font-display);font-variant-numeric:tabular-nums;letter-spacing:var(--ls-display)}
+.righe{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.righe th,.righe td{padding:var(--s-3) 0;border-top:var(--bw) dashed var(--line-strong);text-align:left;vertical-align:top}
+.righe td:last-child{text-align:right;white-space:nowrap;padding-left:var(--s-4)}
+.righe .formula{display:block;margin-top:var(--s-1);font:400 var(--t-xs)/1.5 var(--font-mono);color:var(--fg-muted)}
+.righe tfoot th,.righe tfoot td{border-top:var(--bw-thick) solid var(--line-solid);font-weight:700}
+.nota{margin:var(--s-5) 0 0;max-width:74ch;font-size:var(--t-sm);color:var(--fg-muted)}
+.detassata{margin-top:var(--s-6)}
+.contenuti{max-width:74ch;margin:clamp(40px,5vw,72px) 0}.contenuti h2{font-size:var(--t-h3)}.contenuti h3{font-size:var(--t-h5,1.1rem);margin-top:var(--s-6)}
+.fonti{font-size:var(--t-sm)}.fonti li{margin-bottom:var(--s-2)}
+.t-footer{margin-top:clamp(40px,5vw,72px);padding:var(--s-10) var(--s-4) var(--s-12);text-align:center;border-top:var(--bw) solid var(--line-strong);font:400 var(--t-xs)/1.6 var(--font-mono);color:var(--fg-muted)}
+</style>
+<script src="../analytics.js" async></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Calcolo tredicesima 2026","url":"https://www.dovevalatuaral.com/calcolo-tredicesima/","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"it","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"EUR"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Come si calcola la tredicesima?","acceptedAnswer":{"@type":"Answer","text":"La tredicesima lorda è una mensilità in più: lo stipendio lordo mensile, oppure la RAL divisa per le mensilità del contratto. Se hai lavorato solo una parte dell'anno matura in ratei: lordo mensile per mesi lavorati, diviso 12."}},
+{"@type":"Question","name":"Perché la tredicesima è tassata di più?","acceptedAnswer":{"@type":"Answer","text":"Perché l'IRPEF si trattiene sulla sola tredicesima con gli scaglioni annui divisi per 12 e senza detrazioni da lavoro dipendente, che invece riducono la ritenuta sugli stipendi ordinari. Il conguaglio di fine anno ricalcola l'imposta sul totale."}},
+{"@type":"Question","name":"Quando si paga la tredicesima?","acceptedAnswer":{"@type":"Answer","text":"Di norma con lo stipendio di dicembre, entro la data fissata dal contratto collettivo. Se il rapporto finisce prima, i ratei maturati si pagano con l'ultima busta paga."}},
+{"@type":"Question","name":"Se ho lavorato solo qualche mese?","acceptedAnswer":{"@type":"Answer","text":"Ti spettano tanti dodicesimi quanti sono i mesi lavorati. Di solito una frazione di almeno 15 giorni conta come mese intero, ma la regola esatta la stabilisce il tuo CCNL."}}]}</script>
+</head>
+<body>
+<a class="skip-link" href="#contenuto">Vai al contenuto</a>
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="../index.html">RAL → Netto</a><a href="../netto-ral.html">Netto → RAL</a><a href="../ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/" aria-current="page">Tredicesima</a></div></div><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="../compara.html">Due offerte</a><a href="../confronti-ral/">Livelli di RAL</a></div></div><a href="../netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="../la-storia.html">La storia</a></nav>
+</div></header>
+<main id="contenuto">
+  <div class="pagehero"><div class="pg">
+    <div class="eyebrow">Tredicesima</div>
+    <h1>Calcolo della tredicesima 2026, lorda e netta</h1>
+    <p>Tre campi: lordo mensile o RAL, e i mesi lavorati. Non ti chiediamo il comune né i familiari a carico, perché sulla tredicesima non si trattengono addizionali e non si applicano detrazioni.</p>
+    <div class="meta"><span class="tag tag--flux">Regole 2026</span><span class="tag">Dipendente privato</span><span class="tag">Trattenuta di dicembre</span></div>
+  </div></div>
+  <div class="pg">
+  <section class="t-form" aria-labelledby="form-title">
+    <h2 id="form-title">Il tuo caso</h2>
+    <form id="t-form" novalidate>
+      <fieldset class="modi"><legend>Parto da</legend>
+        <label><input type="radio" name="modalita" value="lordo" checked> Lordo mensile</label>
+        <label><input type="radio" name="modalita" value="ral"> RAL</label>
+      </fieldset>
+      <div class="campi">
+        <div class="field"><label class="label" for="importo" id="importo-label">Stipendio lordo mensile</label>
+          <div class="ingroup"><span class="affix" aria-hidden="true">€</span><input class="input" id="importo" name="importo" inputmode="decimal" autocomplete="off" aria-describedby="importo-help importo-errore"></div>
+          <p class="hint" id="importo-help">Il lordo della busta paga, prima di contributi e tasse.</p>
+          <p class="errore" id="importo-errore" hidden></p></div>
+        <div class="field" id="campo-mensilita" hidden><label class="label" for="mensilita">Mensilità</label>
+          <select class="input" id="mensilita" name="mensilita" aria-describedby="mensilita-errore"><option value="13" selected>13</option><option value="14">14</option></select>
+          <p class="errore" id="mensilita-errore" hidden></p></div>
+        <div class="field"><label class="label" for="mesi">Mesi lavorati nell'anno</label>
+          <input class="input" id="mesi" name="mesi" type="number" min="1" max="12" step="1" value="12" inputmode="numeric" aria-describedby="mesi-help mesi-errore">
+          <p class="hint" id="mesi-help">Di solito 15 giorni o più contano come mese intero, ma decide il CCNL.</p>
+          <p class="errore" id="mesi-errore" hidden></p></div>
+      </div>
+      <div class="azioni"><button class="btn btn--primary btn--lg" type="submit">Calcola la tredicesima</button></div>
+    </form>
+  </section>
+  <section class="result" id="risultato" aria-live="polite" tabindex="-1" hidden>
+    <h2>La tua tredicesima</h2>
+    <div class="result__box">
+      <span class="micro">Netta, a dicembre</span>
+      <strong class="result__netta" id="netta"></strong>
+      <table class="righe"><tbody id="righe"></tbody>
+        <tfoot><tr><th scope="row">Tredicesima netta</th><td id="netta-riga"></td></tr></tfoot></table>
+      <p class="nota" id="nota-stima" hidden>Stima dell'anno su 13 mensilità: in modalità lordo mensile non conosciamo il tuo contratto.</p>
+      <p class="nota">È la trattenuta di dicembre. A fine anno il conguaglio ricalcola l'IRPEF sul totale, con le detrazioni, e restituisce l'1% aggiuntivo se nell'anno resti sotto 56.224 €. Non contiamo l'ulteriore detrazione e il trattamento integrativo, che si ripartiscono sui mesi ordinari.</p>
+    </div>
+    <div class="callout detassata" id="detassata"><span class="callout__mark">Proposta, non legge</span><div id="detassata-testo"></div></div>
+  </section>
+  <section class="contenuti" aria-labelledby="faq-title">
+    <h2 id="faq-title">Domande frequenti</h2>
+    <h3>Come si calcola la tredicesima?</h3>
+    <p>La tredicesima lorda è una mensilità in più: lo stipendio lordo mensile, oppure la RAL divisa per le mensilità del contratto. Se hai lavorato solo una parte dell'anno matura in ratei: lordo mensile per mesi lavorati, diviso 12.</p>
+    <h3>Perché la tredicesima è tassata di più?</h3>
+    <p>Perché l'IRPEF si trattiene sulla sola tredicesima con gli scaglioni annui divisi per 12 e senza detrazioni da lavoro dipendente, che invece riducono la ritenuta sugli stipendi ordinari. Il conguaglio di fine anno ricalcola l'imposta sul totale. L'ho spiegato con i numeri nell'<a href="/blog/tredicesima-detassata/">articolo sulla tredicesima detassata</a>.</p>
+    <h3>Quando si paga la tredicesima?</h3>
+    <p>Di norma con lo stipendio di dicembre, entro la data fissata dal contratto collettivo. Se il rapporto finisce prima, i ratei maturati si pagano con l'ultima busta paga.</p>
+    <h3>Se ho lavorato solo qualche mese?</h3>
+    <p>Ti spettano tanti dodicesimi quanti sono i mesi lavorati. Di solito una frazione di almeno 15 giorni conta come mese intero, ma la regola esatta la stabilisce il tuo CCNL.</p>
+    <h2>Fonti</h2>
+    <ul class="fonti">
+      <li>D.Lgs. 24 marzo 2025, n. 33, art. 33 c. 3 lett. b — ritenuta sulle mensilità aggiuntive con gli scaglioni annui ragguagliati a mese (<a href="https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-03-24;33" rel="noopener">Normattiva</a>)</li>
+      <li>Agenzia delle Entrate, circolare 15/2007 — conferma il metodo per la tredicesima (<a href="https://def.finanze.it/DocTribFrontend/getPrassiDetail.do?id=%7BD20F6A55-3E47-44DC-A55F-A88025D3249C%7D" rel="noopener">DEF Finanze</a>)</li>
+      <li>L. 30 dicembre 2025, n. 199, art. 1 c. 3 — aliquote IRPEF 2026 (<a href="https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED" rel="noopener">Normattiva</a>)</li>
+      <li>INPS, circolare 101/2024 — aliquota 9,19% a carico del lavoratore (<a href="https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html" rel="noopener">INPS</a>)</li>
+      <li>INPS, circolare 6/2026 — contributo aggiuntivo 1% oltre 4.685 € al mese, mensilizzazione e conguaglio (<a href="https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.01.circolare-numero-6-del-30-01-2026_15151.html" rel="noopener">INPS</a>)</li>
+      <li>L. 207/2024, art. 1 c. 4-5, e Agenzia delle Entrate, circolare 4/2025 — somma esente del cuneo sul reddito corrisposto nel mese (<a href="https://www.agenziaentrate.gov.it/portale/documents/20143/8410823/Circolare+lavoro+dipendente+LB2025+DD+IRPEF+n.+4+del+16+maggio+2025.pdf/36979eaa-9fc5-a4ec-a7aa-136497c53f91" rel="noopener">Agenzia delle Entrate</a>)</li>
+    </ul>
+  </section>
+  </div>
+</main>
+<footer class="t-footer">Stima con le regole 2026, non il cedolino. <a href="../come-ho-lavorato.html">Come ho lavorato</a></footer>
+<script src="../tredicesima.js"></script><script src="../site-nav.js"></script>
+<script>
+(()=>{
+  const $=id=>document.getElementById(id);
+  const form=$('t-form'),box=$('risultato');
+  const euro=n=>new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',minimumFractionDigits:2,maximumFractionDigits:2}).format(n);
+  const perc=n=>`${(n*100).toLocaleString('it-IT',{maximumFractionDigits:2})}%`;
+  const modalita=()=>form.querySelector('input[name="modalita"]:checked').value;
+  const CAMPI=['importo','mensilita','mesi'];
+
+  function aggiornaModalita(){
+    const ral=modalita()==='ral';
+    $('campo-mensilita').hidden=!ral;
+    $('importo-label').textContent=ral?'RAL (retribuzione annua lorda)':'Stipendio lordo mensile';
+    $('importo-help').textContent=ral?'Il lordo annuo scritto nel contratto.':'Il lordo della busta paga, prima di contributi e tasse.';
+  }
+  function pulisci(){
+    box.hidden=true;
+    for(const c of CAMPI){$(c).removeAttribute('aria-invalid');$(`${c}-errore`).hidden=true;}
+  }
+  function mostraErrore({campo,messaggio}){
+    const c=CAMPI.includes(campo)?campo:'importo';
+    $(c).setAttribute('aria-invalid','true');
+    $(`${c}-errore`).textContent=messaggio;$(`${c}-errore`).hidden=false;$(c).focus();
+  }
+  function riga(titolo,formula,importo,segno){
+    const tr=document.createElement('tr');
+    const th=document.createElement('th');th.scope='row';th.textContent=titolo;
+    const f=document.createElement('span');f.className='formula';f.textContent=formula;th.append(f);
+    const td=document.createElement('td');td.textContent=`${segno}${euro(importo)}`;
+    tr.append(th,td);return tr;
+  }
+  /* Le righe: la voce dice i numeri, qui si scrive la frase. */
+  function righe(r){
+    return r.voci.map(v=>{
+      if(v.id==='lorda')return riga('Tredicesima lorda',v.mesi===12?`${euro(v.base)} lordi al mese · ${v.fonte}`:`${euro(v.base)} × ${v.mesi} mesi ÷ 12 · ${v.fonte}`,v.importo,'');
+      if(v.id==='inps')return riga('Contributi INPS',`${perc(v.aliquota)} della lorda · ${v.fonte}`,v.importo,'−');
+      if(v.id==='aggiuntivo')return riga('Contributo aggiuntivo INPS',`${perc(v.aliquota)} su ${euro(v.base)}: a dicembre stipendio e tredicesima superano ${euro(v.soglia)} · ${v.fonte}`,v.importo,'−');
+      if(v.id==='irpef')return riga('IRPEF trattenuta',`${v.fasce.map(f=>`${perc(f.aliquota)} su ${euro(f.base)}`).join(' + ')}, senza detrazioni · ${v.fonte}`,v.importo,'−');
+      if(v.id==='cuneo')return riga('Bonus cuneo fiscale',`${perc(v.aliquota)} di ${euro(v.base)}, esente · ${v.fonte}`,v.importo,'+');
+    });
+  }
+  function testoDetassata(d){
+    const link='<a href="/blog/tredicesima-detassata/">Cosa prevede la proposta</a>';
+    return d.applicabile
+      ?`<p>Se passasse l'ipotesi della sostitutiva al ${perc(d.aliquota)} fino a ${euro(d.soglia)} di reddito, sulla tua tredicesima risparmieresti <b>${euro(d.risparmio)}</b>. Oggi non è legge. ${link}.</p>`
+      :`<p>Con l'ipotesi della sostitutiva al ${perc(d.aliquota)} il tuo risparmio sarebbe <b>0 €</b>: il tuo reddito stimato supera la soglia di ${euro(d.soglia)}. Oggi comunque non è legge. ${link}.</p>`;
+  }
+  function mostra(r){
+    $('netta').textContent=euro(r.netta);$('netta-riga').textContent=euro(r.netta);
+    $('righe').replaceChildren(...righe(r));
+    $('nota-stima').hidden=r.modalita!=='lordo';
+    $('detassata-testo').innerHTML=testoDetassata(r.detassata);
+    box.hidden=false;
+  }
+  function leggiForm(){
+    return{modalita:modalita(),importo:$('importo').value,mensilita:$('mensilita').value,mesi:$('mesi').value};
+  }
+  function esegui({silenzioso=false}={}){
+    pulisci();
+    const input=TREDICESIMA.normalizza(leggiForm());
+    if(input.errore){if(!silenzioso)mostraErrore(input.errore);return;}
+    mostra(TREDICESIMA.calcola(input));
+    if(!silenzioso)box.focus();
+    try{if(typeof window.gtag==='function')window.gtag('event','tredicesima_calcolata',{modalita:input.modalita});}catch(_){/* tracker facoltativo */}
+  }
+
+  form.addEventListener('change',e=>{if(e.target.name==='modalita'){aggiornaModalita();pulisci();}});
+  form.addEventListener('input',pulisci);
+  form.addEventListener('submit',e=>{e.preventDefault();esegui();});
+
+  /* Precompilazione da link (?ral=30000, ?lordo=2300&mesi=8): se i
+     valori sono validi calcola subito, altrimenti lascia la pagina vuota. */
+  const q=TREDICESIMA.daQuery(location.search);
+  if(q&&!TREDICESIMA.normalizza(q).errore){
+    form.querySelector(`input[name="modalita"][value="${q.modalita}"]`).checked=true;
+    $('importo').value=q.importo;$('mesi').value=q.mesi;if(q.mensilita)$('mensilita').value=q.mensilita;
+    aggiornaModalita();esegui({silenzioso:true});
+  }else aggiornaModalita();
+})();
+</script>
+</body></html>
