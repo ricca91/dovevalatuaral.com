@@ -27,10 +27,12 @@ Selettore in testa: **"Parto dal lordo mensile"** / **"Parto dalla RAL"**.
 
 | Campo | Modalità | Valori | Default |
 |---|---|---|---|
-| Lordo mensile | lordo | 100 – 50.000 € | vuoto |
-| RAL | RAL | 1.000 – 600.000 € | vuoto |
+| Lordo mensile | lordo | 100 – 9.000 € | vuoto |
+| RAL | RAL | 1.000 – 120.000 € | vuoto |
 | Mensilità | RAL | 13, 14 | 13 |
 | Mesi lavorati nell'anno | entrambe | intero 1 – 12 | 12 |
+
+I tetti restano sotto il massimale contributivo (122.295 €), che è fuori perimetro.
 
 Non si chiedono comune né familiari: sulla tredicesima non si trattengono
 addizionali e non si applicano detrazioni. La pagina lo dice.
@@ -45,10 +47,11 @@ validi nella query vengono ignorati, senza errore.
 
 ## 2. Calcolo
 
-Modulo puro `prototipo/tredicesima.js`, stesso pattern di `motore.js` (globali nel
-browser, `module.exports` in Node). Riusa le costanti `K` e l'aritmetica decimale
-(`dec`, `mul`, arrotondamento al centesimo) di `motore.js`; non modifica il calcolo
-annuo. Restituisce **voci** (importo, base, fonte), non testo: le **righe** le
+Modulo puro `prototipo/tredicesima.js`, stesso pattern di `netto-ral.js` (globale
+nel browser, `module.exports` in Node), stessa aritmetica decimale di `motore.js`.
+Non carica il motore nel browser: il motore richiede `dati-addizionali-2026.js`
+(4,4 MB) che qui non serve. Le costanti usate sono replicate e un test di parità le
+confronta con `K` del motore. Restituisce **voci** (importo, base, fonte), non testo: le **righe** le
 compone la pagina (glossario in `CONTEXT.md`).
 
 Definizioni:
@@ -66,7 +69,7 @@ Definizioni:
 | 2 | Contributi INPS | 9,19% di `lorda` | INPS circ. 101/2024 |
 | 3 | Contributo aggiuntivo 1% | criterio di mensilizzazione: a dicembre la tredicesima si somma allo stipendio. Importo = 1% × [max(0, mensile + lorda − 4.685) − max(0, mensile − 4.685)]. Mostrata solo se > 0 | INPS circ. 6/2026 (soglia mensile 4.685 €; conguaglio a fine anno) |
 | 4 | IRPEF trattenuta | `lorda − 2 − 3`, tassata da sola con gli scaglioni annui ÷ 12: 23% fino a 2.333,33 €, 33% fino a 4.166,67 €, 43% oltre. Nessuna detrazione. Scomposta per scaglione | D.Lgs. 33/2025 art. 33 c. 3 lett. b; AdE circ. 15/2007 (conferma circ. 326/1997) |
-| 5 | Bonus cuneo (somma esente) | solo se `imponibileAnnuoStimato` ≤ 20.000 €: aliquota di `sommaNonImponibile()` del motore applicata a `lorda − 2 − 3`. Si **aggiunge** al netto | L. 207/2024 art. 1 c. 4-5; AdE circ. 4/2025 ("applicando tale percentuale al reddito effettivamente corrisposto mensilmente") |
+| 5 | Bonus cuneo (somma esente) | spetta se `imponibileAnnuoStimato` ≤ 20.000 €; la percentuale (7,1 / 5,3 / 4,8%) si sceglie sull'imponibile rapportato all'anno intero e si applica a `lorda − 2 − 3`. Si **aggiunge** al netto | L. 207/2024 art. 1 c. 4-5; AdE circ. 4/2025 ("applicando tale percentuale al reddito effettivamente corrisposto mensilmente") |
 | 6 | **Tredicesima netta** | 1 − 2 − 3 − 4 + 5 | — |
 
 Resta fuori, e la pagina lo dice: ulteriore detrazione 20–40 mila e trattamento
@@ -158,5 +161,5 @@ analytics.
   (`validateLinks` in `genera-articoli.js`): si risolve con questo lavoro.
 - `prototipo/sitemap.xml` su main non contiene l'articolo della tredicesima; i test
   lo rigenerano scrivendo in `prototipo/`. Problema preesistente, da ticket a parte.
-- L'articolo, righe 15.000 e 20.000: non include il bonus cuneo sulla tredicesima
-  (circ. 4/2025). Da decidere se correggerlo in questo branch.
+- L'articolo, righe 15.000 e 20.000: aggiungere il bonus cuneo sulla tredicesima
+  (circ. 4/2025). Deciso: si corregge in questo branch.
