@@ -46,3 +46,10 @@ test('ogni menu "Calcola" porta alla tredicesima',()=>{
 test('le pagine RAL linkano la tredicesima a quella RAL',()=>{
   assert.match(readFileSync(resolve(__dirname,'ral-30000-netto/index.html'),'utf8'),/href="\.\.\/calcolo-tredicesima\/\?ral=30000"/);
 });
+
+test('il form usa i componenti del design system',()=>{
+  assert.match(html,/<select class="select" id="mensilita"/);
+  assert.doesNotMatch(html,/<select class="input"/);
+  assert.match(html,/<fieldset class="modi"><legend class="label">Parto da<\/legend><div class="segmented">/);
+  assert.match(html,/<p class="error-text" id="importo-errore"/);
+});

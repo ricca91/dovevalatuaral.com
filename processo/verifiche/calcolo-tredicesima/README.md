@@ -23,8 +23,8 @@ valida lascia la pagina vuota): è coperto dai test di `normalizza`.
 
 ## Test
 
-`npm test` → 492 test, 492 pass, 0 fail. Comprende `tredicesima.test.js` (14),
-`calcolo-tredicesima.test.js` (6) e i 3 test di `genera-articoli` che fallivano
+`npm test` → 493 test, 493 pass, 0 fail. Comprende `tredicesima.test.js` (14),
+`calcolo-tredicesima.test.js` (7) e i 3 test di `genera-articoli` che fallivano
 dal commit del link nell'articolo.
 
 `node processo/attrezzi/build.cjs` → `dist/calcolo-tredicesima/index.html` e

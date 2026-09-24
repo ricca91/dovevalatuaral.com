@@ -15,13 +15,23 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
 .pagehero .meta{display:flex;gap:var(--s-2);flex-wrap:wrap;margin-top:var(--s-5)}
 .t-form{margin-top:clamp(18px,2vw,26px);border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,26px);box-shadow:var(--lift-md) var(--line-solid)}
 .t-form h2{margin:0 0 var(--s-5);font-size:var(--t-h4)}
-.modi{display:flex;gap:0;border:0;padding:0;margin:0 0 var(--s-5)}.modi legend{margin-bottom:var(--s-2);font:500 var(--t-sm)/1.4 var(--font-mono)}
-.modi label{display:inline-flex;align-items:center;gap:var(--s-2);padding:var(--s-2) var(--s-4);border:var(--bw) solid var(--line-strong);cursor:pointer}
-.modi label+label{border-left:0}.modi input{accent-color:currentColor}
-.campi{display:grid;gap:var(--s-5);grid-template-columns:repeat(auto-fit,minmax(200px,1fr));max-width:760px}
+/* Parto da: radio con l'aspetto di .segmented del design system. */
+.modi{display:grid;gap:var(--s-2);border:0;padding:0;margin:0 0 var(--s-6);min-inline-size:0}
+.modi legend{padding:0;margin-bottom:var(--s-2)}
+.modi .segmented{justify-self:start}
+.modi label{position:relative;padding:10px 20px;border-right:var(--bw) dashed var(--line-strong);cursor:pointer;
+  font:500 var(--t-label)/1.4 var(--font-mono);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--fg-muted)}
+.modi label:last-child{border-right:0}
+.modi label:hover{background:var(--c-citron);color:var(--c-graphite)}
+.modi label:has(input:checked){background:var(--c-graphite);color:var(--c-fog)}
+.modi label:has(input:focus-visible){outline:var(--bw-thick) solid var(--focus);outline-offset:2px}
+.modi input{position:absolute;opacity:0;pointer-events:none}
+/* Colonne fisse e allineate in alto: etichette, box e aiuti sulla stessa riga. */
+.campi{display:grid;gap:var(--s-5);grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr);align-items:start;max-width:820px}
+@media (max-width:720px){.campi{grid-template-columns:1fr}}
 .campi [hidden]{display:none}
 .ingroup{display:flex}.ingroup .affix{display:grid;place-items:center;width:44px;flex:none;border:var(--bw) solid var(--line-strong);border-right:0;background:var(--bg-sunken);font:500 var(--t-sm)/1 var(--font-mono);color:var(--fg-muted)}
-.ingroup .input{flex:1;min-width:0}.errore{margin:var(--s-2) 0 0;font:400 var(--t-xs)/1.5 var(--font-mono);color:var(--danger,#b3261e)}
+.ingroup .input{flex:1;min-width:0}
 .azioni{display:flex;align-items:center;gap:var(--s-4);flex-wrap:wrap;margin-top:var(--s-5);padding-top:var(--s-5);border-top:var(--bw) dashed var(--line-strong)}
 .result{margin-top:clamp(28px,3.4vw,48px);padding-top:var(--s-8);border-top:var(--bw) solid var(--line-strong)}.result[hidden]{display:none}
 .result h2{margin:0 0 var(--s-4);font-size:var(--t-h3)}
@@ -57,29 +67,29 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
   <div class="pagehero"><div class="pg">
     <div class="eyebrow">Tredicesima</div>
     <h1>Calcolo della tredicesima 2026, lorda e netta</h1>
-    <p>Tre campi: lordo mensile o RAL, e i mesi lavorati. Non ti chiediamo il comune né i familiari a carico, perché sulla tredicesima non si trattengono addizionali e non si applicano detrazioni.</p>
+    <p>Ti servono il lordo mensile o la RAL, e i mesi lavorati. Non ti chiediamo il comune né i familiari a carico, perché sulla tredicesima non si trattengono addizionali e non si applicano detrazioni.</p>
     <div class="meta"><span class="tag tag--flux">Regole 2026</span><span class="tag">Dipendente privato</span><span class="tag">Trattenuta di dicembre</span></div>
   </div></div>
   <div class="pg">
   <section class="t-form" aria-labelledby="form-title">
     <h2 id="form-title">Il tuo caso</h2>
     <form id="t-form" novalidate>
-      <fieldset class="modi"><legend>Parto da</legend>
+      <fieldset class="modi"><legend class="label">Parto da</legend><div class="segmented">
         <label><input type="radio" name="modalita" value="lordo" checked> Lordo mensile</label>
         <label><input type="radio" name="modalita" value="ral"> RAL</label>
-      </fieldset>
+      </div></fieldset>
       <div class="campi">
-        <div class="field"><label class="label" for="importo" id="importo-label">Stipendio lordo mensile</label>
+        <div class="field"><label class="label" for="importo" id="importo-label">Lordo mensile</label>
           <div class="ingroup"><span class="affix" aria-hidden="true">€</span><input class="input" id="importo" name="importo" inputmode="decimal" autocomplete="off" aria-describedby="importo-help importo-errore"></div>
           <p class="hint" id="importo-help">Il lordo della busta paga, prima di contributi e tasse.</p>
-          <p class="errore" id="importo-errore" hidden></p></div>
+          <p class="error-text" id="importo-errore" hidden></p></div>
         <div class="field" id="campo-mensilita" hidden><label class="label" for="mensilita">Mensilità</label>
-          <select class="input" id="mensilita" name="mensilita" aria-describedby="mensilita-errore"><option value="13" selected>13</option><option value="14">14</option></select>
-          <p class="errore" id="mensilita-errore" hidden></p></div>
+          <select class="select" id="mensilita" name="mensilita" aria-describedby="mensilita-errore"><option value="13" selected>13</option><option value="14">14</option></select>
+          <p class="error-text" id="mensilita-errore" hidden></p></div>
         <div class="field"><label class="label" for="mesi">Mesi lavorati nell'anno</label>
           <input class="input" id="mesi" name="mesi" type="number" min="1" max="12" step="1" value="12" inputmode="numeric" aria-describedby="mesi-help mesi-errore">
           <p class="hint" id="mesi-help">Di solito 15 giorni o più contano come mese intero, ma decide il CCNL.</p>
-          <p class="errore" id="mesi-errore" hidden></p></div>
+          <p class="error-text" id="mesi-errore" hidden></p></div>
       </div>
       <div class="azioni"><button class="btn btn--primary btn--lg" type="submit">Calcola la tredicesima</button></div>
     </form>
@@ -132,8 +142,8 @@ body{padding-bottom:0}.pg{width:min(100% - (var(--gutter) * 2),1180px);margin-in
   function aggiornaModalita(){
     const ral=modalita()==='ral';
     $('campo-mensilita').hidden=!ral;
-    $('importo-label').textContent=ral?'RAL (retribuzione annua lorda)':'Stipendio lordo mensile';
-    $('importo-help').textContent=ral?'Il lordo annuo scritto nel contratto.':'Il lordo della busta paga, prima di contributi e tasse.';
+    $('importo-label').textContent=ral?'RAL':'Lordo mensile';
+    $('importo-help').textContent=ral?'Retribuzione annua lorda, come nel contratto.':'Il lordo della busta paga, prima di contributi e tasse.';
   }
   function pulisci(){
     box.hidden=true;
