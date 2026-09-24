@@ -99,6 +99,8 @@ check "una sola mail"                     "[ \$(mails) -eq 1 ]"
 check "oggetto dice pushato"              "grep -q 'pushato' '$FIX/mail.log'"
 check "mail distingue il non verificato"  "grep -q 'NON verificato' '$FIX/mail.log'"
 check "Airtable aggiornato dopo il push"  "grep -q 'recTEST123' '$FIX/airtable.log'"
+check "Airtable via connettore claude.ai"  "grep -q 'mcp__claude_ai_Airtable' '$FIX/airtable.log'"
+check "niente campo File (è un allegato)" "! grep -q \"File='\" '$FIX/airtable.log'"
 check "stato avanzato"                    "grep -q 'LAST_RESULT=\"ok\"' '$STATE'"
 check "rc=0"                              "[ \"\$(rc)\" = 'rc=0' ]"
 

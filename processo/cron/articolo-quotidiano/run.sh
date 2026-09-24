@@ -42,7 +42,11 @@ TIMEOUT="${TIMEOUT:-45m}"
 # L'agente scrive file, legge Airtable e — se la riga lo impone — misura keyword su
 # DataForSEO. Allowlist per nome di server invece di bypassPermissions: un cron che
 # pusha su main non merita un agente senza freni.
-ALLOWED="${ALLOWED_TOOLS:-mcp__plugin_airtable_airtable,mcp__dataforseo,mcp__perplexity,WebFetch,WebSearch,Bash(npm test),Bash(node:*),Skill,Write,Edit,Read,Glob,Grep,TodoWrite}"
+# Airtable: in `claude -p` il plugin (plugin_airtable_airtable) risulta connesso ma i suoi
+# tool non vengono caricati; l'unico che arriva è il connettore claude.ai. Li autorizzo
+# entrambi: il 2026-09-24 l'agente non ha potuto leggere la riga (REPORT_RECORD_ID vuoto).
+AIRTABLE_MCP="mcp__claude_ai_Airtable,mcp__plugin_airtable_airtable"
+ALLOWED="${ALLOWED_TOOLS:-$AIRTABLE_MCP,mcp__dataforseo,mcp__perplexity,WebFetch,WebSearch,Bash(npm test),Bash(node:*),Skill,Write,Edit,Read,Glob,Grep,TodoWrite}"
 
 set -a
 [ -f /root/.config/agentmail/env ]   && . /root/.config/agentmail/env    # AGENTMAIL_API_KEY
@@ -283,12 +287,13 @@ Log: $LOG"
   # --- Airtable, solo dopo un push riuscito --------------------------------------
   # Non c'è un PAT Airtable sul box, solo l'MCP: quindi serve una seconda chiamata,
   # corta. Sta qui e non prima perché 'Pubblicato' deve essere vero quando lo scrivo.
+  # Niente campo File: in Airtable è un allegato e rifiuta un percorso testuale.
   AIRTABLE_ESITO="non tentato (dry run)"
   if [ "$DRY_RUN" != "1" ]; then
     if [ -n "$R_RECORD" ]; then
-      AIR="$(timeout 5m "$CLAUDE_BIN" -p "Nella base Airtable appAsCWc7NBzY5nam, tabella 'Piano editoriale', aggiorna il record $R_RECORD: Stato='Pubblicato', File='$FILE', URL pubblicato='https://www.dovevalatuaral.com/blog/$R_SLUG/'. Non toccare altri campi e non scrivere altro. Rispondi solo OK o l'errore." \
+      AIR="$(timeout 5m "$CLAUDE_BIN" -p "Nella base Airtable appAsCWc7NBzY5nam, tabella 'Piano editoriale', aggiorna il record $R_RECORD: Stato='Pubblicato', URL pubblicato='https://www.dovevalatuaral.com/blog/$R_SLUG/'. Non toccare altri campi e non scrivere altro. Rispondi solo OK o l'errore." \
         --model claude-sonnet-5 --permission-mode acceptEdits \
-        --allowedTools "mcp__plugin_airtable_airtable" 2>&1 | tail -n 3)"
+        --allowedTools "$AIRTABLE_MCP" < /dev/null 2>&1 | tail -n 3)"
       AIRTABLE_ESITO="$AIR"
     else
       AIRTABLE_ESITO="saltato: l'agente non ha riportato REPORT_RECORD_ID"
