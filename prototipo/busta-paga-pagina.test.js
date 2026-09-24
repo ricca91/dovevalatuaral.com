@@ -17,7 +17,7 @@ const pagina=leggi('busta-paga.html');
    sotto è che l'assenza di rete è dimostrata file per file, non promessa. */
 const FILE_PERCORSO=['busta-paga-estrazione.js','busta-paga-redazione.js',
   'busta-paga-ui.js','busta-paga-pdf.js','analytics-datafast.js',
-  'busta-paga-misura.js','busta-paga-risultato.js','busta-paga-percorso.js'];
+  'busta-paga-misura.js','busta-paga-risultato.js','busta-paga-percorso.js','busta-paga-landing.js'];
 const FILE_CHE_ESCE='busta-paga-invio.js';
 
 test('Google Analytics 4 non viene caricato, Datafast sì',()=>{
@@ -38,7 +38,8 @@ test('nessuna chiamata di rete e nessuna memoria persistente nel percorso',()=>{
       assert.doesNotMatch(sorgente,vietato,`${nome} non deve contenere ${vietato}`);
   }
   // Datafast è l'unica richiesta di terze parti della pagina, e non trasporta documenti.
-  const esterni=[...pagina.matchAll(/(?:src|href|action)="(https?:\/\/[^"]+)"/g)].map(m=>m[1]);
+  // Il canonical è metadato: non effettua una richiesta e non riceve il PDF.
+  const esterni=[...pagina.replace(/<link rel="canonical"[^>]+>/g,'').matchAll(/(?:src|href|action)="(https?:\/\/[^"]+)"/g)].map(m=>m[1]);
   assert.deepEqual(esterni,[]);
   assert.doesNotMatch(pagina,/<form[^>]+action=/);
 });
@@ -56,7 +57,7 @@ test('la pagina carica il percorso completo, nell’ordine che serve',()=>{
   const script=[...pagina.matchAll(/<script[^>]*src="([^"]+)"/g)].map(m=>m[1]);
   assert.deepEqual(script,['busta-paga-accesso.js','analytics-datafast.js','busta-paga-estrazione.js',
     'busta-paga-redazione.js','busta-paga-misura.js','busta-paga-invio.js',
-    'busta-paga-risultato.js','site-nav.js','busta-paga-percorso.js','busta-paga-ui.js','busta-paga-pdf.js']);
+    'busta-paga-risultato.js','site-nav.js','busta-paga-percorso.js','busta-paga-ui.js','busta-paga-landing.js','busta-paga-pdf.js']);
   assert.match(pagina,/<script type="module" src="busta-paga-pdf\.js"><\/script>/);
 });
 
@@ -128,8 +129,8 @@ test('il risultato si scrive come testo, mai come HTML',()=>{
 });
 
 test('la pagina dichiara a schermo il limite sull’assenza di valutazione',()=>{
-  assert.match(pagina,/Nessuno ha verificato che il modello legga bene un cedolino vero/);
-  assert.match(pagina,/non sostituisce un consulente del lavoro/i);
+  assert.match(pagina,/qualità dell’analisi su cedolini reali è ancora da verificare/);
+  assert.match(pagina,/non offre consulenza fiscale/i);
   assert.match(leggi('privacy.html'),/Nessuno ha verificato, su buste paga vere/);
 });
 
