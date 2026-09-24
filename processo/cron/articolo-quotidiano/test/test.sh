@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 # Test end-to-end di run.sh su un repo fixture con stub per claude, agentmail, npm e curl.
 # Nessun run di Opus, nessuna mail vera, nessun push vero (origin è un bare locale).
-# Otto casi: happy path, guardia anti-doppione, sotto soglia, build rotta, claude fallito,
-# nessun articolo, branch sbagliato, dry run.
+# Casi: happy path, guardia anti-doppione, sotto soglia, build rotta, claude fallito,
+# nessun articolo, checkout diverso da origin/main, dry run, report indentato,
+# main che avanza durante il run, e lancia.sh (worktree usa e getta).
 set -u
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 RUN="$HERE/../run.sh"
 FIX="$(mktemp -d)"
-trap 'rm -rf "$FIX"' EXIT
+# KEEP=1 lascia la fixture su disco per leggerne i log quando un caso fallisce.
+trap 'if [ -n "${KEEP:-}" ]; then echo "fixture: $FIX"; else rm -rf "$FIX"; fi' EXIT
 
 REPO="$FIX/repo"
 JOB="$REPO/processo/cron/articolo-quotidiano"
@@ -36,6 +38,12 @@ if echo "$*" | grep -q "Airtable appAsCWc"; then
 fi
 printf '%s' "$2" > "${STUB_OUT}/last-prompt.txt"
 [ "${CLAUDE_STUB_RC:-0}" -ne 0 ] && exit "${CLAUDE_STUB_RC}"
+# Simula un PR mergiato mentre l'agente scrive: origin/main va avanti.
+if [ -n "${STUB_RACE:-}" ]; then
+  ALTRO="$(mktemp -d)"; git clone -q "${STUB_OUT}/origin.git" "$ALTRO"
+  git -C "$ALTRO" -c user.email=t@t -c user.name=t commit -q --allow-empty -m "PR mergiato nel frattempo"
+  git -C "$ALTRO" push -q origin HEAD:main; rm -rf "$ALTRO"
+fi
 if [ -n "${STUB_SLUG:-}" ]; then
   printf 'slug: %s\nstato: %s\n' "$STUB_SLUG" "${STUB_STATO:-pubblicato}" \
     > "${STUB_REPO}/prototipo/articoli/${STUB_SLUG}.md"
@@ -147,12 +155,14 @@ STUB_SLUG= run
 check "mail: nessun articolo"             "grep -q 'nessun articolo prodotto' '$FIX/mail.log'"
 check "rc=1"                              "[ \"\$(rc)\" = 'rc=1' ]"
 
-echo "=== caso 8: branch diverso da main -> non parte ==="
+echo "=== caso 8: checkout diverso da origin/main -> non parte ==="
 reset_repo
 git -C "$REPO" checkout -q -b altro
+git -C "$REPO" commit -q --allow-empty -m "lavoro in corso"
 STUB_SLUG=articolo-branch run
 check "nessuna chiamata a claude"         "[ ! -f '$FIX/last-prompt.txt' ]"
-check "mail: repo sul branch sbagliato"   "grep -q 'repo su altro' '$FIX/mail.log'"
+check "mail: checkout diverso"            "grep -q 'checkout diverso da origin/main' '$FIX/mail.log'"
+check "niente push"                       "! git -C '$FIX/origin.git' log --oneline main | grep -q 'lavoro in corso'"
 git -C "$REPO" checkout -q main
 
 echo "=== caso 9: DRY_RUN -> scrive, non pubblica, non manda ==="
@@ -175,6 +185,54 @@ check "titolo estratto dal report indentato" "grep -q 'Un titolo di prova' '$FIX
 check "record id estratto"                   "grep -q 'recTEST123' '$FIX/airtable.log'"
 check "prosa senza righe REPORT_"            "! grep -q 'REPORT_SEO' '$FIX/mail.log'"
 check "pushato"                              "git -C '$FIX/origin.git' log -1 --pretty=%s main | grep -q 'Pubblica'"
+
+echo "=== caso 11: main avanza durante il run -> rebase e push ==="
+reset_repo
+git -C "$REPO" pull -q --ff-only origin main
+STUB_RACE=1 STUB_SLUG=articolo-gara STUB_STATO=pubblicato run
+check "log: push rifiutato e ritentato"   "log | grep -q 'push rifiutato'"
+check "articolo su origin"                "git -C '$FIX/origin.git' log -1 --pretty=%s main | grep -q 'Pubblica'"
+check "il PR intermedio non è perso"      "git -C '$FIX/origin.git' log --pretty=%s main | grep -q 'PR mergiato nel frattempo'"
+check "storia lineare, niente merge"      "[ \$(git -C '$FIX/origin.git' rev-list --merges main | wc -l) -eq 0 ]"
+check "mail: pushato"                     "grep -q 'pushato' '$FIX/mail.log'"
+check "rc=0"                              "[ \"\$(rc)\" = 'rc=0' ]"
+
+# --- lancia.sh --------------------------------------------------------------------
+# Clone bare come quello di produzione, e un run.sh finto: qui si verifica solo il
+# ciclo di vita del worktree, i rami di run.sh sono coperti sopra.
+LANCIA="$HERE/../lancia.sh"
+GITDIR="$FIX/job.git"; AHOME="$FIX/home"
+git clone -q --bare "$FIX/origin.git" "$GITDIR"
+git -C "$GITDIR" config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*'
+printf '%s\n' '#!/usr/bin/env bash' \
+  'echo "REPO=$DOVEVALA_REPO LOGDIR=$ARTICOLO_LOGDIR" > "$STUB_OUT/finto-run.txt"' \
+  'git -C "$DOVEVALA_REPO" rev-parse HEAD >> "$STUB_OUT/finto-run.txt"' \
+  '[ -n "${FINTO_BOZZA:-}" ] && echo bozza > "$DOVEVALA_REPO/prototipo/articoli/bozza.md"' \
+  'exit "${FINTO_RC:-0}"' > "$FIX/bin/finto-run"
+chmod +x "$FIX/bin/finto-run"
+lancia(){ ARTICOLO_GITDIR="$GITDIR" ARTICOLO_HOME="$AHOME" ARTICOLO_RUN="$FIX/bin/finto-run" \
+          NPM_BIN="$FIX/bin/npm" "$LANCIA" 2>"$FIX/lancia.err"; echo "rc=$?" > "$FIX/rc"; }
+worktrees(){ ls -d "$AHOME"/run-* 2>/dev/null | wc -l; }
+
+echo "=== caso 12: lancia.sh, run pulito -> worktree fresco su origin/main, poi rimosso ==="
+lancia
+check "run.sh chiamato nel worktree"      "grep -q 'REPO=$AHOME/run-' '$FIX/finto-run.txt'"
+check "log fuori dal worktree"            "grep -q 'LOGDIR=$AHOME/logs' '$FIX/finto-run.txt'"
+check "worktree su origin/main"           "grep -qx \"\$(git -C '$FIX/origin.git' rev-parse main)\" '$FIX/finto-run.txt'"
+check "worktree rimosso"                  "[ \$(worktrees) -eq 0 ]"
+check "git non lo ricorda più"            "[ \$(git -C '$GITDIR' worktree list | wc -l) -eq 1 ]"
+check "rc=0"                              "[ \"\$(rc)\" = 'rc=0' ]"
+
+echo "=== caso 13: lancia.sh, articolo non committato -> worktree lasciato ==="
+FINTO_BOZZA=1 lancia
+check "worktree lasciato"                 "[ \$(worktrees) -eq 1 ]"
+check "lo dice su stderr"                 "grep -q 'worktree lasciato' '$FIX/lancia.err'"
+check "la bozza è lì"                     "ls '$AHOME'/run-*/prototipo/articoli/bozza.md >/dev/null"
+rm -rf "${AHOME:?}"/run-*; git -C "$GITDIR" worktree prune
+
+echo "=== caso 14: lancia.sh, rc di run.sh propagato ==="
+FINTO_RC=1 lancia
+check "rc=1"                              "[ \"\$(rc)\" = 'rc=1' ]"
 
 echo
 echo "=== $PASS pass, $FAIL fail ==="
