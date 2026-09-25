@@ -1,0 +1,3476 @@
+
+> pretest
+> node processo/attrezzi/genera-home.cjs && node prototipo/genera-pagine-ral.js
+
+
+> test
+> node --test prototipo/*.test.js server/*.test.js
+
+TAP version 13
+# Subtest: regole locali normalizzate
+    # Subtest: aliquota unica, esenzione secca e assenza di addizionale
+    ok 1 - aliquota unica, esenzione secca e assenza di addizionale
+      ---
+      duration_ms: 0.864444
+      type: 'test'
+      ...
+    # Subtest: scaglioni progressivi con e senza esenzione
+    ok 2 - scaglioni progressivi con e senza esenzione
+      ---
+      duration_ms: 0.21223
+      type: 'test'
+      ...
+    # Subtest: aliquote sull’intero reddito e detrazioni generali revisionate
+    ok 3 - aliquote sull’intero reddito e detrazioni generali revisionate
+      ---
+      duration_ms: 0.245791
+      type: 'test'
+      ...
+    # Subtest: non applica l’addizionale quando l’IRPEF netta è zero
+    ok 4 - non applica l’addizionale quando l’IRPEF netta è zero
+      ---
+      duration_ms: 0.179872
+      type: 'test'
+      ...
+    1..4
+ok 1 - regole locali normalizzate
+  ---
+  duration_ms: 2.809297
+  type: 'suite'
+  ...
+# Subtest: geografia nel calcolo
+    # Subtest: Milano resta il default e conserva il golden esatto
+    ok 1 - Milano resta il default e conserva il golden esatto
+      ---
+      duration_ms: 1.437908
+      type: 'test'
+      ...
+    # Subtest: la scelta del comune determina entrambe le addizionali e le fonti
+    ok 2 - la scelta del comune determina entrambe le addizionali e le fonti
+      ---
+      duration_ms: 1.548285
+      type: 'test'
+      ...
+    # Subtest: le soglie comunali seguono il comune selezionato e non una cache globale
+    ok 3 - le soglie comunali seguono il comune selezionato e non una cache globale
+      ---
+      duration_ms: 41.155735
+      type: 'test'
+      ...
+    # Subtest: espone soltanto le discontinuità regionali, non i normali scaglioni progressivi
+    ok 4 - espone soltanto le discontinuità regionali, non i normali scaglioni progressivi
+      ---
+      duration_ms: 13.505527
+      type: 'test'
+      ...
+    1..4
+ok 2 - geografia nel calcolo
+  ---
+  duration_ms: 58.033518
+  type: 'suite'
+  ...
+# Subtest: detrazione locale per figlio a carico
+    # Subtest: un importo per ogni figlio a carico, e mai un'imposta negativa
+    ok 1 - un importo per ogni figlio a carico, e mai un'imposta negativa
+      ---
+      duration_ms: 0.409518
+      type: 'test'
+      ...
+    # Subtest: sopra il tetto di reddito del contribuente la detrazione non spetta
+    ok 2 - sopra il tetto di reddito del contribuente la detrazione non spetta
+      ---
+      duration_ms: 0.241655
+      type: 'test'
+      ...
+    # Subtest: il numero minimo di figli è una condizione, non uno sconto parziale
+    ok 3 - il numero minimo di figli è una condizione, non uno sconto parziale
+      ---
+      duration_ms: 0.168424
+      type: 'test'
+      ...
+    # Subtest: il supplemento per disabilità si somma ai soli figli disabili
+    ok 4 - il supplemento per disabilità si somma ai soli figli disabili
+      ---
+      duration_ms: 0.115965
+      type: 'test'
+      ...
+    # Subtest: una detrazione riservata ai figli disabili ignora gli altri
+    ok 5 - una detrazione riservata ai figli disabili ignora gli altri
+      ---
+      duration_ms: 0.095855
+      type: 'test'
+      ...
+    # Subtest: età massima e limite di reddito del figlio scelgono chi conta
+    ok 6 - età massima e limite di reddito del figlio scelgono chi conta
+      ---
+      duration_ms: 0.12573
+      type: 'test'
+      ...
+    # Subtest: il tetto dei trent'anni dell'art. 12 vale anche in locale, salvo disabilità
+    ok 7 - il tetto dei trent'anni dell'art. 12 vale anche in locale, salvo disabilità
+      ---
+      duration_ms: 0.138699
+      type: 'test'
+      ...
+    # Subtest: senza famiglia dichiarata la detrazione per figlio non si applica
+    ok 8 - senza famiglia dichiarata la detrazione per figlio non si applica
+      ---
+      duration_ms: 0.076535
+      type: 'test'
+      ...
+    # Subtest: solo i figli contano: un ascendente non è un figlio a carico
+    ok 9 - solo i figli contano: un ascendente non è un figlio a carico
+      ---
+      duration_ms: 0.078008
+      type: 'test'
+      ...
+    1..9
+ok 3 - detrazione locale per figlio a carico
+  ---
+  duration_ms: 1.739273
+  type: 'suite'
+  ...
+# Subtest: aliquota condizionata alla famiglia
+    # Subtest: l'aliquota agevolata sostituisce gli scaglioni, non li corregge
+    ok 1 - l'aliquota agevolata sostituisce gli scaglioni, non li corregge
+      ---
+      duration_ms: 0.150849
+      type: 'test'
+      ...
+    # Subtest: sopra il tetto di reddito l'aliquota agevolata non si applica
+    ok 2 - sopra il tetto di reddito l'aliquota agevolata non si applica
+      ---
+      duration_ms: 0.075894
+      type: 'test'
+      ...
+    # Subtest: un figlio disabile non a carico non apre l'agevolazione
+    ok 3 - un figlio disabile non a carico non apre l'agevolazione
+      ---
+      duration_ms: 0.074242
+      type: 'test'
+      ...
+    # Subtest: le Marche chiedono un FIGLIO disabile: un coniuge disabile non basta
+    ok 4 - le Marche chiedono un FIGLIO disabile: un coniuge disabile non basta
+      ---
+      duration_ms: 0.062154
+      type: 'test'
+      ...
+    # Subtest: il Veneto accetta qualunque familiare a carico con disabilità
+    ok 5 - il Veneto accetta qualunque familiare a carico con disabilità
+      ---
+      duration_ms: 0.104747
+      type: 'test'
+      ...
+    1..5
+ok 4 - aliquota condizionata alla famiglia
+  ---
+  duration_ms: 0.571352
+  type: 'suite'
+  ...
+# Subtest: esenzione condizionata al numero di figli
+    # Subtest: senza abbastanza figli resta soltanto l'esenzione generale
+    ok 1 - senza abbastanza figli resta soltanto l'esenzione generale
+      ---
+      duration_ms: 0.16631
+      type: 'test'
+      ...
+    # Subtest: raggiunto il numero di figli la soglia sale
+    ok 2 - raggiunto il numero di figli la soglia sale
+      ---
+      duration_ms: 0.079521
+      type: 'test'
+      ...
+    # Subtest: ogni figlio oltre il minimo alza la soglia di 10.000
+    ok 3 - ogni figlio oltre il minimo alza la soglia di 10.000
+      ---
+      duration_ms: 0.070677
+      type: 'test'
+      ...
+    # Subtest: l'esenzione per figli non si applica senza famiglia dichiarata
+    ok 4 - l'esenzione per figli non si applica senza famiglia dichiarata
+      ---
+      duration_ms: 0.056925
+      type: 'test'
+      ...
+    1..4
+ok 5 - esenzione condizionata al numero di figli
+  ---
+  duration_ms: 0.465602
+  type: 'suite'
+  ...
+# Subtest: le regioni che detraggono per figlio a carico
+    # Subtest: Trento: 246 € per figlio fino a 50.000 € di imponibile
+    ok 1 - Trento: 246 € per figlio fino a 50.000 € di imponibile
+      ---
+      duration_ms: 1.762277
+      type: 'test'
+      ...
+    # Subtest: Bolzano: 340 € per figlio, a qualunque età, fino a 90.000 €
+    ok 2 - Bolzano: 340 € per figlio, a qualunque età, fino a 90.000 €
+      ---
+      duration_ms: 0.461947
+      type: 'test'
+      ...
+    # Subtest: Sardegna: 200 € per figlio MINORENNE, 100 € in più se disabile
+    ok 3 - Sardegna: 200 € per figlio MINORENNE, 100 € in più se disabile
+      ---
+      duration_ms: 1.021731
+      type: 'test'
+      ...
+    # Subtest: Campania: 30 € per figlio da due figli in su, 40 € per figlio disabile
+    ok 4 - Campania: 30 € per figlio da due figli in su, 40 € per figlio disabile
+      ---
+      duration_ms: 0.831624
+      type: 'test'
+      ...
+    # Subtest: Piemonte: 100 € per figlio da tre figli in su, 500 € per figlio disabile
+    ok 5 - Piemonte: 100 € per figlio da tre figli in su, 500 € per figlio disabile
+      ---
+      duration_ms: 0.782851
+      type: 'test'
+      ...
+    # Subtest: Puglia: 20 € per figlio da quattro figli in su, 375 € in più se disabile
+    ok 6 - Puglia: 20 € per figlio da quattro figli in su, 375 € in più se disabile
+      ---
+      duration_ms: 2.247208
+      type: 'test'
+      ...
+    1..6
+ok 6 - le regioni che detraggono per figlio a carico
+  ---
+  duration_ms: 7.271096
+  type: 'suite'
+  ...
+# Subtest: le regioni che cambiano aliquota per la famiglia
+    # Subtest: Marche: 1,23% sull'intero imponibile con un figlio con disabilità
+    ok 1 - Marche: 1,23% sull'intero imponibile con un figlio con disabilità
+      ---
+      duration_ms: 0.707787
+      type: 'test'
+      ...
+    # Subtest: Veneto: 0,9% con un familiare qualunque con disabilità a carico
+    ok 2 - Veneto: 0,9% con un familiare qualunque con disabilità a carico
+      ---
+      duration_ms: 2.601203
+      type: 'test'
+      ...
+    1..2
+ok 7 - le regioni che cambiano aliquota per la famiglia
+  ---
+  duration_ms: 3.406267
+  type: 'suite'
+  ...
+# Subtest: i comuni che esentano in base al numero di figli
+    # Subtest: Bardolino: esente con 3 figli a carico
+    ok 1 - Bardolino: esente con 3 figli a carico
+      ---
+      duration_ms: 0.731332
+      type: 'test'
+      ...
+    # Subtest: Bosco Chiesanuova: esente con 4 figli a carico
+    ok 2 - Bosco Chiesanuova: esente con 4 figli a carico
+      ---
+      duration_ms: 0.41764
+      type: 'test'
+      ...
+    # Subtest: Bovolone: esente con 4 figli a carico
+    ok 3 - Bovolone: esente con 4 figli a carico
+      ---
+      duration_ms: 0.414575
+      type: 'test'
+      ...
+    # Subtest: Negrar di Valpolicella: esente con 3 figli a carico
+    ok 4 - Negrar di Valpolicella: esente con 3 figli a carico
+      ---
+      duration_ms: 0.455177
+      type: 'test'
+      ...
+    # Subtest: Roverè Veronese: esente con 4 figli a carico
+    ok 5 - Roverè Veronese: esente con 4 figli a carico
+      ---
+      duration_ms: 0.476699
+      type: 'test'
+      ...
+    # Subtest: Zevio: esente con 4 figli a carico
+    ok 6 - Zevio: esente con 4 figli a carico
+      ---
+      duration_ms: 0.645153
+      type: 'test'
+      ...
+    # Subtest: ogni figlio oltre il minimo alza la soglia di 10.000 €
+    ok 7 - ogni figlio oltre il minimo alza la soglia di 10.000 €
+      ---
+      duration_ms: 0.25885
+      type: 'test'
+      ...
+    # Subtest: Bardolino esenta comunque sotto i 28.000 € di imponibile
+    ok 8 - Bardolino esenta comunque sotto i 28.000 € di imponibile
+      ---
+      duration_ms: 0.184649
+      type: 'test'
+      ...
+    1..8
+ok 8 - i comuni che esentano in base al numero di figli
+  ---
+  duration_ms: 3.805699
+  type: 'suite'
+  ...
+# Subtest: le soglie locali che dipendono dai figli dichiarati
+    # Subtest: l'esenzione per figli sposta il salto comunale
+    ok 1 - l'esenzione per figli sposta il salto comunale
+      ---
+      duration_ms: 33.668875
+      type: 'test'
+      ...
+    # Subtest: l'aliquota agevolata delle Marche è un salto solo se spetta
+    ok 2 - l'aliquota agevolata delle Marche è un salto solo se spetta
+      ---
+      duration_ms: 24.337954
+      type: 'test'
+      ...
+    1..2
+ok 9 - le soglie locali che dipendono dai figli dichiarati
+  ---
+  duration_ms: 58.156835
+  type: 'suite'
+  ...
+# Subtest: frontmatter completo, commenti YAML e data aggiornamento esplicita o derivata
+ok 10 - frontmatter completo, commenti YAML e data aggiornamento esplicita o derivata
+  ---
+  duration_ms: 2.184895
+  type: 'test'
+  ...
+# Subtest: errori utili per frontmatter incompleto, date, stati, URL e campi duplicati
+ok 11 - errori utili per frontmatter incompleto, date, stati, URL e campi duplicati
+  ---
+  duration_ms: 0.887379
+  type: 'test'
+  ...
+# Subtest: renderer copre tabelle, liste, citazioni, inline e non esegue HTML o URL pericolosi
+ok 12 - renderer copre tabelle, liste, citazioni, inline e non esegue HTML o URL pericolosi
+  ---
+  duration_ms: 2.701104
+  type: 'test'
+  ...
+# Subtest: pagina pubblicata: metadati unici, date, fonti, una CTA e link interni risolti
+ok 13 - pagina pubblicata: metadati unici, date, fonti, una CTA e link interni risolti
+  ---
+  duration_ms: 14.347708
+  type: 'test'
+  ...
+# Subtest: bozze e rivisti esclusi; ritirare o cancellare un articolo elimina anche il vecchio output
+ok 14 - bozze e rivisti esclusi; ritirare o cancellare un articolo elimina anche il vecchio output
+  ---
+  duration_ms: 5.219241
+  type: 'test'
+  ...
+# Subtest: slug duplicati, filename incoerenti e metadati duplicati fermano la build
+ok 15 - slug duplicati, filename incoerenti e metadati duplicati fermano la build
+  ---
+  duration_ms: 4.004038
+  type: 'test'
+  ...
+# Subtest: link rotti nel corpo, metadati, CTA e link verso bozze fanno fallire la build
+ok 16 - link rotti nel corpo, metadati, CTA e link verso bozze fanno fallire la build
+  ---
+  duration_ms: 5.759657
+  type: 'test'
+  ...
+# Subtest: articoli correlati includono solo pubblicati del medesimo cluster
+ok 17 - articoli correlati includono solo pubblicati del medesimo cluster
+  ---
+  duration_ms: 8.853632
+  type: 'test'
+  ...
+# Subtest: Blog è nella navigazione statica delle pagine pubbliche
+ok 18 - Blog è nella navigazione statica delle pagine pubbliche
+  ---
+  duration_ms: 1.033388
+  type: 'test'
+  ...
+# Subtest: build reale: pubblica HTML e asset, esclude sorgenti e bozze; errore restituisce exit 1
+ok 19 - build reale: pubblica HTML e asset, esclude sorgenti e bozze; errore restituisce exit 1
+  ---
+  duration_ms: 1058.681026
+  type: 'test'
+  ...
+# Subtest: metadati SEO degli articoli non duplicano una pagina pubblica esistente
+ok 20 - metadati SEO degli articoli non duplicano una pagina pubblica esistente
+  ---
+  duration_ms: 4.179733
+  type: 'test'
+  ...
+# Subtest: la pagina carica il modulo e non il motore
+ok 21 - la pagina carica il modulo e non il motore
+  ---
+  duration_ms: 1.509987
+  type: 'test'
+  ...
+# Subtest: le FAQ stanno nell'HTML statico e coincidono con il JSON-LD
+ok 22 - le FAQ stanno nell'HTML statico e coincidono con il JSON-LD
+  ---
+  duration_ms: 0.34464
+  type: 'test'
+  ...
+# Subtest: titolo e H1 contengono la keyword
+ok 23 - titolo e H1 contengono la keyword
+  ---
+  duration_ms: 0.148924
+  type: 'test'
+  ...
+# Subtest: la sitemap contiene la pagina
+ok 24 - la sitemap contiene la pagina
+  ---
+  duration_ms: 0.208786
+  type: 'test'
+  ...
+# Subtest: ogni menu "Calcola" porta alla tredicesima
+ok 25 - ogni menu "Calcola" porta alla tredicesima
+  ---
+  duration_ms: 38.440491
+  type: 'test'
+  ...
+# Subtest: le pagine RAL linkano la tredicesima a quella RAL
+ok 26 - le pagine RAL linkano la tredicesima a quella RAL
+  ---
+  duration_ms: 0.195754
+  type: 'test'
+  ...
+# Subtest: il form usa i componenti del design system
+ok 27 - il form usa i componenti del design system
+  ---
+  duration_ms: 0.213102
+  type: 'test'
+  ...
+# Subtest: catalogo CCNL
+    # Subtest: identifica precisamente i contratti e le loro fonti
+    ok 1 - identifica precisamente i contratti e le loro fonti
+      ---
+      duration_ms: 1.4924
+      type: 'test'
+      ...
+    # Subtest: ogni contratto del dataset retributivo è nel catalogo con lo stesso codice
+    ok 2 - ogni contratto del dataset retributivo è nel catalogo con lo stesso codice
+      ---
+      duration_ms: 14.490582
+      type: 'test'
+      ...
+    # Subtest: le Cooperative sociali propongono 13,5 mensilità
+    ok 3 - le Cooperative sociali propongono 13,5 mensilità
+      ---
+      duration_ms: 0.280303
+      type: 'test'
+      ...
+    # Subtest: ogni nuovo contratto propone le sue mensilità
+    ok 4 - ogni nuovo contratto propone le sue mensilità
+      ---
+      duration_ms: 0.215806
+      type: 'test'
+      ...
+    # Subtest: selezionare un CCNL propone le sue mensilita; nessuna selezione conserva il valore
+    ok 5 - selezionare un CCNL propone le sue mensilita; nessuna selezione conserva il valore
+      ---
+      duration_ms: 0.379963
+      type: 'test'
+      ...
+    # Subtest: distingue il suggerimento contrattuale da un valore personalizzato
+    ok 6 - distingue il suggerimento contrattuale da un valore personalizzato
+      ---
+      duration_ms: 0.180813
+      type: 'test'
+      ...
+    # Subtest: lookup e catalogo non sono modificabili dai consumatori
+    ok 7 - lookup e catalogo non sono modificabili dai consumatori
+      ---
+      duration_ms: 0.107262
+      type: 'test'
+      ...
+    # Subtest: nell URL le mensilita esplicite prevalgono sul suggerimento del CCNL
+    ok 8 - nell URL le mensilita esplicite prevalgono sul suggerimento del CCNL
+      ---
+      duration_ms: 0.190898
+      type: 'test'
+      ...
+    1..8
+ok 28 - catalogo CCNL
+  ---
+  duration_ms: 18.384805
+  type: 'suite'
+  ...
+# Subtest: la home lascia il CCNL al calcolatore dedicato
+ok 29 - la home lascia il CCNL al calcolatore dedicato
+  ---
+  duration_ms: 0.485833
+  type: 'test'
+  ...
+# Subtest: due offerte identiche non producono nessuna differenza in denaro
+ok 30 - due offerte identiche non producono nessuna differenza in denaro
+  ---
+  duration_ms: 8.061508
+  type: 'test'
+  ...
+# Subtest: 13 o 14 mensilità cambiano solo la presentazione
+ok 31 - 13 o 14 mensilità cambiano solo la presentazione
+  ---
+  duration_ms: 2.999123
+  type: 'test'
+  ...
+# Subtest: ogni scenario coincide con il risultato ottenuto direttamente dal motore
+ok 32 - ogni scenario coincide con il risultato ottenuto direttamente dal motore
+  ---
+  duration_ms: 1.643598
+  type: 'test'
+  ...
+# Subtest: 100 € di costi al mese solo su B tolgono 1.200 € l’anno e 100 € al mese, e non toccano il fisco
+ok 33 - 100 € di costi al mese solo su B tolgono 1.200 € l’anno e 100 € al mese, e non toccano il fisco
+  ---
+  duration_ms: 2.147758
+  type: 'test'
+  ...
+# Subtest: i costi mensili sono sommati e poi portati a 12 mesi, e possono superare il netto
+ok 34 - i costi mensili sono sommati e poi portati a 12 mesi, e possono superare il netto
+  ---
+  duration_ms: 0.435246
+  type: 'test'
+  ...
+# Subtest: la media su 12 nasce dal delta annuo, non da due medie già arrotondate
+ok 35 - la media su 12 nasce dal delta annuo, non da due medie già arrotondate
+  ---
+  duration_ms: 0.540796
+  type: 'test'
+  ...
+# Subtest: i giorni al mese diventano 12 mesi prima di incontrare i minuti
+ok 36 - i giorni al mese diventano 12 mesi prima di incontrare i minuti
+  ---
+  duration_ms: 0.535028
+  type: 'test'
+  ...
+# Subtest: zero ore dichiarate e ore non dichiarate non sono la stessa cosa
+ok 37 - zero ore dichiarate e ore non dichiarate non sono la stessa cosa
+  ---
+  duration_ms: 0.713245
+  type: 'test'
+  ...
+# Subtest: le ore settimanali compaiono solo se qualcuno le ha dichiarate
+ok 38 - le ore settimanali compaiono solo se qualcuno le ha dichiarate
+  ---
+  duration_ms: 2.071354
+  type: 'test'
+  ...
+# Subtest: i benefit spendibili non entrano nel denaro dopo i costi
+ok 39 - i benefit spendibili non entrano nel denaro dopo i costi
+  ---
+  duration_ms: 0.542227
+  type: 'test'
+  ...
+# Subtest: anche con una quota imponibile il benefit resta fuori dal denaro dopo i costi
+ok 40 - anche con una quota imponibile il benefit resta fuori dal denaro dopo i costi
+  ---
+  duration_ms: 0.416177
+  type: 'test'
+  ...
+# Subtest: «Copia A in B» non condivide gli oggetti del nucleo né dei benefit
+ok 41 - «Copia A in B» non condivide gli oggetti del nucleo né dei benefit
+  ---
+  duration_ms: 2.484728
+  type: 'test'
+  ...
+# Subtest: la RAL segue il parser e i limiti della home
+ok 42 - la RAL segue il parser e i limiti della home
+  ---
+  duration_ms: 0.282806
+  type: 'test'
+  ...
+# Subtest: gli importi facoltativi vuoti valgono zero, quelli assurdi sono errori
+ok 43 - gli importi facoltativi vuoti valgono zero, quelli assurdi sono errori
+  ---
+  duration_ms: 0.433193
+  type: 'test'
+  ...
+# Subtest: gli enum sconosciuti sono errori, non default silenziosi
+ok 44 - gli enum sconosciuti sono errori, non default silenziosi
+  ---
+  duration_ms: 0.225109
+  type: 'test'
+  ...
+# Subtest: ogni errore dice in quale pannello sta il campo da correggere
+ok 45 - ogni errore dice in quale pannello sta il campo da correggere
+  ---
+  duration_ms: 0.163708
+  type: 'test'
+  ...
+# Subtest: un input ostile non fa esplodere il confronto
+ok 46 - un input ostile non fa esplodere il confronto
+  ---
+  duration_ms: 0.235906
+  type: 'test'
+  ...
+# Subtest: il fragment conserva tutti gli input e riproduce gli stessi risultati
+ok 47 - il fragment conserva tutti gli input e riproduce gli stessi risultati
+  ---
+  duration_ms: 1.721126
+  type: 'test'
+  ...
+# Subtest: i campi mensili hanno un nome loro nell’URL
+ok 48 - i campi mensili hanno un nome loro nell’URL
+  ---
+  duration_ms: 0.421375
+  type: 'test'
+  ...
+# Subtest: il fragment sopravvive al cancelletto e ignora quello che non conosce
+ok 49 - il fragment sopravvive al cancelletto e ignora quello che non conosce
+  ---
+  duration_ms: 0.225299
+  type: 'test'
+  ...
+# Subtest: un link corrotto o di un’altra versione è recuperabile, non un crash
+ok 50 - un link corrotto o di un’altra versione è recuperabile, non un crash
+  ---
+  duration_ms: 0.4113
+  type: 'test'
+  ...
+# Subtest: le stringhe malevole restano dati, non codice
+ok 51 - le stringhe malevole restano dati, non codice
+  ---
+  duration_ms: 0.382747
+  type: 'test'
+  ...
+# Subtest: un CCNL che arrivasse comunque viene ignorato, non è un errore
+ok 52 - un CCNL che arrivasse comunque viene ignorato, non è un errore
+  ---
+  duration_ms: 0.190697
+  type: 'test'
+  ...
+# Subtest: il giro fra buoni al mese e buoni all’anno non ne perde nessuno
+ok 53 - il giro fra buoni al mese e buoni all’anno non ne perde nessuno
+  ---
+  duration_ms: 4.031609
+  type: 'test'
+  ...
+# Subtest: il nucleo usa lo stesso codec della home
+ok 54 - il nucleo usa lo stesso codec della home
+  ---
+  duration_ms: 0.159631
+  type: 'test'
+  ...
+# Subtest: lo stato della home diventa l’offerta A senza perdere niente che conti
+ok 55 - lo stato della home diventa l’offerta A senza perdere niente che conti
+  ---
+  duration_ms: 0.849571
+  type: 'test'
+  ...
+# Subtest: il ritorno al calcolatore usa il formato di URL della home, immutato
+ok 56 - il ritorno al calcolatore usa il formato di URL della home, immutato
+  ---
+  duration_ms: 0.274604
+  type: 'test'
+  ...
+# Subtest: lo zero non ha segno e ogni delta ha la sua parola
+ok 57 - lo zero non ha segno e ogni delta ha la sua parola
+  ---
+  duration_ms: 0.156998
+  type: 'test'
+  ...
+# Subtest: gli avvisi del motore arrivano fino al confronto
+ok 58 - gli avvisi del motore arrivano fino al confronto
+  ---
+  duration_ms: 0.356488
+  type: 'test'
+  ...
+# Subtest: compara.html dichiara title, description e self-canonical
+ok 59 - compara.html dichiara title, description e self-canonical
+  ---
+  duration_ms: 0.509759
+  type: 'test'
+  ...
+# Subtest: su mobile il confronto usa due passaggi e una CTA sempre raggiungibile
+ok 60 - su mobile il confronto usa due passaggi e una CTA sempre raggiungibile
+  ---
+  duration_ms: 0.39101
+  type: 'test'
+  ...
+# Subtest: i campi di costo e i giorni si dichiarano al mese
+ok 61 - i campi di costo e i giorni si dichiarano al mese
+  ---
+  duration_ms: 0.418812
+  type: 'test'
+  ...
+# Subtest: la pagina carica gli script accanto e nessuna dipendenza esterna
+ok 62 - la pagina carica gli script accanto e nessuna dipendenza esterna
+  ---
+  duration_ms: 0.773056
+  type: 'test'
+  ...
+# Subtest: la home porta al confronto e il calcolo esistente non regredisce
+ok 63 - la home porta al confronto e il calcolo esistente non regredisce
+  ---
+  duration_ms: 1.987888
+  type: 'test'
+  ...
+# Subtest: la sitemap e il canonical del confronto stanno insieme
+ok 64 - la sitemap e il canonical del confronto stanno insieme
+  ---
+  duration_ms: 0.191719
+  type: 'test'
+  ...
+# Subtest: codec deterministico, lossless per tutti i comuni, fonti e condizioni personali
+ok 65 - codec deterministico, lossless per tutti i comuni, fonti e condizioni personali
+  ---
+  duration_ms: 1085.434602
+  type: 'test'
+  ...
+# Subtest: il pacchetto browser mantiene calcoli, soglie e ordine geografico
+ok 66 - il pacchetto browser mantiene calcoli, soglie e ordine geografico
+  ---
+  duration_ms: 333.964652
+  type: 'test'
+  ...
+# Subtest: codec distingue chiavi assenti, null, zero, array e stringhe
+ok 67 - codec distingue chiavi assenti, null, zero, array e stringhe
+  ---
+  duration_ms: 0.756061
+  type: 'test'
+  ...
+# Subtest: trasferimento gzip del dato browser inferiore allo snapshot
+ok 68 - trasferimento gzip del dato browser inferiore allo snapshot
+  ---
+  duration_ms: 151.694927
+  type: 'test'
+  ...
+# Subtest: geografia nazionale normalizzata
+    # Subtest: espone 21 giurisdizioni, 110 raggruppamenti e 7.894 comuni attivi
+    ok 1 - espone 21 giurisdizioni, 110 raggruppamenti e 7.894 comuni attivi
+      ---
+      duration_ms: 3.199455
+      type: 'test'
+      ...
+    # Subtest: risolve il default Lombardia → Milano senza conoscenze nei chiamanti
+    ok 2 - risolve il default Lombardia → Milano senza conoscenze nei chiamanti
+      ---
+      duration_ms: 0.760647
+      type: 'test'
+      ...
+    # Subtest: ogni comune ha gerarchia, regole e fonti complete
+    ok 3 - ogni comune ha gerarchia, regole e fonti complete
+      ---
+      duration_ms: 37.795759
+      type: 'test'
+      ...
+    # Subtest: filtra in modo dipendente regione → provincia → comune
+    ok 4 - filtra in modo dipendente regione → provincia → comune
+      ---
+      duration_ms: 0.233903
+      type: 'test'
+      ...
+    # Subtest: restituisce regioni, province e comuni in ordine alfabetico italiano
+    ok 5 - restituisce regioni, province e comuni in ordine alfabetico italiano
+      ---
+      duration_ms: 2.182542
+      type: 'test'
+      ...
+    # Subtest: fallisce su un codice non appartenente allo snapshot
+    ok 6 - fallisce su un codice non appartenente allo snapshot
+      ---
+      duration_ms: 0.455847
+      type: 'test'
+      ...
+    1..6
+ok 69 - geografia nazionale normalizzata
+  ---
+  duration_ms: 45.683104
+  type: 'suite'
+  ...
+# Subtest: A — correttezza (verificata a mano contro la norma)
+    # Subtest: RAL 35.000 — la catena voce per voce
+    ok 1 - RAL 35.000 — la catena voce per voce
+      ---
+      duration_ms: 0.705794
+      type: 'test'
+      ...
+    # Subtest: RAL 35.000 — il rapporto dell'art. 13 è troncato, non arrotondato
+    ok 2 - RAL 35.000 — il rapporto dell'art. 13 è troncato, non arrotondato
+      ---
+      duration_ms: 0.275345
+      type: 'test'
+      ...
+    # Subtest: RAL 25.327,61 → ,62 — l'esenzione comunale è secca, non una franchigia
+    ok 3 - RAL 25.327,61 → ,62 — l'esenzione comunale è secca, non una franchigia
+      ---
+      duration_ms: 0.265371
+      type: 'test'
+      ...
+    # Subtest: RAL 122.295 e oltre — i contributi si fermano al massimale
+    ok 4 - RAL 122.295 e oltre — i contributi si fermano al massimale
+      ---
+      duration_ms: 0.570911
+      type: 'test'
+      ...
+    # Subtest: RAL 0 → netto 0 (capienza)
+    ok 5 - RAL 0 → netto 0 (capienza)
+      ---
+      duration_ms: 0.169056
+      type: 'test'
+      ...
+    # Subtest: fascia bassa — nessuna detrazione supera l'IRPEF lorda
+    ok 6 - fascia bassa — nessuna detrazione supera l'IRPEF lorda
+      ---
+      duration_ms: 4.650884
+      type: 'test'
+      ...
+    1..6
+ok 70 - A — correttezza (verificata a mano contro la norma)
+  ---
+  duration_ms: 7.643868
+  type: 'suite'
+  ...
+# Subtest: B — comportamento ai limiti
+    # Subtest: i sette salti, a ±0,01 dalla soglia
+        # Subtest: 9001.12 — si attiva il trattamento integrativo
+        ok 1 - 9001.12 — si attiva il trattamento integrativo
+          ---
+          duration_ms: 0.454916
+          type: 'test'
+          ...
+        # Subtest: 9360.21 — scattano le addizionali e la somma non imponibile passa dal 7,1% al 5,3%
+        ok 2 - 9360.21 — scattano le addizionali e la somma non imponibile passa dal 7,1% al 5,3%
+          ---
+          duration_ms: 0.439804
+          type: 'test'
+          ...
+        # Subtest: 16518.02 — decade il trattamento integrativo (imponibile 15.000 €)
+        ok 3 - 16518.02 — decade il trattamento integrativo (imponibile 15.000 €)
+          ---
+          duration_ms: 0.407935
+          type: 'test'
+          ...
+        # Subtest: 22024.02 — la somma non imponibile lascia il posto all'ulteriore detrazione (imponibile 20.000 €)
+        ok 4 - 22024.02 — la somma non imponibile lascia il posto all'ulteriore detrazione (imponibile 20.000 €)
+          ---
+          duration_ms: 0.420293
+          type: 'test'
+          ...
+        # Subtest: 25327.62 — finisce l'esenzione dell'addizionale comunale di Milano (imponibile 23.000 €)
+        ok 5 - 25327.62 — finisce l'esenzione dell'addizionale comunale di Milano (imponibile 23.000 €)
+          ---
+          duration_ms: 0.299703
+          type: 'test'
+          ...
+        # Subtest: 27530.02 — si attiva la maggiorazione di 65 € (imponibile 25.000 €)
+        ok 6 - 27530.02 — si attiva la maggiorazione di 65 € (imponibile 25.000 €)
+          ---
+          duration_ms: 0.259211
+          type: 'test'
+          ...
+        # Subtest: 38542.02 — decade la maggiorazione di 65 € (imponibile 35.000 €)
+        ok 7 - 38542.02 — decade la maggiorazione di 65 € (imponibile 35.000 €)
+          ---
+          duration_ms: 0.30502
+          type: 'test'
+          ...
+        # Subtest: la tabella delle soglie del motore concorda con la matrice
+        ok 8 - la tabella delle soglie del motore concorda con la matrice
+          ---
+          duration_ms: 0.786157
+          type: 'test'
+          ...
+        1..8
+    ok 1 - i sette salti, a ±0,01 dalla soglia
+      ---
+      duration_ms: 3.851108
+      type: 'suite'
+      ...
+    # Subtest: i quattro cambi di pendenza
+        # Subtest: 30833.61 — inizia lo scaglione IRPEF al 33%
+        ok 1 - 30833.61 — inizia lo scaglione IRPEF al 33%
+          ---
+          duration_ms: 0.49092
+          type: 'test'
+          ...
+        # Subtest: 55060.02 — inizia lo scaglione IRPEF al 43%
+        ok 2 - 55060.02 — inizia lo scaglione IRPEF al 43%
+          ---
+          duration_ms: 0.309216
+          type: 'test'
+          ...
+        # Subtest: 56224 — si attiva il contributo aggiuntivo dell'1%
+        ok 3 - 56224 — si attiva il contributo aggiuntivo dell'1%
+          ---
+          duration_ms: 0.354765
+          type: 'test'
+          ...
+        # Subtest: 122295 — massimale contributivo: i contributi si fermano
+        ok 4 - 122295 — massimale contributivo: i contributi si fermano
+          ---
+          duration_ms: 0.353914
+          type: 'test'
+          ...
+        1..4
+    ok 2 - i quattro cambi di pendenza
+      ---
+      duration_ms: 1.659694
+      type: 'suite'
+      ...
+    # Subtest: input ai limiti
+        # Subtest: campo vuoto → nessun risultato, non zero
+        ok 1 - campo vuoto → nessun risultato, non zero
+          ---
+          duration_ms: 0.345841
+          type: 'test'
+          ...
+        # Subtest: zero → calcola
+        ok 2 - zero → calcola
+          ---
+          duration_ms: 0.220402
+          type: 'test'
+          ...
+        # Subtest: negativo → bloccato
+        ok 3 - negativo → bloccato
+          ---
+          duration_ms: 0.153702
+          type: 'test'
+          ...
+        # Subtest: non numerico → bloccato
+        ok 4 - non numerico → bloccato
+          ---
+          duration_ms: 0.166341
+          type: 'test'
+          ...
+        # Subtest: il simbolo € da solo vale campo vuoto
+        ok 5 - il simbolo € da solo vale campo vuoto
+          ---
+          duration_ms: 0.103136
+          type: 'test'
+          ...
+        # Subtest: decimali con virgola e con punto sono equivalenti
+        ok 6 - decimali con virgola e con punto sono equivalenti
+          ---
+          duration_ms: 0.308385
+          type: 'test'
+          ...
+        # Subtest: sette cifre → calcola, senza clamp silenzioso
+        ok 7 - sette cifre → calcola, senza clamp silenzioso
+          ---
+          duration_ms: 0.250238
+          type: 'test'
+          ...
+        1..7
+    ok 3 - input ai limiti
+      ---
+      duration_ms: 1.855509
+      type: 'suite'
+      ...
+    1..3
+ok 71 - B — comportamento ai limiti
+  ---
+  duration_ms: 7.619662
+  type: 'suite'
+  ...
+# Subtest: C — non-regressione
+    # Subtest: riconciliazione su 2001 campioni (passo 100 €, 0–200000 €)
+    ok 1 - riconciliazione su 2001 campioni (passo 100 €, 0–200000 €)
+      ---
+      duration_ms: 5.013532
+      type: 'test'
+      ...
+    # Subtest: il netto cresce ovunque, tranne che nelle sette soglie note
+    ok 2 - il netto cresce ovunque, tranne che nelle sette soglie note
+      ---
+      duration_ms: 5.562569
+      type: 'test'
+      ...
+    # Subtest: nessuna soglia sconosciuta: ogni discontinuità è nella matrice
+    ok 3 - nessuna soglia sconosciuta: ogni discontinuità è nella matrice
+      ---
+      duration_ms: 1.540583
+      type: 'test'
+      ...
+    # Subtest: calcola restituisce il risultato annuale, senza preferenze di presentazione
+    ok 4 - calcola restituisce il risultato annuale, senza preferenze di presentazione
+      ---
+      duration_ms: 0.270738
+      type: 'test'
+      ...
+    # Subtest: da 12 a 16 mensilità cambia la media, mai il risultato annuale
+    ok 5 - da 12 a 16 mensilità cambia la media, mai il risultato annuale
+      ---
+      duration_ms: 1.161481
+      type: 'test'
+      ...
+    # Subtest: la media è una media: 13 × rata non ricompone l'anno
+    ok 6 - la media è una media: 13 × rata non ricompone l'anno
+      ---
+      duration_ms: 0.177238
+      type: 'test'
+      ...
+    # Subtest: le chiavi e le provenienze delle fonti sono quelle che la pagina si aspetta
+    ok 7 - le chiavi e le provenienze delle fonti sono quelle che la pagina si aspetta
+      ---
+      duration_ms: 21.661967
+      type: 'test'
+      ...
+    # Subtest: golden — netto annuo nei punti di riferimento
+    ok 8 - golden — netto annuo nei punti di riferimento
+      ---
+      duration_ms: 1.05447
+      type: 'test'
+      ...
+    1..8
+ok 72 - C — non-regressione
+  ---
+  duration_ms: 36.74244
+  type: 'suite'
+  ...
+# Subtest: D — le voci da sole
+    # Subtest: contributi
+        # Subtest: contributiIvs — 9,19%, e la base si ferma al massimale
+        ok 1 - contributiIvs — 9,19%, e la base si ferma al massimale
+          ---
+          duration_ms: 0.160012
+          type: 'test'
+          ...
+        # Subtest: contributoAggiuntivo — 1% oltre 56.224, mai sotto
+        ok 2 - contributoAggiuntivo — 1% oltre 56.224, mai sotto
+          ---
+          duration_ms: 0.097828
+          type: 'test'
+          ...
+        # Subtest: imponibile — RAL meno i contributi, arrotondati voce per voce
+        ok 3 - imponibile — RAL meno i contributi, arrotondati voce per voce
+          ---
+          duration_ms: 0.092428
+          type: 'test'
+          ...
+        1..3
+    ok 1 - contributi
+      ---
+      duration_ms: 0.453515
+      type: 'suite'
+      ...
+    # Subtest: IRPEF
+        # Subtest: irpefLorda — 23 / 33 / 43 per scaglioni, non sull'intero
+        ok 1 - irpefLorda — 23 / 33 / 43 per scaglioni, non sull'intero
+          ---
+          duration_ms: 0.202345
+          type: 'test'
+          ...
+        # Subtest: detrazioneLavoroDipendente — le tre fasce
+        ok 2 - detrazioneLavoroDipendente — le tre fasce
+          ---
+          duration_ms: 1.976019
+          type: 'test'
+          ...
+        # Subtest: detrazioneLavoroDipendente — il rapporto si tronca a 4 decimali
+        ok 3 - detrazioneLavoroDipendente — il rapporto si tronca a 4 decimali
+          ---
+          duration_ms: 0.135354
+          type: 'test'
+          ...
+        # Subtest: detrazioneLavoroDipendente — i 65 € stanno fra 25.000 e 35.000
+        ok 4 - detrazioneLavoroDipendente — i 65 € stanno fra 25.000 e 35.000
+          ---
+          duration_ms: 0.096726
+          type: 'test'
+          ...
+        # Subtest: detrazioneLavoroDipendente — art. 13 e maggiorazione restano separati
+        ok 5 - detrazioneLavoroDipendente — art. 13 e maggiorazione restano separati
+          ---
+          duration_ms: 0.177337
+          type: 'test'
+          ...
+        # Subtest: ulterioreDetrazione — piena, poi decrescente, poi niente
+        ok 6 - ulterioreDetrazione — piena, poi decrescente, poi niente
+          ---
+          duration_ms: 0.09353
+          type: 'test'
+          ...
+        1..6
+    ok 2 - IRPEF
+      ---
+      duration_ms: 2.830187
+      type: 'suite'
+      ...
+    # Subtest: applicaCapienza
+        # Subtest: capiente — le detrazioni entrano intere e resta IRPEF netta
+        ok 1 - capiente — le detrazioni entrano intere e resta IRPEF netta
+          ---
+          duration_ms: 0.157587
+          type: 'test'
+          ...
+        # Subtest: incapiente — non si rimborsa, e la residua è zero
+        ok 2 - incapiente — non si rimborsa, e la residua è zero
+          ---
+          duration_ms: 0.104197
+          type: 'test'
+          ...
+        # Subtest: l'ordine dell'array è l'ordine di consumo
+        ok 3 - l'ordine dell'array è l'ordine di consumo
+          ---
+          duration_ms: 0.109495
+          type: 'test'
+          ...
+        1..3
+    ok 3 - applicaCapienza
+      ---
+      duration_ms: 0.449207
+      type: 'suite'
+      ...
+    # Subtest: addizionali locali
+        # Subtest: addizionaleRegionale — per scaglioni, e solo se dovuta
+        ok 1 - addizionaleRegionale — per scaglioni, e solo se dovuta
+          ---
+          duration_ms: 0.107022
+          type: 'test'
+          ...
+        # Subtest: addizionaleComunale — l'esenzione è secca, non una franchigia
+        ok 2 - addizionaleComunale — l'esenzione è secca, non una franchigia
+          ---
+          duration_ms: 0.091878
+          type: 'test'
+          ...
+        1..2
+    ok 4 - addizionali locali
+      ---
+      duration_ms: 0.296637
+      type: 'suite'
+      ...
+    # Subtest: integrazioni di legge
+        # Subtest: sommaNonImponibile — 7,1 / 5,3 / 4,8 fino a 20.000
+        ok 1 - sommaNonImponibile — 7,1 / 5,3 / 4,8 fino a 20.000
+          ---
+          duration_ms: 0.09979
+          type: 'test'
+          ...
+        # Subtest: trattamentoIntegrativo — la condizione sulla detrazione − 75
+        ok 2 - trattamentoIntegrativo — la condizione sulla detrazione − 75
+          ---
+          duration_ms: 0.106341
+          type: 'test'
+          ...
+        1..2
+    ok 5 - integrazioni di legge
+      ---
+      duration_ms: 0.264589
+      type: 'suite'
+      ...
+    # Subtest: riconcilia
+        # Subtest: i conti tornano sulla somma chiesta
+        ok 1 - i conti tornano sulla somma chiesta
+          ---
+          duration_ms: 0.200432
+          type: 'test'
+          ...
+        # Subtest: una voce con un tipo fuori dall'identità la rompe
+        ok 2 - una voce con un tipo fuori dall'identità la rompe
+          ---
+          duration_ms: 0.121544
+          type: 'test'
+          ...
+        # Subtest: le voci di un'altra somma restano fuori
+        ok 3 - le voci di un'altra somma restano fuori
+          ---
+          duration_ms: 0.107441
+          type: 'test'
+          ...
+        # Subtest: senza voci non c'è niente da riconciliare
+        ok 4 - senza voci non c'è niente da riconciliare
+          ---
+          duration_ms: 0.093871
+          type: 'test'
+          ...
+        1..4
+    ok 6 - riconcilia
+      ---
+      duration_ms: 0.627285
+      type: 'suite'
+      ...
+    # Subtest: sommeDichiarate — la voce orfana si vede
+    ok 7 - sommeDichiarate — la voce orfana si vede
+      ---
+      duration_ms: 0.10653
+      type: 'test'
+      ...
+    # Subtest: ogni voce porta somma: nettoLavoratore
+    ok 8 - ogni voce porta somma: nettoLavoratore
+      ---
+      duration_ms: 0.321635
+      type: 'test'
+      ...
+    1..8
+ok 73 - D — le voci da sole
+  ---
+  duration_ms: 5.74289
+  type: 'suite'
+  ...
+# Subtest: E — coniuge a carico (art. 12 c. 1 lett. a)
+    # Subtest: primo rapporto: 800 meno 110 per il rapporto troncato a quattro decimali
+    ok 1 - primo rapporto: 800 meno 110 per il rapporto troncato a quattro decimali
+      ---
+      duration_ms: 2.238958
+      type: 'test'
+      ...
+    # Subtest: a 15.000 il rapporto è uno e il comma 4 fissa la detrazione a 690
+    ok 2 - a 15.000 il rapporto è uno e il comma 4 fissa la detrazione a 690
+      ---
+      duration_ms: 0.116716
+      type: 'test'
+      ...
+    # Subtest: a reddito zero il rapporto è zero e la detrazione non compete
+    ok 3 - a reddito zero il rapporto è zero e la detrazione non compete
+      ---
+      duration_ms: 0.115074
+      type: 'test'
+      ...
+    # Subtest: a 80.000 il terzo rapporto è zero e la detrazione non compete
+    ok 4 - a 80.000 il terzo rapporto è zero e la detrazione non compete
+      ---
+      duration_ms: 0.095684
+      type: 'test'
+      ...
+    # Subtest: fra 15.000 e 40.000 la detrazione è fissa a 690
+    ok 5 - fra 15.000 e 40.000 la detrazione è fissa a 690
+      ---
+      duration_ms: 0.104456
+      type: 'test'
+      ...
+    # Subtest: lettera b: gli scalini fra 29.000 e 35.200 si sommano ai 690
+    ok 6 - lettera b: gli scalini fra 29.000 e 35.200 si sommano ai 690
+      ---
+      duration_ms: 0.214593
+      type: 'test'
+      ...
+    # Subtest: terzo rapporto: 690 per (80.000 − reddito) ÷ 40.000
+    ok 7 - terzo rapporto: 690 per (80.000 − reddito) ÷ 40.000
+      ---
+      duration_ms: 0.145821
+      type: 'test'
+      ...
+    # Subtest: oltre 80.000 la detrazione non compete
+    ok 8 - oltre 80.000 la detrazione non compete
+      ---
+      duration_ms: 0.134263
+      type: 'test'
+      ...
+    # Subtest: oltre 2.840,51 € di reddito proprio il coniuge non è a carico
+    ok 9 - oltre 2.840,51 € di reddito proprio il coniuge non è a carico
+      ---
+      duration_ms: 0.134954
+      type: 'test'
+      ...
+    1..9
+ok 74 - E — coniuge a carico (art. 12 c. 1 lett. a)
+  ---
+  duration_ms: 3.748333
+  type: 'suite'
+  ...
+# Subtest: E — figli a carico (art. 12 c. 1 lett. c)
+    # Subtest: un figlio solo: 950 per il rapporto sulla soglia di 95.000
+    ok 1 - un figlio solo: 950 per il rapporto sulla soglia di 95.000
+      ---
+      duration_ms: 0.235575
+      type: 'test'
+      ...
+    # Subtest: due figli che danno diritto: la soglia sale di 15.000 per tutti
+    ok 2 - due figli che danno diritto: la soglia sale di 15.000 per tutti
+      ---
+      duration_ms: 0.107362
+      type: 'test'
+      ...
+    # Subtest: il figlio sotto i 21 anni non alza la soglia degli altri
+    ok 3 - il figlio sotto i 21 anni non alza la soglia degli altri
+      ---
+      duration_ms: 0.125059
+      type: 'test'
+      ...
+    # Subtest: sotto i 21 anni la detrazione è assorbita dall'Assegno Unico
+    ok 4 - sotto i 21 anni la detrazione è assorbita dall'Assegno Unico
+      ---
+      duration_ms: 0.095243
+      type: 'test'
+      ...
+    # Subtest: dai 30 anni compiuti la detrazione non spetta più
+    ok 5 - dai 30 anni compiuti la detrazione non spetta più
+      ---
+      duration_ms: 0.168614
+      type: 'test'
+      ...
+    # Subtest: la disabilità toglie il tetto dei 30 anni e non cambia l'importo
+    ok 6 - la disabilità toglie il tetto dei 30 anni e non cambia l'importo
+      ---
+      duration_ms: 0.131849
+      type: 'test'
+      ...
+    # Subtest: sotto i 21 anni la disabilità non fa nascere una detrazione che non c'è
+    ok 7 - sotto i 21 anni la disabilità non fa nascere una detrazione che non c'è
+      ---
+      duration_ms: 0.101171
+      type: 'test'
+      ...
+    # Subtest: il figlio disabile oltre i 30 alza la soglia dei fratelli
+    ok 8 - il figlio disabile oltre i 30 alza la soglia dei fratelli
+      ---
+      duration_ms: 0.097255
+      type: 'test'
+      ...
+    # Subtest: la disabilità esce come fatto della valutazione
+    ok 9 - la disabilità esce come fatto della valutazione
+      ---
+      duration_ms: 0.091549
+      type: 'test'
+      ...
+    # Subtest: senza età dichiarata il motore dice che il fatto manca
+    ok 10 - senza età dichiarata il motore dice che il fatto manca
+      ---
+      duration_ms: 0.131068
+      type: 'test'
+      ...
+    # Subtest: il limite di reddito del figlio cambia a 24 anni
+    ok 11 - il limite di reddito del figlio cambia a 24 anni
+      ---
+      duration_ms: 0.193021
+      type: 'test'
+      ...
+    # Subtest: a reddito zero il rapporto è uno e la detrazione non compete
+    ok 12 - a reddito zero il rapporto è uno e la detrazione non compete
+      ---
+      duration_ms: 0.069534
+      type: 'test'
+      ...
+    # Subtest: alla soglia e oltre il rapporto non è positivo e non compete
+    ok 13 - alla soglia e oltre il rapporto non è positivo e non compete
+      ---
+      duration_ms: 0.092879
+      type: 'test'
+      ...
+    1..13
+ok 75 - E — figli a carico (art. 12 c. 1 lett. c)
+  ---
+  duration_ms: 1.857962
+  type: 'suite'
+  ...
+# Subtest: E — altri familiari a carico (art. 12 c. 1 lett. d)
+    # Subtest: 750 per il rapporto sulla soglia di 80.000
+    ok 1 - 750 per il rapporto sulla soglia di 80.000
+      ---
+      duration_ms: 0.118349
+      type: 'test'
+      ...
+    # Subtest: più ascendenti non alzano la soglia
+    ok 2 - più ascendenti non alzano la soglia
+      ---
+      duration_ms: 0.068002
+      type: 'test'
+      ...
+    # Subtest: a reddito zero il rapporto è uno e la detrazione non compete
+    ok 3 - a reddito zero il rapporto è uno e la detrazione non compete
+      ---
+      duration_ms: 0.057628
+      type: 'test'
+      ...
+    # Subtest: a 80.000 e oltre non compete
+    ok 4 - a 80.000 e oltre non compete
+      ---
+      duration_ms: 0.064366
+      type: 'test'
+      ...
+    # Subtest: oltre 2.840,51 € di reddito proprio l'ascendente non è a carico
+    ok 5 - oltre 2.840,51 € di reddito proprio l'ascendente non è a carico
+      ---
+      duration_ms: 0.054003
+      type: 'test'
+      ...
+    1..5
+ok 76 - E — altri familiari a carico (art. 12 c. 1 lett. d)
+  ---
+  duration_ms: 0.446264
+  type: 'suite'
+  ...
+# Subtest: E — il nucleo come input del motore
+    # Subtest: rifiuta un tipo di familiare che non esiste nell'art. 12
+    ok 1 - rifiuta un tipo di familiare che non esiste nell'art. 12
+      ---
+      duration_ms: 1.513232
+      type: 'test'
+      ...
+    # Subtest: rifiuta il secondo coniuge
+    ok 2 - rifiuta il secondo coniuge
+      ---
+      duration_ms: 0.102195
+      type: 'test'
+      ...
+    # Subtest: rifiuta un'età negativa o non intera
+    ok 3 - rifiuta un'età negativa o non intera
+      ---
+      duration_ms: 0.134092
+      type: 'test'
+      ...
+    # Subtest: rifiuta una disabilità che non è un sì o un no
+    ok 4 - rifiuta una disabilità che non è un sì o un no
+      ---
+      duration_ms: 0.144948
+      type: 'test'
+      ...
+    # Subtest: senza nucleo non valuta niente
+    ok 5 - senza nucleo non valuta niente
+      ---
+      duration_ms: 0.12608
+      type: 'test'
+      ...
+    1..5
+ok 77 - E — il nucleo come input del motore
+  ---
+  duration_ms: 2.131154
+  type: 'suite'
+  ...
+# Subtest: E — i carichi di famiglia dentro calcola()
+    # Subtest: senza nucleo il risultato è identico a quello di oggi
+    ok 1 - senza nucleo il risultato è identico a quello di oggi
+      ---
+      duration_ms: 0.3521
+      type: 'test'
+      ...
+    # Subtest: emette una voce per familiare dichiarato, nell'ordine
+    ok 2 - emette una voce per familiare dichiarato, nell'ordine
+      ---
+      duration_ms: 0.578583
+      type: 'test'
+      ...
+    # Subtest: ogni familiare porta la fonte della sua lettera dell'art. 12
+    ok 3 - ogni familiare porta la fonte della sua lettera dell'art. 12
+      ---
+      duration_ms: 0.27903
+      type: 'test'
+      ...
+    # Subtest: le detrazioni di famiglia entrano nel netto e la somma chiude
+    ok 4 - le detrazioni di famiglia entrano nel netto e la somma chiude
+      ---
+      duration_ms: 0.210869
+      type: 'test'
+      ...
+    # Subtest: a capienza insufficiente la quota usata si ripartisce pro quota
+    ok 5 - a capienza insufficiente la quota usata si ripartisce pro quota
+      ---
+      duration_ms: 0.274904
+      type: 'test'
+      ...
+    # Subtest: chi non ha diritto resta a zero anche nella ripartizione
+    ok 6 - chi non ha diritto resta a zero anche nella ripartizione
+      ---
+      duration_ms: 0.196327
+      type: 'test'
+      ...
+    # Subtest: il resto dell'arrotondamento non atterra sull'ultimo per posizione
+    ok 7 - il resto dell'arrotondamento non atterra sull'ultimo per posizione
+      ---
+      duration_ms: 0.208945
+      type: 'test'
+      ...
+    # Subtest: se le detrazioni di famiglia azzerano l'IRPEF, le addizionali non sono dovute
+    ok 8 - se le detrazioni di famiglia azzerano l'IRPEF, le addizionali non sono dovute
+      ---
+      duration_ms: 0.15216
+      type: 'test'
+      ...
+    # Subtest: un nucleo malformato ferma il calcolo
+    ok 9 - un nucleo malformato ferma il calcolo
+      ---
+      duration_ms: 1.701135
+      type: 'test'
+      ...
+    1..9
+ok 78 - E — i carichi di famiglia dentro calcola()
+  ---
+  duration_ms: 4.177089
+  type: 'suite'
+  ...
+# Subtest: E — le soglie con un nucleo dichiarato
+    # Subtest: un nucleo che azzera l'IRPEF cancella il salto comunale
+    ok 1 - un nucleo che azzera l'IRPEF cancella il salto comunale
+      ---
+      duration_ms: 12.790268
+      type: 'test'
+      ...
+    # Subtest: senza nucleo la tabella delle soglie non si muove
+    ok 2 - senza nucleo la tabella delle soglie non si muove
+      ---
+      duration_ms: 0.14566
+      type: 'test'
+      ...
+    # Subtest: la cache distingue nuclei diversi sullo stesso comune
+    ok 3 - la cache distingue nuclei diversi sullo stesso comune
+      ---
+      duration_ms: 12.641955
+      type: 'test'
+      ...
+    1..3
+ok 79 - E — le soglie con un nucleo dichiarato
+  ---
+  duration_ms: 25.723793
+  type: 'suite'
+  ...
+# Subtest: F — welfare, fringe benefit e buoni pasto
+    # Subtest: senza benefit i numeri storici restano invariati
+    ok 1 - senza benefit i numeri storici restano invariati
+      ---
+      duration_ms: 5.089867
+      type: 'test'
+      ...
+    # Subtest: il welfare dichiarato esente aumenta il pacchetto, non il netto o l’imponibile
+    ok 2 - il welfare dichiarato esente aumenta il pacchetto, non il netto o l’imponibile
+      ---
+      duration_ms: 0.264148
+      type: 'test'
+      ...
+    # Subtest: fringe: un centesimo sotto e sopra la soglia rende imponibile l’intero valore
+    ok 3 - fringe: un centesimo sotto e sopra la soglia rende imponibile l’intero valore
+      ---
+      duration_ms: 0.255525
+      type: 'test'
+      ...
+    # Subtest: un figlio fiscalmente a carico porta la soglia fringe a 2.000 euro
+    ok 4 - un figlio fiscalmente a carico porta la soglia fringe a 2.000 euro
+      ---
+      duration_ms: 0.261925
+      type: 'test'
+      ...
+    # Subtest: buoni elettronici da 10 euro: valore pieno spendibile, eccedenza imponibile
+    ok 5 - buoni elettronici da 10 euro: valore pieno spendibile, eccedenza imponibile
+      ---
+      duration_ms: 0.178771
+      type: 'test'
+      ...
+    # Subtest: buoni cartacei ed elettronici hanno soglie separate
+    ok 6 - buoni cartacei ed elettronici hanno soglie separate
+      ---
+      duration_ms: 0.18584
+      type: 'test'
+      ...
+    # Subtest: gli input benefit negativi o malformati fermano il calcolo
+    ok 7 - gli input benefit negativi o malformati fermano il calcolo
+      ---
+      duration_ms: 0.335496
+      type: 'test'
+      ...
+    # Subtest: le soglie dichiarano la RAL coerente con le quote imponibili dei benefit
+    ok 8 - le soglie dichiarano la RAL coerente con le quote imponibili dei benefit
+      ---
+      duration_ms: 5.963273
+      type: 'test'
+      ...
+    1..8
+ok 80 - F — welfare, fringe benefit e buoni pasto
+  ---
+  duration_ms: 12.734765
+  type: 'suite'
+  ...
+# Subtest: E — un familiare in più non fa mai scendere il netto
+    # Subtest: Milano: un figlio di 22 anni non toglie mai un centesimo
+    ok 1 - Milano: un figlio di 22 anni non toglie mai un centesimo
+      ---
+      duration_ms: 51.660738
+      type: 'test'
+      ...
+    # Subtest: Milano: il familiare aggiunto può anche non portare detrazione
+    ok 2 - Milano: il familiare aggiunto può anche non portare detrazione
+      ---
+      duration_ms: 72.606046
+      type: 'test'
+      ...
+    # Subtest: Torino: il terzo figlio apre la detrazione regionale e non toglie niente
+    ok 3 - Torino: il terzo figlio apre la detrazione regionale e non toglie niente
+      ---
+      duration_ms: 57.793256
+      type: 'test'
+      ...
+    # Subtest: Bardolino: il figlio che alza la soglia dell'esenzione comunale
+    ok 4 - Bardolino: il figlio che alza la soglia dell'esenzione comunale
+      ---
+      duration_ms: 54.176131
+      type: 'test'
+      ...
+    1..4
+ok 81 - E — un familiare in più non fa mai scendere il netto
+  ---
+  duration_ms: 236.421721
+  type: 'suite'
+  ...
+# Subtest: KPI — la RAL si ricompone al centesimo
+    # Subtest: RAL − contributi − imposte + integrazioni = netto, da 5.000 a 150.000
+    ok 1 - RAL − contributi − imposte + integrazioni = netto, da 5.000 a 150.000
+      ---
+      duration_ms: 18.128739
+      type: 'test'
+      ...
+    1..1
+ok 82 - KPI — la RAL si ricompone al centesimo
+  ---
+  duration_ms: 18.2357
+  type: 'suite'
+  ...
+# Subtest: fingerprint fiscali e vettori fissano la versione pubblicata
+ok 83 - fingerprint fiscali e vettori fissano la versione pubblicata
+  ---
+  duration_ms: 346.64144
+  type: 'test'
+  ...
+# Subtest: cinque domicili risolti nel dataset reale
+ok 84 - cinque domicili risolti nel dataset reale
+  ---
+  duration_ms: 0.138219
+  type: 'test'
+  ...
+# Subtest: 25 seed × 100 round: determinismo, margini, livelli, deduplica e plateau
+ok 85 - 25 seed × 100 round: determinismo, margini, livelli, deduplica e plateau
+  ---
+  duration_ms: 3558.773996
+  type: 'test'
+  ...
+# Subtest: 1000 round avanzati: famiglie e posizioni entrambe fra 35% e 65%
+ok 86 - 1000 round avanzati: famiglie e posizioni entrambe fra 35% e 65%
+  ---
+  duration_ms: 716.925011
+  type: 'test'
+  ...
+# Subtest: catalogo fallback: otto coppie valide per fascia, metà alta/metà bassa
+ok 87 - catalogo fallback: otto coppie valide per fascia, metà alta/metà bassa
+  ---
+  duration_ms: 248.266653
+  type: 'test'
+  ...
+# Subtest: nessun fallback affidabile termina in errore tecnico
+ok 88 - nessun fallback affidabile termina in errore tecnico
+  ---
+  duration_ms: 4.9077
+  type: 'test'
+  ...
+# Subtest: scontrino: run conclusa, zero, singolare e grandi punteggi, mai il best
+ok 89 - scontrino: run conclusa, zero, singolare e grandi punteggi, mai il best
+  ---
+  duration_ms: 8.142459
+  type: 'test'
+  ...
+# Subtest: risultato e immagine rimangono sulla preview, canonical in produzione
+ok 90 - risultato e immagine rimangono sulla preview, canonical in produzione
+  ---
+  duration_ms: 0.630029
+  type: 'test'
+  ...
+# Subtest: destinazioni: URL codificati, t e seed sopravvivono anche al fragment
+ok 91 - destinazioni: URL codificati, t e seed sopravvivono anche al fragment
+  ---
+  duration_ms: 0.851513
+  type: 'test'
+  ...
+# Subtest: disegno 4:5 con dominio, risultato e invito reali, testo lungo adattato
+ok 92 - disegno 4:5 con dominio, risultato e invito reali, testo lungo adattato
+  ---
+  duration_ms: 1.296305
+  type: 'test'
+  ...
+# Subtest: fixture base, catena e inversione A/B
+ok 93 - fixture base, catena e inversione A/B
+  ---
+  duration_ms: 4.17043
+  type: 'test'
+  ...
+# Subtest: fixture costi, catena e inversione A/B
+ok 94 - fixture costi, catena e inversione A/B
+  ---
+  duration_ms: 0.916552
+  type: 'test'
+  ...
+# Subtest: fixture mensilità, catena e inversione A/B
+ok 95 - fixture mensilità, catena e inversione A/B
+  ---
+  duration_ms: 0.794098
+  type: 'test'
+  ...
+# Subtest: fixture welfare, catena e inversione A/B
+ok 96 - fixture welfare, catena e inversione A/B
+  ---
+  duration_ms: 0.790973
+  type: 'test'
+  ...
+# Subtest: fixture geografia, catena e inversione A/B
+ok 97 - fixture geografia, catena e inversione A/B
+  ---
+  duration_ms: 0.517611
+  type: 'test'
+  ...
+# Subtest: fixture fringe, catena e inversione A/B
+ok 98 - fixture fringe, catena e inversione A/B
+  ---
+  duration_ms: 2.132195
+  type: 'test'
+  ...
+# Subtest: 100 euro mensili tolgono 1200 annui; welfare non modifica il contante
+ok 99 - 100 euro mensili tolgono 1200 annui; welfare non modifica il contante
+  ---
+  duration_ms: 1.370897
+  type: 'test'
+  ...
+# Subtest: rifiuta errore, riconciliazione falsa, avvisi, importi non finiti e disponibilità negativa
+ok 100 - rifiuta errore, riconciliazione falsa, avvisi, importi non finiti e disponibilità negativa
+  ---
+  duration_ms: 5.364762
+  type: 'test'
+  ...
+# Subtest: spiegazioni derivano da inversione effettiva e quota fringe del motore
+ok 101 - spiegazioni derivano da inversione effettiva e quota fringe del motore
+  ---
+  duration_ms: 1.304377
+  type: 'test'
+  ...
+# Subtest: codec del comparatore conserva input, orientamento, netto e costi al centesimo
+ok 102 - codec del comparatore conserva input, orientamento, netto e costi al centesimo
+  ---
+  duration_ms: 7.271214
+  type: 'test'
+  ...
+# Subtest: primo errore, dieci corrette poi errore, doppia risposta e nessuno skip
+ok 103 - primo errore, dieci corrette poi errore, doppia risposta e nessuno skip
+  ---
+  duration_ms: 9.549471
+  type: 'test'
+  ...
+# Subtest: replay prima scelta, rivelazione, prossimo e sconfitta non duplica punti
+ok 104 - replay prima scelta, rivelazione, prossimo e sconfitta non duplica punti
+  ---
+  duration_ms: 534.370287
+  type: 'test'
+  ...
+# Subtest: storage corrotto e record zero
+ok 105 - storage corrotto e record zero
+  ---
+  duration_ms: 0.331641
+  type: 'test'
+  ...
+# Subtest: codec sfida, limiti numerici e target non modifica la sequenza
+ok 106 - codec sfida, limiti numerici e target non modifica la sequenza
+  ---
+  duration_ms: 4.447848
+  type: 'test'
+  ...
+# Subtest: share richiede run conclusa e usa la run, non record o target
+ok 107 - share richiede run conclusa e usa la run, non record o target
+  ---
+  duration_ms: 0.487866
+  type: 'test'
+  ...
+# Subtest: errore di generazione preserva checkpoint e punteggio
+ok 108 - errore di generazione preserva checkpoint e punteggio
+  ---
+  duration_ms: 0.2717
+  type: 'test'
+  ...
+# Subtest: trova la RAL piu bassa sulla griglia che raggiunge il target annuo
+ok 109 - trova la RAL piu bassa sulla griglia che raggiunge il target annuo
+  ---
+  duration_ms: 22.430876
+  type: 'test'
+  ...
+# Subtest: la scansione conserva il primo candidato valido prima di un salto del netto
+ok 110 - la scansione conserva il primo candidato valido prima di un salto del netto
+  ---
+  duration_ms: 37.941129
+  type: 'test'
+  ...
+# Subtest: normalizza input italiani e rifiuta valori invalidi o irraggiungibili
+ok 111 - normalizza input italiani e rifiuta valori invalidi o irraggiungibili
+  ---
+  duration_ms: 1.04106
+  type: 'test'
+  ...
+# Subtest: costruisce la CTA per il profilo standard e il calcolo attivo
+ok 112 - costruisce la CTA per il profilo standard e il calcolo attivo
+  ---
+  duration_ms: 0.219642
+  type: 'test'
+  ...
+# Subtest: la pagina parte senza risultato, espone un solo input e invalida il risultato alle modifiche
+ok 113 - la pagina parte senza risultato, espone un solo input e invalida il risultato alle modifiche
+  ---
+  duration_ms: 0.204128
+  type: 'test'
+  ...
+# Subtest: la navigazione pubblica rende raggiungibile Netto RAL anche dopo la generazione
+ok 114 - la navigazione pubblica rende raggiungibile Netto RAL anche dopo la generazione
+  ---
+  duration_ms: 2.247018
+  type: 'test'
+  ...
+# Subtest: la home raggruppa calcoli e confronti e non duplica i link nella hero
+ok 115 - la home raggruppa calcoli e confronti e non duplica i link nella hero
+  ---
+  duration_ms: 0.55036
+  type: 'test'
+  ...
+# Subtest: le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset
+ok 116 - le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset
+  ---
+  duration_ms: 1.737009
+  type: 'test'
+  ...
+# Subtest: il generatore scrive esattamente le rotte dichiarate
+ok 117 - il generatore scrive esattamente le rotte dichiarate
+  ---
+  duration_ms: 1.173329
+  type: 'test'
+  ...
+# Subtest: gli importi escono dal dataset: riscontro con le tabelle pubblicate
+ok 118 - gli importi escono dal dataset: riscontro con le tabelle pubblicate
+  ---
+  duration_ms: 0.905606
+  type: 'test'
+  ...
+# Subtest: ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb strutturato coincide con quello visibile
+ok 119 - ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb strutturato coincide con quello visibile
+  ---
+  duration_ms: 4.968032
+  type: 'test'
+  ...
+# Subtest: hub e tabelle collegano tutte le pagine: nessuna orfana, nessun link rotto
+ok 120 - hub e tabelle collegano tutte le pagine: nessuna orfana, nessun link rotto
+  ---
+  duration_ms: 8.796775
+  type: 'test'
+  ...
+# Subtest: i link al calcolatore portano contratto, sezione e livello che il dataset conosce
+ok 121 - i link al calcolatore portano contratto, sezione e livello che il dataset conosce
+  ---
+  duration_ms: 2.126017
+  type: 'test'
+  ...
+# Subtest: le pagine per livello mostrano scatti, part-time e tranche futura solo dove il contratto li documenta
+ok 122 - le pagine per livello mostrano scatti, part-time e tranche futura solo dove il contratto li documenta
+  ---
+  duration_ms: 0.364329
+  type: 'test'
+  ...
+# Subtest: «Turismo» a un livello mostra anche il contratto dei pubblici esercizi
+ok 123 - «Turismo» a un livello mostra anche il contratto dei pubblici esercizi
+  ---
+  duration_ms: 0.287473
+  type: 'test'
+  ...
+# Subtest: «Turismo» nell’hub porta anche alle agenzie di viaggio
+ok 124 - «Turismo» nell’hub porta anche alle agenzie di viaggio
+  ---
+  duration_ms: 0.460614
+  type: 'test'
+  ...
+# Subtest: fonti non firmatarie e contratti scaduti lo dichiarano in pagina
+ok 125 - fonti non firmatarie e contratti scaduti lo dichiarano in pagina
+  ---
+  duration_ms: 3.936517
+  type: 'test'
+  ...
+# Subtest: a una tranche nuova le pagine si rigenerano con la tabella che decorre
+ok 126 - a una tranche nuova le pagine si rigenerano con la tabella che decorre
+  ---
+  duration_ms: 48.825832
+  type: 'test'
+  ...
+# Subtest: un solo sitemap raccoglie RAL, CCNL e blog senza doppioni
+ok 127 - un solo sitemap raccoglie RAL, CCNL e blog senza doppioni
+  ---
+  duration_ms: 0.664733
+  type: 'test'
+  ...
+# Subtest: Vetro: base tabellare annualizzata, non RAL, e netto dichiarato parziale
+ok 128 - Vetro: base tabellare annualizzata, non RAL, e netto dichiarato parziale
+  ---
+  duration_ms: 0.531733
+  type: 'test'
+  ...
+# Subtest: hub: il Vetro è segnalato come copertura parziale, fuori dai confronti di RAL
+ok 129 - hub: il Vetro è segnalato come copertura parziale, fuori dai confronti di RAL
+  ---
+  duration_ms: 0.283728
+  type: 'test'
+  ...
+# Subtest: il generatore pubblica esattamente le 17 route RAL previste
+ok 130 - il generatore pubblica esattamente le 17 route RAL previste
+  ---
+  duration_ms: 3.983787
+  type: 'test'
+  ...
+# Subtest: ogni pagina espone i risultati del motore per il profilo canonico
+ok 131 - ogni pagina espone i risultati del motore per il profilo canonico
+  ---
+  duration_ms: 5.930052
+  type: 'test'
+  ...
+# Subtest: title, description, H1 e canonical sono specifici per ciascuna RAL
+ok 132 - title, description, H1 e canonical sono specifici per ciascuna RAL
+  ---
+  duration_ms: 8.549172
+  type: 'test'
+  ...
+# Subtest: le pagine collegano hub e sole RAL confinanti, con estremità corrette
+ok 133 - le pagine collegano hub e sole RAL confinanti, con estremità corrette
+  ---
+  duration_ms: 1.772083
+  type: 'test'
+  ...
+# Subtest: hub e pagine RAL formano un grafo interno senza orfane
+ok 134 - hub e pagine RAL formano un grafo interno senza orfane
+  ---
+  duration_ms: 1.312739
+  type: 'test'
+  ...
+# Subtest: nessuna pagina diversa da 35.000 conserva dati hardcoded della pagina campione
+ok 135 - nessuna pagina diversa da 35.000 conserva dati hardcoded della pagina campione
+  ---
+  duration_ms: 1.325008
+  type: 'test'
+  ...
+# Subtest: due esecuzioni consecutive del generatore sono idempotenti
+ok 136 - due esecuzioni consecutive del generatore sono idempotenti
+  ---
+  duration_ms: 243.074263
+  type: 'test'
+  ...
+# Subtest: la composizione annua ricompone la RAL al 100% e nomina le integrazioni
+ok 137 - la composizione annua ricompone la RAL al 100% e nomina le integrazioni
+  ---
+  duration_ms: 5.767147
+  type: 'test'
+  ...
+# Subtest: come-ho-lavorato.html · il perimetro corrente non è limitato a Milano
+ok 138 - come-ho-lavorato.html · il perimetro corrente non è limitato a Milano
+  ---
+  duration_ms: 1.326671
+  type: 'test'
+  ...
+# Subtest: come-ho-lavorato.html · il perimetro distingue ciò che manca da ciò che è escluso
+ok 139 - come-ho-lavorato.html · il perimetro distingue ciò che manca da ciò che è escluso
+  ---
+  duration_ms: 0.30531
+  type: 'test'
+  ...
+# Subtest: come-ho-lavorato.html · il perimetro rimanda ai limiti del calcolatore
+ok 140 - come-ho-lavorato.html · il perimetro rimanda ai limiti del calcolatore
+  ---
+  duration_ms: 0.222174
+  type: 'test'
+  ...
+# Subtest: la-storia.html · il perimetro corrente non è limitato a Milano
+ok 141 - la-storia.html · il perimetro corrente non è limitato a Milano
+  ---
+  duration_ms: 1.749067
+  type: 'test'
+  ...
+# Subtest: la-storia.html · il perimetro distingue ciò che manca da ciò che è escluso
+ok 142 - la-storia.html · il perimetro distingue ciò che manca da ciò che è escluso
+  ---
+  duration_ms: 0.657401
+  type: 'test'
+  ...
+# Subtest: la-storia.html · il perimetro rimanda ai limiti del calcolatore
+ok 143 - la-storia.html · il perimetro rimanda ai limiti del calcolatore
+  ---
+  duration_ms: 0.456027
+  type: 'test'
+  ...
+# Subtest: la-storia.html · la fotografia della backlog porta la data degli stati
+ok 144 - la-storia.html · la fotografia della backlog porta la data degli stati
+  ---
+  duration_ms: 0.654848
+  type: 'test'
+  ...
+# Subtest: la-storia.html · ogni filone riporta lo stato verificato
+ok 145 - la-storia.html · ogni filone riporta lo stato verificato
+  ---
+  duration_ms: 0.710882
+  type: 'test'
+  ...
+# Subtest: il template delle pagine RAL conserva Milano, che è il profilo simulato
+ok 146 - il template delle pagine RAL conserva Milano, che è il profilo simulato
+  ---
+  duration_ms: 0.496919
+  type: 'test'
+  ...
+# Subtest: pagina RAL 35.000
+    # Subtest: pubblica i valori prodotti dal motore per 12, 13 e 14 mensilità
+    ok 1 - pubblica i valori prodotti dal motore per 12, 13 e 14 mensilità
+      ---
+      duration_ms: 0.785254
+      type: 'test'
+      ...
+    # Subtest: ha metadati univoci e canonical sulla pagina, non sulla home
+    ok 2 - ha metadati univoci e canonical sulla pagina, non sulla home
+      ---
+      duration_ms: 0.19257
+      type: 'test'
+      ...
+    # Subtest: offre percorsi reali verso il calcolatore e le RAL confinanti
+    ok 3 - offre percorsi reali verso il calcolatore e le RAL confinanti
+      ---
+      duration_ms: 0.140471
+      type: 'test'
+      ...
+    # Subtest: mantiene la navigazione globale e spiega il confronto senza una falsa scansione mensile
+    ok 4 - mantiene la navigazione globale e spiega il confronto senza una falsa scansione mensile
+      ---
+      duration_ms: 0.225669
+      type: 'test'
+      ...
+    1..4
+ok 147 - pagina RAL 35.000
+  ---
+  duration_ms: 2.20806
+  type: 'suite'
+  ...
+# Subtest: FIPE — pubblici esercizi e ristorazione, H05Y
+    # Subtest: tre sezioni, dieci livelli, voci e totali della tabella FIPE
+    ok 1 - tre sezioni, dieci livelli, voci e totali della tabella FIPE
+      ---
+      duration_ms: 1.393872
+      type: 'test'
+      ...
+    # Subtest: la ristorazione collettiva ha le tranche intermedie a settembre
+    ok 2 - la ristorazione collettiva ha le tranche intermedie a settembre
+      ---
+      duration_ms: 0.972586
+      type: 'test'
+      ...
+    # Subtest: scatti quadriennali, sei, esclusi dalla quattordicesima
+    ok 3 - scatti quadriennali, sei, esclusi dalla quattordicesima
+      ---
+      duration_ms: 1.499441
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time, con gli scatti su 13 mensilità
+    ok 4 - tempo pieno e part-time, con gli scatti su 13 mensilità
+      ---
+      duration_ms: 0.751523
+      type: 'test'
+      ...
+    # Subtest: le esclusioni dicono la quattordicesima senza scatti e i terzi elementi
+    ok 5 - le esclusioni dicono la quattordicesima senza scatti e i terzi elementi
+      ---
+      duration_ms: 0.258219
+      type: 'test'
+      ...
+    1..5
+ok 148 - FIPE — pubblici esercizi e ristorazione, H05Y
+  ---
+  duration_ms: 5.790702
+  type: 'suite'
+  ...
+# Subtest: Turismo — Federalberghi, H052
+    # Subtest: due sezioni e l’indennità di funzione dei Quadri come voce propria
+    ok 1 - due sezioni e l’indennità di funzione dei Quadri come voce propria
+      ---
+      duration_ms: 0.221564
+      type: 'test'
+      ...
+    # Subtest: cinque tranche firmate, da luglio 2024 a novembre 2027
+    ok 2 - cinque tranche firmate, da luglio 2024 a novembre 2027
+      ---
+      duration_ms: 0.319772
+      type: 'test'
+      ...
+    # Subtest: scatti triennali, sei, anche nella quattordicesima
+    ok 3 - scatti triennali, sei, anche nella quattordicesima
+      ---
+      duration_ms: 0.51694
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time
+    ok 4 - tempo pieno e part-time
+      ---
+      duration_ms: 0.675078
+      type: 'test'
+      ...
+    # Subtest: le esclusioni dicono l’età per gli scatti e l’assunzione sulla funzione
+    ok 5 - le esclusioni dicono l’età per gli scatti e l’assunzione sulla funzione
+      ---
+      duration_ms: 0.342967
+      type: 'test'
+      ...
+    1..5
+ok 149 - Turismo — Federalberghi, H052
+  ---
+  duration_ms: 2.492639
+  type: 'suite'
+  ...
+# Subtest: Imprese di viaggi e turismo — FIAVET Confcommercio, H04Z
+    # Subtest: dieci livelli, nessuna sezione, paga base conglobata dell’art. 147
+    ok 1 - dieci livelli, nessuna sezione, paga base conglobata dell’art. 147
+      ---
+      duration_ms: 0.283127
+      type: 'test'
+      ...
+    # Subtest: cinque tranche firmate, da luglio 2024 a dicembre 2027
+    ok 2 - cinque tranche firmate, da luglio 2024 a dicembre 2027
+      ---
+      duration_ms: 0.181655
+      type: 'test'
+      ...
+    # Subtest: non è il contratto degli alberghi: stesso livello, altra paga
+    ok 3 - non è il contratto degli alberghi: stesso livello, altra paga
+      ---
+      duration_ms: 0.151649
+      type: 'test'
+      ...
+    # Subtest: scatti triennali, sei, anche nella quattordicesima
+    ok 4 - scatti triennali, sei, anche nella quattordicesima
+      ---
+      duration_ms: 0.525101
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time
+    ok 5 - tempo pieno e part-time
+      ---
+      duration_ms: 0.376999
+      type: 'test'
+      ...
+    # Subtest: le esclusioni dicono le agenzie minori, l’età per gli scatti e la funzione
+    ok 6 - le esclusioni dicono le agenzie minori, l’età per gli scatti e la funzione
+      ---
+      duration_ms: 0.280333
+      type: 'test'
+      ...
+    1..6
+ok 150 - Imprese di viaggi e turismo — FIAVET Confcommercio, H04Z
+  ---
+  duration_ms: 2.046206
+  type: 'suite'
+  ...
+# Subtest: Studi professionali — Confprofessioni, H442
+    # Subtest: otto livelli, minimo conglobato unico
+    ok 1 - otto livelli, minimo conglobato unico
+      ---
+      duration_ms: 0.211338
+      type: 'test'
+      ...
+    # Subtest: quattro tranche, l’ultima firmata a dicembre 2026
+    ok 2 - quattro tranche, l’ultima firmata a dicembre 2026
+      ---
+      duration_ms: 0.134703
+      type: 'test'
+      ...
+    # Subtest: scatti triennali, otto, allo stesso studio
+    ok 3 - scatti triennali, otto, allo stesso studio
+      ---
+      duration_ms: 0.41122
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time
+    ok 4 - tempo pieno e part-time
+      ---
+      duration_ms: 0.344259
+      type: 'test'
+      ...
+    # Subtest: l’elemento di allineamento Confedertecnica è escluso e dichiarato
+    ok 5 - l’elemento di allineamento Confedertecnica è escluso e dichiarato
+      ---
+      duration_ms: 0.10546
+      type: 'test'
+      ...
+    1..5
+ok 151 - Studi professionali — Confprofessioni, H442
+  ---
+  duration_ms: 1.364879
+  type: 'suite'
+  ...
+# Subtest: Multiservizi — K511
+    # Subtest: impiegati e operai condividono le tabelle, non i livelli
+    ok 1 - impiegati e operai condividono le tabelle, non i livelli
+      ---
+      duration_ms: 0.260282
+      type: 'test'
+      ...
+    # Subtest: otto tranche fino a marzo 2029
+    ok 2 - otto tranche fino a marzo 2029
+      ---
+      duration_ms: 0.262125
+      type: 'test'
+      ...
+    # Subtest: impiegati: ogni scatto vale la finestra in cui è maturato
+    ok 3 - impiegati: ogni scatto vale la finestra in cui è maturato
+      ---
+      duration_ms: 0.401346
+      type: 'test'
+      ...
+    # Subtest: impiegati: prima del luglio 2021 e senza data il valore non si ricostruisce
+    ok 4 - impiegati: prima del luglio 2021 e senza data il valore non si ricostruisce
+      ---
+      duration_ms: 0.296617
+      type: 'test'
+      ...
+    # Subtest: operai: una quota unica dal quinto anno nel settore
+    ok 5 - operai: una quota unica dal quinto anno nel settore
+      ---
+      duration_ms: 0.230807
+      type: 'test'
+      ...
+    # Subtest: part-time: EDR su 13 mensilità riproporzionato a parte
+    ok 6 - part-time: EDR su 13 mensilità riproporzionato a parte
+      ---
+      duration_ms: 0.516168
+      type: 'test'
+      ...
+    # Subtest: le esclusioni dicono ANIP, i parametri 115 e 125 e gli scatti ante 2021
+    ok 7 - le esclusioni dicono ANIP, i parametri 115 e 125 e gli scatti ante 2021
+      ---
+      duration_ms: 0.233191
+      type: 'test'
+      ...
+    1..7
+ok 152 - Multiservizi — K511
+  ---
+  duration_ms: 2.423916
+  type: 'suite'
+  ...
+# Subtest: DMO — Federdistribuzione, H008
+    # Subtest: una voce propria del catalogo, con la tabella Filcams DMO
+    ok 1 - una voce propria del catalogo, con la tabella Filcams DMO
+      ---
+      duration_ms: 0.204959
+      type: 'test'
+      ...
+    # Subtest: tre tranche e scatti triennali, dieci
+    ok 2 - tre tranche e scatti triennali, dieci
+      ---
+      duration_ms: 0.405041
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time
+    ok 3 - tempo pieno e part-time
+      ---
+      duration_ms: 0.288084
+      type: 'test'
+      ...
+    1..3
+ok 153 - DMO — Federdistribuzione, H008
+  ---
+  duration_ms: 1.017404
+  type: 'suite'
+  ...
+# Subtest: Logistica, trasporto merci e spedizione — I100
+    # Subtest: due sezioni, 39 ore, il 6° Junior fuori e i rider per parametro
+    ok 1 - due sezioni, 39 ore, il 6° Junior fuori e i rider per parametro
+      ---
+      duration_ms: 0.275765
+      type: 'test'
+      ...
+    # Subtest: le discrepanze della fonte sono esattamente quelle registrate
+    ok 2 - le discrepanze della fonte sono esattamente quelle registrate
+      ---
+      duration_ms: 0.725495
+      type: 'test'
+      ...
+    # Subtest: quattro decorrenze, la terza di solo EPA
+    ok 3 - quattro decorrenze, la terza di solo EPA
+      ---
+      duration_ms: 0.209747
+      type: 'test'
+      ...
+    # Subtest: scatti biennali, cinque, con importi per sezione
+    ok 4 - scatti biennali, cinque, con importi per sezione
+      ---
+      duration_ms: 1.31969
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time su 39 ore
+    ok 5 - tempo pieno e part-time su 39 ore
+      ---
+      duration_ms: 0.480204
+      type: 'test'
+      ...
+    # Subtest: le esclusioni dicono il 6° Junior e le norme transitorie
+    ok 6 - le esclusioni dicono il 6° Junior e le norme transitorie
+      ---
+      duration_ms: 0.495518
+      type: 'test'
+      ...
+    1..6
+ok 154 - Logistica, trasporto merci e spedizione — I100
+  ---
+  duration_ms: 3.738067
+  type: 'suite'
+  ...
+# Subtest: Cooperative sociali — T151
+    # Subtest: tredici posizioni, 38 ore, minimo conglobato
+    ok 1 - tredici posizioni, 38 ore, minimo conglobato
+      ---
+      duration_ms: 0.223457
+      type: 'test'
+      ...
+    # Subtest: tre tranche e nessuna successiva: il contratto è scaduto e non rinnovato
+    ok 2 - tre tranche e nessuna successiva: il contratto è scaduto e non rinnovato
+      ---
+      duration_ms: 0.132911
+      type: 'test'
+      ...
+    # Subtest: 13 mensilità fino al 2024, 13,5 dal 2025
+    ok 3 - 13 mensilità fino al 2024, 13,5 dal 2025
+      ---
+      duration_ms: 0.210398
+      type: 'test'
+      ...
+    # Subtest: le indennità professionali si scelgono per profilo, dove la declaratoria le colloca
+    ok 4 - le indennità professionali si scelgono per profilo, dove la declaratoria le colloca
+      ---
+      duration_ms: 0.373334
+      type: 'test'
+      ...
+    # Subtest: scatti biennali, cinque
+    ok 5 - scatti biennali, cinque
+      ---
+      duration_ms: 0.295034
+      type: 'test'
+      ...
+    # Subtest: part-time su 38 ore e media su 13,5 mensilità
+    ok 6 - part-time su 38 ore e media su 13,5 mensilità
+      ---
+      duration_ms: 1.131226
+      type: 'test'
+      ...
+    1..6
+ok 155 - Cooperative sociali — T151
+  ---
+  duration_ms: 2.576514
+  type: 'suite'
+  ...
+# Subtest: PMI metalmeccanica Confapi — C018
+    # Subtest: nove categorie e i Quadri con l’indennità di funzione
+    ok 1 - nove categorie e i Quadri con l’indennità di funzione
+      ---
+      duration_ms: 0.208994
+      type: 'test'
+      ...
+    # Subtest: cinque tranche, due già firmate per il 2027 e il 2028
+    ok 2 - cinque tranche, due già firmate per il 2027 e il 2028
+      ---
+      duration_ms: 0.1201
+      type: 'test'
+      ...
+    # Subtest: scatti biennali, cinque, per categoria
+    ok 3 - scatti biennali, cinque, per categoria
+      ---
+      duration_ms: 0.322285
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time
+    ok 4 - tempo pieno e part-time
+      ---
+      duration_ms: 0.201445
+      type: 'test'
+      ...
+    1..4
+ok 156 - PMI metalmeccanica Confapi — C018
+  ---
+  duration_ms: 0.956452
+  type: 'suite'
+  ...
+# Subtest: Grafici editori — G011
+    # Subtest: due sezioni con livelli propri, tre voci e totale derivato
+    ok 1 - due sezioni con livelli propri, tre voci e totale derivato
+      ---
+      duration_ms: 0.17891
+      type: 'test'
+      ...
+    # Subtest: cinque tranche e nessun livello 8 Editori
+    ok 2 - cinque tranche e nessun livello 8 Editori
+      ---
+      duration_ms: 0.217368
+      type: 'test'
+      ...
+    # Subtest: scatti biennali, cinque; per Q e AS non calcolabili
+    ok 3 - scatti biennali, cinque; per Q e AS non calcolabili
+      ---
+      duration_ms: 0.44406
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time
+    ok 4 - tempo pieno e part-time
+      ---
+      duration_ms: 0.189686
+      type: 'test'
+      ...
+    1..4
+ok 157 - Grafici editori — G011
+  ---
+  duration_ms: 1.163886
+  type: 'suite'
+  ...
+# Subtest: Poligrafici — G041
+    # Subtest: una tabella in ultrattività, undici righe, 36 ore
+    ok 1 - una tabella in ultrattività, undici righe, 36 ore
+      ---
+      duration_ms: 0.172019
+      type: 'test'
+      ...
+    # Subtest: il 7° livello usa il valore del rapporto Adapt e registra lo scarto
+    ok 2 - il 7° livello usa il valore del rapporto Adapt e registra lo scarto
+      ---
+      duration_ms: 0.154212
+      type: 'test'
+      ...
+    # Subtest: scatti biennali, sette
+    ok 3 - scatti biennali, sette
+      ---
+      duration_ms: 0.243046
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time su 36 ore
+    ok 4 - tempo pieno e part-time su 36 ore
+      ---
+      duration_ms: 0.186531
+      type: 'test'
+      ...
+    1..4
+ok 158 - Poligrafici — G041
+  ---
+  duration_ms: 0.861258
+  type: 'suite'
+  ...
+# Subtest: Vetro, lampade e display — B132
+    # Subtest: quattro comparti, più il soffio a 36 ore
+    ok 1 - quattro comparti, più il soffio a 36 ore
+      ---
+      duration_ms: 0.206121
+      type: 'test'
+      ...
+    # Subtest: cinque tranche, con il D1 che sale di 50, 15, 30, 25 e 75 euro
+    ok 2 - cinque tranche, con il D1 che sale di 50, 15, 30, 25 e 75 euro
+      ---
+      duration_ms: 0.414595
+      type: 'test'
+      ...
+    # Subtest: scatti biennali, cinque, per comparto
+    ok 3 - scatti biennali, cinque, per comparto
+      ---
+      duration_ms: 0.363358
+      type: 'test'
+      ...
+    # Subtest: tempo pieno e part-time, anche a 36 ore
+    ok 4 - tempo pieno e part-time, anche a 36 ore
+      ---
+      duration_ms: 0.188795
+      type: 'test'
+      ...
+    # Subtest: il premio speciale manca, e la cifra annua lo dice invece di chiamarsi RAL
+    ok 5 - il premio speciale manca, e la cifra annua lo dice invece di chiamarsi RAL
+      ---
+      duration_ms: 0.313011
+      type: 'test'
+      ...
+    1..5
+ok 159 - Vetro, lampade e display — B132
+  ---
+  duration_ms: 1.605722
+  type: 'suite'
+  ...
+# Subtest: il gruppo 1 nel suo insieme
+    # Subtest: solo il Vetro ha una quota annua mancante: gli altri danno la RAL
+    ok 1 - solo il Vetro ha una quota annua mancante: gli altri danno la RAL
+      ---
+      duration_ms: 0.300593
+      type: 'test'
+      ...
+    # Subtest: quattordici codici CNEL distinti, dodici nuovi
+    ok 2 - quattordici codici CNEL distinti, dodici nuovi
+      ---
+      duration_ms: 0.076606
+      type: 'test'
+      ...
+    1..2
+ok 160 - il gruppo 1 nel suo insieme
+  ---
+  duration_ms: 0.432582
+  type: 'suite'
+  ...
+# Subtest: 1 — incidenza per voce sulle mensilità aggiuntive
+    # Subtest: una voce su 13 mensilità non viene moltiplicata per 14
+    ok 1 - una voce su 13 mensilità non viene moltiplicata per 14
+      ---
+      duration_ms: 1.832023
+      type: 'test'
+      ...
+    # Subtest: gli scatti possono entrare in meno mensilità del minimo
+    ok 2 - gli scatti possono entrare in meno mensilità del minimo
+      ---
+      duration_ms: 0.326873
+      type: 'test'
+      ...
+    # Subtest: con tutte le voci sulle stesse mensilità l’identità semplice regge
+    ok 3 - con tutte le voci sulle stesse mensilità l’identità semplice regge
+      ---
+      duration_ms: 0.261885
+      type: 'test'
+      ...
+    # Subtest: il part-time riproporziona ogni gruppo prima di annualizzarlo
+    ok 4 - il part-time riproporziona ogni gruppo prima di annualizzarlo
+      ---
+      duration_ms: 0.228255
+      type: 'test'
+      ...
+    1..4
+ok 161 - 1 — incidenza per voce sulle mensilità aggiuntive
+  ---
+  duration_ms: 3.449001
+  type: 'suite'
+  ...
+# Subtest: 2 — mensilità che dipendono dalla data
+    # Subtest: il numero di mensilità è quello in vigore alla data
+    ok 1 - il numero di mensilità è quello in vigore alla data
+      ---
+      duration_ms: 0.456568
+      type: 'test'
+      ...
+    # Subtest: una mensilità a metà si annualizza al centesimo
+    ok 2 - una mensilità a metà si annualizza al centesimo
+      ---
+      duration_ms: 0.288745
+      type: 'test'
+      ...
+    # Subtest: il motore accetta la media su 13,5 mensilità, non su frazioni qualsiasi
+    ok 3 - il motore accetta la media su 13,5 mensilità, non su frazioni qualsiasi
+      ---
+      duration_ms: 0.432612
+      type: 'test'
+      ...
+    1..3
+ok 162 - 2 — mensilità che dipendono dalla data
+  ---
+  duration_ms: 1.503979
+  type: 'suite'
+  ...
+# Subtest: 3 — sezioni con tabelle, calendari, scatti e orari propri
+    # Subtest: un contratto con sezioni le elenca, uno senza non ne ha
+    ok 1 - un contratto con sezioni le elenca, uno senza non ne ha
+      ---
+      duration_ms: 0.461675
+      type: 'test'
+      ...
+    # Subtest: ogni sezione ha il suo calendario di tranche
+    ok 2 - ogni sezione ha il suo calendario di tranche
+      ---
+      duration_ms: 0.374445
+      type: 'test'
+      ...
+    # Subtest: la sezione è obbligatoria dove esiste e vietata dove non esiste
+    ok 3 - la sezione è obbligatoria dove esiste e vietata dove non esiste
+      ---
+      duration_ms: 0.427054
+      type: 'test'
+      ...
+    # Subtest: orario e scatti della sezione prevalgono su quelli del contratto
+    ok 4 - orario e scatti della sezione prevalgono su quelli del contratto
+      ---
+      duration_ms: 0.694598
+      type: 'test'
+      ...
+    # Subtest: una sezione può esporre solo una parte dei livelli di tabelle condivise
+    ok 5 - una sezione può esporre solo una parte dei livelli di tabelle condivise
+      ---
+      duration_ms: 0.302075
+      type: 'test'
+      ...
+    1..5
+ok 163 - 3 — sezioni con tabelle, calendari, scatti e orari propri
+  ---
+  duration_ms: 2.488813
+  type: 'suite'
+  ...
+# Subtest: 4 — famiglie di scatti
+    # Subtest: cifra fissa: il valore viene dalla regola se la regola lo porta
+    ok 1 - cifra fissa: il valore viene dalla regola se la regola lo porta
+      ---
+      duration_ms: 0.336538
+      type: 'test'
+      ...
+    # Subtest: percentuale alla maturazione: somma per finestre
+    ok 2 - percentuale alla maturazione: somma per finestre
+      ---
+      duration_ms: 0.413583
+      type: 'test'
+      ...
+    # Subtest: percentuale alla maturazione: prima della prima finestra il valore non è documentato
+    ok 3 - percentuale alla maturazione: prima della prima finestra il valore non è documentato
+      ---
+      duration_ms: 0.41782
+      type: 'test'
+      ...
+    # Subtest: quota unica: zero fino al quarto anno, una sola quota dal quinto
+    ok 4 - quota unica: zero fino al quarto anno, una sola quota dal quinto
+      ---
+      duration_ms: 0.320282
+      type: 'test'
+      ...
+    # Subtest: scatti assenti e scatti non documentati non sono la stessa cosa
+    ok 5 - scatti assenti e scatti non documentati non sono la stessa cosa
+      ---
+      duration_ms: 0.354224
+      type: 'test'
+      ...
+    1..5
+ok 164 - 4 — famiglie di scatti
+  ---
+  duration_ms: 2.018835
+  type: 'suite'
+  ...
+# Subtest: 5 — voci per livello o per profilo
+    # Subtest: il profilo aggiunge la sua voce solo se scelto
+    ok 1 - il profilo aggiunge la sua voce solo se scelto
+      ---
+      duration_ms: 0.237408
+      type: 'test'
+      ...
+    # Subtest: un profilo che il livello non prevede si ferma
+    ok 2 - un profilo che il livello non prevede si ferma
+      ---
+      duration_ms: 0.137357
+      type: 'test'
+      ...
+    1..2
+ok 165 - 5 — voci per livello o per profilo
+  ---
+  duration_ms: 0.498612
+  type: 'suite'
+  ...
+# Subtest: 6 — orario contrattuale per contratto o sezione
+    # Subtest: il tempo pieno è quello del contratto, e il part-time si misura lì
+    ok 1 - il tempo pieno è quello del contratto, e il part-time si misura lì
+      ---
+      duration_ms: 0.251689
+      type: 'test'
+      ...
+    1..1
+ok 166 - 6 — orario contrattuale per contratto o sezione
+  ---
+  duration_ms: 0.329187
+  type: 'suite'
+  ...
+# Subtest: 7 — totale pubblicato contro totale derivato
+    # Subtest: la riconciliazione distingue pubblicato, derivato e discrepanza nota
+    ok 1 - la riconciliazione distingue pubblicato, derivato e discrepanza nota
+      ---
+      duration_ms: 0.3247
+      type: 'test'
+      ...
+    # Subtest: una discrepanza non registrata fa cadere la riconciliazione
+    ok 2 - una discrepanza non registrata fa cadere la riconciliazione
+      ---
+      duration_ms: 0.142355
+      type: 'test'
+      ...
+    # Subtest: la RAL usa la somma delle voci, non il totale stampato con il refuso
+    ok 3 - la RAL usa la somma delle voci, non il totale stampato con il refuso
+      ---
+      duration_ms: 0.120632
+      type: 'test'
+      ...
+    1..3
+ok 167 - 7 — totale pubblicato contro totale derivato
+  ---
+  duration_ms: 0.687347
+  type: 'suite'
+  ...
+# Subtest: dataset retributivo — le tabelle come le pubblica il contratto
+    # Subtest: il 4° livello Terziario riporta le voci e il totale pubblicati
+    ok 1 - il 4° livello Terziario riporta le voci e il totale pubblicati
+      ---
+      duration_ms: 2.275642
+      type: 'test'
+      ...
+    # Subtest: l’indennità di funzione è del Quadro, l’elemento aggiuntivo è del 7°
+    ok 2 - l’indennità di funzione è del Quadro, l’elemento aggiuntivo è del 7°
+      ---
+      duration_ms: 0.412933
+      type: 'test'
+      ...
+    # Subtest: il Terziario ha dieci livelli, non otto: ci sono gli operatori di vendita
+    ok 3 - il Terziario ha dieci livelli, non otto: ci sono gli operatori di vendita
+      ---
+      duration_ms: 0.35181
+      type: 'test'
+      ...
+    # Subtest: la Metalmeccanica pubblica un importo unico, con la vecchia categoria accanto
+    ok 4 - la Metalmeccanica pubblica un importo unico, con la vecchia categoria accanto
+      ---
+      duration_ms: 0.260513
+      type: 'test'
+      ...
+    # Subtest: in ogni tabella le voci riconciliano con il totale pubblicato
+    ok 5 - in ogni tabella le voci riconciliano con il totale pubblicato
+      ---
+      duration_ms: 13.713
+      type: 'test'
+      ...
+    # Subtest: ogni riga porta fonte, decorrenza e data di verifica
+    ok 6 - ogni riga porta fonte, decorrenza e data di verifica
+      ---
+      duration_ms: 3.139905
+      type: 'test'
+      ...
+    # Subtest: mensilità e orario contrattuale restano allineati al catalogo CCNL
+    ok 7 - mensilità e orario contrattuale restano allineati al catalogo CCNL
+      ---
+      duration_ms: 1.061581
+      type: 'test'
+      ...
+    # Subtest: il catalogo non è modificabile dai consumatori
+    ok 8 - il catalogo non è modificabile dai consumatori
+      ---
+      duration_ms: 0.332722
+      type: 'test'
+      ...
+    1..8
+ok 168 - dataset retributivo — le tabelle come le pubblica il contratto
+  ---
+  duration_ms: 23.059655
+  type: 'suite'
+  ...
+# Subtest: decorrenze — la tabella vigente e quella che verrà
+    # Subtest: le tre tranche del Terziario si succedono alle date giuste
+    ok 1 - le tre tranche del Terziario si succedono alle date giuste
+      ---
+      duration_ms: 1.129653
+      type: 'test'
+      ...
+    # Subtest: la tranche successiva è nota e i suoi importi crescono
+    ok 2 - la tranche successiva è nota e i suoi importi crescono
+      ---
+      duration_ms: 0.530941
+      type: 'test'
+      ...
+    # Subtest: gli scatti del Terziario non si muovono con le tranche
+    ok 3 - gli scatti del Terziario non si muovono con le tranche
+      ---
+      duration_ms: 0.147133
+      type: 'test'
+      ...
+    1..3
+ok 169 - decorrenze — la tabella vigente e quella che verrà
+  ---
+  duration_ms: 2.103131
+  type: 'suite'
+  ...
+# Subtest: scatti di anzianità — maturazione e tetto
+    # Subtest: il Terziario matura uno scatto ogni tre anni, dal mese successivo, fino a dieci
+    ok 1 - il Terziario matura uno scatto ogni tre anni, dal mese successivo, fino a dieci
+      ---
+      duration_ms: 3.814953
+      type: 'test'
+      ...
+    # Subtest: la Metalmeccanica matura uno scatto ogni due anni, dal mese successivo, fino a cinque
+    ok 2 - la Metalmeccanica matura uno scatto ogni due anni, dal mese successivo, fino a cinque
+      ---
+      duration_ms: 0.312332
+      type: 'test'
+      ...
+    # Subtest: l’anzianità richiede una data reale non futura
+    ok 3 - l’anzianità richiede una data reale non futura
+      ---
+      duration_ms: 0.234123
+      type: 'test'
+      ...
+    # Subtest: anzianità non dichiarata significa zero scatti, e il risultato lo dice
+    ok 4 - anzianità non dichiarata significa zero scatti, e il risultato lo dice
+      ---
+      duration_ms: 0.647216
+      type: 'test'
+      ...
+    # Subtest: il numero di scatti dichiarato prevale sull’anzianità stimata
+    ok 5 - il numero di scatti dichiarato prevale sull’anzianità stimata
+      ---
+      duration_ms: 0.461697
+      type: 'test'
+      ...
+    1..5
+ok 170 - scatti di anzianità — maturazione e tetto
+  ---
+  duration_ms: 5.660055
+  type: 'suite'
+  ...
+# Subtest: composizione della RAL — l’identità del prodotto
+    # Subtest: senza scatti e senza superminimo la RAL è il totale per le mensilità
+    ok 1 - senza scatti e senza superminimo la RAL è il totale per le mensilità
+      ---
+      duration_ms: 0.196607
+      type: 'test'
+      ...
+    # Subtest: la Metalmeccanica su tredici mensilità
+    ok 2 - la Metalmeccanica su tredici mensilità
+      ---
+      duration_ms: 0.119269
+      type: 'test'
+      ...
+    # Subtest: gli scatti entrano come voce propria, non dentro il minimo
+    ok 3 - gli scatti entrano come voce propria, non dentro il minimo
+      ---
+      duration_ms: 0.158389
+      type: 'test'
+      ...
+    # Subtest: il superminimo si annualizza sulle mensilità contrattuali
+    ok 4 - il superminimo si annualizza sulle mensilità contrattuali
+      ---
+      duration_ms: 0.425512
+      type: 'test'
+      ...
+    # Subtest: l’identità RAL = (base + scatti + superminimo) × mensilità tiene su ogni livello
+    ok 5 - l’identità RAL = (base + scatti + superminimo) × mensilità tiene su ogni livello
+      ---
+      duration_ms: 2.363915
+      type: 'test'
+      ...
+    # Subtest: CCNL e livello sconosciuti si fermano invece di produrre un numero
+    ok 6 - CCNL e livello sconosciuti si fermano invece di produrre un numero
+      ---
+      duration_ms: 0.222176
+      type: 'test'
+      ...
+    1..6
+ok 171 - composizione della RAL — l’identità del prodotto
+  ---
+  duration_ms: 3.690465
+  type: 'suite'
+  ...
+# Subtest: H011 e C011 — le RAL di prima dell’estensione non si muovono
+    # Subtest: terziario-confcommercio-h011 al 2026-09-07
+    ok 1 - terziario-confcommercio-h011 al 2026-09-07
+      ---
+      duration_ms: 0.758544
+      type: 'test'
+      ...
+    # Subtest: terziario-confcommercio-h011 al 2026-11-01
+    ok 2 - terziario-confcommercio-h011 al 2026-11-01
+      ---
+      duration_ms: 0.520946
+      type: 'test'
+      ...
+    # Subtest: terziario-confcommercio-h011 al 2027-02-01
+    ok 3 - terziario-confcommercio-h011 al 2027-02-01
+      ---
+      duration_ms: 0.441375
+      type: 'test'
+      ...
+    # Subtest: metalmeccanica-industria-c011 al 2026-09-07
+    ok 4 - metalmeccanica-industria-c011 al 2026-09-07
+      ---
+      duration_ms: 3.565467
+      type: 'test'
+      ...
+    # Subtest: nessuna sezione, identità semplice, scatti in cifra fissa
+    ok 5 - nessuna sezione, identità semplice, scatti in cifra fissa
+      ---
+      duration_ms: 0.235145
+      type: 'test'
+      ...
+    1..5
+ok 172 - H011 e C011 — le RAL di prima dell’estensione non si muovono
+  ---
+  duration_ms: 5.676801
+  type: 'suite'
+  ...
+# Subtest: part-time — riduce la retribuzione, non il periodo di lavoro
+    # Subtest: minimo e scatti si riproporzionano sull’orario contrattuale
+    ok 1 - minimo e scatti si riproporzionano sull’orario contrattuale
+      ---
+      duration_ms: 0.183327
+      type: 'test'
+      ...
+    # Subtest: il superminimo dichiarato non si riproporziona una seconda volta
+    ok 2 - il superminimo dichiarato non si riproporziona una seconda volta
+      ---
+      duration_ms: 5.069485
+      type: 'test'
+      ...
+    # Subtest: a parità di RAL il part-time non tocca detrazioni né netto
+    ok 3 - a parità di RAL il part-time non tocca detrazioni né netto
+      ---
+      duration_ms: 0.465042
+      type: 'test'
+      ...
+    # Subtest: la riproporzione è lineare e rifiuta orari fuori dal contratto
+    ok 4 - la riproporzione è lineare e rifiuta orari fuori dal contratto
+      ---
+      duration_ms: 0.294184
+      type: 'test'
+      ...
+    1..4
+ok 173 - part-time — riduce la retribuzione, non il periodo di lavoro
+  ---
+  duration_ms: 6.157135
+  type: 'suite'
+  ...
+# Subtest: la RAL composta entra nel motore come qualsiasi altra
+    # Subtest: Terziario 4° livello: dalla tabella al netto
+    ok 1 - Terziario 4° livello: dalla tabella al netto
+      ---
+      duration_ms: 0.342947
+      type: 'test'
+      ...
+    # Subtest: Metalmeccanica C3 con scatti e superminimo: dalla tabella al netto
+    ok 2 - Metalmeccanica C3 con scatti e superminimo: dalla tabella al netto
+      ---
+      duration_ms: 0.23831
+      type: 'test'
+      ...
+    # Subtest: ogni livello di ogni CCNL e sezione produce una RAL che il motore riconcilia
+    ok 3 - ogni livello di ogni CCNL e sezione produce una RAL che il motore riconcilia
+      ---
+      duration_ms: 47.544049
+      type: 'test'
+      ...
+    # Subtest: il golden a RAL 35.000 resta 26.032,17 €
+    ok 4 - il golden a RAL 35.000 resta 26.032,17 €
+      ---
+      duration_ms: 0.283979
+      type: 'test'
+      ...
+    1..4
+ok 174 - la RAL composta entra nel motore come qualsiasi altra
+  ---
+  duration_ms: 48.5861
+  type: 'suite'
+  ...
+# Subtest: la pagina — che cosa promette al primo sguardo
+    # Subtest: non c’è nessun campo RAL: la RAL è ciò che esce, non ciò che si chiede
+    ok 1 - non c’è nessun campo RAL: la RAL è ciò che esce, non ciò che si chiede
+      ---
+      duration_ms: 0.486323
+      type: 'test'
+      ...
+    # Subtest: parte senza risultato e lo invalida a ogni modifica
+    ok 2 - parte senza risultato e lo invalida a ogni modifica
+      ---
+      duration_ms: 0.147302
+      type: 'test'
+      ...
+    # Subtest: dove manca una quota annua la cifra non si chiama RAL (RIC-77)
+    ok 3 - dove manca una quota annua la cifra non si chiama RAL (RIC-77)
+      ---
+      duration_ms: 0.085469
+      type: 'test'
+      ...
+    # Subtest: il selettore viene dal dataset: nessun contratto scritto a mano
+    ok 4 - il selettore viene dal dataset: nessun contratto scritto a mano
+      ---
+      duration_ms: 0.072139
+      type: 'test'
+      ...
+    # Subtest: sezione e profilo esistono solo dove servono, e spariscono davvero
+    ok 5 - sezione e profilo esistono solo dove servono, e spariscono davvero
+      ---
+      duration_ms: 0.162185
+      type: 'test'
+      ...
+    # Subtest: non assume scatti regolari né mensilità identiche
+    ok 6 - non assume scatti regolari né mensilità identiche
+      ---
+      duration_ms: 0.128904
+      type: 'test'
+      ...
+    # Subtest: orario ridotto e scatti dichiarati stanno nelle opzioni avanzate
+    ok 7 - orario ridotto e scatti dichiarati stanno nelle opzioni avanzate
+      ---
+      duration_ms: 0.071198
+      type: 'test'
+      ...
+    # Subtest: dopo il calcolo porta il fuoco e la pagina sul risultato
+    ok 8 - dopo il calcolo porta il fuoco e la pagina sul risultato
+      ---
+      duration_ms: 0.147382
+      type: 'test'
+      ...
+    # Subtest: i campi appaiati non si stirano l’uno diverso dall’altro
+    ok 9 - i campi appaiati non si stirano l’uno diverso dall’altro
+      ---
+      duration_ms: 0.069795
+      type: 'test'
+      ...
+    # Subtest: carica gli script accanto e nessuna dipendenza esterna
+    ok 10 - carica gli script accanto e nessuna dipendenza esterna
+      ---
+      duration_ms: 0.323868
+      type: 'test'
+      ...
+    # Subtest: dichiara il perimetro invece di lasciarlo intendere
+    ok 11 - dichiara il perimetro invece di lasciarlo intendere
+      ---
+      duration_ms: 0.148254
+      type: 'test'
+      ...
+    # Subtest: la navigazione la rende raggiungibile da ogni pagina pubblica
+    ok 12 - la navigazione la rende raggiungibile da ogni pagina pubblica
+      ---
+      duration_ms: 0.794768
+      type: 'test'
+      ...
+    1..12
+ok 175 - la pagina — che cosa promette al primo sguardo
+  ---
+  duration_ms: 2.918881
+  type: 'suite'
+  ...
+# Subtest: adapter Voce → Riga
+    # Subtest: restituisce una Riga per ogni Voce, nello stesso ordine
+    ok 1 - restituisce una Riga per ogni Voce, nello stesso ordine
+      ---
+      duration_ms: 3.05732
+      type: 'test'
+      ...
+    # Subtest: copre ogni Voce e ogni fonte emesse dal Motore
+    ok 2 - copre ogni Voce e ogni fonte emesse dal Motore
+      ---
+      duration_ms: 123.801642
+      type: 'test'
+      ...
+    # Subtest: compone le formule rappresentative dai soli fatti della Voce
+    ok 3 - compone le formule rappresentative dai soli fatti della Voce
+      ---
+      duration_ms: 0.55664
+      type: 'test'
+      ...
+    # Subtest: spiega la Capienza come fatto trasversale alle Voce
+    ok 4 - spiega la Capienza come fatto trasversale alle Voce
+      ---
+      duration_ms: 0.246301
+      type: 'test'
+      ...
+    # Subtest: non muta le Voce
+    ok 5 - non muta le Voce
+      ---
+      duration_ms: 3.66659
+      type: 'test'
+      ...
+    # Subtest: fallisce atomicamente sugli input che violano la seam
+    ok 6 - fallisce atomicamente sugli input che violano la seam
+      ---
+      duration_ms: 0.640445
+      type: 'test'
+      ...
+    1..6
+ok 176 - adapter Voce → Riga
+  ---
+  duration_ms: 132.92554
+  type: 'suite'
+  ...
+# Subtest: le righe dei benefit
+    # Subtest: welfare: dichiara che l’esenzione è assunta, non certificata
+    ok 1 - welfare: dichiara che l’esenzione è assunta, non certificata
+      ---
+      duration_ms: 0.439683
+      type: 'test'
+      ...
+    # Subtest: fringe: rende visibile la regola del superamento integrale
+    ok 2 - fringe: rende visibile la regola del superamento integrale
+      ---
+      duration_ms: 0.435136
+      type: 'test'
+      ...
+    # Subtest: buoni: racconta tipo, unità, totale, quota esente e imponibile
+    ok 3 - buoni: racconta tipo, unità, totale, quota esente e imponibile
+      ---
+      duration_ms: 0.414645
+      type: 'test'
+      ...
+    1..3
+ok 177 - le righe dei benefit
+  ---
+  duration_ms: 1.593343
+  type: 'suite'
+  ...
+# Subtest: carichi di famiglia — dalla Voce alla Riga
+    # Subtest: intitola ogni familiare per quello che è, e i figli con l'età
+    ok 1 - intitola ogni familiare per quello che è, e i figli con l'età
+      ---
+      duration_ms: 0.979738
+      type: 'test'
+      ...
+    # Subtest: coniuge: mostra la quota fissa e lo scalino della lettera b
+    ok 2 - coniuge: mostra la quota fissa e lo scalino della lettera b
+      ---
+      duration_ms: 0.244849
+      type: 'test'
+      ...
+    # Subtest: coniuge: mostra il primo rapporto con i suoi termini
+    ok 3 - coniuge: mostra il primo rapporto con i suoi termini
+      ---
+      duration_ms: 0.372542
+      type: 'test'
+      ...
+    # Subtest: figli: la soglia cresciuta oltre il primo si legge nella formula
+    ok 4 - figli: la soglia cresciuta oltre il primo si legge nella formula
+      ---
+      duration_ms: 0.428886
+      type: 'test'
+      ...
+    # Subtest: ascendenti: dice che sono i soli conviventi
+    ok 5 - ascendenti: dice che sono i soli conviventi
+      ---
+      duration_ms: 0.243868
+      type: 'test'
+      ...
+    # Subtest: dice perché una detrazione non spetta, un motivo alla volta
+    ok 6 - dice perché una detrazione non spetta, un motivo alla volta
+      ---
+      duration_ms: 0.664802
+      type: 'test'
+      ...
+    # Subtest: la voce con il fatto mancante racconta che manca
+    ok 7 - la voce con il fatto mancante racconta che manca
+      ---
+      duration_ms: 0.195305
+      type: 'test'
+      ...
+    # Subtest: a reddito fuori intervallo cita il comma 4
+    ok 8 - a reddito fuori intervallo cita il comma 4
+      ---
+      duration_ms: 0.174472
+      type: 'test'
+      ...
+    # Subtest: una detrazione di famiglia incapiente mostra l'avviso
+    ok 9 - una detrazione di famiglia incapiente mostra l'avviso
+      ---
+      duration_ms: 0.320683
+      type: 'test'
+      ...
+    # Subtest: ogni Riga porta una nota, anche vuota
+    ok 10 - ogni Riga porta una nota, anche vuota
+      ---
+      duration_ms: 0.33165
+      type: 'test'
+      ...
+    # Subtest: la nota dice in poche parole perché la detrazione spetta o no
+    ok 11 - la nota dice in poche parole perché la detrazione spetta o no
+      ---
+      duration_ms: 0.792455
+      type: 'test'
+      ...
+    # Subtest: la disabilità cambia il racconto, non l'importo
+    ok 12 - la disabilità cambia il racconto, non l'importo
+      ---
+      duration_ms: 0.367314
+      type: 'test'
+      ...
+    # Subtest: sotto i 30 anni la disabilità non cambia la nota
+    ok 13 - sotto i 30 anni la disabilità non cambia la nota
+      ---
+      duration_ms: 0.321105
+      type: 'test'
+      ...
+    # Subtest: ogni familiare rimanda alla sua lettera dell'art. 12
+    ok 14 - ogni familiare rimanda alla sua lettera dell'art. 12
+      ---
+      duration_ms: 0.410098
+      type: 'test'
+      ...
+    # Subtest: una voce di famiglia senza i suoi fatti fallisce come le altre
+    ok 15 - una voce di famiglia senza i suoi fatti fallisce come le altre
+      ---
+      duration_ms: 0.268074
+      type: 'test'
+      ...
+    1..15
+ok 178 - carichi di famiglia — dalla Voce alla Riga
+  ---
+  duration_ms: 6.477988
+  type: 'suite'
+  ...
+# Subtest: ogni pagina pubblica ha title, description e self-canonical univoci
+ok 179 - ogni pagina pubblica ha title, description e self-canonical univoci
+  ---
+  duration_ms: 8.747812
+  type: 'test'
+  ...
+# Subtest: ogni pagina pubblica carica lo script di analytics
+ok 180 - ogni pagina pubblica carica lo script di analytics
+  ---
+  duration_ms: 4.627158
+  type: 'test'
+  ...
+# Subtest: la home descrive esplicitamente il calcolo stipendio netto
+ok 181 - la home descrive esplicitamente il calcolo stipendio netto
+  ---
+  duration_ms: 0.435918
+  type: 'test'
+  ...
+# Subtest: robots permette la scansione e dichiara la sitemap canonica
+ok 182 - robots permette la scansione e dichiara la sitemap canonica
+  ---
+  duration_ms: 3.322521
+  type: 'test'
+  ...
+# Subtest: sitemap contiene esattamente le pagine pubbliche self-canonical
+ok 183 - sitemap contiene esattamente le pagine pubbliche self-canonical
+  ---
+  duration_ms: 6.675168
+  type: 'test'
+  ...
+# Subtest: i prototipi restano esclusi dall’indicizzazione
+ok 184 - i prototipi restano esclusi dall’indicizzazione
+  ---
+  duration_ms: 0.311901
+  type: 'test'
+  ...
+# Subtest: Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco
+ok 185 - Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco
+  ---
+  duration_ms: 4.029667
+  type: 'test'
+  ...
+# Subtest: Vercel reindirizza permanentemente il dominio legacy preservando la path
+ok 186 - Vercel reindirizza permanentemente il dominio legacy preservando la path
+  ---
+  duration_ms: 0.242246
+  type: 'test'
+  ...
+# Subtest: riepilogo del nucleo familiare
+    # Subtest: senza familiari lo dice, invece di restare muto
+    ok 1 - senza familiari lo dice, invece di restare muto
+      ---
+      duration_ms: 1.192438
+      type: 'test'
+      ...
+    # Subtest: conta al singolare e al plurale quando il tipo e uno solo
+    ok 2 - conta al singolare e al plurale quando il tipo e uno solo
+      ---
+      duration_ms: 0.353292
+      type: 'test'
+      ...
+    # Subtest: con tipi diversi usa il termine generico
+    ok 3 - con tipi diversi usa il termine generico
+      ---
+      duration_ms: 0.137587
+      type: 'test'
+      ...
+    # Subtest: la detrazione compare solo quando è quella dell’ultimo calcolo
+    ok 4 - la detrazione compare solo quando è quella dell’ultimo calcolo
+      ---
+      duration_ms: 0.312591
+      type: 'test'
+      ...
+    # Subtest: una detrazione azzerata è un’informazione, non un vuoto
+    ok 5 - una detrazione azzerata è un’informazione, non un vuoto
+      ---
+      duration_ms: 0.191979
+      type: 'test'
+      ...
+    # Subtest: senza familiari la detrazione non viene mai mostrata
+    ok 6 - senza familiari la detrazione non viene mai mostrata
+      ---
+      duration_ms: 0.091117
+      type: 'test'
+      ...
+    1..6
+ok 187 - riepilogo del nucleo familiare
+  ---
+  duration_ms: 3.187687
+  type: 'suite'
+  ...
+# Subtest: riepilogo del pacchetto retributivo
+    # Subtest: un pacchetto vuoto lo dichiara
+    ok 1 - un pacchetto vuoto lo dichiara
+      ---
+      duration_ms: 0.435677
+      type: 'test'
+      ...
+    # Subtest: elenca gli elementi presenti senza sommarli
+    ok 2 - elenca gli elementi presenti senza sommarli
+      ---
+      duration_ms: 0.409267
+      type: 'test'
+      ...
+    # Subtest: i buoni contano anche se è compilato un solo campo
+    ok 3 - i buoni contano anche se è compilato un solo campo
+      ---
+      duration_ms: 0.247664
+      type: 'test'
+      ...
+    # Subtest: scegliere i cartacei è già una configurazione
+    ok 4 - scegliere i cartacei è già una configurazione
+      ---
+      duration_ms: 0.314595
+      type: 'test'
+      ...
+    # Subtest: zeri e testo non validi non configurano niente
+    ok 5 - zeri e testo non validi non configurano niente
+      ---
+      duration_ms: 0.127743
+      type: 'test'
+      ...
+    # Subtest: accetta le forme che l’utente scrive davvero
+    ok 6 - accetta le forme che l’utente scrive davvero
+      ---
+      duration_ms: 0.125129
+      type: 'test'
+      ...
+    1..6
+ok 188 - riepilogo del pacchetto retributivo
+  ---
+  duration_ms: 1.975519
+  type: 'suite'
+  ...
+# Subtest: quali sezioni partono aperte
+    # Subtest: un modulo vuoto le tiene entrambe chiuse
+    ok 1 - un modulo vuoto le tiene entrambe chiuse
+      ---
+      duration_ms: 0.154963
+      type: 'test'
+      ...
+    # Subtest: i dati arrivati dall’URL aprono la sezione che li contiene
+    ok 2 - i dati arrivati dall’URL aprono la sezione che li contiene
+      ---
+      duration_ms: 0.115324
+      type: 'test'
+      ...
+    # Subtest: non tocca lo stato che riceve
+    ok 3 - non tocca lo stato che riceve
+      ---
+      duration_ms: 0.167432
+      type: 'test'
+      ...
+    1..3
+ok 189 - quali sezioni partono aperte
+  ---
+  duration_ms: 0.525362
+  type: 'suite'
+  ...
+# Subtest: le costanti coincidono con quelle del motore
+ok 190 - le costanti coincidono con quelle del motore
+  ---
+  duration_ms: 1.555054
+  type: 'test'
+  ...
+# Subtest: casi di controllo su 13 mensilità e anno intero
+ok 191 - casi di controllo su 13 mensilità e anno intero
+  ---
+  duration_ms: 1.13999
+  type: 'test'
+  ...
+# Subtest: IRPEF con gli scaglioni ragguagliati a mese, fascia per fascia
+ok 192 - IRPEF con gli scaglioni ragguagliati a mese, fascia per fascia
+  ---
+  duration_ms: 0.271078
+  type: 'test'
+  ...
+# Subtest: mesi lavorati: la tredicesima matura in ratei
+ok 193 - mesi lavorati: la tredicesima matura in ratei
+  ---
+  duration_ms: 0.192611
+  type: 'test'
+  ...
+# Subtest: le due modalità danno lo stesso risultato sullo stesso mensile
+ok 194 - le due modalità danno lo stesso risultato sullo stesso mensile
+  ---
+  duration_ms: 0.164958
+  type: 'test'
+  ...
+# Subtest: contributo aggiuntivo: solo la quota che si deve alla tredicesima
+ok 195 - contributo aggiuntivo: solo la quota che si deve alla tredicesima
+  ---
+  duration_ms: 0.188484
+  type: 'test'
+  ...
+# Subtest: bonus cuneo: spetta sul reddito dell'anno, percentuale sul reddito teorico
+ok 196 - bonus cuneo: spetta sul reddito dell'anno, percentuale sul reddito teorico
+  ---
+  duration_ms: 0.276858
+  type: 'test'
+  ...
+# Subtest: la netta riconcilia con le voci su una griglia di casi
+ok 197 - la netta riconcilia con le voci su una griglia di casi
+  ---
+  duration_ms: 0.879256
+  type: 'test'
+  ...
+# Subtest: proposta detassata: risparmio sotto soglia, zero sopra
+ok 198 - proposta detassata: risparmio sotto soglia, zero sopra
+  ---
+  duration_ms: 0.381795
+  type: 'test'
+  ...
+# Subtest: importi scritti come li scrive una persona
+ok 199 - importi scritti come li scrive una persona
+  ---
+  duration_ms: 0.680185
+  type: 'test'
+  ...
+# Subtest: input non validi: messaggio sul campo giusto
+ok 200 - input non validi: messaggio sul campo giusto
+  ---
+  duration_ms: 0.415237
+  type: 'test'
+  ...
+# Subtest: input valido: calcola passa alla modalità giusta
+ok 201 - input valido: calcola passa alla modalità giusta
+  ---
+  duration_ms: 0.180813
+  type: 'test'
+  ...
+# Subtest: query string: precompila, ma non inventa
+ok 202 - query string: precompila, ma non inventa
+  ---
+  duration_ms: 0.2854
+  type: 'test'
+  ...
+# Subtest: importi col punto delle migliaia anche sotto 10.000, come nel resto del sito
+ok 203 - importi col punto delle migliaia anche sotto 10.000, come nel resto del sito
+  ---
+  duration_ms: 0.143527
+  type: 'test'
+  ...
+# Subtest: versione condivisa allineata al motore, senza dipendenze fiscali nel server
+ok 204 - versione condivisa allineata al motore, senza dipendenze fiscali nel server
+  ---
+  duration_ms: 160.727959
+  type: 'test'
+  ...
+# Subtest: query valide: zero, uint32 massimo e punteggio massimo
+ok 205 - query valide: zero, uint32 massimo e punteggio massimo
+  ---
+  duration_ms: 7.264536
+  type: 'test'
+  ...
+# Subtest: query non fidate: array/duplicati, chiavi extra, versione, enormi, HTML e numeri non canonici
+ok 206 - query non fidate: array/duplicati, chiavi extra, versione, enormi, HTML e numeri non canonici
+  ---
+  duration_ms: 0.617752
+  type: 'test'
+  ...
+# Subtest: HTML leggibile senza JS, OG e Twitter completi, CTA conserva la sfida
+ok 207 - HTML leggibile senza JS, OG e Twitter completi, CTA conserva la sfida
+  ---
+  duration_ms: 0.661928
+  type: 'test'
+  ...
+# Subtest: origin del server solo da configurazione, mai da host/header del client
+ok 208 - origin del server solo da configurazione, mai da host/header del client
+  ---
+  duration_ms: 0.476739
+  type: 'test'
+  ...
+# Subtest: GET/HEAD, cache pubblica, errori non memorizzati e metodi limitati
+ok 209 - GET/HEAD, cache pubblica, errori non memorizzati e metodi limitati
+  ---
+  duration_ms: 24.948424
+  type: 'test'
+  ...
+# Subtest: PNG reale 1200×630, font locali e output deterministico, diversi score
+ok 210 - PNG reale 1200×630, font locali e output deterministico, diversi score
+  ---
+  duration_ms: 115.956321
+  type: 'test'
+  ...
+# Subtest: SVG non contiene input liberi né risorse esterne; grandi score non allargano il canvas
+ok 211 - SVG non contiene input liberi né risorse esterne; grandi score non allargano il canvas
+  ---
+  duration_ms: 0.489639
+  type: 'test'
+  ...
+1..211
+# tests 497
+# suites 68
+# pass 497
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6483.895694

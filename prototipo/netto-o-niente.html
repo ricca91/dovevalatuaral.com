@@ -26,7 +26,9 @@
     <a href="netto-o-niente.html" aria-current="page">Gioca</a><a href="/blog/">Blog</a><a href="la-storia.html">La storia</a>
   </nav>
 </div></header>
-<main id="contenuto" class="non-main">
+<div class="avvio pg" role="status" aria-live="polite"><span id="avvio-messaggio">Caricamento del calcolatore…</span> <button type="button" id="avvio-riprova" onclick="if(typeof CALCOLATORE_AVVIO==='undefined')location.reload()" hidden>Riprova</button></div>
+<noscript><style>.avvio{display:none}</style><p class="pg">Per usare il calcolatore attiva JavaScript e ricarica la pagina.</p></noscript>
+<main id="contenuto" class="non-main" inert data-avvio-inert>
   <header class="non-heading"><p class="non-eyebrow">[ IL GIOCO DEL LORDO E DEL NETTO ]</p>
     <h1>NETTO <span>O NIENTE</span></h1>
     <p class="non-subtitle">Due offerte. Una scelta. Quanto resisti prima di farti ingannare dalla RAL?</p>
@@ -47,18 +49,20 @@
     </div></details>
   </footer>
 </main>
-<script src="dati-addizionali-2026.js"></script>
-<script src="geografia.js"></script>
-<script src="motore.js"></script>
-<script src="fonti.js"></script>
-<script src="righe.js"></script>
-<script src="nucleo.js"></script>
-<script src="compara.js"></script>
-<script src="netto-o-niente-scenari.js"></script>
-<script src="netto-o-niente.js"></script>
-<script src="netto-o-niente-link.js"></script>
-<script src="netto-o-niente-share.js"></script>
-<script src="site-nav.js"></script>
-<script src="netto-o-niente-ui.js"></script>
+<script src="site-nav.js" async></script>
+<script src="calcolatore-avvio.js" defer onerror="document.getElementById('avvio-messaggio').textContent='Il calcolatore non si è caricato. Riprova.';document.getElementById('avvio-riprova').hidden=false"></script>
+<script src="dati-addizionali-2026.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="geografia.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="motore.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="fonti.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="righe.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="nucleo.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="compara.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente-scenari.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente-link.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente-share.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+
+<script src="netto-o-niente-ui.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
 </body>
 </html>

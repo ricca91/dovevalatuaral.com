@@ -3,7 +3,7 @@ const {test}=require('node:test');
 
 const INVERSO=require('./netto-ral.js');
 const fs=require('node:fs');
-const pagina=fs.readFileSync(require('node:path').join(__dirname,'netto-ral.html'),'utf8');
+const pagina=fs.readFileSync(require('node:path').join(__dirname,'netto-ral.html'),'utf8')+fs.readFileSync(require('node:path').join(__dirname,'netto-ral-ui.js'),'utf8');
 
 test('trova la RAL piu bassa sulla griglia che raggiunge il target annuo',()=>{
   const risultato=INVERSO.trovaRal('2.000');

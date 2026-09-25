@@ -1,3 +1,4 @@
+if(!CALCOLATORE_AVVIO.errore){
 /* Controller DOM: nessun calcolo fiscale o PRNG dei round. */
 (function(){
   'use strict';
@@ -300,3 +301,6 @@
   if(document.fonts)document.fonts.ready.then(preparaScontrino).catch(()=>{});
   void ingresso();
 })();
+
+CALCOLATORE_AVVIO.pronto();
+}

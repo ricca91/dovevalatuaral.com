@@ -5,7 +5,7 @@ const {resolve}=require('node:path');
 const html=readFileSync(resolve(__dirname,'calcolo-tredicesima/index.html'),'utf8');
 
 test('la pagina carica il modulo e non il motore',()=>{
-  assert.match(html,/<script src="\.\.\/tredicesima\.js"><\/script>/);
+  assert.match(html,/<script src="\.\.\/tredicesima\.js"[^>]*><\/script>/);
   assert.doesNotMatch(html,/motore\.js|dati-addizionali/);
 });
 

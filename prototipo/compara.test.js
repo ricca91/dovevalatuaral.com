@@ -16,7 +16,7 @@ const COMPARA=require('./compara.js');
 const {calcola,applicaMensilita}=require('./motore.js');
 const NUCLEO=require('./nucleo.js');
 
-const leggi=nome=>readFileSync(resolve(__dirname,nome),'utf8');
+const leggi=nome=>readFileSync(resolve(__dirname,nome),'utf8')+(['index.html','compara.html'].includes(nome)?readFileSync(resolve(__dirname,nome==='index.html'?'home-ui.js':'compara-ui.js'),'utf8'):'');
 const offerta=extra=>({...COMPARA.offertaVuota(),ralRaw:'35.000',...extra});
 const riga=(esito,chiave)=>esito.righe.find(r=>r.chiave===chiave);
 const confrontaOk=(a,b)=>{
@@ -514,12 +514,12 @@ test('la pagina carica gli script accanto e nessuna dipendenza esterna',()=>{
   const html=leggi('compara.html');
   for(const file of['dati-addizionali-2026.js','geografia.js','motore.js',
     'fonti.js','righe.js','nucleo.js','compara.js'])
-    assert.match(html,new RegExp(`<script src="${file.replace('.','\\.')}"></script>`),file);
+    assert.match(html,new RegExp(`<script src="${file.replace('.','\\.')}"[^>]*></script>`),file);
   /* Il catalogo dei contratti resta alla home e il dataset retributivo
      alla sua pagina: qui non servono a niente. Il divieto è sugli script
      e sul selettore, non sulla stringa: da quando esiste ccnl-livello.html
      la navigazione la nomina, ed è esattamente ciò che deve fare. */
-  assert.doesNotMatch(html,/<script src="(?:ccnl|retribuzione-ccnl)\.js"><\/script>/);
+  assert.doesNotMatch(html,/<script src="(?:ccnl|retribuzione-ccnl)\.js"[^>]*><\/script>/);
   assert.doesNotMatch(html,/CCNL_CATALOGO|RETRIBUZIONE_CCNL|id="ccnl"/);
   assert.doesNotMatch(html,/<script[^>]+src="https?:/);
   assert.doesNotMatch(html,/localStorage|sessionStorage/);
@@ -530,8 +530,8 @@ test('la home porta al confronto e il calcolo esistente non regredisce',()=>{
   const html=leggi('index.html');
   assert.match(html,/href="compara\.html"/,'il link «Confronta due offerte» dalla home');
   assert.match(html,/compara\.html#/,'la CTA dopo un risultato valido porta lo scenario nel fragment');
-  assert.match(html,/<script src="nucleo\.js"><\/script>/);
-  assert.match(html,/<script src="compara\.js"><\/script>/);
+  assert.match(html,/<script src="nucleo\.js"[^>]*><\/script>/);
+  assert.match(html,/<script src="compara\.js"[^>]*><\/script>/);
   /* Il codec del nucleo non è più duplicato dentro la pagina. */
   assert.doesNotMatch(html,/function deserializzaNucleo/);
   /* E la query string della home resta quella di prima. */
