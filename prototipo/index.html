@@ -8,6 +8,7 @@
 <title>Calcolo stipendio netto 2026 dalla RAL | Dove va la tua RAL</title>
 <link rel="canonical" href="https://www.dovevalatuaral.com/">
 <meta property="og:url" content="https://www.dovevalatuaral.com/">
+<link rel="preload" href="fonts/font-2.2ee17598a98d.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="draftsman.css">
 <style>
 /* ==========================================================================
@@ -328,85 +329,9 @@ body{padding-bottom:0}
     <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div><a href="netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="la-storia.html">La storia</a>
   </nav>
 </div></header>
-<div id="app"></div>
-<script src="dati-addizionali-2026.js"></script>
-<script src="geografia.js"></script>
-<script src="motore.js"></script>
-<script src="fonti.js"></script>
-<script src="righe.js"></script>
-<script src="nucleo.js"></script>
-<script src="sezioni.js"></script>
-<script src="compara.js"></script>
-<script src="site-nav.js"></script>
-<script>
-
-
-
-/* ============================================================
-   DATI — una sola sorgente contenutistica, riusata ovunque
-   ============================================================ */
-const LIMITI=[
-  ['Il 9,19% è una scelta di modello','Non è l\'aliquota di ogni impiegato privato: inquadramento INPS, settore, dimensione del datore e fondi speciali possono cambiarla. Qui si assume FPLD ordinario, senza contribuzioni settoriali.'],
-  ['«RAL» non è una base legale autonoma','È una convenzione retributiva. Senza benefit imponibili il calcolo assume RAL = imponibile previdenziale prima dei contributi. Le quote imponibili di fringe e buoni pasto dichiarate vengono aggiunte esplicitamente alla base; restano fuori componenti variabili e rimborsi.'],
-  ['Competenza, non cassa','È il carico maturato sulla RAL 2026, non il denaro trattenuto nei cedolini del 2026: le addizionali si pagano a rate dopo il conguaglio. Per questo la cifra mensile è una media, non l\'importo di una busta paga.'],
-  ['Sopra 122.295 € si assume la prima iscrizione dal 1996','Il massimale contributivo vale solo per chi è privo di anzianità al 31/12/1995. È l\'unico punto in cui la sola RAL non basta più.'],
-  ['Le detrazioni di famiglia valgono per l\'anno intero','L\'art. 12 c. 3 le rapporta a mese: qui si assume che le condizioni valgano per tutti i dodici, e che la detrazione spetti per intero al dichiarante — la lett. c) la ripartisce al 50% fra i genitori, salvo accordo diverso. La quota degli ascendenti è assunta intera e non ripartita con altri aventi diritto, e il reddito complessivo del dichiarante è approssimato con l\'imponibile IRPEF. Resta fuori il caso dei familiari residenti all\'estero di contribuente extra-UE (art. 12 c. 2-bis).'],
-  ['Le regole locali per la famiglia valgono sul solo reddito del dichiarante','Otto giurisdizioni regionali e sei comuni cambiano l\'addizionale in base ai figli a carico. Marche e Veneto chiedono che la somma dei redditi dei genitori non superi 50.000 €, i comuni veronesi ragionano sul reddito imponibile della famiglia: qui si guarda solo il tuo. Restano fuori le esenzioni comunali legate all\'ISEE (Grottammare, San Benedetto del Tronto e una delle due di Bosco Chiesanuova) e l\'aliquota veneta ridotta per il contribuente disabile in prima persona, che non è un dato del nucleo.'],
-];
-const FAQ=[
-  ['Perché il netto mensile non coincide con la mia busta paga?','Il calcolo è annuale e di competenza. Le addizionali vengono trattenute a rate nell\'anno successivo al conguaglio, la tredicesima non beneficia delle stesse detrazioni mensili e il conguaglio di fine anno riequilibra tutto. Per questo il numero è etichettato <b>media</b>, mai «importo del cedolino».'],
-  ['Perché scegliere da 12 a 16 mensilità non cambia il netto annuo?','Perché non è un dato di calcolo: è solo il divisore con cui si presenta lo stesso netto annuo. Le trattenute non cambiano. Puoi verificarlo qui sopra — cambiando il selettore il netto annuo resta identico e si muove solo la media. Se cambiasse, sarebbe un errore.'],
-  ['Perché a volte un euro lordo in più fa <em>scendere</em> il netto?',stato=>{
-    const geo=GEOGRAFIA_ITALIA.risolvi(stato.comune);
-    const numero=raw=>Number(parseRal(raw)||0);
-    /* Questa risposta illustra una soglia mentre l'utente sta ancora
-       digitando: un numero di buoni a meta' («2,5») non deve far esplodere
-       il motore e con lui tutto il rerender. Il valore non valido lo segnala
-       commit(), qui vale zero. */
-    const conta=raw=>{const n=Number(raw||0);return Number.isInteger(n)&&n>=0?n:0;};
-    const benefit={fringe:numero(stato.fringeRaw),buoniPasto:{tipo:stato.buoniTipo,
-      valoreUnitario:numero(stato.buoniValoreRaw),numero:conta(stato.buoniNumeroRaw)}};
-    const comunali=nucleo=>soglie({comune:stato.comune,nucleo,...benefit}).filter(s=>s.ambito==='comunale');
-    const locali=comunali(stato.nucleo);
-    if(!locali.length){
-      /* Un salto che c'è per un contribuente solo può non esserci
-         per una famiglia: se le detrazioni azzerano l'IRPEF netta
-         da entrambi i lati della soglia, non c'è addizionale da
-         perdere. Dirlo è diverso dal dire che il comune non ha
-         esenzione, e la pagina non deve confondere le due cose. */
-      const senzaNucleo=comunali([]);
-      if(stato.nucleo.length&&senzaNucleo.length)
-        return `Alcune misure locali sono esenzioni con soglia secca, non franchigie. Per ${esc(geo.comune.nome)} il salto esiste — alla RAL di ${eur(senzaNucleo[0].ral)} vale ${eur(Math.abs(senzaNucleo[0].delta))} — ma <b>non per te</b>: con i familiari a carico che hai dichiarato le detrazioni azzerano l’IRPEF netta da entrambi i lati della soglia, e senza IRPEF netta non c’è addizionale da perdere.`;
-      return `Alcune misure sono esenzioni con soglia secca, non franchigie. Per ${esc(geo.comune.nome)} lo snapshot non contiene una discontinuità comunale generale; restano le soglie nazionali e le eventuali soglie regionali.`;
-    }
-    const s=locali[0];
-    return `Perché alcune misure locali sono esenzioni con soglia secca, non franchigie: superata la soglia si perdono per intero. Per ${esc(geo.comune.nome)}, alla RAL di ${eur(s.ral)}, il salto dell’addizionale comunale vale ${eur(Math.abs(s.delta))} sul netto annuo.`;
-  }],
-  ['Quali sono i contributi a carico del dipendente?','Il contributo IVS del 9,19% sull\'imponibile previdenziale, più un contributo aggiuntivo dell\'1% sulla quota che supera la prima fascia pensionabile (56.224 € nel 2026). Sopra il massimale di 122.295 € entrambi si fermano: è il motivo per cui l\'aliquota contributiva effettiva scende oltre quella soglia.'],
-  ['Ho un figlio di 15 anni: perché non compare nessuna detrazione?','Perché dal 2022, sotto i <b>21 anni</b>, la detrazione per figli a carico non esiste più: è assorbita dall\'<b>Assegno Unico e Universale</b>, che si chiede all\'INPS e non passa dalla busta paga. La detrazione dell\'art. 12 TUIR riprende dai 21 anni compiuti e si ferma ai 30. Non è un buco del calcolatore: è dove la norma ha spostato il sostegno.'],
-  ['Le regioni e i comuni contano i figli?','Sì, e non tutti allo stesso modo. <b>Trento, Bolzano, Sardegna, Campania, Piemonte e Puglia</b> aggiungono una detrazione dall\'addizionale regionale per ogni figlio a carico, con importi, tetti di reddito e numeri minimi di figli diversi fra loro. <b>Marche e Veneto</b> non detraggono: applicano un\'<b>aliquota più bassa</b> se in famiglia c\'è una persona con disabilità accertata. Sei comuni del Veronese — <b>Bardolino, Bosco Chiesanuova, Bovolone, Negrar di Valpolicella, Roverè Veronese e Zevio</b> — non applicano l\'addizionale comunale alle famiglie numerose, con una soglia di esenzione che sale di 10.000 € per ogni figlio oltre il minimo. Tutte queste regole entrano nel calcolo solo se dichiari i familiari qui sopra.'],
-  ['Quando un familiare è «a carico»?','Quando il suo reddito complessivo non supera <b>2.840,51 €</b> l\'anno, elevati a <b>4.000 €</b> per i figli fino a 24 anni. Sopra quella soglia il familiare non è a carico e la detrazione non spetta, anche se convive. Gli «altri familiari» dell\'art. 12 sono oggi i soli <b>ascendenti conviventi</b>: genitori e nonni che vivono con te.'],
-  ['Cosa non è incluso nel calcolo?','TFR, costo azienda e contributi del datore, INAIL, CCNL e fondi di solidarietà, fondi sanitari e previdenza complementare, altri redditi, oneri deducibili e detraibili, premi e agevolazioni personali. Welfare esente dichiarato, fringe benefit e buoni pasto si inseriscono nel modulo; il calcolatore non certifica i requisiti del piano welfare.'],
-  ['Da dove vengono le regole?','Solo da fonti primarie: Istat per i comuni attivi, MEF per le addizionali locali, leggi di bilancio, TUIR e circolari INPS. Ogni voce del dettaglio rimanda al riferimento ufficiale applicato.'],
-];
-const SEZIONI=[['risultato','Risultato'],['flusso','Il flusso'],['dettaglio','Il dettaglio'],['metodo','Metodo e fonti'],['faq','Domande frequenti']];
-
-/* ============================================================
-   PEZZI CONDIVISI
-   ============================================================ */
-const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-// I quattro accenti pastello del sistema: il flux per cio' che resta, il rosa per
-// cio' che se ne va, il pervinca per i contributi (che non sono una tassa),
-// il citron solo per l'eccezione. Piatti, mai in gradiente.
-const C={contrib:'var(--c-peri)',tax:'var(--c-blush)',
-  netto:'var(--c-flux)',integr:'var(--c-citron)'};
-// Sono tutti fondi chiari: l'inchiostro grafite ci sta sopra fra 5,6:1 e 13,3:1,
-// misurato. Nessun testo bianco su pastello, che scenderebbe sotto il minimo.
-const CINK={contrib:'var(--c-graphite)',tax:'var(--c-graphite)',
-  netto:'var(--c-graphite)',integr:'var(--c-graphite)'};
-
-function hero(st){
-  return `<div class="pagehero"><div class="pg"><div class="inner">
+<div class="avvio pg" role="status" aria-live="polite"><span id="avvio-messaggio">Caricamento del calcolatore…</span> <button type="button" id="avvio-riprova" onclick="if(typeof CALCOLATORE_AVVIO==='undefined')location.reload()" hidden>Riprova</button></div>
+<noscript><style>.avvio{display:none}</style><p class="pg">Per usare il calcolatore attiva JavaScript e ricarica la pagina.</p></noscript>
+<!-- HOME_STATIC_START --><div id="app"><div class="pagehero"><div class="pg"><div class="inner">
     <div>
       <div class="eyebrow">Calcolatore netto 2026</div>
       <h1>Dove va la tua RAL</h1>
@@ -420,18 +345,55 @@ function hero(st){
         <span class="tag">Tempo indeterminato</span>
       </div>
     </div>
-  </div></div></div>`;
-}
-/* ============================================================
-   NUCLEO FAMILIARE — una riga per familiare. L'età è il dato che
-   decide, quindi è una colonna, non un dettaglio nascosto; e la
-   colonna «perché» dice sempre come va a finire, anche quando la
-   detrazione è zero.
-   ============================================================ */
-/* Il codec dei familiari vive in nucleo.js: lo scrive anche
-   compara.html, e due copie della stessa regexp divergerebbero. */
-
-const NUCLEO_LIMITI=`<b>Quando un familiare è «a carico».</b>
+  </div></div></div><div id="home-body"><div class="pg"><div class="calcbox">
+    <div class="form-grid">
+      <div class="field ">
+        <label class="label" for="ral">Retribuzione annua lorda</label>
+        <div class="ingroup">
+          <span class="affix">€</span>
+          <input class="input" id="ral" inputmode="decimal" autocomplete="off"
+            value="35.000" placeholder="35.000" aria-describedby="ralhelp">
+        </div>
+        <p class="hint" id="ralhelp">Il calcolo usa il comune di domicilio fiscale selezionato.</p>
+      </div>
+      <div class="field">
+        <label class="label" for="mensilita">Mensilità</label>
+        <select class="select" id="mensilita">
+          <option value="12" >12</option><option value="13" selected>13</option><option value="14" >14</option><option value="15" >15</option><option value="16" >16</option>
+        </select>
+        <p class="hint">Divide il netto annuo per mostrarne la media. Non cambia il calcolo.</p>
+      </div>
+    </div>
+    <div class="form-grid geo-grid">
+      <div class="field"><label class="label" for="regione">Regione</label>
+        <select class="select" id="regione" disabled data-avvio-disabled><option value="8" >Abruzzo</option><option value="19" >Basilicata</option><option value="12" >Calabria</option><option value="18" >Campania</option><option value="3" >Emilia-Romagna</option><option value="2" >Friuli-Venezia Giulia</option><option value="7" >Lazio</option><option value="9" >Liguria</option><option value="11" selected>Lombardia</option><option value="4" >Marche</option><option value="16" >Molise</option><option value="17" >Piemonte</option><option value="13" >Provincia autonoma di Bolzano/Bozen</option><option value="5" >Provincia autonoma di Trento</option><option value="10" >Puglia</option><option value="15" >Sardegna</option><option value="14" >Sicilia</option><option value="20" >Toscana</option><option value="1" >Umbria</option><option value="0" >Valle d'Aosta</option><option value="6" >Veneto</option></select></div>
+      <div class="field"><label class="label" for="provincia">Provincia</label>
+        <select class="select" id="provincia" disabled data-avvio-disabled><option value="15" >Bergamo (BG)</option><option value="16" >Brescia (BS)</option><option value="12" >Como (CO)</option><option value="18" >Cremona (CR)</option><option value="92" >Lecco (LC)</option><option value="93" >Lodi (LO)</option><option value="19" >Mantova (MN)</option><option value="14" selected>Milano (MI)</option><option value="99" >Monza e della Brianza (MB)</option><option value="17" >Pavia (PV)</option><option value="13" >Sondrio (SO)</option><option value="11" >Varese (VA)</option></select>
+        <p class="hint">Raggruppamento geografico, non giurisdizione fiscale.</p></div>
+      <div class="field"><label class="label" for="comune">Comune</label>
+        <select class="select" id="comune" disabled data-avvio-disabled><option value="A010" >Abbiategrasso</option><option value="A127" >Albairate</option><option value="A375" >Arconate</option><option value="A389" >Arese</option><option value="A413" >Arluno</option><option value="A473" >Assago</option><option value="A618" >Baranzate</option><option value="A652" >Bareggio</option><option value="A697" >Basiano</option><option value="A699" >Basiglio</option><option value="A751" >Bellinzago Lombardo</option><option value="A804" >Bernate Ticino</option><option value="A820" >Besate</option><option value="A872" >Binasco</option><option value="A920" >Boffalora sopra Ticino</option><option value="A940" >Bollate</option><option value="B162" >Bresso</option><option value="B235" >Bubbiano</option><option value="B240" >Buccinasco</option><option value="B286" >Buscate</option><option value="B292" >Bussero</option><option value="B301" >Busto Garolfo</option><option value="B448" >Calvignasco</option><option value="B461" >Cambiago</option><option value="B593" >Canegrate</option><option value="B820" >Carpiano</option><option value="B850" >Carugate</option><option value="B938" >Casarile</option><option value="B989" >Casorezzo</option><option value="C003" >Cassano d'Adda</option><option value="C014" >Cassina de' Pecchi</option><option value="C033" >Cassinetta di Lugagnano</option><option value="C052" >Castano Primo</option><option value="C523" >Cernusco sul Naviglio</option><option value="C536" >Cerro al Lambro</option><option value="C537" >Cerro Maggiore</option><option value="C565" >Cesano Boscone</option><option value="C569" >Cesate</option><option value="C707" >Cinisello Balsamo</option><option value="C733" >Cisliano</option><option value="C895" >Cologno Monzese</option><option value="C908" >Colturano</option><option value="C986" >Corbetta</option><option value="D013" >Cormano</option><option value="D018" >Cornaredo</option><option value="D045" >Corsico</option><option value="D198" >Cuggiono</option><option value="D229" >Cusago</option><option value="D231" >Cusano Milanino</option><option value="D244" >Dairago</option><option value="D367" >Dresano</option><option value="D845" >Gaggiano</option><option value="D912" >Garbagnate Milanese</option><option value="D995" >Gessate</option><option value="E094" >Gorgonzola</option><option value="E170" >Grezzago</option><option value="E258" >Gudo Visconti</option><option value="E313" >Inveruno</option><option value="E317" >Inzago</option><option value="E395" >Lacchiarella</option><option value="E415" >Lainate</option><option value="E514" >Legnano</option><option value="E610" >Liscate</option><option value="E639" >Locate di Triulzi</option><option value="E801" >Magenta</option><option value="E819" >Magnago</option><option value="E921" >Marcallo con Casone</option><option value="F003" >Masate</option><option value="F084" >Mediglia</option><option value="F100" >Melegnano</option><option value="F119" >Melzo</option><option value="F155" >Mesero</option><option value="F205" selected>Milano</option><option value="D033" >Morimondo</option><option value="F783" >Motta Visconti</option><option value="F874" >Nerviano</option><option value="F939" >Nosate</option><option value="F955" >Novate Milanese</option><option value="F968" >Noviglio</option><option value="G078" >Opera</option><option value="G181" >Ossona</option><option value="G206" >Ozzero</option><option value="G220" >Paderno Dugnano</option><option value="G316" >Pantigliate</option><option value="G324" >Parabiago</option><option value="G385" >Paullo</option><option value="C013" >Pero</option><option value="G488" >Peschiera Borromeo</option><option value="G502" >Pessano con Bornago</option><option value="G634" >Pieve Emanuele</option><option value="G686" >Pioltello</option><option value="G772" >Pogliano Milanese</option><option value="G955" >Pozzo d'Adda</option><option value="G965" >Pozzuolo Martesana</option><option value="H026" >Pregnana Milanese</option><option value="H240" >Rescaldina</option><option value="H264" >Rho</option><option value="H371" >Robecchetto con Induno</option><option value="H373" >Robecco sul Naviglio</option><option value="H470" >Rodano</option><option value="H560" >Rosate</option><option value="H623" >Rozzano</option><option value="H803" >San Colombano al Lambro</option><option value="H827" >San Donato Milanese</option><option value="H884" >San Giorgio su Legnano</option><option value="H930" >San Giuliano Milanese</option><option value="I409" >San Vittore Olona</option><option value="I415" >San Zenone al Lambro</option><option value="I361" >Santo Stefano Ticino</option><option value="I566" >Sedriano</option><option value="I577" >Segrate</option><option value="I602" >Senago</option><option value="I690" >Sesto San Giovanni</option><option value="I696" >Settala</option><option value="I700" >Settimo Milanese</option><option value="I786" >Solaro</option><option value="L408" >Trezzano Rosa</option><option value="L409" >Trezzano sul Naviglio</option><option value="L411" >Trezzo sull'Adda</option><option value="L415" >Tribiano</option><option value="L454" >Truccazzano</option><option value="L471" >Turbigo</option><option value="L664" >Vanzaghello</option><option value="L665" >Vanzago</option><option value="L667" >Vaprio d'Adda</option><option value="M424" >Vermezzo con Zelo</option><option value="L773" >Vernate</option><option value="L883" >Vignate</option><option value="L928" >Villa Cortese</option><option value="M053" >Vimodrone</option><option value="M091" >Vittuone</option><option value="M102" >Vizzolo Predabissi</option><option value="M176" >Zibido San Giacomo</option></select></div>
+    </div>
+    <div class="accordion opt">
+      <div class="acc-item opt-item">
+    <h3 class="opt-h"><button type="button" class="acc-trigger" id="opt-t-nucleo"
+      data-opt="nucleo" aria-expanded="false" aria-controls="opt-p-nucleo" disabled data-avvio-disabled>
+      <span class="opt-titolo">
+        <span class="opt-nome">Nucleo familiare <span class="tag">Facoltativo</span></span>
+        <span class="opt-sub">Familiari a carico — abbattono l’IRPEF, non i contributi</span>
+      </span>
+      <span class="opt-riep"><span class="tag">Nessun familiare</span></span>
+      <span class="sign" aria-hidden="true">+</span>
+    </button></h3>
+    <div class="acc-panel opt-panel" id="opt-p-nucleo" role="region" aria-labelledby="opt-t-nucleo"
+      hidden><div class="nucleo">
+    <p class="nucleo-vuoto">Nessun familiare dichiarato: il risultato è quello di un
+         contribuente senza carichi di famiglia. Per i figli conta l’<b>età</b>, non il numero.</p>
+    <div class="nucleo-azioni">
+      <button class="btn btn--ghost btn--sm" id="nucleo-aggiungi"
+         disabled data-avvio-disabled>+ Aggiungi familiare</button>
+    </div>
+    <div class="callout callout--info nucleo-nota">
+      <span class="callout__mark">Regola</span><div><b>Quando un familiare è «a carico».</b>
   Se il suo reddito supera <b>2.840,51 €</b> non è a carico e la detrazione non spetta;
   per i figli fino a 24 anni il limite è <b>4.000 €</b>.
   <b>Sotto i 21 anni</b> la detrazione per figli non esiste: dal 2022 è assorbita
@@ -441,8 +403,9 @@ const NUCLEO_LIMITI=`<b>Quando un familiare è «a carico».</b>
   la disabilità toglie il tetto d’età, non aumenta la detrazione. Gli <b>altri familiari</b> dell’art. 12
   sono oggi i soli <b>ascendenti conviventi</b> — genitori e nonni che vivono con te.
   Come le altre, queste detrazioni <b>abbattono l’IRPEF e non vengono rimborsate</b>:
-  se l’imposta finisce, la parte eccedente si perde.`;
-const NUCLEO_PERIMETRO=`<b>Fuori perimetro, dichiarato.</b> Non è calcolato il caso dei
+  se l’imposta finisce, la parte eccedente si perde.</div></div>
+    <div class="callout callout--warn nucleo-nota">
+      <span class="callout__mark">Limite</span><div><b>Fuori perimetro, dichiarato.</b> Non è calcolato il caso dei
   <b>familiari residenti all’estero di contribuente extra-UE</b> (art. 12 c. 2-bis):
   servono documenti che la sola RAL non porta. Il <b>reddito complessivo</b> del
   dichiarante è approssimato con l’imponibile IRPEF, le detrazioni sono calcolate per
@@ -450,82 +413,30 @@ const NUCLEO_PERIMETRO=`<b>Fuori perimetro, dichiarato.</b> Non è calcolato il 
   dichiarante: la lett. c) le ripartisce al <b>50% fra i genitori</b> salvo accordo diverso,
   e la quota degli ascendenti non è divisa con altri aventi diritto.
   Le <b>regole locali</b> che guardano i figli guardano qui il solo reddito del dichiarante,
-  non quello della famiglia, e restano fuori le esenzioni comunali legate all’<b>ISEE</b>.`;
-
-/* I numeri del nucleo si mostrano solo se il risultato a schermo è stato
-   calcolato per QUESTO nucleo: altrimenti la tabella direbbe una cifra e la
-   catena un'altra, e il riepilogo della sezione chiusa resterebbe indietro
-   di una modifica. */
-const combaciaNucleo=stato=>!!stato.res&&serializzaNucleo(stato.nucleo)===stato.nucleoCalcolato;
-const detrazioneNucleo=stato=>combaciaNucleo(stato)
-  ?stato.res.voci.filter(v=>/^detrfam\d+$/.test(v.id)).reduce((t,v)=>t+v.importo,0)
-  :null;
-
-function nucleoBlocco(stato){
-  const combacia=combaciaNucleo(stato);
-  const voci=combacia?stato.res.voci.filter(v=>/^detrfam\d+$/.test(v.id)):[];
-  const righe=combacia?componiRighe(stato.res.voci).filter(r=>/^detrfam\d+$/.test(r.id)):[];
-  const cella=(f,i)=>{
-    const voce=voci[i],riga=righe[i];
-    if(!voce)return['<span class="muted">—</span>','<span class="muted">premi Calcola</span>'];
-    return[eur(voce.importo),
-      esc(riga.nota)+(voce.capiente?'':' · <b>capienza esaurita</b>')];
-  };
-  const riga=(f,i)=>{
-    const[importo,perche]=cella(f,i);
-    return `<tr>
-      <td data-etichetta="Familiare"><select class="select nucleo-in" data-nucleo-tipo="${i}"
-          aria-label="Tipo di familiare, riga ${i+1}">
-        ${Object.entries(NOME_FAMILIARE).map(([k,n])=>
-          `<option value="${k}" ${f.tipo===k?'selected':''}>${esc(n)}</option>`).join('')}
-      </select></td>
-      <td data-etichetta="Età">${f.tipo==='figlio'
-        ?`<input class="input nucleo-in nucleo-eta" id="nucleo-eta-${i}" data-nucleo-eta="${i}"
-            type="text" inputmode="numeric" maxlength="3" autocomplete="off" placeholder="anni"
-            aria-label="Età del figlio, riga ${i+1}" value="${f.eta===null?'':f.eta}">`
-        :'<span class="muted">non rileva</span>'}</td>
-      <td data-etichetta="Suo reddito"><input class="input nucleo-in nucleo-red" id="nucleo-reddito-${i}" data-nucleo-reddito="${i}"
-          type="text" inputmode="numeric" maxlength="7" autocomplete="off" placeholder="0"
-          aria-label="Reddito del familiare, riga ${i+1}" value="${f.reddito>0?f.reddito:''}"></td>
-      <td class="nucleo-dis" data-etichetta="Disabilità"><input type="checkbox"
-          id="nucleo-disabilita-${i}" data-nucleo-disabilita="${i}" ${f.disabilita?'checked':''}
-          aria-label="Disabilità accertata (L. 104/1992) del familiare, riga ${i+1}"></td>
-      <td class="num nucleo-imp" data-etichetta="Detrazione">${importo}</td>
-      <td class="nucleo-perche" data-etichetta="Perché">${perche}</td>
-      <td><button class="nucleo-x" data-nucleo-rimuovi="${i}"
-        aria-label="Togli il familiare della riga ${i+1}">✕</button></td>
-    </tr>`;
-  };
-  return `<div class="nucleo">
-    ${stato.nucleo.length?`<div class="table-wrap"><table class="table nucleo-tab">
-      <caption class="sr">Familiari a carico dichiarati</caption>
-      <thead><tr><th>Familiare</th><th>Età</th><th>Suo reddito</th><th>Disabilità</th>
-        <th class="num">Detrazione</th><th>Perché</th><th><span class="sr">Azioni</span></th></tr></thead>
-      <tbody>${stato.nucleo.map(riga).join('')}</tbody></table></div>`
-      :`<p class="nucleo-vuoto">Nessun familiare dichiarato: il risultato è quello di un
-         contribuente senza carichi di famiglia. Per i figli conta l’<b>età</b>, non il numero.</p>`}
-    <div class="nucleo-azioni">
-      <button class="btn btn--ghost btn--sm" id="nucleo-aggiungi"
-        ${stato.nucleo.length>=MAX_FAMILIARI?'disabled':''}>+ Aggiungi familiare</button>
-    </div>
-    <div class="callout callout--info nucleo-nota">
-      <span class="callout__mark">Regola</span><div>${NUCLEO_LIMITI}</div></div>
-    <div class="callout callout--warn nucleo-nota">
-      <span class="callout__mark">Limite</span><div>${NUCLEO_PERIMETRO}</div></div>
-  </div>`;
-}
-
-function benefitBlocco(stato){
-  const denaro=(id,label,value,help)=>`<div class="field">
-    <label class="label" for="${id}">${label}</label><div class="ingroup"><span class="affix">€</span>
-    <input class="input" id="${id}" inputmode="decimal" autocomplete="off" value="${esc(value)}" placeholder="0"></div>
-    <p class="hint">${help}</p></div>`;
-  return `<div class="nucleo-box">
+  non quello della famiglia, e restano fuori le esenzioni comunali legate all’<b>ISEE</b>.</div></div>
+  </div></div>
+  </div>
+      <div class="acc-item opt-item">
+    <h3 class="opt-h"><button type="button" class="acc-trigger" id="opt-t-pacchetto"
+      data-opt="pacchetto" aria-expanded="false" aria-controls="opt-p-pacchetto" disabled data-avvio-disabled>
+      <span class="opt-titolo">
+        <span class="opt-nome">Pacchetto retributivo <span class="tag">Facoltativo</span></span>
+        <span class="opt-sub">Welfare, fringe benefit e buoni pasto</span>
+      </span>
+      <span class="opt-riep"><span class="tag">Non configurato</span></span>
+      <span class="sign" aria-hidden="true">+</span>
+    </button></h3>
+    <div class="acc-panel opt-panel" id="opt-p-pacchetto" role="region" aria-labelledby="opt-t-pacchetto"
+      hidden><div class="nucleo-box">
     <div class="benefit-grid">
-      ${denaro('welfare','Welfare aziendale annuo',stato.welfareRaw,
-        'Valore già qualificato come esente: non entra nel denaro in busta.')}
-      ${denaro('fringe','Fringe benefit annui',stato.fringeRaw,
-        'Oltre la soglia applicabile, l’intero valore diventa imponibile.')}
+      <div class="field">
+    <label class="label" for="welfare">Welfare aziendale annuo</label><div class="ingroup"><span class="affix">€</span>
+    <input class="input" id="welfare" inputmode="decimal" autocomplete="off" value="" placeholder="0" disabled data-avvio-disabled></div>
+    <p class="hint">Valore già qualificato come esente: non entra nel denaro in busta.</p></div>
+      <div class="field">
+    <label class="label" for="fringe">Fringe benefit annui</label><div class="ingroup"><span class="affix">€</span>
+    <input class="input" id="fringe" inputmode="decimal" autocomplete="off" value="" placeholder="0" disabled data-avvio-disabled></div>
+    <p class="hint">Oltre la soglia applicabile, l’intero valore diventa imponibile.</p></div>
     </div>
     <!-- «Buoni pasto» nomina il gruppo, non un singolo campo: è un role=group
          con tre controlli etichettati, non una label che punta alla select. -->
@@ -533,712 +444,83 @@ function benefitBlocco(stato){
       <span class="label" id="buoni-lab">Buoni pasto</span>
       <div class="buoni-grid">
         <div class="field"><label class="xs mono" for="buoni-tipo">Tipo</label>
-          <select class="select" id="buoni-tipo">
-            <option value="elettronici" ${stato.buoniTipo==='elettronici'?'selected':''}>Elettronici</option>
-            <option value="cartacei" ${stato.buoniTipo==='cartacei'?'selected':''}>Cartacei</option>
+          <select class="select" id="buoni-tipo" disabled data-avvio-disabled>
+            <option value="elettronici" selected>Elettronici</option>
+            <option value="cartacei" >Cartacei</option>
           </select></div>
         <div class="field"><label class="xs mono" for="buoni-valore">Valore unitario (€)</label>
           <input class="input" id="buoni-valore" inputmode="decimal" autocomplete="off"
-            value="${esc(stato.buoniValoreRaw)}" placeholder="0"></div>
+            value="" placeholder="0" disabled data-avvio-disabled></div>
         <div class="field"><label class="xs mono" for="buoni-numero">Numero annuo</label>
           <input class="input" id="buoni-numero" inputmode="numeric" autocomplete="off"
-            value="${esc(stato.buoniNumeroRaw)}" placeholder="0"></div>
+            value="" placeholder="0" disabled data-avvio-disabled></div>
       </div>
       <p class="hint">Esenti fino a 8 € elettronici o 4 € cartacei per buono.</p>
     </div>
     <div class="callout callout--warn nucleo-nota"><span class="callout__mark">Limite</span><div>
       Il welfare è inserito come valore <b>già qualificato come esente</b>: il calcolatore non verifica
       categoria, destinatari o requisiti del piano aziendale.</div></div>
-  </div>`;
-}
-
-/* Una sezione facoltativa: un vero button che apre e chiude il proprio
-   pannello, il riepilogo mostrato solo da chiusa — da aperta lo dice il
-   contenuto — e dentro, intatto, il modulo di sempre. Aprire e chiudere non
-   tocca un solo dato: lo stato vive in st.sezioni e non entra nell'URL. */
-function sezioneOpzionale({chiave,titolo,sotto,riepilogo,configurata,aperta,corpo}){
-  const tid=`opt-t-${chiave}`,pid=`opt-p-${chiave}`;
-  const chip=(testo,i)=>`<span class="tag${i===0&&configurata?' tag--flux':''}">${esc(testo)}</span>`;
-  return `<div class="acc-item opt-item">
-    <h3 class="opt-h"><button type="button" class="acc-trigger" id="${tid}"
-      data-opt="${chiave}" aria-expanded="${aperta}" aria-controls="${pid}">
-      <span class="opt-titolo">
-        <span class="opt-nome">${esc(titolo)} <span class="tag">Facoltativo</span></span>
-        <span class="opt-sub">${esc(sotto)}</span>
-      </span>
-      ${aperta?'':`<span class="opt-riep">${riepilogo.map(chip).join('')}</span>`}
-      <span class="sign" aria-hidden="true">+</span>
-    </button></h3>
-    <div class="acc-panel opt-panel" id="${pid}" role="region" aria-labelledby="${tid}"
-      ${aperta?'':'hidden'}>${corpo}</div>
-  </div>`;
-}
-
-function form(st){
-  const err=st.errore?`<p class="error-text" role="alert">${esc(st.errore)}</p>`:'';
-  /* «Ha dei dati dentro» e «deve partire aperta» sono la stessa domanda:
-     una sola risposta, usata per accendere il riepilogo e per lo stato iniziale. */
-  const configurate=sezioniAperte(st);
-  const province=GEOGRAFIA_ITALIA.province(st.regione),comuni=GEOGRAFIA_ITALIA.comuni(st.provincia);
-  const opts=(xs,value,label)=>xs.map(x=>{const v=Object.hasOwn(x,'catastale')?x.catastale:x.id;
-    return`<option value="${v}" ${v==value?'selected':''}>${esc(label(x))}</option>`;}).join('');
-  return `<div class="calcbox">
-    <div class="form-grid">
-      <div class="field ${st.errore?'field--error':''}">
-        <label class="label" for="ral">Retribuzione annua lorda</label>
-        <div class="ingroup">
-          <span class="affix">€</span>
-          <input class="input" id="ral" inputmode="decimal" autocomplete="off"
-            value="${esc(st.ralRaw)}" placeholder="35.000" aria-describedby="ralhelp">
-        </div>
-        ${err||`<p class="hint" id="ralhelp">Il calcolo usa il comune di domicilio fiscale selezionato.</p>`}
-      </div>
-      <div class="field">
-        <label class="label" for="mensilita">Mensilità</label>
-        <select class="select" id="mensilita">
-          ${MENSILITA_AMMESSE.map(m=>`<option value="${m}" ${st.mensilita===m?'selected':''}>${m}</option>`).join('')}
-        </select>
-        <p class="hint">Divide il netto annuo per mostrarne la media. Non cambia il calcolo.</p>
-      </div>
-    </div>
-    <div class="form-grid geo-grid">
-      <div class="field"><label class="label" for="regione">Regione</label>
-        <select class="select" id="regione">${opts(GEOGRAFIA_ITALIA.regioni(),st.regione,x=>x.nome)}</select></div>
-      <div class="field"><label class="label" for="provincia">Provincia</label>
-        <select class="select" id="provincia">${opts(province,st.provincia,x=>`${x.nome} (${x.sigla})`)}</select>
-        <p class="hint">Raggruppamento geografico, non giurisdizione fiscale.</p></div>
-      <div class="field"><label class="label" for="comune">Comune</label>
-        <select class="select" id="comune">${opts(comuni,st.comune,x=>x.nome)}</select></div>
-    </div>
-    <div class="accordion opt">
-      ${sezioneOpzionale({chiave:'nucleo',titolo:'Nucleo familiare',
-        sotto:'Familiari a carico — abbattono l’IRPEF, non i contributi',
-        riepilogo:riepilogoNucleo({...st,detrazione:detrazioneNucleo(st)}),
-        configurata:configurate.nucleo,aperta:st.sezioni.nucleo,corpo:nucleoBlocco(st)})}
-      ${sezioneOpzionale({chiave:'pacchetto',titolo:'Pacchetto retributivo',
-        sotto:'Welfare, fringe benefit e buoni pasto',
-        riepilogo:riepilogoPacchetto(st),
-        configurata:configurate.pacchetto,aperta:st.sezioni.pacchetto,corpo:benefitBlocco(st)})}
+  </div></div>
+  </div>
     </div>
     <div class="calcrow" style="margin-top:26px">
-      <button class="btn btn--primary btn--lg" id="go">Calcola</button>
+      <button class="btn btn--primary btn--lg" id="go" disabled data-avvio-disabled>Calcola</button>
       <span class="dirty"><span class="dot" style="color:var(--c-amber)"></span>
         Dati cambiati: premi <b>Calcola</b> per aggiornare.</span>
-      ${st.res?`<button class="btn btn--link" id="reset" style="margin-left:auto">Azzera</button>`:''}
-    </div>
-  </div>`;
-}
-function cifreChiave(stato=st){
-  const g=GEOGRAFIA_ITALIA.risolvi(stato.comune);
-  return `<div class="scagl">
-    <div><div class="q">1º scaglione</div><div class="a">23%</div><div class="n">fino a 28.000 €</div></div>
-    <div><div class="q">2º scaglione</div><div class="a">33%</div><div class="n">28.000 – 50.000 €</div></div>
-    <div><div class="q">3º scaglione</div><div class="a">43%</div><div class="n">oltre 50.000 €</div></div>
-    <div><div class="q">Contributi IVS</div><div class="a">9,19%</div><div class="n">a carico del dipendente</div></div>
-    <div><div class="q">Regole locali</div><div class="a">${esc(g.comune.nome)}</div><div class="n">fonte MEF · snapshot ${g.meta.asOf}</div></div>
-  </div>`;
-}
-function kpis(res,lead){
-  const k=res.kpi;
-  const cell=(l,v,cls)=>`<div class="${cls||''}">
-    <div class="tile__value">${v}</div><div class="tile__label">${l}</div></div>`;
-  return `<div class="kpigrid">
-    ${cell('Netto in busta',eur(k.nettoInBusta),lead?'kpi-lead':'')}
-    ${cell('Valore totale del pacchetto',eur(k.valorePacchetto))}
-    ${cell('Benefit spendibili',eur(k.benefitSpendibili))}
-    ${res.voci.some(v=>v.id==='buoni')?cell('Buoni: media mensile',eur(k.mediaMensileBuoni)):''}
-    ${cell(`Media su ${res.input.mensilita}`,eur(k.mediaMensile))}
-    ${cell('Totale imposte',eur(k.totaleImposte))}
-    ${cell('Totale contributi',eur(k.totaleContributi))}
-    ${cell('Aliquota contributiva',res.aliquotaContributivaEffettiva.toFixed(2).replace('.',',')+'%')}
-  </div>`;
-}
-function answerBlock(res){
-  return `<div class="answer">
-    <div>
-      <div class="tile__label" style="margin-top:0">Netto, media su ${res.input.mensilita} mensilità</div>
-      <div class="big">${eur(res.kpi.mediaMensile)}</div>
-      <p class="small muted" style="margin:14px 0 0;max-width:44ch">
-        Su una RAL di <b>${eur(res.input.ral)}</b> restano <b>${eur(res.kpi.nettoInBusta)}</b> in denaro.
-        ${res.kpi.benefitSpendibili>0?`Con <b>${eur(res.kpi.benefitSpendibili)}</b> di benefit spendibili,
-        il pacchetto vale <b>${eur(res.kpi.valorePacchetto)}</b>.`:''}</p>
-    </div>
-    <div>
-      ${stackbar(res)}
-      <div class="legend" style="margin-top:14px">${legendItems(res)}</div>
-    </div>
-  </div>`;
-}
-/* La legenda del flusso segue il Pattern B: una riga a tacche con
-   l'etichetta al centro, poi le voci in un foglio a griglia con i tag
-   nei quattro accenti del sistema. Gli importi non si ripetono qui —
-   stanno già sulle fasce del diagramma. */
-function legendaFlusso(res){
-  const voci=[
-    ['tag--peri','Contributi','IVS al 9,19% e contributo aggiuntivo sopra la prima fascia'],
-    ['tag--blush','Imposte','IRPEF netta, più addizionale regionale e comunale'],
-    ['tag--flux','Netto','quello che resta, integrazioni comprese'],
-  ];
-  if(res.integrazioni>0)
-    voci.push(['tag--citron','Integrazioni','somma non imponibile e trattamento integrativo']);
-  return `<div class="ruler" data-label="dove finiscono i soldi" style="margin-top:var(--s-10)"></div>
-    <div class="grid-sheet grid-sheet--4" style="margin-top:var(--s-6);border-color:var(--line-strong)">
-      ${voci.map(([cls,t,d])=>`<div class="flow-voce">
-        <span class="tag ${cls}">${t}</span>
-        <p class="small muted" style="margin:0">${d}</p>
-      </div>`).join('')}
-    </div>`;
-}
-function legendItems(res){
-  const it=[[C.contrib,'Contributi'],[C.tax,'Imposte'],[C.netto,'Netto']];
-  if(res.integrazioni>0)it.push([C.integr,'Integrazioni di legge']);
-  return it.map(([c,t])=>`<span><i style="background:${c}"></i>${t}</span>`).join('');
-}
-function stackbar(res){
-  const ral=res.input.ral;if(ral<=0)return '';
-  const p=x=>Math.max(0,x/ral*100);
-  const seg=(w,k,t)=>`<div style="width:${w}%;background:${C[k]};color:${CINK[k]}" title="${esc(t)}">${w>13?t:''}</div>`;
-  return `<div class="stackbar" role="img" aria-label="Ripartizione della RAL: contributi ${p(res.kpi.totaleContributi).toFixed(1)}%, imposte ${p(res.kpi.totaleImposte).toFixed(1)}%, netto ${p(res.kpi.nettoAnnuo-res.integrazioni).toFixed(1)}%">
-    ${seg(p(res.kpi.totaleContributi),'contrib','Contributi')}
-    ${seg(p(res.kpi.totaleImposte),'tax','Imposte')}
-    ${seg(p(res.kpi.nettoAnnuo-res.integrazioni),'netto','Netto')}
-  </div>`;
-}
 
-/* ---- flusso del denaro ---- */
-function sankey(res,h,fs){
-  const ral=res.input.ral,co=res.kpi.totaleContributi,im=res.imponibile,
-        tx=res.kpi.totaleImposte,ne=res.kpi.nettoAnnuo,ig=res.integrazioni;
-  if(ral<=0)return '<p class="small muted">Nessun flusso da mostrare.</p>';
-  const H=h||260,W=780,NW=12,GAP=28,top=36,tot=ral+ig,sc=(H-top-16)/tot,FS=fs||13;
-  const x1=6,x2=384,x3=W-NW-6;
-  const denaroDopoContributi=ral-co;
-  const hRal=ral*sc,hIg=ig*sc,hCo=co*sc,hIm=denaroDopoContributi*sc,hTx=tx*sc,hNe=ne*sc;
-  const yRal=top,yIg=top+hRal+GAP,yCo=top,yIm=top+hCo+GAP,yTx=top,yNe=top+hTx+GAP;
-  /* Sul fondo inchiostro i pastelli vanno tenuti alti: sotto il .4
-     si impastano nel grafite e il diagramma diventa monocromo. */
-  const rib=(xa,ya1,ya2,xb,yb1,yb2,col,op)=>{const m=(xa+xb)/2;
-    return `<path d="M${xa},${ya1} C${m},${ya1} ${m},${yb1} ${xb},${yb1} L${xb},${yb2} C${m},${yb2} ${m},${ya2} ${xa},${ya2} Z" fill="${col}" opacity="${op||.55}"/>`;};
-  // rx=0: in questo sistema gli angoli non si arrotondano mai.
-  const node=(x,y,hh,col)=>`<rect x="${x}" y="${y}" width="${NW}" height="${Math.max(hh,2)}" fill="${col}"/>`;
-  const lab=(x,y,t,v,a)=>`<text x="${x}" y="${y-18}" text-anchor="${a}">${esc(t)}</text>
-    <text class="n" x="${x}" y="${y-3}" text-anchor="${a}">${eur(v)}</text>`;
-  const band=(id,inner,al)=>`<g class="band" tabindex="0" role="button" data-band="${id}" aria-label="${esc(al)}">${inner}</g>`;
-  return `<svg class="flowsvg" viewBox="0 0 ${W} ${H}" style="font-size:${FS}px" role="img"
-      aria-label="Dalla RAL di ${eur(ral)} a un netto di ${eur(ne)}"><title>Dove va la RAL</title>
-    ${band('contributi',rib(x1+NW,yRal,yRal+hCo,x2,yCo,yCo+hCo,C.contrib)+node(x2,yCo,hCo,C.contrib),`Contributi ${eur(co)}`)}
-    ${rib(x1+NW,yRal+hCo,yRal+hRal,x2,yIm,yIm+hIm,'var(--c-fog)',.16)}
-    ${band('imposte',rib(x2+NW,yIm,yIm+hTx,x3,yTx,yTx+hTx,C.tax)+node(x3,yTx,hTx,C.tax),`Imposte ${eur(tx)}`)}
-    ${band('netto',rib(x2+NW,yIm+hTx,yIm+hIm,x3,yNe,yNe+(hIm-hTx),C.netto)+node(x3,yNe,hNe,C.netto),`Netto ${eur(ne)}`)}
-    ${ig>0?band('integrazioni',rib(x1+NW,yIg,yIg+hIg,x3,yNe+(hIm-hTx),yNe+hNe,C.integr)+node(x1,yIg,hIg,C.integr),`Integrazioni ${eur(ig)}`):''}
-    ${node(x1,yRal,hRal,'var(--c-fog)')}
-    ${node(x2,yIm,hIm,'var(--c-fog)')}
-    ${lab(x1,yRal,'RAL',ral,'start')}
-    ${ig>0?lab(x1,yIg,'Integrazioni di legge',ig,'start'):''}
-    ${lab(x2,yCo,'Contributi',co,'start')}
-    ${lab(x2,yIm,'Denaro dopo i contributi',denaroDopoContributi,'start')}
-    ${lab(x3+NW,yTx,'Imposte',tx,'end')}
-    ${lab(x3+NW,yNe,'Netto annuo',ne,'end')}
-  </svg>
-  <p class="sr">Equivalente testuale: RAL ${eur(ral)}, imponibile fiscale ${eur(im)}, meno contributi ${eur(co)},
-    meno imposte ${eur(tx)}${ig>0?`, più integrazioni di legge ${eur(ig)}`:''}, netto annuo ${eur(ne)}.</p>`;
-}
-
-/* ---- dettaglio: catena a operatori firmati + pannello della voce scelta ---- */
-function chain(res,st){
-  const v=id=>res.voci.find(x=>x.id===id);
-  const righe=componiRighe(res.voci);
-  const r=id=>righe.find(x=>x.id===id);
-  const rows=[];
-  const grp=t=>rows.push(`<tr class="grp"><td></td><td colspan="2" class="g">${t}</td></tr>`);
-  const row=(op,label,val,voce,cls='')=>{
-    const on=voce&&st.aperta===voce.id;
-    const nm=voce
-      ? `<button class="lbl" aria-expanded="${!!on}" aria-controls="voce-pane">${esc(label)}
-           <span class="idot" aria-hidden="true">i</span></button>`
-      : esc(label);
-    rows.push(`<tr class="${cls}${voce?' cl':''}${on?' on':''}"
-      ${voce?`data-voce="${voce.id}"`:''}><td class="op">${op}</td><td>${nm}</td>
-      <td class="amt">${eur(Math.abs(val))}</td></tr>`);
-  };
-  const rigaVoce=(op,id)=>{const x=v(id),rx=r(id);if(x)row(op,rx.titolo,x.importo,x);};
-  grp('Dalla RAL all\'imponibile');
-  row('','RAL',res.input.ral,null);
-  const quotaImponibileBenefit=res.voci.filter(x=>x.somma==='benefitSpendibili')
-    .reduce((tot,x)=>tot+(x.quotaImponibile||0),0);
-  if(quotaImponibileBenefit>0)row('+','Quote imponibili dei benefit',quotaImponibileBenefit,null);
-  rigaVoce('−','ivs');
-  rigaVoce('−','ecc');
-  row('=','Imponibile IRPEF',res.imponibile,null,'sub');
-  grp('IRPEF');
-  rigaVoce('−','lorda');
-  rigaVoce('+','detrlav');
-  rigaVoce('+','detrult');
-  /* Una riga per familiare, dentro il gruppo IRPEF e non in un
-     gruppo suo: sono detrazioni dell'imposta, e staccarle
-     lascerebbe «IRPEF netta» orfana del suo blocco. */
-  for(const v of res.voci.filter(x=>/^detrfam\d+$/.test(x.id)))row('+',r(v.id).titolo,v.importo,v);
-  row('=','IRPEF netta',res.irpefNetta,null,'sub');
-  grp('Addizionali locali');
-  rigaVoce('−','addreg');
-  rigaVoce('−','addcom');
-  if(v('somma')||v('ti')){grp('Integrazioni di legge');
-    rigaVoce('+','somma');
-    rigaVoce('+','ti');}
-  rows.push(`<tr class="tot"><td class="op">=</td><td>Netto annuo</td>
-    <td class="amt">${eur(res.kpi.nettoAnnuo)}</td></tr>`);
-  const benefitVoci=res.voci.filter(x=>x.somma==='benefitSpendibili');
-  if(benefitVoci.length){grp('Benefit spendibili');
-    for(const x of benefitVoci)row('+',r(x.id).titolo,x.importo,x);
-    rows.push(`<tr class="tot"><td class="op">=</td><td>Valore totale del pacchetto</td>
-      <td class="amt">${eur(res.kpi.valorePacchetto)}</td></tr>`);}
-  const sel=st.aperta?res.voci.find(x=>x.id===st.aperta):null;
-  const rigaSel=sel?r(sel.id):null;
-  const pane=sel?(()=>{const fonte=rigaSel.fonte;
-    return `<h4>${esc(rigaSel.titolo)}</h4>
-      <div class="xs mono muted">${esc(sel.tipo)} · base ${eur(sel.base)}</div>
-      <code>${esc(rigaSel.formula)}</code>
-      <div class="small"><b>${eur(Math.abs(sel.importo))}</b></div>
-      <hr class="rule" style="margin:16px 0">
-      <div class="label">Fonte</div>
-      <a class="small" href="${fonte.url}" target="_blank" rel="noopener">${esc(fonte.titolo)}</a>
-      <div class="xs muted" style="margin-top:4px">${esc(fonte.descrizione)}</div>`;})()
-    :`<div class="empty"><b>Nessuna voce selezionata.</b><br>
-       Clicca una riga della catena — quelle con il segno <span class="idot" aria-hidden="true">i</span> —
-       per vederne formula, base di calcolo e fonte normativa.</div>`;
-  return `<div class="detsplit">
-    <div>
-      <p class="chainhint"><span class="idot" aria-hidden="true">i</span>
-        Le righe con questo segno si aprono: <b>clicca una voce</b> per vederne formula, base e fonte.</p>
-      <div class="chainwrap"><table class="chain"><caption class="sr">Dalla RAL al netto annuo</caption>
-      <tbody>${rows.join('')}</tbody></table></div>
     </div>
-    <aside class="pane" id="voce-pane">${pane}</aside>
-  </div>`;
-}
-
-function avvisoMassimale(res){
-  if(res.input.ral<=122295)return '';
-  return `<div class="callout callout--warn limit-note">
-    <span class="callout__mark">Limite</span>
-    <div><b>Oltre 122.295 € la sola RAL non basta.</b>
-    Il risultato applica il massimale contributivo assumendo che il dipendente non avesse
-    anzianità contributiva al 31 dicembre 1995. Se questa condizione non vale, il risultato
-    non è applicabile.</div></div>`;
-}
-/* La CTA porta al confronto TUTTO lo scenario calcolato — comune, nucleo e
-   benefit compresi — dentro il fragment, non nella query string: i dati
-   familiari di due offerte non hanno motivo di passare da un server.
-   Lo scenario è quello dell'ultimo Calcola: se il modulo è stato toccato
-   dopo, il clic chiede prima di ricalcolare invece di trasferire numeri
-   che non sono più quelli a schermo. */
-function ctaConfronto(stato=st){
-  if(!stato.scenario)return '';
-  const fragment=COMPARA.codificaStato({A:stato.scenario,B:COMPARA.offertaVuota()});
-  return `<div class="cta-confronto">
-    <a class="btn btn--ghost" id="vai-compara" href="compara.html#${fragment}">
-      Confronta con un’offerta →</a>
-    <span class="small muted">Porta questo scenario — comune, famiglia e benefit inclusi —
-      nella pagina di confronto, e aggiungi la seconda offerta.</span>
-    ${stato.avvisoConfronto?`<p class="error-text" role="alert">Hai modificato i dati:
-      premi <b>Calcola</b> per aggiornare il risultato, poi riprova a confrontare.</p>`:''}
-  </div>`;
-}
-function metodo(stato=st){
-  const geo=GEOGRAFIA_ITALIA.risolvi(stato.comune);
-  const fontiMetodo=[...Object.values(FONTI).slice(0,-2),
-    ['Istat — comuni italiani',`${geo.meta.istat.comuni} comuni attivi dal ${geo.meta.istat.vigenteDal}`,geo.meta.istat.url],
-    ['MEF — addizionale regionale',`Regola 2026 per ${geo.regione.nome}`,geo.regionale.fonte.url],
-    ['MEF — addizionale comunale',`Regola ${geo.comunale.fonte.annoOrigine} per ${geo.comune.nome}, ${geo.comunale.fonte.stato}`,geo.comunale.fonte.url]];
-  return `<div class="stack" style="gap:34px">
-    <div>
-      <h3 style="margin:0 0 10px">L'ordine delle operazioni</h3>
-      <p class="small muted" style="margin:0;max-width:74ch">
-      Tredici passi in ordine vincolante: contributi, imponibile, IRPEF lorda per scaglioni, detrazioni,
-      IRPEF netta, addizionali — dovute solo se l'IRPEF netta è positiva — e integrazioni di legge.
-      Aritmetica decimale al centesimo, mai in virgola mobile binaria; il netto è definito come la somma
-      delle voci arrotondate, così la tabella chiude sempre per costruzione.
-      Versione delle regole: <span class="tag">regole-2026-v4</span></p>
-    </div>
-    <div>
-      <h3 style="margin:0 0 14px">Cifre chiave 2026</h3>
-      ${cifreChiave()}
-    </div>
-    <div>
-      <h3 style="margin:0 0 14px">Fonti</h3>
-      <div class="voci">
-        ${fontiMetodo.map(([t,d,u])=>`<div class="voce">
-          <a class="small" style="font-weight:600" href="${u}" target="_blank" rel="noopener">${esc(t)}</a>
-          <div class="xs muted" style="margin-top:4px">${esc(d)}</div></div>`).join('')}
-      </div>
-    </div>
-    <div>
-      <h3 style="margin:0 0 10px">Come è verificato</h3>
-      <p class="small muted" style="margin:0 0 12px;max-width:74ch">
-      Due controlli, di natura diversa. <b>A ogni ricalcolo</b> la pagina verifica che la somma
-      delle voci sia il netto annuo: il netto non è un totale calcolato a parte e poi confrontato,
-      è quella somma. Una tabella che non chiude non può comparire a schermo.
-      <b>Fuori dalla pagina</b> gira una matrice di prove sul motore, in quattro categorie tenute
-      distinte perché provano cose diverse: poche ancore confrontate a mano con la norma
-      (la catena completa a 35.000 €, il massimale, la fine dell'esenzione comunale, la capienza
-      delle detrazioni), le soglie nazionali e locali del comune selezionato e i cambi di pendenza presi a un centesimo di
-      distanza, una rete di regressione a passo di 100 € da 0 a 200.000 €, e ogni voce del calcolo
-      esercitata da sola.</p>
-      <p class="small muted" style="margin:0;max-width:74ch">
-      Cosa <b>non</b> è provato conta quanto il resto: nessun consulente del lavoro ha validato
-      questi numeri, e la riconciliazione da sola non prova la correttezza — conferma un'identità
-      algebrica, e resterebbe verde anche con le aliquote sbagliate. L'elenco completo di ciò che
-      è provato e di ciò che non lo è sta nel repository, in
-      <span class="tag">processo/verifica.md</span>.</p>
-    </div>
-    <div>
-      <h3 style="margin:0 0 6px">Limiti dichiarati</h3>
-      <p class="small muted" style="margin:0 0 14px">Cinque, in chiaro. Uno strumento onesto dichiara dove smette di valere.</p>
-      <div class="accordion">${LIMITI.map(([t,b])=>`<details><summary><span>${esc(t)}</span></summary>
-        <div class="acc-body">${esc(b)}</div>
-      </details>`).join('')}</div>
-    </div>
-  </div>`;
-}
-function faq(stato=st){
-  return `<div class="accordion">${FAQ.map(([q,a])=>`<details><summary><span>${q}</span></summary>
-    <div class="acc-body">${typeof a==='function'?a(stato):a}</div>
-  </details>`).join('')}</div>`;
-}
-
-/* ============================================================
-   LE SEZIONI — stesso contenuto, tre organizzazioni diverse
-   ============================================================ */
-function sezioni(res,st){
-  return [
-    {id:'risultato',eye:'Livello 1 — la risposta',t:'Quanto ti resta',
-     lede:'Il netto annuo maturato sulla RAL inserita, e la sua media per mensilità.',
-     body:`${answerBlock(res)}<div style="margin-top:var(--s-8)">${kpis(res)}</div>
-       ${avvisoMassimale(res)}${ctaConfronto(st)}`},
-    {id:'flusso',ink:true,eye:'Livello 2 — il flusso',t:'Dove va il resto',
-     lede:'Le fasce sono in scala: la larghezza di ogni flusso è proporzionale al suo importo. Si parte dalla RAL, non dal costo azienda: questo strumento risponde a «dove vanno i soldi trattenuti sul mio lordo», non a quanto costi all\'azienda. Clicca una fascia per aprirne le voci.',
-     body:`${sankey(res,260,12)}${legendaFlusso(res)}`},
-    {id:'dettaglio',eye:'Livello 3 — il dettaglio',t:'Ogni euro, voce per voce',
-     lede:'La catena completa, con gli operatori in chiaro. Ogni riga contrassegnata si apre: cliccala e la spiegazione compare qui a fianco.',
-     body:chain(res,st)},
-    {id:'metodo',eye:'Metodo',t:'Come è costruito il calcolo',
-     lede:'Le regole nazionali e locali applicate sono dichiarate e collegate alla fonte ufficiale.',
-     body:metodo()},
-    {id:'faq',eye:'Domande frequenti',t:'Le domande che arrivano sempre',
-     lede:'',body:faq()},
-  ];
-}
-const anchorsHTML=st=>`<nav class="anchors" aria-label="Sezioni del risultato">
-  ${SEZIONI.map(([id,l])=>`<a href="#${id}" data-anchor="${id}"
-     aria-current="${st.attiva===id}">${l}</a>`).join('')}</nav>`;
-
-/* ---- la pagina del risultato: barra di ancore appiccicosa,
-       sezioni a fasce alternate ---- */
-function pagina(res,st){
-  const secs=sezioni(res,st);
-  /* Una sola sezione inchiostro per pagina: è tutto il budget di
-     contrasto del sistema, e il flusso del denaro è il punto dove
-     serve — il diagramma legge come un disegno tecnico. */
-  const sez=(s,i)=>`<section class="sec${s.ink?' sec--ink on-ink paper':''}" id="${s.id}">
-      <div class="pg">
-        <span class="no">§ ${String(i+1).padStart(2,'0')}</span>
-        <div class="eyebrow${s.ink?' eyebrow--accent':''}">${s.eye}</div>
-        <div class="sec-head"><h2>${s.t}</h2>${s.tool||''}</div>
-        ${s.lede?`<p class="lead">${s.lede}</p>`:''}
-        <div class="sec-body">${s.body}</div>
-      </div></section>`;
-  return `${hero(st)}<div class="pg">${form(st)}</div>
-    <div class="anchorbar" style="margin-top:clamp(32px,4vw,56px)"><div class="pg"><div class="inner">
-      ${anchorsHTML(st)}
-      <div class="mini"><span>Netto annuo</span>
-        <b>${eur(res.kpi.nettoAnnuo)}</b></div>
-    </div></div></div>
-    ${secs.map(sez).join('')}
-    <footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR.</footer>
-    ${eggDialog()}`;
-}
-const eggDialog=()=>`<dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog>`;
-function vuoto(st){
-  return `${hero(st)}<div class="pg">${form(st)}
+  </div>
     <section class="sec">
       <span class="no">§ 01</span>
       <div class="eyebrow">Prima di calcolare</div>
       <h2>Cifre chiave 2026</h2>
       <p class="lead">Le regole nazionali e locali che il calcolo applica.</p>
-      <div class="sec-body">${cifreChiave(st)}</div>
+      <div class="sec-body"><div class="scagl">
+    <div><div class="q">1º scaglione</div><div class="a">23%</div><div class="n">fino a 28.000 €</div></div>
+    <div><div class="q">2º scaglione</div><div class="a">33%</div><div class="n">28.000 – 50.000 €</div></div>
+    <div><div class="q">3º scaglione</div><div class="a">43%</div><div class="n">oltre 50.000 €</div></div>
+    <div><div class="q">Contributi IVS</div><div class="a">9,19%</div><div class="n">a carico del dipendente</div></div>
+    <div><div class="q">Regole locali</div><div class="a">Milano</div><div class="n">fonte MEF · snapshot 2026-08-26</div></div>
+  </div></div>
     </section>
     <section class="sec" style="border-bottom:0">
       <span class="no">§ 02</span>
       <div class="eyebrow">Domande frequenti</div>
       <h2>Le domande che arrivano sempre</h2>
-      <div class="sec-body">${faq()}</div>
+      <div class="sec-body"><div class="accordion"><details><summary><span>Perché il netto mensile non coincide con la mia busta paga?</span></summary>
+    <div class="acc-body">Il calcolo è annuale e di competenza. Le addizionali vengono trattenute a rate nell'anno successivo al conguaglio, la tredicesima non beneficia delle stesse detrazioni mensili e il conguaglio di fine anno riequilibra tutto. Per questo il numero è etichettato <b>media</b>, mai «importo del cedolino».</div>
+  </details><details><summary><span>Perché scegliere da 12 a 16 mensilità non cambia il netto annuo?</span></summary>
+    <div class="acc-body">Perché non è un dato di calcolo: è solo il divisore con cui si presenta lo stesso netto annuo. Le trattenute non cambiano. Puoi verificarlo qui sopra — cambiando il selettore il netto annuo resta identico e si muove solo la media. Se cambiasse, sarebbe un errore.</div>
+  </details><details><summary><span>Perché a volte un euro lordo in più fa <em>scendere</em> il netto?</span></summary>
+    <div class="acc-body">Perché alcune misure locali sono esenzioni con soglia secca, non franchigie: superata la soglia si perdono per intero. Per Milano, alla RAL di 25.327,62 €, il salto dell’addizionale comunale vale 184,00 € sul netto annuo.</div>
+  </details><details><summary><span>Quali sono i contributi a carico del dipendente?</span></summary>
+    <div class="acc-body">Il contributo IVS del 9,19% sull'imponibile previdenziale, più un contributo aggiuntivo dell'1% sulla quota che supera la prima fascia pensionabile (56.224 € nel 2026). Sopra il massimale di 122.295 € entrambi si fermano: è il motivo per cui l'aliquota contributiva effettiva scende oltre quella soglia.</div>
+  </details><details><summary><span>Ho un figlio di 15 anni: perché non compare nessuna detrazione?</span></summary>
+    <div class="acc-body">Perché dal 2022, sotto i <b>21 anni</b>, la detrazione per figli a carico non esiste più: è assorbita dall'<b>Assegno Unico e Universale</b>, che si chiede all'INPS e non passa dalla busta paga. La detrazione dell'art. 12 TUIR riprende dai 21 anni compiuti e si ferma ai 30. Non è un buco del calcolatore: è dove la norma ha spostato il sostegno.</div>
+  </details><details><summary><span>Le regioni e i comuni contano i figli?</span></summary>
+    <div class="acc-body">Sì, e non tutti allo stesso modo. <b>Trento, Bolzano, Sardegna, Campania, Piemonte e Puglia</b> aggiungono una detrazione dall'addizionale regionale per ogni figlio a carico, con importi, tetti di reddito e numeri minimi di figli diversi fra loro. <b>Marche e Veneto</b> non detraggono: applicano un'<b>aliquota più bassa</b> se in famiglia c'è una persona con disabilità accertata. Sei comuni del Veronese — <b>Bardolino, Bosco Chiesanuova, Bovolone, Negrar di Valpolicella, Roverè Veronese e Zevio</b> — non applicano l'addizionale comunale alle famiglie numerose, con una soglia di esenzione che sale di 10.000 € per ogni figlio oltre il minimo. Tutte queste regole entrano nel calcolo solo se dichiari i familiari qui sopra.</div>
+  </details><details><summary><span>Quando un familiare è «a carico»?</span></summary>
+    <div class="acc-body">Quando il suo reddito complessivo non supera <b>2.840,51 €</b> l'anno, elevati a <b>4.000 €</b> per i figli fino a 24 anni. Sopra quella soglia il familiare non è a carico e la detrazione non spetta, anche se convive. Gli «altri familiari» dell'art. 12 sono oggi i soli <b>ascendenti conviventi</b>: genitori e nonni che vivono con te.</div>
+  </details><details><summary><span>Cosa non è incluso nel calcolo?</span></summary>
+    <div class="acc-body">TFR, costo azienda e contributi del datore, INAIL, CCNL e fondi di solidarietà, fondi sanitari e previdenza complementare, altri redditi, oneri deducibili e detraibili, premi e agevolazioni personali. Welfare esente dichiarato, fringe benefit e buoni pasto si inseriscono nel modulo; il calcolatore non certifica i requisiti del piano welfare.</div>
+  </details><details><summary><span>Da dove vengono le regole?</span></summary>
+    <div class="acc-body">Solo da fonti primarie: Istat per i comuni attivi, MEF per le addizionali locali, leggi di bilancio, TUIR e circolari INPS. Ogni voce del dettaglio rimanda al riferimento ufficiale applicato.</div>
+  </details></div></div>
     </section>
   </div>
   <footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR.</footer>
-  ${eggDialog()}`;
-}
+  <dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog></div></div><!-- HOME_STATIC_END -->
+<script src="site-nav.js" async></script>
+<script src="calcolatore-avvio.js" defer onerror="document.getElementById('avvio-messaggio').textContent='Il calcolatore non si è caricato. Riprova.';document.getElementById('avvio-riprova').hidden=false"></script>
+<script src="dati-addizionali-2026.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="geografia.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="motore.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="fonti.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="righe.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="nucleo.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="sezioni.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="compara.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
 
-/* ============================================================
-   STATO E EVENTI
-   ============================================================ */
-const GEO_DEFAULT=GEOGRAFIA_ITALIA.risolvi('F205');
-const st={ralRaw:'35.000',mensilita:13,regione:GEO_DEFAULT.provincia.regione,
-  provincia:GEO_DEFAULT.comune.provincia,comune:GEO_DEFAULT.comune.catastale,
-  nucleo:[],nucleoCalcolato:null,
-  welfareRaw:'',fringeRaw:'',buoniTipo:'elettronici',buoniValoreRaw:'',buoniNumeroRaw:'',
-  /* Aperto/chiuso delle due sezioni facoltative: vive qui e non nell'URL,
-     perché è una preferenza di lettura, non un dato del calcolo. */
-  sezioni:{nucleo:false,pacchetto:false},
-  aperta:null,attiva:'risultato',res:null,errore:null,dirty:false,eggPending:false,
-  /* L'istantanea dei valori con cui il risultato a schermo è stato
-     calcolato: è quella che parte verso il confronto, non il modulo. */
-  scenario:null,avvisoConfronto:false};
-
-function fromURL(){
-  const p=new URLSearchParams(location.search);
-  if(p.get('c')){try{const g=GEOGRAFIA_ITALIA.risolvi(p.get('c'));
-    st.regione=g.provincia.regione;st.provincia=g.comune.provincia;st.comune=g.comune.catastale;}catch{}}
-  if(p.get('ral'))st.ralRaw=p.get('ral');
-  if(p.get('n'))st.nucleo=deserializzaNucleo(p.get('n'));
-  if(p.has('w'))st.welfareRaw=p.get('w');
-  if(p.has('f'))st.fringeRaw=p.get('f');
-  if(['elettronici','cartacei'].includes(p.get('bt')))st.buoniTipo=p.get('bt');
-  if(p.has('bv'))st.buoniValoreRaw=p.get('bv');
-  if(p.has('bn'))st.buoniNumeroRaw=p.get('bn');
-  const mensilita=Number(p.get('m'));
-  if(MENSILITA_AMMESSE.includes(mensilita))st.mensilita=mensilita;
-  /* Un link che porta dei dati non deve nasconderli: la sezione che li
-     contiene si apre da sola, quella vuota resta chiusa. */
-  st.sezioni=sezioniAperte(st);
-  if(p.get('calc')==='1')commit(true);
-}
-function toURL(){
-  const p=new URLSearchParams();
-  p.set('ral',st.ralRaw);p.set('m',String(st.mensilita));p.set('c',st.comune);
-  /* Senza familiari dichiarati la query string resta quella di
-     prima: la funzione è additiva anche nell'URL. */
-  const nucleo=serializzaNucleo(st.nucleo);
-  if(nucleo)p.set('n',nucleo);
-  if(st.welfareRaw)p.set('w',st.welfareRaw);
-  if(st.fringeRaw)p.set('f',st.fringeRaw);
-  if(st.buoniTipo!=='elettronici')p.set('bt',st.buoniTipo);
-  if(st.buoniValoreRaw)p.set('bv',st.buoniValoreRaw);
-  if(st.buoniNumeroRaw)p.set('bn',st.buoniNumeroRaw);
-  if(st.res)p.set('calc','1');
-  history.replaceState(null,'','?'+p.toString()+(st.res?'#risultato':''));
-}
-function scrollAlRisultato(){
-  document.getElementById('risultato')?.scrollIntoView({
-    behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
-}
-function commit(silenzioso){
-  st.errore=null;
-  const v=parseRal(st.ralRaw);
-  const opzionale=raw=>raw.trim()===''?'0':parseRal(raw);
-  const welfare=opzionale(st.welfareRaw),fringe=opzionale(st.fringeRaw);
-  const valoreBuono=opzionale(st.buoniValoreRaw);
-  const numeroBuoni=st.buoniNumeroRaw===''?0:Number(st.buoniNumeroRaw);
-  if(v===null){st.errore='Inserisci la RAL per calcolare.';st.res=null;}
-  else if(Number.isNaN(v)){st.errore='Solo cifre: usa la virgola per i decimali, per esempio 35.000,50.';st.res=null;}
-  else if(Number(v)<0){st.errore='La RAL non può essere negativa.';st.res=null;}
-  /* Un errore che parla di un campo chiuso dentro un pannello non si puo'
-     correggere: se l'errore e' li' dentro, la sezione si apre da sola. */
-  else if([welfare,fringe,valoreBuono].some(x=>Number.isNaN(x)||Number(x)<0)){
-    st.errore='Welfare, fringe benefit e valore dei buoni devono essere importi positivi.';
-    st.res=null;st.sezioni.pacchetto=true;}
-  else if(!Number.isInteger(numeroBuoni)||numeroBuoni<0){
-    st.errore='Il numero annuo di buoni pasto deve essere un numero intero positivo.';
-    st.res=null;st.sezioni.pacchetto=true;}
-  else if(Number(v)===4700000){st.res=null;st.dirty=false;st.eggPending=true;}
-  else if(Number(v)>1000000){st.errore='Il calcolo è disponibile fino a una RAL di 1.000.000 €.';st.res=null;}
-  else{st.res=applicaMensilita(calcola(v,{comune:st.comune,nucleo:st.nucleo,
-      welfare,fringe,buoniPasto:{tipo:st.buoniTipo,valoreUnitario:valoreBuono,numero:numeroBuoni}}),st.mensilita);
-    st.nucleoCalcolato=serializzaNucleo(st.nucleo);st.dirty=false;st.eggPending=false;
-    st.scenario=COMPARA.offertaDaCalcolatore(st);st.avvisoConfronto=false;
-    if(!st.aperta)st.aperta='ivs';}   // mostra subito a cosa serve il pannello
-  if(!silenzioso){
-    render();
-    if(st.res)scrollAlRisultato();
-  }
-}
-/* Prima di ridisegnare annoto CHI aveva il fuoco, in modo da restituirglielo
-   dopo. Senza questo, chi usa la tastiera torna a inizio pagina ogni volta
-   che apre una voce. */
-function segnaFuoco(){
-  const a=document.activeElement;
-  if(!a||a===document.body)return null;
-  const r=a.closest('[data-voce]');
-  if(r)return `tr[data-voce="${r.dataset.voce}"] .lbl`;
-  const b=a.closest('[data-band]');
-  if(b)return `[data-band="${b.dataset.band}"]`;
-  const n=a.closest('[data-nucleo-rimuovi]');
-  if(n)return `[data-nucleo-rimuovi="${n.dataset.nucleoRimuovi}"]`;
-  return a.id?'#'+a.id:null;
-}
-function rendiFuoco(sel){
-  if(!sel)return;
-  document.querySelector(sel)?.focus({preventScroll:true});
-}
-let obs=null;
-function scrollspy(){
-  if(obs)obs.disconnect();
-  const secs=[...document.querySelectorAll('.sec[id]')];
-  if(!secs.length)return;
-  obs=new IntersectionObserver(es=>{
-    const vis=es.filter(e=>e.isIntersecting)
-      .sort((a,b)=>a.boundingClientRect.top-b.boundingClientRect.top)[0];
-    if(!vis)return;
-    const id=vis.target.id;
-    if(id===st.attiva)return;
-    st.attiva=id;
-    document.querySelectorAll('[data-anchor]').forEach(a=>
-      a.setAttribute('aria-current',String(a.dataset.anchor===id)));
-  },{rootMargin:'-96px 0px -55% 0px',threshold:0});
-  secs.forEach(s=>obs.observe(s));
-}
-function render(keepScroll){
-  const y=window.scrollY,fuoco=segnaFuoco();
-  document.getElementById('app').innerHTML=
-    st.res?pagina(st.res,st):vuoto(st);
-  if(st.dirty)document.querySelector('.calcrow')?.closest('.calcbox')?.classList.add('is-dirty');
-  toURL();scrollspy();
-  if(keepScroll)window.scrollTo(0,y);
-  rendiFuoco(fuoco);
-  const egg=document.getElementById('egg');
-  if(egg&&st.eggPending){egg.showModal();st.eggPending=false;}
-}
-function segnaSporco(campo){
-  if(!st.res)return;
-  st.dirty=true;
-  campo.closest('.calcbox')?.classList.add('is-dirty');
-}
-function impostaMensilita(mensilita){
-  st.mensilita=mensilita;
-  if(st.res)st.res=applicaMensilita(st.res,st.mensilita);
-  /* Cambiare mensilità non richiede un ricalcolo, quindi non sporca il
-     risultato: lo scenario da trasferire però deve seguirlo. */
-  if(st.scenario)st.scenario.mensilitaRaw=String(mensilita);
-  render(true);
-}
-document.addEventListener('input',e=>{
-  const d=e.target.dataset||{};
-  if(e.target.id==='ral'){st.ralRaw=e.target.value;return segnaSporco(e.target);}
-  const benefitInput={welfare:'welfareRaw',fringe:'fringeRaw',
-    'buoni-valore':'buoniValoreRaw','buoni-numero':'buoniNumeroRaw'}[e.target.id];
-  if(benefitInput){st[benefitInput]=e.target.value;return segnaSporco(e.target);}
-  /* Età e reddito non ridisegnano la pagina a ogni cifra: il campo
-     resta quello che l'utente sta scrivendo, cursore compreso. */
-  if(d.nucleoEta!==undefined){
-    const cifre=e.target.value.replace(/\D/g,'').slice(0,3);
-    if(cifre!==e.target.value)e.target.value=cifre;
-    st.nucleo[Number(d.nucleoEta)].eta=cifre===''?null:Number(cifre);
-    return segnaSporco(e.target);
-  }
-  if(d.nucleoReddito!==undefined){
-    const cifre=e.target.value.replace(/\D/g,'').slice(0,7);
-    if(cifre!==e.target.value)e.target.value=cifre;
-    st.nucleo[Number(d.nucleoReddito)].reddito=cifre===''?0:Number(cifre);
-    return segnaSporco(e.target);
-  }
-});
-document.addEventListener('change',e=>{
-  if(e.target.id==='mensilita')return impostaMensilita(Number(e.target.value));
-  if(e.target.id==='buoni-tipo'){
-    st.buoniTipo=e.target.value;if(st.res)st.dirty=true;return render(true);
-  }
-  const disabilita=e.target.dataset&&e.target.dataset.nucleoDisabilita;
-  if(disabilita!==undefined&&disabilita!==null){
-    st.nucleo[Number(disabilita)].disabilita=e.target.checked;
-    if(st.res)st.dirty=true;
-    return render(true);
-  }
-  const indice=e.target.dataset&&e.target.dataset.nucleoTipo;
-  if(indice!==undefined&&indice!==null){
-    const familiare=st.nucleo[Number(indice)];
-    familiare.tipo=e.target.value;
-    if(familiare.tipo!=='figlio')familiare.eta=null;   // l'età non rileva per gli altri
-    if(st.res)st.dirty=true;
-    return render(true);
-  }
-  if(!['regione','provincia','comune'].includes(e.target.id))return;
-  if(e.target.id==='regione'){
-    st.regione=Number(e.target.value);
-    const p=GEOGRAFIA_ITALIA.province(st.regione)[0];
-    st.provincia=p.id;st.comune=GEOGRAFIA_ITALIA.comuni(p.id)[0].catastale;
-  }else if(e.target.id==='provincia'){
-    st.provincia=Number(e.target.value);st.comune=GEOGRAFIA_ITALIA.comuni(st.provincia)[0].catastale;
-  }else st.comune=e.target.value;
-  if(st.res)st.dirty=true;
-  render(true);
-});
-document.addEventListener('keydown',e=>{
-  if(e.target.id==='ral'&&e.key==='Enter'){e.preventDefault();commit();}
-});
-document.addEventListener('click',e=>{
-  if(e.target.id==='egg'){e.target.close();return;}
-  const cta=e.target.closest('#vai-compara');
-  if(cta){
-    if(!st.dirty)return;              // lo scenario a schermo è quello calcolato
-    e.preventDefault();
-    st.avvisoConfronto=true;
-    render(true);
-    document.getElementById('go')?.focus({preventScroll:true});
-    return;
-  }
-  const a=e.target.closest('[data-anchor]');
-  if(a){e.preventDefault();
-    document.getElementById(a.dataset.anchor)?.scrollIntoView({
-      behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
-    return;}
-  const opt=e.target.closest('[data-opt]');
-  if(opt){
-    st.sezioni[opt.dataset.opt]=!st.sezioni[opt.dataset.opt];
-    return render(true);   // nessun dato cambia: solo cosa si vede
-  }
-  const familiare=e.target.closest('#nucleo-aggiungi,[data-nucleo-rimuovi]');
-  if(familiare){
-    if(familiare.id==='nucleo-aggiungi'){
-      if(st.nucleo.length>=MAX_FAMILIARI)return;
-      st.nucleo.push({tipo:'figlio',eta:null,disabilita:false,reddito:0});
-      st.sezioni.nucleo=true;   // si sta compilando: non richiudersi addosso
-    }else st.nucleo.splice(Number(familiare.dataset.nucleoRimuovi),1);
-    if(st.res)st.dirty=true;
-    return render(true);
-  }
-  const t=e.target.closest('#go,#reset,[data-voce],[data-band]');
-  if(!t)return;
-  if(t.id==='go')return commit();
-  if(t.id==='reset'){st.res=null;st.ralRaw='';st.mensilita=13;
-    st.regione=GEO_DEFAULT.provincia.regione;st.provincia=GEO_DEFAULT.comune.provincia;
-    st.comune=GEO_DEFAULT.comune.catastale;st.aperta=null;st.attiva='risultato';st.errore=null;
-    st.dirty=false;st.eggPending=false;st.scenario=null;st.avvisoConfronto=false;
-    st.nucleo=[];st.nucleoCalcolato=null;st.welfareRaw='';st.fringeRaw='';
-    st.buoniTipo='elettronici';st.buoniValoreRaw='';st.buoniNumeroRaw='';
-    st.sezioni={nucleo:false,pacchetto:false};return render();}
-  if(t.hasAttribute('data-voce')){
-    st.aperta=st.aperta===t.dataset.voce?null:t.dataset.voce;return render(true);}
-  if(t.hasAttribute('data-band')){
-    // Il netto non e' una voce della catena: e' il totale. La sua fascia porta al
-    // dettaglio senza svuotare il pannello, cosi' il clic non sembra fallito.
-    const map={contributi:'ivs',imposte:'lorda',integrazioni:'somma'};
-    const voce=map[t.dataset.band];
-    if(voce)st.aperta=voce;
-    render(true);
-    document.getElementById('dettaglio')?.scrollIntoView({
-      behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth',block:'start'});
-    if(st.aperta)rendiFuoco(`tr[data-voce="${st.aperta}"] .lbl`);
-  }
-});
-document.addEventListener('keydown',e=>{
-  const b=e.target.closest('[data-band]');
-  // Le fasce del flusso sono elementi SVG: non hanno il metodo click(),
-  // quindi da tastiera l'evento va costruito a mano.
-  if(b&&(e.key==='Enter'||e.key===' ')){e.preventDefault();
-    b.dispatchEvent(new MouseEvent('click',{bubbles:true}));}
-});
-fromURL();render();
-if(location.hash==='#risultato'&&st.res)scrollAlRisultato();
-
-</script>
+<script src="home-ui.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
 </body>
 </html>

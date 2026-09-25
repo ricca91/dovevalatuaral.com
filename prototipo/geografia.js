@@ -8,11 +8,20 @@ const perNome=(a,b)=>ORDINE_ITALIANO.compare(a.nome,b.nome);
 const REGIONI=D.regioni.map((r,id)=>Object.freeze({id,nome:r.nome})).sort(perNome);
 const PROVINCE=D.province.map((p,id)=>Object.freeze({id,...p})).sort(perNome);
 const COMUNI=D.comuni.map((c,id)=>Object.freeze({id,...c})).sort(perNome);
-const PER_CATASTALE=new Map(COMUNI.map(c=>[c.catastale,c]));
-
+const PER_CATASTALE=new Map();
+const PER_REGIONE=new Map(),PER_PROVINCIA=new Map();
+for(const provincia of PROVINCE){
+  if(!PER_REGIONE.has(provincia.regione))PER_REGIONE.set(provincia.regione,[]);
+  PER_REGIONE.get(provincia.regione).push(provincia);
+}
+for(const comune of COMUNI){
+  PER_CATASTALE.set(comune.catastale,comune);
+  if(!PER_PROVINCIA.has(comune.provincia))PER_PROVINCIA.set(comune.provincia,[]);
+  PER_PROVINCIA.get(comune.provincia).push(comune);
+}
 function regioni(){return REGIONI;}
-function province(regione){return regione===undefined?PROVINCE:PROVINCE.filter(p=>p.regione===Number(regione));}
-function comuni(provincia){return provincia===undefined?COMUNI:COMUNI.filter(c=>c.provincia===Number(provincia));}
+function province(regione){return regione===undefined?PROVINCE:(PER_REGIONE.get(Number(regione))||[]);}
+function comuni(provincia){return provincia===undefined?COMUNI:(PER_PROVINCIA.get(Number(provincia))||[]);}
 function risolvi(catastale='F205'){
   const comune=PER_CATASTALE.get(String(catastale).toUpperCase());
   if(!comune)throw new RangeError(`Comune non attivo nello snapshot Istat: ${catastale}`);

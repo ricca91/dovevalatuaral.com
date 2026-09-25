@@ -1,0 +1,5 @@
+PASS delayed data, editable inputs/focus, URL, municipality, reset, transfer
+PASS mobile/desktop routes, inversion, game, no JS errors
+PASS asset failure and retry
+PASS bootstrap failure and retry
+PASS useful static HTML and noscript

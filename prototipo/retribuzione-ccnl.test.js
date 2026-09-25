@@ -462,7 +462,7 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
   const fs=require('node:fs');
   const path=require('node:path');
   const leggi=nome=>fs.readFileSync(path.join(__dirname,nome),'utf8');
-  const pagina=leggi('ccnl-livello.html');
+  const pagina=leggi('ccnl-livello.html')+leggi('ccnl-livello-ui.js');
 
   test('non c’è nessun campo RAL: la RAL è ciò che esce, non ciò che si chiede',()=>{
     assert.doesNotMatch(pagina,/<input[^>]+(?:id|name)="ral"/i);
@@ -553,7 +553,7 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
   test('carica gli script accanto e nessuna dipendenza esterna',()=>{
     for(const file of ['dati-addizionali-2026.js','geografia.js','motore.js',
       'retribuzione-ccnl.js','site-nav.js'])
-      assert.match(pagina,new RegExp(`<script src="${file.replace(/\./g,'\\.')}"></script>`),file);
+      assert.match(pagina,new RegExp(`<script src="${file.replace(/\./g,'\\.')}"[^>]*></script>`),file);
     assert.doesNotMatch(pagina,/<script[^>]+src="https?:/);
     assert.doesNotMatch(pagina,/localStorage|sessionStorage/);
     assert.doesNotMatch(pagina,/type="module"/);
