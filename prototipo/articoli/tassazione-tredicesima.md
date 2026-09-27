@@ -6,6 +6,7 @@ description: "Tassazione della tredicesima: su 30.000 € di RAL restano 1.613,6
 query_principale: "tassazione tredicesima"
 cluster: "tredicesima"
 data_pubblicazione: 2026-09-26
+data_aggiornamento: 2026-09-27
 cta: "/"
 link_interni: ["/calcolo-tredicesima/", "/blog/tredicesima-detassata/", "/ral-30000-netto/", "/blog/come-leggere-busta-paga/", "/confronti-ral/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
@@ -52,7 +53,7 @@ Detto in numeri: gli scaglioni annui si dividono per dodici. Fino a 2.333,33 €
 
 Il divario fra un mese ordinario e la tredicesima tocca il massimo a 25.000 € di RAL, con 282,91 €, e da lì scende fino a 28,00 € a 60.000 €. Non cresce con lo stipendio: **si restringe**, perché le detrazioni che mancano si assottigliano man mano che il reddito sale.
 
-| RAL | Netto di un mese ordinario | Netto della tredicesima | Divario |
+| RAL | Netto di un mese ordinario | Netto della tredicesima prima del conguaglio | Divario |
 | --- | --- | --- | --- |
 | 20.000 € | 1.377,02 € | 1.142,81 € | 234,21 € |
 | 25.000 € | 1.627,60 € | 1.344,69 € | 282,91 € |
@@ -66,7 +67,7 @@ Ipotesi: 13 mensilità, dodici mesi lavorati, Milano, nessun familiare a carico,
 
 Il picco a 25.000 € non è un errore: lì la detrazione da lavoro dipendente è ancora alta e l'ulteriore detrazione da 1.000 € è piena, quindi il dodicesimo che manca è il più grosso di tutta la tabella.
 
-La riga da guardare è l'ultima, ed è quella che smonta la premessa. A 60.000 € di RAL la tredicesima netta è 3.011,00 € contro i 3.039,00 € di un mese ordinario: ventotto euro di differenza. A quel livello le detrazioni da lavoro dipendente sono esaurite, non c'è più niente da perdere, e i 28 € residui non sono nemmeno IRPEF — sono l'1% di contributo aggiuntivo di cui parlo più sotto. **Dove non ci sono detrazioni, la tredicesima non è tassata di più.** La colpa non è mai stata dell'aliquota.
+La riga da guardare è l'ultima, ed è quella che smonta la premessa. A 60.000 € di RAL la tredicesima netta è 3.011,00 € contro i 3.039,00 € di un mese ordinario: ventotto euro di differenza. A quel livello le detrazioni da lavoro dipendente sono esaurite, non c'è più niente da perdere, e i 28 € residui sono l’effetto netto dell’IVS aggiuntivo: 45,46 € di contributi in più, attenuati da 17,46 € di IRPEF in meno. **Dove non ci sono detrazioni, la tredicesima non è tassata di più.** La colpa non è mai stata dell'aliquota.
 
 Le altre cifre per importo, mese per mese, stanno nei [confronti per RAL](/confronti-ral/) da 20.000 a 100.000 €.
 
@@ -80,11 +81,24 @@ Su 30.000 € di RAL a Milano parliamo di 377,94 € di addizionale regionale e 
 
 ## Cos'è quell'1% in più che compare a dicembre?
 
-È il contributo aggiuntivo IVS, e scatta quando stipendio e tredicesima insieme superano 4.685 € nello stesso mese. Sotto i 35.000 € di RAL non lo vedi. Sopra, compare come una riga contributiva in più sul solo cedolino di dicembre.
+È il contributo aggiuntivo IVS, e scatta quando stipendio e tredicesima insieme superano 4.685 € nello stesso mese. Con 13 mensilità uguali e anno intero, la soglia viene superata oltre 30.452,50 € di RAL. Il calcolatore attribuisce alla tredicesima solo l’eccedenza aggiuntiva rispetto allo stipendio ordinario: se questo supera già la soglia mensile, la relativa quota IVS resta sul mese ordinario.
 
 La soglia mensile è fissata dalla circolare INPS 6/2026 e corrisponde alla prima fascia di retribuzione pensionabile annua, 56.224 €. A dicembre la tredicesima si somma allo stipendio e i due importi fanno un mese solo: su una RAL di 35.000 € il totale del mese è 5.384,62 €, l'eccedenza è 699,62 € e l'1% fa **7,00 €**. A 40.000 € di RAL sono 14,69 €, a 60.000 € sono 45,46 €.
 
 Qui c'è la parte che quasi nessuno scrive: se nell'anno resti sotto 56.224 € di imponibile, quell'1% ti viene restituito al conguaglio di fine anno. Chi ha una RAL di 35.000 € lo vede trattenuto nel cedolino di dicembre e se lo ritrova indietro nello stesso conguaglio. Chi sta davvero sopra la prima fascia, no.
+
+Il perimetro è il **netto della tredicesima prima del conguaglio**, con l’IVS aggiuntivo attribuito alla mensilità aggiuntiva. A 35.000 € di RAL, lo stipendio ordinario da solo è sotto 4.685 €: tutti i 7,00 € di IVS aggiuntivo del mese sono quindi attribuiti alla tredicesima.
+
+| Riga a RAL 35.000 € | Prima del conguaglio, IVS incluso | Confronto senza IVS aggiuntivo |
+| --- | --- | --- |
+| Tredicesima lorda | 2.692,31 € | 2.692,31 € |
+| Contributi INPS ordinari | −247,42 € | −247,42 € |
+| Contributo aggiuntivo IVS 1% trattenuto | −7,00 € | 0,00 € |
+| Imponibile IRPEF | 2.437,89 € | 2.444,89 € |
+| IRPEF di periodo | −571,17 € | −573,48 € |
+| Netto della tredicesima | 1.866,72 € | 1.871,41 € |
+
+Lo scarto è **4,69 €**: 7,00 € di contributi aggiuntivi meno 2,31 € di IRPEF risparmiata perché quei contributi riducono l’imponibile. Con queste ipotesi, i **7,00 € di IVS sono restituiti al conguaglio**, perché la retribuzione annua resta sotto 56.224 €. La restituzione modifica anche l’imponibile fiscale. I 1.871,41 € sono il confronto con la sola ritenuta di periodo senza IVS aggiuntivo, **non il netto definitivo dopo il conguaglio IRPEF annuo**, che va ricalcolato sul reddito complessivo.
 
 ## La ritenuta di dicembre non è l'ultima parola
 
