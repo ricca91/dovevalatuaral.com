@@ -286,7 +286,7 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('cta-calcolatore').textContent=composta.ralCompleta
       ?'Apri il calcolatore completo':'Apri il calcolatore completo con questa base parziale';
     campo('cta-calcolatore').href=
-      `index.html?ral=${composta.ral}&m=${composta.mensilita}&c=${COMUNE}&calc=1`;
+      `/?ral=${composta.ral}&m=${composta.mensilita}&c=${COMUNE}&calc=1`;
     status.textContent='Calcolo completato.';
     box.hidden=false;
     /* Il risultato sta sotto il modulo e su mobile finisce fuori

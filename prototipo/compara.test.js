@@ -431,7 +431,7 @@ test('il ritorno al calcolatore usa il formato di URL della home, immutato',()=>
   const url=COMPARA.urlCalcolatore(offerta({comune:'H501',mensilitaRaw:'14',
     nucleo:[{tipo:'figlio',eta:22,disabilita:false,reddito:0}],welfareRaw:'600'}));
   const query=new URLSearchParams(url.split('?')[1]);
-  assert.equal(url.split('?')[0],'index.html');
+  assert.equal(url.split('?')[0],'/');
   assert.equal(query.get('ral'),'35.000');
   assert.equal(query.get('m'),'14');
   assert.equal(query.get('c'),'H501');

@@ -27,6 +27,16 @@
       ],
       "destination": "https://www.dovevalatuaral.com/:path*",
       "permanent": true
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:path((?!api(?:/|$)|risultato(?:/|$)|\\.well-known(?:/|$))(?:[^/]+/)*[^/.]+)",
+      "destination": "/:path/",
+      "permanent": true
     }
   ],
   "buildCommand": "npm run build"

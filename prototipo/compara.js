@@ -96,7 +96,7 @@ function offertaDaCalcolatore(stato){
 /* Il ritorno al calcolatore usa la query string della home: costi e tempo
    restano fuori perché la home non li conosce; il CCNL non è richiesto né
    dalla home né dal confronto. */
-function urlCalcolatore(offerta,base='index.html'){
+function urlCalcolatore(offerta,base='/'){
   const o={...offertaVuota(),...(offerta||{})};
   const p=new URLSearchParams();
   p.set('ral',String(o.ralRaw||''));

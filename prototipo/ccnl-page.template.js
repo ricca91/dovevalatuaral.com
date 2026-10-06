@@ -44,7 +44,7 @@ function layout({rotta,title,description,briciole,body,jsonLd=true}){
   }).replace(/</g,'\\u003c')}</script>`:'';
   const nav=briciole.map((b,i)=>i===briciole.length-1
     ?`<span aria-current="page">${esc(b.nome)}</span>`
-    :`<a href="${b.rotta==='/'?`${r}index.html`:verso(rotta,b.rotta)}">${esc(b.nome)}</a><span class="breadcrumb__sep" aria-hidden="true">›</span>`).join('');
+    :`<a href="${b.rotta==='/'?'/':verso(rotta,b.rotta)}">${esc(b.nome)}</a><span class="breadcrumb__sep" aria-hidden="true">›</span>`).join('');
   return `<!doctype html>
 <html lang="it">
 <head>
@@ -66,9 +66,9 @@ function layout({rotta,title,description,briciole,body,jsonLd=true}){
 <body>
 <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 <header class="site-header"><div class="site-header__in">
-  <a class="site-brand" href="${r}index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <a class="site-brand" href="/" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
-  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="${r}index.html">RAL → Netto</a><a href="${r}netto-ral.html">Netto → RAL</a><a href="${r}ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="${r}compara.html">Due offerte</a><a href="${r}confronti-ral/">Livelli di RAL</a><a href="${r}minimi-ccnl/"${rotta==='/minimi-ccnl/'?' aria-current="page"':''}>Minimi CCNL</a></div></div><a href="${r}netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="${r}la-storia.html">La storia</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="/">RAL → Netto</a><a href="${r}netto-ral.html">Netto → RAL</a><a href="${r}ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="${r}compara.html">Due offerte</a><a href="${r}confronti-ral/">Livelli di RAL</a><a href="${r}minimi-ccnl/"${rotta==='/minimi-ccnl/'?' aria-current="page"':''}>Minimi CCNL</a></div></div><a href="${r}netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="${r}la-storia.html">La storia</a></nav>
 </div></header>
 <nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in">${nav}</div></nav>
 <main id="contenuto" class="ral-main ccnl-main"><div class="shell">

@@ -30,6 +30,16 @@ function readPublic(name) {
   return readFileSync(resolve(publicDir, name), 'utf8');
 }
 
+test('i link interni pubblicati usano URL canoniche senza index.html', () => {
+  const { readdirSync } = require('node:fs');
+  for (const file of readdirSync(publicDir, { recursive: true }).filter(name => name.endsWith('.html'))) {
+    for (const [, href] of readPublic(file).matchAll(/href=["']([^"']+)["']/g)) {
+      const url = new URL(href, `${canonicalOrigin}/${file.replace(/index\.html$/, '')}`);
+      if (url.origin === canonicalOrigin) assert.ok(!url.pathname.endsWith('/index.html'), `${file}: ${href}`);
+    }
+  }
+});
+
 function oneMatch(html, expression, label) {
   const matches = [...html.matchAll(expression)];
   assert.equal(matches.length, 1, `${label} deve comparire una volta`);
@@ -107,7 +117,7 @@ test('Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco',
 test('Vercel reindirizza permanentemente il dominio legacy preservando la path', () => {
   const config = JSON.parse(readFileSync(resolve(root, 'vercel.json'), 'utf8'));
   assert.equal(config.outputDirectory, 'dist');
-  assert.deepEqual(config.redirects, [{
+  assert.deepEqual(config.redirects.filter(rule => rule.has), [{
     source: '/:path*',
     has: [{ type: 'host', value: 'jethr.riccsartori.com' }],
     destination: 'https://www.dovevalatuaral.com/:path*',

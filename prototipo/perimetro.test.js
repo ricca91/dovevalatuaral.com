@@ -51,7 +51,7 @@ for(const [file,id] of PERIMETRO){
   });
 
   test(`${file} · il perimetro rimanda ai limiti del calcolatore`,()=>{
-    assert.match(sezione(leggi(file),id,file),/href="index\.html\?[^"]*calc=1/,
+    assert.match(sezione(leggi(file),id,file),/href="\/\?[^"]*calc=1/,
       `${file}: manca il rimando al calcolatore`);
   });
 }

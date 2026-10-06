@@ -65,7 +65,7 @@
     return blocco();
   }
 
-  function urlCalcolatore(ral,base='index.html'){
+  function urlCalcolatore(ral,base='/'){
     const p=new URLSearchParams({ral:String(ral),m:String(MENSILITA),c:COMUNE,calc:'1'});
     return `${base}?${p}`;
   }

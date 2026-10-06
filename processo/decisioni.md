@@ -372,6 +372,28 @@ titolo e scomposizione: per un contratto parziale il generatore si ferma invece 
 Il giorno in cui una fonte firmata quantifica il premio, diventa una quota con la sua base, e
 la lista si svuota.
 
+## Slash finale senza redirigere le API (RIC-91)
+
+Il 6 ottobre 2026 la preview con `trailingSlash: true` ha restituito 308 anche
+su `/api/risultato?v=non-v1-2026-01&s=123456789&t=12`, verso `/api/risultato/`.
+Questo contraddice il requisito del ticket di mantenere le API senza redirect.
+Usiamo quindi una regola 308 esplicita per i percorsi senza estensione e senza
+slash finale, escludendo `/api`, `/risultato` e `/.well-known`. Le URL dei risultati
+condivisi conservano così la forma già pubblicata. `/index.html` ha un redirect
+308 separato verso `/`; Vercel mantiene la query string. I link della navigazione
+e dei calcolatori puntano direttamente a `/`, anche nei template generatori.
+
+Verificato sulla [preview RIC-91](https://dovevalatuaral-emhl4hixa-riccardosartori-outlookcoms-projects.vercel.app):
+nove casi di redirect con destinazione 200, query completa `ral`, `m`, `c`, `calc`
+conservata, pagine `.html`, asset, entrambe le API e rewrite dei risultati a 200
+senza redirect. Verificati anche il corpo HTML e la firma PNG delle API.
+La verifica è ripetibile con `node processo/attrezzi/verifica-redirect.cjs URL`.
+Suite completa: 499 test passati; build passata. Nessun deploy in produzione.
+
+Il fingerprint di `compara.js` nel manifest del gioco è aggiornato solo per il
+cambio della destinazione predefinita del link (`index.html` → `/`). Vettori,
+sequenze, formule e versione `non-v1-2026-01` restano invariati e i test passano.
+
 ## Dove finisce il registro
 
 Nel codice, in tre pull request:
