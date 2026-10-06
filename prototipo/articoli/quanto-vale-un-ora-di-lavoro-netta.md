@@ -6,15 +6,16 @@ description: "Il calcolo della RAL da busta paga in due passaggi: su 26.000 € 
 query_principale: "calcolo ral da busta paga"
 cluster: "strumenti"
 data_pubblicazione: 2026-10-02
+data_aggiornamento: 2026-10-06
 cta: "/"
-link_interni: ["/blog/come-leggere-busta-paga/", "/blog/detassazione-straordinari/", "/ral-30000-netto/", "/netto-ral.html", "/come-ho-lavorato.html"]
+link_interni: ["/blog/come-leggere-busta-paga/", "/blog/detassazione-straordinari/", "/blog/tredicesima-mensilita-quanto-arriva/", "/ral-30000-netto/", "/netto-ral.html", "/come-ho-lavorato.html"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, divisore orario 173"
 fonti_verificate: 2026-10-02
 stato: pubblicato
 ---
-Il **calcolo della RAL da busta paga** richiede due passaggi. Il primo problema è che nel cedolino la riga «RAL» non esiste: va ricostruita. Su un lordo di 2.000,00 € al mese per 13 mensilità la RAL è 26.000,00 € e il netto annuo è **20.982,47 €**. Da quel numero il valore di un'ora si spacca in tre cifre, e sono tutte vere. La paga oraria lorda del contratto è **11,56 €**. Un'ora retribuita ti lascia in tasca **10,11 € netti**. L'ora che fai in più ne lascia **6,87 €**.
+Il **calcolo della RAL da busta paga** richiede due passaggi. Il primo problema è che nel cedolino la riga «RAL» non esiste: va ricostruita. Su un lordo di 2.000,00 € al mese per 13 mensilità la RAL è 26.000,00 € e il netto annuo è **20.982,47 €**. Da lì il valore di un'ora si spacca in più cifre, tutte vere, che non vanno mescolate. Su base annua un'ora retribuita vale **12,52 € lordi** e ti lascia in tasca **10,11 € netti**, l'80,7%. La paga base oraria del contratto, **11,56 €**, è più bassa perché non contiene la tredicesima. L'ora che fai in più, pagata alla paga base, ne lascia **6,87 €**.
 
-> **In breve**: il calcolo della RAL da busta paga si fa in due modi, il progressivo dell'imponibile previdenziale di dicembre o il lordo mensile fisso per le mensilità. Su 26.000 € di RAL il netto annuo è 20.982,47 €, cioè 10,11 € netti per ciascuna delle 2.076 ore retribuite. L'ora in più ne vale 6,87 €: è tassata all'aliquota marginale, non a quella media.
+> **In breve**: il calcolo della RAL da busta paga si fa in due modi, il progressivo dell'imponibile previdenziale di dicembre o il lordo mensile fisso per le mensilità. Su 26.000 € di RAL il netto annuo è 20.982,47 €, cioè 10,11 € netti su 12,52 € lordi per ciascuna delle 2.076 ore retribuite. L'ora in più ne vale 6,87 €: è tassata all'aliquota marginale, non a quella media.
 
 Le ipotesi sono queste e contano: dipendente privato, residenza a Milano, nessun familiare a carico, anno intero, aliquota contributiva FPLD ordinaria, regole 2026, 13 mensilità, divisore orario 173. Il divisore e le mensilità li fissa il tuo CCNL, non la legge. Gli importi escono dal motore di calcolo del sito, rigenerati oggi.
 
@@ -38,35 +39,42 @@ Calcolare la busta paga partendo dalla RAL è il percorso opposto, quello del ca
 
 ## Quanto vale al netto un'ora del tuo lavoro?
 
-Al netto, un'ora del tuo lavoro non vale un numero solo: ne vale tre. Misurano cose diverse e confonderli è il modo più rapido per prendere una decisione sbagliata su un'offerta.
+Al netto, su 26.000 € di RAL un'ora retribuita vale in media 10,11 € e l'ora in più 6,87 €. Per leggere questi due numeri servono anche due cifre lorde, e confondere le quattro è il modo più rapido per prendere una decisione sbagliata su un'offerta.
 
 | Numero | Come si ottiene | Su 26.000 € di RAL | A cosa serve |
 | --- | --- | --- | --- |
-| Paga oraria lorda | lordo mensile diviso il divisore del CCNL | 11,56 € | È la base su cui il tuo contratto calcola straordinari e assenze |
+| Paga base oraria | lordo mensile diviso il divisore del CCNL | 11,56 € | È la base su cui il tuo contratto calcola straordinari e assenze. Non contiene la tredicesima |
+| Lordo annuo per ora retribuita | RAL divisa le ore retribuite | 12,52 € | È il lordo da mettere accanto al netto orario: stessa base annua, stesse ore |
 | Valore netto di un'ora retribuita | netto annuo diviso le ore retribuite | 10,11 € | Dice quanto ti lascia in tasca, in media, ogni ora del contratto |
-| Valore netto dell'ora in più | il netto che si aggiunge lavorando un'ora oltre | 6,87 € | È l'unico numero utile per decidere se quell'ora ti conviene |
+| Valore netto dell'ora in più | il netto che si aggiunge lavorando un'ora oltre, pagata alla paga base | 6,87 € | È l'unico numero utile per decidere se quell'ora ti conviene |
 
 Le ore retribuite in un anno sono 2.076, cioè 173 × 12. Il 173 è il divisore convenzionale che i CCNL usano per un orario di 40 ore settimanali; l'[art. 3 del D.Lgs. 66/2003](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art3) fissa l'orario normale a 40 ore settimanali e lascia ai contratti collettivi la possibilità di stabilire una durata minore. Il tuo divisore sta nel tuo contratto, ed è un'ipotesi dichiarata, non un dato di legge.
 
-Qui c'è una cosa che sorprende. Le 2.076 ore valorizzate alla paga oraria lorda fanno **2.076 × 11,56 = 24.000,00 €**, cioè dodici mensilità, non tredici. La tredicesima è denaro che arriva senza ore in cambio. Per questo l'ora netta è l'87,4% dell'ora lorda, mentre il netto sulla RAL è l'80,7%: la differenza è tutta la mensilità aggiuntiva, spalmata sulle stesse ore. Se confronti due offerte con un numero diverso di mensilità, confrontare le paghe orarie lorde non ti dice niente di utile.
+Qui c'è una cosa che sorprende. Le 2.076 ore valorizzate alla paga base fanno **2.076 × 11,56 = 24.000,00 €**, cioè dodici mensilità, non tredici. Manca la tredicesima, che però non è un extra: è una quota della retribuzione annua, che maturi un dodicesimo per ogni mese di servizio e ricevi a dicembre in un pagamento separato. Il CCNL del Terziario Confcommercio, che di mensilità ne prevede quattordici, lo mette per iscritto in una nota a verbale: la retribuzione è determinata «su base annua» e la suddivisione in mensilità «incide esclusivamente sulle modalità di pagamento». Come si calcola la tua sta in [quanto ti arriverà di tredicesima](/blog/tredicesima-mensilita-quanto-arriva/).
+
+Per questo il netto orario va messo accanto al lordo annuo per ora, non alla paga base. Sulle stesse 2.076 ore il lordo vale **12,52 €** e il netto 10,11 €: resta l'**80,7%**, lo stesso rapporto fra netto annuo e RAL. Accostare i 10,11 € netti agli 11,56 € della paga base darebbe un 87% che non esiste, perché dividerebbe il netto di tredici mensilità per il lordo di dodici.
+
+Lo stesso errore si ripete quando confronti offerte con un numero diverso di mensilità. Un'offerta da 2.000 € al mese per 13 mensilità ha una paga base di 11,56 €; una da 1.900 € al mese per 14 mensilità, con lo stesso orario, ne ha una di **10,98 €**, più bassa. Ma la seconda vale 26.600 € di RAL: sulle stesse 2.076 ore sono **12,81 € lordi e 10,28 € netti**, contro 12,52 € e 10,11 €. Né la paga base oraria né il lordo mensile ti dicono quale offerta paga di più. Te lo dicono la RAL e il netto annuo, divisi per le stesse ore.
 
 ## Perché l'ora in più rende meno dell'ora media?
 
-Perché l'ora in più si somma all'ultimo euro del tuo reddito, non alla media. Il prelievo che la colpisce è quello marginale, e sulla fascia di RAL fra 32.000 e 40.000 € arriva al **60,7%**. Il risultato è un fatto che nessun calcolatore di busta paga mostra. A 36.000 € di RAL l'ora lorda vale 16,01 €, il 38% in più che a 26.000 €. Ma l'ora in più ti lascia **6,29 €** contro 6,87 €. Meno, in euro.
+Perché l'ora in più si somma all'ultimo euro del tuo reddito, non alla media. Il prelievo che la colpisce è quello marginale, e sulla fascia di RAL fra 32.000 e 40.000 € arriva al **60,7%**. C'è anche un motivo più piccolo: nel conto l'ora in più è pagata alla paga base, 11,56 € lordi, senza la quota di tredicesima che invece sta dentro i 12,52 € dell'ora media. Il prelievo marginale si misura su quegli 11,56 €.
 
-| RAL | Netto annuo | Netto di un'ora retribuita | Paga oraria lorda | Netto dell'ora in più | Prelievo marginale |
-| --- | --- | --- | --- | --- | --- |
-| 20.000 € | 17.432,53 € | 8,40 € | 8,89 € | 5,74 € | 35,5% |
-| 24.000 € | 19.967,83 € | 9,62 € | 10,67 € | 6,42 € | 39,8% |
-| 26.000 € | 20.982,47 € | 10,11 € | 11,56 € | 6,87 € | 40,6% |
-| 30.000 € | 23.425,49 € | 11,28 € | 13,34 € | 7,49 € | 43,8% |
-| 32.000 € | 24.512,01 € | 11,81 € | 14,23 € | 7,21 € | 49,3% |
-| 36.000 € | 26.452,39 € | 12,74 € | 16,01 € | 6,29 € | 60,7% |
-| 40.000 € | 27.960,18 € | 13,47 € | 17,79 € | 6,99 € | 60,7% |
-| 45.000 € | 30.034,15 € | 14,47 € | 20,01 € | 10,14 € | 49,3% |
-| 50.000 € | 32.567,65 € | 15,69 € | 22,23 € | 11,26 € | 49,3% |
+Il risultato è un fatto che nessun calcolatore di busta paga mostra. A 36.000 € di RAL la paga base oraria vale 16,01 €, il 38% in più che a 26.000 €. Ma l'ora in più ti lascia **6,29 €** contro 6,87 €. Meno, in euro.
 
-Ipotesi della tabella: le stesse dichiarate sopra, divisore 173, 2.076 ore retribuite, nessuna maggiorazione. La colonna dell'ora in più è la differenza di netto annuo che il motore calcola aggiungendo ore ordinarie alla retribuzione, divisa per le ore aggiunte.
+| RAL | Netto annuo | Lordo annuo per ora retribuita | Netto per ora retribuita | Paga base oraria | Netto dell'ora in più | Prelievo marginale |
+| --- | --- | --- | --- | --- | --- | --- |
+| 20.000 € | 17.432,53 € | 9,63 € | 8,40 € | 8,89 € | 5,74 € | 35,5% |
+| 24.000 € | 19.967,83 € | 11,56 € | 9,62 € | 10,67 € | 6,42 € | 39,8% |
+| 26.000 € | 20.982,47 € | 12,52 € | 10,11 € | 11,56 € | 6,87 € | 40,6% |
+| 30.000 € | 23.425,49 € | 14,45 € | 11,28 € | 13,34 € | 7,49 € | 43,8% |
+| 32.000 € | 24.512,01 € | 15,41 € | 11,81 € | 14,23 € | 7,21 € | 49,3% |
+| 36.000 € | 26.452,39 € | 17,34 € | 12,74 € | 16,01 € | 6,29 € | 60,7% |
+| 40.000 € | 27.960,18 € | 19,27 € | 13,47 € | 17,79 € | 6,99 € | 60,7% |
+| 45.000 € | 30.034,15 € | 21,68 € | 14,47 € | 20,01 € | 10,14 € | 49,3% |
+| 50.000 € | 32.567,65 € | 24,08 € | 15,69 € | 22,23 € | 11,26 € | 49,3% |
+
+Ipotesi della tabella: le stesse dichiarate sopra, divisore 173, 2.076 ore retribuite, nessuna maggiorazione. Le colonne vanno lette a coppie. Lordo e netto per ora retribuita sono RAL e netto annuo divisi per le stesse 2.076 ore. Paga base e netto dell'ora in più riguardano l'ora aggiunta: il netto è la differenza di netto annuo che il motore calcola aggiungendo 100 ore ordinarie pagate alla paga base, divisa per le ore aggiunte, e il prelievo marginale è la quota della paga base che non ti arriva.
 
 La causa non è una sola aliquota: sono sei componenti che si sommano. Quattro sono prelievi veri, due sono detrazioni che si ritirano mentre il reddito cresce.
 
@@ -87,7 +95,7 @@ L'ora di straordinario è un caso a parte, perché ha la maggiorazione del CCNL 
 
 ## Quanto vale un'ora a part time?
 
-Più che a tempo pieno, a parità di paga oraria lorda. Prendi una RAL di 13.000 € su 20 ore settimanali, divisore 86,5 e 1.038 ore retribuite. La paga oraria lorda è **11,56 €**, identica a quella del tempo pieno da 26.000 €. Il netto annuo è 12.725,55 €, cioè **12,26 € per ora retribuita** contro 10,11 €. Stessa ora, stesso lordo, 2,15 € netti in più.
+Più che a tempo pieno, a parità di paga base oraria. Prendi una RAL di 13.000 € su 20 ore settimanali, divisore 86,5 e 1.038 ore retribuite. La paga base oraria è **11,56 €**, identica a quella del tempo pieno da 26.000 €, e su base annua l'ora vale **12,52 € lordi** in entrambi i casi. Il netto annuo è 12.725,55 €, cioè **12,26 € per ora retribuita**: il 97,9% del lordo, contro i 10,11 € e l'80,7% del tempo pieno. Stessa ora, stesso lordo, 2,15 € netti in più.
 
 Il motivo sta tutto nel reddito complessivo, non nelle ore. Sotto i 20.000 € scatta la somma non imponibile della L. 207/2024, le detrazioni restano alte e l'addizionale comunale di Milano non è dovuta per esenzione. La progressività non guarda quante ore hai lavorato: guarda il totale.
 
@@ -124,7 +132,7 @@ La RAL mensile non esiste come grandezza del contratto: la RAL è annua per defi
 
 ### Come si calcola la RAL da una paga oraria?
 
-Moltiplica la paga oraria lorda per il divisore del tuo CCNL, poi per le mensilità. Con 11,56 × 173 × 13 vengono 25.998,04 €, cioè 26.000 € a meno dell'arrotondamento della paga oraria. Il calcolo della RAL da paga oraria vale solo se la cifra che usi è quella della parte fissa: se dentro ci sono maggiorazioni, la RAL esce gonfiata.
+Moltiplica la paga base oraria per il divisore del tuo CCNL, poi per le mensilità. Con 11,56 × 173 × 13 vengono 25.998,04 €, cioè 26.000 € a meno dell'arrotondamento della paga oraria. Il calcolo della RAL da paga oraria vale solo se la cifra che usi è quella della parte fissa: se dentro ci sono maggiorazioni, la RAL esce gonfiata. E non partire dal lordo annuo per ora, i 12,52 €: contiene già la tredicesima, e moltiplicarlo per le mensilità la conterebbe due volte.
 
 ### Il calcolo della RAL da busta paga dice quanto costo all'azienda?
 
@@ -146,6 +154,7 @@ Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore di 
 
 - L. 5 gennaio 1953, n. 4, art. 1 — obbligo del prospetto di paga con «tutti gli altri elementi che, comunque, compongono detta retribuzione, nonché, distintamente, le singole trattenute» e il codice alfanumerico del CCNL applicato; testo in vigore dal 28 giugno 2026 ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1953-01-05;4)) · verificata il 2 ottobre 2026
 - L. 30 aprile 1969, n. 153, art. 12, nel testo in vigore dal 1° gennaio 1998 sostituito dall'art. 6 del D.Lgs. 314/1997 — «Costituiscono redditi di lavoro dipendente ai fini contributivi quelli di cui all'articolo 46, comma 1» del TUIR, oggi art. 49 dopo la renumerazione: è l'armonizzazione fra base contributiva e base fiscale, con le eccezioni tassative dei commi successivi ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1969-04-30;153~art12)) · verificata il 2 ottobre 2026
+- CCNL Terziario Confcommercio, testo 1995-1998 pubblicato da Filcams CGIL, artt. 128-129 e nota a verbale — tredicesima e quattordicesima spettano in tanti dodicesimi «quanti sono i mesi interi di servizio prestato»; le parti si danno atto che la retribuzione «è stata concordemente determinata su base annua» e che la suddivisione in 14 mensilità «incide esclusivamente sulle modalità di pagamento». Le stesse clausole sono negli artt. 220-221 del testo rinnovato il 22 marzo 2024 ([Filcams CGIL](https://www.filcams.cgil.it/article/confcommercio_terziario/tds_confcommercio_ccnl_01_01_1995_-_31_12_1998_testo_ufficiale_)) · verificata il 6 ottobre 2026
 - D.Lgs. 8 aprile 2003, n. 66, art. 3 — «L'orario normale di lavoro è fissato in 40 ore settimanali»; i contratti collettivi possono stabilire una durata minore ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art3)) · verificata il 2 ottobre 2026
 - D.Lgs. 8 aprile 2003, n. 66, art. 5 c. 5 — «il lavoro straordinario deve essere computato a parte e compensato con le maggiorazioni retributive previste dai contratti collettivi di lavoro» ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art5)) · verificata il 2 ottobre 2026
 - L. 30 dicembre 2025, n. 199, art. 1 c. 3 — scaglioni IRPEF 2026 al 23, 33 e 43% ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · verificata il 2 ottobre 2026
