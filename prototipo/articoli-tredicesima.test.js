@@ -35,3 +35,27 @@ test('le tabelle editoriali della tredicesima coincidono con il calcolatore prim
     assert.equal(risparmio,azzeramento-Math.round(irpef.base*15));
   }
 });
+
+test('la tredicesima per mesi lavorati distingue la ritenuta di dicembre dal beneficio annuo del cuneo',()=>{
+  const {calcola}=require('./motore');
+  const text=read('tredicesima-mensilita-quanto-arriva');
+  const mesi=text.split('\n').filter(l=>/^\| \d+ \| [\d.,]+ € \|/.test(l)).map(l=>l.split('|').slice(1,-1).map(s=>s.trim()));
+  assert.equal(mesi.length,7);
+  for(const [m,lorda,netta] of mesi){
+    const result=calcolaDaRal({ral:30000,mesi:Number(m)});
+    assert.equal(cents(lorda),Math.round(result.lorda*100),`${m} mesi`);
+    assert.equal(cents(netta),Math.round(result.netta*100),`${m} mesi`);
+  }
+  /* Sopra 20.000 € il cuneo cambia forma, non sparisce (L. 207/2024 c. 6-7). */
+  assert.doesNotMatch(text,/soglia secca|sparisce per intero|il bonus non c'è/);
+  assert.match(text,/Netto della tredicesima prima del conguaglio/);
+  assert.match(text,/ulteriore detrazione/);
+  assert.match(text,/rapportat[ai] al periodo di lavoro/);
+  /* Gli esempi annui: otto mesi su 30.000 € sono l'imponibile di una RAL di 20.000, nove di 22.500. */
+  const voce=(ral,id)=>calcola(ral).voci.find(v=>v.id===id);
+  assert.equal(calcola(20000).imponibile,18162);
+  assert.ok(text.includes(`${voce(20000,'somma').importo.toFixed(2).replace('.',',')} €`));
+  assert.equal(calcola(22500).imponibile,20432.25);
+  assert.equal(voce(22500,'somma'),undefined);
+  assert.equal(voce(22500,'detrult').importo,1000);
+});

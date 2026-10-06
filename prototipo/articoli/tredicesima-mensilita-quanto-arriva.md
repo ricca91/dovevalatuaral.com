@@ -6,6 +6,7 @@ description: "Tredicesima mensilità: su 30.000 € di RAL arrivano 1.613,62 €
 query_principale: "tredicesima mensilità"
 cluster: "tredicesima"
 data_pubblicazione: 2026-10-05
+data_aggiornamento: 2026-10-06
 cta: "/"
 link_interni: ["/calcolo-tredicesima/", "/blog/tassazione-tredicesima/", "/ral-30000-netto/", "/netto-ral.html", "/confronti-ral/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, FPLD ordinario, 13 mensilità salvo dove indicato, regole 2026"
@@ -24,7 +25,7 @@ Si divide la tredicesima mensilità in dodici parti e te ne spettano tante quant
 
 Ecco cosa arriva davvero, mese per mese, su quella RAL.
 
-| Mesi lavorati | Tredicesima lorda | Netto che incassi |
+| Mesi lavorati | Tredicesima lorda | Netto della tredicesima prima del conguaglio |
 | --- | --- | --- |
 | 1 | 192,31 € | 142,85 € |
 | 3 | 576,92 € | 428,55 € |
@@ -34,21 +35,25 @@ Ecco cosa arriva davvero, mese per mese, su quella RAL.
 | 10 | 1.923,08 € | 1.344,69 € |
 | 12 | 2.307,69 € | 1.613,62 € |
 
-Ipotesi: RAL 30.000 €, 13 mensilità, dipendente privato, Milano, nessun familiare a carico, FPLD ordinario. Il netto è quello della ritenuta di dicembre, prima del conguaglio di fine anno. Il [caso completo dei 30.000 €](/ral-30000-netto/) è in pagina con tutte le voci dell'anno.
+Ipotesi: RAL 30.000 €, 13 mensilità, dipendente privato, Milano, nessun familiare a carico, FPLD ordinario. Il netto è quello della ritenuta di dicembre, prima del conguaglio di fine anno: dice quanto arriva con la tredicesima, non quanto vale nell'anno il taglio del cuneo fiscale, che passa anche dalle buste paga ordinarie. Il [caso completo dei 30.000 €](/ral-30000-netto/) è in pagina con tutte le voci dell'anno.
 
 Il lordo è una proporzione pulita: tre mesi fanno esattamente un quarto, sei mesi la metà. **Il netto no**, e la riga del nono mese lo mostra.
 
 ## Perché il nono mese lavorato ne porta meno del primo?
 
-Perché a quel punto il tuo reddito dell'anno supera i 20.000 € e perdi la somma esente del cuneo fiscale. Fino all'ottavo mese ogni rateo ti porta 142,85 € netti. Il nono te ne porta **67,41 €**: meno della metà.
+Perché a quel punto il tuo reddito dell'anno supera i 20.000 € e il taglio del cuneo fiscale cambia forma: la somma esente lascia il posto a una detrazione, e nella tredicesima le detrazioni non entrano. Fino all'ottavo mese ogni rateo ti porta 142,85 € netti. Il nono te ne porta **67,41 €**: meno della metà.
 
-Il motivo è una soglia secca, non una progressività. La somma non imponibile prevista dalla L. 207/2024 spetta a chi nell'anno sta entro 20.000 € di reddito.
+La L. 207/2024 divide il taglio del cuneo in due strumenti. Fino a 20.000 € di reddito spetta una somma non imponibile, una percentuale del reddito di lavoro dipendente che il datore paga su ogni mensilità, tredicesima compresa. Sopra i 20.000 € la somma cessa, ma il beneficio non scompare: fino a 32.000 € spetta un'ulteriore detrazione di 1.000 €, rapportata al periodo di lavoro, che fra 32.000 e 40.000 € decresce fino ad azzerarsi.
 
-Con una RAL di 30.000 € e otto mesi lavorati l'imponibile dell'anno è 18.162,00 €: il bonus c'è, e sulla tredicesima vale 67,06 €. Al nono mese l'imponibile diventa 20.432,25 € e il bonus sparisce per intero. Resta solo quello che la tredicesima guadagna per conto suo: 67,41 €.
+Con una RAL di 30.000 € e otto mesi lavorati l'imponibile dell'anno è 18.162,00 €: la somma esente c'è, e sulla tredicesima vale 67,06 €. Al nono mese l'imponibile diventa 20.432,25 € e la somma esce dalla tredicesima. Il nono rateo porta 134,47 € netti, ma la tredicesima perde i 67,06 € di somma esente che aveva: il saldo è 67,41 €.
 
-Il nono mese è l'unico che si comporta così. Dal decimo in poi ogni rateo aggiunge circa 134,47 € netti, e il conto torna lineare. Vale anche al contrario: se hai lavorato pochi mesi, la tua tredicesima è proporzionalmente più generosa di quella di un collega a tempo pieno.
+Al posto della somma arriva l'ulteriore detrazione, che però opera sull'IRPEF dell'anno: il datore la riconosce sulle retribuzioni ordinarie e ne verifica la spettanza al conguaglio. Sulla tredicesima, che si tassa senza detrazioni, non si vede.
 
-Dentro questo numero c'è un'ipotesi: il calcolatore stima il tuo reddito annuo come RAL per mesi lavorati, diviso dodici. Se nei mesi restanti hai avuto un altro lavoro, la soglia dei 20.000 € si misura sul totale e il bonus può non spettarti.
+Sull'anno il conto è un altro. Con otto mesi la somma esente vale in tutto 871,78 €, il 4,8% di 18.162,00 €. Con nove mesi la somma non spetta più, ma spetta l'ulteriore detrazione: 1.000 € rapportati a nove mesi di lavoro, circa 750 €. Il taglio del cuneo dell'anno scende di circa 120 €, non si azzera, e il nono mese ti porta comunque uno stipendio in più.
+
+Sulla tredicesima il nono mese è l'unico che si comporta così. Dal decimo in poi ogni rateo aggiunge gli stessi 134,47 € netti circa, e il conto torna lineare. Vale anche al contrario: se hai lavorato pochi mesi, la tua tredicesima è proporzionalmente più generosa di quella di un collega a tempo pieno.
+
+Dentro questo numero c'è un'ipotesi: il calcolatore stima il tuo reddito annuo come RAL per mesi lavorati, diviso dodici. Se nei mesi restanti hai avuto un altro lavoro, la soglia dei 20.000 € si misura sul totale: la somma esente può non spettarti, e al suo posto può spettarti l'ulteriore detrazione.
 
 ## Quanto è la tredicesima di 1.200, 1.500 o 1.800 euro al mese?
 
@@ -60,7 +65,7 @@ Se parti dal lordo mensile, la tredicesima lorda è identica a quella cifra, e i
 | 1.500 € | −137,85 € | −313,29 € | +65,38 € | 1.114,24 € |
 | 1.800 € | −165,42 € | −375,95 € | — | 1.258,63 € |
 
-Ipotesi: dodici mesi lavorati, nessun familiare a carico, FPLD ordinario. Partendo dal lordo mensile il calcolatore stima il reddito annuo su 13 mensilità, e da quella stima dipende la somma esente del cuneo. A 1.800 € lordi l'imponibile stimato è 21.249,54 €, sopra la soglia dei 20.000 €: il bonus non c'è.
+Ipotesi: dodici mesi lavorati, nessun familiare a carico, FPLD ordinario. Partendo dal lordo mensile il calcolatore stima il reddito annuo su 13 mensilità, e da quella stima dipende la somma esente del cuneo. A 1.800 € lordi l'imponibile stimato è 21.249,54 €, sopra la soglia dei 20.000 €: sulla tredicesima la somma esente non c'è. Al suo posto spetta l'ulteriore detrazione di 1.000 € l'anno, che però non passa dalla tredicesima.
 
 E se i 1.500 € sono il tuo **netto** mensile, non il lordo? Allora la domanda va girata. Il [calcolo inverso dal netto alla RAL](/netto-ral.html) dice che per 1.500 € netti al mese su 13 mensilità serve una RAL di 23.300 €, che dà una media di 1.503,58 €.
 
@@ -102,7 +107,7 @@ Da qui due conseguenze pratiche. Un mese conta per intero solo se ci hai lavorat
 Il conto di questa pagina vale per un dipendente privato a tempo pieno, FPLD ordinario, residente a Milano, senza familiari a carico. Fuori da lì i numeri cambiano.
 
 - Gli importi sono la **ritenuta di dicembre**, non l'imposta definitiva. A fine anno il conguaglio ricalcola l'IRPEF sul reddito complessivo e sistema la differenza, in più o in meno.
-- La **somma esente del cuneo** dipende dal reddito dell'anno intero. Qui è stimata su una sola fonte di reddito: con due rapporti di lavoro nello stesso anno la soglia dei 20.000 € si misura sul totale.
+- Il **taglio del cuneo** dipende dal reddito dell'anno intero. Qui è stimato su una sola fonte di reddito: con due rapporti di lavoro nello stesso anno la soglia dei 20.000 € si misura sul totale. Sopra quella soglia il beneficio è l'ulteriore detrazione, che le tabelle non mostrano perché sulla tredicesima non si applica: la trovi nelle buste paga ordinarie e al conguaglio.
 - La **base di calcolo** è la retribuzione fissa. Se il tuo CCNL include o esclude voci particolari, il lordo cambia.
 - Gli **apprendisti** hanno un'aliquota contributiva diversa da quella del FPLD ordinario: il motore assume il 9,19% e quel caso non lo stimo.
 - Le **addizionali** regionale e comunale non si trattengono sulla tredicesima, ma sono dovute sul reddito annuo che la comprende. Sono fuori da tutte le tabelle.
@@ -119,6 +124,7 @@ Se il rapporto fra lordo e netto si discosta molto dalle tabelle qui sopra, potr
 - L. 30 dicembre 2025, n. 199, art. 1 c. 3 — sostituisce «35 per cento» con «33 per cento» nell'art. 11 c. 1 lett. b del TUIR: gli scaglioni 2026 sono 23 / 33 / 43% ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · verificata il 5 ottobre 2026
 - L. 30 dicembre 2024, n. 207, art. 1 c. 2 — soglie degli scaglioni IRPEF a 28.000 e 50.000 € ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)) · verificata il 26 settembre 2026
 - L. 30 dicembre 2024, n. 207, art. 1 c. 4-5, e Agenzia delle Entrate, circolare 4/2025 — la somma esente spetta fino a 20.000 € di reddito e si calcola sul reddito di lavoro dipendente corrisposto nel mese, tredicesima compresa ([Agenzia delle Entrate](https://www.agenziaentrate.gov.it/portale/documents/20143/8410823/Circolare+lavoro+dipendente+LB2025+DD+IRPEF+n.+4+del+16+maggio+2025.pdf/36979eaa-9fc5-a4ec-a7aa-136497c53f91)) · verificata il 26 settembre 2026
+- L. 30 dicembre 2024, n. 207, art. 1 c. 6-7 — sopra 20.000 € di reddito complessivo spetta un'ulteriore detrazione dall'imposta lorda, rapportata al periodo di lavoro: 1.000 € fino a 32.000 €, poi decrescente fino ad azzerarsi a 40.000 €. Il sostituto d'imposta riconosce somma e detrazione in automatico all'erogazione delle retribuzioni e ne verifica la spettanza al conguaglio ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)) · verificata il 6 ottobre 2026
 - INPS, circolare 101/2024 — aliquota IVS 9,19% a carico del lavoratore nel FPLD ordinario ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · verificata il 26 settembre 2026
 - INPS, circolare 6/2026 — prima fascia di retribuzione pensionabile 56.224 €, soglia mensile 4.685 € e contributo aggiuntivo IVS dell'1% sull'eccedenza ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.01.circolare-numero-6-del-30-01-2026_15151.html)) · verificata il 26 settembre 2026
 - TUIR, art. 51 c. 2 lett. a — i contributi previdenziali obbligatori non concorrono a formare il reddito di lavoro dipendente ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:presidente.repubblica:decreto:1986;917~art51)) · verificata il 26 settembre 2026
