@@ -118,6 +118,18 @@ test('i link al calcolatore portano contratto, sezione e livello che il dataset 
   assert.match(leggi('/minimi-ccnl/commercio/5-livello/'),/ccnl-livello\.html\?ccnl=terziario-confcommercio-h011&amp;livello=5"/);
 });
 
+/* RIC-111: la tabella della Logistica diceva che il passaggio di
+   parametro del rider non è automatico. Il CCNL (art. 6) lo fa
+   scattare dopo 6 mesi e, sui ciclomotori, dopo ulteriori 9. */
+test('la tabella della Logistica dice che il parametro del rider cresce con l’anzianità',()=>{
+  const pagina=testo(leggi('/minimi-ccnl/logistica/'));
+  assert.doesNotMatch(pagina,/non è automatico/);
+  assert.ok(pagina.includes('chi usa cicli passa dal 110 al 116 dopo 6 mesi'));
+  assert.ok(pagina.includes('al 119 dopo ulteriori 9 mesi'));
+  assert.ok(pagina.includes('Rider su cicli — I, parametro 110 (primi 6 mesi)'));
+  assert.ok(pagina.includes('Rider su ciclomotori e motocicli — L, parametro 119 (dopo 15 mesi)'));
+});
+
 test('le pagine per livello mostrano scatti, part-time e tranche futura solo dove il contratto li documenta',()=>{
   const commercio=testo(leggi('/minimi-ccnl/commercio/5-livello/'));
   assert.ok(commercio.includes('Ogni scatto vale 20,30 €'));

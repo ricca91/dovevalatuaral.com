@@ -520,6 +520,16 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
     assert.match(pagina,/id="nota-affidabilita"/);
   });
 
+  /* RIC-111: dove le righe si succedono per anzianità (i rider della
+     Logistica) la data sceglie la riga. La pagina mostra la riga
+     applicata, non quella scelta, riallinea il selettore e lo dice. */
+  test('la riga applicata per anzianità è quella mostrata, e la pagina lo dice',()=>{
+    assert.match(pagina,/R\.trovaLivello\(contratto\.id,composta\.livello,undefined,s\)/);
+    assert.match(pagina,/selLivello\.value=composta\.livello/);
+    assert.match(pagina,/composta\.progressione/);
+    assert.match(pagina,/livello\.progressione/);
+  });
+
   test('orario ridotto e scatti dichiarati stanno nelle opzioni avanzate',()=>{
     assert.match(pagina,/<details class="avanzate" id="avanzate">/);
     assert.match(pagina,/Opzioni avanzate — orario ridotto e scatti già maturati/);

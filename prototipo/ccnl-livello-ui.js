@@ -43,6 +43,11 @@ if(!CALCOLATORE_AVVIO.errore){
     }
   }
 
+  /* RIC-111: dove le righe si succedono con l'anzianità (i rider della
+     Logistica) la data sceglie la riga, e la pagina dice come. */
+  const descriviPassi=progressione=>progressione.passi.map(p=>p.dopoMesi
+    ?`${p.nome} dopo ${p.dopoMesi} mesi`:`${p.nome} all’inizio`).join(', ');
+
   function popolaLivelli(){
     const contratto=R.trovaContratto(selCcnl.value);
     const s=sezione();
@@ -92,7 +97,8 @@ if(!CALCOLATORE_AVVIO.errore){
       :descriviScatti(regola);
     campo('anzianita-help').textContent=nonCalcolabili
       ?'Scatti non calcolabili per questo livello: la data non serve.'
-      :`Conta l’${regola.base}. Serve per far decorrere lo scatto dal momento giusto; lascia vuoto se non la sai.`;
+      :`Conta l’${regola.base}. Serve per far decorrere lo scatto dal momento giusto${livello.progressione
+        ?` e per applicare il parametro maturato (${descriviPassi(livello.progressione)})`:''}; lascia vuoto se non la sai.`;
   }
 
   const numero=(raw,{intero=false}={})=>{
@@ -186,7 +192,11 @@ if(!CALCOLATORE_AVVIO.errore){
       status.textContent='La RAL composta supera 1.000.000 €: il calcolatore non produce una stima oltre questo limite.';
       campo('superminimo').focus();return;
     }
-    const livello=R.trovaLivello(contratto.id,selLivello.value,undefined,s);
+    /* La riga mostrata è quella applicata: con la data di anzianità
+       può non essere quella scelta, e il selettore la segue. */
+    const livello=R.trovaLivello(contratto.id,composta.livello,undefined,s);
+    const richiesto=R.trovaLivello(contratto.id,composta.livelloRichiesto,undefined,s);
+    if(composta.livello!==selLivello.value)selLivello.value=composta.livello;
     const nomeSezione=s?R.sezioni(contratto.id).find(x=>x.id===s).nome:null;
     const profilo=composta.profilo?livello.profili.find(p=>p.id===composta.profilo):null;
     const risultato=applicaMensilita(
@@ -255,14 +265,22 @@ if(!CALCOLATORE_AVVIO.errore){
       (prossima?` La prossima tranche decorre dal ${data(prossima.decorrenza)}.`
         :' Nessuna tranche successiva è firmata.');
 
-    campo('avviso-scatti').innerHTML=
+    const passo=codice=>livello.progressione.passi.find(p=>p.codice===codice).nome;
+    const avvisoParametro=
+      composta.progressione&&composta.progressione.applicato!==composta.progressione.richiesto
+      ? `<div class="callout"><span class="callout__mark">Parametro</span><div>Con l’anzianità indicata il CCNL ti colloca al <strong>${passo(composta.livello)}</strong> dal ${data(composta.progressione.dal)} (${composta.progressione.articolo}): il calcolo usa questa riga invece del ${passo(composta.progressione.richiesto)} scelto.</div></div>`
+      : !composta.progressione&&richiesto.progressione
+      ? `<div class="callout"><span class="callout__mark">Parametro</span><div>Non hai indicato l’anzianità: il calcolo usa la riga scelta, <strong>${passo(composta.livello)}</strong>. Il CCNL fa crescere il parametro con i mesi di servizio (${descriviPassi(richiesto.progressione)}): indica la data per applicare quello maturato.</div></div>`
+      :'';
+
+    campo('avviso-scatti').innerHTML=avvisoParametro+(
       !composta.scattiDocumentati
       ? '<div class="callout"><span class="callout__mark">Nota</span><div>Il contratto non pubblica il valore dello scatto per questo livello: il calcolo considera <strong>zero scatti</strong>, e con qualche anno in azienda la cifra reale è più alta.</div></div>'
       : composta.scattiPrevisti&&composta.numeroScatti===0&&!composta.anzianitaDichiarata&&!composta.scattiOverride
       ? `<div class="callout"><span class="callout__mark">Nota</span><div>Non hai indicato l’anzianità: il calcolo considera <strong>zero ${regola.tipo==='quotaUnica'?'anzianità forfettaria':'scatti'}</strong>. Con qualche anno ${regola.tipo==='quotaUnica'?'nel settore':'in azienda'} la cifra reale è più alta.</div></div>`
       : composta.scattiAlTetto&&regola.tipo!=='quotaUnica'
       ? `<div class="callout"><span class="callout__mark">Tetto</span><div>Sei al massimo di ${regola.massimo} scatti previsto dal contratto: l’anzianità successiva non ne matura altri.</div></div>`
-      :'';
+      :'');
 
     campo('avviso-limiti').innerHTML=[
       ...(composta.ral>122295
