@@ -48,7 +48,7 @@ Fra le voci della busta paga, quelle di competenza sono le righe che sommano, e 
 | Malattia e infortunio, quota degli enti | Corpo, competenza anticipata | Il lordo, con base e aliquote proprie |
 | Buoni pasto entro la soglia di esenzione | Corpo o piede, come quantità | Solo il netto, se restano sotto soglia |
 | Fringe benefit entro la soglia | Corpo, con sigla SOGG o ESENTE | Il lordo se tassabile, niente se esente |
-| Rimborso spese, nota spese, rimborso chilometrico | Corpo o coda del netto | Solo il netto se esente, il lordo se imponibile: dipende da luogo, spesa e pagamento |
+| Rimborso spese, nota spese, rimborso km | Corpo o coda del netto | Solo il netto se esente, il lordo se imponibile: dipende da luogo, spesa e pagamento |
 | Arretrati, una tantum, conguagli contrattuali | Corpo, nel mese di pagamento | Il lordo, con tassazione propria se di anni passati |
 
 Le ultime tre righe sono quelle che la busta paga non chiarisce. Un importo che passa per il lordo e uno che arriva diretto al netto si assomigliano in pagina, e valgono cifre molto diverse. Il segnale affidabile è la posizione: se la riga sta sotto il totale delle trattenute, con ogni probabilità quell'importo arriva intero.
@@ -59,10 +59,12 @@ Dipende da tre cose: dove si svolge la trasferta, quale spesa rimborsa, come l'h
 
 | Spesa rimborsata | Trasferta fuori dal comune | Trasferta dentro il comune |
 | --- | --- | --- |
-| Vitto e alloggio | Esente se documentata e, in Italia, pagata con mezzi tracciabili | Imponibile, anche con la ricevuta |
-| Treno, aereo, autobus, pedaggi, parcheggio, rimborso chilometrico | Esente se documentata | Esente se comprovata e documentata |
-| Taxi e NCC, anche prenotati da app | Esente se documentata e, in Italia, pagata con mezzi tracciabili | Esente se documentata e pagata con mezzi tracciabili |
-| Altre spese non documentabili | Esenti fino a 15,49 € al giorno, 25,82 € all'estero | Imponibili |
+| Vitto e alloggio | Esente con la ricevuta e, in Italia, se pagata con mezzi tracciabili | Imponibile, anche con la ricevuta |
+| Treno, aereo, autobus, pedaggi, parcheggio, rimborso km | Esente con la prova della spesa | Esente con la prova della spesa |
+| Taxi e NCC, anche prenotati da app | Esente con la ricevuta e, in Italia, se pagata con mezzi tracciabili | Esente con la ricevuta, se pagata con mezzi tracciabili |
+| Altre spese, anche senza ricevuta | Esenti fino a 15,49 € al giorno, 25,82 € all'estero | Imponibili |
+
+Per viaggio e trasporto dentro il comune la legge chiede spese «comprovate e documentate»: non serve più il biglietto del vettore, e vale anche per il rimborso chilometrico calcolato sulle tabelle ACI.
 
 La tracciabilità è richiesta dal 1° gennaio 2025, solo per le spese sostenute in Italia: carta, bancomat, bonifico. Riguarda vitto, alloggio, imposta di soggiorno, taxi e NCC. Non riguarda treni, aerei, autobus né il rimborso chilometrico, e all'estero non serve. Un albergo in Italia pagato in contanti fa entrare il rimborso nel reddito anche con la fattura in mano.
 

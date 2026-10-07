@@ -13,7 +13,7 @@ test('voci busta paga: un rimborso documentato non è per forza netto esente (RI
   assert.doesNotMatch(text,/\| Rimborso spese documentate \|[^\n]*\| Solo il netto \|/);
   assert.doesNotMatch(text,/un rimborso spese documentato, per esempio/);
   assert.doesNotMatch(text,/Sono i rimborsi spese documentati e le competenze non imponibili/);
-  assert.match(riga('Rimborso spese, nota spese, rimborso chilometrico')[2],/Solo il netto se esente, il lordo se imponibile/);
+  assert.match(riga('Rimborso spese, nota spese, rimborso km')[2],/Solo il netto se esente, il lordo se imponibile/);
   assert.match(paragrafo('Cento euro che entrano dopo le imposte'),/«Documentato» da solo non basta/);
 });
 
@@ -21,14 +21,15 @@ test('voci busta paga: rimborsi distinti per comune, tipo di spesa e tracciabili
   assert.match(text,/^### Quando un rimborso spese arriva intero, e quando passa dal lordo\?$/m);
   assert.deepEqual(riga('Spesa rimborsata'),['Spesa rimborsata','Trasferta fuori dal comune','Trasferta dentro il comune']);
   const [,fuoriVitto,dentroVitto]=riga('Vitto e alloggio');
-  assert.match(fuoriVitto,/^Esente se documentata e, in Italia, pagata con mezzi tracciabili$/);
+  assert.match(fuoriVitto,/^Esente con la ricevuta e, in Italia, se pagata con mezzi tracciabili$/);
   assert.match(dentroVitto,/^Imponibile/);
-  const [,fuoriViaggio,dentroViaggio]=riga('Treno, aereo, autobus, pedaggi, parcheggio, rimborso chilometrico');
-  assert.match(fuoriViaggio,/^Esente se documentata$/);
-  assert.match(dentroViaggio,/^Esente se comprovata e documentata$/);
+  const [,fuoriViaggio,dentroViaggio]=riga('Treno, aereo, autobus, pedaggi, parcheggio, rimborso km');
+  assert.match(fuoriViaggio,/^Esente/);
+  assert.match(dentroViaggio,/^Esente/);
+  assert.match(paragrafo('Per viaggio e trasporto dentro il comune'),/«comprovate e documentate»: non serve più il biglietto del vettore/);
   const [,fuoriTaxi,dentroTaxi]=riga('Taxi e NCC, anche prenotati da app');
   for(const cella of [fuoriTaxi,dentroTaxi])assert.match(cella,/mezzi tracciabili/);
-  assert.deepEqual(riga('Altre spese non documentabili').slice(1),["Esenti fino a 15,49 € al giorno, 25,82 € all'estero",'Imponibili']);
+  assert.deepEqual(riga('Altre spese, anche senza ricevuta').slice(1),["Esenti fino a 15,49 € al giorno, 25,82 € all'estero",'Imponibili']);
   const tracciabilita=paragrafo('La tracciabilità è richiesta');
   for(const valore of ['1° gennaio 2025','in Italia','imposta di soggiorno','rimborso chilometrico',"all'estero non serve"])assert.ok(tracciabilita.includes(valore),valore);
 });
