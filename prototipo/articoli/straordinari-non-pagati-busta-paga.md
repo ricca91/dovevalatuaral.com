@@ -6,6 +6,7 @@ description: "Se la riga degli straordinari non c'è, i casi sono tre: non pagat
 query_principale: "straordinari in busta paga"
 cluster: "sintomi"
 data_pubblicazione: 2026-10-01
+data_aggiornamento: 2026-10-07
 cta: "/"
 link_interni: ["/blog/detassazione-straordinari/", "/blog/come-leggere-busta-paga/", "/blog/come-si-calcola-il-tfr/", "/blog/netto-piu-basso-del-mese-scorso/", "/ral-30000-netto/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, divisore orario 173"
@@ -14,7 +15,7 @@ stato: pubblicato
 ---
 Gli **straordinari in busta paga** stanno nel corpo del cedolino, in una riga separata dalla paga base, con le ore da un lato e l'importo dall'altro: la legge impone che il lavoro straordinario sia «computato a parte». Se non li trovi, i casi possibili sono tre, e vanno distinti prima di fare qualsiasi altra cosa: le ore non sono state pagate, le ore sono state pagate come ordinarie senza maggiorazione, oppure sono finite in banca ore. Su una RAL di 30.000 €, dieci ore di straordinario feriale con maggiorazione del 22% valgono **162,74 € lordi, cioè 96,70 € netti**. Se manca solo la maggiorazione, in tasca mancano **17,38 €**.
 
-> **In breve**: gli straordinari in busta paga stanno in una riga a sé, con le ore e l'importo, perché la legge impone di computarli a parte. Se la riga non c'è, i casi sono tre: ore non pagate, ore pagate come ordinarie dentro la paga base, ore accantonate in banca ore. Il numero atteso si ricostruisce in tre passaggi: una divisione e due moltiplicazioni.
+> **In breve**: gli straordinari in busta paga stanno in una riga a sé, con le ore e l'importo, perché la legge impone di computarli a parte. Se la riga non c'è, i casi sono tre: ore non pagate, ore pagate come ordinarie dentro la paga base, ore accantonate in banca ore, dove è il CCNL a decidere se nel mese arriva comunque la maggiorazione o una sua quota. Il numero atteso si ricostruisce in tre passaggi: una divisione e due moltiplicazioni.
 
 I numeri di questa pagina escono dal motore di calcolo del sito. Ipotesi: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, regole 2026, 13 mensilità, divisore orario 173. Il divisore e la percentuale di maggiorazione li fissa il tuo contratto collettivo, non la legge: cambia quelli e cambiano tutti i numeri sotto. Le tabelle sono calcolate sui valori non arrotondati, quindi rimoltiplicando le cifre arrotondate che leggi puoi trovare uno o due centesimi di differenza.
 
@@ -37,7 +38,7 @@ Due voci somigliano allo straordinario e non lo sono:
 
 ## Straordinari non pagati: i tre casi, con il conto di ciascuno
 
-Su una RAL di 30.000 € le tre situazioni costano cifre molto diverse: dieci ore mai pagate sono **96,70 € netti**, dieci ore pagate senza la maggiorazione del 22% sono **17,38 € netti**, dieci ore finite in banca ore sono zero euro adesso e dieci ore di riposo da usare.
+Su una RAL di 30.000 € le tre situazioni costano cifre molto diverse: dieci ore mai pagate sono **96,70 € netti**, dieci ore pagate senza la maggiorazione del 22% sono **17,38 € netti**, dieci ore finite in banca ore sono dieci ore di riposo da usare e, nel mese, zero euro oppure la sola maggiorazione, intera o in parte, secondo il CCNL.
 
 ### Caso 1: le ore non sono state pagate
 
@@ -74,9 +75,21 @@ Il segnale da cercare è il numero di ore, non l'importo. Il confronto non si fa
 
 ### Caso 3: le ore sono finite in banca ore
 
-In banca ore nel mese non arriva un euro, ed è legittimo: lo prevede lo stesso art. 5 c. 5 del D.Lgs. 66/2003, che consente ai contratti collettivi di dare riposi compensativi in alternativa o in aggiunta alle maggiorazioni retributive. Le dieci ore diventano un saldo da usare, non un importo.
+Se le ore finiscono in banca ore, il pagamento immediato dipende dal CCNL. Le ore diventano riposo da usare; alcuni contratti non pagano altro nel mese, altri riconoscono comunque la maggiorazione o una sua quota. Controlla la disciplina del tuo CCNL e le voci del cedolino.
 
-Dove guardare: il riquadro dei ratei e dei residui, di solito in fondo al cedolino, dove stanno anche ferie e permessi. La sigla può essere `BANCA ORE`, `B. ORE`, `ORE ACC.`, a volte confusa con il monte ROL. Se quel saldo è cresciuto di dieci ore, le ore ci sono: sono in un magazzino invece che in tasca.
+La scelta la lascia ai contratti la legge stessa: l'art. 5 c. 5 del D.Lgs. 66/2003 consente ai contratti collettivi di dare i riposi compensativi «in alternativa o in aggiunta alle maggiorazioni retributive». In alternativa vuol dire solo riposo. In aggiunta vuol dire riposo più denaro.
+
+Un esempio del secondo modello. Il CCNL della piccola e media industria metalmeccanica, nel testo del 26 maggio 2021, dice all'art. 29 che per le ore che confluiscono nella banca ore «verrà corrisposta la maggiorazione onnicomprensiva pari al 50% di quella prevista per il lavoro straordinario». Lo stesso schema il Ministero del Lavoro lo descriveva già in un rapporto del 2013, citando il contratto dell'industria metalmeccanica privata e quello delle telecomunicazioni.
+
+| Cosa prevede il CCNL per le ore in banca ore | Pagato nel mese, lordo | Pagato nel mese, netto | Ore in banca |
+| --- | --- | --- | --- |
+| Solo il riposo | 0,00 € | 0,00 € | 10 ore |
+| Riposo più metà della maggiorazione | 14,67 € | 8,75 € | 10 ore |
+| Riposo più la maggiorazione intera | 29,35 € | 17,38 € | 10 ore |
+
+Ipotesi della tabella: RAL 30.000 €, paga oraria 13,34 €, dieci ore in un mese, maggiorazione del 22%. La riga della metà applica lo schema del contratto citato sopra al 22% di questa pagina, che è un'ipotesi: quel contratto ha le sue percentuali, e la metà va calcolata su quelle. Se il tuo CCNL paga la maggiorazione anche sulle ore accantonate, quella somma è un elemento della retribuzione e va cercata fra le voci del cedolino.
+
+Dove guardare per le ore: il riquadro dei ratei e dei residui, di solito in fondo al cedolino, dove stanno anche ferie e permessi. La sigla può essere `BANCA ORE`, `B. ORE`, `ORE ACC.`, a volte confusa con il monte ROL. Se quel saldo è cresciuto di dieci ore, le ore ci sono: sono in un magazzino invece che in tasca.
 
 ## Come si calcola lo straordinario in busta paga?
 
@@ -111,7 +124,7 @@ Un'eccezione c'è nel 2026, e non riguarda lo straordinario in sé. Le maggioraz
 
 ## Conviene tenere gli straordinari in busta paga o metterli in banca ore?
 
-Dipende da una cosa sola: se riesci davvero a prendere il riposo. Dieci ore pagate al 22% su una RAL di 30.000 € fanno 96,70 € netti questo mese, certi. Le stesse dieci ore in banca ore non portano un euro adesso: diventano dieci ore di riposo, e i 162,74 € lordi li vedi solo se il tuo CCNL liquida il saldo invece di farti recuperare.
+Dipende da due cose: se riesci davvero a prendere il riposo e quanto il tuo CCNL paga subito sulle ore accantonate. Dieci ore pagate al 22% su una RAL di 30.000 € fanno 96,70 € netti questo mese, certi. In banca ore, invece, le stesse dieci ore diventano riposo; l'eventuale maggiorazione pagata subito dipende dal CCNL: zero se il contratto prevede solo il riposo, 8,75 € netti se ne paga metà, 17,38 € se la paga intera.
 
 - il pagamento è certo adesso, il riposo dipende dal fatto che riesca a prenderlo;
 - diversi contratti mettono una scadenza al saldo, dopo la quale le ore si liquidano oppure si perdono: il termine sta nel tuo CCNL e non lo copro;
@@ -146,7 +159,7 @@ Il primo passo non è scrivere a chi ti elabora le paghe: è contare le ore. Non
 
 ## Cosa non copro
 
-- **Le percentuali del tuo CCNL e il tuo divisore orario.** Sono il cuore del calcolo e non stanno in legge. Il 173 e il 22% di questa pagina sono ipotesi dichiarate, non il tuo contratto.
+- **Le percentuali del tuo CCNL, il tuo divisore orario e quanto paga sulle ore in banca ore.** Sono il cuore del calcolo e non stanno in legge. Il 173, il 22% e la metà della maggiorazione di questa pagina sono ipotesi dichiarate, non il tuo contratto.
 - **I tempi per reclamare e le sanzioni.** Un termine di prescrizione esiste, e per il prospetto paga non conforme esistono sanzioni: in questa sessione non li ho verificati su fonte primaria e quindi non li riporto. Vanno chiesti a un sindacato o a un consulente del lavoro.
 - **Lavoro supplementare del part-time, straordinario forfetizzato, pubblico impiego, dirigenti e apprendistato**, che hanno regole proprie.
 - **Nessun consulente del lavoro ha validato questi numeri.** Vengono da un motore pubblico con le regole 2026 e le ipotesi dichiarate sopra.
@@ -155,7 +168,9 @@ Prima di aprire una discussione con chi ti elabora le paghe, prendi tre numeri: 
 
 ## Fonti
 
-- D.Lgs. 66/2003, art. 5 — c. 1, «il ricorso a prestazioni di lavoro straordinario deve essere contenuto»; c. 2, i contratti collettivi ne regolano le modalità; c. 3, in difetto di disciplina collettiva serve l'accordo fra lavoratore e datore entro 250 ore annuali; c. 5, «il lavoro straordinario deve essere computato a parte e compensato con le maggiorazioni retributive previste dai contratti collettivi di lavoro», con facoltà per i contratti collettivi di consentire, in alternativa o in aggiunta, il godimento di riposi compensativi ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art5)) · verificata il 1 ottobre 2026
+- D.Lgs. 66/2003, art. 5 — c. 1, «il ricorso a prestazioni di lavoro straordinario deve essere contenuto»; c. 2, i contratti collettivi ne regolano le modalità; c. 3, in difetto di disciplina collettiva serve l'accordo fra lavoratore e datore entro 250 ore annuali; c. 5, «il lavoro straordinario deve essere computato a parte e compensato con le maggiorazioni retributive previste dai contratti collettivi di lavoro», e «i contratti collettivi possono in ogni caso consentire che, in alternativa o in aggiunta alle maggiorazioni retributive, i lavoratori usufruiscano di riposi compensativi» ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art5)) · verificata il 1 ottobre 2026, c. 5 riletto il 7 ottobre 2026
+- Ministero del Lavoro, «Diritto ad un'equa retribuzione» — rapporto del governo sull'art. 4 della Carta sociale europea, 2013: richiama l'art. 5 c. 5 del D.Lgs. 66/2003 e riporta, come esempi, i contratti dell'industria metalmeccanica privata e delle telecomunicazioni, che per le ore convertite in riposo o confluite nella banca ore corrispondono «la sola maggiorazione onnicomprensiva pari al 50%» di quella prevista per lo straordinario. Descrive i testi contrattuali di allora, non quelli in vigore oggi ([Ministero del Lavoro](https://www.lavoro.gov.it/_layouts/Lavoro.Web/AppPages/GetResource?ds=oil&rid=2454)) · verificata il 7 ottobre 2026
+- CCNL piccola e media industria metalmeccanica e installazione di impianti, 26 maggio 2021, art. 29 c. 2 — Unionmeccanica-Confapi con Fim-Cisl, Fiom-Cgil e Uilm-Uil: banca ore per tutti i lavoratori e tutte le ore di straordinario, su dichiarazione del lavoratore nel mese; «per le ore di straordinario che confluiscono nella "Banca ore" verrà corrisposta la maggiorazione onnicomprensiva pari al 50% di quella prevista per il lavoro straordinario»; le ore non fruite al termine del periodo «sono liquidate con la retribuzione in atto» ([testo pubblicato dall'Ente bilaterale metalmeccanici](https://www.entebilateralemetalmeccanici.it/wp-content/uploads/2023/08/CCNL-26_MAGGIO_2021.pdf)) · verificata il 7 ottobre 2026
 - D.Lgs. 66/2003, art. 4 — c. 2, durata media dell'orario non superiore a 48 ore per ogni periodo di sette giorni, ore di straordinario comprese; c. 3, periodo di riferimento non superiore a quattro mesi; c. 4, facoltà per i contratti collettivi di elevarlo a sei o dodici mesi in presenza di ragioni obiettive, tecniche o di organizzazione del lavoro ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art4)) · verificata il 1 ottobre 2026
 - L. 4/1953, art. 1 — il prospetto di paga deve indicare nome, cognome e qualifica professionale del lavoratore, il periodo cui la retribuzione si riferisce, «gli assegni familiari e tutti gli altri elementi che, comunque, compongono detta retribuzione», le trattenute indicate distintamente e il contratto collettivo applicato identificato mediante codice alfanumerico unico, con firma, sigla o timbro del datore di lavoro o di chi ne fa le veci ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1953-01-05;4)) · verificata il 1 ottobre 2026
 - D.L. 112/2008, art. 39 — il datore di lavoro privato, con la sola esclusione del datore di lavoro domestico, istituisce e tiene il libro unico del lavoro, in cui va registrato per ciascun lavoratore, fra gli altri dati, ogni somma corrisposta in denaro o in natura, le trattenute, le detrazioni, gli assegni familiari, le ore di straordinario, le assenze, le ferie e i riposi, con registrazione entro la fine del mese successivo; con la consegna al lavoratore di copia delle scritturazioni effettuate nel libro unico il datore adempie agli obblighi della L. 4/1953 ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2008-06-25;112~art39)) · verificata il 1 ottobre 2026
@@ -164,4 +179,4 @@ Prima di aprire una discussione con chi ti elabora le paghe, prendi tre numeri: 
 - L. 297/1982, art. 3 commi 15 e 16 — contributo aggiuntivo IVS dello 0,50% a carico del datore di lavoro e corrispondente riduzione della quota annua di accantonamento del TFR, che porta la quota effettiva dal 7,41% al 6,907% del lordo ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1982-05-29;297)) · aperta il 1 ottobre 2026, testo non rileggibile: vedi la nota sul metodo
 - INPS, circolare 101/2024 — contributo IVS del 33% per la generalità degli iscritti al FPLD, di cui 9,19% a carico del lavoratore ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · verificata il 1 ottobre 2026
 - Maggiorazioni del CCNL Commercio e terziario — 15% dalla 41ª alla 48ª ora settimanale, 20% oltre la 48ª. Dato **riportato** da pagine di terzi lette nella SERP del 1 ottobre 2026, non verificato sul testo contrattuale ([Personio](https://www.personio.it/glossario/straordinari-in-busta-paga/)) · verificata il 1 ottobre 2026
-- Nota sul metodo: gli articoli del D.Lgs. 66/2003, della L. 4/1953 e del D.L. 112/2008 citati sopra li ho aperti e letti parola per parola in questa sessione. L'art. 2120 del codice civile e l'art. 3 della L. 297/1982 li ho aperti ma non ho potuto rileggerne il testo parola per parola: Normattiva su quelle pagine mostra soltanto l'articolo iniziale e serve il resto con uno script che il mio strumento di lettura non esegue. Il divisore 13,5, la definizione di retribuzione utile e lo 0,50% restano affidati ai testi di legge citati e alla verifica fatta il 30 settembre 2026 per l'articolo sul TFR; il perimetro dell'imposta sostitutiva al 15% a quella fatta il 29 settembre 2026. La percentuale di maggiorazione del CCNL Commercio è un dato di terzi, dichiarato come tale. I termini di prescrizione e gli importi delle sanzioni non sono stati verificati e non compaiono in questa pagina.
+- Nota sul metodo: gli articoli del D.Lgs. 66/2003, della L. 4/1953 e del D.L. 112/2008 citati sopra li ho aperti e letti parola per parola in questa sessione. L'art. 2120 del codice civile e l'art. 3 della L. 297/1982 li ho aperti ma non ho potuto rileggerne il testo parola per parola: Normattiva su quelle pagine mostra soltanto l'articolo iniziale e serve il resto con uno script che il mio strumento di lettura non esegue. Il divisore 13,5, la definizione di retribuzione utile e lo 0,50% restano affidati ai testi di legge citati e alla verifica fatta il 30 settembre 2026 per l'articolo sul TFR; il perimetro dell'imposta sostitutiva al 15% a quella fatta il 29 settembre 2026. La percentuale di maggiorazione del CCNL Commercio è un dato di terzi, dichiarato come tale. Il 7 ottobre 2026 ho riletto il c. 5 dell'art. 5 del D.Lgs. 66/2003 e letto i passaggi sulla banca ore del rapporto del Ministero del Lavoro e dell'art. 29 del CCNL del 26 maggio 2021; di quel contratto non ho verificato se un rinnovo successivo abbia cambiato la clausola. I termini di prescrizione e gli importi delle sanzioni non sono stati verificati e non compaiono in questa pagina.
