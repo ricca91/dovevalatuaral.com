@@ -6,6 +6,7 @@ description: "Le voci busta paga in tre domande: dove sta, cosa muove, quanto va
 query_principale: "voci busta paga"
 cluster: "voce-per-voce"
 data_pubblicazione: 2026-10-04
+data_aggiornamento: 2026-10-07
 cta: "/"
 link_interni: ["/blog/come-leggere-busta-paga/", "/blog/contributo-ivs-busta-paga/", "/blog/come-si-calcola-il-tfr/", "/blog/esempio-busta-paga/", "/ral-30000-netto/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, divisore giornaliero 26, divisore orario 173"
@@ -26,7 +27,7 @@ Si leggono classificandole, non traducendole. Un dizionario che si limita a scio
 - **Cosa muove.** Tre possibilità e nessun'altra. Muove il lordo, e quindi contributi, IRPEF, addizionali e TFR a cascata. Oppure muove solo il netto, perché entra o esce dopo le imposte. Oppure non muove niente nel mese, ed è un contatore.
 - **Quanto vale.** In euro, non in percentuale. Una voce che non riesci a tradurre in euro è una voce che non hai verificato.
 
-La differenza fra «muove il lordo» e «muove solo il netto» è la più utile delle tre, perché decide quanto ti arriva davvero. Su 30.000 € di RAL, 100 € lordi aggiunti alle competenze diventano **59,43 € netti**. Il resto sono contributi, IRPEF marginale e addizionali. Cento euro che entrano dopo le imposte — un rimborso spese documentato, per esempio — valgono invece cento euro.
+La differenza fra «muove il lordo» e «muove solo il netto» è la più utile delle tre, perché decide quanto ti arriva davvero. Su 30.000 € di RAL, 100 € lordi aggiunti alle competenze diventano **59,43 € netti**. Il resto sono contributi, IRPEF marginale e addizionali. Cento euro che entrano dopo le imposte valgono invece cento euro, ma solo quando la legge li esclude dal reddito: per esempio l'albergo di una trasferta fuori comune, pagato con carta e rimborsato con la fattura. «Documentato» da solo non basta. Un rimborso spese senza le condizioni di legge entra nel lordo come un aumento, e dei suoi 100 € ne restano 59,43.
 
 ## Quali sono le voci di competenza, e cosa fanno al lordo?
 
@@ -47,10 +48,29 @@ Fra le voci della busta paga, quelle di competenza sono le righe che sommano, e 
 | Malattia e infortunio, quota degli enti | Corpo, competenza anticipata | Il lordo, con base e aliquote proprie |
 | Buoni pasto entro la soglia di esenzione | Corpo o piede, come quantità | Solo il netto, se restano sotto soglia |
 | Fringe benefit entro la soglia | Corpo, con sigla SOGG o ESENTE | Il lordo se tassabile, niente se esente |
-| Rimborso spese documentate | Corpo o coda del netto | Solo il netto |
+| Rimborso spese, nota spese, rimborso km | Corpo o coda del netto | Solo il netto se esente, il lordo se imponibile: dipende da luogo, spesa e pagamento |
 | Arretrati, una tantum, conguagli contrattuali | Corpo, nel mese di pagamento | Il lordo, con tassazione propria se di anni passati |
 
 Le ultime tre righe sono quelle che la busta paga non chiarisce. Un importo che passa per il lordo e uno che arriva diretto al netto si assomigliano in pagina, e valgono cifre molto diverse. Il segnale affidabile è la posizione: se la riga sta sotto il totale delle trattenute, con ogni probabilità quell'importo arriva intero.
+
+### Quando un rimborso spese arriva intero, e quando passa dal lordo?
+
+Dipende da tre cose: dove si svolge la trasferta, quale spesa rimborsa, come l'hai pagata. La regola sta nell'art. 51, comma 5, del TUIR, e la base dei contributi segue la stessa regola. Il fatto che la spesa sia documentata è necessario quasi sempre, ma da solo non decide niente. La tabella vale per i rimborsi a piè di lista; il «comune» è quello della sede di lavoro, non della residenza.
+
+| Spesa rimborsata | Trasferta fuori dal comune | Trasferta dentro il comune |
+| --- | --- | --- |
+| Vitto e alloggio | Esente con la ricevuta e, in Italia, se pagata con mezzi tracciabili | Imponibile, anche con la ricevuta |
+| Treno, aereo, autobus, pedaggi, parcheggio, rimborso km | Esente con la prova della spesa | Esente con la prova della spesa |
+| Taxi e NCC, anche prenotati da app | Esente con la ricevuta e, in Italia, se pagata con mezzi tracciabili | Esente con la ricevuta, se pagata con mezzi tracciabili |
+| Altre spese, anche senza ricevuta | Esenti fino a 15,49 € al giorno, 25,82 € all'estero | Imponibili |
+
+Per viaggio e trasporto dentro il comune la legge chiede spese «comprovate e documentate»: non serve più il biglietto del vettore, e vale anche per il rimborso chilometrico calcolato sulle tabelle ACI.
+
+La tracciabilità è richiesta dal 1° gennaio 2025, solo per le spese sostenute in Italia: carta, bancomat, bonifico. Riguarda vitto, alloggio, imposta di soggiorno, taxi e NCC. Non riguarda treni, aerei, autobus né il rimborso chilometrico, e all'estero non serve. Un albergo in Italia pagato in contanti fa entrare il rimborso nel reddito anche con la fattura in mano.
+
+Due esempi sulla RAL di questa pagina, con sede a Milano. Una notte d'albergo a Bologna da 100 €, pagata con carta e rimborsata con la fattura: non entra nel reddito, e ti arrivano **100 € netti**. Cento euro di pranzi durante le trasferte dentro Milano, rimborsati con gli scontrini: entrano nel lordo come uno stipendio e pagano contributi, IRPEF e addizionali. Te ne restano **59,43 € netti**. Lo stesso vale per l'albergo di Bologna, se l'hai pagato in contanti.
+
+Per sapere come la tua azienda ha trattato un rimborso, guarda i totali del cedolino. Un rimborso esente resta fuori dall'imponibile previdenziale e da quello fiscale. Se invece ce lo trovi dentro, è stato tassato.
 
 ## Quali sono le voci di trattenuta, e su cosa si calcolano?
 
@@ -161,7 +181,7 @@ Perché almeno tre cose cambiano da persona a persona a parità di contratto. Il
 
 ### Dove si vedono le voci che aumentano il netto senza passare dal lordo?
 
-Di solito in coda al corpo, sotto il totale delle trattenute, oppure in una colonna separata. Sono i rimborsi spese documentati e le competenze non imponibili. Il segnale affidabile non è il nome della voce ma la posizione: se l'importo è escluso dai totali di imponibile previdenziale e fiscale, non ha pagato né contributi né imposte.
+Di solito in coda al corpo, sotto il totale delle trattenute, oppure in una colonna separata. Sono i rimborsi spese esenti, come quelli di una trasferta fuori comune pagati con mezzi tracciabili, e le altre competenze non imponibili. Un rimborso documentato ma imponibile, come il pranzo di una trasferta dentro il comune, di solito sta invece fra le competenze e passa dal lordo. Il segnale affidabile non è il nome della voce ma la posizione: se l'importo è escluso dai totali di imponibile previdenziale e fiscale, non ha pagato né contributi né imposte.
 
 ### Dove trovo la spiegazione delle voci del mio cedolino, non di uno generico?
 
@@ -171,7 +191,7 @@ Nella legenda allegata al tuo cedolino, se c'è, e nella tabella retributiva del
 
 Questo dizionario delle voci della busta paga copre le diciture più frequenti del lavoro dipendente privato a tempo pieno. Gli importi valgono per un anno intero, aliquota contributiva FPLD ordinaria, residenza a Milano, nessun familiare a carico, regole 2026, 13 mensilità. Se sei in apprendistato, part time, o a tempo determinato con mesi scoperti, i numeri cambiano e qui non li stimo. Il motore assume FPLD ordinario: se il tuo settore ha un'aliquota contributiva diversa, quel caso non è coperto.
 
-Restano fuori il pubblico impiego e NoiPA, le voci del lavoro domestico, i premi di risultato detassati, le soglie di esenzione del welfare caso per caso, e qualunque voce creata da un accordo aziendale. Il valore di EDR, contingenza, superminimo, scatti e terzo elemento dipende dal tuo CCNL e non lo stimo. Nessun consulente del lavoro ha validato questi numeri: vengono da un motore di calcolo pubblico, con le ipotesi dichiarate sopra. Delle singole righe del dizionario oggi è ricostruita per intero solo la prima trattenuta; le altre arrivano nelle prossime settimane.
+Restano fuori il pubblico impiego e NoiPA, le voci del lavoro domestico, i premi di risultato detassati, le indennità di trasferta forfettarie o miste e il regime dei trasfertisti, le soglie di esenzione del welfare caso per caso, e qualunque voce creata da un accordo aziendale. Il valore di EDR, contingenza, superminimo, scatti e terzo elemento dipende dal tuo CCNL e non lo stimo. Nessun consulente del lavoro ha validato questi numeri: vengono da un motore di calcolo pubblico, con le ipotesi dichiarate sopra. Delle singole righe del dizionario oggi è ricostruita per intero solo la prima trattenuta; le altre arrivano nelle prossime settimane.
 
 ## Fonti
 
@@ -183,6 +203,9 @@ Restano fuori il pubblico impiego e NoiPA, le voci del lavoro domestico, i premi
 - TUIR, art. 13 — detrazione per redditi da lavoro dipendente ([Giustizia tributaria](https://def.giustiziatributaria.gov.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&articolo=Articolo+13&id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D)) · verificata il 4 ottobre 2026
 - L. 30 dicembre 2024, n. 207, art. 1 c. 6 — ulteriore detrazione per i redditi fra 20.000 e 40.000 € ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)) · verificata il 4 ottobre 2026
 - TUIR, art. 51 c. 2 lett. c — buoni pasto esclusi dal reddito entro il limite giornaliero per titolo ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn%3Anir%3Astato%3Alegge%3A1986%3B917~art51=)) · verificata il 4 ottobre 2026
+- TUIR, art. 51 c. 5 — rimborsi di trasferta: analitici esenti fuori dal comune, imponibili dentro il comune salvo viaggio e trasporto comprovati e documentati, tracciabilità per vitto, alloggio, taxi e NCC sostenuti in Italia ([MEF, testo vigente](https://def.finanze.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&articolo=Articolo+51&codiceOrdinamento=0000000000000510000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000&id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D)) · verificata il 7 ottobre 2026
+- Agenzia delle Entrate, circolare 15/E del 22 dicembre 2025 — tracciabilità dal 1° gennaio 2025 solo per le spese in Italia, esclusi treni, aerei, autobus e rimborso chilometrico; dentro il comune viaggio e trasporto esenti se comprovati e documentati ([Agenzia delle Entrate](https://www.agenziaentrate.gov.it/portale/documents/20143/8410837/Circolare+n.+15+del+22_12_2025.pdf/ea6aa7af-f133-2381-8750-6c3b871b7bc6)) · verificata il 7 ottobre 2026
+- INPS, circolare 263/1997 — la base dei contributi si determina con le regole fiscali dell'attuale art. 51 TUIR, salvo deroghe ([INPS](https://servizi2.inps.it/servizi/Bussola/visualizzadoc.aspx?sVirtuAlURL=/circolari/Circolare%20numero%20263%20del%2024-12-1997.htm)) · verificata il 7 ottobre 2026
 - Art. 2120 del codice civile — quota annua di TFR pari alla retribuzione divisa per 13,5, al netto dello 0,50% dell'imponibile previdenziale, nel testo riportato da INPS, circolare 70/2007 ([INPS](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=/Circolari/Circolare%20numero%2070%20del%203-4-2007.htm)) · verificata il 4 ottobre 2026
 - D.Lgs. 8 aprile 2003, n. 66, art. 10 — ferie annuali retribuite non inferiori a quattro settimane, due godute nell'anno di maturazione ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art10)) · verificata il 4 ottobre 2026
 - Regione Lombardia — addizionale regionale IRPEF progressiva ([Regione Lombardia](https://www.regione.lombardia.it/bollo-auto-e-tributi-regionali/red-addizionale-regionale-irpef)) · verificata il 4 ottobre 2026
