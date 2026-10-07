@@ -2,21 +2,22 @@
 slug: esempio-busta-paga-liquidazione-tfr
 titolo: "Esempio di busta paga con liquidazione del TFR"
 title_seo: "Esempio di busta paga con liquidazione del TFR: il conto"
-description: "Esempio di busta paga con liquidazione del TFR: su 30.000 € di RAL e cinque anni l'ultimo cedolino porta 12.028,91 € netti, di cui 8.507,04 € di TFR."
+description: "Esempio di busta paga con liquidazione del TFR: su 30.000 € di RAL e cinque anni l'ultimo cedolino porta 12.094,29 € netti, di cui 8.507,04 € di TFR."
 query_principale: "esempio busta paga liquidazione tfr"
 cluster: "esempi-per-casistica"
 data_pubblicazione: 2026-10-03
+data_aggiornamento: 2026-10-07
 cta: "/"
 link_interni: ["/blog/come-si-calcola-il-tfr/", "/blog/esempio-busta-paga/", "/blog/come-leggere-busta-paga/", "/ral-30000-netto/", "/come-ho-lavorato.html"]
-ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, cessazione al 31 dicembre 2026 dopo 5 anni, RAL 30.000 € costante, divisore giornaliero 26, rivalutazione TFR ipotizzata al 3% lordo annuo"
+ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, cessazione al 31 dicembre 2026 dopo 5 anni, RAL 30.000 € costante, divisore giornaliero 26, rivalutazione TFR ipotizzata al 3% lordo annuo, stessa RAL e stesso comune negli anni precedenti, conguaglio 2025 a dicembre"
 fonti_verificate: 2026-10-03
 stato: pubblicato
 ---
-In un esempio di busta paga con liquidazione del TFR ci sono due conti che non si toccano mai. Da una parte le competenze ordinarie dell'ultimo mese — retribuzione, tredicesima, ferie non godute — con contributi e IRPEF come ogni mese. Dall'altra il TFR, che ha un imponibile suo, un'aliquota sua e sui contributi non paga nulla. Su una RAL di 30.000 € e cinque anni di anzianità, l'ultimo cedolino porta **12.028,91 € netti**: 3.521,87 € di parte ordinaria e **8.507,04 € di TFR**.
+In un esempio di busta paga con liquidazione del TFR ci sono due conti che non si toccano mai. Da una parte le competenze ordinarie dell'ultimo mese — retribuzione, tredicesima, ferie non godute — con contributi e IRPEF come ogni mese. Dall'altra il TFR, che ha un imponibile suo, un'aliquota sua e sui contributi non paga nulla. Su una RAL di 30.000 € e cinque anni di anzianità, l'ultimo cedolino porta **12.094,29 € netti**: 3.587,25 € di parte ordinaria e **8.507,04 € di TFR**.
 
-> **In breve**: in un esempio di busta paga con liquidazione del TFR ci sono due imponibili distinti. Su 30.000 € di RAL e cinque anni, le competenze ordinarie di dicembre sono 5.325,46 € lordi e lasciano 3.521,87 € netti. Il TFR è 10.890,09 € lordi, tassato a parte al 23% su un imponibile di 10.361,10 €: restano 8.507,04 €. Totale: 12.028,91 € netti.
+> **In breve**: in un esempio di busta paga con liquidazione del TFR ci sono due imponibili distinti. Su 30.000 € di RAL e cinque anni, le competenze ordinarie di dicembre sono 5.325,46 € lordi e lasciano 3.587,25 € netti. Il TFR è 10.890,09 € lordi, tassato a parte al 23% su un imponibile di 10.361,10 €: restano 8.507,04 €. Totale: 12.094,29 € netti.
 
-Le ipotesi contano tutte, e sono queste: dipendente privato a tempo pieno, Milano, nessun familiare a carico, 13 mensilità, aliquota FPLD ordinaria, regole 2026. Rapporto iniziato il 1° gennaio 2022 e chiuso il 31 dicembre 2026, cinque anni esatti. RAL di 30.000 € costante, 8 giorni di ferie residue, divisore giornaliero 26, preavviso lavorato. La rivalutazione del TFR la ipotizzo al 3% lordo annuo: è un'ipotesi dichiarata, non una previsione. I numeri netti escono dal motore di calcolo del sito.
+Le ipotesi contano tutte, e sono queste: dipendente privato a tempo pieno, Milano, nessun familiare a carico, 13 mensilità, aliquota FPLD ordinaria, regole 2026. Rapporto iniziato il 1° gennaio 2022 e chiuso il 31 dicembre 2026, cinque anni esatti. RAL di 30.000 € costante e stesso comune anche negli anni precedenti, 8 giorni di ferie residue, divisore giornaliero 26, preavviso lavorato. La rivalutazione del TFR la ipotizzo al 3% lordo annuo: è un'ipotesi dichiarata, non una previsione. I numeri netti del 2026 escono dal motore di calcolo del sito. Le addizionali del 2025, che nel 2026 arrivano a rate, le calcolo a parte e le mostro nella riconciliazione.
 
 Chiudo il rapporto il 31 dicembre perché così l'anno fiscale è intero e il conto si verifica riga per riga. Se esci a metà anno il meccanismo è lo stesso, ma le detrazioni si rapportano ai giorni di lavoro e gli importi cambiano.
 
@@ -43,15 +44,15 @@ Ecco l'ultimo cedolino riga per riga. Le competenze ordinarie sono tre: la retri
 | **Totale competenze a tassazione ordinaria** | **5.325,46 €** |
 | Contributi IVS, 9,19% | −489,41 € |
 | IRPEF del mese, conguaglio di fine anno incluso | −702,95 € |
-| Addizionale regionale Lombardia dell'anno, in unica soluzione | −388,13 € |
-| Addizionale comunale Milano dell'anno, in unica soluzione | −223,10 € |
-| **Netto della parte ordinaria** | **3.521,87 €** |
+| Addizionale regionale Lombardia 2026, in unica soluzione | −388,13 € |
+| Addizionale comunale Milano 2026, meno l'acconto già trattenuto | −157,72 € |
+| **Netto della parte ordinaria** | **3.587,25 €** |
 | TFR lordo maturato in cinque anni | 10.890,09 € |
 | Imposta a tassazione separata, 23% su 10.361,10 € | −2.383,05 € |
 | **TFR netto** | **8.507,04 €** |
-| **Netto dell'ultimo cedolino** | **12.028,91 €** |
+| **Netto dell'ultimo cedolino** | **12.094,29 €** |
 
-Due righe fanno sembrare il cedolino sbagliato, e non lo è. Le **addizionali regionale e comunale** dell'anno sono trattenute tutte insieme: alla cessazione la legge le fa prelevare in unica soluzione, invece di spalmarle in rate nei mesi successivi. Se il tuo datore ha già trattenuto l'acconto dell'addizionale comunale, nell'ultimo cedolino vedi solo il saldo. Il totale dell'anno non cambia.
+Due righe fanno sembrare il cedolino sbagliato, e non lo è. Le **addizionali del 2026** arrivano qui tutte insieme: se il rapporto continuasse le pagheresti a rate nel 2027, ma alla cessazione la legge fa prelevare in unica soluzione quello che resta. La regionale non ha acconto, quindi è intera: 388,13 €. La comunale sull'anno vale 223,10 €, ma 65,38 € di acconto li hai già pagati da marzo a novembre: qui restano 157,72 €.
 
 L'**IRPEF di 702,95 €** è alta perché contiene il conguaglio. Qui dichiaro l'ipotesi: nei primi undici mesi il datore ha trattenuto l'imposta ragguagliando all'anno la RAL contrattuale di 30.000 €, cioè un tredicesimo di 3.221,63 € al mese, 2.726,02 € in undici mesi. L'IRPEF vera dell'anno, che include le ferie liquidate, è 3.428,97 €: la differenza cade qui. Com'è fatto lo stesso documento in un mese normale lo mostro in [esempio di busta paga, importo per importo](/blog/esempio-busta-paga/).
 
@@ -99,9 +100,25 @@ Su quel totale IRPEF e addizionali farebbero 9.455,29 €, contro i 4.040,20 €
 
 ## La riconciliazione: i dodici cedolini dell'anno
 
-I conti tornano, e vale la pena mostrarlo. Da gennaio a novembre il cedolino è ordinario: 2.307,69 € lordi, meno 212,08 € di contributi, meno 247,82 € di IRPEF, **1.847,79 € netti**. Undici mesi fanno 20.325,69 €.
+I conti tornano, ma solo se nei cedolini del 2026 metti anche quello che arriva dal 2025. Chi lavora lì dal 2022 non paga solo le imposte dell'anno: da gennaio a novembre il datore trattiene anche il saldo delle addizionali 2025, determinato al conguaglio e diviso in undici rate, e da marzo l'acconto della comunale 2026.
 
-Aggiungi i 3.521,87 € di parte ordinaria dell'ultimo cedolino: **23.847,56 €**. Il conto annuo del motore, su un lordo di 30.710,08 € — la RAL più le ferie liquidate — dà 23.847,62 €. Sei centesimi di scarto, solo arrotondamento mese per mese. Il TFR resta fuori da questa somma: non è reddito dell'anno. La RAL voce per voce sta in [quanto sono netti 30.000 € di RAL](/ral-30000-netto/).
+Le ipotesi sugli anni precedenti, perché i numeri escono da qui: stessa RAL e stesso comune, conguaglio 2025 fatto a dicembre 2025. Nel 2025 il reddito imponibile è 27.243,00 € e le aliquote di Lombardia e Milano erano le stesse del 2026: l'addizionale regionale 2025 è 377,94 € e la comunale 217,94 €, gli stessi importi che il motore calcola su 30.000 € di RAL. Della comunale 2025 avevi già pagato nel 2025 un acconto di 69,37 €: il 30% calcolato sul reddito 2024, che con l'esonero contributivo di quell'anno era più alto, 28.904,54 €. Il saldo è 148,57 €. L'acconto 2026 è il 30% calcolato sul reddito 2025: 65,38 €.
+
+| Gennaio–novembre 2026 | Importo |
+| --- | --- |
+| Lordo, 11 × 2.307,69 € | 25.384,59 € |
+| Contributi IVS, 11 × 212,08 € | −2.332,88 € |
+| IRPEF, 11 × 247,82 € | −2.726,02 € |
+| Saldo addizionale regionale 2025, 11 rate da gennaio | −377,94 € |
+| Saldo addizionale comunale 2025, 11 rate da gennaio | −148,57 € |
+| Acconto addizionale comunale 2026, 9 rate da marzo | −65,38 € |
+| **Netto incassato in undici mesi** | **19.733,80 €** |
+
+Mese per mese sono 1.799,92 € a gennaio e febbraio, 1.792,66 € da marzo a ottobre, 1.792,68 € a novembre, dove l'ultima rata assorbe i centesimi di arrotondamento. Come vengono spezzate le rate dipende dal software paghe, il totale no. Aggiungi i 3.587,25 € di parte ordinaria dell'ultimo cedolino: nel 2026 incassi **23.321,05 €**.
+
+Il conto annuo del motore misura un'altra cosa: le imposte che appartengono al reddito 2026, su un lordo di 30.710,08 € — la RAL più le ferie liquidate — e dà 23.847,62 €. Per passare dalla cassa al motore rimetti i 526,51 € di saldi 2025, che sono imposte sul reddito dell'anno prima: 23.321,05 + 526,51 = 23.847,56 €. Sei centesimi di scarto dal motore, solo arrotondamento mese per mese. L'acconto comunale non sposta niente: è addizionale 2026 pagata in anticipo, e nell'ultimo cedolino lo trovi già scalato.
+
+Il risultato pratico: nell'anno in cui esci paghi le addizionali di due anni, 1.137,74 € in tutto. Il saldo del 2025 a rate, il 2026 intero entro dicembre. Non è un'imposta in più: è il saldo 2026, che avresti pagato a rate nel 2027, anticipato a dicembre. Il TFR resta fuori da tutte queste somme: non è reddito dell'anno. La RAL voce per voce sta in [quanto sono netti 30.000 € di RAL](/ral-30000-netto/).
 
 ## Le cinque righe da controllare nell'ultimo cedolino
 
@@ -110,22 +127,23 @@ Non posso dirti se il tuo cedolino è corretto. Posso dirti quali righe guardare
 - il totale delle competenze ordinarie, con retribuzione, tredicesima e ferie residue;
 - la riga del TFR lordo e il suo imponibile, più basso del fondo se ci sono rivalutazioni;
 - la riga dell'imposta a tassazione separata, che non è IRPEF e non è il conguaglio;
-- le due addizionali, regionale e comunale, trattenute qui in unica soluzione;
-- i progressivi dell'anno, per vedere cosa è già stato trattenuto nei mesi precedenti.
+- le addizionali dell'anno, trattenute qui in unica soluzione: la regionale intera, la comunale meno l'acconto pagato da marzo;
+- i progressivi dell'anno, per vedere cosa è già stato trattenuto nei mesi precedenti, comprese le rate delle addizionali dell'anno prima.
 
 Se un numero non torna, le cause più frequenti sono tre: una retribuzione utile per il TFR diversa dalla RAL per previsione del CCNL, un giorno di ferie valorizzato con un altro divisore, mesi con assenze non retribuite. Se la differenza resta, potrebbe valere la pena chiedere il dettaglio a chi elabora le paghe. Dove cadono queste righe fra tutte le altre lo spiego in [come si legge una busta paga](/blog/come-leggere-busta-paga/).
 
 ## Cosa non copro
 
 - **Il tuo CCNL**, che decide la retribuzione utile per il TFR, il valore del giorno di ferie, i tempi di pagamento e la maturazione dei ratei. Qui la retribuzione utile coincide con la RAL.
-- **L'uscita a metà anno.** Le detrazioni si rapportano ai giorni di lavoro: l'IRPEF cambia, e con lei il netto della parte ordinaria. Il motore ragiona su un anno intero.
+- **L'uscita a metà anno.** Le detrazioni si rapportano ai giorni di lavoro: l'IRPEF cambia, e con lei il netto della parte ordinaria. Il motore ragiona su un anno intero. Cambiano anche le addizionali: le rate del saldo dell'anno prima non ancora pagate si aggiungono, in unica soluzione, all'ultimo cedolino.
+- **Il conguaglio dell'anno prima fatto a febbraio** invece che a dicembre: le rate del saldo 2025 partono da marzo, sono meno e più alte, il totale non cambia.
 - **L'indennità sostitutiva del preavviso**, se il preavviso non lo lavori: segue regole proprie e ai fini contributivi resta imponibile, a differenza del TFR.
 - **Anticipazione del TFR, fondo pensione e Fondo di Tesoreria INPS**, che cambiano dove va il denaro e come viene tassato.
 - **La riliquidazione dell'Agenzia delle Entrate.** Quella del datore è provvisoria: l'Agenzia ricalcola con l'aliquota media del quinquennio precedente, e può arrivare una richiesta o un rimborso.
 - **La detrazione prevista per i redditi di riferimento bassi**, che non applico: se ti spetta, l'imposta scende di qualche decina di euro.
 - **Il pubblico impiego**, che ha un istituto diverso, e **la rivalutazione degli anni futuri**, che dipende da un indice che non esiste ancora.
 
-Nessun consulente del lavoro ha validato questi numeri: vengono da un motore di calcolo pubblico, con le ipotesi dichiarate in apertura e le fonti riaperte il 3 ottobre 2026. Il metodo sta in [come ho lavorato](/come-ho-lavorato.html).
+Nessun consulente del lavoro ha validato questi numeri: vengono da un motore di calcolo pubblico, con le ipotesi dichiarate in apertura e le fonti riaperte il 3 ottobre 2026. Le addizionali del 2025 il motore non le calcola, perché applica le regole 2026: le ho calcolate a parte, con le aliquote 2025 e le fonti riaperte il 7 ottobre 2026. Il metodo sta in [come ho lavorato](/come-ho-lavorato.html).
 
 Se vuoi il conto sulla tua cifra, la RAL si mette nel calcolatore in home page e il netto lo rifà il motore.
 
@@ -139,7 +157,10 @@ Se vuoi il conto sulla tua cifra, la RAL si mette nel calcolatore in home page e
 - D.Lgs. 66/2003, art. 10 — quattro settimane di ferie annuali retribuite, non sostituibili da indennità per ferie non godute salvo il caso di cessazione del rapporto ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art10)) · letta il 3 ottobre 2026
 - L. 153/1969, art. 12 comma 4 — elencazione tassativa delle somme escluse dalla base imponibile previdenziale: il TFR è escluso, l'indennità sostitutiva del preavviso resta imponibile ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1969-04-30;153~art12)) · letta il 3 ottobre 2026
 - D.Lgs. 446/1997, art. 50 — addizionale regionale determinata all'atto delle operazioni di conguaglio e trattenuta in un massimo di undici rate; in caso di cessazione del rapporto è trattenuta in unica soluzione nel periodo di paga del conguaglio ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-15;446~art50)) · letta il 3 ottobre 2026
-- D.Lgs. 360/1998, art. 1 comma 5 — addizionale comunale: acconto trattenuto in un massimo di nove rate da marzo, saldo determinato al conguaglio e trattenuto in un massimo di undici rate, e in caso di cessazione del rapporto l'addizionale residua è trattenuta in unica soluzione ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-12-28;360~art1)) · letta il 3 ottobre 2026
+- D.Lgs. 360/1998, art. 1 commi 4 e 5 — addizionale comunale: acconto pari al 30% dell'addizionale calcolata sul reddito dell'anno precedente, con aliquota e soglia di esenzione dell'anno precedente, trattenuto in un massimo di nove rate da marzo; saldo determinato al conguaglio e trattenuto in un massimo di undici rate dal periodo di paga successivo; in caso di cessazione del rapporto l'addizionale residua è trattenuta in unica soluzione ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1998-09-28;360~art1)) · letta il 3 ottobre 2026, commi 4 e 5 riletti il 7 ottobre 2026
+- Dipartimento delle Finanze, addizionale regionale della Lombardia per il 2025 — 1,23% fino a 15.000 €, 1,58% fino a 28.000 €, 1,72% fino a 50.000 €, 1,73% oltre: le stesse aliquote del 2026 ([Dipartimento delle Finanze](https://www1.finanze.gov.it/finanze2/dipartimentopolitichefiscali/fiscalitalocale/addregirpef/addregirpef.php?reg=10&anno=2025)) · letta il 7 ottobre 2026
+- Dipartimento delle Finanze, addizionale comunale di Milano — 0,8% con esenzione per redditi imponibili fino a 23.000 €, invariata dal 2020 al 2025; per il 2026 non risulta una nuova delibera e resta in vigore la precedente ([Dipartimento delle Finanze](https://www1.finanze.gov.it/finanze2/dipartimentopolitichefiscali/fiscalitalocale/nuova_addcomirpef/risultato.htm?anno=9999&pr=MI&cc=F205&r=1)) · letta il 7 ottobre 2026
+- L. 213/2023, art. 1 c. 15, e INPS, circolare 11/2024 — per i periodi di paga del 2024 esonero di 6 punti sui contributi IVS a carico del lavoratore se la retribuzione mensile non supera 2.692 €, senza effetti sul rateo di tredicesima: per questo il reddito 2024 dell'esempio è più alto di quello 2025 ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.01.circolare-numero-11-del-16-01-2024_14436.html)) · letta il 7 ottobre 2026
 - INPS, circolare 101/2024 — aliquota IVS 9,19% a carico del lavoratore ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · verificata il 3 ottobre 2026
 - L. 199/2025, art. 1 c. 3 — scaglioni IRPEF 2026 al 23 / 33 / 43%, usati dal motore e per l'aliquota del 23% sul reddito di riferimento ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · atto riaperto il 3 ottobre 2026
-- Nota sul metodo: i testi su Normattiva vengono caricati da uno script che il mio strumento di lettura non sempre esegue. Per questa pagina ho letto direttamente il testo di D.Lgs. 66/2003 art. 10, L. 153/1969 art. 12, D.Lgs. 446/1997 art. 50 e D.Lgs. 360/1998 art. 1, più le due schede dell'Agenzia delle Entrate. L'art. 2120 del codice civile, la L. 297/1982 e gli artt. 17 e 19 del TUIR li ho riaperti ma non ho potuto rileggerne il testo parola per parola in questa sessione.
+- Nota sul metodo: i testi su Normattiva vengono caricati da uno script che il mio strumento di lettura non sempre esegue. Per questa pagina ho letto direttamente il testo di D.Lgs. 66/2003 art. 10, L. 153/1969 art. 12, D.Lgs. 446/1997 art. 50 e D.Lgs. 360/1998 art. 1, più le due schede dell'Agenzia delle Entrate. L'art. 2120 del codice civile, la L. 297/1982 e gli artt. 17 e 19 del TUIR li ho riaperti ma non ho potuto rileggerne il testo parola per parola in questa sessione. Nell'aggiornamento del 7 ottobre 2026 ho riletto i commi 4 e 5 dell'art. 1 del D.Lgs. 360/1998, la circolare INPS 11/2024 e le tabelle del Dipartimento delle Finanze per Lombardia e Milano.
