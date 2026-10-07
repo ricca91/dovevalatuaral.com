@@ -2,21 +2,22 @@
 slug: esempio-busta-paga-malattia
 titolo: "Esempio di busta paga con malattia: quanto paga l'INPS e quanto il datore"
 title_seo: "Esempio di busta paga con malattia: il conto rifatto"
-description: "Esempio di busta paga con malattia: su 2.080 € lordi e dieci giornate, l'INPS paga 280 €, i primi tre giorni zero. Senza integrazione CCNL mancano 520 €."
+description: "Esempio di busta paga con malattia: operaio a 2.080 € lordi fissi, dieci giornate. L'INPS paga 280 €, i primi tre giorni zero. Senza integrazione CCNL mancano 520 €."
 query_principale: "esempio busta paga con malattia"
 cluster: "esempi-per-casistica"
 data_pubblicazione: 2026-09-28
+data_aggiornamento: 2026-10-07
 cta: "/"
 link_interni: ["/blog/esempio-busta-paga/", "/blog/come-leggere-busta-paga/", "/blog/netto-piu-basso-del-mese-scorso/", "/come-ho-lavorato.html"]
-ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, divisore giornaliero 26"
+ipotesi_calcolo: "operaio con paga fissa mensile di 2.080 €, uguale nel mese precedente interamente lavorato; base INPS: quel mese diviso 26, senza ratei di mensilità aggiuntive; trattenuta con divisore CCNL 26; Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
 fonti_verificate: 2026-09-28
 stato: pubblicato
 ---
-In un esempio di busta paga con malattia il conto si spezza in tre pezzi. I primi tre giorni l'INPS non li paga. Dal quarto al ventesimo paga il **50%** della retribuzione media giornaliera, dal ventunesimo al centottantesimo il **66,66%**. Il resto lo mette il datore di lavoro solo se il tuo CCNL glielo impone. Su 2.080,00 € lordi al mese e dieci giornate di malattia l'INPS ci mette **280,00 €**: senza integrazione il buco lordo è di **520,00 €**.
+In un esempio di busta paga con malattia il conto si spezza in tre pezzi. I primi tre giorni l'INPS non li paga. Dal quarto al ventesimo paga il **50%** della retribuzione media giornaliera, dal ventunesimo al centottantesimo il **66,66%**. Il resto lo mette il datore di lavoro solo se il tuo CCNL glielo impone. Per un operaio con paga fissa di 2.080,00 € lordi al mese e dieci giornate di malattia l'INPS ci mette **280,00 €**: senza integrazione il buco lordo è di **520,00 €**.
 
-> **In breve**: in un esempio di busta paga con malattia da 2.080,00 € lordi al mese, con divisore 26, la quota giornaliera vale 80,00 €. Dieci giornate valgono 800,00 € di trattenuta. L'INPS ne indennizza sette al 50%, cioè 280,00 €: i primi tre sono di carenza. Senza integrazione del CCNL il lordo del mese scende a 1.560,00 € e sull'anno perdi 309,05 € netti.
+> **In breve**: in un esempio di busta paga con malattia per un operaio a 2.080,00 € lordi fissi al mese, la base INPS è il mese precedente diviso 26: 80,00 € al giorno. Dieci giornate valgono 800,00 € di trattenuta, calcolata con il divisore del contratto, che qui è anche lui 26. L'INPS ne indennizza sette al 50%, cioè 280,00 €: i primi tre sono di carenza. Senza integrazione del CCNL il lordo del mese scende a 1.560,00 € e sull'anno perdi 309,05 € netti.
 
-Le ipotesi contano e sono queste: dipendente privato a tempo pieno, residenza a Milano, nessun familiare a carico, 13 mensilità, aliquota contributiva FPLD ordinaria, regole 2026, divisore giornaliero 26. Gli importi netti escono dal motore di calcolo del sito; le percentuali INPS vengono dalle fonti in fondo alla pagina.
+Le ipotesi contano e sono queste: operaio a tempo pieno con paga fissa mensile di 2.080,00 €, uguale anche nel mese precedente la malattia, lavorato per intero; contratto collettivo con divisore giornaliero 26; residenza a Milano, nessun familiare a carico, 13 mensilità, aliquota contributiva FPLD ordinaria, regole 2026. Gli importi netti escono dal motore di calcolo del sito; percentuali e base dell'indennità INPS vengono dalle fonti in fondo alla pagina.
 
 ## Chi paga i giorni di malattia: l'INPS, il datore o nessuno?
 
@@ -35,18 +36,24 @@ L'indennità INPS, poi, non arriva con un bonifico dell'Istituto. La anticipa l'
 
 ## Come si calcola la retribuzione media giornaliera?
 
-La retribuzione media giornaliera è la base su cui si applicano il 50% e il 66,66%, e si ottiene dividendo la retribuzione lorda del mese per il divisore del tuo contratto. Con 2.080,00 € lordi e divisore 26 fa **80,00 € al giorno**. È il numero da cui dipende tutto il resto del conto.
+La retribuzione media giornaliera è la base su cui l'INPS applica il 50% e il 66,66%, e non ha una formula unica per tutti. Per gli operai con paga fissa mensile l'INPS ammette di dividere per **26** la retribuzione complessiva del mese precedente la malattia, se quel mese è stato lavorato per intero ([INPS, circolare 84 del 22 aprile 1980, punto 9.1](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=/Circolari/Circolare+numero+84+del+22-4-1980.htm)). Con 2.080,00 € nel mese precedente fa **80,00 € al giorno**. È il numero da cui dipende tutto il resto del conto.
 
 Da qui escono le due indennità giornaliere di questo esempio:
 
 - dal 4° al 20° giorno: 50% di 80,00 € = **40,00 € al giorno**;
 - dal 21° al 180° giorno: 66,66% di 80,00 € = **53,33 € al giorno**.
 
-Due avvertenze, perché qui i cedolini reali si discostano. Il divisore non è sempre 26: lo fissa il CCNL, e con un divisore diverso cambia la quota giornaliera. E molti contratti aggiungono alla base di calcolo la quota dei ratei di tredicesima: in quel caso la retribuzione media giornaliera è un po' più alta di 80,00 € e l'indennità pure. Qui non la includo, e lo dichiaro.
+Tre avvertenze, perché qui i cedolini reali si discostano.
 
-## L'esempio: dieci giornate di malattia su 2.080 € lordi al mese
+La prima: il divisore fisso 26 la circolare lo prevede solo per gli operai con paga fissa mensile. Se sei impiegato, se sei pagato a ore o se il mese prima sei stato assente, quella regola non ti copre: la base INPS va ricostruita con altre istruzioni e questo conto non vale così com'è.
 
-Ecco l'esempio di busta paga con malattia riga per riga, su dieci giornate di assenza di cui tre di carenza. La retribuzione ordinaria viene tolta per intero sulle giornate non lavorate, l'indennità INPS rientra come voce a sé, e il saldo dipende da una cosa sola: se il contratto integra o no.
+La seconda: la base INPS non è la trattenuta. La trattenuta per le giornate di assenza la calcola il datore con il divisore del tuo contratto, sulla paga del mese in corso; l'indennità INPS parte dal mese precedente. Qui i due numeri coincidono a 80,00 € perché ho scelto un CCNL con divisore 26 e un mese precedente pagato come questo. Nel tuo cedolino possono essere diversi.
+
+La terza: i ratei. Se il tuo CCNL non mette a carico del datore l'intera tredicesima per i giorni di malattia, nella base INPS possono entrare anche i ratei delle mensilità aggiuntive ([INPS, circolare 213 del 31 luglio 1995](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=/Circolari/Circolare+numero+213+del+31-7-1995.htm)). In quel caso la retribuzione media giornaliera è un po' più alta di 80,00 € e l'indennità pure. Qui non li includo, e lo dichiaro.
+
+## L'esempio: operaio a paga fissa di 2.080 € al mese, dieci giornate di malattia
+
+Ecco l'esempio di busta paga con malattia riga per riga, su dieci giornate di assenza di cui tre di carenza. La retribuzione ordinaria viene tolta per intero sulle giornate non lavorate, con il divisore del contratto; l'indennità INPS rientra come voce a sé, calcolata sulla base del mese precedente; il saldo dipende da una cosa sola: se il contratto integra o no.
 
 | Voce del mese | Importo |
 | --- | --- |
@@ -115,7 +122,7 @@ Al massimo 180 giorni di calendario per anno solare. Superato quel tetto l'inden
 
 ### Quanto prende l'INPS di indennità su 1.500 euro al mese?
 
-Con divisore 26 la quota giornaliera è 57,69 €: l'indennità vale 28,85 € al giorno dal quarto al ventesimo e 38,46 € dal ventunesimo. Su dieci giornate di malattia, sette indennizzate, fa 201,95 € dall'INPS contro 576,90 € di trattenuta. La proporzione non cambia con il lordo: cambiano gli euro.
+Per un operaio con paga fissa di 1.500 € e il mese precedente lavorato per intero, la base INPS è 1.500 diviso 26: 57,69 € al giorno. L'indennità vale 28,85 € al giorno dal quarto al ventesimo e 38,46 € dal ventunesimo. Su dieci giornate di malattia, sette indennizzate, fa 201,95 € dall'INPS contro 576,90 € di trattenuta, se anche il tuo contratto usa il divisore 26. La proporzione non cambia con il lordo: cambiano gli euro.
 
 ### L'indennità di malattia è tassata?
 
@@ -127,21 +134,24 @@ Dipende dal contratto collettivo, non dalla legge, e qui non lo verifico. Alcuni
 
 ## Quello che questa pagina non copre
 
-Questo esempio di busta paga con malattia vale per un dipendente privato a tempo pieno, con 13 mensilità, divisore giornaliero 26, residenza a Milano, nessun familiare a carico e aliquota FPLD ordinaria. Cambia una di queste cose e i numeri cambiano. Restano fuori, e lo dico prima che tu ci sbatta:
+Questo esempio di busta paga con malattia vale per un operaio a tempo pieno con paga fissa mensile, il mese precedente lavorato per intero, divisore 26 sia per la base INPS sia per la trattenuta, 13 mensilità senza ratei nella base INPS, residenza a Milano, nessun familiare a carico e aliquota FPLD ordinaria. Cambia una di queste cose e i numeri cambiano. Restano fuori, e lo dico prima che tu ci sbatta:
 
+- **Impiegati, operai pagati a ore e chi il mese prima è stato assente.** La base INPS con il divisore 26 vale per la casistica dell'esempio, non per loro.
 - **Il tuo CCNL.** Non ho verificato il testo di nessun contratto collettivo per questo articolo: l'integrazione al 100% è un'ipotesi del conto, non una regola generale. Percentuali e numero di episodi coperti stanno nel tuo contratto.
 - **Il conteggio esatto delle giornate indennizzabili.** Qui conto dieci giornate di quelle che il divisore 26 retribuisce. Domeniche, festivi e lavoro a ore seguono regole proprie che non ricostruisco.
 - **L'infortunio sul lavoro**, che non è malattia: lì paga l'INAIL con percentuali sue.
 - **Malattia in prova, in preavviso, durante la cassa integrazione o oltre il periodo di comporto.**
 - **Categorie con misure diverse** da quelle generali — alcuni settori hanno percentuali proprie — e i lavoratori del pubblico impiego.
 
-Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore di calcolo pubblico, con le ipotesi dichiarate qui sopra e le fonti riaperte il 28 settembre 2026. Il metodo sta per intero in [come ho lavorato](/come-ho-lavorato.html).
+Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore di calcolo pubblico, con le ipotesi dichiarate qui sopra e le fonti riaperte il 28 settembre 2026; quelle sulla base di calcolo INPS il 7 ottobre 2026. Il metodo sta per intero in [come ho lavorato](/come-ho-lavorato.html).
 
 Se vuoi il conto sulla tua cifra esatta, la RAL si mette nel calcolatore in home page e il netto lo rifà il motore.
 
 ## Fonti
 
 - INPS, circolare 178 dell'8 agosto 1985 — indennità giornaliera erogata dal quarto giorno di malattia, 50% della retribuzione media giornaliera e 66,66% dal ventunesimo giorno, entro il periodo massimo di 180 giorni nell'anno solare ([INPS](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=/Circolari/Circolare+numero+178+del+8-8-1985.htm)) · verificata il 28 settembre 2026
+- INPS, circolare 84 del 22 aprile 1980, punto 9.1 e nota 27 — per gli operai retribuiti in misura fissa mensile la retribuzione giornaliera può essere determinata dividendo per il divisore fisso 26 la retribuzione complessiva del mese antecedente la malattia, interamente lavorato; se il mese non è stato lavorato per intero valgono altre istruzioni ([INPS](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=/Circolari/Circolare+numero+84+del+22-4-1980.htm)) · verificata il 7 ottobre 2026
+- INPS, circolare 213 del 31 luglio 1995 — i ratei delle mensilità aggiuntive possono entrare nella retribuzione su cui si calcola l'indennità di malattia quando il contratto collettivo, o la legge, non pone l'intera mensilità a carico del datore di lavoro ([INPS](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?sVirtualURL=/Circolari/Circolare+numero+213+del+31-7-1995.htm)) · verificata il 7 ottobre 2026
 - L. 11 gennaio 1943, n. 138, art. 6 — durata massima dell'assistenza di 180 giorni all'anno e indennità non dovuta quando il datore corrisponde per contratto collettivo un trattamento pari o superiore ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1943-01-11;138~art6)) · verificata il 28 settembre 2026
 - D.L. 30 dicembre 1979, n. 663, art. 1 — il datore di lavoro corrisponde l'indennità di malattia all'atto della corresponsione della retribuzione e la pone a conguaglio con i contributi dovuti all'Istituto ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:1979-12-30;663~art1)) · verificata il 28 settembre 2026
 - L. 30 dicembre 2025, n. 199 — legge di bilancio 2026, la manovra su cui il motore fissa le regole IRPEF dell'anno usate per i netti di questa pagina ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · atto riaperto il 28 settembre 2026
