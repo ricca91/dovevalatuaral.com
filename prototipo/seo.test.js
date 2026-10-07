@@ -114,13 +114,10 @@ test('Gioca è raggiungibile da ogni navigazione pubblica e corrente nel gioco',
   }
 });
 
-test('Vercel reindirizza permanentemente il dominio legacy preservando la path', () => {
+test('il dominio legacy non si reindirizza da vercel.json', () => {
+  /* Il 301 di jethr.riccsartori.com vive nelle impostazioni del dominio su Vercel (RIC-93):
+     la regola con `has: host` e `/:path*` non intercettava i path con lo slash finale. */
   const config = JSON.parse(readFileSync(resolve(root, 'vercel.json'), 'utf8'));
   assert.equal(config.outputDirectory, 'dist');
-  assert.deepEqual(config.redirects.filter(rule => rule.has), [{
-    source: '/:path*',
-    has: [{ type: 'host', value: 'jethr.riccsartori.com' }],
-    destination: 'https://www.dovevalatuaral.com/:path*',
-    permanent: true,
-  }]);
+  assert.deepEqual(config.redirects.filter(rule => rule.has), []);
 });
