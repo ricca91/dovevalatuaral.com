@@ -394,6 +394,25 @@ Il fingerprint di `compara.js` nel manifest del gioco è aggiornato solo per il
 cambio della destinazione predefinita del link (`index.html` → `/`). Vettori,
 sequenze, formule e versione `non-v1-2026-01` restano invariati e i test passano.
 
+## Il parametro del rider cresce da solo (RIC-111)
+
+La tabella della Logistica diceva che il passaggio di parametro del rider «non è
+automatico». L'art. 6 del CCNL (stesura firmata 25 settembre 2025, pp. 25–26) dice
+il contrario: lettera I, «parametro 110 che trascorsi 6 mesi passerà al parametro
+116»; lettera L, 110, poi 116 dopo 6 mesi e 119 «trascorsi ulteriori 9 mesi».
+
+Le righe per parametro restano, perché la fonte stampa un minimo per parametro e
+le pagine dei minimi mostrano la tabella com'è. Ma ogni riga del rider porta la
+progressione della sua lettera, e l'etichetta dice la finestra («primi 6 mesi»,
+«dopo 6 mesi, fino a 15», «dopo 15 mesi»). Con la data di anzianità `componiRal()`
+applica la riga maturata, anche più bassa di quella scelta: a parità di anzianità
+il parametro non è un'alternativa. Il passaggio vale dal giorno in cui i mesi si
+compiono, perché l'art. 6 non lo rinvia al mese successivo come l'art. 17 per gli
+scatti. Senza data resta la riga scelta, e il calcolatore lo dice.
+
+La data è la stessa degli scatti: l'anzianità in azienda. Per chi è diventato
+rider dopo l'assunzione i mesi da rider sono meno; il caso non è modellato.
+
 ## Dove finisce il registro
 
 Nel codice, in tre pull request:

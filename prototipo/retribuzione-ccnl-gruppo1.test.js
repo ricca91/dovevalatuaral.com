@@ -499,6 +499,83 @@ test.describe('Logistica, trasporto merci e spedizione — I100',()=>{
     nettoRiconcilia(pieno);nettoRiconcilia(ridotto);
   });
 
+  /* RIC-111. Art. 6, lettere I e L: il rider entra al parametro 110,
+     «trascorsi 6 mesi passerà al parametro 116» e, su ciclomotori e
+     motocicli, «trascorsi ulteriori 9 mesi passerà al parametro 119».
+     Con la data di anzianità la riga applicata è quella maturata,
+     qualunque sia quella scelta. Al 22 settembre 2026, gennaio 2026:
+       I-116: (1.718,52 + 10,00) × 14 = 24.199,28 + EDR 8,72 × 13 = 113,36 → 24.312,64;
+       L-119: (1.762,98 + 16,67) × 14 = 24.915,10 + EDR 8,95 × 13 = 116,35 → 25.031,45.
+     Nessuno scatto: il primo biennio non è ancora trascorso. */
+  test('il parametro del rider cresce da solo con l’anzianità (RIC-111)',()=>{
+    const rider=(livello,dataAnzianita=null)=>R.componiRal({ccnl:LOGISTICA,
+      sezione:'viaggiante',livello,dataAnzianita,alla:OGGI});
+
+    const cicli=rider('I-110','2025-01-10');
+    assert.equal(cicli.livello,'I-116');
+    assert.equal(cicli.livelloRichiesto,'I-110');
+    assert.equal(cicli.baseMensile,1737.24);
+    assert.equal(cicli.ral,24312.64);
+    assert.equal(cicli.numeroScatti,0);
+    assert.deepEqual({...cicli.progressione},{richiesto:'I-110',applicato:'I-116',
+      dal:'2025-07-10',articolo:'art. 6 del CCNL, rider lettera I'});
+
+    const moto=rider('L-110','2025-01-10');
+    assert.equal(moto.livello,'L-119');
+    assert.equal(moto.baseMensile,1788.6);
+    assert.equal(moto.ral,25031.45);
+    assert.equal(moto.progressione.dal,'2026-04-10');
+
+    /* I confini: il passaggio vale dal giorno in cui i mesi sono trascorsi. */
+    assert.equal(rider('I-110','2026-03-23').livello,'I-110');
+    assert.equal(rider('I-110','2026-03-22').livello,'I-116');
+    assert.equal(rider('L-116','2026-03-23').livello,'L-110');
+    assert.equal(rider('L-110','2026-03-22').livello,'L-116');
+    assert.equal(rider('L-110','2025-06-23').livello,'L-116');
+    assert.equal(rider('L-116','2025-06-22').livello,'L-119');
+
+    /* La data vince anche verso il basso: a parità di anzianità la riga
+       non è un'alternativa libera. */
+    const nuovo=rider('L-119','2026-08-01');
+    assert.equal(nuovo.livello,'L-110');
+    assert.equal(nuovo.progressione.applicato,'L-110');
+
+    /* Senza data resta la riga scelta, e il risultato lo dice. */
+    const senzaData=rider('I-110');
+    assert.equal(senzaData.livello,'I-110');
+    assert.equal(senzaData.progressione,null);
+
+    /* Una data dopo il giorno del calcolo non è un'anzianità. */
+    assert.throws(()=>rider('L-110','2026-09-23'),RangeError);
+
+    /* I conducenti non hanno progressione: la data serve solo agli scatti. */
+    const f2=R.componiRal({ccnl:LOGISTICA,sezione:'viaggiante',livello:'F2',
+      dataAnzianita:'2020-01-10',alla:OGGI});
+    assert.equal(f2.livello,'F2');
+    assert.equal(f2.progressione,null);
+  });
+
+  test('etichette e descrizione dicono le finestre del rider, non alternative libere (RIC-111)',()=>{
+    const nomi=Object.fromEntries(R.livelli(LOGISTICA,OGGI,'viaggiante').map(l=>[l.codice,l.nome]));
+    assert.equal(nomi['I-110'],'Rider su cicli — I, parametro 110 (primi 6 mesi)');
+    assert.equal(nomi['I-116'],'Rider su cicli — I, parametro 116 (dopo 6 mesi)');
+    assert.equal(nomi['L-110'],'Rider su ciclomotori e motocicli — L, parametro 110 (primi 6 mesi)');
+    assert.equal(nomi['L-116'],'Rider su ciclomotori e motocicli — L, parametro 116 (dopo 6 mesi, fino a 15)');
+    assert.equal(nomi['L-119'],'Rider su ciclomotori e motocicli — L, parametro 119 (dopo 15 mesi)');
+    const descrizione=R.sezioni(LOGISTICA).find(s=>s.id==='viaggiante').descrizione;
+    assert.doesNotMatch(descrizione,/non è automatico/);
+    assert.match(descrizione,/chi usa cicli passa dal 110 al 116 dopo 6 mesi/);
+    assert.match(descrizione,/chi usa ciclomotori o motocicli passa dal 110 al 116 dopo 6 mesi e al 119 dopo ulteriori 9 mesi/);
+    /* Ogni riga del rider porta la progressione della sua lettera, su ogni tranche. */
+    for(const tabella of R.sezioni(LOGISTICA).find(s=>s.id==='viaggiante').tabelle)
+      for(const livello of tabella.livelli){
+        const attesa=/^I-/.test(livello.codice)?['I-110','I-116']
+          :/^L-/.test(livello.codice)?['L-110','L-116','L-119']:null;
+        assert.deepEqual(livello.progressione?livello.progressione.passi.map(p=>p.codice):null,
+          attesa,`${tabella.decorrenza} ${livello.codice}`);
+      }
+  });
+
   test('le esclusioni dicono il 6° Junior e le norme transitorie',()=>{
     const testo=R.ESCLUSIONI[LOGISTICA].join(' ');
     assert.match(testo,/6° livello Junior/);
