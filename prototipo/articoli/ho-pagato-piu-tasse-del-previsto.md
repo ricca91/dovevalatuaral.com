@@ -6,6 +6,7 @@ description: "Su 30.000 € di RAL le trattenute fiscali valgono 3.817,51 € l'
 query_principale: "trattenute fiscali busta paga"
 cluster: "sintomi"
 data_pubblicazione: 2026-10-07
+data_aggiornamento: 2026-10-08
 cta: "/"
 link_interni: ["/blog/netto-piu-basso-del-mese-scorso/", "/blog/tredicesima-detassata/", "/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/come-ho-lavorato.html"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario"
@@ -68,9 +69,9 @@ La terza riga è quella che nessuno si aspetta. La detrazione da lavoro dipenden
 
 ## Causa 2: la detrazione è entrata tutta?
 
-Una detrazione abbatte l'imposta, non viene rimborsata. La legge la fa operare «fino alla concorrenza» dell'imposta lorda. Se ti spettano 1.955 € di detrazione e la tua IRPEF lorda è 400 €, la detrazione entra per 400 €, non per 1.955. Gli altri 1.555 € non li perdi per un errore: non c'erano imposte da abbattere. Nel glossario del progetto questa si chiama **capienza**.
+Una detrazione abbatte l'imposta, non viene rimborsata. La legge la fa operare «fino alla concorrenza» dell'imposta lorda. Se ti spettano 1.955 € di detrazione e la tua IRPEF lorda dell'anno è 400 €, la detrazione entra per 400 €, non per 1.955. Gli altri 1.555 € non li perdi per un errore: non c'erano imposte da abbattere. Nel glossario del progetto questa si chiama **capienza**.
 
-Sull'anno il motore la mostra così. Nella fascia fino a 15.000 € di reddito la detrazione spettante è 1.955 €, ma sotto circa 9.361 € di RAL l'IRPEF lorda è più bassa, e una parte resta inutilizzata.
+Sull'anno il motore la mostra così: è l'**incapienza annuale**. Nella fascia fino a 15.000 € di reddito la detrazione spettante è 1.955 €, ma sotto circa 9.361 € di RAL l'IRPEF lorda è più bassa, e una parte resta inutilizzata.
 
 | RAL | IRPEF lorda | Detrazione spettante | Detrazione usata | Quota non utilizzata |
 | --- | --- | --- | --- | --- |
@@ -79,7 +80,9 @@ Sull'anno il motore la mostra così. Nella fascia fino a 15.000 € di reddito l
 | 9.000 € | 1.879,77 € | 1.955,00 € | 1.879,77 € | 75,23 € |
 | 9.400 € | 1.963,31 € | 1.955,00 € | 1.955,00 € | 0,00 € |
 
-Lo stesso vincolo vale **mese per mese**, perché le detrazioni si rapportano al periodo di paga insieme agli scaglioni. In un mese con poca retribuzione — un lungo periodo di assenza, un part time appena iniziato, l'ultimo mese di un rapporto — l'imposta di quel mese può non bastare a contenere la detrazione di quel mese. Quanto valga sul tuo cedolino qui non lo stimo.
+Lo stesso vincolo vale **mese per mese**, perché le detrazioni si rapportano al periodo di paga insieme agli scaglioni. In un mese con poca retribuzione — un lungo periodo di assenza, un part time appena iniziato, l'ultimo mese di un rapporto — l'imposta di quel mese può non bastare a contenere la detrazione di quel mese.
+
+Le due incapienze non vanno confuse. **L'incapienza del cedolino può essere temporanea; l'esito definitivo si determina al conguaglio annuale o alla cessazione del rapporto.** In quel momento il datore rifà il conto sull'anno: confronta quello che ti ha trattenuto con l'imposta dovuta su tutto quello che ti ha pagato, tenendo conto delle detrazioni spettanti. La detrazione che un mese non ha assorbito può trovare spazio nell'imposta dell'anno. Quella della tabella sopra no: lì l'imposta manca sull'anno intero. Quanto valga sul tuo cedolino qui non lo stimo.
 
 ## Causa 3: sono partite le rate delle addizionali?
 
@@ -113,7 +116,7 @@ Evitarlo del tutto non è possibile. Ridurne la probabilità sì: comunica al da
 
 ## Le trattenute fiscali vengono restituite?
 
-In parte, e dipende da quale. L'**IRPEF trattenuta in eccesso torna**: col conguaglio se è il datore ad aver prelevato troppo, col 730 se hai spese e detrazioni che il datore non conosceva. I **contributi INPS non tornano**, perché non sono un'imposta. La **detrazione non usata per capienza non torna in nessun modo**: non è imposta pagata in più, è un'agevolazione che non ha trovato imposta da abbattere.
+In parte, e dipende da quale. L'**IRPEF trattenuta in eccesso torna**: col conguaglio se è il datore ad aver prelevato troppo, col 730 se hai spese e detrazioni che il datore non conosceva. I **contributi INPS non tornano**, perché non sono un'imposta. Per la detrazione non entrata per capienza conta se è rimasta fuori in un mese o sull'anno. **Una detrazione non assorbita nel singolo mese non è necessariamente persa: al conguaglio il datore ricalcola imposta e detrazioni sul reddito dell'intero anno.** Resta definitivamente inutilizzata solo la quota che non trova capienza neppure nell'imposta annuale complessiva: non è imposta pagata in più, è un'agevolazione che non ha trovato imposta da abbattere.
 
 ## Cosa è cambiato nelle trattenute nel 2026?
 
@@ -132,7 +135,8 @@ Le addizionali sono quelle di Milano e della Lombardia. Cambiando comune o regio
 ## Fonti
 
 - DPR 29 settembre 1973, n. 600, art. 23 c. 2 — la ritenuta si calcola sulla parte imponibile «ragguagliando al periodo di paga i corrispondenti scaglioni annui di reddito», con le detrazioni degli artt. 12 e 13 TUIR rapportate al medesimo periodo ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1973-09-29;600~art23)) · versione vigente dal 21 maggio 2022 al 31 dicembre 2026, verificata il 7 ottobre 2026
-- DPR 600/1973, art. 23 c. 3 — conguaglio fra ritenute operate e imposta dovuta sull'ammontare complessivo degli emolumenti, da effettuare entro il 28 febbraio dell'anno successivo ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1973-09-29;600~art23)) · verificata il 7 ottobre 2026
+- DPR 600/1973, art. 23 c. 3 — conguaglio fra ritenute operate e imposta dovuta sull'ammontare complessivo degli emolumenti, da effettuare entro il 28 febbraio dell'anno successivo e, se il rapporto cessa prima, alla data di cessazione del rapporto, tenendo conto delle detrazioni degli artt. 12 e 13 TUIR ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1973-09-29;600~art23)) · verificata il 7 ottobre 2026, riletta l'8 ottobre 2026 nella versione vigente dal 21 maggio 2022 al 31 dicembre 2026
+- INPS, circolare n. 12 del 19 gennaio 1998, par. II-3.2 — nelle operazioni di conguaglio, entro il 28 febbraio o alla cessazione del rapporto, il sostituto è tenuto a riconoscere «le detrazioni per reddito di lavoro dipendente e per familiari a carico anche se richieste solo alla fine dell'anno». È un testo del 1998, con importi in lire; qui conta solo il principio del conguaglio, che è quello dell'art. 23 c. 3 ([INPS](https://servizi2.inps.it/servizi/Bussola/visualizzadoc.aspx?sVirtuAlURL=%2FCircolari%2FCircolare+numero+12+del+19-1-1998.htm)) · verificata l'8 ottobre 2026
 - TUIR, art. 11 c. 3 — «L'imposta netta è determinata operando sull'imposta lorda, fino alla concorrenza del suo ammontare, le detrazioni previste negli articoli 12, 13, 15, 16 e 16-bis»: è la norma della capienza ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1986-12-22;917~art11)) · versione vigente dal 1 gennaio al 31 dicembre 2026, verificata il 7 ottobre 2026
 - TUIR, art. 13 — detrazione da lavoro dipendente, decrescente al crescere del reddito ([Giustizia tributaria](https://def.giustiziatributaria.gov.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&articolo=Articolo+13&id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D)) · verificata il 7 ottobre 2026
 - D.Lgs. 15 dicembre 1997, n. 446, art. 50 c. 4 — l'addizionale regionale è determinata dal sostituto d'imposta all'atto delle operazioni di conguaglio e trattenuta in un massimo di undici rate dal periodo di paga successivo, non oltre dicembre ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-15;446~art50)) · verificata il 7 ottobre 2026
