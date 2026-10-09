@@ -5,6 +5,7 @@ title_seo: "Esempio di busta paga part-time: il conto rifatto a 20 ore"
 description: "Esempio di busta paga part-time: 5° livello commercio, 20 ore su 40. Lordo 830,04 € al mese, netto 836,43 €. Il netto è il 60% del tempo pieno, non il 50%."
 query_principale: "esempio busta paga part time"
 cluster: "esempi-per-casistica"
+ccnl: "commercio"
 data_pubblicazione: 2026-10-08
 data_aggiornamento: 2026-10-09
 cta: "/"

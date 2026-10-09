@@ -610,10 +610,27 @@ function pagina(res,st){
         <b>${eur(res.kpi.nettoAnnuo)}</b></div>
     </div></div></div>
     ${secs.map(sez).join('')}
-    <footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR.</footer>
+    ${calcFooter()}
     ${eggDialog()}`;
 }
+const calcFooter=()=>`<footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR. · <a href="minimi-ccnl/">Minimi CCNL</a></footer>`;
 const eggDialog=()=>`<dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog>`;
+/* I cinque contratti con più clic organici a inizio ottobre 2026: le
+   pagine dei minimi fanno quasi tutta la ricerca, e la home non le
+   linkava (RIC-92). */
+const MINIMI_HOME=[
+  ['multiservizi','Multiservizi','e pulizie'],
+  ['studi-professionali','Studi professionali','Confprofessioni'],
+  ['commercio','Commercio','Terziario Confcommercio'],
+  ['logistica','Logistica','e trasporto merci'],
+  ['pubblici-esercizi','Pubblici esercizi','bar, ristoranti e mense'],
+];
+function minimiCcnl(){
+  return `<div class="scagl">${MINIMI_HOME.map(([slug,nome,nota])=>`
+    <a href="minimi-ccnl/${slug}/"><div class="q">CCNL</div><div class="a">${nome}</div><div class="n">${nota}</div></a>`).join('')}
+  </div>
+  <p class="minimi-tutti"><a href="minimi-ccnl/">Tutti i minimi CCNL, contratto per contratto →</a></p>`;
+}
 function vuoto(st){
   return `<div class="pg">${form(st)}
     <section class="sec">
@@ -623,14 +640,21 @@ function vuoto(st){
       <p class="lead">Le regole nazionali e locali che il calcolo applica.</p>
       <div class="sec-body">${cifreChiave(st)}</div>
     </section>
-    <section class="sec" style="border-bottom:0">
+    <section class="sec">
       <span class="no">§ 02</span>
+      <div class="eyebrow">Minimi CCNL</div>
+      <h2>Il minimo del tuo contratto</h2>
+      <p class="lead">Le tabelle in vigore, livello per livello, con il lordo e il netto stimato.</p>
+      <div class="sec-body">${minimiCcnl()}</div>
+    </section>
+    <section class="sec" style="border-bottom:0">
+      <span class="no">§ 03</span>
       <div class="eyebrow">Domande frequenti</div>
       <h2>Le domande che arrivano sempre</h2>
       <div class="sec-body">${faq()}</div>
     </section>
   </div>
-  <footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR.</footer>
+  ${calcFooter()}
   ${eggDialog()}`;
 }
 

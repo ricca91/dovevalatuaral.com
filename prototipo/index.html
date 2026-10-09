@@ -232,6 +232,11 @@ body{padding-bottom:0}
 .scagl .a{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);
   font-size:1.75rem;letter-spacing:var(--ls-display);line-height:1.1;margin:var(--s-3) 0 4px}
 .scagl .n{font-size:var(--t-xs);color:var(--fg-muted)}
+.sec .scagl>a{display:block;padding:var(--s-5);border-right:var(--bw) dashed var(--line-strong);
+  border-bottom:var(--bw) dashed var(--line-strong);margin:-0.5px;color:inherit;text-decoration:none}
+.sec .scagl>a:hover,.sec .scagl>a:focus-visible{background:var(--c-citron)}
+.scagl>a .a{font-size:1.25rem}
+.minimi-tutti{margin-top:var(--s-5)}
 
 /* --- fonti: schede che condividono le hairline ---------------------------- */
 .voci{display:grid;gap:0;border:var(--bw) dashed var(--line-strong);
@@ -483,8 +488,22 @@ body{padding-bottom:0}
     <div><div class="q">Regole locali</div><div class="a">Milano</div><div class="n">fonte MEF · snapshot 2026-08-26</div></div>
   </div></div>
     </section>
-    <section class="sec" style="border-bottom:0">
+    <section class="sec">
       <span class="no">§ 02</span>
+      <div class="eyebrow">Minimi CCNL</div>
+      <h2>Il minimo del tuo contratto</h2>
+      <p class="lead">Le tabelle in vigore, livello per livello, con il lordo e il netto stimato.</p>
+      <div class="sec-body"><div class="scagl">
+    <a href="minimi-ccnl/multiservizi/"><div class="q">CCNL</div><div class="a">Multiservizi</div><div class="n">e pulizie</div></a>
+    <a href="minimi-ccnl/studi-professionali/"><div class="q">CCNL</div><div class="a">Studi professionali</div><div class="n">Confprofessioni</div></a>
+    <a href="minimi-ccnl/commercio/"><div class="q">CCNL</div><div class="a">Commercio</div><div class="n">Terziario Confcommercio</div></a>
+    <a href="minimi-ccnl/logistica/"><div class="q">CCNL</div><div class="a">Logistica</div><div class="n">e trasporto merci</div></a>
+    <a href="minimi-ccnl/pubblici-esercizi/"><div class="q">CCNL</div><div class="a">Pubblici esercizi</div><div class="n">bar, ristoranti e mense</div></a>
+  </div>
+  <p class="minimi-tutti"><a href="minimi-ccnl/">Tutti i minimi CCNL, contratto per contratto →</a></p></div>
+    </section>
+    <section class="sec" style="border-bottom:0">
+      <span class="no">§ 03</span>
       <div class="eyebrow">Domande frequenti</div>
       <h2>Le domande che arrivano sempre</h2>
       <div class="sec-body"><div class="accordion"><details><summary><span>Perché il netto mensile non coincide con la mia busta paga?</span></summary>
@@ -508,7 +527,7 @@ body{padding-bottom:0}
   </details></div></div>
     </section>
   </div>
-  <footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR.</footer>
+  <footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR. · <a href="minimi-ccnl/">Minimi CCNL</a></footer>
   <dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog></div></div><!-- HOME_STATIC_END -->
 <script src="site-nav.js" async></script>
 <script src="calcolatore-avvio.js" defer onerror="document.getElementById('avvio-messaggio').textContent='Il calcolatore non si è caricato. Riprova.';document.getElementById('avvio-riprova').hidden=false"></script>

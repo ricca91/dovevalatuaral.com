@@ -266,6 +266,7 @@ title_seo: "Dalla RAL al netto: quanto resta nel 2026"
 description: "Su una RAL di 30.000 € restano 1.680 € netti al mese su 13 mensilità. Ecco dove finisce il resto, voce per voce, con le fonti."
 query_principale: "dalla ral al netto quanto si perde"
 cluster: "ral-netto-base"
+# ccnl: "commercio"            # opzionale: solo se l'articolo parla di un contratto preciso
 data_pubblicazione: 2026-10-03
 data_aggiornamento: 2026-10-03 # opzionale: in assenza coincide con la pubblicazione
 cta: "/"                      # una sola, da §7
@@ -281,8 +282,11 @@ componenti. Le formule si scrivono a parole o in tabella, non in LaTeX.
 
 ### 9.2 Contratto del generatore (RIC-74)
 
-- Tutti i campi mostrati sopra sono obbligatori, tranne `data_aggiornamento`. Date reali in
+- Tutti i campi mostrati sopra sono obbligatori, tranne `data_aggiornamento` e `ccnl`. Date reali in
   formato `AAAA-MM-GG`; aggiornamento non precedente alla pubblicazione.
+- `ccnl` è lo slug di una tabella dei minimi (`/minimi-ccnl/{ccnl}/`): il template mette in
+  fondo all'articolo il link a quella tabella. Senza `ccnl` il link va all'indice
+  `/minimi-ccnl/`. Uno slug sconosciuto ferma la build (RIC-92).
 - `slug` deve coincidere col nome del file (senza `.md`), con minuscole, numeri e trattini.
   Anche `cluster` usa questo formato. Slug duplicati o metadati incompleti fermano la build.
 - Solo `stato: pubblicato` va online. `bozza` e `rivisto` sono esclusi da indice, pagine e
