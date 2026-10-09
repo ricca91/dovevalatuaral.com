@@ -5,6 +5,7 @@ title_seo: "Rinnovo CCNL metalmeccanici: l'aumento netto per livello"
 description: "Il rinnovo del CCNL metalmeccanici porta +53,17 € lordi al mese sul C3 da giugno 2026: netti sono 31,61 €. Tabella lordo e netto sui nove livelli."
 query_principale: "rinnovo ccnl metalmeccanici"
 cluster: "ccnl-e-rinnovi"
+ccnl: "metalmeccanico"
 data_pubblicazione: 2026-10-09
 cta: "/ccnl-livello.html"
 link_interni: ["/ccnl-livello.html", "/blog/voci-busta-paga/", "/blog/contributo-ivs-busta-paga/", "/blog/tredicesima-mensilita-quanto-arriva/"]

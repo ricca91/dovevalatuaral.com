@@ -31,13 +31,28 @@ function sitemap(articles=[]){
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${locations.map(location=>`  <url>\n    <loc>${location}</loc>${updated.has(location)?`\n    <lastmod>${updated.get(location)}</lastmod>`:''}\n  </url>`).join('\n')}\n</urlset>\n`;
 }
 
+/* Le pagine livello con la RAL più vicina, una per contratto: a 20.000 €
+   tre livelli Multiservizi direbbero meno di tre contratti diversi. */
+function livelliVicini(ral,livelli,quanti=3){
+  const scelti=[],contratti=new Set();
+  for(const l of [...livelli].sort((a,b)=>Math.abs(a.ral-ral)-Math.abs(b.ral-ral)||a.rotta.localeCompare(b.rotta))){
+    if(contratti.has(l.slug))continue;
+    contratti.add(l.slug);scelti.push(l);
+    if(scelti.length===quanti)break;
+  }
+  return scelti;
+}
+
 function generate(outputDir=__dirname,options={}){
   const {prepare,writeBlog}=require('./genera-articoli.js');
   const blog=prepare({...options,knownRoutes:[...PUBLIC_PAGES.map(url=>new URL(url).pathname),...RALS.map(ral=>`/ral-${ral}-netto/`),...ccnl.ROTTE]});
   const results=new Map(RALS.map(ral=>[ral,calcola(String(ral))]));
+  const livelli=ccnl.ralLivelli(options.alla?{alla:options.alla}:{});
+  const ralMassima=Math.max(...livelli.map(l=>l.ral));
   RALS.forEach((ral,index)=>write(
     path.join(outputDir,`ral-${ral}-netto`,'index.html'),
-    renderRalPage({ral,result:results.get(ral),previous:RALS[index-1],next:RALS[index+1]}),
+    renderRalPage({ral,result:results.get(ral),previous:RALS[index-1],next:RALS[index+1],
+      livelli:livelliVicini(ral,livelli),oltreMinimi:ral>ralMassima}),
   ));
   write(path.join(outputDir,'confronti-ral','index.html'),renderHub({rals:RALS,results}));
   /* Le pagine CCNL si rigenerano a ogni build con le tabelle in
@@ -49,4 +64,4 @@ function generate(outputDir=__dirname,options={}){
 }
 
 if(require.main===module)generate();
-module.exports={RALS,PUBLIC_PAGES,generate,sitemap};
+module.exports={RALS,PUBLIC_PAGES,generate,sitemap,livelliVicini};

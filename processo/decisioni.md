@@ -413,6 +413,31 @@ scatti. Senza data resta la riga scelta, e il calcolatore lo dice.
 La data è la stessa degli scatti: l'anzianità in azienda. Per chi è diventato
 rider dopo l'assunzione i mesi da rider sono meno; il caso non è modellato.
 
+## Link interni verso i minimi CCNL (RIC-92)
+
+Le pagine dei minimi fanno 162 dei 186 clic organici, ma il 6 ottobre 2026 né la home né
+gli articoli linkavano `/minimi-ccnl/`.
+
+Un footer condiviso non esiste: ogni template e ogni pagina statica ha il suo. Invece di
+unificarli, ognuno riceve il link all'indice, e `link-minimi-ccnl.test.js` controlla il
+footer di tutte le pagine pubbliche. Una pagina nuova senza quel link fa fallire la suite.
+
+Gli articoli dichiarano il contratto con un campo facoltativo `ccnl`, lo slug della tabella.
+L'alternativa era riconoscerlo dal testo, ma «commercio» è anche una parola comune e
+«metalmeccanico» vale anche per il Confapi. Senza campo, il rimando va all'indice. Il campo
+è impostato su due articoli: il rinnovo dei metalmeccanici e l'esempio part-time, i cui
+conti sono fatti sul Terziario Confcommercio.
+
+Ogni pagina RAL linka i tre livelli con la RAL minima più vicina, uno per contratto: a
+20.000 € tre livelli Multiservizi direbbero meno di tre contratti diversi. Oggi le pagine
+per livello coprono da 18.733 a 37.791 €, le pagine RAL da 20.000 a 100.000. Sopra il
+massimo, la sezione dice che nessuna pagina per livello arriva a quella cifra, invece di
+spacciare 37.791 € per una cifra vicina a 100.000. La frase parla di pagine per livello e
+non di tabelle, perché la riga Quadro del Commercio arriva a 41.808 €.
+
+Nella home i cinque contratti con più clic sono scritti a mano in `home-ui.js`, che gira
+nel browser e non legge il generatore. Il test verifica che ognuno sia una pagina generata.
+
 ## Dove finisce il registro
 
 Nel codice, in tre pull request:

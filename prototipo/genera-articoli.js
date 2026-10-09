@@ -3,6 +3,7 @@ const path=require('node:path');
 const {parse,escape}=require('./articoli-parser.js');
 const {renderArticle,renderIndex}=require('./articolo.template.js');
 const {ORIGIN}=require('./ral-page.template.js');
+const {CONTRATTI_SEO,HUB,rottaTabella}=require('./genera-pagine-ccnl.js');
 function readArticles(sourceDir=path.join(__dirname,'articoli')){
   if(!fs.existsSync(sourceDir))return [];
   const articles=fs.readdirSync(sourceDir).filter(f=>f.endsWith('.md')).sort().map(file=>parse(fs.readFileSync(path.join(sourceDir,file),'utf8'),file));
@@ -32,10 +33,18 @@ function validateLinks(pages,articles,publicDir,knownRoutes=[]){
   for(const [route,html] of pages)for(const match of html.matchAll(/(?:href|src)="([^"]+)"/g))check(match[1].replaceAll('&amp;','&'),route);
   for(const article of articles)for(const href of article.link_interni)check(href,`/blog/${article.slug}/`);
 }
+/* `ccnl` nel frontmatter è lo slug di una tabella dei minimi: senza,
+   l'articolo rimanda all'indice. */
+function minimi(article){
+  if(!Object.hasOwn(article,'ccnl'))return {rotta:HUB,titolo:null};
+  const contratto=CONTRATTI_SEO.find(c=>c.slug===article.ccnl);
+  if(!contratto)throw Error(`ccnl sconosciuto: ${article.ccnl} (attesi: ${CONTRATTI_SEO.map(c=>c.slug).join(', ')})`);
+  return {rotta:rottaTabella(contratto),titolo:contratto.titoloTabella};
+}
 function prepare({sourceDir=path.join(__dirname,'articoli'),publicDir=__dirname,knownRoutes=[]}={}){
   const articles=readArticles(sourceDir),pages=new Map([['/blog/',renderIndex(articles)]]);
   for(const article of articles){
-    try{pages.set(`/blog/${article.slug}/`,renderArticle(article,articles));}
+    try{pages.set(`/blog/${article.slug}/`,renderArticle(article,articles,minimi(article)));}
     catch(error){throw Error(`${article.file}: ${error.message}`);}
   }
   for(const field of ['title_seo','description']){

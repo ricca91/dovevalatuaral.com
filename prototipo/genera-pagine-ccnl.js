@@ -165,6 +165,15 @@ function datiLivello(c,codice,alla){
       .sort((a,b)=>a.livello.totale-b.livello.totale)};
 }
 
+/* La RAL di ogni pagina per livello, la stessa che la pagina mostra in
+   testa: serve a chi la linka da fuori, come le pagine RAL (RIC-92). */
+function ralLivelli({alla=oggi()}={}){
+  return CONTRATTI_SEO.flatMap(c=>(c.livelli||[]).map(codice=>{
+    const d=datiLivello(c,codice,alla);
+    return {rotta:d.rotta,slug:c.slug,nome:`${d.etichetta} ${c.breve}`,ral:d.righe[0].composta.ral};
+  }));
+}
+
 function write(file,contents){
   fs.mkdirSync(path.dirname(file),{recursive:true});
   fs.writeFileSync(file,contents,'utf8');
@@ -186,4 +195,4 @@ function generate(outputDir=__dirname,{alla=oggi()}={}){
   return [...pagine.keys()];
 }
 
-module.exports={CONTRATTI_SEO,ROTTE,HUB,generate,stima,datiContratto,datiLivello};
+module.exports={CONTRATTI_SEO,ROTTE,HUB,rottaTabella,generate,stima,datiContratto,datiLivello,ralLivelli};

@@ -10,7 +10,7 @@ const quota=basisPoints=>(basisPoints/100).toFixed(2).replace('.',',');
 const NOMI_INTEGRAZIONI={somma:'Somma esente (cuneo fiscale)',ti:'Trattamento integrativo'};
 const query=(ral,mensilita)=>`/?ral=${formatRal(ral)}&amp;m=${mensilita}&amp;c=F205&amp;calc=1`;
 
-function renderRalPage({ral,result,previous,next}){
+function renderRalPage({ral,result,previous,next,livelli=[],oltreMinimi=false}){
   const formatted=formatRal(ral);
   const canonical=`${ORIGIN}/ral-${ral}-netto/`;
   const months=[12,13,14].map(mensilita=>({
@@ -36,6 +36,14 @@ function renderRalPage({ral,result,previous,next}){
           <span><b>RAL ${formatRal(value)} €</b><small>Confronta 12, 13 e 14 mensilità</small></span>
           <span class="related-card__arrow" aria-hidden="true">→</span>
         </a>`).join('');
+  const minimi=livelli.map(l=>`
+        <a class="related-card" href="..${l.rotta}">
+          <span><b>${l.nome}</b><small>RAL minima ${eur(l.ral)}</small></span>
+          <span class="related-card__arrow" aria-hidden="true">→</span>
+        </a>`).join('');
+  const minimiIntro=oltreMinimi
+    ?`Nessuna delle nostre pagine per livello arriva a una RAL minima di ${formatted} €: queste sono le più vicine, una per contratto, senza scatti né superminimo.`
+    :`I livelli con la RAL minima più vicina a ${formatted} €, uno per contratto: tabella nazionale, senza scatti né superminimo.`;
   const cards=months.map(({mensilita,monthly})=>`
       <a class="month-card month-card--${mensilita}" data-mensilita="${mensilita}" data-netto-mensile="${monthly.toFixed(2)}" href="${query(ral,mensilita)}"
          aria-label="Apri il calcolo di ${formatted} euro su ${mensilita} mensilità">
@@ -115,9 +123,15 @@ function renderRalPage({ral,result,previous,next}){
   </section>
   <section class="related" aria-labelledby="correlati-titolo"><h2 id="correlati-titolo">Altri confronti RAL</h2><div class="related__grid">${neighbours}
     </div></section>
+  <section class="related" aria-labelledby="minimi-titolo"><h2 id="minimi-titolo">Minimi CCNL vicini a questa RAL</h2><p class="related__lead">${minimiIntro}</p><div class="related__grid">${minimi}
+        <a class="related-card" href="../minimi-ccnl/">
+          <span><b>Tutti i minimi CCNL</b><small>Tabelle per contratto e livello</small></span>
+          <span class="related-card__arrow" aria-hidden="true">→</span>
+        </a>
+    </div></section>
   <p class="ral-disclaimer">Stima basata sulle regole fiscali 2026. Non costituisce consulenza fiscale o del lavoro. Il risultato può cambiare in base a comune, situazione familiare, inquadramento contributivo e altre condizioni personali.</p>
 </div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../confronti-ral/">Tutti i confronti RAL</a></div></footer>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><span class="ral-footer__links"><a href="../confronti-ral/">Tutti i confronti RAL</a><a href="../minimi-ccnl/">Tutti i minimi CCNL</a></span></div></footer>
 <script src="../site-nav.js"></script></body>
 </html>
 `;
@@ -140,7 +154,7 @@ function renderHub({rals,results}){
 <main id="contenuto" class="ral-main hub-main"><div class="shell"><header class="ral-intro"><div class="eyebrow">Confronti RAL</div><h1>Dal lordo al netto, cifra per cifra</h1><p class="lead">Scegli una RAL e confronta subito lo stesso netto annuo su 12, 13 e 14 mensilità.</p></header>
 <section class="hub-grid" aria-label="Elenco dei confronti RAL">${cards}</section>
 <p class="ral-disclaimer">Stime 2026 per un dipendente privato a Milano, FPLD ordinario, anno completo e nessun familiare a carico.</p></div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span></div></footer><script src="../site-nav.js"></script></body></html>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../minimi-ccnl/">Tutti i minimi CCNL</a></div></footer><script src="../site-nav.js"></script></body></html>
 `;
 }
 

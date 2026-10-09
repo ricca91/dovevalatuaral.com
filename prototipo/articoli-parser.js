@@ -31,10 +31,10 @@ function parse(source,file='articolo.md'){
     const required=['slug','titolo','title_seo','description','query_principale','cluster','data_pubblicazione','cta','link_interni','ipotesi_calcolo','fonti_verificate','stato'];
     for(const key of required)if(!Object.hasOwn(meta,key))throw Error(`campo obbligatorio mancante: ${key}`);
     for(const key of Object.keys(meta)){
-      if(![...required,'data_aggiornamento'].includes(key))throw Error(`campo sconosciuto: ${key}`);
+      if(![...required,'data_aggiornamento','ccnl'].includes(key))throw Error(`campo sconosciuto: ${key}`);
       if(key!=='link_interni'&&(typeof meta[key]!=='string'||!meta[key].trim()))throw Error(`${key}: attesa stringa non vuota`);
     }
-    for(const key of ['slug','cluster'])if(!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta[key]))throw Error(`${key}: usare lettere minuscole, numeri e trattini`);
+    for(const key of ['slug','cluster','ccnl'])if(Object.hasOwn(meta,key)&&!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(meta[key]))throw Error(`${key}: usare lettere minuscole, numeri e trattini`);
     if(!['bozza','rivisto','pubblicato'].includes(meta.stato))throw Error('stato: bozza | rivisto | pubblicato');
     meta.data_aggiornamento??=meta.data_pubblicazione;
     for(const key of ['data_pubblicazione','data_aggiornamento','fonti_verificate'])date(meta[key],key);
