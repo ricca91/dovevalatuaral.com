@@ -438,6 +438,26 @@ non di tabelle, perché la riga Quadro del Commercio arriva a 41.808 €.
 Nella home i cinque contratti con più clic sono scritti a mano in `home-ui.js`, che gira
 nel browser e non legge il generatore. Il test verifica che ognuno sia una pagina generata.
 
+## Il netto nel title delle pagine per livello (RIC-99)
+
+Il 6 ottobre 2026 le query sul netto per livello («ccnl turismo 6 livello retribuzione
+netta») avevano 543 impressioni e 4 clic, e `/minimi-ccnl/turismo/6-livello/` stava al 7,6
+con un CTR dello 0,14%. Il title diceva «minimo, lordo e netto»: la cifra era solo nella
+description.
+
+Ora il title porta il netto medio al mese dell'apertura, arrotondato all'euro: «6° livello
+CCNL Turismo 2026: 1.296 € netti al mese». Nessun secondo calcolo: la cifra cambia con la
+build, come il resto della pagina.
+
+Il limite è 60 caratteri. Se la forma piena non ci sta si toglie «CCNL» dal nome del
+contratto, poi «al mese». Oggi serve solo a Studi professionali: il 2°, 3° e 4° livello
+perdono «CCNL», il 4° super anche «al mese», che lo avrebbe portato a 64 caratteri; la
+description dice già che la cifra è mensile. Un title che non ci sta nemmeno così ferma la
+build invece di uscire troncato.
+
+Le Cooperative sociali perdono il loro «stipendio lordo e netto»: le loro pagine per livello
+non avevano impressioni, e un'eccezione per un solo contratto non valeva una seconda forma.
+
 ## Dove finisce il registro
 
 Nel codice, in tre pull request:
