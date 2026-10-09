@@ -6,6 +6,7 @@ description: "Esempio di busta paga part-time: 5° livello commercio, 20 ore su 
 query_principale: "esempio busta paga part time"
 cluster: "esempi-per-casistica"
 data_pubblicazione: 2026-10-08
+data_aggiornamento: 2026-10-09
 cta: "/"
 link_interni: ["/ccnl-livello.html", "/blog/esempio-busta-paga/", "/blog/contributo-ivs-busta-paga/", "/blog/quanto-vale-un-ora-di-lavoro-netta/"]
 ipotesi_calcolo: "CCNL Terziario Confcommercio, 5° livello, tabella in vigore dal 1° novembre 2025, 14 mensilità, nessuno scatto, nessun superminimo, part-time orizzontale al 50% (20 ore su 40); dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario"
@@ -56,7 +57,7 @@ Il 9,19% dei contributi è invece l'unica voce perfettamente proporzionale all'o
 
 ## Quanto diminuisce lo stipendio con il part-time?
 
-Meno di quanto diminuiscono le ore, sempre. E la differenza cresce mentre le ore scendono. Tabella generata col motore sulle ipotesi dichiarate, 5° livello e 14 mensilità:
+Nelle simulazioni di questa pagina, meno di quanto diminuiscono le ore. E nella tabella la differenza cresce mentre le ore scendono. Non è una regola universale: soglie fiscali, altri redditi, detrazioni personali e conguagli possono cambiare il risultato. Tabella generata col motore sulle ipotesi dichiarate, 5° livello e 14 mensilità:
 
 | Ore settimanali | Quota di orario | Lordo mese | RAL | Netto anno | Netto mese | Quota del netto a tempo pieno |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -146,7 +147,7 @@ Se vuoi il conto sulla tua cifra invece che su questo esempio, la RAL si mette n
 - D.Lgs. 15 giugno 2015, n. 81, art. 7 c. 2 — il lavoratore a tempo parziale ha i medesimi diritti di un lavoratore a tempo pieno comparabile e il suo trattamento economico e normativo è riproporzionato alla ridotta entità della prestazione ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2015-06-15;81~art7)) · verificata l'8 ottobre 2026
 - D.Lgs. 15 giugno 2015, n. 81, art. 6 — lavoro supplementare: in assenza di disciplina collettiva il limite è il 25% delle ore settimanali concordate e la maggiorazione è il 15% della retribuzione oraria ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2015-06-15;81~art6)) · verificata l'8 ottobre 2026
 - D.L. 9 ottobre 1989, n. 338, art. 1 c. 4 — la retribuzione minima oraria imponibile ai fini contributivi per i lavoratori a tempo parziale si determina rapportando il minimale giornaliero alle giornate di lavoro settimanale a orario normale ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:1989-09-09;338~art1)) · verificata l'8 ottobre 2026
-- D.L. 5 febbraio 2020, n. 3, art. 1 — trattamento integrativo di 1.200 € annui, subordinato alla condizione che l'imposta lorda sui redditi di lavoro dipendente superi la detrazione dell'art. 13 del TUIR ([Normattiva](https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=20A02005&atto.dataPubblicazioneGazzetta=2020-04-04&tipoDettaglio=multivigenza)) · verificata l'8 ottobre 2026
+- D.L. 5 febbraio 2020, n. 3, art. 1 — trattamento integrativo di 1.200 € annui, subordinato alla condizione che l'imposta lorda sui redditi di lavoro dipendente superi la detrazione dell'art. 13 del TUIR; il datore ne verifica la spettanza al conguaglio e recupera quanto non spetta (c. 3) ([Normattiva](https://www.normattiva.it/atto/caricaDettaglioAtto?atto.codiceRedazionale=20A02005&atto.dataPubblicazioneGazzetta=2020-04-04&tipoDettaglio=multivigenza)) · verificata il 9 ottobre 2026
 - L. 30 dicembre 2024, n. 207, art. 1 c. 4-5 — somma non imponibile sul reddito di lavoro dipendente: 7,1% fino a 8.500 €, 5,3% fra 8.500 e 15.000 €, 4,8% fra 15.000 e 20.000 € ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED/20251219)) · atto riaperto l'8 ottobre 2026
 - L. 30 dicembre 2025, n. 199, art. 1 c. 3 — scaglioni IRPEF 2026 al 23 / 33 / 43% ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · atto riaperto l'8 ottobre 2026
 - TUIR, art. 13 — detrazione per redditi di lavoro dipendente: 1.955 € fino a 15.000 € di reddito, 1.910 € più una quota variabile fino a 1.190 € fra 15.000 e 28.000 € ([testo coordinato](https://def.giustiziatributaria.gov.it/DocTribFrontend/getAttoNormativoDetail.do?ACTION=getArticolo&articolo=Articolo+13&id=%7B31D694E8-4398-4030-873B-FEAF5A6647F9%7D)) · importi dal catalogo del motore, pagina aperta l'8 ottobre 2026
