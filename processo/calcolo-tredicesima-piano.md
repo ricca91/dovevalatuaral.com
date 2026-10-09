@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Branch `calcolo-13esima`. Niente push né PR senza ok di Riccardo.
-- Nomi del dominio in italiano, impalcatura in inglese (`CONTEXT.md`).
+- Nomi del dominio in italiano, impalcatura in inglese (`GLOSSARY.md`).
 - Nessuna soglia o aliquota letterale dentro la logica: stanno in `K` o in `PROPOSTA_DETASSATA`, con la fonte in commento.
 - Limiti input: lordo mensile 100 – 9.000 €; RAL 1.000 – 120.000 €; mensilità 13 o 14; mesi interi 1 – 12. (Sotto il massimale contributivo 122.295 €, che è fuori perimetro.)
 - Soglia mensile contributo aggiuntivo: 4.685 € (INPS circ. 6/2026).

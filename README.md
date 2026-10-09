@@ -182,7 +182,7 @@ processo/           COME CI SONO ARRIVATO
   verifica.md         cosa è provato, come, e cosa dichiaratamente non lo è
   regole-netto-2026.md  la ricerca normativa, solo fonti primarie
 
-CONTEXT.md          il glossario: Voce, Riga, Capienza, Salto
+GLOSSARY.md         il glossario: Voce, Riga, Capienza, Salto
 curriculum.md       chi sono
 ```
 

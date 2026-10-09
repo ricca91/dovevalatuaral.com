@@ -104,7 +104,7 @@ stanno dove stanno le altre.
 
 **Il motore emette codici, non frasi.** `assorbitaAssegnoUnico` è un fatto; «sotto i 21 anni la
 detrazione è assorbita dall'Assegno Unico» è un racconto. La separazione fra Voce e Riga di
-`CONTEXT.md` regge anche qui: il primo esce da `motore.js`, il secondo nasce in `righe.js`.
+`GLOSSARY.md` regge anche qui: il primo esce da `motore.js`, il secondo nasce in `righe.js`.
 
 **Il nucleo si dichiara e poi si preme Calcola**, come per la RAL e per il comune. Il prototipo
 ricalcolava a ogni cifra digitata e si leggeva bene, ma metteva in pagina numeri live accanto a

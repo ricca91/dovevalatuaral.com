@@ -447,7 +447,7 @@ fonte istituzionale**. Un contenuto con gli estremi normativi in chiaro ha spazi
 | Motore di calcolo | `prototipo/motore.js` |
 | Catalogo fonti già verificate | `prototipo/fonti.js` |
 | Ricerca normativa | `processo/regole-netto-2026.md`, `processo/fonti-ccnl-2026.md` |
-| Glossario del dominio (Voce, Riga, Capienza, Salto) | `CONTEXT.md` |
+| Glossario del dominio (Voce, Riga, Capienza, Salto) | `GLOSSARY.md` |
 | Voce e tono | `la-storia.md`, `README.md`, `/root/ricc-os/context/voice.md` |
 | Strategia SEO e priorità | `crescita/strategia-seo.md` |
 | Ricerca competitor e keyword del piano | `crescita/piano-editoriale-90gg/ricerca/` |
