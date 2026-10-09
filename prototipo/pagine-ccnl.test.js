@@ -4,6 +4,7 @@ const os=require('node:os');
 const path=require('node:path');
 const {test}=require('node:test');
 const {ROTTE,CONTRATTI_SEO,generate}=require('./genera-pagine-ccnl.js');
+const {titoloLivello}=require('./ccnl-page.template.js');
 const {sitemap,RALS}=require('./genera-pagine-ral.js');
 const R=require('./retribuzione-ccnl.js');
 const {calcola,applicaMensilita,eur}=require('./motore.js');
@@ -83,6 +84,38 @@ test('ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb 
     assert.deepEqual(ld.itemListElement.map(i=>i.name),visibili,rotta);
     assert.equal(ld.itemListElement.at(-1).item,`${ORIGIN}${rotta}`);
   }
+});
+
+test('il title delle pagine livello porta il netto mensile della pagina, all’euro, entro 60 caratteri (RIC-99)',()=>{
+  const livelli=ROTTE.filter(r=>r.split('/').filter(Boolean).length===3);
+  assert.equal(livelli.length,33);
+  for(const rotta of livelli){
+    const html=leggi(rotta);
+    const titolo=uno(html,/<title>([^<]+)<\/title>/g,`${rotta}: title`);
+    assert.ok(titolo.length<=60,`${rotta}: title di ${titolo.length} caratteri — ${titolo}`);
+    /* La cifra è quella in grassetto nell'apertura, arrotondata: nessun secondo calcolo. */
+    const apertura=uno(html,/<b>([\d.,]+) € netti al mese<\/b>/g,`${rotta}: netto in apertura`);
+    const intero=String(Math.round(Number(apertura.replace(/\./g,'').replace(',','.'))))
+      .replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+    assert.ok(titolo.includes(` 2026: ${intero} € netti`),`${rotta}: ${titolo} invece di ${intero} €`);
+    assert.equal(uno(html,/<meta property="og:title" content="([^"]+)">/g,`${rotta}: og:title`),titolo);
+  }
+  /* Forma piena dove ci sta; Studi professionali sfora e perde prima
+     «CCNL», poi (solo il 4° super) «al mese». */
+  const forme=[
+    ['/minimi-ccnl/turismo/6-livello/',/^6° livello CCNL Turismo 2026: [\d.]+ € netti al mese$/],
+    ['/minimi-ccnl/metalmeccanico/livello-c3/',/^Livello C3 metalmeccanico 2026: [\d.]+ € netti al mese$/],
+    ['/minimi-ccnl/cooperative-sociali/livello-d2/',/^Livello D2 cooperative sociali 2026: [\d.]+ € netti al mese$/],
+    ['/minimi-ccnl/studi-professionali/3-livello/',/^3° livello Studi professionali 2026: [\d.]+ € netti al mese$/],
+    ['/minimi-ccnl/studi-professionali/4s-livello/',/^4° livello super Studi professionali 2026: [\d.]+ € netti$/],
+  ];
+  for(const [rotta,forma] of forme)assert.match(uno(leggi(rotta),/<title>([^<]+)<\/title>/g,rotta),forma);
+});
+
+test('un title di livello che non sta in 60 caratteri nemmeno accorciato ferma la build',()=>{
+  assert.equal(titoloLivello('2° livello','CCNL Turismo',1296.4),'2° livello CCNL Turismo 2026: 1.296 € netti al mese');
+  assert.equal(titoloLivello('2° livello','CCNL Turismo',999.5),'2° livello CCNL Turismo 2026: 1.000 € netti al mese');
+  assert.throws(()=>titoloLivello('4° livello super','CCNL Studi professionali e affini',1390),RangeError);
 });
 
 test('hub e tabelle collegano tutte le pagine: nessuna orfana, nessun link rotto',()=>{
