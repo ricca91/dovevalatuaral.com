@@ -175,7 +175,7 @@ add(g=17, titolo="Ho pagato piu tasse di quelle che mi aspettavo: le quattro spi
     prod="Busta paga", cta="/busta-paga.html", intento="Sintomo/problema",
     picco=None, prio="Alta", diff="Bassa", aio=None,
     angolo="Il pezzo-sintomo sul lato fiscale. Quattro cause con il conto: scaglione superato nel mese (premio, straordinari, arretrati), detrazione che si e esaurita per capienza, addizionali che partono in un mese preciso dell'anno, conguaglio. Per ognuna un esempio numerico dal motore che mostra di quanto sposta il netto. E il concetto di capienza spiegato come si deve: a IRPEF lorda 400 euro una detrazione da 1.955 entra per 400, non per 1.955.",
-    note="Capienza e nel glossario del progetto (CONTEXT.md): usare quella definizione, non inventarne un'altra.")
+    note="Capienza e nel glossario del progetto (GLOSSARY.md): usare quella definizione, non inventarne un'altra.")
 
 add(g=18, titolo="Esempio di busta paga part-time: come cambiano le voci con le ore ridotte",
     slug="esempio-busta-paga-part-time", q="esempio busta paga part time",
@@ -554,7 +554,7 @@ add(g=61, titolo="Detrazioni da lavoro dipendente: quanto ti spetta e quanto ne 
     prod="Calcolatore RAL", cta="/", intento="Informazionale",
     picco="Gennaio", prio="Alta", diff="Media", aio=None,
     angolo="GioIA ha il suo unico asset qui (/detrazioni-fiscali, posizione 9 su 'detrazioni lavoro dipendente 2026', 5.400). Il concetto che nessuno spiega e la CAPIENZA - la differenza fra quanto SPETTA e quanto se ne USA: a IRPEF lorda 400 euro una detrazione da 1.955 entra per 400. E gia nel glossario del progetto ed e calcolata dal motore. E il nostro terreno.",
-    note="Capienza e definita in CONTEXT.md: usare quella definizione. TUIR art. 13 e gia nel catalogo fonti.")
+    note="Capienza e definita in GLOSSARY.md: usare quella definizione. TUIR art. 13 e gia nel catalogo fonti.")
 
 add(g=62, titolo="Esempio di busta paga con arretrati",
     slug="esempio-busta-paga-arretrati", q="arretrati in busta paga",

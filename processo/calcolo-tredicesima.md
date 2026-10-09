@@ -52,7 +52,7 @@ nel browser, `module.exports` in Node), stessa aritmetica decimale di `motore.js
 Non carica il motore nel browser: il motore richiede `dati-addizionali-2026.js`
 (4,4 MB) che qui non serve. Le costanti usate sono replicate e un test di parità le
 confronta con `K` del motore. Restituisce **voci** (importo, base, fonte), non testo: le **righe** le
-compone la pagina (glossario in `CONTEXT.md`).
+compone la pagina (glossario in `GLOSSARY.md`).
 
 Definizioni:
 
