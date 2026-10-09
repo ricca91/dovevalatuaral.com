@@ -192,6 +192,23 @@ function renderTabella(d){
 
 /* --- PAGINA PER LIVELLO ------------------------------------- */
 
+/* RIC-99: il title porta il netto medio al mese dell'apertura,
+   arrotondato all'euro, entro 60 caratteri. Se la forma piena non ci
+   sta si toglie «CCNL» dal nome del contratto, poi «al mese»; se
+   nemmeno così, la build si ferma invece di pubblicarlo troncato. */
+const TITLE_MAX=60;
+const euroIntero=n=>`${String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g,'.')} €`;
+function titoloLivello(etichetta,query,netto){
+  const breve=query.replace(/^CCNL /,'');
+  const cifra=euroIntero(netto);
+  const forme=[`${etichetta} ${query} 2026: ${cifra} netti al mese`,
+    `${etichetta} ${breve} 2026: ${cifra} netti al mese`,
+    `${etichetta} ${breve} 2026: ${cifra} netti`];
+  const titolo=forme.find(t=>t.length<=TITLE_MAX);
+  if(!titolo)throw new RangeError(`Title oltre ${TITLE_MAX} caratteri anche accorciato: ${forme.at(-1)}`);
+  return titolo;
+}
+
 function scomposizione(r){
   const voci=r.livello.voci.map(v=>`<tr><td>${esc(v.nome)}${v.mensilita&&v.mensilita!==r.composta.mensilita?` <small>(su ${mensilitaTesto(v.mensilita)} mensilità)</small>`:''}</td><td>${eur(v.importo)}</td></tr>`);
   const totale=voci.length>1?[`<tr class="somma"><td>Totale mensile</td><td>${eur(r.composta.baseMensile)}</td></tr>`]:[];
@@ -265,11 +282,10 @@ function renderLivello(d){
     ${esclusioni([...d.esclusioni,...righe.flatMap(r=>r.composta.esclusioni.filter(e=>!d.esclusioni.includes(e)))])}
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
-  const titolo=`${nomeIntero} 2026: ${seo.titoloLivello||'minimo, lordo e netto'}`;
-  return layout({rotta,title:titolo,
+  return layout({rotta,title:titoloLivello(etichetta,seo.query,r0.nettoMensile),
     description:`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi al mese su ${mensilitaTesto(r0.composta.mensilita)} mensilità, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`,
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},
       {nome:seo.titoloTabella,rotta:d.rottaTabella},{nome:etichetta,rotta}],body});
 }
 
-module.exports={renderHub,renderTabella,renderLivello,calcolatore,verso,data};
+module.exports={renderHub,renderTabella,renderLivello,titoloLivello,calcolatore,verso,data};
