@@ -6,6 +6,7 @@ description: "L'EDR in busta paga è 10,33 € al mese per 13 mensilità: 134,29
 query_principale: "edr in busta paga"
 cluster: "voce-per-voce"
 data_pubblicazione: 2026-10-11
+data_aggiornamento: 2026-10-12
 cta: "/"
 link_interni: ["/blog/voci-busta-paga/", "/blog/contributo-ivs-busta-paga/", "/blog/come-leggere-busta-paga/", "/minimi-ccnl/multiservizi/", "/minimi-ccnl/logistica/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario"
@@ -22,10 +23,10 @@ I numeri di questa pagina escono dal motore di calcolo del sito e dal suo archiv
 
 Nel blocco delle competenze, accanto a paga base e contingenza, con un importo a due decimali che non cambia mai. Le diciture per la stessa riga sono `E.D.R.`, `EDR`, `Elemento distinto della retribuzione`, `Elem. dist. retrib.`, `EDR Prot. 31/7/92`: sono la stessa cosa.
 
-Due controlli li fai in dieci secondi.
+Due controlli li fai in dieci secondi. Il primo cambia se sei part-time: il conto completo è più sotto, nel paragrafo sul part-time.
 
-- L'importo mensile deve essere una **cifra fissa**, non il risultato di ore per tariffa. L'EDR non si matura a ore: o il mese è retribuito, o non c'è.
-- Il totale dell'anno deve fare **tredici volte** quell'importo, non dodici e non quattordici. Su 10,33 € sono 134,29 €, e lo leggi sui progressivi di dicembre.
+- A tempo pieno, senza riduzioni d'orario, l'EDR del 1992 è una **cifra mensile fissa**, non il risultato di ore effettivamente lavorate per una tariffa. Nel part-time invece si riproporziona all'orario del contratto: a 25 ore su 40, i 10,33 € diventano **6,46 €**. Un importo diverso da 10,33 €, da solo, non è un errore.
+- Il totale dell'anno deve fare **tredici volte** quell'importo, non dodici e non quattordici. Su 10,33 € sono 134,29 €, su 6,46 € sono 83,98 €, e lo leggi sui progressivi di dicembre.
 
 Il secondo controllo spiazza chi ha quattordici mensilità. Nei due contratti a quattordici mensilità che espongono ancora l'EDR — [Multiservizi](/minimi-ccnl/multiservizi/) e [Logistica](/minimi-ccnl/logistica/) — l'EDR entra in tredici: una delle due mensilità aggiuntive non lo prende. Quale, lo dice il tuo cedolino, non la tabella.
 
@@ -142,6 +143,6 @@ Su quella RAL il motore dà **17.289,75 € netti l'anno**, cioè 1.234,98 € m
 - CCNL Servizi di pulizia e multiservizi, tabelle dal 1° ottobre 2026 — retribuzione tabellare e contingenza del 2° livello, EDR di 10,33 € su 13 mensilità ([tabelle pubblicate da Filcams CGIL, firmataria](https://www.filcams.cgil.it/page/multiservizi)) · verificata l'11 ottobre 2026
 - CCNL Logistica, trasporto merci e spedizione, stesura del testo 25 settembre 2025 — tabelle dei minimi ed EDR per livello dall'accordo 18 maggio 2021 ([testo pubblicato da Confartigianato Trasporti, parte firmataria](https://confartigianatotrasporti.it/wp-content/uploads/2025/10/CCNL_logistica_trasporto_merci_stesura_25set2025.pdf)) · verificata l'11 ottobre 2026
 - L. 207/2024, art. 1 comma 6 — ulteriore detrazione di 1.000 € per i redditi da lavoro dipendente, piena fino a 32.000 € di reddito e decrescente fino ad azzerarsi a 40.000 €: è la regola che rende l'EDR netto più basso a 40.000 € di RAL che a 50.000 ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED/20251219)) · verificata l'11 ottobre 2026
-- D.Lgs. 81/2015, art. 7 comma 2 — il trattamento economico del lavoratore a tempo parziale è riproporzionato alla ridotta entità della prestazione ([Normattiva](https://www.normattiva.it/eli/stato/DECRETO%20LEGISLATIVO/2015/06/15/81/CONSOLIDATED)) · verificata l'11 ottobre 2026
+- D.Lgs. 81/2015, art. 7 comma 2 — il trattamento economico e normativo del lavoratore a tempo parziale «è riproporzionato in ragione della ridotta entità della prestazione lavorativa» ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2015-06-15;81~art7!vig=)) · verificata il 12 ottobre 2026
 - Codice civile, art. 2120 — retribuzione utile al TFR comprensiva di tutte le somme corrisposte in dipendenza del rapporto a titolo non occasionale, salvo diversa previsione dei contratti collettivi ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262~art2120)) · verificata l'11 ottobre 2026
 - Nota sul metodo: Normattiva pubblica il testo degli articoli con uno script che il mio strumento di lettura non esegue, e il PDF del protocollo del 1992 sul sito CISL ha il testo in flussi compressi che non ho potuto rileggere parola per parola. Di conseguenza l'importo di 20.000 lire, il suo valore in euro e le 13 mensilità li ho verificati sui testi dei due CCNL citati sopra, che richiamano l'accordo e li riportano, e sulle tabelle contrattuali archiviate nel repository del sito. Il tasso di conversione viene dal comunicato BCE, che ho letto direttamente.
