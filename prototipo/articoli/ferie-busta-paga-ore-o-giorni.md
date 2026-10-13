@@ -6,6 +6,7 @@ description: "Le ferie in busta paga sono in ore o giorni secondo il CCNL. Le 4 
 query_principale: "le ferie in busta paga sono in ore o giorni"
 cluster: "ferie-e-permessi"
 data_pubblicazione: 2026-10-12
+data_aggiornamento: 2026-10-13
 cta: "/"
 link_interni: ["/blog/rol-in-busta-paga/", "/blog/come-leggere-busta-paga/", "/blog/voci-busta-paga/", "/blog/quanto-vale-un-ora-di-lavoro-netta/", "/ral-30000-netto/", "/minimi-ccnl/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, divisore giornaliero 26, divisore orario 173"
@@ -42,11 +43,11 @@ Le sigle non sono normate e questa lista è una convenzione diffusa, non una reg
 
 ### Che cosa vuol dire ferie AP in busta paga?
 
-Vuol dire «anno precedente»: sono le ferie maturate l'anno scorso e non ancora usate, tenute separate da quelle dell'anno in corso. Il motivo è una scadenza diversa, non un vezzo contabile. Quel saldo è la parte del tuo diritto che sta già correndo verso un termine.
+Vuol dire «anno precedente»: sono le ferie maturate l'anno scorso e non ancora usate, tenute separate da quelle dell'anno in corso. La separazione per anno aiuta il controllo, ma non codifica necessariamente ogni scadenza legale o contrattuale: dentro la stessa quota annuale i termini sono diversi, e li trovi più sotto. Il saldo AP ti dice in che anno hai maturato quelle ferie; da solo, non ti dice entro quando prenderle.
 
 ### Che significa «ferie godute AP»?
 
-Sono i giorni, o le ore, dell'anno precedente che hai consumato quest'anno. Serve a sapere da quale dei due serbatoi è uscita l'assenza che hai preso. Se nel 2026 prendi una settimana e il cedolino la scala dalla colonna AP, stai svuotando il saldo più vecchio: è la cosa che conviene, perché è quello che scade prima.
+Sono i giorni, o le ore, dell'anno precedente che hai consumato quest'anno. Serve a sapere da quale dei due serbatoi è uscita l'assenza che hai preso. Se nel 2026 prendi una settimana e il cedolino la scala dalla colonna AP, stai svuotando il saldo più vecchio. Non è detto che sia quello che scade prima: salvo regole diverse del tuo CCNL, almeno due settimane del 2026 vanno godute entro il 31 dicembre 2026, mentre le restanti due del 2025 hanno come termine il 30 giugno 2027.
 
 ## Come si convertono le ferie da giorni a ore?
 
@@ -84,9 +85,11 @@ Anche questa è aritmetica. Il totale annuo non lo invento: sta nel tuo cedolino
 
 ## Perché le ferie AP stanno in un contatore separato?
 
-Perché la legge dà due scadenze diverse alla stessa quota annuale. L'[art. 10 del D.Lgs. 66/2003](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art10) garantisce un periodo di ferie retribuite «non inferiore a quattro settimane». Poi, salvo diversa previsione del contratto collettivo, le spacca in due: **due settimane vanno godute nell'anno di maturazione**, consecutive se le chiedi, e **le altre due entro 18 mesi dalla fine di quell'anno**.
+Perché ogni anno di maturazione ha i suoi termini, e la legge ne fissa due diversi dentro la stessa quota annuale. L'[art. 10 del D.Lgs. 66/2003](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art10) garantisce un periodo di ferie retribuite «non inferiore a quattro settimane». Poi, salvo diversa previsione del contratto collettivo, le spacca in due: **almeno due settimane vanno godute nell'anno di maturazione**, consecutive se le chiedi, e **le altre due entro 18 mesi dalla fine di quell'anno**.
 
-Diciotto mesi dalla fine dell'anno portano al 30 giugno dell'anno dopo il successivo. In concreto, sul cedolino di ottobre 2026: le ferie maturate nel 2025 e finite nella colonna AP hanno come termine il **30 giugno 2027**; quelle del 2024, se ce ne sono ancora, erano attese entro il 30 giugno 2026. Ecco perché due anni non si sommano in un numero solo: hanno date diverse.
+Diciotto mesi dalla fine dell'anno portano al 30 giugno dell'anno dopo il successivo. In concreto, sul cedolino di ottobre 2026 il solo dato «AP 2025» non basta per assegnare una scadenza unica. Del minimo legale, almeno due settimane dovevano essere godute già nel 2025; le restanti due hanno come termine ordinario il **30 giugno 2027**. Eventuali giorni eccedenti il minimo e termini diversi dipendono dal CCNL applicato. Il contatore AP, se non separa queste quote, indica l'anno di maturazione ma non dimostra da solo la scadenza. Per il 2024, se ne resta qualcosa, è già passato anche il termine ordinario delle ultime due settimane, il 30 giugno 2026.
+
+Tenere separati gli anni serve a questo: è il punto di partenza per ricostruire le date, non la data.
 
 Il comma 2 dello stesso articolo spiega perché le ferie si prendono e non si incassano. Il minimo di quattro settimane «non può essere sostituito dalla relativa indennità per ferie non godute», salvo risoluzione del rapporto di lavoro. Sui permessi contrattuali questo divieto non c'è, ed è la differenza che conta fra ferie e ROL: il confronto completo sta in [il ROL in busta paga](/blog/rol-in-busta-paga/).
 
@@ -159,7 +162,9 @@ L'origine: le ferie sono un diritto di legge con un minimo di quattro settimane,
 
 ## Fonti
 
-- D.Lgs. 8 aprile 2003, n. 66, art. 10 — ferie annuali «non inferiore a quattro settimane»; salvo diversa previsione della contrattazione collettiva, due settimane nell'anno di maturazione, consecutive se richieste, e le restanti due entro 18 mesi dalla fine dell'anno di maturazione; il comma 2 vieta di sostituire il minimo con «la relativa indennità per ferie non godute», salvo risoluzione del rapporto ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art10)) · verificata il 12 ottobre 2026
+- D.Lgs. 8 aprile 2003, n. 66, art. 10 — periodo annuale di ferie retribuite «non inferiore a quattro settimane»; salvo quanto previsto dalla contrattazione collettiva, va goduto «per almeno due settimane, consecutive in caso di richiesta del lavoratore, nel corso dell'anno di maturazione e, per le restanti due settimane, nei 18 mesi successivi al termine dell'anno di maturazione»; il comma 2 vieta di sostituire il minimo con «la relativa indennità per ferie non godute», salvo risoluzione del rapporto ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art10)) · verificata il 13 ottobre 2026
+- Ministero del Lavoro, «Ferie annuali» — quattro settimane minime, «due delle quali da godere in via consecutiva nel corso dell'anno di maturazione»; «le restanti due settimane possono essere utilizzate nei 18 mesi successivi al termine dell'anno di maturazione, a meno che il tuo contratto collettivo non preveda diversamente» ([lavoro.gov.it](https://www.lavoro.gov.it/sportello-unico-digitale/termini-e-condizioni-di-impiego/ferie-annuali)) · verificata il 13 ottobre 2026
+- Ministero del Lavoro, circolare n. 8 del 3 marzo 2005, punti 16 e 17 — distingue tre periodi: almeno due settimane nell'anno di maturazione; due settimane entro 18 mesi dal termine dell'anno di maturazione, «salvi i più ampi periodi di differimento stabiliti dalla contrattazione collettiva»; la quota oltre le quattro settimane, da fruire «entro il termine stabilito dall'autonomia privata» ([PDF](https://www.lavoro.gov.it/documenti-e-norme/normative/Documents/2005/20050303_Circ_08.pdf)) · verificata il 13 ottobre 2026
 - D.Lgs. 8 aprile 2003, n. 66, art. 3 — «L'orario normale di lavoro è fissato in 40 ore settimanali»; i contratti collettivi «possono stabilire, ai fini contrattuali, una durata minore»: è il parametro da cui discendono le ore giornaliere usate nelle conversioni ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2003-04-08;66~art3)) · verificata il 12 ottobre 2026
 - D.L. 25 giugno 2008, n. 112, art. 39 — il libro unico del lavoro contiene un calendario di presenze da cui risultino, per ogni giorno, le ore di lavoro effettuate, le ore di straordinario, le assenze, le ferie e i riposi: è l'obbligo di tracciare il saldo ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:2008-06-25;112~art39)) · verificata il 12 ottobre 2026
 - L. 5 gennaio 1953, n. 4, art. 1 — obbligo del prospetto di paga con gli elementi che compongono la retribuzione, distintamente le singole trattenute, e il codice alfanumerico del CCNL applicato: nessun formato prescritto per i contatori, da cui la varietà delle sigle ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1953-01-05;4)) · verificata il 12 ottobre 2026
