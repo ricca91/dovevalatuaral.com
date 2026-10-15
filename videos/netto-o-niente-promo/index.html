@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js" integrity="sha384-sG0Hv1tP1lZCk9KQmrIbY/XNwi+OY84GQqhMscbnsoBFqAz8KNCil1kvfL3Hbbk2" crossorigin="anonymous"></script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #000;
+      }
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        background: #F7F6F1;
+      }
+      .scene {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="30"
+      data-width="1080"
+      data-height="1920"
+    >
+      <div
+        id="el-01-hook"
+        class="scene"
+        data-composition-id="01-hook"
+        data-composition-src="compositions/frames/01-hook.html"
+        data-start="0"
+        data-duration="4.1"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-02-title"
+        class="scene"
+        data-composition-id="02-title"
+        data-composition-src="compositions/frames/02-title.html"
+        data-start="3.75"
+        data-duration="4.15"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-03-scelta"
+        class="scene"
+        data-composition-id="03-scelta"
+        data-composition-src="compositions/frames/03-scelta.html"
+        data-start="7.5"
+        data-duration="6.025"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-04-serie"
+        class="scene"
+        data-composition-id="04-serie"
+        data-composition-src="compositions/frames/04-serie.html"
+        data-start="13.125"
+        data-duration="5.625"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-05-trappola"
+        class="scene"
+        data-composition-id="05-trappola"
+        data-composition-src="compositions/frames/05-trappola.html"
+        data-start="18.75"
+        data-duration="4.15"
+        data-track-index="0"
+      ></div>
+
+      <div
+        id="el-06-sfida"
+        class="scene"
+        data-composition-id="06-sfida"
+        data-composition-src="compositions/frames/06-sfida.html"
+        data-start="22.5"
+        data-duration="4.1"
+        data-track-index="1"
+      ></div>
+
+      <div
+        id="el-07-cta"
+        class="scene"
+        data-composition-id="07-cta"
+        data-composition-src="compositions/frames/07-cta.html"
+        data-start="26.25"
+        data-duration="3.75"
+        data-track-index="0"
+      ></div>
+
+      <!-- BGM -->
+      <audio
+        id="el-bgm"
+        src="assets/bgm/netto-beat-128.mp3"
+        data-start="0"
+        data-duration="30"
+        data-track-index="11"
+        data-volume="0.9"
+      ></audio>
+
+      <!-- SFX -->
+      <audio
+        id="el-sfx-0"
+        src="assets/sfx/impact.mp3"
+        data-start="0"
+        data-duration="0.9"
+        data-track-index="20"
+        data-volume="0.55"
+      ></audio>
+      <audio
+        id="el-sfx-1"
+        src="assets/sfx/whoosh.mp3"
+        data-start="1.55"
+        data-duration="0.45"
+        data-track-index="21"
+        data-volume="0.5"
+      ></audio>
+      <audio
+        id="el-sfx-2"
+        src="assets/sfx/impact.mp3"
+        data-start="3.75"
+        data-duration="0.9"
+        data-track-index="22"
+        data-volume="0.6"
+      ></audio>
+      <audio
+        id="el-sfx-3"
+        src="assets/sfx/pop.mp3"
+        data-start="5.625"
+        data-duration="0.2"
+        data-track-index="23"
+        data-volume="0.5"
+      ></audio>
+      <audio
+        id="el-sfx-4"
+        src="assets/sfx/whoosh.mp3"
+        data-start="7.5"
+        data-duration="0.45"
+        data-track-index="24"
+        data-volume="0.5"
+      ></audio>
+      <audio
+        id="el-sfx-5"
+        src="assets/sfx/whoosh.mp3"
+        data-start="7.969"
+        data-duration="0.45"
+        data-track-index="25"
+        data-volume="0.45"
+      ></audio>
+      <audio
+        id="el-sfx-6"
+        src="assets/sfx/pop.mp3"
+        data-start="9.8"
+        data-duration="0.2"
+        data-track-index="26"
+        data-volume="0.6"
+      ></audio>
+      <audio
+        id="el-sfx-7"
+        src="assets/sfx/ding.mp3"
+        data-start="10.313"
+        data-duration="0.8"
+        data-track-index="27"
+        data-volume="0.55"
+      ></audio>
+      <audio
+        id="el-sfx-8"
+        src="assets/sfx/tick-run.mp3"
+        data-start="14.063"
+        data-duration="3"
+        data-track-index="28"
+        data-volume="0.4"
+      ></audio>
+      <audio
+        id="el-sfx-9"
+        src="assets/sfx/error.mp3"
+        data-start="20.625"
+        data-duration="0.7"
+        data-track-index="29"
+        data-volume="0.6"
+      ></audio>
+      <audio
+        id="el-sfx-10"
+        src="assets/sfx/impact.mp3"
+        data-start="20.625"
+        data-duration="0.9"
+        data-track-index="30"
+        data-volume="0.7"
+      ></audio>
+      <audio
+        id="el-sfx-11"
+        src="assets/sfx/whoosh.mp3"
+        data-start="22.5"
+        data-duration="0.45"
+        data-track-index="31"
+        data-volume="0.5"
+      ></audio>
+      <audio
+        id="el-sfx-12"
+        src="assets/sfx/pop.mp3"
+        data-start="23.906"
+        data-duration="0.2"
+        data-track-index="32"
+        data-volume="0.45"
+      ></audio>
+      <audio
+        id="el-sfx-13"
+        src="assets/sfx/pop.mp3"
+        data-start="24.844"
+        data-duration="0.2"
+        data-track-index="33"
+        data-volume="0.55"
+      ></audio>
+      <audio
+        id="el-sfx-14"
+        src="assets/sfx/impact.mp3"
+        data-start="26.25"
+        data-duration="0.9"
+        data-track-index="34"
+        data-volume="0.55"
+      ></audio>
+      <audio
+        id="el-sfx-15"
+        src="assets/sfx/pop.mp3"
+        data-start="28.05"
+        data-duration="0.2"
+        data-track-index="35"
+        data-volume="0.6"
+      ></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+      // ── frame transitions (injected by transitions.mjs) ──
+      (function () { var tl = window.__timelines["main"];
+        tl.to("#el-01-hook", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.35, ease: "power3.in" }, 3.75);
+        tl.fromTo("#el-02-title", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, 3.75);
+        tl.to("#el-02-title", { y: -1920, duration: 0.4, ease: "power3.inOut" }, 7.5);
+        tl.fromTo("#el-03-scelta", { y: 1920, opacity: 1 }, { y: 0, duration: 0.4, ease: "power3.inOut" }, 7.5);
+        tl.to("#el-03-scelta", { scaleX: 0, transformOrigin: "left center", duration: 0.4, ease: "power3.inOut" }, 13.125);
+        tl.fromTo("#el-04-serie", { scaleX: 0, transformOrigin: "right center", opacity: 1 }, { scaleX: 1, transformOrigin: "right center", duration: 0.4, ease: "power3.inOut" }, 13.125);
+        tl.to("#el-05-trappola", { x: -1080, duration: 0.4, ease: "power3.inOut" }, 22.5);
+        tl.fromTo("#el-06-sfida", { x: 1080, opacity: 1 }, { x: 0, duration: 0.4, ease: "power3.inOut" }, 22.5);
+        tl.to("#el-06-sfida", { scale: 2.5, opacity: 0, filter: "blur(8px)", duration: 0.35, ease: "power3.in" }, 26.25);
+        tl.fromTo("#el-07-cta", { scale: 0.5, opacity: 0, filter: "blur(8px)" }, { scale: 1, opacity: 1, filter: "blur(0px)", duration: 0.35, ease: "power3.out" }, 26.25);
+        tl.to({}, { duration: 30 }, 0); // full-span anchor — main.duration() == composition total (Studio master duration)
+      })();
+    </script>
+  </body>
+</html>

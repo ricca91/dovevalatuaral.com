@@ -1,0 +1,22 @@
+{
+  "bgm": { "path": "assets/bgm/netto-beat-128.mp3", "volume": 0.9 },
+  "voices": [],
+  "sfx": [
+    { "frame": 1, "file": "assets/sfx/impact.mp3", "offset_s": 0, "duration_s": 0.9, "volume": 0.55 },
+    { "frame": 1, "file": "assets/sfx/whoosh.mp3", "offset_s": 1.55, "duration_s": 0.45, "volume": 0.5 },
+    { "frame": 2, "file": "assets/sfx/impact.mp3", "offset_s": 0, "duration_s": 0.9, "volume": 0.6 },
+    { "frame": 2, "file": "assets/sfx/pop.mp3", "offset_s": 1.875, "duration_s": 0.2, "volume": 0.5 },
+    { "frame": 3, "file": "assets/sfx/whoosh.mp3", "offset_s": 0, "duration_s": 0.45, "volume": 0.5 },
+    { "frame": 3, "file": "assets/sfx/whoosh.mp3", "offset_s": 0.469, "duration_s": 0.45, "volume": 0.45 },
+    { "frame": 3, "file": "assets/sfx/pop.mp3", "offset_s": 2.3, "duration_s": 0.2, "volume": 0.6 },
+    { "frame": 3, "file": "assets/sfx/ding.mp3", "offset_s": 2.8125, "duration_s": 0.8, "volume": 0.55 },
+    { "frame": 4, "file": "assets/sfx/tick-run.mp3", "offset_s": 0.9375, "duration_s": 3.0, "volume": 0.4 },
+    { "frame": 5, "file": "assets/sfx/error.mp3", "offset_s": 1.875, "duration_s": 0.7, "volume": 0.6 },
+    { "frame": 5, "file": "assets/sfx/impact.mp3", "offset_s": 1.875, "duration_s": 0.9, "volume": 0.7 },
+    { "frame": 6, "file": "assets/sfx/whoosh.mp3", "offset_s": 0, "duration_s": 0.45, "volume": 0.5 },
+    { "frame": 6, "file": "assets/sfx/pop.mp3", "offset_s": 1.40625, "duration_s": 0.2, "volume": 0.45 },
+    { "frame": 6, "file": "assets/sfx/pop.mp3", "offset_s": 2.34375, "duration_s": 0.2, "volume": 0.55 },
+    { "frame": 7, "file": "assets/sfx/impact.mp3", "offset_s": 0, "duration_s": 0.9, "volume": 0.55 },
+    { "frame": 7, "file": "assets/sfx/pop.mp3", "offset_s": 1.8, "duration_s": 0.2, "volume": 0.6 }
+  ]
+}

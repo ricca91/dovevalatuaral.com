@@ -1,0 +1,42 @@
+{
+  "data": "2026-10-13",
+  "fonte": "DataForSEO MCP (backlinks, content_analysis, ai_optimization), curl",
+  "backlink_dovevalatuaral": {
+    "target": "dovevalatuaral.com",
+    "referring_domains": 2,
+    "referring_domains_nofollow": 1,
+    "backlinks": 2,
+    "domini": [
+      {"domain": "gym-essentials-shop.shop", "first_seen": "2026-09-25", "nofollow": true, "spam_score": 15},
+      {"domain": "gunghapcafe.com", "first_seen": "2026-09-09", "tipo": "image", "spam_score": 50}
+    ]
+  },
+  "dominio_legacy": {"url": "https://jethr.riccsartori.com/", "status": 301, "location": "https://www.dovevalatuaral.com/"},
+  "menzioni_content_analysis": {"dovevalatuaral": 0, "\"dove va la tua ral\"": 0},
+  "competitor_referring_domains": {
+    "stipendionettocalcolatore.it": 104,
+    "calcolonetto.it": 1,
+    "intersection_4_competitor_escluso_noi": 0
+  },
+  "chatgpt_scraper": {
+    "prompt": "Tabelle retributive CCNL commercio 2026: quanto prende netto un 3° livello e quali sono gli aumenti da novembre 2026?",
+    "location": "Italy",
+    "language": "it",
+    "force_web_search": true,
+    "fonti_citate": [
+      "https://ascom.bo.it/2026/10/09/ccnl-terziario-distribuzione-e-servizi-laumento-retributivo-da-novembre-2026/",
+      "https://www.filcams.cgil.it/page/confcommercio_terziario",
+      "https://www.dovevalatuaral.com/minimi-ccnl/commercio/",
+      "https://fisascatcislromaelazio.it/contratti/tds-confcommercio/tabelle",
+      "https://tuttocalcolo.it/stipendio-ccnl/commercio-terziario"
+    ]
+  },
+  "ai_overview_top_domains": {
+    "filtro": "keyword 'ccnl' partial_match nella domanda, platform google, Italy/it, links_scope sources",
+    "ordine": [
+      "www.youtube.com", "www.fiscoetasse.com", "ilccnl.it", "www.lavoro-economia.it", "www.kitech.it",
+      "www.facebook.com", "www.coverflex.com", "www.aranagenzia.it", "www.conflavoro.it", "it.indeed.com"
+    ],
+    "coda_vista_nei_co_citati": ["www.bustaia.it", "cislfp.it"]
+  }
+}

@@ -1,0 +1,113 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Archivo",
+      "fontSize": "72px",
+      "fontWeight": "800",
+      "lineHeight": "72px",
+      "letterSpacing": "-3.96px",
+      "color": "#1E1C2B",
+      "sampleText": "NETTO O NIENTE"
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Archivo",
+      "fontSize": "28px",
+      "fontWeight": "800",
+      "lineHeight": "32.2px",
+      "letterSpacing": "-0.84px",
+      "color": "#1E1C2B",
+      "sampleText": "Il lordo promette.Il netto decide."
+    },
+    {
+      "role": "body",
+      "fontFamily": "Instrument Sans",
+      "fontSize": "18px",
+      "fontWeight": "400",
+      "lineHeight": "27px",
+      "letterSpacing": "-0.16px",
+      "color": "#1E1C2B",
+      "sampleText": "Due offerte. Una scelta. Quanto resisti prima di farti ingan"
+    },
+    {
+      "role": "link",
+      "fontFamily": "Archivo",
+      "fontSize": "16px",
+      "fontWeight": "800",
+      "lineHeight": "19.2px",
+      "letterSpacing": "-0.48px",
+      "color": "#1E1C2B",
+      "sampleText": "Dove va la tua RAL"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      8,
+      10,
+      12,
+      16,
+      18,
+      20,
+      24,
+      32
+    ],
+    "baseUnit": 8
+  },
+  "radius": [],
+  "shadows": [
+    {
+      "value": "rgb(30, 28, 43) 3px 3px 0px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgb(30, 28, 43) 6px 6px 0px 0px",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "Gioca",
+      "background": "#21D4E3",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#1E1C2B",
+      "padding": "12px 20px",
+      "borderRadius": "0px",
+      "border": "1px solid rgb(30, 28, 43)",
+      "boxShadow": "rgb(30, 28, 43) 3px 3px 0px 0px",
+      "fontSize": "16px",
+      "fontWeight": "700",
+      "height": "48px"
+    }
+  ],
+  "cards": [],
+  "nav": {
+    "label": "navigation",
+    "background": "color(srgb 0.929412 0.921569 0.894118 / 0.94)",
+    "backgroundImage": "",
+    "backdropFilter": "blur(10px)",
+    "color": "#1E1C2B",
+    "padding": "0px",
+    "borderRadius": "0px",
+    "border": "",
+    "boxShadow": "none",
+    "fontSize": "16px",
+    "fontWeight": "400",
+    "height": "61px"
+  },
+  "chips": [],
+  "statCells": [],
+  "tabs": [],
+  "backgrounds": [],
+  "glass": [
+    {
+      "backdropFilter": "blur(10px)",
+      "background": "color(srgb 0.929412 0.921569 0.894118 / 0.94)",
+      "border": "",
+      "borderRadius": "0px",
+      "boxShadow": "",
+      "area": 117120
+    }
+  ]
+}

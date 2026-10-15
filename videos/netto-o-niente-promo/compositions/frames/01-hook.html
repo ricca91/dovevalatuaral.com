@@ -1,0 +1,73 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/Archivo.ttf") format("truetype"); font-weight: 100 900; font-stretch: 62% 125%; }
+    @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono.ttf") format("truetype"); font-weight: 100 800; }
+    #root { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: "Archivo", sans-serif; color: #1E1C2B; }
+    .h1-bg { position: absolute; inset: 0; background-color: #EDEBE4;
+      background-image: radial-gradient(circle at 1px 1px, rgba(48,45,69,.28) 1.6px, transparent 0);
+      background-size: 36px 36px; }
+    .h1-cam { position: absolute; inset: 0; }
+    .h1-eyebrow { position: absolute; top: 150px; left: 70px; font: 700 34px/1 "JetBrains Mono", monospace; letter-spacing: .12em; color: #1E1C2B; }
+    .h1-line { position: absolute; left: 64px; font-weight: 800; font-stretch: 118%; text-transform: uppercase; letter-spacing: -0.035em; line-height: .9; white-space: nowrap; }
+    #h1-lordo { top: 215px; font-size: 134px; }
+    #h1-promette { top: 355px; font-size: 134px; color: #1E1C2B; }
+    #h1-ralcard { position: absolute; left: 70px; top: 640px; width: 940px; height: 330px; background: #F7F6F1; border: 6px solid #1E1C2B; box-shadow: 16px 16px 0 #1E1C2B; }
+    .h1-pill { position: absolute; left: 40px; top: -32px; padding: 14px 28px; background: #FFBFE4; border: 5px solid #1E1C2B; border-radius: 999px; box-shadow: 6px 6px 0 #1E1C2B; font: 800 30px/1 "JetBrains Mono", monospace; letter-spacing: .1em; }
+    #h1-ral { position: absolute; left: 40px; right: 40px; top: 90px; font: 800 176px/1 "JetBrains Mono", monospace; letter-spacing: -0.04em; text-align: center; font-variant-numeric: tabular-nums; }
+    #h1-strike { position: absolute; left: 20px; right: 20px; top: 172px; height: 26px; background: #FF5F56; border: 5px solid #1E1C2B; transform-origin: left center; }
+    #h1-panel { position: absolute; left: -120px; right: -120px; top: 1070px; height: 1100px; background: #1E1C2B; }
+    #h1-panel-inner { position: absolute; inset: 0; transform: rotate(-4deg); background: #1E1C2B; border-top: 10px solid #DCF06B; }
+    #h1-netto { top: 1160px; font-size: 168px; color: #DCF06B; }
+    #h1-decide { top: 1330px; font-size: 168px; color: #F7F6F1; }
+    .h1-star { position: absolute; width: 190px; height: 190px; right: 60px; top: 90px; background: #DCF06B; border: 5px solid #1E1C2B;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    .h1-star-wrap { position: absolute; inset: 0; }
+  </style>
+  <div id="root" data-composition-id="01-hook" data-width="1080" data-height="1920" data-start="0" data-duration="4.1">
+    <div id="h1-ground" class="h1-bg clip" data-start="0" data-duration="4.1" data-track-index="0"></div>
+    <div class="h1-cam" id="h1-cam">
+      <div class="h1-star-wrap" id="h1-starwrap"><div class="h1-star"></div></div>
+      <div class="h1-eyebrow" id="h1-eyebrow">[ RAL ≠ NETTO ]</div>
+      <div class="h1-line" id="h1-lordo">Il lordo</div>
+      <div class="h1-line" id="h1-promette">promette.</div>
+      <div id="h1-ralcard">
+        <div class="h1-pill">RAL ANNUA</div>
+        <div id="h1-ral">43.500 €</div>
+        <div id="h1-strike"></div>
+      </div>
+      <div id="h1-panel"><div id="h1-panel-inner"></div></div>
+      <div class="h1-line" id="h1-netto">Il netto</div>
+      <div class="h1-line" id="h1-decide">decide.</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const B = 60 / 128;
+      const tl = gsap.timeline({ paused: true });
+      const ral = document.getElementById("h1-ral");
+      const fmt = (v) => Math.round(v / 500) * 500;
+      const proxy = { v: 0 };
+      const paint = () => { ral.textContent = String(fmt(proxy.v)).replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " €"; };
+      tl.fromTo("#h1-cam", { scale: 1.06 }, { scale: 1, duration: 3.75, ease: "power2.out", transformOrigin: "50% 40%" }, 0);
+      tl.fromTo("#h1-lordo", { yPercent: -120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, 0);
+      tl.fromTo("#h1-eyebrow", { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 0.08);
+      tl.fromTo("#h1-promette", { yPercent: 120, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.42, ease: "power4.out" }, B);
+      tl.fromTo("#h1-starwrap", { rotation: -40, scale: 0, transformOrigin: "88% 10%" }, { rotation: 12, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, B);
+      tl.fromTo("#h1-ralcard", { y: 120, opacity: 0, rotation: 3 }, { y: 0, opacity: 1, rotation: -1.5, duration: 0.45, ease: "power4.out" }, B * 2);
+      tl.fromTo(proxy, { v: 0 }, { v: 43500, duration: 0.9, ease: "power3.out", onUpdate: paint }, B * 2);
+      tl.fromTo("#h1-ral", { scale: 0.9 }, { scale: 1.04, duration: 1.0, ease: "power2.out" }, B * 2);
+      // the drop: the net cuts in
+      tl.fromTo("#h1-panel", { yPercent: 100 }, { yPercent: 0, duration: 0.34, ease: "expo.out" }, B * 4 - 0.06);
+      tl.fromTo("#h1-netto", { x: -1100 }, { x: 0, duration: 0.36, ease: "expo.out" }, B * 4);
+      tl.fromTo("#h1-decide", { x: 1100 }, { x: 0, duration: 0.36, ease: "expo.out" }, B * 5);
+      tl.fromTo("#h1-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.24, ease: "power4.out" }, B * 5 + 0.1);
+      tl.to("#h1-ralcard", { keyframes: [{ x: -14, duration: 0.04 }, { x: 12, duration: 0.04 }, { x: -8, duration: 0.04 }, { x: 0, duration: 0.05 }] }, B * 5 + 0.1);
+      tl.fromTo("#h1-ral", { opacity: 1 }, { opacity: 0.45, duration: 0.3, immediateRender: false }, B * 6);
+      tl.fromTo("#h1-decide", { scale: 1 }, { scale: 1.035, duration: 0.8, ease: "power2.out", transformOrigin: "0% 50%", immediateRender: false }, B * 6);
+      paint();
+      window.__timelines = window.__timelines || {};
+      window.__timelines["01-hook"] = tl;
+    })();
+  </script>
+</template>

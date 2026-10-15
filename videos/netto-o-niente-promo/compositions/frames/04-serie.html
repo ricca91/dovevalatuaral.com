@@ -1,0 +1,87 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/Archivo.ttf") format("truetype"); font-weight: 100 900; font-stretch: 62% 125%; }
+    @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono.ttf") format("truetype"); font-weight: 100 800; }
+    #root { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: "Archivo", sans-serif; color: #F7F6F1; }
+    .r4-bg { position: absolute; inset: 0; background-color: #1E1C2B;
+      background-image: radial-gradient(circle at 1px 1px, rgba(242,241,236,.22) 1.8px, transparent 0); background-size: 40px 40px; }
+    #r4-eyebrow { position: absolute; top: 170px; left: 0; right: 0; text-align: center; font: 700 36px/1 "JetBrains Mono", monospace; letter-spacing: .1em; color: #21D4E3; white-space: pre; }
+    #r4-numwrap { position: absolute; left: 0; right: 0; top: 290px; height: 480px; }
+    .r4-num { position: absolute; left: 0; right: 0; top: 0; text-align: center; font-weight: 800; font-stretch: 110%; font-size: 500px; line-height: .96; letter-spacing: -0.06em; color: #DCF06B; text-shadow: 16px 16px 0 #454162; font-variant-numeric: tabular-nums; }
+    #r4-difila { position: absolute; left: 0; right: 0; top: 920px; text-align: center; font: 800 96px/1 "JetBrains Mono", monospace; letter-spacing: .02em; }
+    #r4-boxes { position: absolute; left: 53px; top: 1060px; width: 974px; height: 72px; }
+    .r4-box { position: absolute; top: 0; width: 72px; height: 72px; border: 4px dashed rgba(242,241,236,.6); }
+    .r4-fill { position: absolute; inset: -4px; background: #DCF06B; border: 4px solid #F7F6F1; }
+    #r4-levels { position: absolute; left: 50%; top: 1200px; width: 820px; margin-left: -410px; height: 110px; perspective: 900px; }
+    .r4-lvl { position: absolute; inset: 0; opacity: 0; text-align: center; border: 5px solid #F7F6F1; box-shadow: 8px 8px 0 #21D4E3; font: 800 44px/100px "JetBrains Mono", monospace; letter-spacing: .06em; color: #1E1C2B; text-transform: uppercase; }
+    #r4-l1 { background: #A79BFF; } #r4-l2 { background: #FFBFE4; } #r4-l3 { background: #21D4E3; box-shadow: 8px 8px 0 #DCF06B; } #r4-l4 { background: #FFB35C; box-shadow: 8px 8px 0 #FF5F56; }
+    #r4-q { position: absolute; left: 0; right: 0; top: 1380px; text-align: center; font-weight: 800; font-stretch: 106%; font-size: 90px; line-height: 1; letter-spacing: -0.04em; text-transform: uppercase; white-space: nowrap; }
+    .r4-w { display: inline-block; }
+  </style>
+  <div id="root" data-composition-id="04-serie" data-width="1080" data-height="1920" data-start="0" data-duration="5.625">
+    <div id="r4-ground" class="r4-bg clip" data-start="0" data-duration="5.625" data-track-index="0"></div>
+    <div id="r4-eyebrow"></div>
+    <div id="r4-numwrap"></div>
+    <div id="r4-difila">DI FILA</div>
+    <div id="r4-boxes"></div>
+    <div id="r4-levels">
+      <div class="r4-lvl" id="r4-l1">Riscaldamento</div>
+      <div class="r4-lvl" id="r4-l2">Occhio ai costi</div>
+      <div class="r4-lvl" id="r4-l3">Leggi tra le righe</div>
+      <div class="r4-lvl" id="r4-l4">Sfida fiscale</div>
+    </div>
+    <div id="r4-q"><span class="r4-w">Quanto</span> <span class="r4-w">vai</span> <span class="r4-w">avanti?</span></div>
+  </div>
+  <script>
+    (function () {
+      const B = 60 / 128, E = B / 2;
+      const tl = gsap.timeline({ paused: true });
+      const wrap = document.getElementById("r4-numwrap");
+      const boxes = document.getElementById("r4-boxes");
+      for (let i = 0; i <= 12; i++) { const d = document.createElement("div"); d.className = "r4-num"; d.id = "r4-n" + i; d.textContent = String(i); wrap.appendChild(d); }
+      for (let i = 0; i < 12; i++) { const b = document.createElement("div"); b.className = "r4-box"; b.style.left = (i * 82) + "px"; const f = document.createElement("div"); f.className = "r4-fill"; f.id = "r4-f" + i; b.appendChild(f); boxes.appendChild(b); }
+      const eb = document.getElementById("r4-eyebrow"), full = "[ UNA SERIE. FINO AL PRIMO ERRORE. ]", ty = { n: 0 };
+      const paintEb = () => { eb.textContent = full.slice(0, Math.round(ty.n)); };
+      tl.fromTo(".r4-w", { yPercent: 120, opacity: 0 }, { yPercent: 120, opacity: 0, duration: 0.001 }, 0);
+      // Scene 1
+      tl.fromTo(ty, { n: 0 }, { n: full.length, duration: 0.6, ease: "none", onUpdate: paintEb }, 0);
+      tl.fromTo("#r4-numwrap", { scale: 0.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(1.8)" }, 0);
+      tl.fromTo("#r4-difila", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, B);
+      tl.fromTo("#r4-boxes", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, B);
+      // Scene 2 — count 1..12 on the eighths, derived from local time (seek-safe)
+      const t0 = B * 2;
+      const nums = [], fills = [];
+      for (let i = 0; i <= 12; i++) nums.push(document.getElementById("r4-n" + i));
+      for (let i = 0; i < 12; i++) fills.push(document.getElementById("r4-f" + i));
+      const clock = { t: 0 };
+      const paintCount = () => {
+        const t = clock.t;
+        const k = t < t0 ? 0 : Math.min(12, 1 + Math.floor((t - t0) / E));
+        const since = t < t0 ? 1 : t - (t0 + (k - 1) * E);
+        const punch = k === 0 ? 1 : 1 + 0.22 * Math.pow(Math.max(0, 1 - since / 0.2), 3);
+        nums.forEach((el, i) => { el.style.opacity = i === k ? "1" : "0"; el.style.transform = i === k ? "scale(" + punch.toFixed(4) + ")" : "none"; });
+        fills.forEach((el, i) => {
+          if (i >= k) { el.style.opacity = "0"; return; }
+          const a = t - (t0 + i * E), s = Math.min(1, a / 0.16);
+          el.style.opacity = "1"; el.style.transform = "scale(" + (s < 1 ? (s * 1.15).toFixed(4) : 1) + ")";
+        });
+      };
+      tl.fromTo(clock, { t: 0 }, { t: 5.625, duration: 5.625, ease: "none", onUpdate: paintCount }, 0);
+      const lvl = (id, t) => tl.fromTo(id, { opacity: 0, rotationX: -90 }, { opacity: 1, rotationX: 0, duration: 0.28, ease: "back.out(1.6)", transformOrigin: "50% 50% -55px" }, t);
+      const hide = (id, t) => tl.to(id, { opacity: 0, rotationX: 90, duration: 0.2, ease: "power2.in", transformOrigin: "50% 50% -55px" }, t);
+      lvl("#r4-l1", t0); hide("#r4-l1", t0 + 3 * E - 0.1);
+      lvl("#r4-l2", t0 + 3 * E); hide("#r4-l2", t0 + 7 * E - 0.1);
+      lvl("#r4-l3", t0 + 7 * E); hide("#r4-l3", B * 8 - 0.1);
+      // Scene 3 — tension
+      lvl("#r4-l4", B * 8);
+      tl.to("#r4-levels", { keyframes: [{ x: -8, duration: 0.05 }, { x: 8, duration: 0.05 }, { x: -6, duration: 0.05 }, { x: 6, duration: 0.05 }, { x: 0, duration: 0.05 }] }, B * 8 + 0.3);
+      tl.to(".r4-w", { yPercent: 0, opacity: 1, duration: 0.32, ease: "power4.out", stagger: B / 2 }, B * 10);
+      tl.fromTo("#r4-numwrap", { scale: 1 }, { scale: 1.06, duration: 0.9, ease: "power2.out", immediateRender: false }, B * 10);
+      paintCount();
+      paintEb();
+      window.__timelines = window.__timelines || {};
+      window.__timelines["04-serie"] = tl;
+    })();
+  </script>
+</template>
