@@ -1,0 +1,32 @@
+[a] Vai al gioco
+[a] Dove va la tua RAL
+[span] Apri il menu
+[a] RAL → Netto
+[a] Netto → RAL
+[a] CCNL e livello
+[button] Confronta
+[a] Due offerte
+[a] Livelli di RAL
+[a] La storia
+[p] [ IL GIOCO DEL LORDO E DEL NETTO ]
+[h1] NETTO
+[span] O NIENTE
+[p] Due offerte. Una scelta. Quanto resisti prima di farti ingannare dalla RAL?
+[h2] Il lordo promette.
+[h2] Il netto decide.
+[p] Scegli l'offerta che lascia più soldi in un anno dopo i costi del lavoro. Ogni risposta corretta vale 1. Al primo errore, la partita finisce.
+[p] Il tuo record: —
+[button] Gioca
+[span] [ UNA SERIE. FINO AL PRIMO ERRORE. ]
+[strong] Quanto vai avanti?
+[p] Niente fretta. Leggi gli indizi, fai la tua scelta.
+[p] Il prossimo record è tutto da scrivere.
+[p] Scenari fittizi. Stime del motore 2026, non una previsione del singolo cedolino. Il gioco confronta il denaro disponibile, non la qualità complessiva del lavoro.
+[summary] Regole, ipotesi e limiti
+[p] Scegli l'offerta che lascia più soldi in un anno dopo i costi del lavoro. Ogni risposta corretta vale 1. Al primo errore, la partita finisce. Nessun timer: prenditi il tempo che serve.
+[p] Dipendente privato, anno intero, un datore e un reddito per scenario. Senza familiari a carico, buoni pasto assenti. Welfare dichiarato già qualificato esente; eventuali fringe imponibili sono trattati dal motore.
+[p] Confrontiamo condizioni annuali stabili: un domicilio diverso non simula un trasferimento in corso d'anno. Trasporto e altre spese del lavoro sono costi mensili espliciti, moltiplicati per 12.
+[p] Il disponibile non è il risparmio familiare: affitto, spesa, consumi personali e carichi non dichiarati sono fuori dal confronto. Ore, stress e tempo di viaggio non vengono monetizzati.
+[p] Record salvato su questo dispositivo; partita salvata in questa scheda. Punteggi e record nei link sono autodichiarati e modificabili: la sfida fra amici è informale, senza classifica globale o premi.
+[a] Il modello e le fonti
+[a] Confronta le tue offerte

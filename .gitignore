@@ -22,3 +22,12 @@ dist/
 /prototipo/minimi-ccnl/
 /prototipo/blog/
 /prototipo/sitemap.xml
+
+# Segreti locali
+.env
+.env.*
+
+# Video: i render (mp4) si rigenerano, pesano decine di MB
+videos/*/renders/
+videos/*/.media/
+videos/*/node_modules/

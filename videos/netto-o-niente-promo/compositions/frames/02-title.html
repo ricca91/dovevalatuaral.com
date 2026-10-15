@@ -1,0 +1,64 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/Archivo.ttf") format("truetype"); font-weight: 100 900; font-stretch: 62% 125%; }
+    @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono.ttf") format("truetype"); font-weight: 100 800; }
+    #root { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: "Archivo", sans-serif; color: #F7F6F1; }
+    .t2-bg { position: absolute; inset: 0; background-color: #1E1C2B;
+      background-image: linear-gradient(to right, rgba(242,241,236,.08) 2px, transparent 2px), linear-gradient(to bottom, rgba(242,241,236,.08) 2px, transparent 2px);
+      background-size: 120px 120px; }
+    #t2-cam { position: absolute; inset: 0; }
+    #t2-eyebrow { position: absolute; top: 520px; left: 0; right: 0; text-align: center; font: 700 34px/1 "JetBrains Mono", monospace; letter-spacing: .12em; color: #21D4E3; white-space: pre; }
+    .t2-word { position: absolute; left: 0; right: 0; text-align: center; font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: -0.045em; line-height: .86; white-space: nowrap; }
+    #t2-netto { top: 640px; font-size: 214px; color: #F7F6F1; text-shadow: 14px 14px 0 #DCF06B; }
+    #t2-oniente { top: 900px; font-size: 156px; color: #A79BFF; }
+    .t2-ch { display: inline-block; }
+    #t2-pill { position: absolute; left: 50%; top: 1230px; width: 860px; margin-left: -430px; text-align: center; padding: 26px 0; background: #DCF06B; color: #1E1C2B; border: 6px solid #F7F6F1; border-radius: 999px; box-shadow: 8px 8px 0 #21D4E3; font: 800 38px/1 "JetBrains Mono", monospace; letter-spacing: .06em; }
+    #t2-sub { position: absolute; top: 1400px; left: 90px; right: 90px; text-align: center; font: 600 46px/1.25 "Archivo", sans-serif; color: rgba(247,246,241,.86); }
+    .t2-deco { position: absolute; }
+    #t2-star { right: 40px; top: 170px; width: 230px; height: 230px; }
+    #t2-star i { position: absolute; inset: 0; background: #FFBFE4; border: 5px solid #F7F6F1;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
+    #t2-stripe { left: -60px; top: 190px; width: 380px; height: 120px; border: 5px solid #F7F6F1;
+      background: repeating-linear-gradient(45deg, #1E1C2B 0 18px, #21D4E3 18px 36px); }
+    #t2-euro { left: 70px; top: 1540px; width: 150px; height: 150px; }
+    #t2-euro i { position: absolute; inset: 0; background: #FF5F56; border: 5px solid #F7F6F1; font: 800 96px/140px "Archivo"; font-style: normal; text-align: center; color: #1E1C2B; }
+  </style>
+  <div id="root" data-composition-id="02-title" data-width="1080" data-height="1920" data-start="0" data-duration="4.15">
+    <div id="t2-ground" class="t2-bg clip" data-start="0" data-duration="4.15" data-track-index="0"></div>
+    <div id="t2-cam">
+      <div class="t2-deco" id="t2-stripe"></div>
+      <div class="t2-deco" id="t2-star"><i></i></div>
+      <div class="t2-deco" id="t2-euro"><i>€</i></div>
+      <div id="t2-eyebrow"></div>
+      <div class="t2-word" id="t2-netto">Netto</div>
+      <div class="t2-word" id="t2-oniente"><span class="t2-ch">O</span> <span class="t2-ch">N</span><span class="t2-ch">I</span><span class="t2-ch">E</span><span class="t2-ch">N</span><span class="t2-ch">T</span><span class="t2-ch">E</span></div>
+      <div id="t2-pill">GRATIS · SENZA ACCOUNT</div>
+      <div id="t2-sub">su dovevalatuaral.com</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const B = 60 / 128;
+      const tl = gsap.timeline({ paused: true });
+      const eyebrow = document.getElementById("t2-eyebrow");
+      const full = "[ IL GIOCO DEL LORDO E DEL NETTO ]";
+      const typer = { n: 0 };
+      const paint = () => { eyebrow.textContent = full.slice(0, Math.round(typer.n)); };
+      tl.fromTo("#t2-cam", { scale: 1 }, { scale: 1.07, duration: 3.75, ease: "none", transformOrigin: "50% 45%" }, 0);
+      tl.fromTo("#t2-netto", { scale: 1.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.36, ease: "power4.out" }, 0);
+      tl.fromTo("#t2-netto", { textShadow: "0px 0px 0 #DCF06B" }, { textShadow: "14px 14px 0 #DCF06B", duration: 0.2, ease: "power2.out", immediateRender: false }, 0.3);
+      tl.fromTo("#t2-oniente .t2-ch", { yPercent: 110, opacity: 0, rotation: -12 }, { yPercent: 0, opacity: 1, rotation: 0, duration: 0.34, ease: "back.out(2)", stagger: 0.045 }, B);
+      tl.fromTo(typer, { n: 0 }, { n: full.length, duration: 0.7, ease: "none", onUpdate: paint }, B * 2);
+      tl.fromTo("#t2-stripe", { x: -420 }, { x: 0, duration: 0.4, ease: "expo.out" }, B * 2);
+      tl.fromTo("#t2-star", { scale: 0, rotation: -90 }, { scale: 1, rotation: 14, duration: 0.5, ease: "back.out(1.7)" }, B * 3);
+      tl.fromTo("#t2-pill", { scale: 0, rotation: -8 }, { scale: 1, rotation: -2, duration: 0.42, ease: "back.out(1.9)" }, B * 4);
+      tl.fromTo("#t2-sub", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, B * 5);
+      tl.fromTo("#t2-euro", { scale: 0, rotation: 30 }, { scale: 1, rotation: -10, duration: 0.45, ease: "back.out(2)" }, B * 6);
+      tl.to("#t2-netto", { keyframes: [{ scale: 1.05, duration: 0.08 }, { scale: 1, duration: 0.3, ease: "power2.out" }] }, B * 4);
+      paint();
+      window.__timelines = window.__timelines || {};
+      window.__timelines["02-title"] = tl;
+    })();
+  </script>
+</template>
