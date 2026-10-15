@@ -102,7 +102,7 @@ const RICETTE={
     titolo:v=>`Buoni pasto ${v.tipoBuoni}`,
     formula:v=>`${v.numero} × ${formatta(v.valoreUnitario)} € = ${formatta(v.base)} € · `+
       `esente ${formatta(v.quotaEsente)} € · imponibile ${formatta(v.quotaImponibile)} € `+
-      `(limite ${formatta(v.sogliaUnitaria)} € per buono)`},
+      `(limite giornaliero ${formatta(v.sogliaUnitaria)} €; un buono per giornata ammessa)`},
   ivs:{campi:['base','aliquota'],titolo:()=>`Contributi previdenziali IVS`,
     formula:v=>`${formatta(v.base)} × ${percentuale(v.aliquota,2)}`},
   ecc:{campi:['baseContributiva','soglia','aliquota'],

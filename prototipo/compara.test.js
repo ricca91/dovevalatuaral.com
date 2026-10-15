@@ -154,9 +154,9 @@ test('i benefit spendibili non entrano nel denaro dopo i costi',()=>{
 });
 
 test('anche con una quota imponibile il benefit resta fuori dal denaro dopo i costi',()=>{
-  /* Buoni elettronici da 10 €: 2 € per titolo sono imponibili, quindi il
+  /* Buoni elettronici da 12 €: 2 € per titolo sono imponibili, quindi il
      netto in busta scende. Il valore spendibile resta comunque separato. */
-  const imponibili=offerta({buoniValoreRaw:'10',buoniNumeroRaw:'20',fringeRaw:'3.000'});
+  const imponibili=offerta({buoniValoreRaw:'12',buoniNumeroRaw:'20',fringeRaw:'3.000'});
   const esito=confrontaOk(offerta(),imponibili);
   const voci=esito.risultati.B.voci.filter(v=>v.somma==='benefitSpendibili');
   assert.ok(voci.some(v=>v.quotaImponibile>0),'lo scenario deve avere una quota imponibile');
@@ -541,4 +541,18 @@ test('la home porta al confronto e il calcolo esistente non regredisce',()=>{
 
 test('la sitemap e il canonical del confronto stanno insieme',()=>{
   assert.match(leggi('sitemap.xml'),/<loc>https:\/\/www\.dovevalatuaral\.com\/compara\.html<\/loc>/);
+});
+
+
+test('confronto 2026: 220 buoni da 10 euro sono separati dal denaro, oltre soglia solo eccedenza',()=>{
+  for(const [valore,imponibile,benefit] of [['10',0,220000],['10,01',2.20,220220]]){
+    const esito=confrontaOk(offerta(),offerta({buoniValoreRaw:valore,buoniNumeroRaw:'18,33'}));
+    const buoni=esito.risultati.B.voci.find(v=>v.id==='buoni');
+    assert.equal(buoni.numero,220);
+    assert.equal(buoni.quotaImponibile,imponibile);
+    assert.equal(riga(esito,'benefit').b,benefit);
+    assert.equal(riga(esito,'dopoCosti').b,riga(esito,'netto').b);
+    if(imponibile===0)assert.equal(riga(esito,'netto').delta,0);
+    else assert.ok(riga(esito,'netto').delta<0);
+  }
 });

@@ -38,7 +38,9 @@ Sono tre fatti distinti, anche quando il datore li raccoglie sotto la stessa eti
 - **Fringe benefit.** Per il 2025, 2026 e 2027 il limite complessivo è 1.000 €, elevato a
   2.000 € per i lavoratori con figli fiscalmente a carico. Il limite è una soglia, non una
   franchigia: superarlo rende imponibile l'intero valore. [L. 207/2024, art. 1 c. 390–391](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)
-- **Buoni pasto.** L'esenzione è per singolo titolo: 4 € se cartaceo, 8 € se elettronico.
+- **Buoni pasto.** Dal 2026 l'esenzione giornaliera è 4 € per i cartacei e 10 € per gli elettronici
+  (L. 199/2025, art. 1 c. 14). Il calcolo assume un buono per giornata ammessa.
+  [Ministero del Lavoro, sintesi della legge di bilancio 2026](https://www.lavoro.gov.it/notizie/pagine/legge-di-bilancio-2026-le-principali-misure-lavoratori-imprese-e-famiglie).
   L'eccedenza concorre al reddito; il valore nominale intero resta spendibile come buono.
   [TUIR, art. 51 c. 2 lett. c](https://www.normattiva.it/uri-res/N2Ls?urn%3Anir%3Astato%3Alegge%3A1986%3B917~art51=)
 

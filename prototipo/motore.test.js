@@ -998,17 +998,38 @@ test.describe('F — welfare, fringe benefit e buoni pasto',()=>{
     assert.equal(voce(sopra,'fringe').quotaImponibile,2000.01);
   });
 
-  test('buoni elettronici da 10 euro: valore pieno spendibile, eccedenza imponibile',()=>{
-    const r=calcola('35000',{buoniPasto:{tipo:'elettronici',valoreUnitario:10,numero:200}});
+  test('220 buoni elettronici da 10 euro sono esenti nel 2026 e separati dal netto',()=>{
+    const senza=calcola('35000',{comune:'F205'});
+    const r=calcola('35000',{comune:'F205',buoniPasto:{tipo:'elettronici',valoreUnitario:10,numero:220}});
     const b=voce(r,'buoni');
-    assert.equal(b.valoreUnitario,10);
-    assert.equal(b.numero,200);
-    assert.equal(b.sogliaUnitaria,8);
-    assert.equal(b.quotaEsente,1600);
-    assert.equal(b.quotaImponibile,400);
-    assert.equal(b.importo,2000);
-    assert.equal(r.kpi.benefitSpendibili,2000);
-    assert.equal(r.kpi.mediaMensileBuoni,166.67);
+    assert.equal(b.quotaImponibile,0);
+    assert.equal(b.sogliaUnitaria,10);
+    assert.equal(b.quotaEsente,2200);
+    assert.equal(b.importo,2200);
+    assert.equal(r.kpi.benefitSpendibili,2200);
+    assert.equal(r.kpi.mediaMensileBuoni,183.33);
+    assert.equal(r.kpi.nettoInBusta,senza.kpi.nettoInBusta);
+    assert.equal(r.imponibile,senza.imponibile);
+    assert.deepEqual(r.voci.filter(v=>v.id!=='buoni'),senza.voci);
+    assert.equal(r.kpi.valorePacchetto,senza.kpi.nettoInBusta+2200);
+  });
+
+  test('220 buoni elettronici da 10,01 euro tassano solo 2,20 euro',()=>{
+    const r=calcola('35000',{buoniPasto:{tipo:'elettronici',valoreUnitario:10.01,numero:220}});
+    const b=voce(r,'buoni');
+    assert.equal(b.quotaImponibile,2.20);
+    assert.equal(b.quotaEsente,2200);
+    assert.equal(r.kpi.benefitSpendibili,2202.20);
+    assert.equal(voce(r,'ivs').base,35002.20);
+    assert.ok(r.kpi.nettoInBusta<calcola('35000').kpi.nettoInBusta);
+  });
+
+  test('la soglia giornaliera cartacea resta 4 euro',()=>{
+    for(const [valoreUnitario,imponibile] of [[4,0],[4.01,2.20]]){
+      const r=calcola('35000',{buoniPasto:{tipo:'cartacei',valoreUnitario,numero:220}});
+      assert.equal(voce(r,'buoni').quotaImponibile,imponibile);
+      assert.equal(voce(r,'buoni').sogliaUnitaria,4);
+    }
   });
 
   test('buoni cartacei ed elettronici hanno soglie separate',()=>{

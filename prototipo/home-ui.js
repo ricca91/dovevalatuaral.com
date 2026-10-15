@@ -200,7 +200,7 @@ function benefitBlocco(stato){
           <input class="input" id="buoni-numero" inputmode="numeric" autocomplete="off"
             value="${esc(stato.buoniNumeroRaw)}" placeholder="0"></div>
       </div>
-      <p class="hint">Esenti fino a 8 € elettronici o 4 € cartacei per buono.</p>
+      <p class="hint">Esenti fino a 10 € giornalieri per i buoni elettronici e 4 € per quelli cartacei; l’eccedenza è imponibile.</p>
     </div>
     <div class="callout callout--warn nucleo-nota"><span class="callout__mark">Limite</span><div>
       Il welfare è inserito come valore <b>già qualificato come esente</b>: il calcolatore non verifica

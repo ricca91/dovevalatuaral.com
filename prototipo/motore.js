@@ -108,9 +108,9 @@ const K={
       sogliaOrdinaria:dec('1000'),        // L. 207/2024, art. 1 c. 390
       sogliaConFigli:dec('2000'),         // L. 207/2024, art. 1 c. 391
     },
-    buoniPasto:{                          // TUIR, art. 51 c. 2 lett. c
+    buoniPasto:{                          // TUIR, art. 51 c. 2 lett. c; L. 199/2025, art. 1 c. 14
       cartacei:dec('4'),
-      elettronici:dec('8'),
+      elettronici:dec('10'),
     },
   },
 };
