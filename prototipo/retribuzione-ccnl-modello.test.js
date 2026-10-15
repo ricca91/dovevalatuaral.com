@@ -331,3 +331,45 @@ test.describe('7 — totale pubblicato contro totale derivato',()=>{
     assert.equal(C.componiRal({ccnl:'totali',livello:'E',alla:'2026-09-22'}).ral,1030*14);
   });
 });
+
+test.describe('8 — righe che si succedono per anzianità',()=>{
+  /* I rider della Logistica: una riga d'ingresso e una dopo 6 mesi.
+     La data di anzianità sceglie la riga maturata; senza data resta
+     quella scelta. */
+  const progressione={articolo:'art. 1',passi:[
+    {codice:'R0',nome:'ingresso',dopoMesi:0},{codice:'R6',nome:'dopo 6 mesi',dopoMesi:6}]};
+  const conProgressione={...semplice,id:'progressione',tabelle:[{decorrenza:'2026-01-01',titolo:'unica',
+    livelli:[
+      livello('R0',[['minimo',1000]],{scatto:10,progressione}),
+      livello('R6',[['minimo',1100]],{scatto:10,progressione}),
+      livello('B',[['minimo',2000]],{scatto:10}),
+    ]}]};
+  const C=catalogo([conProgressione]);
+  const componi=(livello,dataAnzianita,alla)=>
+    C.componiRal({ccnl:'progressione',livello,dataAnzianita,alla});
+
+  test('la riga applicata è quella maturata alla data, in entrambe le direzioni',()=>{
+    assert.equal(componi('R0','2026-01-15','2026-07-14').livello,'R0');
+    const passato=componi('R0','2026-01-15','2026-07-15');
+    assert.equal(passato.livello,'R6');
+    assert.equal(passato.ral,1100*14);
+    assert.deepEqual({...passato.progressione},
+      {richiesto:'R0',applicato:'R6',dal:'2026-07-15',articolo:'art. 1'});
+    assert.equal(componi('R6','2026-03-01','2026-07-15').livello,'R0');
+  });
+
+  /* Sei mesi dal 31 agosto finiscono l'ultimo giorno di febbraio. */
+  test('i mesi si contano sul calendario, con l’ultimo giorno del mese',()=>{
+    assert.equal(componi('R0','2025-08-31','2026-02-27').livello,'R0');
+    assert.equal(componi('R0','2025-08-31','2026-02-28').progressione.dal,'2026-02-28');
+  });
+
+  test('senza data o fuori dalla progressione la riga resta quella scelta',()=>{
+    const scelta=C.componiRal({ccnl:'progressione',livello:'R6',alla:'2026-09-22'});
+    assert.equal(scelta.livello,'R6');
+    assert.equal(scelta.livelloRichiesto,'R6');
+    assert.equal(scelta.progressione,null);
+    assert.equal(componi('B','2026-03-01','2026-09-22').progressione,null);
+    assert.throws(()=>componi('R0','2026-10-01','2026-09-22'),RangeError);
+  });
+});

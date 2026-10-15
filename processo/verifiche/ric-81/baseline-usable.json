@@ -1,0 +1,26 @@
+[
+  {
+    "label": "baseline",
+    "run": 1,
+    "readyMs": 4277.200000286102,
+    "calculationMs": 98,
+    "result": true,
+    "completeMs": 4532.700000286102
+  },
+  {
+    "label": "baseline",
+    "run": 2,
+    "readyMs": 3766.7000002861023,
+    "calculationMs": 97.09999990463257,
+    "result": true,
+    "completeMs": 4012.800000190735
+  },
+  {
+    "label": "baseline",
+    "run": 3,
+    "readyMs": 3704.5,
+    "calculationMs": 89.39999961853027,
+    "result": true,
+    "completeMs": 3921.7000002861023
+  }
+]

@@ -30,7 +30,7 @@ test.describe('pagina RAL 35.000',()=>{
 
   test('offre percorsi reali verso il calcolatore e le RAL confinanti',()=>{
     for(const mensilita of [12,13,14])
-      assert.match(pagina,new RegExp(`index\\.html\\?ral=35\\.000&amp;m=${mensilita}&amp;c=F205&amp;calc=1`));
+      assert.match(pagina,new RegExp(`/\\?ral=35\\.000&amp;m=${mensilita}&amp;c=F205&amp;calc=1`));
     assert.match(pagina,/href="\.\.\/ral-30000-netto\/"/);
     assert.match(pagina,/href="\.\.\/ral-40000-netto\/"/);
   });

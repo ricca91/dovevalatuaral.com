@@ -39,7 +39,7 @@ metti Airtable su "In revisione", e dillo nella mail col punteggio raggiunto.
 
 prototipo/articoli/{slug}.md, dove {slug} è lo Slug proposto della riga. Il nome del file deve essere esattamente {slug}.md.
 
-Frontmatter obbligatorio, tutti i campi, nessun campo in più (l'unico opzionale ammesso è data_aggiornamento): slug, titolo, title_seo, description, query_principale, cluster, data_pubblicazione, cta, link_interni, ipotesi_calcolo, fonti_verificate, stato
+Frontmatter obbligatorio, tutti i campi, nessun campo in più (gli unici opzionali ammessi sono data_aggiornamento e ccnl): slug, titolo, title_seo, description, query_principale, cluster, data_pubblicazione, cta, link_interni, ipotesi_calcolo, fonti_verificate, stato
 
 Attenzione:
 - data_pubblicazione è la data di OGGI, quella in cui il runner pubblica davvero, non
@@ -49,6 +49,10 @@ Attenzione:
 - link_interni è un array JSON inline di path che iniziano con /
 - i link interni sono validati: se la rotta non esiste, la build fallisce
 - stato: pubblicato solo se hai superato la soglia, altrimenti bozza
+- ccnl: solo se l'articolo parla di un contratto preciso che ha una tabella in
+  /minimi-ccnl/. Il valore è lo slug della tabella (es. "commercio", "metalmeccanico"):
+  il template linka quella tabella, e senza ccnl linka l'indice /minimi-ccnl/.
+  Uno slug sconosciuto fa fallire la build, e l'errore elenca quelli validi.
 
 Markdown: sono ammessi ##, ###, tabelle, liste, blockquote, ---, e inline
 code/grassetto/corsivo/link. Fanno FALLIRE la build: # (H1), #### e oltre,

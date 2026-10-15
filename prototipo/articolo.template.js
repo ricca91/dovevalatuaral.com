@@ -10,10 +10,17 @@ function layout({title,description,route,content}){
 <link rel="stylesheet" href="/draftsman.css"><link rel="stylesheet" href="/articolo.css"><script src="/analytics.js" async></script></head>
 <body><a class="skip-link" href="#contenuto">Vai al contenuto</a>
 <header class="site-header"><div class="site-header__in"><a class="site-brand" href="/" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a><button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button><nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="/">RAL → Netto</a><a href="/netto-ral.html">Netto → RAL</a><a href="/ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="/compara.html">Due offerte</a><a href="/confronti-ral/">Livelli di RAL</a></div></div><a href="/netto-o-niente.html">Gioca</a><a href="/blog/"${route==='/blog/'?' aria-current="page"':''}>Blog</a><a href="/la-storia.html">La storia</a></nav></div></header>
-<main id="contenuto" class="blog-shell">${content}</main><footer class="footer"><div class="blog-shell">Dove va la tua RAL · <a href="/come-ho-lavorato.html">Come ho lavorato</a></div></footer><script src="/site-nav.js"></script></body></html>\n`;
+<main id="contenuto" class="blog-shell">${content}</main><footer class="footer"><div class="blog-shell">Dove va la tua RAL · <a href="/minimi-ccnl/">Minimi CCNL</a> · <a href="/come-ho-lavorato.html">Come ho lavorato</a></div></footer><script src="/site-nav.js"></script></body></html>\n`;
 }
 const labels={'/':'Metti la tua RAL e vedi il tuo caso','/netto-ral.html':'Calcola la RAL dal netto che vuoi','/compara.html':'Confronta le tue offerte','/ccnl-livello.html':'Calcola la RAL dal tuo CCNL','/busta-paga.html':'Apri lo strumento per la busta paga','/confronti-ral/':'Confronta i livelli di RAL'};
-function renderArticle(article,articles){
+/* Chi legge di un contratto trova la sua tabella; gli altri l'indice
+   dei minimi, che è dove arriva quasi tutta la ricerca organica (RIC-92). */
+function minimiCcnl({rotta,titolo}){
+  return titolo
+    ?`<aside class="article-assumptions article-ccnl"><h2>I minimi del contratto</h2><p>La tabella in vigore del ${e(titolo)}, livello per livello: minimo lordo e netto stimato.</p><p><a href="${e(rotta)}">Apri la tabella del ${e(titolo)}&nbsp;→</a></p></aside>`
+    :`<aside class="article-assumptions article-ccnl"><h2>I minimi del tuo contratto</h2><p>Se sai quale CCNL ti applicano, le tabelle dei minimi mostrano livello per livello il minimo lordo e il netto stimato.</p><p><a href="${e(rotta)}">Trova il minimo del tuo contratto&nbsp;→</a></p></aside>`;
+}
+function renderArticle(article,articles,minimi){
   const sections=article.body.split(/^## Fonti\s*$/m);
   if(sections.length!==2||!sections[1].trim())throw Error(`${article.file}: serve una sola sezione finale "## Fonti" con le fonti citate`);
   if(!/\[[^\]]+\]\(https?:\/\//.test(sections[1]))throw Error(`${article.file}: Fonti deve contenere almeno un link alla fonte`);
@@ -24,7 +31,8 @@ function renderArticle(article,articles){
 <div class="article-body">${markdown(sections[0])}</div>
 <aside class="article-assumptions"><h2>Ipotesi del calcolo</h2><p>${e(article.ipotesi_calcolo)}</p></aside>
 <section class="article-sources"><h2>Fonti</h2><p class="article-dates">Verificate il ${time(article.fonti_verificate)}</p>${markdown(sections[1])}</section>
-<div class="article-cta"><a class="btn btn--primary" href="${e(article.cta)}">${e(labels[article.cta]||'Apri il calcolo per il tuo caso')} →</a></div></article>
+<div class="article-cta"><a class="btn btn--primary" href="${e(article.cta)}">${e(labels[article.cta]||'Apri il calcolo per il tuo caso')} →</a></div>
+${minimiCcnl(minimi)}</article>
 ${related.length?`<section class="blog-related"><h2>Nello stesso argomento</h2>${cards(related)}</section>`:''}`});
 }
 function cards(articles){return `<ul class="blog-cards">${articles.map(a=>`<li><a href="/blog/${a.slug}/"><span class="article-dates">${time(a.data_pubblicazione)}</span><h3>${e(a.titolo)}</h3><p>${e(a.description)}</p><span aria-hidden="true">Leggi l’articolo →</span></a></li>`).join('')}</ul>`;}

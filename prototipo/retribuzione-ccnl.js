@@ -781,8 +781,12 @@
      propri. 39 ore. Il totale stampato è minimo + EPA; l'EDR
      dell'accordo 18 maggio 2021 sta accanto, per 13 mensilità.
      Il 6° Junior è cessato il 31 dicembre 2025 ed è fuori dal dato.
-     I rider hanno una riga per parametro: il passaggio da 110 a 116
-     (e a 119) avviene per anzianità e qui si sceglie a mano.
+     I rider hanno una riga per parametro, perché la fonte stampa un
+     minimo per parametro, ma il parametro non si sceglie: l'art. 6 lo
+     fa passare da solo, da 110 a 116 dopo 6 mesi e, per la lettera L,
+     a 119 dopo ulteriori 9. Ogni riga porta la progressione della sua
+     lettera e, con la data di anzianità, si applica quella maturata
+     (RIC-111).
 
      Due refusi della fonte, registrati con il loro importo: il totale
      F2 è stampato 6 centesimi sopra la somma delle voci su ogni
@@ -795,10 +799,21 @@
     C3:'C3 (parametro 133,5)',B3:'B3 (parametro 133)',A3:'A3 (parametro 132,5)',
     F2:'F2 (parametro 129,5)',E2:'E2 (parametro 129)',D2:'D2 (parametro 128,5)',
     H1:'H1 (parametro 124,5)',G1:'G1 (parametro 124)',
-    'I-110':'Rider su cicli — I, parametro 110','I-116':'Rider su cicli — I, parametro 116 (dopo 6 mesi)',
-    'L-110':'Rider su ciclomotori e motocicli — L, parametro 110',
-    'L-116':'Rider su ciclomotori e motocicli — L, parametro 116 (dopo 6 mesi)',
-    'L-119':'Rider su ciclomotori e motocicli — L, parametro 119 (dopo ulteriori 9 mesi)'};
+    'I-110':'Rider su cicli — I, parametro 110 (primi 6 mesi)',
+    'I-116':'Rider su cicli — I, parametro 116 (dopo 6 mesi)',
+    'L-110':'Rider su ciclomotori e motocicli — L, parametro 110 (primi 6 mesi)',
+    'L-116':'Rider su ciclomotori e motocicli — L, parametro 116 (dopo 6 mesi, fino a 15)',
+    'L-119':'Rider su ciclomotori e motocicli — L, parametro 119 (dopo 15 mesi)'};
+  /* Art. 6: «parametro 110 che trascorsi 6 mesi passerà al parametro
+     116» e, per la lettera L, «trascorsi ulteriori 9 mesi passerà al
+     parametro 119». I mesi si contano dall'inizio dell'anzianità. */
+  const passoRider=(codice,dopoMesi)=>({codice,nome:`parametro ${codice.slice(2)}`,dopoMesi});
+  const PROGRESSIONI_LOGISTICA={
+    I:{articolo:'art. 6 del CCNL, rider lettera I',
+      passi:[passoRider('I-110',0),passoRider('I-116',6)]},
+    L:{articolo:'art. 6 del CCNL, rider lettera L',
+      passi:[passoRider('L-110',0),passoRider('L-116',6),passoRider('L-119',15)]},
+  };
   const EDR_LOGISTICA={Quadri:12.80,'1°':12.05,'2°':11.06,'3°Super':10.00,'3°':9.70,'4°':9.24,
     '4°Junior':9.02,'5°':8.79,'6°':8.26,
     C3:10.04,B3:10.00,A3:9.96,F2:9.74,E2:9.70,D2:9.66,H1:9.36,G1:9.32,
@@ -830,7 +845,8 @@
           ...(codice==='Quadri'?[voce('indennitaFunzione','Indennità di funzione dei Quadri',51.65)]:[]),
           voce('edr','E.D.R. accordo 18 maggio 2021',EDR_LOGISTICA[codice],{mensilita:13})],
         totalePubblicato:totaleStampato,vociTotalePubblicato:['minimo','epa'],
-        discrepanzaFonte:discrepanza,scatto:SCATTI_LOGISTICA[codice]};
+        discrepanzaFonte:discrepanza,scatto:SCATTI_LOGISTICA[codice],
+        ...(/^[IL]-/.test(codice)?{progressione:PROGRESSIONI_LOGISTICA[codice[0]]}:{})};
     })));
 
   const LOGISTICA={
@@ -850,7 +866,7 @@
         descrizione:'Impiegati e operai di magazzino, uffici, piattaforme.',
         tabelle:tabelleLogistica(TABELLE_LOGISTICA_NON_VIAGGIANTE)},
       {id:'viaggiante',nome:'Personale viaggiante e rider',
-        descrizione:'Conducenti per parametro e rider (lettere I e L). La riga del rider va scelta per parametro: il passaggio per anzianità non è automatico.',
+        descrizione:'Conducenti per parametro e rider (lettere I e L). Per i rider il parametro cresce con l’anzianità prevista dal CCNL: chi usa cicli passa dal 110 al 116 dopo 6 mesi; chi usa ciclomotori o motocicli passa dal 110 al 116 dopo 6 mesi e al 119 dopo ulteriori 9 mesi. Seleziona il parametro corrispondente ai mesi già maturati: nel calcolatore, con la data di anzianità, si applica da solo.',
         tabelle:tabelleLogistica(TABELLE_LOGISTICA_VIAGGIANTE)},
     ],
   };
@@ -1200,6 +1216,7 @@
       'Terzo elemento (anzianità fino al 30 settembre 1981), elemento distinto per chi era in servizio il 26 gennaio 2011, indennità di mensa locali, premi di operosità integrativi.',
       'Scatti delle norme transitorie: 8 per chi è stato assunto prima del 1° giugno 2000 nell’ex autotrasporto; importi precedenti per gli scatti maturati nei magazzini generali prima del 2013. Il numero dichiarato è comunque limitato a 5.',
       'Indennità di trasferta, straordinari, regimi orari aziendali per la qualifica 1 G-H.',
+      'Passaggio di parametro dei rider (art. 6) contato dalla data di anzianità in azienda: chi è diventato rider dopo l’assunzione ha meno mesi da rider. In quel caso lascia vuota la data, scegli la riga del parametro maturato e indica gli scatti nelle opzioni avanzate.',
     ],
     'cooperative-sociali-t151':[
       'Contratto scaduto il 31 dicembre 2025, trattativa di rinnovo aperta: la tabella di ottobre 2025 resta in vigore e nessun aumento successivo è firmato.',
@@ -1250,11 +1267,15 @@
     return data.getUTCFullYear()===anno&&data.getUTCMonth()===mese-1&&data.getUTCDate()===giorno;
   }
 
-  function aggiungiAnni(iso,anni){
+  /* Il giorno resta quello di partenza, o l'ultimo del mese se quel
+     mese è più corto: sei mesi dal 31 agosto finiscono il 28 febbraio. */
+  function aggiungiMesi(iso,mesi){
     const [anno,mese,giorno]=iso.split('-').map(Number);
-    const ultimo=new Date(Date.UTC(anno+anni,mese,0)).getUTCDate();
-    return new Date(Date.UTC(anno+anni,mese-1,Math.min(giorno,ultimo))).toISOString().slice(0,10);
+    const ultimo=new Date(Date.UTC(anno,mese+mesi,0)).getUTCDate();
+    return new Date(Date.UTC(anno,mese-1+mesi,Math.min(giorno,ultimo))).toISOString().slice(0,10);
   }
+
+  const aggiungiAnni=(iso,anni)=>aggiungiMesi(iso,anni*12);
 
   function primoDelMeseSuccessivo(iso){
     const [anno,mese]=iso.split('-').map(Number);
@@ -1303,6 +1324,9 @@
          percentuale alla maturazione, quota unica, assenti — e le
          mensilità in cui entrano;
        · per ogni livello, i profili che portano una voce propria;
+       · per le righe che si succedono con l'anzianità (i rider della
+         Logistica), la progressione: con la data di anzianità si
+         applica la riga maturata, non quella scelta;
        · per ogni riga, il totale pubblicato e le voci che somma,
          o nessun totale se la fonte non lo stampa.
      ------------------------------------------------------------ */
@@ -1330,6 +1354,8 @@
         discrepanzaFonte:livello.discrepanzaFonte?congela({...livello.discrepanzaFonte}):null,
         scatto:livello.scatto===undefined?null:livello.scatto,
         profili:congela((livello.profili||[]).map(p=>congela({...p,voce:congela({...p.voce})}))),
+        progressione:livello.progressione?congela({articolo:livello.progressione.articolo,
+          passi:congela(livello.progressione.passi.map(p=>congela({...p})))}):null,
         ...(livello.nota?{nota:livello.nota}:{}),
       });
     }
@@ -1456,9 +1482,13 @@
        anzianità convenzionale, passaggi di livello o servizio
        pregresso — tranne dove il valore di ogni scatto dipende da
        quando è maturato, e un numero da solo non basta. */
-    function scadenze(regola,dataInizio,alla){
+    function validaAnzianita(dataInizio,alla){
       if(!dataIsoValida(dataInizio)||!dataIsoValida(alla)||dataInizio>alla)
         throw new RangeError(`Data di anzianità non valida: ${dataInizio}`);
+    }
+
+    function scadenze(regola,dataInizio,alla){
+      validaAnzianita(dataInizio,alla);
       const anni=regola.tipo==='quotaUnica'
         ?[regola.dopoAnni]
         :Array.from({length:regola.massimo},(_,i)=>(i+1)*regola.cadenzaAnni);
@@ -1504,15 +1534,41 @@
       return importo;
     }
 
+    /* Dove il contratto fa succedere le righe con l'anzianità, il
+       passo applicato è l'ultimo i cui mesi sono trascorsi alla data
+       del calcolo: vale dal giorno in cui si compiono, perché il
+       contratto non lo rinvia al mese successivo come per gli scatti. */
+    function passoMaturato(progressione,dataInizio,alla){
+      validaAnzianita(dataInizio,alla);
+      let maturato=null;
+      for(const passo of progressione.passi){
+        const dal=aggiungiMesi(dataInizio,passo.dopoMesi);
+        if(dal<=alla)maturato={passo,dal};
+      }
+      return maturato;
+    }
+
     /* --- LA COMPOSIZIONE — l'unica funzione che produce un numero --- */
     function componiRal({ccnl,sezione=null,livello:codiceLivello,profilo:codiceProfilo=null,
       dataAnzianita=null,scatti=null,oreSettimanali=null,superminimoMensile=0,alla=oggi()}={}){
       const P=profilo(ccnl,sezione);
       const contratto=P.contratto;
       const tabella=tabellaVigente(ccnl,alla,sezione);
-      const livello=tabella.livelli.find(l=>l.codice===codiceLivello);
-      if(!livello)
+      const richiesto=tabella.livelli.find(l=>l.codice===codiceLivello);
+      if(!richiesto)
         throw new RangeError(`Livello sconosciuto per ${ccnl}: ${codiceLivello}`);
+      const anzianitaDichiarata=dataAnzianita!==null&&dataAnzianita!==undefined&&dataAnzianita!=='';
+
+      /* Con la data di anzianità una riga che fa parte di una
+         progressione non è un'alternativa libera: si applica quella
+         maturata, anche se più bassa di quella scelta. Senza data
+         resta la scelta, e il risultato non dichiara alcun passaggio. */
+      const maturato=richiesto.progressione&&anzianitaDichiarata
+        ?passoMaturato(richiesto.progressione,dataAnzianita,alla):null;
+      const livello=maturato
+        ?tabella.livelli.find(l=>l.codice===maturato.passo.codice):richiesto;
+      if(!livello)
+        throw new RangeError(`Livello sconosciuto per ${ccnl}: ${maturato.passo.codice}`);
       const M=mensilitaDi(P.mensilita,alla,ccnl);
 
       const ore=oreSettimanali===null||oreSettimanali===undefined
@@ -1530,7 +1586,6 @@
          lo dice invece di lasciarlo intendere. Un numero esplicito
          di scatti vince sull'anzianità, che è una stima. */
       const regola=P.scatti;
-      const anzianitaDichiarata=dataAnzianita!==null&&dataAnzianita!==undefined&&dataAnzianita!=='';
       const dichiarati=scatti===null||scatti===undefined||scatti===''?null:Number(scatti);
       if(dichiarati!==null&&(!Number.isInteger(dichiarati)||dichiarati<0
         ||dichiarati>regola.massimo))
@@ -1587,6 +1642,9 @@
         ccnl:contratto.id,
         sezione:P.sezione?P.sezione.id:null,
         livello:livello.codice,
+        livelloRichiesto:richiesto.codice,
+        progressione:maturato?congela({richiesto:richiesto.codice,applicato:livello.codice,
+          dal:maturato.dal,articolo:richiesto.progressione.articolo}):null,
         profilo:scelto?scelto.id:null,
         decorrenza:tabella.decorrenza,
         mensilita:M,

@@ -57,8 +57,7 @@ const CONTRATTI_SEO=Object.freeze([
     livelli:['2','3','4','4S'],slugLivello:numerico,etichetta:livelloN},
   {id:'cooperative-sociali-t151',slug:'cooperative-sociali',breve:'Cooperative sociali',
     query:'cooperative sociali',titoloTabella:'CCNL Cooperative sociali',
-    livelli:['B1','C1','C2','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL,
-    titoloLivello:'stipendio lordo e netto'},
+    livelli:['B1','C1','C2','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
   {id:'distribuzione-moderna-federdistribuzione-h008',slug:'dmo',breve:'DMO',
     titoloTabella:'CCNL DMO, distribuzione moderna'},
   {id:'metalmeccanica-pmi-confapi-c018',slug:'metalmeccanico-confapi',breve:'Metalmeccanico Confapi',
@@ -165,6 +164,15 @@ function datiLivello(c,codice,alla){
       .sort((a,b)=>a.livello.totale-b.livello.totale)};
 }
 
+/* La RAL di ogni pagina per livello, la stessa che la pagina mostra in
+   testa: serve a chi la linka da fuori, come le pagine RAL (RIC-92). */
+function ralLivelli({alla=oggi()}={}){
+  return CONTRATTI_SEO.flatMap(c=>(c.livelli||[]).map(codice=>{
+    const d=datiLivello(c,codice,alla);
+    return {rotta:d.rotta,slug:c.slug,nome:`${d.etichetta} ${c.breve}`,ral:d.righe[0].composta.ral};
+  }));
+}
+
 function write(file,contents){
   fs.mkdirSync(path.dirname(file),{recursive:true});
   fs.writeFileSync(file,contents,'utf8');
@@ -186,4 +194,4 @@ function generate(outputDir=__dirname,{alla=oggi()}={}){
   return [...pagine.keys()];
 }
 
-module.exports={CONTRATTI_SEO,ROTTE,HUB,generate,stima,datiContratto,datiLivello};
+module.exports={CONTRATTI_SEO,ROTTE,HUB,rottaTabella,generate,stima,datiContratto,datiLivello,ralLivelli};

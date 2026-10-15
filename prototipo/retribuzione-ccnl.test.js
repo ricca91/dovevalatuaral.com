@@ -462,7 +462,7 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
   const fs=require('node:fs');
   const path=require('node:path');
   const leggi=nome=>fs.readFileSync(path.join(__dirname,nome),'utf8');
-  const pagina=leggi('ccnl-livello.html');
+  const pagina=leggi('ccnl-livello.html')+leggi('ccnl-livello-ui.js');
 
   test('non c’è nessun campo RAL: la RAL è ciò che esce, non ciò che si chiede',()=>{
     assert.doesNotMatch(pagina,/<input[^>]+(?:id|name)="ral"/i);
@@ -520,6 +520,16 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
     assert.match(pagina,/id="nota-affidabilita"/);
   });
 
+  /* RIC-111: dove le righe si succedono per anzianità (i rider della
+     Logistica) la data sceglie la riga. La pagina mostra la riga
+     applicata, non quella scelta, riallinea il selettore e lo dice. */
+  test('la riga applicata per anzianità è quella mostrata, e la pagina lo dice',()=>{
+    assert.match(pagina,/R\.trovaLivello\(contratto\.id,composta\.livello,undefined,s\)/);
+    assert.match(pagina,/selLivello\.value=composta\.livello/);
+    assert.match(pagina,/composta\.progressione/);
+    assert.match(pagina,/livello\.progressione/);
+  });
+
   test('orario ridotto e scatti dichiarati stanno nelle opzioni avanzate',()=>{
     assert.match(pagina,/<details class="avanzate" id="avanzate">/);
     assert.match(pagina,/Opzioni avanzate — orario ridotto e scatti già maturati/);
@@ -553,7 +563,7 @@ test.describe('la pagina — che cosa promette al primo sguardo',()=>{
   test('carica gli script accanto e nessuna dipendenza esterna',()=>{
     for(const file of ['dati-addizionali-2026.js','geografia.js','motore.js',
       'retribuzione-ccnl.js','site-nav.js'])
-      assert.match(pagina,new RegExp(`<script src="${file.replace(/\./g,'\\.')}"></script>`),file);
+      assert.match(pagina,new RegExp(`<script src="${file.replace(/\./g,'\\.')}"[^>]*></script>`),file);
     assert.doesNotMatch(pagina,/<script[^>]+src="https?:/);
     assert.doesNotMatch(pagina,/localStorage|sessionStorage/);
     assert.doesNotMatch(pagina,/type="module"/);

@@ -18,15 +18,17 @@
 <body class="non-page">
 <a class="skip-link" href="#contenuto">Vai al gioco</a>
 <header class="site-header"><div class="site-header__in">
-  <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <a class="site-brand" href="/" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
   <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
-    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div>
+    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="/">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div>
     <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div>
     <a href="netto-o-niente.html" aria-current="page">Gioca</a><a href="/blog/">Blog</a><a href="la-storia.html">La storia</a>
   </nav>
 </div></header>
-<main id="contenuto" class="non-main">
+<div class="avvio pg" role="status" aria-live="polite"><span id="avvio-messaggio">Caricamento del calcolatore…</span> <button type="button" id="avvio-riprova" onclick="if(typeof CALCOLATORE_AVVIO==='undefined')location.reload()" hidden>Riprova</button></div>
+<noscript><style>.avvio{display:none}</style><p class="pg">Per usare il calcolatore attiva JavaScript e ricarica la pagina.</p></noscript>
+<main id="contenuto" class="non-main" inert data-avvio-inert>
   <header class="non-heading"><p class="non-eyebrow">[ IL GIOCO DEL LORDO E DEL NETTO ]</p>
     <h1>NETTO <span>O NIENTE</span></h1>
     <p class="non-subtitle">Due offerte. Una scelta. Quanto resisti prima di farti ingannare dalla RAL?</p>
@@ -34,9 +36,10 @@
   <p id="non-storage" class="non-notice" role="status" hidden></p>
   <div id="non-mount" aria-busy="true"><p>Prepariamo le offerte…</p></div>
   <p id="non-live" class="sr" aria-live="polite" aria-atomic="true"></p>
-  <noscript><p>Per giocare serve JavaScript. <a href="index.html">Apri il calcolatore</a>.</p></noscript>
+  <noscript><p>Per giocare serve JavaScript. <a href="/">Apri il calcolatore</a>.</p></noscript>
   <footer class="non-notes">
     <p>Scenari fittizi. Stime del motore 2026, non una previsione del singolo cedolino. Il gioco confronta il denaro disponibile, non la qualità complessiva del lavoro. <a href="privacy.html">Privacy</a></p>
+    <p><a href="minimi-ccnl/">Minimi CCNL per contratto e livello</a></p>
     <details><summary>Regole, ipotesi e limiti</summary><div>
       <p>Scegli l'offerta che lascia più soldi in un anno dopo i costi del lavoro. Ogni risposta corretta vale 1. Al primo errore, la partita finisce. Nessun timer: prenditi il tempo che serve.</p>
       <p>Dipendente privato, anno intero, un datore e un reddito per scenario. Senza familiari a carico, buoni pasto assenti. Welfare dichiarato già qualificato esente; eventuali fringe imponibili sono trattati dal motore.</p>
@@ -47,18 +50,20 @@
     </div></details>
   </footer>
 </main>
-<script src="dati-addizionali-2026.js"></script>
-<script src="geografia.js"></script>
-<script src="motore.js"></script>
-<script src="fonti.js"></script>
-<script src="righe.js"></script>
-<script src="nucleo.js"></script>
-<script src="compara.js"></script>
-<script src="netto-o-niente-scenari.js"></script>
-<script src="netto-o-niente.js"></script>
-<script src="netto-o-niente-link.js"></script>
-<script src="netto-o-niente-share.js"></script>
-<script src="site-nav.js"></script>
-<script src="netto-o-niente-ui.js"></script>
+<script src="site-nav.js" async></script>
+<script src="calcolatore-avvio.js" defer onerror="document.getElementById('avvio-messaggio').textContent='Il calcolatore non si è caricato. Riprova.';document.getElementById('avvio-riprova').hidden=false"></script>
+<script src="dati-addizionali-2026.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="geografia.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="motore.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="fonti.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="righe.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="nucleo.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="compara.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente-scenari.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente-link.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+<script src="netto-o-niente-share.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
+
+<script src="netto-o-niente-ui.js" defer onerror="document.documentElement.dataset.calcError='true'"></script>
 </body>
 </html>

@@ -343,7 +343,7 @@ Verifica: 22 settembre 2026.
 - [CCNL, stesura del testo 25 settembre 2025](https://confartigianatotrasporti.it/wp-content/uploads/2025/10/CCNL_logistica_trasporto_merci_stesura_25set2025.pdf),
   Confartigianato Trasporti (firmataria; stessa data del «testo definitivo»
   depositato al CNEL) → `logistica-i100-ccnl-stesura-2025-09-25-confartigianato-trasporti.pdf`,
-  137 pagine con testo. Letti artt. 3 (classificazione, rider), 9, 11, 11
+  137 pagine con testo. Letti artt. 6 (classificazione, rider), 9, 11, 11
   sexies, 17, 18, 19, 37, 61, 74, tabelle dei minimi e dell'EPA, tabella EDR.
 - Riscontro indipendente: sintesi ASGB marzo 2025 →
   `logistica-i100-sintesi-asgb-2025-03.pdf` (non firmataria: usata solo come
@@ -358,10 +358,13 @@ Verifica: 22 settembre 2026.
   4°, 4° Junior, 5°, 6°; il 6° Junior è cessato il 31 dicembre 2025 per
   espressa previsione della declaratoria) e personale **viaggiante** (C3, B3,
   A3, F2, E2, D2, H1, G1 e i rider I e L).
-- **Rider**: lettera I (cicli) parametro 110, dopo 6 mesi 116; lettera L
-  (ciclomotori e motocicli) 110, dopo 6 mesi 116, dopo ulteriori 9 mesi 119. Il
-  passaggio è per anzianità e la riga va scelta per parametro: il calcolatore le
-  espone come livelli distinti, senza passaggio automatico.
+- **Rider** (art. 6, pp. 25–26): lettera I (cicli) «parametro 110 che trascorsi
+  6 mesi passerà al parametro 116»; lettera L (ciclomotori e motocicli) 110, dopo
+  6 mesi 116, «trascorsi ulteriori 9 mesi» 119. Il passaggio è automatico. Le
+  tabelle stampano un minimo per parametro e il dataset tiene una riga per
+  parametro, con le finestre nell'etichetta; con la data di anzianità il
+  calcolatore applica la riga maturata (RIC-111, che corregge la prima stesura di
+  questa nota: «senza passaggio automatico»).
 - **Voci**: minimo tabellare + **EPA (elemento professionale d'area)**, che «avrà
   effetto su tutti gli istituti contrattuali». Il totale è stampato.
 - **Quattro decorrenze**: 1 gen 2025, 1 gen 2026, 1 gen 2027 (solo EPA),

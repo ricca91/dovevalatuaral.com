@@ -6,7 +6,7 @@ description: "La tredicesima detassata non è in vigore: è una proposta. Nell'i
 query_principale: "tredicesima detassata"
 cluster: "tredicesima"
 data_pubblicazione: 2026-09-24
-data_aggiornamento: 2026-09-24
+data_aggiornamento: 2026-09-27
 cta: "/"
 link_interni: ["/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/confronti-ral/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html", "/calcolo-tredicesima/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
@@ -39,21 +39,34 @@ Su una RAL di 30.000 € la tredicesima lorda è 2.307,69 € e te ne restano **
 
 Prima però va tolto di mezzo un equivoco: la tredicesima non è un premio in più. È la tua retribuzione annua divisa in 13 parti invece che in 12. Su una RAL di 30.000 € il netto medio è 1.801,96 € al mese su 13 mensilità. Il [dettaglio completo di quel caso](/ral-30000-netto/) è in pagina, e per le altre cifre ci sono i [confronti per importo](/confronti-ral/) da 20.000 a 100.000 €.
 
-| RAL | Tredicesima lorda | Contributi INPS | IRPEF | Bonus cuneo | Netto della tredicesima |
-| --- | --- | --- | --- | --- | --- |
-| 15.000 € | 1.153,85 € | −106,04 € | −241,00 € | +55,53 € | 862,34 € |
-| 20.000 € | 1.538,46 € | −141,38 € | −321,33 € | +67,06 € | 1.142,81 € |
-| 25.000 € | 1.923,08 € | −176,73 € | −401,66 € | — | 1.344,69 € |
-| 30.000 € | 2.307,69 € | −212,08 € | −481,99 € | — | 1.613,62 € |
-| 35.000 € | 2.692,31 € | −247,42 € | −573,48 € | — | 1.871,41 € |
-| 40.000 € | 3.076,92 € | −282,77 € | −688,74 € | — | 2.105,41 € |
-| 50.000 € | 3.846,15 € | −353,46 € | −919,26 € | — | 2.573,43 € |
+| RAL | Tredicesima lorda | Contributi INPS | IVS aggiuntivo 1% | IRPEF | Bonus cuneo | Netto della tredicesima prima del conguaglio |
+| --- | --- | --- | --- | --- | --- | --- |
+| 15.000 € | 1.153,85 € | −106,04 € | — | −241,00 € | +55,53 € | 862,34 € |
+| 20.000 € | 1.538,46 € | −141,38 € | — | −321,33 € | +67,06 € | 1.142,81 € |
+| 25.000 € | 1.923,08 € | −176,73 € | — | −401,66 € | — | 1.344,69 € |
+| 30.000 € | 2.307,69 € | −212,08 € | — | −481,99 € | — | 1.613,62 € |
+| 35.000 € | 2.692,31 € | −247,42 € | −7,00 € | −571,17 € | — | 1.866,72 € |
+| 40.000 € | 3.076,92 € | −282,77 € | −14,69 € | −683,89 € | — | 2.095,57 € |
+| 50.000 € | 3.846,15 € | −353,46 € | −30,07 € | −909,33 € | — | 2.553,29 € |
+
+Il perimetro è il **netto della tredicesima prima del conguaglio**, con l’IVS aggiuntivo attribuito alla mensilità aggiuntiva. A 35.000 € di RAL, lo stipendio ordinario da solo è sotto 4.685 €: tutti i 7,00 € di IVS aggiuntivo del mese sono quindi attribuiti alla tredicesima.
+
+| Riga a RAL 35.000 € | Prima del conguaglio, IVS incluso | Confronto senza IVS aggiuntivo |
+| --- | --- | --- |
+| Tredicesima lorda | 2.692,31 € | 2.692,31 € |
+| Contributi INPS ordinari | −247,42 € | −247,42 € |
+| Contributo aggiuntivo IVS 1% trattenuto | −7,00 € | 0,00 € |
+| Imponibile IRPEF | 2.437,89 € | 2.444,89 € |
+| IRPEF di periodo | −571,17 € | −573,48 € |
+| Netto della tredicesima | 1.866,72 € | 1.871,41 € |
+
+Lo scarto è **4,69 €**: 7,00 € di contributi aggiuntivi meno 2,31 € di IRPEF risparmiata perché quei contributi riducono l’imponibile. Con queste ipotesi, i **7,00 € di IVS sono restituiti al conguaglio**, perché la retribuzione annua resta sotto 56.224 €. La restituzione modifica anche l’imponibile fiscale. I 1.871,41 € sono il confronto con la sola ritenuta di periodo senza IVS aggiuntivo, **non il netto definitivo dopo il conguaglio IRPEF annuo**, che va ricalcolato sul reddito complessivo.
 
 Fino a 20.000 € di reddito sulla tredicesima si applica anche la somma esente del cuneo fiscale, calcolata sul reddito corrisposto nel mese (circolare AdE 4/2025).
 
 Per il tuo caso, con i mesi lavorati e il tuo lordo, usa il [calcolatore della tredicesima](/calcolo-tredicesima/).
 
-Guarda il salto fra 30.000 e 35.000 € di RAL: la tredicesima lorda cresce di 384,62 €, e il netto cresce di 257,79 €. Il resto (126,83 €) se lo prende il fisco: 35,34 € in più di INPS e 91,49 € in più di IRPEF. Perché in più di IRPEF? A 35.000 € l'imponibile di dicembre (2.444,89 €) supera i 2.333,33 € del primo scaglione mensile, e solo la parte che li supera (111,56 €) va al 33% invece che al 23%.
+Guarda il salto fra 30.000 e 35.000 € di RAL: la tredicesima lorda cresce di 384,62 €, e il netto cresce di 253,10 €. Il resto (131,52 €) se lo prende il fisco: 35,34 € in più di INPS ordinario, 7,00 € di IVS aggiuntivo e 89,18 € in più di IRPEF. Perché in più di IRPEF? A 35.000 € l'imponibile di dicembre (2.437,89 €) supera i 2.333,33 € del primo scaglione mensile, e solo la parte che li supera (104,56 €) va al 33% invece che al 23%.
 
 ## Perché la tredicesima è tassata più dello stipendio?
 
@@ -61,11 +74,11 @@ Perché non ci sono detrazioni a compensare l'aliquota. Sulle mensilità aggiunt
 
 La lettera precedente è quella che fa la differenza, e lo fa per omissione. Le detrazioni da lavoro dipendente stanno nella lettera a), che riguarda le somme corrisposte **in ciascun periodo di paga**, e sono "rapportate al periodo stesso". La tredicesima non è un periodo di paga. Non si porta dietro una quota di detrazione propria: arriva con l'aliquota ragguagliata a mese, ma senza lo sconto che ogni mese attenua il prelievo sullo stipendio ordinario.
 
-È per questo che a 35.000 € di RAL l'IRPEF sulla tredicesima è 573,48 € contro i 481,99 € di chi sta a 30.000: l'imponibile di dicembre (2.444,89 €) supera di 111,56 € il primo scaglione mensile, e solo quella parte va al 33%, non l'intera mensilità. Un numero diverso, 806,82 €, salta fuori se invece applichi l'aliquota marginale sull'intero reddito annuo (33%) a tutta la tredicesima: non è la ritenuta che vedi in busta a dicembre, ma il peso della tredicesima sull'imposta annua — quello con cui il conguaglio di fine anno riallinea il conto. Se vuoi vedere dove sta materialmente la voce nel documento, l'ho spiegata in [come si legge una busta paga](/blog/come-leggere-busta-paga/).
+È per questo che a 35.000 € di RAL l'IRPEF sulla tredicesima è 571,17 € contro i 481,99 € di chi sta a 30.000: l'imponibile di dicembre (2.437,89 €) supera di 104,56 € il primo scaglione mensile, e solo quella parte va al 33%, non l'intera mensilità. Applicare il 33% a tutta la base imponibile di periodo darebbe invece 804,50 €: è un confronto aritmetico con l’aliquota marginale, non la ritenuta mensile né il risultato del conguaglio annuo. Se vuoi vedere dove sta materialmente la voce nel documento, l'ho spiegata in [come si legge una busta paga](/blog/come-leggere-busta-paga/).
 
 ## Quanto varrebbe la tredicesima detassata nel tuo caso?
 
-Dipende da quale ipotesi passa, e le due sul tavolo valgono cifre che differiscono di un fattore tre. Qui sotto c'è il risparmio annuo nei due scenari: a sinistra l'imposta sostitutiva al 15% al posto dell'IRPEF, a destra l'azzeramento totale del prelievo fiscale.
+Dipende da quale ipotesi passa, e le due sul tavolo valgono cifre che differiscono di un fattore tre. Qui sotto c'è la riduzione della ritenuta sulla tredicesima prima del conguaglio nei due scenari ipotetici, sulla stessa base contributiva della tabella precedente: a sinistra l'imposta sostitutiva al 15% al posto dell'IRPEF, a destra l'azzeramento totale del prelievo fiscale.
 
 | RAL | Risparmio con sostitutiva al 15% | Risparmio con azzeramento |
 | --- | --- | --- |
@@ -73,9 +86,9 @@ Dipende da quale ipotesi passa, e le due sul tavolo valgono cifre che differisco
 | 20.000 € | 111,77 € | 321,33 € |
 | 25.000 € | 139,71 € | 401,66 € |
 | 30.000 € | 167,65 € | 481,99 € |
-| 35.000 € | 206,75 € | 573,48 € |
-| 40.000 € | 269,62 € | 688,74 € |
-| 50.000 € | 395,36 € | 919,26 € |
+| 35.000 € | 205,49 € | 571,17 € |
+| 40.000 € | 266,97 € | 683,89 € |
+| 50.000 € | 389,94 € | 909,33 € |
 
 C'è un avvertimento grosso su questa tabella, ed è la ragione per cui la maggior parte dei lettori può fermarsi qui. **Nell'ipotesi di governo la colonna del 15% si applica solo sotto la soglia dei 15.000 € di reddito.** Sopra, il risparmio non è la cifra che leggi: è zero. Quella colonna mostra cosa varrebbe una tredicesima detassata senza tetto di reddito, che al momento nessuno ha messo per iscritto.
 
@@ -104,7 +117,7 @@ Il conto di questa pagina vale per un dipendente privato a tempo pieno, anno int
 - I **pensionati** non sono in questo conto, anche se le proposte li nominano: la loro tredicesima segue regole di ritenuta che qui non ho ricalcolato.
 - Le **addizionali regionale e comunale** non sono trattenute sulla tredicesima, ma sono dovute sul totale annuo che la comprende. Nessuna delle proposte dice se la sostitutiva le sostituirebbe: l'ho lasciata fuori da entrambe le colonne di risparmio.
 - La tabella mostra la **ritenuta di dicembre**: gli scaglioni annui ragguagliati a mese, applicati alla sola tredicesima al netto dei contributi. È quello che il sostituto d'imposta trattiene in busta paga quel mese. A fine anno il conguaglio ricalcola l'IRPEF sul reddito complessivo e riallinea la differenza, in più o in meno.
-- A dicembre la tredicesima si somma allo stipendio del mese. Se il totale supera 4.685 € circa, può scattare anche il **contributo aggiuntivo IVS dell'1%**, che si applica alla parte di reddito oltre la prima fascia pensionabile. Il conguaglio di fine anno lo restituisce se nell'anno resti sotto 56.224 € di imponibile. Non l'ho incluso nei conti sopra: riguarda solo chi supera quella soglia mensile o annua.
+- A dicembre la tredicesima si somma allo stipendio del mese. Se il totale supera 4.685 €, può scattare anche il **contributo aggiuntivo IVS dell'1%**, che si applica alla parte di reddito oltre la prima fascia pensionabile. Il conguaglio di fine anno lo restituisce se nell'anno resti sotto 56.224 € di imponibile. È incluso nei conti sopra, nella colonna separata IVS aggiuntivo 1%: il netto è prima del conguaglio, come nel calcolatore e nell’articolo sulla tassazione della tredicesima.
 
 Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pubblico, con le regole 2026 e le ipotesi dichiarate qui sopra, e [come ho lavorato](/come-ho-lavorato.html) è scritto per intero. Se la manovra prende una forma diversa, questa pagina va rifatta, e la rifarò.
 

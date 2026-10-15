@@ -23,6 +23,12 @@ dist/
 /prototipo/blog/
 /prototipo/sitemap.xml
 
-# Credenziali di sviluppo e configurazione scaricata dal provider.
-.env*
+# Segreti locali
+.env
+.env.*
+
+# Video: i render (mp4) si rigenerano, pesano decine di MB
+videos/*/renders/
+videos/*/.media/
+videos/*/node_modules/
 !.env.example

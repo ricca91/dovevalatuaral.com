@@ -104,7 +104,7 @@ stanno dove stanno le altre.
 
 **Il motore emette codici, non frasi.** `assorbitaAssegnoUnico` è un fatto; «sotto i 21 anni la
 detrazione è assorbita dall'Assegno Unico» è un racconto. La separazione fra Voce e Riga di
-`CONTEXT.md` regge anche qui: il primo esce da `motore.js`, il secondo nasce in `righe.js`.
+`GLOSSARY.md` regge anche qui: il primo esce da `motore.js`, il secondo nasce in `righe.js`.
 
 **Il nucleo si dichiara e poi si preme Calcola**, come per la RAL e per il comune. Il prototipo
 ricalcolava a ogni cifra digitata e si leggeva bene, ma metteva in pagina numeri live accanto a
@@ -371,6 +371,92 @@ scritto una volta sola in `avvisoRalParziale()`. Le pagine per livello chiamano 
 titolo e scomposizione: per un contratto parziale il generatore si ferma invece di produrle.
 Il giorno in cui una fonte firmata quantifica il premio, diventa una quota con la sua base, e
 la lista si svuota.
+
+## Slash finale senza redirigere le API (RIC-91)
+
+Il 6 ottobre 2026 la preview con `trailingSlash: true` ha restituito 308 anche
+su `/api/risultato?v=non-v1-2026-01&s=123456789&t=12`, verso `/api/risultato/`.
+Questo contraddice il requisito del ticket di mantenere le API senza redirect.
+Usiamo quindi una regola 308 esplicita per i percorsi senza estensione e senza
+slash finale, escludendo `/api`, `/risultato` e `/.well-known`. Le URL dei risultati
+condivisi conservano così la forma già pubblicata. `/index.html` ha un redirect
+308 separato verso `/`; Vercel mantiene la query string. I link della navigazione
+e dei calcolatori puntano direttamente a `/`, anche nei template generatori.
+
+Verificato sulla [preview RIC-91](https://dovevalatuaral-emhl4hixa-riccardosartori-outlookcoms-projects.vercel.app):
+nove casi di redirect con destinazione 200, query completa `ral`, `m`, `c`, `calc`
+conservata, pagine `.html`, asset, entrambe le API e rewrite dei risultati a 200
+senza redirect. Verificati anche il corpo HTML e la firma PNG delle API.
+La verifica è ripetibile con `node processo/attrezzi/verifica-redirect.cjs URL`.
+Suite completa: 499 test passati; build passata. Nessun deploy in produzione.
+
+Il fingerprint di `compara.js` nel manifest del gioco è aggiornato solo per il
+cambio della destinazione predefinita del link (`index.html` → `/`). Vettori,
+sequenze, formule e versione `non-v1-2026-01` restano invariati e i test passano.
+
+## Il parametro del rider cresce da solo (RIC-111)
+
+La tabella della Logistica diceva che il passaggio di parametro del rider «non è
+automatico». L'art. 6 del CCNL (stesura firmata 25 settembre 2025, pp. 25–26) dice
+il contrario: lettera I, «parametro 110 che trascorsi 6 mesi passerà al parametro
+116»; lettera L, 110, poi 116 dopo 6 mesi e 119 «trascorsi ulteriori 9 mesi».
+
+Le righe per parametro restano, perché la fonte stampa un minimo per parametro e
+le pagine dei minimi mostrano la tabella com'è. Ma ogni riga del rider porta la
+progressione della sua lettera, e l'etichetta dice la finestra («primi 6 mesi»,
+«dopo 6 mesi, fino a 15», «dopo 15 mesi»). Con la data di anzianità `componiRal()`
+applica la riga maturata, anche più bassa di quella scelta: a parità di anzianità
+il parametro non è un'alternativa. Il passaggio vale dal giorno in cui i mesi si
+compiono, perché l'art. 6 non lo rinvia al mese successivo come l'art. 17 per gli
+scatti. Senza data resta la riga scelta, e il calcolatore lo dice.
+
+La data è la stessa degli scatti: l'anzianità in azienda. Per chi è diventato
+rider dopo l'assunzione i mesi da rider sono meno; il caso non è modellato.
+
+## Link interni verso i minimi CCNL (RIC-92)
+
+Le pagine dei minimi fanno 162 dei 186 clic organici, ma il 6 ottobre 2026 né la home né
+gli articoli linkavano `/minimi-ccnl/`.
+
+Un footer condiviso non esiste: ogni template e ogni pagina statica ha il suo. Invece di
+unificarli, ognuno riceve il link all'indice, e `link-minimi-ccnl.test.js` controlla il
+footer di tutte le pagine pubbliche. Una pagina nuova senza quel link fa fallire la suite.
+
+Gli articoli dichiarano il contratto con un campo facoltativo `ccnl`, lo slug della tabella.
+L'alternativa era riconoscerlo dal testo, ma «commercio» è anche una parola comune e
+«metalmeccanico» vale anche per il Confapi. Senza campo, il rimando va all'indice. Il campo
+è impostato su due articoli: il rinnovo dei metalmeccanici e l'esempio part-time, i cui
+conti sono fatti sul Terziario Confcommercio.
+
+Ogni pagina RAL linka i tre livelli con la RAL minima più vicina, uno per contratto: a
+20.000 € tre livelli Multiservizi direbbero meno di tre contratti diversi. Oggi le pagine
+per livello coprono da 18.733 a 37.791 €, le pagine RAL da 20.000 a 100.000. Sopra il
+massimo, la sezione dice che nessuna pagina per livello arriva a quella cifra, invece di
+spacciare 37.791 € per una cifra vicina a 100.000. La frase parla di pagine per livello e
+non di tabelle, perché la riga Quadro del Commercio arriva a 41.808 €.
+
+Nella home i cinque contratti con più clic sono scritti a mano in `home-ui.js`, che gira
+nel browser e non legge il generatore. Il test verifica che ognuno sia una pagina generata.
+
+## Il netto nel title delle pagine per livello (RIC-99)
+
+Il 6 ottobre 2026 le query sul netto per livello («ccnl turismo 6 livello retribuzione
+netta») avevano 543 impressioni e 4 clic, e `/minimi-ccnl/turismo/6-livello/` stava al 7,6
+con un CTR dello 0,14%. Il title diceva «minimo, lordo e netto»: la cifra era solo nella
+description.
+
+Ora il title porta il netto medio al mese dell'apertura, arrotondato all'euro: «6° livello
+CCNL Turismo 2026: 1.296 € netti al mese». Nessun secondo calcolo: la cifra cambia con la
+build, come il resto della pagina.
+
+Il limite è 60 caratteri. Se la forma piena non ci sta si toglie «CCNL» dal nome del
+contratto, poi «al mese». Oggi serve solo a Studi professionali: il 2°, 3° e 4° livello
+perdono «CCNL», il 4° super anche «al mese», che lo avrebbe portato a 64 caratteri; la
+description dice già che la cifra è mensile. Un title che non ci sta nemmeno così ferma la
+build invece di uscire troncato.
+
+Le Cooperative sociali perdono il loro «stipendio lordo e netto»: le loro pagine per livello
+non avevano impressioni, e un'eccezione per un solo contratto non valeva una seconda forma.
 
 ## Dove finisce il registro
 

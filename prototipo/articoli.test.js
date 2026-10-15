@@ -77,7 +77,8 @@ test('build reale: pubblica HTML e asset, esclude sorgenti e bozze; errore resti
   const root=fixture(t);
   fs.cpSync(__dirname,path.join(root,'prototipo'),{recursive:true});
   fs.mkdirSync(path.join(root,'processo/attrezzi'),{recursive:true});
-  fs.copyFileSync(path.join(__dirname,'../processo/attrezzi/build.cjs'),path.join(root,'processo/attrezzi/build.cjs'));
+  for(const file of ['build.cjs','genera-home.cjs','dati-browser.cjs'])
+    fs.copyFileSync(path.join(__dirname,'../processo/attrezzi',file),path.join(root,'processo/attrezzi',file));
   const sources=path.join(root,'prototipo/articoli');save(sources);
   save(sources,sample.replaceAll('articolo-demo','bozza'),'bozza.md');
   const run=()=>require('node:child_process').spawnSync(process.execPath,['processo/attrezzi/build.cjs'],{cwd:root,encoding:'utf8'});

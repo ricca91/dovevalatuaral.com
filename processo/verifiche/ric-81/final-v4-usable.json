@@ -1,0 +1,26 @@
+[
+  {
+    "label": "final-v4",
+    "run": 1,
+    "readyMs": 3691.4000000953674,
+    "calculationMs": 99.09999990463257,
+    "result": true,
+    "completeMs": 3984.7000002861023
+  },
+  {
+    "label": "final-v4",
+    "run": 2,
+    "readyMs": 3712.2999997138977,
+    "calculationMs": 103,
+    "result": true,
+    "completeMs": 4010.7999997138977
+  },
+  {
+    "label": "final-v4",
+    "run": 3,
+    "readyMs": 3678.800000190735,
+    "calculationMs": 96.2999997138977,
+    "result": true,
+    "completeMs": 3967.800000190735
+  }
+]

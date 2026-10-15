@@ -8,9 +8,9 @@ const quota=basisPoints=>(basisPoints/100).toFixed(2).replace('.',',');
 /* Le integrazioni di legge si aggiungono al netto ma non sono una
    quota della RAL: nella composizione vanno nominate a parte. */
 const NOMI_INTEGRAZIONI={somma:'Somma esente (cuneo fiscale)',ti:'Trattamento integrativo'};
-const query=(ral,mensilita)=>`../index.html?ral=${formatRal(ral)}&amp;m=${mensilita}&amp;c=F205&amp;calc=1`;
+const query=(ral,mensilita)=>`/?ral=${formatRal(ral)}&amp;m=${mensilita}&amp;c=F205&amp;calc=1`;
 
-function renderRalPage({ral,result,previous,next}){
+function renderRalPage({ral,result,previous,next,livelli=[],oltreMinimi=false}){
   const formatted=formatRal(ral);
   const canonical=`${ORIGIN}/ral-${ral}-netto/`;
   const months=[12,13,14].map(mensilita=>({
@@ -36,6 +36,14 @@ function renderRalPage({ral,result,previous,next}){
           <span><b>RAL ${formatRal(value)} €</b><small>Confronta 12, 13 e 14 mensilità</small></span>
           <span class="related-card__arrow" aria-hidden="true">→</span>
         </a>`).join('');
+  const minimi=livelli.map(l=>`
+        <a class="related-card" href="..${l.rotta}">
+          <span><b>${l.nome}</b><small>RAL minima ${eur(l.ral)}</small></span>
+          <span class="related-card__arrow" aria-hidden="true">→</span>
+        </a>`).join('');
+  const minimiIntro=oltreMinimi
+    ?`Nessuna delle nostre pagine per livello arriva a una RAL minima di ${formatted} €: queste sono le più vicine, una per contratto, senza scatti né superminimo.`
+    :`I livelli con la RAL minima più vicina a ${formatted} €, uno per contratto: tabella nazionale, senza scatti né superminimo.`;
   const cards=months.map(({mensilita,monthly})=>`
       <a class="month-card month-card--${mensilita}" data-mensilita="${mensilita}" data-netto-mensile="${monthly.toFixed(2)}" href="${query(ral,mensilita)}"
          aria-label="Apri il calcolo di ${formatted} euro su ${mensilita} mensilità">
@@ -70,12 +78,12 @@ function renderRalPage({ral,result,previous,next}){
 <body data-ral="${ral}" data-netto-annuo="${net.toFixed(2)}" data-imposte="${taxes.toFixed(2)}" data-contributi="${contributions.toFixed(2)}">
 <a class="skip-link" href="#contenuto">Vai al contenuto</a>
 <header class="site-header"><div class="site-header__in">
-  <a class="site-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <a class="site-brand" href="/" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
-  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="../index.html">RAL → Netto</a><a href="../netto-ral.html">Netto → RAL</a><a href="../ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="../compara.html">Due offerte</a><a href="../confronti-ral/" aria-current="page">Livelli di RAL</a></div></div><a href="../netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="../la-storia.html">La storia</a></nav>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="/">RAL → Netto</a><a href="../netto-ral.html">Netto → RAL</a><a href="../ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="../compara.html">Due offerte</a><a href="../confronti-ral/" aria-current="page">Livelli di RAL</a></div></div><a href="../netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="../la-storia.html">La storia</a></nav>
 </div></header>
 <nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in">
-  <a href="../index.html">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span>
+  <a href="/">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span>
   <a href="../confronti-ral/">Confronti RAL</a><span class="breadcrumb__sep" aria-hidden="true">›</span>
   <span aria-current="page">RAL ${formatted} €</span>
 </div></nav>
@@ -115,9 +123,15 @@ function renderRalPage({ral,result,previous,next}){
   </section>
   <section class="related" aria-labelledby="correlati-titolo"><h2 id="correlati-titolo">Altri confronti RAL</h2><div class="related__grid">${neighbours}
     </div></section>
+  <section class="related" aria-labelledby="minimi-titolo"><h2 id="minimi-titolo">Minimi CCNL vicini a questa RAL</h2><p class="related__lead">${minimiIntro}</p><div class="related__grid">${minimi}
+        <a class="related-card" href="../minimi-ccnl/">
+          <span><b>Tutti i minimi CCNL</b><small>Tabelle per contratto e livello</small></span>
+          <span class="related-card__arrow" aria-hidden="true">→</span>
+        </a>
+    </div></section>
   <p class="ral-disclaimer">Stima basata sulle regole fiscali 2026. Non costituisce consulenza fiscale o del lavoro. Il risultato può cambiare in base a comune, situazione familiare, inquadramento contributivo e altre condizioni personali.</p>
 </div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../confronti-ral/">Tutti i confronti RAL</a><a href="../privacy.html">Privacy</a></div></footer>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><span class="ral-footer__links"><a href="../confronti-ral/">Tutti i confronti RAL</a><a href="../minimi-ccnl/">Tutti i minimi CCNL</a><a href="../privacy.html">Privacy</a></span></div></footer>
 <script src="../site-nav.js"></script></body>
 </html>
 `;
@@ -135,12 +149,12 @@ function renderHub({rals,results}){
 <link rel="canonical" href="${ORIGIN}/confronti-ral/"><meta property="og:type" content="website"><meta property="og:url" content="${ORIGIN}/confronti-ral/">
 <link rel="stylesheet" href="../draftsman.css"><link rel="stylesheet" href="../ral-page.css"><script src="../analytics.js" async></script></head>
 <body><a class="skip-link" href="#contenuto">Vai al contenuto</a>
-<header class="site-header"><div class="site-header__in"><a class="site-brand" href="../index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a><button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button><nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="../index.html">RAL → Netto</a><a href="../netto-ral.html">Netto → RAL</a><a href="../ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="../compara.html">Due offerte</a><a href="../confronti-ral/" aria-current="page">Livelli di RAL</a></div></div><a href="../netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="../la-storia.html">La storia</a></nav></div></header>
-<nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in"><a href="../index.html">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span><span aria-current="page">Confronti RAL</span></div></nav>
+<header class="site-header"><div class="site-header__in"><a class="site-brand" href="/" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a><button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button><nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="/">RAL → Netto</a><a href="../netto-ral.html">Netto → RAL</a><a href="../ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="../compara.html">Due offerte</a><a href="../confronti-ral/" aria-current="page">Livelli di RAL</a></div></div><a href="../netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="../la-storia.html">La storia</a></nav></div></header>
+<nav class="breadcrumb" aria-label="Percorso"><div class="shell breadcrumb__in"><a href="/">Home</a><span class="breadcrumb__sep" aria-hidden="true">›</span><span aria-current="page">Confronti RAL</span></div></nav>
 <main id="contenuto" class="ral-main hub-main"><div class="shell"><header class="ral-intro"><div class="eyebrow">Confronti RAL</div><h1>Dal lordo al netto, cifra per cifra</h1><p class="lead">Scegli una RAL e confronta subito lo stesso netto annuo su 12, 13 e 14 mensilità.</p></header>
 <section class="hub-grid" aria-label="Elenco dei confronti RAL">${cards}</section>
 <p class="ral-disclaimer">Stime 2026 per un dipendente privato a Milano, FPLD ordinario, anno completo e nessun familiare a carico.</p></div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../privacy.html">Privacy</a></div></footer><script src="../site-nav.js"></script></body></html>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="../minimi-ccnl/">Tutti i minimi CCNL</a><a href="../privacy.html">Privacy</a></div></footer><script src="../site-nav.js"></script></body></html>
 `;
 }
 

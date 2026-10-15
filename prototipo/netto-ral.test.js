@@ -3,7 +3,7 @@ const {test}=require('node:test');
 
 const INVERSO=require('./netto-ral.js');
 const fs=require('node:fs');
-const pagina=fs.readFileSync(require('node:path').join(__dirname,'netto-ral.html'),'utf8');
+const pagina=fs.readFileSync(require('node:path').join(__dirname,'netto-ral.html'),'utf8')+fs.readFileSync(require('node:path').join(__dirname,'netto-ral-ui.js'),'utf8');
 
 test('trova la RAL piu bassa sulla griglia che raggiunge il target annuo',()=>{
   const risultato=INVERSO.trovaRal('2.000');
@@ -32,7 +32,7 @@ test('normalizza input italiani e rifiuta valori invalidi o irraggiungibili',()=
 });
 
 test('costruisce la CTA per il profilo standard e il calcolo attivo',()=>{
-  assert.equal(INVERSO.urlCalcolatore(35000),'index.html?ral=35000&m=13&c=F205&calc=1');
+  assert.equal(INVERSO.urlCalcolatore(35000),'/?ral=35000&m=13&c=F205&calc=1');
 });
 
 test('la pagina parte senza risultato, espone un solo input e invalida il risultato alle modifiche',()=>{

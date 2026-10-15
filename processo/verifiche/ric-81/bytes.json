@@ -1,0 +1,44 @@
+[
+  {
+    "label": "before",
+    "file": "draftsman.css",
+    "raw": 236776,
+    "gzip": 161046,
+    "brotli": 158830
+  },
+  {
+    "label": "after",
+    "file": "draftsman.css",
+    "raw": 35596,
+    "gzip": 8141,
+    "brotli": 7259
+  },
+  {
+    "label": "before",
+    "file": "dati-addizionali-2026.js",
+    "raw": 4451542,
+    "gzip": 238478,
+    "brotli": 154213
+  },
+  {
+    "label": "after",
+    "file": "dati-addizionali-2026.js",
+    "raw": 1085922,
+    "gzip": 191866,
+    "brotli": 136738
+  },
+  {
+    "label": "before",
+    "file": "index.html",
+    "raw": 76096,
+    "gzip": 24375,
+    "brotli": 21901
+  },
+  {
+    "label": "after",
+    "file": "index.html",
+    "raw": 44048,
+    "gzip": 12837,
+    "brotli": 11225
+  }
+]

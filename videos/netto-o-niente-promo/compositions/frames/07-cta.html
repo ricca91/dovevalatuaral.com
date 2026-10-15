@@ -1,0 +1,61 @@
+<template>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <style>
+    @font-face { font-family: "Archivo"; src: url("assets/fonts/Archivo.ttf") format("truetype"); font-weight: 100 900; font-stretch: 62% 125%; }
+    @font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono.ttf") format("truetype"); font-weight: 100 800; }
+    #root { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: hidden; font-family: "Archivo", sans-serif; color: #F7F6F1; }
+    .g7-bg { position: absolute; inset: 0; background-color: #1E1C2B;
+      background-image: linear-gradient(to right, rgba(242,241,236,.08) 2px, transparent 2px), linear-gradient(to bottom, rgba(242,241,236,.08) 2px, transparent 2px); background-size: 120px 120px; }
+    #g7-all { position: absolute; inset: 0; }
+    #g7-mark { position: absolute; left: 0; right: 0; top: 150px; text-align: center; font-weight: 800; font-stretch: 125%; font-size: 64px; letter-spacing: -0.03em; }
+    #g7-mark em { font-style: normal; color: #A79BFF; }
+    .g7-line { position: absolute; left: 0; right: 0; text-align: center; font-weight: 800; font-stretch: 114%; font-size: 190px; line-height: .9; letter-spacing: -0.05em; text-transform: uppercase; white-space: nowrap; }
+    #g7-l1 { top: 330px; } #g7-l2 { top: 520px; } #g7-l3 { top: 710px; color: #DCF06B; text-shadow: 12px 12px 0 #FF5F56; }
+    #g7-btn { position: absolute; left: 50%; top: 1000px; width: 760px; height: 190px; margin-left: -380px; }
+    #g7-btn-in { position: absolute; inset: 0; background: #21D4E3; color: #1E1C2B; border: 7px solid #F7F6F1; box-shadow: 16px 16px 0 #DCF06B; text-align: center; font: 800 100px/176px "Archivo"; font-stretch: 112%; text-transform: uppercase; letter-spacing: -0.03em; }
+    #g7-url { position: absolute; left: 0; right: 0; top: 1270px; text-align: center; font: 800 66px/1 "JetBrains Mono", monospace; letter-spacing: -0.01em; white-space: pre; }
+    #g7-pill { position: absolute; left: 50%; top: 1400px; width: 720px; margin-left: -360px; padding: 22px 0; text-align: center; border: 5px solid #F7F6F1; border-radius: 999px; font: 700 36px/1 "JetBrains Mono", monospace; letter-spacing: .08em; color: #F7F6F1; }
+    #g7-finger { position: absolute; left: 0; top: 0; width: 120px; height: 120px; margin: -60px 0 0 -60px; }
+    #g7-finger i { position: absolute; inset: 0; border-radius: 50%; background: rgba(247,246,241,.85); border: 6px solid #1E1C2B; box-shadow: 6px 6px 0 #1E1C2B; }
+    #g7-ring { position: absolute; left: 700px; top: 1110px; width: 130px; height: 130px; margin: -65px 0 0 -65px; border-radius: 50%; border: 9px solid #DCF06B; }
+  </style>
+  <div id="root" data-composition-id="07-cta" data-width="1080" data-height="1920" data-start="0" data-duration="3.75">
+    <div id="g7-ground" class="g7-bg clip" data-start="0" data-duration="3.75" data-track-index="0"></div>
+    <div id="g7-all">
+      <div id="g7-mark">NETTO <em>O NIENTE</em></div>
+      <div class="g7-line" id="g7-l1">Quanto</div>
+      <div class="g7-line" id="g7-l2">vai</div>
+      <div class="g7-line" id="g7-l3">avanti?</div>
+      <div id="g7-btn"><div id="g7-btn-in">Gioca ora ▸</div></div>
+      <div id="g7-url"></div>
+      <div id="g7-pill">GRATIS · SENZA ACCOUNT</div>
+      <div id="g7-ring"></div>
+      <div id="g7-finger"><i></i></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const B = 60 / 128;
+      const tl = gsap.timeline({ paused: true });
+      const url = document.getElementById("g7-url"), full = "dovevalatuaral.com", ty = { n: 0 };
+      const paint = () => { url.textContent = full.slice(0, Math.round(ty.n)); };
+      tl.fromTo("#g7-mark", { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 0);
+      tl.fromTo("#g7-l1", { scale: 2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.out" }, 0);
+      tl.fromTo("#g7-l2", { scale: 2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.26, ease: "power4.out" }, B / 2);
+      tl.fromTo("#g7-l3", { scale: 2, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "power4.out" }, B);
+      tl.fromTo("#g7-btn", { scale: 0, rotation: -8 }, { scale: 1, rotation: -2, duration: 0.42, ease: "back.out(2)" }, B * 2);
+      tl.fromTo("#g7-finger", { x: 1180, y: 1700 }, { x: 700, y: 1110, duration: 0.5, ease: "power3.inOut" }, B * 2.5);
+      tl.to("#g7-finger i", { keyframes: [{ scale: 0.78, duration: 0.07 }, { scale: 1, duration: 0.18, ease: "back.out(2)" }] }, B * 4 - 0.08);
+      tl.to("#g7-btn-in", { keyframes: [{ scale: 0.94, duration: 0.07 }, { scale: 1.04, duration: 0.2, ease: "back.out(2)" }, { scale: 1, duration: 0.2 }] }, B * 4 - 0.05);
+      tl.fromTo("#g7-ring", { scale: 0.4, opacity: 0 }, { keyframes: [{ scale: 0.4, opacity: 1, duration: 0.01 }, { scale: 3, opacity: 0, duration: 0.5, ease: "power2.out" }] }, B * 4 - 0.03);
+      tl.to("#g7-finger", { x: 1180, y: 1500, duration: 0.45, ease: "power3.in" }, B * 5);
+      tl.fromTo(ty, { n: 0 }, { n: full.length, duration: 0.6, ease: "none", onUpdate: paint }, B * 4);
+      tl.fromTo("#g7-pill", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, B * 5.5);
+      tl.to("#g7-btn-in", { keyframes: [{ scale: 1.08, duration: 0.08 }, { scale: 1, duration: 0.3, ease: "power2.out" }] }, B * 7);
+      tl.to("#g7-l3", { keyframes: [{ scale: 1.06, duration: 0.08 }, { scale: 1, duration: 0.3, ease: "power2.out" }] }, B * 7);
+      paint();
+      window.__timelines = window.__timelines || {};
+      window.__timelines["07-cta"] = tl;
+    })();
+  </script>
+</template>

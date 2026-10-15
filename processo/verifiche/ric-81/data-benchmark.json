@@ -1,0 +1,82 @@
+[
+  {
+    "label": "canonical",
+    "run": 1,
+    "compileMs": 69.7999997138977,
+    "executeMs": 4.5,
+    "totalMs": 74.2999997138977,
+    "retainedHeap": 1904828
+  },
+  {
+    "label": "canonical",
+    "run": 2,
+    "compileMs": 70.59999990463257,
+    "executeMs": 5.300000190734863,
+    "totalMs": 75.90000009536743,
+    "retainedHeap": 1904828
+  },
+  {
+    "label": "canonical",
+    "run": 3,
+    "compileMs": 69.80000019073486,
+    "executeMs": 4.800000190734863,
+    "totalMs": 74.60000038146973,
+    "retainedHeap": 1904828
+  },
+  {
+    "label": "canonical",
+    "run": 4,
+    "compileMs": 66.5,
+    "executeMs": 4.300000190734863,
+    "totalMs": 70.80000019073486,
+    "retainedHeap": 1904828
+  },
+  {
+    "label": "canonical",
+    "run": 5,
+    "compileMs": 68.30000019073486,
+    "executeMs": 4.5,
+    "totalMs": 72.80000019073486,
+    "retainedHeap": 1904828
+  },
+  {
+    "label": "browser",
+    "run": 1,
+    "compileMs": 12.199999809265137,
+    "executeMs": 38.30000019073486,
+    "totalMs": 50.5,
+    "retainedHeap": 2710556
+  },
+  {
+    "label": "browser",
+    "run": 2,
+    "compileMs": 8.099999904632568,
+    "executeMs": 36.299999713897705,
+    "totalMs": 44.39999961853027,
+    "retainedHeap": 2710556
+  },
+  {
+    "label": "browser",
+    "run": 3,
+    "compileMs": 9.899999618530273,
+    "executeMs": 32.200000286102295,
+    "totalMs": 42.09999990463257,
+    "retainedHeap": 2710556
+  },
+  {
+    "label": "browser",
+    "run": 4,
+    "compileMs": 8.599999904632568,
+    "executeMs": 26.5,
+    "totalMs": 35.09999990463257,
+    "retainedHeap": 2710556
+  },
+  {
+    "label": "browser",
+    "run": 5,
+    "compileMs": 8.800000190734863,
+    "executeMs": 26.09999990463257,
+    "totalMs": 34.90000009536743,
+    "retainedHeap": 2710556
+  }
+]

@@ -24,14 +24,13 @@
   ],
   "redirects": [
     {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "jethr.riccsartori.com"
-        }
-      ],
-      "destination": "https://www.dovevalatuaral.com/:path*",
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/:path((?!api(?:/|$)|risultato(?:/|$)|\\.well-known(?:/|$))(?:[^/]+/)*[^/.]+)",
+      "destination": "/:path/",
       "permanent": true
     }
   ],
