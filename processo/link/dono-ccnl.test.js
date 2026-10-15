@@ -320,8 +320,15 @@ test('il netto per livello si incolla nella mail come testo semplice, con le ipo
   assert.match(testo, /14 mensilità/);
   assert.match(testo, /3° livello: lordo 1\.983,91 → 2\.024,38 € al mese, netto 1\.578,75 → 1\.602,81 € al mese/);
   assert.match(testo, /4° livello: .*1\.468,08 → 1\.475,92 €.*addizionale comunale/);
-  assert.match(testo, /https:\/\/www\.dovevalatuaral\.com\/minimi-ccnl\/commercio\/4-livello\//);
   assert.doesNotMatch(testo, /5° livello/);
+});
+
+test('il testo del netto porta un solo link: la pagina del livello se il livello è uno, altrimenti la tabella', () => {
+  const link = testo => testo.match(/https:\/\/\S+/g);
+  const unLivello = nettoPrimaDopo(COMMERCIO, {prima: '2026-10-31', dopo: '2026-11-01', livelli: ['4']}).testo;
+  assert.deepEqual(link(unLivello), ['https://www.dovevalatuaral.com/minimi-ccnl/commercio/4-livello/']);
+  const due = nettoPrimaDopo(COMMERCIO, {prima: '2026-10-31', dopo: '2026-11-01', livelli: ['3', '4']}).testo;
+  assert.deepEqual(link(due), ['https://www.dovevalatuaral.com/minimi-ccnl/commercio/']);
 });
 
 // --- la riga di comando, come la usa la skill ---

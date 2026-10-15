@@ -294,17 +294,18 @@ function nettoPrimaDopo(ccnl, {prima, dopo, sezione = null, livelli = null}) {
   return {ccnl, sezione, prima, dopo, righe, testo: testoNetto({ccnl, dopo, righe, tabella})};
 }
 
-// Per il corpo della mail: testo semplice, una riga per livello, le ipotesi scritte. Le cifre non si ricopiano a mano.
+// Per il corpo della mail: testo semplice, una riga per livello, le ipotesi scritte. Le cifre non si ricopiano a
+// mano. Un solo link, il più specifico: la pagina del livello se il livello è uno, altrimenti la tabella.
 function testoNetto({ccnl, dopo, righe, tabella}) {
   const freccia = ({prima, dopo: poi}) => `${euro(prima).slice(0, -2)} → ${euro(poi)}`;
   const mensilita = [...new Set(righe.map(r => r.mensilita))].join(' o ');
+  const link = righe.length === 1 && righe[0].pagina ? righe[0].pagina : tabella;
   return [
     `Netto per livello, CCNL ${R.trovaContratto(ccnl).nome}, prima e dopo la tranche dal ${giorno(dopo)}`,
     `(tempo pieno, nessuno scatto di anzianità, residenza a Milano, nessun familiare a carico; netto annuo diviso per ${mensilita} mensilità)`,
     ...righe.map(r => `${r.nome}: lordo ${freccia(r.minimo)} al mese, netto ${freccia(r.nettoMensile)} al mese`
-      + (r.salto ? ` (${r.salto}; il netto cresce meno del lordo)` : '')
-      + (r.pagina && r.pagina !== tabella ? ` ${r.pagina}` : '')),
-    ...(tabella ? [`Tabella completa: ${tabella}`] : []),
+      + (r.salto ? ` (${r.salto}; il netto cresce meno del lordo)` : '')),
+    ...(link ? [`Con la propria anzianità e il superminimo: ${link}`] : []),
   ].join('\n');
 }
 
