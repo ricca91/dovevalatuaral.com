@@ -185,7 +185,7 @@ function bloccoBenefit(lato){
           ${COMPARA.TIPI_BUONI.map(t=>`<option value="${t}" ${o.buoniTipo===t?'selected':''}>${t==='elettronici'?'Elettronici':'Cartacei'}</option>`).join('')}
         </select></div>
       ${campoNumero(lato,'buoniValore','Valore unitario (€)',o.buoniValoreRaw,
-        'Esenti fino a 8 € elettronici o 4 € cartacei.','decimal')}
+        'Esenti fino a 10 € giornalieri per i buoni elettronici e 4 € per quelli cartacei; l’eccedenza è imponibile.','decimal')}
       ${campoNumero(lato,'buoniNumero','Numero al mese',o.buoniNumeroRaw,
         'I giorni in presenza non lo determinano. Il confronto lo porta a 12 mesi.','decimal')}
     </div>

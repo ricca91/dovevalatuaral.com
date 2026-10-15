@@ -178,7 +178,8 @@ valore **già qualificato esente**. È un'assunzione dichiarata, non una verific
 
 Il fringe usa una soglia secca: 1.000 €, oppure 2.000 € quando il nucleo dichiarato contiene
 almeno un figlio fiscalmente a carico. I buoni usano invece una franchigia per titolo, 4 €
-cartaceo e 8 € elettronico. Questa differenza resta visibile nelle Voce e nelle Riga, non solo
+cartaceo e 10 € elettronico dal 2026 (RIC-129, L. 199/2025 art. 1 c. 14),
+assumendo un buono per giornata ammessa. Questa differenza resta visibile nelle Voce e nelle Riga, non solo
 nel totale.
 
 ## Il CCNL diventa un ingresso, non un metro (RIC-54)

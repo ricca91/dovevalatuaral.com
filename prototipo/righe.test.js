@@ -101,9 +101,10 @@ test.describe('le righe dei benefit',()=>{
     const [r]=righeBenefit({buoniPasto:{tipo:'elettronici',valoreUnitario:10,numero:200}});
     assert.equal(r.titolo,'Buoni pasto elettronici');
     assert.match(r.formula,/200 × 10,00 € = 2\.000,00 €/);
-    assert.match(r.formula,/esente 1\.600,00 €/);
-    assert.match(r.formula,/imponibile 400,00 €/);
-    assert.equal(r.fonte.titolo,'TUIR, art. 51 c. 2 lett. c');
+    assert.match(r.formula,/esente 2\.000,00 €/);
+    assert.match(r.formula,/imponibile 0,00 €/);
+    assert.match(r.formula,/limite giornaliero 10,00 €/);
+    assert.match(r.fonte.titolo,/L\. 199\/2025, art\. 1 c\. 14/);
   });
 });
 
