@@ -33,9 +33,12 @@ Prendi da lì tutte le soglie, non contarle a mano: `settimana` (ultimi 7 giorni
   server che hai (`mcp__plugin_airtable_airtable__…` oppure `mcp__claude_ai_Airtable__…`). La tabella è piccola:
   leggi tutti i record, paginando con `cursor` se serve. Campi: Dominio, URL pagina, Tipo, Stato, Data invio,
   Data link, URL del link (la pagina che contiene il link), Nostra pagina di destinazione, Anchor, rel,
-  Recuperato o nuovo, Note. Solo lettura.
-- **DataForSEO**: `mcp__dataforseo__backlinks_summary`, `mcp__dataforseo__backlinks_bulk_new_lost_referring_domains`,
-  `mcp__dataforseo__backlinks_backlinks`. Target sempre `dovevalatuaral.com`.
+  Recuperato o nuovo, Note. Solo lettura. Lo schema non ti serve (e non hai il tool per leggerlo): i campi sono
+  questi. La tabella è nata vuota il 15 ottobre 2026 (RIC-120): 0 record è uno stato normale finché link-fonti
+  non la riempie, non un guasto da segnalare.
+- **DataForSEO**: `mcp__dataforseo__backlinks_summary` e `mcp__dataforseo__backlinks_backlinks`, target sempre
+  `dovevalatuaral.com`. Non usare `backlinks_bulk_new_lost_referring_domains`: il 15 ottobre 2026 contava come
+  "nuovi dall'8 ottobre" due domini che DataForSEO aveva visto il 9 e il 25 settembre, e non restituisce i persi.
 - **`node .claude/skills/link-review/misure.mjs`**, l'attrezzo deterministico accanto a questo file. Stampa JSON.
   Se una fonte non risponde stampa il motivo su stderr ed esce con 2: in quel caso quella fonte "non ha risposto",
   e lo scrivi così.
@@ -61,12 +64,11 @@ Dipendenze di `misure.mjs` fuori dal repo (non copiarle, non stamparle):
 ### 1. Link della settimana
 
 - Da Airtable: record con Stato `Link ottenuto` e Data link nella `settimana`.
-- Da DataForSEO: `backlinks_bulk_new_lost_referring_domains` con `targets: ["dovevalatuaral.com"]` e
-  `date_from` = `dataforseo_date_from` (domini nuovi e persi); `backlinks_backlinks` con `target: "dovevalatuaral.com"`,
-  `order_by: ["first_seen,desc"]`, `limit: 50`, e tieni quelli con `first_seen` dalla `settimana` in poi.
-  Un link trovato da DataForSEO che non è in Airtable è "spontaneo": va contato a parte, non tra quelli dell'outreach.
-- Per ogni link di Airtable: `misure.mjs link <URL pagina> <Nostra pagina di destinazione>`. Se URL del link è
-  diverso da URL pagina, controlla anche quello. Riporta:
+- Da DataForSEO: `backlinks_backlinks` con `target: "dovevalatuaral.com"`, `order_by: ["first_seen,desc"]`,
+  `limit: 100`; sono nuovi quelli con `first_seen` da `dataforseo_date_from` in poi. Un link trovato da DataForSEO
+  che non è in Airtable è "spontaneo": va contato a parte, non tra quelli dell'outreach.
+- Per ogni link della settimana in Airtable: `misure.mjs link <URL pagina> <Nostra pagina di destinazione>`.
+  Se URL del link è diverso da URL pagina, controlla anche quello. Riporta:
   - vivo: HTTP 200 e almeno un link verso il sito;
   - sulla pagina concordata: il link sta su URL pagina;
   - verso l'URL concordato: `verso_destinazione`;
@@ -74,7 +76,8 @@ Dipendenze di `misure.mjs` fuori dal repo (non copiarle, non stamparle):
   - test del lettore, in una frase, dal `contesto`: cosa ottiene chi legge quel paragrafo cliccando?
     Se non sai rispondere, il test non è superato.
   Se `link` esce con 2 o la pagina non è HTML leggibile (JavaScript, 403), scrivi "non verificato" e perché.
-- DataForSEO segnala domini persi che in Airtable sono `Link ottenuto`? Ricontrolla quei link con `link`.
+- Link persi: ricontrolla con `link` anche tutti i record `Link ottenuto` più vecchi. Se la pagina non risponde
+  200 o il link verso di noi non c'è più, il link è perso: va in cima alle azioni se la pagina prendeva clic.
 
 ### 2. Misura
 
@@ -109,12 +112,13 @@ Rifiutato, Chiuso. Poi:
 
 ### 6. Cinque azioni
 
-Esattamente 5, ordinate per valore di business, non per numero di link. Prima ciò che protegge o porta clic
+Cinque, ordinate per valore di business, non per numero di link. Prima ciò che protegge o porta clic
 verso le pagine che servono i prodotti (un link perso o sbagliato verso una pagina che già prende clic, una
 pagina CCNL con un aumento in arrivo), poi le scadenze (solleciti dovuti, tranche CCNL entro 30 giorni), poi la
 pipeline (prospect da qualificare, bozze da inviare), infine il resto. Ogni azione: chi la fa (Riccardo,
-link-fonti, link-dono, link-recupero), cosa, e il dato di questa revisione che la giustifica. Se le azioni utili
-sono meno di 5, dillo invece di riempire.
+link-fonti, link-dono, link-recupero), cosa, e il dato di questa revisione che la giustifica. Se oggi le azioni
+utili sono meno di cinque, scrivi solo quelle e dillo in una riga: un'azione inventata per fare numero, o che
+chiede di controllare la revisione stessa, toglie attenzione a quelle vere.
 
 ## Regole
 
@@ -178,5 +182,5 @@ sola, nessuna riga vuota in mezzo.
 ## Dipendenze per chi lancia la skill
 
 `claude -p "/link-review RUNNER FACTS …"` dalla radice del repo. Allowlist minima, per nome:
-`mcp__plugin_airtable_airtable__list_records_for_table,mcp__claude_ai_Airtable__list_records_for_table,mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_bulk_new_lost_referring_domains,mcp__dataforseo__backlinks_backlinks,Bash(node .claude/skills/link-review/misure.mjs:*)`.
+`mcp__plugin_airtable_airtable__list_records_for_table,mcp__claude_ai_Airtable__list_records_for_table,mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node .claude/skills/link-review/misure.mjs:*)`.
 Niente Gmail, Write, Edit. Test dell'attrezzo: `node --test .claude/skills/link-review/misure.test.mjs`.
