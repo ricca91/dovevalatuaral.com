@@ -132,6 +132,19 @@ test('un centesimo o due di differenza è arrotondamento, non una correzione', (
   assert.equal(a.scarto, 0.01);
 });
 
+test('una cifra che la pagina arrotonda («circa 1.618 euro») si confronta all’euro, solo se è dichiarata approssimata', () => {
+  const [circa, secca] = classifica({
+    ccnl: COMMERCIO, oggi: OGGI, invio: INVIO,
+    affermazioni: [
+      {id: 'A1', frase: 'il 4° livello è circa 1.618 euro', livello: '4', importo: 1618, approssimato: true, vigente: true},
+      {id: 'A2', frase: 'il 4° livello è 1.618 euro', livello: '4', importo: 1618, vigente: true},
+    ],
+  });
+  assert.equal(circa.stato, 'superato');
+  assert.equal(circa.dal, '2023-04-01');
+  assert.equal(secca.stato, 'non verificabile');
+});
+
 test('un minimo commercio fermo a una tranche precedente al dataset si riconosce dall’art. 213 dell’accordo', () => {
   // 4° livello dal 1/3/2025: 1.783,75 − 35,00 (aumento del 1/11/2025, art. 213) = 1.748,75.
   const [a] = classifica({
@@ -256,6 +269,15 @@ test('se una correzione è vera fino alla tranche, la mail non parte prima della
   assert.match(esito.verifica, /1\.818,75 € \(totale\) dal 1\/11\/2026/);
 });
 
+test('nella Verifica una cifra superata dice fino a quando valeva, una cifra giusta resta solo «ancora vero»', () => {
+  const {verifica} = cancello(pagina([
+    {id: 'A1', frase: '4° livello | 1.618,75 euro', livello: '4', importo: 1618.75, vigente: true},
+    {id: 'A2', frase: '3° livello: 2.024,38 €', livello: '3', importo: 2024.38, vigente: true},
+  ]), {oggi: OGGI, invio: INVIO});
+  assert.match(verifica, /\[superato dal 1\/4\/2023\] «4° livello \| 1\.618,75 euro» → era il valore in vigore fino al 31\/3\/2023/);
+  assert.match(verifica, /\[ancora vero\] «3° livello: 2\.024,38 €»/);
+});
+
 test('un valore ricostruito all’indietro riconosce la tabella vecchia ma non diventa la cifra da proporre', () => {
   // Tabella datata marzo 2025 a cui manca il terzo elemento: l'errore c'è, ma il totale giusto di allora
   // non è pubblicato da nessuna fonte del sito, è una sottrazione.
@@ -335,6 +357,7 @@ test('CLI valori: le tabelle della fonte per decorrenza, con quelle ricostruite 
   assert.deepEqual(valori.tabelle.map(t => [t.decorrenza, Boolean(t.ricostruita)]), [
     ['2020-01-01', true], ['2023-04-01', true], ['2024-04-01', true], ['2025-03-01', true],
     ['2025-11-01', false], ['2026-11-01', false], ['2027-02-01', false]]);
+  assert.equal(valori.accordo.firmataria, true, 'il testo dell’accordo sottoscritto dalle parti è fonte primaria');
   const quarto = valori.tabelle[5].livelli.find(l => l.codice === '4');
   assert.equal(quarto.totale, 1818.75);
   assert.equal(quarto.voci.pagaBase, 1292.46);

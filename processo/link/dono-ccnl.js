@@ -68,11 +68,12 @@ function tabelle(ccnl, sezione) {
 
 const giorno = iso => iso.split('-').reverse().map(Number).join('/');
 
-// Una correzione regge solo su una fonte delle parti firmatarie. Il dataset lo scrive in `fonte.parte`
-// ("organizzazione sindacale firmataria", "banca dati indipendente, non firmataria").
+// Una correzione regge solo su una fonte delle parti firmatarie, o sul testo che hanno sottoscritto. Il dataset
+// lo scrive in `parte` ("organizzazione sindacale firmataria", "testo dell'accordo sottoscritto dalle parti",
+// "banca dati indipendente, non firmataria").
 function firmata(fonte) {
   const parte = fonte.parte || '';
-  return {...fonte, firmataria: /firmatari/i.test(parte) && !/non firmatari/i.test(parte)};
+  return {...fonte, firmataria: /firmatari|sottoscritt/i.test(parte) && !/non firmatari/i.test(parte)};
 }
 
 function fonteDi(contratto) {
@@ -106,14 +107,17 @@ const cent = euro => Math.round(euro * 100);
 // Fino a due centesimi di differenza sono arrotondamento: Filcams pubblica i totali per livello, l'accordo
 // gli aumenti a parametro, e chi somma dall'accordo può trovarsi un centesimo sopra o sotto.
 const ARROTONDAMENTO = 2;
+// Una cifra che la pagina dichiara approssimata ("circa 1.618 euro") vale fino all'euro: le tranche distano
+// almeno venti euro, quindi non si confondono.
+const ALL_EURO = 99;
 
 // Dove la cifra della pagina compare nella fonte: il totale di una tabella, una sua voce, o il totale meno
 // una sola voce (la voce che la pagina ha dimenticato). Tiene solo le corrispondenze più strette.
-function corrispondenze(elenco, codice, importo) {
+function corrispondenze(elenco, codice, importo, tolleranza) {
   const trovate = [];
   const prova = (atteso, trovata) => {
     const scarto = cent(importo) - cent(atteso);
-    if (Math.abs(scarto) <= ARROTONDAMENTO) trovate.push({...trovata, scarto});
+    if (Math.abs(scarto) <= tolleranza) trovate.push({...trovata, scarto});
   };
   for (const tabella of elenco) {
     const livello = tabella.livelli.find(l => l.codice === codice);
@@ -161,7 +165,8 @@ function classificaUna(affermazione, {ccnl, sezione, oggi, invio}) {
   if (affermazione.voce === 'aumento') return classificaAumento(affermazione, elenco, fonte);
   const dichiarata = affermazione.decorrenza ? vigenteAl(affermazione.decorrenza) : null;
   const allInvio = vigenteAl(invio);
-  const trovate = corrispondenze(elenco, affermazione.livello, affermazione.importo);
+  const trovate = corrispondenze(elenco, affermazione.livello, affermazione.importo,
+    affermazione.approssimato ? ALL_EURO : ARROTONDAMENTO);
   // Una cifra può stare in più tabelle (le voci che le tranche non toccano): vince la tabella della data che
   // la pagina dichiara, poi quella in vigore all'invio, poi la più recente.
   const trovata = trovate.find(t => t.tabella === dichiarata)
@@ -218,6 +223,7 @@ function solida(c) {
 function dettaglio(c) {
   const valore = v => `${euro(v.importo)} (${v.voce}) dal ${giorno(v.decorrenza)}`;
   const parti = [];
+  if (c.stato === 'superato' && !c.veroOggi) parti.push(`era il valore in vigore fino al ${giorno(ieri(c.dal))}`);
   if (c.manca) parti.push(`manca ${c.manca.nome} (${euro(c.manca.importo)})`);
   if (c.motivo) parti.push(c.motivo);
   if (c.atteso) parti.push(`la fonte dice ${valore(c.atteso)}`);
@@ -229,8 +235,8 @@ function dettaglio(c) {
 function etichetta(c, inMail) {
   if (c.stato === 'superato')
     return `superato dal ${giorno(c.dal)}${c.veroOggi ? `, vero fino al ${giorno(ieri(c.dal))}` : ''}`;
-  if (c.stato === 'non verificabile' || !inMail) return `${c.stato}, fuori dalla mail`;
-  return c.stato;
+  if (c.stato === 'ancora vero' || inMail) return c.stato;
+  return `${c.stato}, fuori dalla mail`;
 }
 
 /* Il cancello: una correzione entra nel foglio solo se è superata o cambiata secondo una fonte delle parti
