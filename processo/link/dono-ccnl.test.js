@@ -146,6 +146,22 @@ test('un minimo commercio fermo a una tranche precedente al dataset si riconosce
     'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf');
 });
 
+test('anche un minimo commercio di prima del rinnovo (fino al 31/3/2023) si riconosce, ma solo dal totale', () => {
+  // 4° livello: 1.783,75 − 35,00 − 30,00 − 70,00 − 30,00 (art. 213) = 1.618,75. La paga base di allora non si
+  // ricostruisce: la tranche del 1/4/2023 era un acconto pagato a parte e nel 2024 è entrata nella paga base.
+  const [totale, pagaBase] = classifica({
+    ccnl: COMMERCIO, oggi: OGGI, invio: INVIO,
+    affermazioni: [
+      {id: 'A1', frase: '4° livello: 1.618,75 euro', livello: '4', importo: 1618.75, vigente: true},
+      {id: 'A2', frase: 'paga base 4° livello: 1.092,46 €', livello: '4', importo: 1092.46, vigente: true},
+    ],
+  });
+  assert.equal(totale.stato, 'superato');
+  assert.equal(totale.dal, '2023-04-01');
+  assert.deepEqual(totale.nuovo, {decorrenza: '2026-11-01', voce: 'totale', importo: 1818.75});
+  assert.equal(pagaBase.stato, 'non verificabile');
+});
+
 test('la fonte dice se viene da una parte firmataria: Filcams sì, la banca dati del Vetro no', () => {
   const [commercio] = classifica({ccnl: COMMERCIO, oggi: OGGI, invio: INVIO,
     affermazioni: [{id: 'A1', livello: '4', importo: 1818.75, vigente: true}]});
@@ -317,8 +333,9 @@ test('CLI valori: le tabelle della fonte per decorrenza, con quelle ricostruite 
   const valori = JSON.parse(stdout);
   assert.equal(valori.fonte.firmataria, true);
   assert.deepEqual(valori.tabelle.map(t => [t.decorrenza, Boolean(t.ricostruita)]), [
-    ['2024-04-01', true], ['2025-03-01', true], ['2025-11-01', false], ['2026-11-01', false], ['2027-02-01', false]]);
-  const quarto = valori.tabelle[3].livelli.find(l => l.codice === '4');
+    ['2020-01-01', true], ['2023-04-01', true], ['2024-04-01', true], ['2025-03-01', true],
+    ['2025-11-01', false], ['2026-11-01', false], ['2027-02-01', false]]);
+  const quarto = valori.tabelle[5].livelli.find(l => l.codice === '4');
   assert.equal(quarto.totale, 1818.75);
   assert.equal(quarto.voci.pagaBase, 1292.46);
 });

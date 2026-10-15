@@ -9,11 +9,20 @@ const {soglie} = require(path.join(__dirname, '../../prototipo/motore.js'));
 /* Le tabelle del dataset partono dalla tranche in vigore quando il sito le ha trascritte. Molte pagine da
    correggere sono ferme a tranche più vecchie: per riconoscerle (e solo per quello: il valore nuovo esce
    sempre dal dataset) si ricostruiscono all'indietro con gli aumenti dell'accordo che le ha decise.
-   Commercio, art. 213 dell'accordo di rinnovo del 22 marzo 2024: aumenti della paga base per decorrenza.
-   Ci si ferma al 1/4/2024: la tranche del 1/4/2023 viene dal protocollo straordinario del 12/12/2022, prima
-   del rinnovo, e come comparisse nelle tabelle di allora non l'abbiamo verificato. La tabella di marzo 2025
-   ricostruita è stata riscontrata su una tabella pubblicata da terzi il 15/10/2026: al massimo un centesimo
-   di differenza, che ARROTONDAMENTO assorbe. */
+   Commercio, art. 213 dell'accordo di rinnovo del 22 marzo 2024: aumenti per decorrenza, dal 1/4/2023.
+   La tranche del 1/4/2023 viene dal protocollo straordinario del 12/12/2022 e fino a marzo 2024 era pagata come
+   acconto, a parte; ad aprile 2024 è entrata nella paga base. Il totale si ricostruisce sottraendo, la paga base
+   prima di aprile 2024 no: da lì in giù la voce si toglie. La tabella prima del 1/4/2023 si sa solo fin quando
+   vale, non da quando: la decorrenza 2020-01-01 è un'etichetta, e il titolo lo dice.
+   Riscontri su tabelle pubblicate da terzi, 15/10/2026: marzo 2025 e prima di aprile 2023 tornano entro un
+   centesimo su quasi tutti i livelli (ARROTONDAMENTO), il Quadro e qualche livello no: lì la cifra resta non
+   verificabile, che è il lato sicuro. */
+const ART_213 = {
+  '2023-04-01': {Q: 52.09, 1: 46.92, 2: 40.59, 3: 34.69, 4: 30.00, 5: 27.10, 6: 24.33, 7: 20.83, OV1: 28.32, OV2: 23.78},
+  '2024-04-01': {Q: 121.54, 1: 109.48, 2: 94.70, 3: 80.94, 4: 70.00, 5: 63.24, 6: 56.78, 7: 48.61, OV1: 66.08, OV2: 55.48},
+  '2025-03-01': {Q: 52.09, 1: 46.92, 2: 40.59, 3: 34.69, 4: 30.00, 5: 27.10, 6: 24.33, 7: 20.83, OV1: 28.32, OV2: 23.78},
+  '2025-11-01': {Q: 60.77, 1: 54.74, 2: 47.35, 3: 40.47, 4: 35.00, 5: 31.62, 6: 28.39, 7: 24.31, OV1: 33.04, OV2: 27.74},
+};
 const STORICO = {
   'terziario-confcommercio-h011': {
     fonte: {
@@ -21,11 +30,14 @@ const STORICO = {
       url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf',
       archivio: 'processo/dati/fonti/accordo-rinnovo-terziario-2024-03-22.pdf',
     },
-    // decorrenza dell'aumento → aumento per livello; la tabella prima di quella decorrenza è quella dopo meno l'aumento.
-    aumenti: [
-      ['2025-11-01', '2025-03-01', {Q: 60.77, 1: 54.74, 2: 47.35, 3: 40.47, 4: 35.00, 5: 31.62, 6: 28.39, 7: 24.31, OV1: 33.04, OV2: 27.74}],
-      ['2025-03-01', '2024-04-01', {Q: 52.09, 1: 46.92, 2: 40.59, 3: 34.69, 4: 30.00, 5: 27.10, 6: 24.33, 7: 20.83, OV1: 28.32, OV2: 23.78}],
+    // [aumento che chiude la tabella, decorrenza della tabella prima, la paga base di quella tabella si ricostruisce?]
+    passi: [
+      ['2025-11-01', '2025-03-01', true],
+      ['2025-03-01', '2024-04-01', true],
+      ['2024-04-01', '2023-04-01', false],
+      ['2023-04-01', '2020-01-01', false],
     ],
+    aumenti: ART_213,
   },
 };
 
@@ -39,14 +51,15 @@ function tabelle(ccnl, sezione) {
   if (!storico) return profilo.tabelle;
   const ricostruite = [];
   let dopo = profilo.tabelle[0];
-  for (const [decorrenzaAumento, decorrenza, aumenti] of storico.aumenti) {
+  for (const [decorrenzaAumento, decorrenza, conPagaBase] of storico.passi) {
     if (dopo.decorrenza !== decorrenzaAumento) break;
+    const aumenti = storico.aumenti[decorrenzaAumento];
     const meno = (importo, codice) => (cent(importo) - cent(aumenti[codice])) / 100;
     dopo = {
-      decorrenza, titolo: `ricostruita dall'art. 213 (prima della tranche del ${giorno(decorrenzaAumento)})`,
+      decorrenza, titolo: `ricostruita dall'art. 213: in vigore fino al ${giorno(ieri(decorrenzaAumento))}`,
       ricostruita: storico.fonte,
       livelli: dopo.livelli.map(l => ({...l, totale: meno(l.totale, l.codice),
-        voci: l.voci.map(v => (v.id === 'pagaBase' ? {...v, importo: meno(v.importo, l.codice)} : v))})),
+        voci: l.voci.flatMap(v => (v.id !== 'pagaBase' ? [v] : conPagaBase ? [{...v, importo: meno(v.importo, l.codice)}] : []))})),
     };
     ricostruite.unshift(dopo);
   }
