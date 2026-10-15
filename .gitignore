@@ -27,6 +27,10 @@ dist/
 .env
 .env.*
 
+# Raccolta grezza della skill link-fonti (domini citati da ChatGPT e AI Overview):
+# sono dati dei prospect, che stanno solo su Airtable. Il repo è pubblico.
+/.link-fonti/
+
 # Video: i render (mp4) si rigenerano, pesano decine di MB
 videos/*/renders/
 videos/*/.media/
