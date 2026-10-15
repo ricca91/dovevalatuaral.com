@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Test di run.sh e lancia.sh dei job backlink su un repo fixture, con stub per claude e agentmail.
 # Nessun Opus, nessuna mail, nessun Airtable, nessun Gmail veri.
+# Casi: prompt e mail di ogni job, guardia per periodo, fallimenti (rc, timeout, uscita non JSON,
+# report mancante, mail non partita), DRY_RUN, controllo Gmail e interruttore dell'autenticazione,
+# segreti, allowlist che non può inviare, lancia.sh (worktree, lock, dati), unit systemd, contratto
+# con le skill vere. Uso: processo/cron/link/test/test.sh (KEEP=1 per tenere la fixture).
 set -u
 # Ermetico: i segreti arrivano solo dai file finti della fixture (il caso 14 ne rimette uno apposta).
 unset AGENTMAIL_API_KEY CLAUDE_CODE_OAUTH_TOKEN DATAFAST_API_KEY DATAFAST_ENV_FILE DRY_RUN LINK_FORZA LINK_ARGS LINK_GMAIL_AUTH MODEL TIMEOUT
@@ -521,6 +525,21 @@ check "$F: manda la mail con AgentMail"     "grep -q 'agentmail inboxes:messages
 check "$F: oggetto col job"                 "grep -q -- '--subject \"%i FALLITO' '$UNITS/$F'"
 check "$F: stato del servizio dell'istanza" "grep -q 'systemctl status link@%i.service' '$UNITS/$F'"
 check "$F: %% per la data"                  "grep -q 'date +%%F' '$UNITS/$F'"
+
+# --- il contratto con le skill vere -------------------------------------------------
+# run.sh le invoca con lo slash e legge chiavi precise del loro blocco REPORT_: se una skill
+# perde il flag o rinomina una chiave, la mail si svuota senza errori. Lo dice questo test.
+echo "=== caso 37: le skill vere -> slash e chiavi REPORT_ che run.sh legge ==="
+for riga in "link-review:REPORT_DATA REPORT_STATO REPORT_LINK_NUOVI REPORT_GSC REPORT_DATAFAST REPORT_DATAFORSEO REPORT_AIRTABLE" \
+            "link-dono:REPORT_DATA REPORT_BOZZE REPORT_SOLLECITI REPORT_RISPOSTE REPORT_NON_PRIMA_DEL" \
+            "link-fonti:REPORT_DATA REPORT_SCRITTI REPORT_PROMPT REPORT_FALLITE" \
+            "link-recupero:REPORT_DATA REPORT_LINK_PERSI REPORT_MENZIONI REPORT_BOZZE REPORT_PIANO_REDIRECT"; do
+  j="${riga%%:*}"; SK="$ROOT/.claude/skills/$j/SKILL.md"
+  check "$j: disable-model-invocation"      "grep -qx 'disable-model-invocation: true' '$SK'"
+  for k in ${riga#*:}; do
+    check "$j: $k nel blocco REPORT_"       "grep -qE '^[[:space:]]*$k=' '$SK'"
+  done
+done
 
 echo
 echo "=== $PASS pass, $FAIL fail ==="
