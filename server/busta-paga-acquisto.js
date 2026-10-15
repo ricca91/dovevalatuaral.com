@@ -46,8 +46,7 @@ function anteprima(report){
 }
 
 function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
-  analizza=(corpo,runtime={})=>Motore.analizza(corpo,{
-    ambiente:{...ambiente,...runtime},tetti:T.crea(ambiente)})}){
+  analizza=corpo=>Motore.analizza(corpo,{ambiente,tetti:T.crea(ambiente)})}){
   const chiave=Buffer.from(ambiente.BUSTA_PAGA_CHIAVE_REPORT||'','hex');
   if(!/^[a-f0-9]{64}$/i.test(ambiente.BUSTA_PAGA_CHIAVE_REPORT||'')||chiave.length!==32)errore('CONFIGURAZIONE_MANCANTE');
   const origine=ambiente.BUSTA_PAGA_ORIGINE;
@@ -84,7 +83,7 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     const h=crypto.createHmac('sha256',chiave).update(`${finestra}:${chiaveLimite}`).digest('hex');
     if(!await contatori.consuma(h,massimo,(finestra+1)*durata))errore('TROPPE_RICHIESTE');
   }
-  async function crea(token,testo,consenso,chiamante,runtime={}){
+  async function crea(token,testo,consenso,chiamante){
     const id=idDaToken(token);
     if(consenso!==true)errore('TESTO_NON_VALIDO');
     const verifica=T.verificaTesto(testo);
@@ -98,11 +97,11 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
       const p=await prezzo(); // Mai spendere per analizzare se non possiamo offrire un acquisto.
       salva({stato:'analisi',impronta,riferimento:crypto.randomUUID(),creatoIl:adesso(),
         scadenza:adesso()+DURATE.anteprima,eliminaIl:adesso()+DURATE.transazione,
-        prezzo:p,consensoVersione:'2026-09-21',tentativo:0});return true;
+        prezzo:p,consensoVersione:'2026-09-24',tentativo:0});return true;
     });
     if(nuova){
       let report;
-      try{report=await analizza({testo},runtime);}catch(_){report={ok:false,codice:'SERVIZIO_NON_DISPONIBILE'};}
+      try{report=await analizza({testo});}catch(_){report={ok:false,codice:'SERVIZIO_NON_DISPONIBILE'};}
       await archivio.transazione(id,async(o,salva,contatori)=>{
         if(!o||o.stato!=='analisi')return; // Una cancellazione durante l'analisi non rinasce.
         if(!report.ok||!utilizzabile(report)){
@@ -223,7 +222,7 @@ let dipendenze;
 function produzione(){
   if(dipendenze)return dipendenze;
   const e=process.env;
-  if(!e.BUSTA_PAGA_DATABASE_URL||!e.STRIPE_SECRET_KEY||!e.STRIPE_WEBHOOK_SECRET)errore('CONFIGURAZIONE_MANCANTE');
+  if(!e.ANTHROPIC_API_KEY||!e.BUSTA_PAGA_DATABASE_URL||!e.STRIPE_SECRET_KEY||!e.STRIPE_WEBHOOK_SECRET)errore('CONFIGURAZIONE_MANCANTE');
   const stripe=new Stripe(e.STRIPE_SECRET_KEY,{maxNetworkRetries:1,timeout:8000});
   const archivio=creaArchivio(e.BUSTA_PAGA_DATABASE_URL);
   const servizio=creaServizio({archivio,stripe,ambiente:e});

@@ -38,9 +38,8 @@ dd{margin:0 0 var(--s-4)}
   <a class="site-brand" href="index.html" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
   <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
   <nav class="site-nav" id="site-nav" aria-label="Navigazione principale">
-    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a></div></div>
-    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div>
-    <a href="netto-o-niente.html">Gioca</a><a href="la-storia.html">La storia</a>
+    <div class="site-nav__group" data-current><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="index.html" aria-current="page">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div>
+    <div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div><a href="netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="la-storia.html">La storia</a>
   </nav>
 </div></header>
 <main>
@@ -48,42 +47,41 @@ dd{margin:0 0 var(--s-4)}
   <p class="eyebrow">Informativa</p>
   <h1>Che cosa succede ai tuoi dati qui dentro</h1>
   <p>Scritta per essere letta: prima che cosa non esce dal tuo browser, poi che cosa esce, a chi e con quale base giuridica. Ai sensi degli articoli 13 e 14 del Regolamento (UE) 2016/679.</p>
-  <p class="aggiornato">Ultimo aggiornamento: 17 settembre 2026</p>
+  <p class="aggiornato">Ultimo aggiornamento: 24 settembre 2026</p>
 </div></header>
 
 <section id="titolare"><div class="wrap">
   <h2>1. Chi tratta i dati</h2>
-  <p>Il titolare del trattamento è <strong>Riccardo Sartori</strong>, autore e gestore del progetto <em>Dove va la tua RAL</em>, un sito personale senza scopo di lucro né raccolta di pagamenti.</p>
+  <p>Il titolare del trattamento è <strong>Riccardo Sartori</strong>, autore e gestore del progetto <em>Dove va la tua RAL</em>. Il sito offre calcolatori gratuiti e un percorso di analisi della busta paga con report facoltativo a pagamento.</p>
   <p>Per qualunque richiesta relativa a questa informativa, incluso l'esercizio dei diritti descritti al punto 8: <a href="mailto:riccsartori@gmail.com">riccsartori@gmail.com</a>.</p>
 </div></section>
 
 <section id="calcolatore"><div class="wrap">
   <h2>2. Il calcolatore: quello che digiti non ci arriva</h2>
-  <p>RAL, comune, familiari a carico, offerte messe a confronto e ogni altro dato che inserisci nei calcolatori restano nel tuo browser: il calcolo avviene lì, e il risultato viene ricostruito dall'indirizzo della pagina. Non esiste un server che li riceve, e non c'è nessun database dietro queste pagine.</p>
-  <p>Questo vale anche per i link che condividi: portano i parametri del calcolo, quindi condividendoli condividi quei numeri con chi li riceve. È l'unico modo in cui possono uscire.</p>
+  <p>RAL, comune, familiari a carico, offerte messe a confronto e ogni altro dato che inserisci nei calcolatori restano nel tuo browser: il calcolo avviene lì, e il risultato viene ricostruito dall'indirizzo della pagina. Non inviamo il modulo a un motore di calcolo remoto. Gli eventuali parametri nell’indirizzo della pagina possono tuttavia arrivare all’hosting o ai servizi di misurazione.</p>
+  <p>Questo vale anche per i link che condividi: portano i parametri del calcolo, quindi condividendoli condividi quei numeri con chi li riceve. Gli indirizzi e i parametri che condividi possono essere trattati dai servizi di hosting e misurazione: evita di inserirvi identificativi personali.</p>
 </div></section>
 
 <section id="misurazione"><div class="wrap">
   <h2>3. Misurazione del traffico</h2>
   <h3>Datafast</h3>
-  <p>Su tutte le pagine è attivo <a href="https://datafa.st/privacy" rel="noopener">Datafast</a>, uno strumento di analisi del traffico <strong>senza cookie</strong>: non installa identificatori sul tuo dispositivo e non ti segue tra siti diversi. L'identificatore della visita è derivato con una funzione a senso unico da un valore che cambia ogni giorno, quindi non permette di ricostruire la stessa persona nel tempo. Raccoglie pagina visitata, provenienza, tipo di dispositivo e paese, in forma aggregata. Il fornitore agisce come responsabile del trattamento.</p>
+  <p>Su tutte le pagine è attivo <a href="https://datafa.st/privacy" rel="noopener">Datafast</a>, uno strumento di analisi del traffico <strong>senza cookie</strong>: può usare memoria di sessione per il funzionamento della misurazione. L'identificatore della visita è derivato con una funzione a senso unico da un valore che cambia ogni giorno, quindi non permette di ricostruire la stessa persona nel tempo. Raccoglie pagina visitata, provenienza, tipo di dispositivo e paese, in forma aggregata. Il fornitore agisce come responsabile del trattamento.</p>
   <h3>Google Analytics 4</h3>
-  <p>Sulle altre pagine del sito è attivo anche <a href="https://policies.google.com/privacy" rel="noopener">Google Analytics 4</a>, che utilizza cookie e identificatori per misurare le visite. <strong>Non viene caricato sul percorso «Ti spiego la busta paga»</strong>: chi carica un cedolino non deve trovarsi un tag di terze parti accanto.</p>
-  <p>Al momento il sito non mostra un banner di consenso ai cookie e la presenza stessa di Google Analytics è in revisione. Fino a quella decisione puoi bloccarne l'esecuzione dalle impostazioni del browser o con il <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">componente aggiuntivo di opt-out di Google</a>. La base giuridica dichiarata per questa misurazione è il legittimo interesse a capire come viene usato il sito; se preferisci non essere misurato, l'opt-out qui sopra è efficace.</p>
+  <p>Google Analytics 4 richiede consenso preventivo per l’uso di cookie di misurazione. Il caricamento è disabilitato sul sito finché non sarà disponibile una raccolta del consenso adeguata. Non viene caricato sul percorso busta paga.</p>
 </div></section>
 
 <section id="busta-paga"><div class="wrap">
   <h2>4. Il percorso «Ti spiego la busta paga»</h2>
-  <p>È una funzione in prova, non raggiungibile dalla navigazione del sito. Funziona così, e questa parte dell'informativa è la descrizione di come è fatto il codice, non una promessa generica.</p>
+  <p>Il PDF viene letto nel browser. Solo dopo la tua revisione e conferma inviamo il testo al servizio AI per preparare l’anteprima e il report.</p>
   <dl>
     <dt>Il PDF</dt>
     <dd>Viene aperto e letto <strong>dentro il tuo browser</strong>. Non viene caricato su nessun server, non viene salvato su disco, non viene messo in <code>localStorage</code>: resta un'area di memoria della scheda e sparisce quando la chiudi o premi «Cancella e ricomincia». La libreria che lo legge è ospitata sul nostro dominio, quindi aprendo il cedolino non parte nessuna richiesta verso terzi.</dd>
     <dt>L'oscuramento</dt>
     <dd>Prima di qualunque invio il testo estratto viene ripulito: nome, codice fiscale, IBAN, indirizzo, CAP, matricola, partita IVA e data di nascita vengono sostituiti da segnaposto. Lo stesso accade a <strong>sigle sindacali</strong> e <strong>motivi di assenza</strong> — malattia, infortunio, permessi legge 104 — che rivelano appartenenza sindacale e stato di salute: di queste voci resta l'importo, non l'etichetta. Il riconoscimento è automatico e imperfetto: la schermata di conferma ti mostra il testo esatto e ti lascia oscurare o riportare ogni singola parola.</dd>
     <dt>Che cosa esce, e verso chi</dt>
-    <dd>Solo il testo oscurato che hai confermato, mai il PDF. È testo <strong>pseudonimizzato, non anonimo</strong>: importi, livello, CCNL, comune e mese restano dati personali riferibili a te. Viene elaborato con il modello <strong>Claude Sonnet 5</strong> di <strong>Anthropic PBC</strong>, che agisce come <strong>responsabile del trattamento</strong>, e l'instradamento passa da <a href="https://vercel.com/legal/privacy-policy" rel="noopener">Vercel AI Gateway</a>.</dd>
-    <dt>Le tre condizioni, e come sono garantite</dt>
-    <dd>Sono <strong>inferenza in regione europea</strong>, <strong>divieto di utilizzo dei prompt per l'addestramento</strong> e <strong>non conservazione dei prompt</strong>. Le prime due viaggiano dentro ogni singola richiesta: se il gateway non può onorare la regione, la richiesta fallisce invece di essere eseguita altrove. La terza è garantita in modo diverso, e vale la pena dire come. Il gateway offre un filtro che scarta i fornitori che conservano, ma è riservato ai suoi piani a pagamento; al suo posto, <strong>prima di ogni invio verifichiamo sul catalogo pubblico di Vercel che in regione europea questo modello sia servito soltanto da fornitori che non conservano i prompt e non li usano per addestrare</strong> — oggi sono due, Amazon Bedrock e Google Vertex AI, entrambi con accordo di conservazione azzerata con Vercel. Se il controllo fallisce, o se comparisse un fornitore che conserva, <strong>il testo non parte affatto</strong>. Alla fine dell'analisi la pagina ti mostra quale fornitore l'ha effettivamente eseguita e in quale regione.</dd>
+    <dd>Solo il testo oscurato che hai confermato, mai il PDF. Il testo è <strong>pseudonimizzato, non anonimo</strong>: può ancora contenere dati personali. Il nostro server lo invia direttamente alle API commerciali Anthropic, modello <strong>Claude Sonnet 5</strong>. Per i clienti SEE la controparte contrattuale è <strong>Anthropic Ireland, Limited</strong>, responsabile del trattamento secondo il <a href="https://www.anthropic.com/legal/data-processing-addendum" rel="noopener">Data Processing Addendum</a>.</dd>
+    <dt>Trattamento presso Anthropic</dt>
+    <dd>I <a href="https://www.anthropic.com/legal/commercial-terms" rel="noopener">termini commerciali</a> vietano l’uso dei contenuti API per l’addestramento dei modelli. La <a href="https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data" rel="noopener">conservazione standard</a> prevede la cancellazione di input e output entro <strong>30 giorni</strong>, con eccezioni per obblighi di legge e prevenzione degli abusi. I contenuti segnalati dai sistemi di sicurezza possono essere conservati fino a due anni. Non promettiamo conservazione zero né elaborazione esclusivamente nell’Unione europea.</dd>
     <dt>Dove gira il nostro codice</dt>
     <dd>La funzione che riceve il testo è eseguita in <strong>regione europea</strong> (Francoforte). Non scrive il testo in nessun database, archivio di file, strumento di misurazione o log applicativo: esiste come variabile in memoria per la durata della richiesta e sparisce con essa. Nei log tecnici finisce, al massimo, un codice di errore.</dd>
     <dt>Report e pagamento</dt>
@@ -95,7 +93,7 @@ dd{margin:0 0 var(--s-4)}
     <dt>Errori e misurazione</dt>
     <dd>I messaggi di errore e gli eventi di misurazione contengono solo codici — per esempio «PDF senza testo» — mai il nome del file, il contenuto del cedolino, gli importi o gli identificativi. Il voto «questa spiegazione ti è stata utile» trasmette un sì o un no e nient'altro: non c'è un campo di testo libero, di proposito.</dd>
     <dt>Un limite che preferiamo scrivere</dt>
-    <dd>Nessuno ha verificato, su buste paga vere, quanto bene il modello le legga: per farlo avremmo dovuto raccogliere i cedolini di altre persone, e abbiamo scelto di non farlo. Al posto della verifica ci sono controlli automatici sulla risposta — ogni voce mostrata deve citare alla lettera il testo che hai inviato, le somme le rifacciamo noi, una risposta fuori formato non viene mostrata. Impediscono di mostrarti numeri inventati; non garantiscono che i numeri veri siano stati capiti.</dd>
+    <dd>Nessuno ha verificato, su buste paga vere, quanto bene il modello le legga: i controlli automatici sulla risposta  verificano che ogni voce mostrata citi alla lettera il testo che hai inviato, le somme le rifacciamo noi, una risposta fuori formato non viene mostrata. Impediscono di mostrarti numeri inventati; non garantiscono che i numeri veri siano stati capiti.</dd>
   </dl>
 </div></section>
 
@@ -108,14 +106,14 @@ dd{margin:0 0 var(--s-4)}
   <h2>6. Destinatari e trasferimenti fuori dall'Unione europea</h2>
   <p>I soli destinatari sono i fornitori citati sopra, ciascuno nel ruolo indicato: nessun dato viene venduto, ceduto o usato per profilazione pubblicitaria.</p>
   <p>Alcuni di questi fornitori sono società statunitensi. I trasferimenti avvengono sulla base degli strumenti previsti dal Capo V del GDPR — clausole contrattuali standard e, dove applicabile, l'EU-U.S. Data Privacy Framework — come dichiarato nelle rispettive informative, che trovi collegate qui sopra.</p>
-  <p>Per il testo del cedolino c'è una precisazione che vale la pena fare: <a href="https://www.anthropic.com/legal/privacy" rel="noopener">Anthropic PBC</a> è una società statunitense, ma l'elaborazione è richiesta esplicitamente in <strong>regione europea</strong>, con conservazione azzerata. La richiesta fallisce se questa condizione non può essere soddisfatta: preferiamo non spiegarti il cedolino piuttosto che spiegartelo altrove.</p>
+  <p>Il testo approvato può essere elaborato da Anthropic e dai suoi sub-responsabili anche fuori dall’UE, inclusi gli Stati Uniti. Il DPA Anthropic incorpora le clausole contrattuali standard per i trasferimenti applicabili. La regione europea del nostro server non determina la regione di elaborazione del modello.</p>
 </div></section>
 
 <section id="conservazione"><div class="wrap">
   <h2>7. Per quanto tempo</h2>
   <ul>
     <li><strong>Dati del calcolatore:</strong> non li conserviamo, perché non ci arrivano.</li>
-    <li><strong>Cedolino e testo oscurato:</strong> il PDF vive quanto la scheda del browser; il testo oscurato vive quanto la richiesta e non viene salvato. Il report contiene le diciture e gli importi spiegati: è conservato separatamente, come indicato sotto.</li>
+    <li><strong>Cedolino e testo oscurato sui nostri sistemi:</strong> il PDF vive quanto la scheda del browser; non salviamo il testo grezzo sul nostro server. Per la copia trattata da Anthropic valgono i tempi del punto 4. Il report contiene le diciture e gli importi spiegati: è conservato separatamente, come indicato sotto.</li>
     <li><strong>Anteprima e report:</strong> cifrati sul server, disponibili per 48 ore dalla richiesta senza acquisto e per 30 giorni dal pagamento. Alla scadenza l’accesso termina immediatamente; il processo giornaliero elimina i contenuti scaduti entro 24 ore. Il pulsante di cancellazione elimina subito i contenuti dal database attivo. L’eventuale durata delle copie di backup deve essere dichiarata prima dell’attivazione del database.</li>
     <li><strong>Accesso:</strong> il browser conserva in sessionStorage solo un segreto casuale, mai documento o report. Il link privato consente il recupero su un altro dispositivo e scade insieme al contenuto; chi lo possiede può accedere al report. Il frammento del link viene rimosso prima del caricamento di analytics.</li>
     <li><strong>Riferimenti transazionali:</strong> riferimento ordine, stato, prezzo del servizio e identificatori Stripe per 90 giorni dalla richiesta o dal pagamento, per assistenza e riconciliazione. Non includono PDF, testo o importi del cedolino. Non sono l’archivio contabile: i documenti fiscali e i dati del pagamento presso Stripe seguono gli obblighi applicabili al venditore, da definire prima del lancio commerciale.</li>

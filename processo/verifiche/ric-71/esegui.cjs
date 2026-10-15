@@ -39,8 +39,8 @@ function valuta(caso,esito,durataMs){
 }
 
 async function esegui(){
-  if(!process.env.AI_GATEWAY_API_KEY&&!process.env.VERCEL_OIDC_TOKEN)
-    throw new Error('AI_GATEWAY_API_KEY o VERCEL_OIDC_TOKEN mancante');
+  if(!process.env.ANTHROPIC_API_KEY)
+    throw new Error('ANTHROPIC_API_KEY mancante');
   const risultati=[];
   for(const caso of fixture){
     const inizio=performance.now();
@@ -54,7 +54,7 @@ async function esegui(){
   const documento={
     eseguitoIl:new Date().toISOString(),
     modello:B.MODELLO,
-    regioneRichiesta:B.REGIONE_INFERENZA,
+    fornitore:'Anthropic API diretta',
     casi:risultati,
     riepilogo:{
       superati:risultati.filter(r=>r.ok).length,

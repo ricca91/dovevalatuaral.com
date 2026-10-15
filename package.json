@@ -1,0 +1,24 @@
+{
+  "name": "dovevalatuaral",
+  "private": true,
+  "scripts": {
+    "pretest": "node prototipo/genera-pagine-ral.js",
+    "test": "node --test prototipo/*.test.js server/*.test.js",
+    "predev": "node prototipo/genera-pagine-ral.js",
+    "dev": "node processo/attrezzi/server-preview.cjs",
+    "build": "node processo/attrezzi/build.cjs"
+  },
+  "engines": {
+    "node": "22.x"
+  },
+  "dependencies": {
+    "@datafast/ai-crawl": "^1.0.9",
+    "@resvg/resvg-js": "2.6.2",
+    "@vercel/functions": "^3.9.8",
+    "pg": "8.23.0",
+    "stripe": "22.6.2"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.8"
+  }
+}

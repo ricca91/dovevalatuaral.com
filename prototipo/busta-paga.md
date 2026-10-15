@@ -88,7 +88,7 @@ assistenza: non si rischia di ricreare un pagamento oltre la finestra di Stripe.
 | Stati, pagamento, cifratura | `server/busta-paga-acquisto.js` |
 | Transazioni SQL, limiti, cleanup | `server/busta-paga-archivio.js` |
 | Schema e migrazione | `processo/attrezzi/busta-paga-migra.cjs` |
-| Motore e guardie (RIC-71) | `server/busta-paga{,-contratto,-prompt,-ritenzione,-tetti}.js` |
+| Motore e guardie (RIC-71) | `server/busta-paga{,-contratto,-prompt,-tetti}.js` |
 
 ## Misurazione
 
@@ -106,3 +106,12 @@ basta per provare associazione semantica, segni o qualità su layout reali.
 Il routing AI, regione, non conservazione e divieto di addestramento sono quelli
 ereditati da RIC-69 e vanno verificati con il provider reale in RIC-71.
 Non abbiamo modificato il motore o dichiarato superata quella dipendenza.
+
+## Provider — decisione del 24 settembre 2026
+
+Anthropic API commerciale diretta (`claude-sonnet-5`), chiave solo server.
+Superati gateway, inferenza esclusivamente UE e requisito ZDR. Retention
+standard del provider entro 30 giorni con eccezioni dichiarate; divieto di
+addestramento contrattuale. Restano PDF locale, revisione, consenso, niente
+payload nei log, limiti condivisi e report cifrato con scadenza.
+Dettagli e verifiche: `processo/ric-79-anthropic-lancio.md`.

@@ -74,7 +74,7 @@ function layout({rotta,title,description,briciole,body,jsonLd=true}){
 <main id="contenuto" class="ral-main ccnl-main"><div class="shell">
 ${body}
 </div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="${verso(rotta,'/minimi-ccnl/')}">Tutti i minimi CCNL</a></div></footer>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="${verso(rotta,'/minimi-ccnl/')}">Tutti i minimi CCNL</a><a href="${verso(rotta,'/privacy.html')}">Privacy</a></div></footer>
 <script src="${r}site-nav.js"></script></body>
 </html>
 `;

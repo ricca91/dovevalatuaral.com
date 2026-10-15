@@ -48,7 +48,7 @@ resta un gate di rilascio, insieme a RIC-71. Prezzo live non deciso.
    `checkout.session.async_payment_failed`, `checkout.session.expired`.
    Stripe deve poter raggiungere l'endpoint: usare le eccezioni webhook della
    protezione deploy, senza rendere pubblica tutta una preview protetta.
-5. Mantenere `AI_GATEWAY_API_KEY` con budget del provider; configurare
+5. Mantenere `ANTHROPIC_API_KEY` con limite di spesa nell’account Anthropic; configurare
    `BUSTA_PAGA_ANALISI_GIORNO` (default 100) come ulteriore limite condiviso.
    Il costo AI è sostenuto dal proprietario della chiave, anche senza acquisto.
    `BUSTA_PAGA_ATTIVO=0` ferma nuove analisi senza impedire il recupero dei report.

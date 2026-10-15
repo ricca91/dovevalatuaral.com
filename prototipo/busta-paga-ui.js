@@ -298,7 +298,7 @@
     nota.textContent=!consentito
       ?'Il consenso è obbligatorio: senza spunta il testo non parte.'
       :(INVIO_ATTIVO
-        ?'Parte esattamente il testo del riquadro, e nient’altro: non il PDF, non il suo nome. Il report viene conservato per 48 ore, o 30 giorni dopo l’acquisto. Il testo grezzo non viene salvato.'
+        ?'Parte esattamente il testo del riquadro, e nient’altro: non il PDF, non il suo nome. Il report viene conservato per 48 ore, o 30 giorni dopo l’acquisto. Non salviamo il testo grezzo sui nostri server. Anthropic può conservarlo fino a 30 giorni, salvo eccezioni di legge e sicurezza.'
         :'Consenso registrato in questa scheda. In questa versione l’invio è disattivato: il testo che vedi non esce di qui.');
   }
   if(consenso)consenso.addEventListener('change',aggiornaInvio);

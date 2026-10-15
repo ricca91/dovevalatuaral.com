@@ -1,0 +1,492 @@
+# Verifica
+
+Che cosa è provato di questo calcolatore, con quale prova, e — la parte che rende
+difendibile il resto — che cosa **non** è provato.
+
+## Come si esegue
+
+```
+node --test prototipo/*.test.js
+```
+
+Node 18 o successivo. Nessuna dipendenza, nessun `package.json`, niente da installare.
+Il motore (`prototipo/motore.js`) è uno script classico: la stessa riga di codice
+gira nella pagina aperta con un doppio clic e in Node, senza duplicati.
+
+Stato al 22 settembre 2026: **440 prove in `prototipo/`, 448 con `server/` (`npm test`), tutte verdi** (Node v22.22.2).
+
+Gli attrezzi di verifica stanno in `processo/attrezzi/`, e girano anche loro senza
+dipendenze:
+
+```
+node processo/attrezzi/confronto.js salva base.json      # fotografa 2.001 corse
+node processo/attrezzi/confronto.js confronta base.json  # le riesegue e le confronta
+node processo/attrezzi/mutazioni.js                      # rompe una voce alla volta
+```
+
+## Le quattro categorie, e perché stanno separate
+
+Due prove che sembrano prove e non lo sono:
+
+- La **riconciliazione** — `RAL − contributi − imposte + integrazioni = netto` — conferma
+  un'identità algebrica, non la correttezza. Il contratto *definisce* il netto come somma
+  delle voci, quindi il controllo non può fallire nemmeno con le aliquote sbagliate.
+  Resta come guardia a ogni ricalcolo, non come prova.
+- Il **golden** rigenerato dal motore prova che nessuno ha cambiato niente. Se il motore
+  sbagliasse oggi, congelerebbe l'errore e ci metterebbe un test verde a guardia.
+
+La correttezza può venire da un posto solo: il confronto a mano con la norma. Costa,
+quindi si fa in pochi punti scelti. Da qui le categorie, etichettate nel file di test.
+Le prime tre nascono con il [#6](https://github.com/ricca91/jethr-riccardosartori/issues/6);
+la quarta con il [#15](https://github.com/ricca91/jethr-riccardosartori/issues/15), quando
+il motore si spezza in voci che si possono esercitare una alla volta.
+
+| | Categoria | Che cosa prova | Come |
+|---|---|---|---|
+| **A** | Correttezza | che il numero è giusto | poche ancore, derivate a mano dalla norma e scritte per esteso nei commenti |
+| **B** | Comportamento ai limiti | che le discontinuità di legge ci sono tutte, con la causa giusta | le soglie nazionali e locali del comune scelto e i quattro cambi di pendenza, presi a un centesimo di distanza, più gli input estremi |
+| **C** | Non-regressione | che nessuno ha cambiato niente | 2.001 campioni a passo di 100 € da 0 a 200.000 €, più il golden |
+| **D** | Le voci da sole | che una voce sbagliata si vede *dove* è sbagliata | ogni funzione del contratto esercitata a un imponibile scelto, con soli numeri |
+
+### A — le ancore verificate a mano
+
+- **RAL 35.000, voce per voce.** La derivazione completa è nel commento sopra il test:
+  contributi 3.216,50 · IRPEF lorda 7.688,56 · detrazione art. 13 1.581,48 più 65 ·
+  ulteriore detrazione 1.000 · addizionale regionale 454,98 · addizionale comunale 254,27 ·
+  **netto 26.032,17**.
+- **RAL 25.327,61 → 25.327,62.** L'esenzione dell'addizionale comunale di Milano è
+  un'esenzione, non una franchigia: un centesimo lordo in più costa 183,99 € netti l'anno.
+  È legge, non un errore di arrotondamento.
+- **Le detrazioni per carichi di famiglia (art. 12).** Derivate a mano dal testo dell'articolo,
+  una prova per ciascuna delle sue regole: la quota del coniuge nelle tre fasce e i cinque
+  scalini della lett. b — l'unico punto della norma in cui una detrazione **risale** —, i figli
+  fra 21 e 30 anni con la soglia di 95.000 € **cresciuta di 15.000 € per ogni figlio successivo
+  al primo che dà diritto** (il quindicenne non porta detrazione e non alza la soglia dei
+  fratelli), gli ascendenti conviventi sulla soglia di 80.000 €, e i limiti di reddito del
+  familiare del comma 2 — 2.840,51 €, elevati a 4.000 € per i figli fino a 24 anni.
+  A RAL 35.000 con coniuge, un figlio di 22 anni, uno di 17 e un ascendente: **710,00 ·
+  632,13 · 0,00 · 452,03**, netto **27.826,33**.
+- **La disabilità del figlio non è un importo, è un'età che cade.** La lett. c) dà 950 € «per
+  ciascun figlio di età compresa fra 21 e 30 anni, **ovvero** per ciascun figlio di età pari o
+  superiore a 30 anni con disabilità accertata ai sensi dell'art. 3 della L. 104/1992». Le fonti
+  secondarie citano un importo di 1.350 € per i figli disabili e una maggiorazione di 400 € per
+  handicap: sul testo vigente **non esiste né l'uno né l'altra**. La disabilità toglie il tetto dei
+  trent'anni e lascia formula, importo e soglia identici. Provato: figlio di 35 anni con disabilità
+  → 632,13 € a RAL 35.000, esattamente come il figlio di 22; figlio di 10 anni con disabilità →
+  0,00 €, perché sotto i 21 non c'è nessun tetto da togliere.
+- **Benefit: denaro e valori spendibili non si confondono.** Senza benefit il golden a RAL
+  35.000 resta **26.032,17 €**. Un welfare esente dichiarato da 1.200 € lascia invariati netto
+  e imponibile e porta il pacchetto a 27.232,17 €. Il fringe è provato a 999,99 € e 1.000,01 €:
+  nel primo caso è tutto esente, nel secondo l'intero valore diventa imponibile; con un figlio
+  fiscalmente a carico la stessa prova gira intorno a 2.000 €. Duecento buoni elettronici da
+  10 € valgono 2.000 €, di cui 1.600 € esenti e 400 € imponibili; dieci buoni da 6 € producono
+  20 € imponibili se cartacei e zero se elettronici. Le quote imponibili spostano anche le RAL
+  dichiarate da `soglie()`, mentre il caso senza benefit conserva le sette soglie storiche.
+- **Le regole locali che guardano i figli, una prova per ente.** Otto giurisdizioni regionali e sei
+  comuni, in tre forme distinte. La detrazione per figlio: Trento 246 € (fino a 50.000 € di
+  imponibile), Bolzano 340 € a qualunque età (fino a 90.000 €), Sardegna 200 € per figlio
+  **minorenne** con reddito fino a 4.000 € più 100 € se disabile, Campania 30 € **da due figli in
+  su** più 40 € per figlio disabile (fino a 28.000 €), Piemonte 100 € **da tre figli in su** più
+  500 € per figlio disabile, Puglia 20 € **da quattro figli in su** più 375 € per figlio disabile.
+  L'aliquota diversa: Marche 1,23% e Veneto 0,9% sull'intero imponibile fino a 50.000 €, che
+  **sostituiscono** il calcolo ordinario invece di correggerlo. L'esenzione che sale: Bardolino,
+  Bosco Chiesanuova, Bovolone, Negrar di Valpolicella, Roverè Veronese e Zevio, dove la soglia di
+  esenzione comunale cresce di 10.000 € per ogni figlio a carico oltre il minimo.
+- **Un familiare in più non fa mai scendere il netto.** Proprietà verificata su 601 RAL campionate
+  (da 0 a 150.000 €, passo 250 €) per quattro coppie di nuclei: a Milano, dove le regole locali non
+  guardano la famiglia; a Torino, dove il terzo figlio apre di colpo la detrazione regionale per
+  tutti e tre; a Bardolino, dove il figlio in più alza la soglia dell'esenzione comunale. Zero
+  cadute. È la prova che nessuna soglia sul *numero* dei figli è scritta al contrario.
+- **Il comma 4, che è la parte che si sbaglia.** I rapporti dell'art. 12 vanno assunti nelle
+  prime quattro cifre decimali, e la detrazione **non compete** quando il rapporto è zero,
+  negativo o uguale a uno. Le due cose sono distinte e vanno in quest'ordine: si guarda il
+  rapporto vero per decidere se spetta, lo si tronca per calcolarla. Invertirle azzererebbe
+  detrazioni che spettano. A reddito complessivo zero il rapporto dei figli vale uno, e la
+  detrazione non c'è.
+- **RAL 122.295 e oltre.** I contributi si fermano a 11.899,62 € e non si muovono più:
+  l'aliquota effettiva scende dal 9,73% al 5,95% a 200.000 € e all'1,19% a un milione.
+- **RAL 0 → netto 0.** Capienza: le detrazioni abbattono l'imposta ma non sono
+  rimborsabili. Senza questo vincolo il netto a RAL 0 risulterebbe di 1.955 €.
+
+### B — le soglie nazionali e locali, con la causa e non solo l'effetto
+
+Per ogni soglia il test controlla due cose: che il salto abbia il segno e la magnitudine
+attesi entro un centesimo, e che sia **la voce giusta a comparire o a sparire** — il
+trattamento integrativo, l'addizionale comunale, la maggiorazione di 65 €. La verifica
+strutturale è la parte che un motore sbagliato ma internamente coerente non supera.
+
+L'invariante di monotonicità è formulato in modo da non bocciare il motore giusto:
+
+> Il netto è continuo e crescente in RAL **ovunque tranne** nelle soglie note per il comune scelto, e in
+> ciascuna di esse il salto ha esattamente il segno e la magnitudine documentati.
+
+«Il netto cresce sempre» sarebbe falso: diversi salti vanno all'ingiù e sono
+legge. Un test così boccerebbe l'implementazione corretta, e la reazione naturale sarebbe
+"aggiustare" un motore che funziona.
+
+**Le soglie dipendono anche dal nucleo, non solo dal comune.** Le detrazioni per carichi di
+famiglia possono azzerare l'IRPEF netta, e senza IRPEF netta non c'è addizionale: il salto
+dell'esenzione comunale di Milano, che a RAL 25.327,62 vale 184 € per un contribuente
+solo, **non esiste** per chi dichiara coniuge, un figlio di 22 anni e un ascendente — da
+entrambi i lati della soglia l'imposta è già zero. Per questo `soglie()` prende il nucleo
+insieme al comune, la cache è chiavata su entrambi, e la FAQ distingue «questo comune non
+ha esenzione» da «l'esenzione c'è ma non ti riguarda». Una prova copre esattamente questo.
+
+### D — ogni voce esercitata da sola
+
+Fino al [#15](https://github.com/ricca91/jethr-riccardosartori/issues/15) il motore era
+un blocco unico: ogni prova passava da `calcola(RAL)`. Per esercitare la detrazione
+dell'art. 13 a 31.783,50 € di imponibile bisognava trovare la RAL che quell'imponibile
+lo produce — e quando una prova diventava rossa diceva *che* qualcosa si era rotto, non
+*dove*.
+
+Adesso ogni voce ha la sua funzione e la sua prova: `contributiIvs`,
+`contributoAggiuntivo`, `imponibile`, `irpefLorda`, `detrazioneLavoroDipendente`,
+`ulterioreDetrazione`, `detrazioniCarichiFamiglia`, `applicaCapienza`,
+`addizionaleRegionale`, `addizionaleComunale`, `sommaNonImponibile`,
+`trattamentoIntegrativo`, `riconcilia`. Entrano numeri, escono numeri.
+
+### La proprietà è verificata, non asserita
+
+«Ogni voce ha una prova che la esercita da sola» è facile da scrivere e difficile da
+credere: una prova può esistere, girare verde e non guardare niente. L'unico modo di
+saperlo è romperla.
+
+`processo/attrezzi/mutazioni.js` rompe una voce alla volta — un carattere nel motore, su
+una copia usa e getta — e guarda quale prova si accende rossa. **Quindici rotture, quindici
+colte dalla prova della loro voce.**
+
+| Si rompe | Che cosa | Chi si accende in D | A · B · C |
+|---|---|---|---|
+| `contributiIvs` | 9,19% → 9,20% | la sua, e `imponibile` | 4 · 9 · 2 |
+| `contributoAggiuntivo` | 1% → 2% | la sua, e `imponibile` | 1 · 1 · 1 |
+| `imponibile` | un euro in più | la sua | 4 · 8 · 2 |
+| `irpefLorda` | aliquota sull'intero, non sulla quota | la sua, e `addizionaleRegionale` | 1 · 2 · 4 |
+| `detrazioneLavoroDipendente` | il rapporto non si tronca più | la sua | 2 · 3 · 2 |
+| `detrazioneLavoroDipendente` | i 65 € partono un centesimo prima | la sua | 0 · 2 · 0 |
+| `ulterioreDetrazione` | 1.000 → 900 | la sua | 1 · 2 · 2 |
+| `applicaCapienza` | la detrazione entra intera | la sua, e quella sull'ordine | 2 · 0 · 1 |
+| `applicaCapienza` | si consuma la più grande per prima | la sua | **0 · 0 · 0** |
+| `addizionaleRegionale` | dovuta anche a IRPEF netta zero | la sua | 0 · 2 · 1 |
+| `addizionaleComunale` | esenzione secca → franchigia | la sua | 2 · 2 · 2 |
+| `sommaNonImponibile` | 7,1% → 6,1% | la sua | 0 · 2 · 1 |
+| `trattamentoIntegrativo` | 1.200 → 1.300 | la sua | 0 · 3 · 1 |
+| `riconcilia` | l'identità per tipo non si controlla | la sua | **0 · 0 · 0** |
+| `sommeDichiarate` | la somma dichiarata non si controlla | la sua | **0 · 0 · 0** |
+
+Due cose che questa tabella dice, e che prima non si sapevano.
+
+**L'accoppiamento è reale e va guardato in faccia.** Rompere il 9,19% accende anche la
+prova di `imponibile`, perché l'imponibile è la RAL meno i contributi. Non è un difetto
+delle prove: è la catena del calcolo che si vede. Quello che conta è che la prova della
+voce rotta cade *sempre*, e che le altre che cadono con lei stanno a valle.
+
+**Tre mutazioni le prende solo la categoria D** — le tre in grassetto. Cambiare l'ordine
+di consumo delle detrazioni non muove un centesimo del netto in nessuna delle 2.001
+corse, perché il totale consumato è lo stesso; e le due guardie interne di `riconcilia`
+non hanno effetto su nessun risultato finché nessuna voce è malformata. Prima del #15
+queste tre rotture sarebbero passate con tutta la matrice verde.
+
+### Il mutante che non può parlare
+
+Una sedicesima mutazione sta nell'elenco con un'etichetta diversa: **equivalente**. Il
+trattamento integrativo riceve la detrazione dell'art. 13 *senza* la maggiorazione di
+65 €. Scambiarla con il totale non cambia niente in nessuna corsa — e non per fortuna:
+il terzo argomento viene letto solo sotto i 15.000 € di imponibile, e lì la maggiorazione
+è sempre zero, perché parte da 25.000.
+
+Nessuna prova può distinguere le due letture, e scriverne una sarebbe fingere. Ma è
+proprio questo il motivo per cui il motore passa la detrazione senza maggiorazione: la
+distanza fra due soglie di `K` è una coincidenza aritmetica, non una regola del D.L.
+3/2020. Se un domani la maggiorazione scendesse sotto i 15.000 €, la versione «totale»
+comincerebbe a sbagliare in silenzio.
+
+Per queste mutazioni l'attrezzo rovescia la domanda: pretende che **tutto resti verde**.
+Se qualcosa si accende, l'equivalenza dichiarata era falsa. È il modo di scrivere nero su
+bianco «qui non c'è copertura, e so perché» invece di lasciare un buco che sembra una
+svista.
+
+*(Un fatto collegato, trovato scrivendo la tabella: nella fascia dove l'ulteriore
+detrazione esiste — imponibile sopra 20.000 € — l'IRPEF lorda è sempre capiente, quindi
+oggi l'ordine di consumo non è osservabile dal netto. `applicaCapienza` lo rispetta
+comunque, ed è provato; ma è una garanzia sulla funzione, non un fatto misurabile a
+schermo. Meglio scritto che scoperto dal prossimo che ci mette le mani.)*
+
+## Il refactor del #15: come si prova che non ha spostato niente
+
+Il #15 è un prefactor: nessun numero cambia. La garanzia sta in tre controlli, non in
+una dichiarazione.
+
+**Il confronto a tappeto.** 2.001 corse salvate prima del refactor con
+`processo/attrezzi/confronto.js`, rieseguite dopo, confrontate **campo per campo**
+sull'oggetto intero — `kpi`, `imponibile`, `irpefNetta`, `integrazioni`,
+`aliquotaContributivaEffettiva`, `riconciliazione` e l'ordine delle voci: **zero
+divergenze**. L'attrezzo è stato provato anche al contrario, seminando un errore di un
+decimillesimo nell'addizionale comunale: 1.747 corse rosse su 2.001. Un attrezzo che non
+sa fallire non prova niente.
+
+Il confronto guarda i campi che stanno nella base. Due campi — `et` e `formula` — sono
+usciti dal motore per disegno, e vanno dichiarati all'invocazione con
+`--esclude et,formula`: la divergenza è una scelta, e sta scritta nel comando invece che
+nascosta dentro l'attrezzo. I campi *nuovi* vengono elencati a parte, perché non hanno
+un prima con cui divergere.
+
+**Le Riga.** `prototipo/righe.test.js` attraversa la stessa seam usata dalla pagina:
+verifica una Riga per ogni Voce nello stesso ordine, copertura completa di identificativi
+e fonti, Capienza trasversale, errori fail-fast e alcuni testi rappresentativi. Nessun
+test estrae o esegue più codice dall'HTML.
+
+**La pagina vera.** Aperta a fianco della versione precedente e guidata dallo stesso
+copione — la catena intera e i pannelli di dettaglio a RAL 35.000: stesso testo, stessi
+importi, nessun errore in console.
+
+## La convenzione di arrotondamento
+
+Il contratto impone due cose: troncamento alle prime **quattro cifre decimali** sui
+rapporti dell'art. 13, e netto definito come **somma delle voci arrotondate** al centesimo
+(HALF_UP). Aritmetica decimale a virgola fissa su `BigInt`, scala 1e-8: mai virgola mobile
+binaria.
+
+A RAL 35.000 il valore canonico è quindi **26.032,17**. I numeri citati nei documenti di
+ricerca a monte — 26.032,18 e 26.032,22 — nascono da precisione piena sul rapporto
+dell'art. 13 con arrotondamento solo alla fine. Sono errata dichiarati, non un modello
+alternativo: la differenza è di quattro centesimi sulla detrazione, ed è *quando* si
+arrotonda, non *quanto* si applica.
+
+Per la stessa ragione i valori attesi dei test si **rigenerano dal motore** e non si
+ricopiano dai documenti a monte. Le soglie espresse dalla norma sull'imponibile vengono
+convertite nella prima RAL che le supera attraverso il motore, inclusi contributi e
+arrotondamenti. Le discontinuità regionali e comunali sono ricavate dalla regola
+normalizzata del comune scelto; scaglioni progressivi continui e agevolazioni personali
+non diventano soglie generali.
+
+## L'estrazione del motore (#9)
+
+Il motore è stato tolto dalla pagina e messo in un file a parte per poterlo provare fuori
+dal browser. Per escludere che l'operazione avesse spostato un centesimo, la versione
+estratta è stata confrontata con quella originale su **20.019 punti** — passo di 10 € da
+0 a 200.000 €, più le soglie del caso Milano a un centesimo di distanza e gli input estremi —
+confrontando l'oggetto risultato **intero**, non solo il netto: zero divergenze.
+
+## Accessibilità: checklist manuale
+
+Verificata a mano, non con uno strumento automatico. Automatizzarla comprerebbe copertura
+su ciò che già sappiamo e nessuna su ciò che conta.
+
+| Criterio | Esito |
+|---|---|
+| Nessun overflow orizzontale a 390 px | ✅ `scrollWidth` = `clientWidth` = 390 in quattro stati: vuoto, 35.000, 12.000 con integrazioni, sette cifre. La barra delle ancore scorre dentro il proprio contenitore, non trascina la pagina |
+| Testo equivalente del money flow | ✅ frase completa in `.sr` sotto l'SVG, con tutti gli importi |
+| Navigazione da tastiera | ✅ dopo una correzione: le fasce del flusso sono elementi SVG e non hanno il metodo `click()`, quindi Invio sulla fascia lanciava un errore e non apriva niente |
+| Fuoco sul pannello della voce | ✅ dopo una correzione: la pagina si ridisegna sostituendo l'HTML, quindi il fuoco tornava a inizio pagina a ogni voce aperta. Ora viene restituito al comando che l'aveva. Le righe della catena usano `aria-expanded` e `aria-controls`, non `aria-pressed`: aprono un pannello, non attivano uno stato |
+| Contrasto | ✅ dopo una correzione: 42 coppie testo/sfondo misurate su due stati, zero sotto il minimo AA. L'etichetta bianca dentro la barra verde stava a 2,03 contro un minimo di 4,5 ed è passata a inchiostro scuro |
+| La modale dell'easter egg | ✅ `<dialog>` nativo. Il fuoco entra dentro all'apertura e **torna da solo al campo RAL** alla chiusura, senza codice che lo gestisca. Si chiude con Esc o cliccando fuori. Nessun sbordo a 390 px con la modale aperta. Non ha un bottone di chiusura: per una battuta di due righe Esc basta |
+| La nota di lavoro | ✅ `come-ho-lavorato.html` verificata come la pagina principale: nessun sbordo a 390 px, nessuna richiesta di rete, caratteri incorporati. I suoi rimandi al repo funzionano perché il repo è pubblico |
+| Il confronto fra due offerte | ✅ `compara.html` guidata in Chromium a 1280 px e a 375 px: nessun sbordo orizzontale della pagina, nessun errore JavaScript, e la pagina si apre anche da `file://` con la rete bloccata. Un errore dentro un pannello chiuso lo riapre e porta il fuoco sul campo; dopo il confronto il fuoco va sul titolo del risultato; da tastiera si raggiungono Confronta, Copia A in B, Azzera e Copia link, e i pannelli si aprono con Invio senza perdere il fuoco nel ridisegno. Due correzioni per arrivarci: la scheda dell'offerta non aveva `min-width:0` e la riga impilata del nucleo dettava 404 px di larghezza a 375 px di schermo; il sottotitolo del marchio mandava il nome a capo quattro volte nella barra appiccicosa |
+| Il link del confronto | ✅ copia negli appunti verificata leggendoli, e con `navigator.clipboard` rimosso il link compare in un campo selezionabile che riceve il fuoco. Un fragment corrotto mostra un messaggio recuperabile, non inietta HTML e lascia il modulo utilizzabile |
+
+## Le tabelle contrattuali (RIC-54)
+
+Il dataset in `prototipo/retribuzione-ccnl.js` porta minimi e scatti di due CCNL fino
+al motore. È il primo posto in cui un numero **trascritto a mano** diventa una RAL e
+quindi un netto: la prova che serve non è la stessa del calcolo fiscale.
+
+- **La riconciliazione delle voci è una guardia sulla trascrizione, non sulla verità.**
+  Il Terziario pubblica sia la riga scomposta sia il totale: la prova verifica che le
+  due cose coincidano su tutte e 39 le righe del dataset, tranche future comprese. Se
+  un refuso sposta una cifra, la somma smette di tornare. Se invece la fonte stessa
+  fosse sbagliata, la riconciliazione resterebbe verde — esattamente come il golden.
+- **La correttezza viene dal confronto a mano con la fonte firmataria**, ed è
+  documentata in `processo/fonti-ccnl-2026.md` con URL, decorrenza e data di verifica.
+  I documenti sono conservati in `processo/dati/fonti/`.
+- **Le decorrenze future sono firmate, non stimate.** Le tranche del Terziario di
+  novembre 2026 e febbraio 2027 stanno nel dataset perché sono già pubblicate. Le
+  prove fissano una data invece di usare quella di sistema, altrimenti cambierebbero
+  risultato da sole al passaggio della tranche.
+- **Il part-time non tocca i giorni di detrazione.** È l'errore naturale da commettere
+  e c'è una prova che lo fissa: a parità di RAL il netto e la detrazione dell'art. 13
+  sono identici, che la RAL venga da un tempo pieno o da un orario ridotto. Il motore
+  riceve una RAL e nient'altro, quindi non ha modo di sbagliare — la prova serve a
+  impedire che qualcuno gliene dia il modo.
+- **Non provato: che quei minimi siano quelli applicabili al singolo rapporto.** È la
+  base *nazionale*. Terzo elemento provinciale, contrattazione integrativa, indennità
+  di mansione e di orario e — per la Metalmeccanica — l'elemento perequativo restano
+  fuori, elencati a schermo invece che taciuti.
+- **La decorrenza mensile degli scatti è modellata.** L'input è la data d'inizio
+  dell'anzianità e la prova esercita il mese della maturazione e il primo del mese
+  successivo. Restano fuori le eccezioni storiche Terziario anteriori al 1987 e 1995
+  e quelle metalmeccaniche per chi era in forza prima del 1979: in quei casi prevale
+  il numero di scatti dichiarato dall'utente.
+
+## Undici contratti in più (RIC-60)
+
+Il dataset passa da due a tredici CCNL e da 39 a 1.028 righe. La prova cambia forma, non
+natura: la correttezza viene ancora dal confronto a mano con la fonte.
+
+- **Le fixture sono scritte a mano dalla fonte.** Le tabelle lunghe sono lette dal testo dei
+  documenti archiviati con uno script, non ribattute; gli attesi delle prove invece sono
+  trascritti a mano, con il conto per esteso nel commento. Una trascrizione sbagliata non si
+  conferma da sola. Per ogni contratto e sezione: almeno una riga della fonte, un tempo pieno e
+  un part-time, il giorno prima e il giorno esatto di ogni tranche, gli scatti ai confini.
+- **Le estensioni del modello hanno prove proprie** in `retribuzione-ccnl-modello.test.js`, su
+  contratti inventati con conti che si fanno a mente. Ciascuna è passata dal rosso al verde.
+- **H011 e C011 sono fissati da una non-regressione esplicita**: le RAL di ogni livello a ogni
+  decorrenza, calcolate con il codice di prima dell'estensione.
+- **La riconciliazione ora distingue tre casi**: totale pubblicato che torna, totale derivato
+  perché la fonte non lo stampa, scarto della fonte registrato con il suo importo. I quattordici
+  scarti noti sono elencati in una prova che fallisce se ne compare uno nuovo.
+- **Ogni livello di ogni contratto e sezione arriva al netto**, a tempo pieno e a 24 ore, con
+  ogni profilo, e il motore riconcilia.
+- **Pagina guidata in Chromium** a 1280 × 900 e 390 × 844: 233 combinazioni di contratto,
+  sezione e livello per viewport, ognuna con RAL, netto e media finiti, nessun risultato
+  precedente rimasto visibile al cambio, nessun errore JavaScript. La verifica sulla preview
+  della PR è riportata nella PR.
+- **`motore.js` cambia di una riga, fuori dalle formule fiscali** (`applicaMensilita()` accetta
+  13,5): confronto sulle 2.001 corse senza divergenze, mutazioni 18 su 18 colte, vettori di Netto
+  o Niente invariati e impronta del manifest aggiornata.
+- **Non provato: che le tabelle da fonti non firmatarie siano quelle firmate.** Vetro (2026–2028),
+  Poligrafici (2021) e il punto di partenza di quattro righe dei Grafici vengono da banche dati
+  indipendenti, riscontrate fra loro e con gli aumenti annunciati dalle parti. La pagina lo dice
+  contratto per contratto.
+
+## La busta paga (RIC-68): che cosa provano le 48 prove nuove
+
+Il percorso del cedolino è tutto locale, quindi si prova come si prova una funzione
+pura — e infatti **nessun PDF entra nei test**, né vero né finto.
+
+| | Che cosa prova | Come |
+|---|---|---|
+| `busta-paga-estrazione.test.js` | che le righe nascono dalle coordinate e non dall'ordine dei frammenti | array di coordinate scritti a mano: frammenti mescolati, colonne disallineate di frazioni di punto, righe vicine che non devono fondersi, parole spezzate dalla libreria, pagine diverse con la stessa ordinata |
+| `busta-paga-redazione.test.js` | che ogni schema riconosce quello che deve e **non** quello che gli somiglia | stringhe costruite apposta, ciascuna con il suo falso positivo plausibile: `1234567890123456` non è un codice fiscale, `12.345.678,90` non è una partita IVA, la data del periodo di paga non è una data di nascita, `CISLAGO` non è la CISL, `FERIE GODUTE` non è un motivo di assenza |
+| `busta-paga-pagina.test.js` | che le promesse della pagina sono vere nel sorgente | GA4 assente e Datafast presente; nessun `fetch`, `XMLHttpRequest`, `sendBeacon`, `WebSocket`, `localStorage`, `sessionStorage`, `indexedDB`, cookie nei file del percorso; nessun URL esterno nella pagina; libreria di lettura locale; consenso obbligatorio che nomina l'art. 9; pulsante di invio disattivato; i limiti dichiarati a schermo sono quelli che il codice applica |
+
+Due prove meritano il nome per esteso, perché sono il contratto del prodotto:
+
+- **«il segnaposto non rompe la struttura della riga»**: dopo l'oscuramento la riga
+  ha lo stesso numero di parole e l'importo è ancora l'ultima. È la ragione per cui
+  i segnaposto non contengono spazi.
+- **«il testo del payload è esattamente la concatenazione dei segmenti mostrati»**:
+  la stringa che partirebbe viene ricomposta dai bottoni disegnati a schermo. Se un
+  giorno la pagina mostrasse una cosa e ne inviasse un'altra, questa prova
+  fallirebbe.
+
+Quello che queste prove **non** dicono: se il riconoscimento regga su un cedolino
+vero. Il dettaglio sta in `prototipo/busta-paga.md`.
+
+## L'analisi della busta paga (RIC-69): che cosa provano le 40 prove nuove
+
+Questa metà chiama un modello, e questo cambia il modo di provarla: **nessuna prova
+automatica esce dalla macchina e nessuna spende un centesimo**. La chiamata al
+gateway è iniettabile, e al suo posto girano risposte del modello scritte a mano.
+
+| | Che cosa prova | Come |
+|---|---|---|
+| `server/busta-paga.test.js` — le guardie | che quello che non si cita non arriva a schermo | una risposta con un importo che nel testo inviato non c'è: la voce sparisce, e la stringa dell'importo non compare da nessuna parte nella risposta dell'endpoint. Una dicitura vera con l'importo della riga accanto: sparisce anche quella |
+| — le enumerazioni | che una categoria fuori elenco non degrada, fa cadere tutto | `category`, `effect` e `confidence` provati con valori plausibili ma sbagliati (`'bonus'`, `'COMPETENZA'`, `'aumenta il lordo'`), ciascuno dà `RISPOSTA_NON_CONFORME` |
+| — l'aritmetica | che la somma è nostra | riconciliazione che torna e riconciliazione che non torna, con la differenza esposta; e una prova in cui il modello classifica male una voce e i nostri sommati non lo seguono |
+| — l'iniezione | che il documento non può dare ordini | il testo del cedolino compare solo nel messaggio utente, mai in quello di sistema; un documento che contiene i delimitatori non riesce a chiudere il recinto; e un'istruzione iniettata che venisse obbedita produce comunque voci che non si citano |
+| — lo script | che un cedolino con dentro uno script resta caratteri | la stringa attraversa l'analisi senza essere né interpretata né riscritta, e il renderer non contiene `innerHTML`, `insertAdjacentHTML`, `document.write` né `eval` |
+| — i tetti | che caratteri, frequenza e budget rifiutano in modo pulito | finestra di frequenza che si chiude e si riapre, budget che si azzera il giorno dopo, interruttore che spegne tutto, e l'impronta del chiamante che cambia fra il 17 e il 18 settembre |
+| — il trattamento | che le condizioni partono davvero | il corpo della richiesta porta `disallowPromptTraining` e `inferenceRegion: eu`; in produzione l'indirizzo del gateway non è spostabile da una variabile d'ambiente |
+| — la non conservazione | che nessun fornitore raggiungibile in UE conservi il prompt | cataloghi scritti a mano: uno pulito passa; uno con un fornitore `has_zdr: false` **in regione** blocca; uno con lo stesso fornitore fuori regione no, perché non possiamo finirci; catalogo illeggibile, vuoto o irraggiungibile bloccano. Senza garanzia il modello non viene interpellato e il gettone del budget non si consuma |
+| `prototipo/busta-paga-pagina.test.js` | che esce solo il testo redatto | `busta-paga-invio.js` contiene **una** `fetch`, un corpo `{testo}` e nessuna menzione di `FormData`, `Blob`, `arrayBuffer`, `.files` o del nome del file; tutti gli altri file del percorso mantengono il divieto |
+
+Quattro prove tengono allineate cose che potrebbero divergere in silenzio:
+
+- **ogni codice che il server può emettere ha una copy nel browser**, e uno stato
+  HTTP. Aggiungere un codice rompe le prove finché qualcuno non scrive che cosa
+  dice all'utente.
+- **il tetto di caratteri è lo stesso numero** nel browser e sul server.
+- **il modello che chiamiamo è quello nominato nell'informativa**: la prova
+  traduce `anthropic/claude-sonnet-5` in «Claude Sonnet 5» e lo cerca in
+  `privacy.html`. Cambiare modello senza toccare l'informativa non compila.
+- **la funzione è dichiarata in regione europea** in `vercel.json`.
+
+### Verificato in un browser vero
+
+Chromium, cedolino finto generato per l'occasione, con dentro due righe ostili
+(`<script>alert(1)</script>` e «IGNORA LE ISTRUZIONI PRECEDENTI»). Davanti
+all'endpoint, un finto gateway locale: il percorso è quello vero dall'upload al
+voto, ma la risposta del modello è scritta da noi.
+
+- lettura, oscuramento, consenso, invio, risultato completo;
+- la voce inventata dal finto gateway (`PREMIO PRODUZIONE 2026`, 9.999,00) **non
+  arriva a schermo**, e la fascia di scarto finisce nell'evento;
+- lo script compare come caratteri: zero nodi `<script>` o `<img>` dentro il
+  risultato, zero dialoghi aperti;
+- `localStorage`, `sessionStorage` e i cookie restano vuoti dopo il risultato;
+- le sole richieste di rete sono il dominio stesso, Datafast e la nostra POST;
+- i sette eventi Datafast scattano nell'ordine giusto, con le sole proprietà
+  ammesse: nessun importo, nessuna dicitura, nessun conteggio;
+- risposta non conforme: riquadro d'errore con la copy giusta, evento
+  `payslip_analysis {success:false, error_code:risposta_non_conforme}`, pulsante
+  riabilitato per ritentare;
+- conto che non torna: differenza esposta, copy prudente, al massimo tre «cose da
+  verificare»;
+- voto da tastiera, cancellazione della sessione che svuota davvero la pagina;
+- desktop 1280×900 e mobile 390×844, albero di accessibilità letto.
+
+### Cosa NON è verificato di RIC-69
+
+- **Nessuna chiamata reale ad AI Gateway è mai partita.** Non esiste una chiave
+  sul progetto, e crearne una è una spesa: quella verifica tocca a Riccardo, su
+  una preview. Con una chiave non valida il gateway risponde `401` prima di
+  guardare il corpo, quindi nemmeno la forma della richiesta ha avuto conferma
+  dal servizio vero.
+- **La non conservazione non è imposta al gateway, è verificata prima.** Il
+  filtro `zeroDataRetention` per richiesta è funzione Pro/Enterprise e questo
+  progetto sta su Hobby, quindi non viene mandato. Al suo posto
+  `server/busta-paga-ritenzione.js` legge il catalogo pubblico e blocca se in UE
+  esiste un fornitore che conserva. È una garanzia equivalente ma **di natura
+  diversa**: si appoggia a ciò che Vercel dichiara nel catalogo, non a un
+  comportamento del gateway. Se un giorno il catalogo dicesse il falso, questa
+  verifica non se ne accorgerebbe.
+- **Nessuno ha verificato che il modello legga bene un cedolino vero.** È la
+  decisione 3 di RIC-64. Le guardie impediscono di mostrare numeri inventati; non
+  garantiscono che i numeri veri siano capiti.
+- **I contatori di frequenza e budget vivono in memoria dell'istanza.** Su Vercel
+  le istanze sono più d'una e muoiono: il limite vero va messo sul gateway con
+  `vercel ai-gateway budgets set`.
+
+## Cosa NON è provato
+
+- **Nessuna validazione da un consulente del lavoro.** I numeri sono derivati da fonti
+  primarie e ricontrollati a mano, non asseverati da chi fa buste paga di mestiere.
+- **Competenza, non cassa.** Non è la simulazione di un cedolino: è il carico maturato
+  sulla RAL dell'anno. Le addizionali si pagano a rate dopo il conguaglio. Per questo
+  la cifra mensile è etichettata *media*, mai «importo del cedolino».
+- **Sopra 122.295 € si assume la prima iscrizione previdenziale dal 1996.** Il massimale
+  vale solo per chi è privo di anzianità al 31/12/1995. È l'unico punto del modello in cui
+  la sola RAL non basta più, e l'input non può dirlo.
+- **Il 9,19% è una scelta di modello**, non un'aliquota universale: inquadramento INPS,
+  settore, dimensione del datore e fondi speciali possono cambiarla.
+- **Un solo profilo personale.** Impiegato del settore privato, anno intero, tempo pieno,
+  nessun altro reddito, nessun onere deducibile o detraibile. Regione, comune e familiari a
+  carico variano con la selezione; agevolazioni personali o categoriali restano escluse anche
+  quando compaiono nella fonte locale.
+- **La ripartizione pro quota della capienza è una convenzione, non una regola.** L'art. 12
+  somma le detrazioni di famiglia e le sottrae dall'imposta: non ne alloca nessuna a nessuno.
+  Quando la capienza non basta, mostrare una riga per familiare obbliga a decidere quanto ne
+  usa ciascuno, e la scelta è ripartire in proporzione a quanto spetta. Consumarle in fila
+  direbbe che il primo dichiarato ha avuto tutto e l'ultimo niente, che non è vero di nessuno.
+  Quello che è provato è che la somma di quanto si usa è **esattamente** la capienza residua.
+- **Le detrazioni di famiglia sono calcolate per l'anno intero.** L'art. 12 c. 3 le rapporta a
+  mese, dal mese in cui le condizioni si verificano a quello in cui cessano: qui si assume che
+  valgano per tutti i dodici. La quota degli ascendenti è assunta intera, non ripartita fra più
+  aventi diritto, e il reddito complessivo del dichiarante è approssimato con l'imponibile IRPEF.
+- **La detrazione è assegnata per intero al dichiarante.** La lett. c) la ripartisce **al 50% fra i
+  genitori** salvo accordo diverso, e la lett. d) la divide pro quota fra gli aventi diritto. È
+  l'unica assunzione del perimetro che **gonfia** il risultato invece di essere conservativa: una
+  coppia con due redditi vedrà metà della detrazione per figli che questa pagina mostra. Per questo
+  è dichiarata a schermo, e non solo qui.
+- **Le regole locali per la famiglia guardano il solo reddito del dichiarante.** Marche e Veneto
+  chiedono che la somma dei redditi dei genitori non superi 50.000 €; i comuni veronesi ragionano
+  sul reddito imponibile della famiglia. Il prodotto non conosce il reddito dell'altro genitore e
+  non ha intenzione di chiederlo.
+- **Fuori perimetro, dichiarato a schermo.** Il caso dei familiari residenti all'estero di
+  contribuente extra-UE (art. 12 c. 2-bis) non è calcolato: servono fatti che la sola RAL non porta.
+  Restano fuori anche le esenzioni comunali legate all'**ISEE** — Grottammare e San Benedetto del
+  Tronto per i nuclei con almeno quattro figli minori, e la seconda esenzione di Bosco Chiesanuova
+  per invalidità — e l'aliquota veneta ridotta per il contribuente disabile **in prima persona**,
+  che non è un dato del nucleo familiare. Le tre condizioni sono scritte nel dataset, in
+  `condizioniPersonali`, non lasciate al silenzio.

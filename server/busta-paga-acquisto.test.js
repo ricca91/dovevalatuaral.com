@@ -109,7 +109,7 @@ test('endpoint legacy non restituisce l’analisi e le risposte non sono memoriz
   const r2=res();await H.rispondi({url:'/api/busta-paga',method:'POST',headers:{authorization:'Bearer '+s.token},body:{testo:TESTO}},r2,{servizio:s.servizio});
   assert.equal(r2.statusCode,400);assert.equal(s.chiamate,0);
 });
-test('l’endpoint passa il token OIDC runtime al motore senza salvarlo',async()=>{
+test('l’endpoint ignora le credenziali provider negli header del chiamante',async()=>{
   let ricevuto;
   const token='ab'.repeat(32),r=res();
   const servizio={crea:async(_token,_testo,_consenso,_chiamante,runtime)=>{
@@ -119,7 +119,7 @@ test('l’endpoint passa il token OIDC runtime al motore senza salvarlo',async()
     headers:{authorization:'Bearer '+token,'x-vercel-oidc-token':'oidc-runtime'},
     body:{testo:TESTO,consenso:true},socket:{remoteAddress:'127.0.0.1'}},r,{servizio});
   assert.equal(r.statusCode,202);
-  assert.deepEqual(ricevuto,{VERCEL_OIDC_TOKEN:'oidc-runtime'});
+  assert.equal(ricevuto,undefined);
   assert.ok(!JSON.stringify(r.body).includes('oidc-runtime'));
 });
 test('webhook: firma valida su bytes originali, rifiuto firma alterata e retry dopo errore DB',async()=>{

@@ -10,7 +10,11 @@ CREATE TABLE IF NOT EXISTS bp_ordini (
 CREATE INDEX IF NOT EXISTS bp_ordini_scadenza ON bp_ordini ((dati->>'eliminaIl'));
 CREATE TABLE IF NOT EXISTS bp_limiti (
   chiave text PRIMARY KEY, conteggio integer NOT NULL, scadenza bigint NOT NULL
-);`;
+ );
+-- Supabase espone lo schema public tramite Data API. Nessuna policy client:
+-- solo il ruolo server proprietario delle tabelle può accedere ai report.
+ALTER TABLE bp_ordini ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bp_limiti ENABLE ROW LEVEL SECURITY;`;
 
 function creaArchivio(connectionString,{pool:poolIniettato}={}){
   const pool=poolIniettato||new Pool({connectionString,max:3,connectionTimeoutMillis:5000,

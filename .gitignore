@@ -1,0 +1,28 @@
+# La fotografia delle 2.001 corse che processo/attrezzi/confronto.js salva prima
+# di un refactor: è un file usa e getta, si rigenera in un secondo e pesa qualche
+# megabyte. Non entra nella storia della repo.
+*.corse.json
+base.json
+
+# Il render a pagina intera di la-storia.html, usato solo per rileggere
+# l'impaginazione senza aprire un browser. Si rigenera, pesa quasi un mega.
+la-storia-anteprima.jpg
+node_modules/
+.vercel/
+
+# Output di pubblicazione, senza sorgenti editoriali.
+dist/
+
+# Pagine generate da prototipo/genera-pagine-ral.js (RAL, minimi CCNL, blog,
+# sitemap). Vercel le rigenera a ogni build e `npm test` prima dei test: tenerle
+# in git lasciava ogni checkout sporco dopo una build, e il cron che committa
+# solo l'articolo le faceva andare fuori sincrono con main.
+/prototipo/ral-*-netto/
+/prototipo/confronti-ral/
+/prototipo/minimi-ccnl/
+/prototipo/blog/
+/prototipo/sitemap.xml
+
+# Credenziali di sviluppo e configurazione scaricata dal provider.
+.env*
+!.env.example

@@ -2,7 +2,13 @@
 
 _Ricerca aggiornata al 22 settembre 2026. Fonti esclusivamente ufficiali. Questa è una valutazione tecnica e di prodotto, non un parere legale._
 
-## Decisione proposta
+## Decisione superata — 24 settembre 2026
+
+Riccardo ha approvato Anthropic API commerciale diretta e la rinuncia a UE-only e
+ZDR obbligatori. Quanto segue è conservato come ricerca storica, non istruzione
+operativa. La decisione corrente e i limiti sono in `ric-79-anthropic-lancio.md`.
+
+## Decisione proposta originaria
 
 Per l'MVP sceglierei **Amazon Bedrock con Claude Sonnet 5 tramite profilo EU** (`eu.anthropic.claude-sonnet-5`) e configurazione di retention `none`. È la combinazione più chiara tra qualità del modello già scelto, trattamento nell'UE, assenza di addestramento sui dati del cliente e affidabilità multi-regione. Bedrock dichiara che i contenuti non sono usati per migliorare i modelli né condivisi con i model provider; il profilo geografico EU mantiene richieste e risposte entro la geografia UE. Sonnet 5 è disponibile con quel profilo. ([privacy Bedrock](https://aws.amazon.com/bedrock/faqs/), [routing e residenza](https://docs.aws.amazon.com/bedrock/latest/userguide/models-region-compatibility.html), [scheda Sonnet 5](https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-sonnet-5.html))
 
