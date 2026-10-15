@@ -6,8 +6,8 @@ contributi e imposte trattenuti. Regole 2026, lavoro dipendente privato.
 Il progetto include **Netto o niente**, un browser game con offerte fittizie,
 serie fino al primo errore, record e sfide fra amici. [Documentazione del gioco](prototipo/netto-o-niente.md).
 
-**[Apri il calcolatore](https://jethr.riccsartori.com)** ·
-**[La storia, con i numeri e i commenti](https://jethr.riccsartori.com/la-storia.html)**
+**[Apri il calcolatore](https://www.dovevalatuaral.com)** ·
+**[La storia, con i numeri e i commenti](https://www.dovevalatuaral.com/la-storia.html)**
 
 Sette giorni dopo il post: **293.027 impression e 177 commenti**. Molti da consulenti del
 lavoro, HR e payroll specialist che mi hanno spiegato, abbastanza precisamente, cosa avevo
@@ -139,7 +139,7 @@ calcolatore mantiene questa assunzione e la segnala nel risultato.
 e le ho controllate a mano, ma è un prototipo, non un parere fiscale. E Jet HR ha già un suo
 calcolatore pubblico — me l'hanno ricordato nei commenti — che questo non sostituisce.
 
-[Apri il caso a 35.000 €](https://jethr.riccsartori.com/index.html?ral=35.000&m=13&calc=1) ·
+[Apri il caso a 35.000 €](https://www.dovevalatuaral.com/?ral=35.000&m=13&calc=1) ·
 [Ricerca normativa e decisioni](https://github.com/ricca91/jethr-riccardosartori/tree/main/processo)
 
 ---
