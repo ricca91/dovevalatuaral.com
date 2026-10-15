@@ -272,7 +272,8 @@ Log: $LOG"
   PROMPT="/$JOB RUNNER FACTS (calcolati da run.sh, autoritativi: usali, non ri-derivarli)
 - Data di oggi: $RUN_DATE
 - Repo: $REPO (checkout usa e getta di origin/main, $CHECKOUT)
-- La mail di esito la manda run.sh con la tua risposta: tu non mandi mail. Niente commit, niente push.$ARGOMENTI${LINK_ARGS:+
+- La mail di esito la manda run.sh con la tua risposta: tu non mandi mail. Niente commit, niente push.
+- Gli attrezzi node della skill si lanciano col percorso relativo dalla radice del repo (node .claude/skills/… o node processo/link/…), senza pipe verso altri programmi: l'allowlist ammette solo quella forma.$ARGOMENTI${LINK_ARGS:+
 - Argomenti a mano (valgono su quelli sopra): $LINK_ARGS}$DRY_FATTI
 - Chiudi col blocco REPORT_, una coppia chiave=valore per riga, senza code fence."
 
@@ -296,7 +297,9 @@ Log: $LOG"
     ESITO="$(jq -r 'if .is_error then (.subtype // "is_error") else "" end' <<<"$OUT")"
     COSTO="$(jq -r '.total_cost_usd // "?"' <<<"$OUT")"
     TURNI="$(jq -r '.num_turns // "?"' <<<"$OUT")"
-    NEGATI_RUN="$(jq -r '[.permission_denials[]?.tool_name] | group_by(.) | sort_by(-length) | map("\(.[0]) (\(length))") | join(", ")' <<<"$OUT")"
+    # Per Bash anche il comando (accorciato): "Bash" da solo non dice quale attrezzo mancava.
+    NEGATI_RUN="$(jq -r '[.permission_denials[]? | .tool_name + (if .tool_input.command? then ": " + (.tool_input.command | gsub("\\s+"; " ") | .[0:80]) else "" end)]
+      | group_by(.) | sort_by(-length) | map("\(.[0]) (\(length))") | join(", ")' <<<"$OUT")"
   else
     BODY=""; ESITO="uscita non JSON"; COSTO="?"; TURNI="?"
     [ "$RC" -eq 0 ] || ESITO=""

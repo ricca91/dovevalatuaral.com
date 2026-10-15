@@ -197,6 +197,12 @@ azzera
 STUB_DENIALS='[{"tool_name":"mcp__dataforseo__backlinks_bulk_ranks","tool_use_id":"a","tool_input":{}},{"tool_name":"mcp__dataforseo__backlinks_bulk_ranks","tool_use_id":"b","tool_input":{}},{"tool_name":"WebSearch","tool_use_id":"c","tool_input":{}}]' run link-review
 check "elenca gli strumenti negati"         "grep -q 'Strumenti negati: mcp__dataforseo__backlinks_bulk_ranks (2), WebSearch (1)' '$FIX/mail.log'"
 check "l'oggetto lo segnala"                "grep -q -- '--subject .*strumenti negati' '$FIX/mail.log'"
+azzera
+STUB_DENIALS='[{"tool_name":"Bash","tool_use_id":"a","tool_input":{"command":"node .claude/skills/link-review/misure.mjs gsc 2026-10-15 | python3 -c \"import json\""}}]' run link-review
+check "Bash negato: dice quale comando"     "grep -q 'Bash: node .claude/skills/link-review/misure.mjs gsc 2026-10-15 | python3 -c' '$FIX/mail.log'"
+
+echo "=== caso 10b: il prompt dice in che forma si lanciano gli attrezzi ==="
+check "percorso relativo, niente pipe"      "grep -q 'percorso relativo dalla radice del repo' '$FIX/last-prompt.txt'"
 
 echo "=== caso 11: una fonte non risponde -> l'oggetto lo dice ==="
 azzera
