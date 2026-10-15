@@ -269,6 +269,15 @@ test('se una correzione è vera fino alla tranche, la mail non parte prima della
   assert.match(esito.verifica, /1\.818,75 € \(totale\) dal 1\/11\/2026/);
 });
 
+test('anche quando la cifra proposta entra in vigore dopo oggi la mail aspetta quella data', () => {
+  // Pagina ferma al 2023: sbagliata già oggi, ma la cifra da proporre è quella del 1/11/2026.
+  const esito = cancello(pagina([
+    {id: 'A1', frase: '4° livello | 1.618,75 euro', livello: '4', importo: 1618.75, vigente: true},
+    {id: 'A2', frase: '5° livello | 1.511,02 euro', livello: '5', importo: 1511.02, vigente: true},
+  ]), {oggi: OGGI, invio: INVIO});
+  assert.equal(esito.nonPrimaDel, '2026-11-01');
+});
+
 test('nella Verifica una cifra superata dice fino a quando valeva, una cifra giusta resta solo «ancora vero»', () => {
   const {verifica} = cancello(pagina([
     {id: 'A1', frase: '4° livello | 1.618,75 euro', livello: '4', importo: 1618.75, vigente: true},

@@ -251,8 +251,10 @@ function cancello(classificate, {oggi, invio = oggi}) {
     const testo = dettaglio(c);
     return `[${etichetta(c, foglio.includes(c))}] «${c.frase ?? c.id}»${testo ? ` → ${testo}` : ''} — fonte: ${fonti}`;
   });
-  // Una correzione ancora vera oggi diventa vera solo alla tranche: prima di allora la mail sarebbe falsa.
-  const nonPrimaDel = foglio.filter(c => c.veroOggi).map(c => c.dal).sort().at(-1) || null;
+  // Prima della tranche la mail sarebbe falsa: una cifra ancora vera oggi diventa superata solo dal suo `dal`,
+  // e una cifra proposta che entra in vigore dopo oggi non è ancora quella giusta.
+  const nonPrimaDel = foglio.flatMap(c => [c.veroOggi ? c.dal : null, (c.nuovo || c.atteso)?.decorrenza])
+    .filter(data => data && data > oggi).sort().at(-1) || null;
   const intestazione = `link-dono, controllo del ${giorno(oggi)}, invio previsto dal ${giorno(invio)}: `
     + `${foglio.length} correzioni solide su ${classificate.length} affermazioni → ${decisione}`
     + (nonPrimaDel ? `. Non inviare prima del ${giorno(nonPrimaDel)}, e prima di inviare ricontrolla la pagina: `
