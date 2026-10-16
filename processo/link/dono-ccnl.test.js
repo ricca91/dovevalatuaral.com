@@ -284,6 +284,17 @@ test('una fonte controllata a mano regge se è l’URL o la copia d’archivio d
   assert.equal(filcams.fonte.firmataria, true, 'stesso URL senza www e con lo slash finale');
 });
 
+test('una cifra marcata a mano «superato», senza la data della tranche, entra nella Verifica senza errori', () => {
+  const accordo = {url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf'};
+  const esito = cancello(pagina([
+    {id: 'A1', frase: 'una tantum di 350 € a luglio 2026', stato: 'superato', fonte: accordo,
+      nota: 'art. 213: le due rate erano a luglio 2024 e luglio 2025'},
+    {id: 'A2', frase: 'IV livello: 1.783,75 €', livello: '4', importo: 1783.75, vigente: true},
+  ]), {oggi: OGGI, invio: INVIO});
+  assert.equal(esito.decisione, 'scrivi');
+  assert.match(esito.verifica, /\[superato\] «una tantum di 350 € a luglio 2026» → art\. 213/);
+});
+
 test('se una correzione è vera fino alla tranche, la mail non parte prima della tranche e la Verifica lo dice', () => {
   const esito = cancello(pagina([
     {id: 'A1', frase: 'IV livello: 1.783,75 €', livello: '4', importo: 1783.75, vigente: true},

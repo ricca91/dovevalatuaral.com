@@ -247,7 +247,7 @@ function solida(c) {
 function dettaglio(c) {
   const valore = v => `${euro(v.importo)} (${v.voce}) dal ${giorno(v.decorrenza)}`;
   const parti = [];
-  if (c.stato === 'superato' && !c.veroOggi) parti.push(`era il valore in vigore fino al ${giorno(ieri(c.dal))}`);
+  if (c.stato === 'superato' && c.dal && !c.veroOggi) parti.push(`era il valore in vigore fino al ${giorno(ieri(c.dal))}`);
   if (c.manca) parti.push(`manca ${c.manca.nome} (${euro(c.manca.importo)})`);
   if (c.motivo) parti.push(c.motivo);
   if (c.atteso) parti.push(`la fonte dice ${valore(c.atteso)}`);
@@ -257,6 +257,8 @@ function dettaglio(c) {
 }
 
 function etichetta(c, inMail) {
+  // Una cifra marcata «superato» a mano non ha la data della tranche: la data, se c'è, è nella nota.
+  if (c.stato === 'superato' && !c.dal) return 'superato';
   if (c.stato === 'superato')
     return `superato dal ${giorno(c.dal)}${c.veroOggi ? `, vero fino al ${giorno(ieri(c.dal))}` : ''}`;
   if (c.stato === 'ancora vero' || inMail) return c.stato;
