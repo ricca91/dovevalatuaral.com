@@ -49,8 +49,17 @@ const CONTRATTI_SEO=Object.freeze([
      non è misurata. */
   {id:'agenzie-viaggi-fiavet-h04z',slug:'agenzie-di-viaggio',breve:'Agenzie di viaggio',
     titoloTabella:'CCNL Agenzie di viaggio e tour operator'},
-  {id:'logistica-trasporto-merci-i100',slug:'logistica',breve:'Logistica',
-    titoloTabella:'CCNL Logistica e trasporto merci'},
+  /* Solo i livelli 3°, 4°, 5° e 6° del personale non viaggiante, gli unici con
+     query misurate (DataForSEO, Italia, 16 ottobre 2026: «5 livello ccnl
+     logistica» 10, «ccnl logistica 5 livello» 30, «ccnl logistica 6
+     livello» 30, «ccnl logistica 4 livello» 20, «ccnl logistica 3
+     livello» 10; volumi bassi, ma sono le uniche misurate). Il 1° e il 2°
+     non risultano; 3° super, 4° junior, Quadri e i codici del viaggiante
+     (C3, B3, rider I/L...) non hanno volume o sono parametri. */
+  {id:'logistica-trasporto-merci-i100',slug:'logistica',breve:'Logistica',query:'CCNL Logistica',
+    titoloTabella:'CCNL Logistica e trasporto merci',livelli:['3°','4°','5°','6°'],
+    sezioneLivelli:'non-viaggiante',
+    slugLivello:codice=>`${codice.replace('°','')}-livello`,etichetta:l=>l.nome},
   {id:'multiservizi-pulizia-k511',slug:'multiservizi',breve:'Multiservizi',query:'CCNL Multiservizi',
     titoloTabella:'CCNL Multiservizi e pulizie',livelli:['1','2','3','4','5','6'],slugLivello:numerico,
     etichetta:livelloN},
@@ -59,7 +68,7 @@ const CONTRATTI_SEO=Object.freeze([
     livelli:['1','2','3','4','4S','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'cooperative-sociali-t151',slug:'cooperative-sociali',breve:'Cooperative sociali',
     query:'cooperative sociali',titoloTabella:'CCNL Cooperative sociali',
-    livelli:['B1','C1','C2','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
+    livelli:['B1','C1','C2','C3','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
   {id:'distribuzione-moderna-federdistribuzione-h008',slug:'dmo',breve:'DMO',
     query:'CCNL DMO',titoloTabella:'CCNL DMO, distribuzione moderna',
     /* DMO ha livelli e importi propri, diversi dal Commercio: le query
