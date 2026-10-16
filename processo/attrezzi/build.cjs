@@ -8,7 +8,7 @@ function build(){
   fs.rmSync(output,{recursive:true,force:true});
   fs.cpSync(path.join(root,'prototipo'),output,{recursive:true,filter(file){
     const name=path.basename(file);
-    return name!=='articoli'&&!name.startsWith('prototype-')&&!name.startsWith('genera-')&&!/\.(?:md|test\.js|template\.js)$/.test(name)&&!['articoli-parser.js','.gitkeep'].includes(name);
+    return name!=='articoli'&&!name.startsWith('prototype-')&&!name.startsWith('genera-')&&!/\.(?:md|test\.js|template\.js)$/.test(name)&&!['articoli-parser.js','prove-ccnl.js','.gitkeep'].includes(name);
   }});
   require('./dati-browser.cjs').generate(output);
   console.log('Build completata: pagine statiche in dist/; sorgenti e bozze escluse.');

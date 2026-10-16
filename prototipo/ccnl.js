@@ -180,6 +180,20 @@
         url:'https://www.filctemcgil.it/images/download/CONTRATTI/vetro_lampade/260519%20Fulc%20189%20Scioglimento%20riserva%20ipotesi%20CCNL%20INDUSTRIA%20VETRO%20LAMPADE%20E%20DISPLAY%20triennio%202026-2028.pdf',
       },
     }),
+    /* Gruppo 2 (RIC-61): gli stessi ID del dataset in
+       retribuzione-ccnl.js, un blocco per contratto. */
+
+    /* — Area meccanica, artigianato (C030) — */
+
+    /* — Industria alimentare (E012) — */
+
+    /* — Chimico-farmaceutico, industria (B011) — */
+
+    /* — Gomma, cavi elettrici e plastica, industria (B371) — */
+
+    /* — Credito ABI, aree professionali e quadri (J241) — */
+
+    /* — fine del gruppo 2 — */
     congela({
       id:'funzioni-centrali',
       nome:'Comparto Funzioni Centrali — personale non dirigente',

@@ -1268,6 +1268,49 @@
     ],
   };
 
+  /* ============================================================
+     GRUPPO 2 — cinque contratti (RIC-61)
+
+     Fonti, letture e limiti di ognuno stanno nei dossier
+     processo/fonti-ccnl-gruppo2-*.md, indicizzati da
+     processo/fonti-ccnl-gruppo2.md. Ogni contratto occupa il proprio
+     blocco, con le sue esclusioni accanto: un blocco ancora vuoto
+     (null) non entra nel catalogo.
+     ============================================================ */
+
+  /* --- AREA MECCANICA — ARTIGIANATO, C030 ---------------------- */
+
+  const AREA_MECCANICA=null;
+  const ESCLUSIONI_AREA_MECCANICA=[];
+
+  /* --- INDUSTRIA ALIMENTARE, E012 ------------------------------ */
+
+  const ALIMENTARE=null;
+  const ESCLUSIONI_ALIMENTARE=[];
+
+  /* --- CHIMICO-FARMACEUTICO — INDUSTRIA, B011 ------------------ */
+
+  const CHIMICO=null;
+  const ESCLUSIONI_CHIMICO=[];
+
+  /* --- GOMMA, CAVI ELETTRICI E PLASTICA — INDUSTRIA, B371 ------ */
+
+  const GOMMA_PLASTICA=null;
+  const ESCLUSIONI_GOMMA_PLASTICA=[];
+
+  /* --- CREDITO — ABI, AREE PROFESSIONALI E QUADRI, J241 -------- */
+
+  const CREDITO_ABI=null;
+  const ESCLUSIONI_CREDITO_ABI=[];
+
+  /* --- fine dei blocchi del gruppo 2 --------------------------- */
+
+  const GRUPPO_2=[[AREA_MECCANICA,ESCLUSIONI_AREA_MECCANICA],[ALIMENTARE,ESCLUSIONI_ALIMENTARE],
+    [CHIMICO,ESCLUSIONI_CHIMICO],[GOMMA_PLASTICA,ESCLUSIONI_GOMMA_PLASTICA],
+    [CREDITO_ABI,ESCLUSIONI_CREDITO_ABI]].filter(([contratto])=>contratto);
+  const CONTRATTI_GRUPPO_2=GRUPPO_2.map(([contratto])=>contratto);
+  const ESCLUSIONI_GRUPPO_2=Object.fromEntries(GRUPPO_2.map(([contratto,voci])=>[contratto.id,voci]));
+
   /* ------------------------------------------------------------
      DATE
      ------------------------------------------------------------ */
@@ -1719,6 +1762,6 @@
   }
 
   return congela({...creaCatalogo({versione:VERSIONE_DATASET,
-    contratti:[...CONTRATTI_DATI,...CONTRATTI_GRUPPO_1],
-    esclusioni:{...ESCLUSIONI_DATI,...ESCLUSIONI_GRUPPO_1}}),creaCatalogo});
+    contratti:[...CONTRATTI_DATI,...CONTRATTI_GRUPPO_1,...CONTRATTI_GRUPPO_2],
+    esclusioni:{...ESCLUSIONI_DATI,...ESCLUSIONI_GRUPPO_1,...ESCLUSIONI_GRUPPO_2}}),creaCatalogo});
 });
