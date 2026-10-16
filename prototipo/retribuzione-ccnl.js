@@ -1395,8 +1395,113 @@
 
   /* --- CHIMICO-FARMACEUTICO — INDUSTRIA, B011 ------------------ */
 
-  const CHIMICO=null;
-  const ESCLUSIONI_CHIMICO=[];
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-chimico.md.
+
+     Vale l'ipotesi di rinnovo del 15 aprile 2025 (decorrenza 1° luglio
+     2025, scadenza 30 giugno 2028), sciolta positivamente il 4 giugno
+     2025; la stesura complessiva è stata firmata a luglio 2025. Le
+     tabelle vengono dalla p. 48 dell'ipotesi (colonne Min. e IPO,
+     settore chimico e chimico-farmaceutico); le due tabelle del 2024
+     dall'intesa 8 gennaio 2024 e dal CCNL 13 giugno 2022. Una sola
+     scala di quindici righe (categorie A–F con posizioni
+     organizzative, la A è dei quadri): il minimo è della categoria,
+     l'IPO della posizione, come nei meccanizzati del Vetro. Nessuna
+     sezione: turnisti e giornalieri hanno la stessa tabella mensile.
+
+     Il CCNL non stampa il totale della riga: `totalePubblicato` è null
+     e il totale è derivato. Tutte le voci valgono 13 mensilità (art.
+     21; l'EDR «per il numero di mensilità previste dal CCNL»). Gli
+     scatti di anzianità sono aboliti dal 1° gennaio 2010. L'EDR è 0
+     fino al 30 giugno 2027 (intesa 8 gennaio 2024): nelle tabelle in
+     cui vale zero non c'è la voce. Il part-time si riproporziona su
+     40 ore (art. 3 E punto 5) anche se l'orario medio dei giornalieri
+     è di 37 ore e 45 minuti. */
+  const fonteChimico=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
+    verificataIl:'2026-10-16'});
+  const DATE_CHIMICO=['2024-01-01','2024-07-01','2025-07-01','2025-12-01','2026-07-01','2027-07-01','2028-06-01'];
+  const TITOLI_CHIMICO=[
+    'anticipo dei minimi dell’intesa 8 gennaio 2024, EDR azzerato e assorbito nel minimo',
+    'tranche di luglio 2024 del CCNL 13 giugno 2022 (colonna «previgente» del rinnovo 2025)',
+    'prima tranche del rinnovo 15 aprile 2025 (101 € alla D1, compresi i 20 € residui del CCNL 2022)',
+    'seconda tranche del rinnovo 15 aprile 2025 (20 € alla D1)',
+    'terza tranche del rinnovo 15 aprile 2025 (60 € alla D1)',
+    'quarta tranche del rinnovo 15 aprile 2025 (60 € alla D1) e nuovo EDR',
+    'quinta e ultima tranche del rinnovo 15 aprile 2025 (16 € alla D1)'];
+  /* [riga, minimo e IPO a ognuna delle sette date, EDR dal 1/7/2027] */
+  const RIGHE_CHIMICO=[
+    ['A1',[2496.52,2520.52,2627.52,2648.52,2711.52,2774.52,2793.52],
+      [537.96,547.96,590.96,599.96,626.96,653.96,659.96],39],
+    ['A2',[2496.52,2520.52,2627.52,2648.52,2711.52,2774.52,2793.52],
+      [306.07,313.07,340.07,345.07,360.07,375.07,379.07],34],
+    ['A3',[2496.52,2520.52,2627.52,2648.52,2711.52,2774.52,2793.52],
+      [245.7,250.7,274.7,278.7,291.7,304.7,308.7],33],
+    ['B1',[2304.22,2325.22,2425.22,2444.22,2504.22,2564.22,2581.22],
+      [303.76,308.76,332.76,337.76,350.76,362.76,367.76],32],
+    ['B2',[2304.22,2325.22,2425.22,2444.22,2504.22,2564.22,2581.22],
+      [211.39,215.39,232.39,236.39,245.39,254.39,257.39],30],
+    ['C1',[2054.25,2072.25,2153.25,2169.25,2217.25,2265.25,2278.25],
+      [322.4,328.4,357.4,363.4,380.4,397.4,402.4],28],
+    ['C2',[2054.25,2072.25,2153.25,2169.25,2217.25,2265.25,2278.25],
+      [236.61,241.61,263.61,268.61,281.61,294.61,298.61],27],
+    ['D1',[1900.03,1917.03,1993.03,2008.03,2053.03,2098.03,2111.03],
+      [316.23,322.23,347.23,352.23,367.23,382.23,385.23],26],
+    ['D2',[1900.03,1917.03,1993.03,2008.03,2053.03,2098.03,2111.03],
+      [219.74,223.74,242.74,246.74,258.74,270.74,273.74],25],
+    ['D3',[1900.03,1917.03,1993.03,2008.03,2053.03,2098.03,2111.03],
+      [166.73,169.73,185.73,188.73,197.73,205.73,207.73],24],
+    ['E1',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [249.41,252.41,269.41,272.41,282.41,292.41,294.41],22],
+    ['E2',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [152.27,154.27,164.27,165.27,169.27,173.27,175.27],20],
+    ['E3',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [89.42,89.42,95.42,95.42,97.42,99.42,100.42],19],
+    ['E4',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [44.17,44.17,47.17,47.17,48.17,49.17,49.17],19],
+    ['F',[1684.46,1698.46,1767.46,1781.46,1821.46,1861.46,1873.46],
+      [0,0,0,0,0,0,0],18],
+  ];
+  /* Art. 16 del rinnovo 18 dicembre 2009 e art. 15 B1 punto 3 del rinnovo
+     2018: EAR dei quadri (categoria A) e della categoria B, invariato dal
+     1° luglio 2010. */
+  const EAR_CHIMICO={A:190,B:100};
+  const nomeChimico=codice=>codice.length===1?`Categoria ${codice}`
+    :`Categoria ${codice[0]}, posizione organizzativa ${codice[1]}${codice[0]==='A'?' — quadri':''}`;
+  const tabelleChimico=()=>DATE_CHIMICO.map((decorrenza,t)=>tabella(decorrenza,TITOLI_CHIMICO[t],
+    RIGHE_CHIMICO.map(([codice,minimi,ipo,edr])=>({
+      codice,nome:nomeChimico(codice),
+      voci:[voce('minimo','Minimo contrattuale',minimi[t]),
+        ...(ipo[t]?[voce('ipo','Indennità di posizione organizzativa (IPO)',ipo[t])]:[]),
+        ...(EAR_CHIMICO[codice[0]]?[voce('ear','Elemento aggiuntivo della retribuzione (EAR)',
+          EAR_CHIMICO[codice[0]])]:[]),
+        ...(t>=5?[voce('edr','Elemento distinto della retribuzione (EDR)',edr)]:[])],
+      totalePubblicato:null}))));
+
+  const CHIMICO={
+    id:'chimico-farmaceutico-industria-b011',
+    nome:'Chimico-farmaceutico — industria (settore chimico e chimico-farmaceutico)',
+    parti:'Federchimica, Farmindustria / Filctem CGIL, Femca CISL, Uiltec UIL (testo gemello con UGL Chimici, Failc Confail, Fialc Cisal)',
+    codiceCnel:'B011',
+    mensilita:13,
+    oreSettimanali:40,
+    scatti:{tipo:'assenti',articolo:'art. 17 — scatti di anzianità, abrogato dal 1° gennaio 2010 (rinnovo 18 dicembre 2009)'},
+    fonte:fonteChimico('Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025 — trattamento economico, p. 48 (TEM mensile alle diverse scadenze)',
+      'Filctem CGIL, organizzazione sindacale firmataria (stessa ipotesi depositata al CNEL, idAccordo 221298); scioglimento della riserva del 4 giugno 2025 e stesura complessiva di luglio 2025 da Assolombarda',
+      'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
+      'processo/dati/fonti/chimico-b011-ipotesi-rinnovo-2025-04-15-filctem.pdf'),
+    notaFonte:'Il testo coordinato 2025–2028 è riservato e non è stato letto: le tabelle sono quelle dell’ipotesi sciolta (copia Filctem e deposito CNEL identici, riscontrate su leggeinchiaro.it); orario, part-time e tredicesima vengono dal testo del 2006 depositato al CNEL e dai rinnovi successivi.',
+    tabelle:tabelleChimico(),
+  };
+  const ESCLUSIONI_CHIMICO=[
+    'Solo il settore chimico e chimico-farmaceutico: fibre chimiche, abrasivi, lubrificanti e GPL hanno tabelle proprie (e i lubrificanti e il GPL una quattordicesima), non pubbliche per il 2025–2028 nelle fonti accessibili. Coibenti e cere e lumini hanno accordi separati.',
+    'Scatti di anzianità: aboliti dal 1° gennaio 2010 (art. 17). Gli importi maturati fino al 31/12/2009 sono congelati come superminimo individuale non assorbibile: se ne hai, sommali nel superminimo.',
+    'Elemento aggiuntivo della retribuzione (EAR, 190 € categoria A e 100 € categoria B): incluso, ma è assorbibile dal superminimo individuale; con un superminimo l’assorbimento non è simulato e le due voci si sommano.',
+    'Orario: i giornalieri e i turnisti hanno un orario medio di 37 ore e 45 minuti (art. 8 B), realizzato con riduzioni annue; la retribuzione mensile non cambia e per il tempo pieno si lascia 40 ore.',
+    'Part-time: la retribuzione mensile è riproporzionata su 40 ore (art. 3 E, punto 5). Non è inclusa l’indennità annua IPT (art. 3 E, punto 21: ore settimanali × ROL × retribuzione oraria / 40, in dodici quote), che compensa i ROL non goduti ed è sostituibile con la fruizione dei ROL riproporzionati.',
+    'Premio di partecipazione e contrattazione aziendale; nelle imprese senza premio, premio variabile o elemento perequativo (importi condizionati, non inclusi).',
+    'Welfare contrattuale e contributi a carico dell’impresa a Fonchim (2,3% dal 2027) e Faschim: non sono retribuzione. Il «trattamento economico complessivo» di 294 € annunciato per la D1 comprende queste voci: non è un aumento della RAL.',
+    'Maggiorazioni per lavoro eccedente, straordinario, notturno, festivo e a turni, indennità di turno notturno (15,50 € dal 1/7/2027), reperibilità, trasferte.',
+    'Apprendisti (minimo senza IPO, categoria inferiore nel primo periodo), operatori di vendita (elemento retributivo scorporato) e lavoratori discontinui.',
+  ];
 
   /* --- GOMMA, CAVI ELETTRICI E PLASTICA — INDUSTRIA, B371 ------ */
 

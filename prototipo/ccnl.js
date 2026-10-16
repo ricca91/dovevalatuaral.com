@@ -200,6 +200,18 @@
     }),
 
     /* — Chimico-farmaceutico, industria (B011) — */
+    congela({
+      id:'chimico-farmaceutico-industria-b011',
+      nome:'Chimico-farmaceutico — industria (settore chimico e chimico-farmaceutico)',
+      parti:'Federchimica, Farmindustria / Filctem CGIL, Femca CISL, Uiltec UIL (testo gemello con UGL Chimici, Failc Confail, Fialc Cisal)',
+      codiceCnel:'B011',
+      mensilita:13,
+      dataRiferimento:'2025-04-15',
+      fonte:{
+        titolo:'Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025, sciolta il 4 giugno 2025',
+        url:'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
+      },
+    }),
 
     /* — Gomma, cavi elettrici e plastica, industria (B371) — */
     congela({
