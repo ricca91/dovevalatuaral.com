@@ -1505,6 +1505,22 @@
     return new Date(Date.UTC(anno,mese,1)).toISOString().slice(0,10);
   }
 
+  const primoDelMese=iso=>`${iso.slice(0,8)}01`;
+
+  const aggiungiGiorni=(iso,giorni)=>
+    new Date(Date.parse(iso+'T00:00:00Z')+giorni*86400000).toISOString().slice(0,10);
+
+  /* Da `da` ad `a`: mesi interi di calendario, poi i giorni che
+     avanzano. Diciannove mesi restano diciannove mesi, qualunque sia
+     la lunghezza dei mesi attraversati. */
+  function durata(da,a){
+    const [annoDa,meseDa]=da.split('-').map(Number);
+    const [annoA,meseA]=a.split('-').map(Number);
+    let mesi=(annoA-annoDa)*12+meseA-meseDa;
+    if(aggiungiMesi(da,mesi)>a)mesi--;
+    return {mesi,giorni:Math.round((Date.parse(a)-Date.parse(aggiungiMesi(da,mesi)))/86400000)};
+  }
+
   /* ------------------------------------------------------------
      LA RIPROPORZIONE
 
@@ -1545,7 +1561,19 @@
          di quelle del contratto (l'EDR del 1992 su 13);
        · per gli scatti, la famiglia di regole — cifra fissa,
          percentuale alla maturazione, quota unica, assenti — e le
-         mensilità in cui entrano;
+         mensilità in cui entrano. Con la data di anzianità:
+           – `primoDopoAnni`: il primo matura dopo tanti anni, i
+             successivi ogni `cadenzaAnni` (assente, vale la cadenza);
+           – `decorre`: da quando lo scatto maturato è dovuto — dal
+             primo del mese successivo (`meseSuccessivo`, il default),
+             dal primo del mese in cui matura (`meseMaturazione`) o dal
+             giorno stesso (`anniversario`); altri valori fermano il
+             catalogo;
+           – `sospensioni` [{dal,al,articolo}]: periodi in cui
+             l'anzianità non matura. Una maturazione che cadrebbe dopo
+             l'inizio del periodo slitta di quanto del periodo cade
+             dopo l'inizio dell'anzianità, in mesi di calendario più i
+             giorni che avanzano; quelle già compiute restano;
        · per ogni livello, i profili che portano una voce propria;
        · per le righe che si succedono con l'anzianità (i rider della
          Logistica), la progressione: con la data di anzianità si
@@ -1553,12 +1581,29 @@
        · per ogni riga, il totale pubblicato e le voci che somma,
          o nessun totale se la fonte non lo stampa.
      ------------------------------------------------------------ */
+  /* Da quando uno scatto maturato è dovuto, per modalità. */
+  const DECORRENZE_SCATTI=congela({
+    meseSuccessivo:primoDelMeseSuccessivo,
+    meseMaturazione:primoDelMese,
+    anniversario:maturazione=>maturazione,
+  });
+
   function creaCatalogo({versione,contratti,esclusioni}){
 
     function normalizzaScatti(regola){
       const tipo=regola.tipo||'cifraFissa';
       const massimo=tipo==='assenti'?0:tipo==='quotaUnica'?1:regola.massimo;
-      return congela({...regola,tipo,massimo,decorre:regola.decorre||'meseSuccessivo',
+      const decorre=regola.decorre||'meseSuccessivo';
+      if(!DECORRENZE_SCATTI[decorre])
+        throw new RangeError(`Modalità di decorrenza degli scatti sconosciuta: ${decorre}`);
+      const sospensioni=[...(regola.sospensioni||[])].sort((a,b)=>a.dal<b.dal?-1:a.dal>b.dal?1:0);
+      for(const s of sospensioni)
+        if(!dataIsoValida(s.dal)||!dataIsoValida(s.al)||s.dal>s.al)
+          throw new RangeError(`Periodo di anzianità sospesa non valido: ${s.dal} – ${s.al}`);
+      return congela({...regola,tipo,massimo,decorre,
+        ...(regola.cadenzaAnni!==undefined
+          ?{primoDopoAnni:regola.primoDopoAnni??regola.cadenzaAnni}:{}),
+        sospensioni:congela(sospensioni.map(s=>congela({...s}))),
         ...(regola.importi?{importi:congela({...regola.importi})}:{}),
         ...(regola.finestre?{finestre:congela(regola.finestre.map(f=>
           congela({...f,importi:congela({...f.importi})})))}:{})});
@@ -1710,16 +1755,29 @@
         throw new RangeError(`Data di anzianità non valida: ${dataInizio}`);
     }
 
+    /* Nei periodi sospesi l'anzianità non matura: una maturazione che
+       cadrebbe dopo l'inizio del periodo slitta di quanto del periodo
+       cade dopo l'inizio dell'anzianità. Quelle già compiute restano. */
+    function maturazioneEffettiva(dataInizio,anni,sospensioni){
+      let maturazione=aggiungiAnni(dataInizio,anni);
+      for(const s of sospensioni){
+        const dal=s.dal>dataInizio?s.dal:dataInizio;
+        if(dal>s.al||maturazione<=dal)continue;
+        const {mesi,giorni}=durata(dal,aggiungiGiorni(s.al,1));
+        maturazione=aggiungiGiorni(aggiungiMesi(maturazione,mesi),giorni);
+      }
+      return maturazione;
+    }
+
     function scadenze(regola,dataInizio,alla){
       validaAnzianita(dataInizio,alla);
       const anni=regola.tipo==='quotaUnica'
         ?[regola.dopoAnni]
-        :Array.from({length:regola.massimo},(_,i)=>(i+1)*regola.cadenzaAnni);
+        :Array.from({length:regola.massimo},(_,i)=>regola.primoDopoAnni+i*regola.cadenzaAnni);
       const elenco=[];
       for(const [i,a] of anni.entries()){
-        const maturazione=aggiungiAnni(dataInizio,a);
-        const decorrenza=regola.decorre==='anniversario'
-          ?maturazione:primoDelMeseSuccessivo(maturazione);
+        const maturazione=maturazioneEffettiva(dataInizio,a,regola.sospensioni);
+        const decorrenza=DECORRENZE_SCATTI[regola.decorre](maturazione);
         if(decorrenza>alla)break;
         elenco.push({n:i+1,maturazione,decorrenza});
       }
