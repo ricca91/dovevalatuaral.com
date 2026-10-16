@@ -203,7 +203,8 @@ test('un aumento si confronta con la differenza tra la tabella della sua decorre
 test('un’affermazione controllata a mano sulla fonte primaria passa così com’è; senza URL della fonte no', () => {
   const [conFonte, senzaFonte, daBancaDati] = classifica({ccnl: COMMERCIO, oggi: OGGI, invio: INVIO, affermazioni: [
     {id: 'A1', frase: 'una tantum di 350 € in due rate', stato: 'ancora vero',
-      fonte: {url: 'https://ce-mu.it/x/AccordoRinnovo.pdf', parte: 'testo dell’accordo sottoscritto dalle parti firmatarie'},
+      fonte: {url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf',
+        parte: 'testo dell’accordo sottoscritto dalle parti firmatarie'},
       nota: 'art. 213: 175 € a luglio 2024 e 175 € a luglio 2025'},
     {id: 'A2', frase: 'il contratto scade nel 2026', stato: 'cambiato', nota: 'scade il 31/3/2027'},
     {id: 'A3', frase: '14 mensilità', stato: 'ancora vero',
@@ -256,6 +257,31 @@ test('una correzione su una fonte non firmataria non conta: con una sola solida 
   assert.deepEqual(esito.foglio.map(c => c.id), ['A1']);
   assert.deepEqual(esito.fuori.map(c => c.id), ['A2']);
   assert.match(esito.verifica, /\[cambiato, fuori dalla mail\] «13 mensilità»/);
+});
+
+test('una fonte descritta come firmataria ma con un URL che il dataset non conosce non regge: la pagina si salta', () => {
+  // La descrizione la scrive l'agente; l'URL no. ilCCNL.it è un portale che riprende le tabelle, non una parte.
+  const portale = {url: 'https://www.ilccnl.it/commercio/tabelle-retributive', parte: 'portale che riprende le tabelle dei firmatari'};
+  const esito = cancello(pagina([
+    {id: 'A1', frase: 'una tantum di 400 €', stato: 'cambiato', fonte: portale, nota: 'sono 350 €'},
+    {id: 'A2', frase: 'scade il 31/12/2026', stato: 'cambiato', fonte: portale, nota: 'scade il 31/3/2027'},
+  ]), {oggi: OGGI, invio: INVIO});
+  assert.equal(esito.decisione, 'salta');
+  assert.deepEqual(esito.foglio, []);
+  assert.deepEqual(esito.fuori.map(c => c.id), ['A1', 'A2']);
+});
+
+test('una fonte controllata a mano regge se è l’URL o la copia d’archivio di una fonte firmataria del dataset', () => {
+  const [accordo, archivio, filcams] = classifica({ccnl: COMMERCIO, oggi: OGGI, invio: INVIO, affermazioni: [
+    {id: 'A1', frase: 'una tantum di 400 €', stato: 'cambiato', nota: 'sono 350 €',
+      fonte: {url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf'}},
+    {id: 'A2', frase: 'scade il 31/12/2026', stato: 'cambiato', nota: 'scade il 31/3/2027',
+      fonte: {url: 'processo/dati/fonti/accordo-rinnovo-terziario-2024-03-22.pdf'}},
+    {id: 'A3', frase: '14 mensilità', stato: 'ancora vero', fonte: {url: 'https://filcams.cgil.it/page/confcommercio_terziario/'}},
+  ]});
+  assert.equal(accordo.fonte.firmataria, true);
+  assert.equal(archivio.fonte.firmataria, true);
+  assert.equal(filcams.fonte.firmataria, true, 'stesso URL senza www e con lo slash finale');
 });
 
 test('se una correzione è vera fino alla tranche, la mail non parte prima della tranche e la Verifica lo dice', () => {
@@ -374,6 +400,9 @@ test('CLI valori: le tabelle della fonte per decorrenza, con quelle ricostruite 
     ['2020-01-01', true], ['2023-04-01', true], ['2024-04-01', true], ['2025-03-01', true],
     ['2025-11-01', false], ['2026-11-01', false], ['2027-02-01', false]]);
   assert.equal(valori.accordo.firmataria, true, 'il testo dell’accordo sottoscritto dalle parti è fonte primaria');
+  assert.deepEqual(valori.firmatarie.map(f => f.url), [
+    'https://www.filcams.cgil.it/page/confcommercio_terziario',
+    'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf']);
   const quarto = valori.tabelle[5].livelli.find(l => l.codice === '4');
   assert.equal(quarto.totale, 1818.75);
   assert.equal(quarto.voci.pagaBase, 1292.46);

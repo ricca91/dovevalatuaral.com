@@ -68,9 +68,9 @@ function tabelle(ccnl, sezione) {
 
 const giorno = iso => iso.split('-').reverse().map(Number).join('/');
 
-// Una correzione regge solo su una fonte delle parti firmatarie, o sul testo che hanno sottoscritto. Il dataset
-// lo scrive in `parte` ("organizzazione sindacale firmataria", "testo dell'accordo sottoscritto dalle parti",
-// "banca dati indipendente, non firmataria").
+// Una correzione regge solo su una fonte delle parti firmatarie, o sul testo che hanno sottoscritto. Per le fonti
+// del dataset lo dice `parte`, scritta da chi ha trascritto le tabelle ("organizzazione sindacale firmataria",
+// "testo dell'accordo sottoscritto dalle parti", "banca dati indipendente, non firmataria").
 function firmata(fonte) {
   const parte = fonte.parte || '';
   return {...fonte, firmataria: /firmatari|sottoscritt/i.test(parte) && !/non firmatari/i.test(parte)};
@@ -81,16 +81,39 @@ function fonteDi(contratto) {
   return firmata({titolo, parte, url, archivio});
 }
 
+// Le fonti firmatarie che il dataset conosce per un contratto (tabelle, accordo, disciplina degli scatti, anche
+// delle sezioni): l'URL pubblico e la copia in processo/dati/fonti/.
+function fontiFirmatarie(contratto) {
+  const fonti = [contratto, ...(contratto.sezioni || [])].flatMap(o => Object.entries(o)
+    .filter(([chiave, valore]) => chiave.startsWith('fonte') && valore?.url).map(([, valore]) => valore));
+  return [...new Set(fonti)].filter(f => firmata(f).firmataria)
+    .map(({titolo, url, archivio}) => ({titolo, url, archivio: archivio || null}));
+}
+const chiaviFirmatarie = contratto => fontiFirmatarie(contratto)
+  .flatMap(f => [f.url, f.archivio]).filter(Boolean).map(chiaveFonte);
+
+// Lo stesso indirizzo scritto in due modi (www o no, slash finale, frammento) è la stessa fonte.
+function chiaveFonte(indirizzo) {
+  if (!/^https?:\/\//i.test(indirizzo)) return indirizzo.replace(/^\.\//, '');
+  const url = new URL(indirizzo);
+  return `${url.hostname.toLowerCase().replace(/^www\./, '')}${url.pathname.replace(/\/+$/, '')}${url.search}`;
+}
+
 const STATI = ['ancora vero', 'cambiato', 'superato', 'non verificabile'];
 
-// Ciò che il dataset non contiene (una tantum, date della tredicesima, scadenze) lo controlla l'agente sulla
-// fonte primaria e lo passa già classificato: qui si pretende solo l'URL della fonte e chi la pubblica.
-function controllataAMano(affermazione) {
+/* Ciò che il dataset non contiene (una tantum, date della tredicesima, scadenze) lo controlla l'agente sulla
+   fonte primaria e lo passa già classificato, con l'URL della fonte. La descrizione di chi la pubblica la scrive
+   l'agente, quindi non decide niente: la fonte è firmataria solo se l'URL è una fonte firmataria del dataset per
+   quel contratto (o la sua copia d'archivio). */
+function controllataAMano(affermazione, firmatarie) {
   if (!STATI.includes(affermazione.stato))
     return {...affermazione, stato: 'non verificabile', motivo: `stato sconosciuto: ${affermazione.stato}`};
   if (!affermazione.fonte?.url)
     return {...affermazione, stato: 'non verificabile', motivo: 'manca l’URL della fonte primaria'};
-  return {...affermazione, fonte: firmata(affermazione.fonte)};
+  const firmataria = firmatarie.includes(chiaveFonte(affermazione.fonte.url));
+  const correzione = affermazione.stato === 'cambiato' || affermazione.stato === 'superato';
+  return {...affermazione, fonte: {...affermazione.fonte, firmataria},
+    ...(correzione && !firmataria ? {motivo: 'la fonte non è una fonte firmataria del dataset per questo contratto'} : {})};
 }
 
 const NON_VERIFICABILE = 'nessun valore della fonte corrisponde: base diversa (terzo elemento provinciale, scatti, '
@@ -206,7 +229,8 @@ function classificaUna(affermazione, {ccnl, sezione, oggi, invio}) {
 }
 
 function classifica({ccnl, sezione = null, oggi, invio = oggi, affermazioni}) {
-  return affermazioni.map(a => ('stato' in a ? controllataAMano(a) : classificaUna(a, {ccnl, sezione, oggi, invio})));
+  const firmatarie = chiaviFirmatarie(R.trovaContratto(ccnl));
+  return affermazioni.map(a => ('stato' in a ? controllataAMano(a, firmatarie) : classificaUna(a, {ccnl, sezione, oggi, invio})));
 }
 
 const euro = importo => `${importo.toLocaleString('it-IT',
@@ -322,6 +346,7 @@ function valori(ccnl, sezione = null) {
   return {
     ccnl, sezione, nome: contratto.nome, fonte: fonteDi(contratto),
     accordo: contratto.fonteAccordo ? firmata({...contratto.fonteAccordo}) : null,
+    firmatarie: fontiFirmatarie(contratto),
     sezioni: R.sezioni(ccnl).map(s => s.id),
     tabelle: tabelle(ccnl, sezione).map(t => ({
       decorrenza: t.decorrenza, titolo: t.titolo, ...(t.ricostruita ? {ricostruita: t.ricostruita.url} : {}),
@@ -335,7 +360,8 @@ module.exports = {classifica, cancello, nettoPrimaDopo, valori};
 
 const USO = `Uso:
   node processo/link/dono-ccnl.js valori <ccnl> [--sezione <id>]
-      → JSON: fonte (con firmataria sì/no), tabelle per decorrenza con totale, voci e scatto per livello
+      → JSON: fonte (con firmataria sì/no), firmatarie (le sole fonti che reggono una correzione controllata a
+        mano), tabelle per decorrenza con totale, voci e scatto per livello
   node processo/link/dono-ccnl.js classifica <affermazioni.json>
       {"ccnl": "commercio", "sezione": null, "oggi": "AAAA-MM-GG", "invio": "AAAA-MM-GG", "affermazioni": [...]}
       → JSON: affermazioni classificate, decisione del cancello, foglio, fuori, nonPrimaDel, verifica

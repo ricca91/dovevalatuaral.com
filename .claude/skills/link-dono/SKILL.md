@@ -58,7 +58,8 @@ Dai RUNNER FACTS o dal testo dopo `/link-dono`:
     node processo/link/dono-ccnl.js netto <ccnl> <prima> <dopo> [--sezione <id>] [--livelli 3,4,5]
 
 - `valori`: le tabelle della fonte per decorrenza (totale, voci, scatto per livello, con i codici di livello del
-  dataset), la fonte con `firmataria` sì/no e l'accordo. Per il commercio ci sono anche le tabelle precedenti, fino a
+  dataset), la fonte con `firmataria` sì/no, l'accordo e `firmatarie`, le sole fonti (URL e copia in
+  `processo/dati/fonti/`) su cui regge una correzione controllata a mano. Per il commercio ci sono anche le tabelle precedenti, fino a
   quella in vigore al 31/3/2023, ricostruite dall'art. 213 (`ricostruita`): servono a riconoscere una cifra vecchia,
   mai a proporla.
 - `classifica`: classifica le affermazioni e applica il cancello. Restituisce per ogni affermazione `stato`
@@ -140,9 +141,10 @@ Scrivi `.link-dono/<dominio>-<oggi>.json` nella root del repo (cartella ignorata
   nessuna data); `false` se è un fatto datato che non pretende di valere oggi (una notizia del 21/11/2025 sulle
   "tabelle di novembre 2025"). Un fatto datato giusto resta vero: la storia non scade.
 - Ciò che il dataset non contiene (una tantum, tredicesima, scadenza, mensilità) controllalo tu sulla fonte primaria
-  (`valori` → `fonte` e `accordo`, i file in `processo/dati/fonti/`, `processo/fonti-ccnl-2026.md`) e passalo con
-  `stato`, `fonte` (`url` e `parte`, cioè chi la pubblica) e `nota`. Se non lo trovi su una fonte delle parti
-  firmatarie, `stato: "non verificabile"`. Banche dati, portali e la stampa non sono fonti primarie: per Poligrafici
+  (`valori` → `firmatarie`: l'URL o la copia in `processo/dati/fonti/`) e passalo con `stato`, `fonte` (`url` e
+  `parte`, cioè chi la pubblica) e `nota`. Lo script guarda l'URL, non la `parte`: una fonte che non è in
+  `firmatarie` lascia la correzione fuori dalla mail, comunque la descrivi. Se non lo trovi su una di quelle fonti,
+  `stato: "non verificabile"`. Banche dati, portali e la stampa non sono fonti primarie: per Poligrafici
   e Vetro il dataset stesso viene da una banca dati non firmataria, quindi lì nessuna correzione regge.
 
 ## 4. Il cancello
