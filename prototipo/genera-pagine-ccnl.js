@@ -61,7 +61,13 @@ const CONTRATTI_SEO=Object.freeze([
     query:'cooperative sociali',titoloTabella:'CCNL Cooperative sociali',
     livelli:['B1','C1','C2','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
   {id:'distribuzione-moderna-federdistribuzione-h008',slug:'dmo',breve:'DMO',
-    titoloTabella:'CCNL DMO, distribuzione moderna'},
+    query:'CCNL DMO',titoloTabella:'CCNL DMO, distribuzione moderna',
+    /* DMO ha livelli e importi propri, diversi dal Commercio: le query
+       «5 livello ccnl commercio» restano alle pagine Commercio. Qui solo
+       le query che citano DMO (DataForSEO Italia, 12 mesi a settembre
+       2026: «ccnl dmo 5 livello» 50, «3 livello» 20, «1 livello» 20,
+       «4 livello» 10). Nessun dato per 2°, 6°, 7°, Quadro, OV. */
+    livelli:['1','3','4','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'metalmeccanica-pmi-confapi-c018',slug:'metalmeccanico-confapi',breve:'Metalmeccanico Confapi',
     titoloTabella:'CCNL Metalmeccanico Confapi'},
   {id:'grafici-editori-g011',slug:'grafici-editoriali',breve:'Grafici editoriali',
