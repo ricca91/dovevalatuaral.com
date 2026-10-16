@@ -52,7 +52,7 @@ const CONTRATTI_SEO=Object.freeze([
   {id:'logistica-trasporto-merci-i100',slug:'logistica',breve:'Logistica',
     titoloTabella:'CCNL Logistica e trasporto merci'},
   {id:'multiservizi-pulizia-k511',slug:'multiservizi',breve:'Multiservizi',query:'CCNL Multiservizi',
-    titoloTabella:'CCNL Multiservizi e pulizie',livelli:['1','2','3','4'],slugLivello:numerico,
+    titoloTabella:'CCNL Multiservizi e pulizie',livelli:['1','2','3','4','5','6'],slugLivello:numerico,
     etichetta:livelloN},
   {id:'studi-professionali-confprofessioni-h442',slug:'studi-professionali',breve:'Studi professionali',
     query:'CCNL Studi professionali',titoloTabella:'CCNL Studi professionali',
