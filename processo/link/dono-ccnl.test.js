@@ -405,7 +405,7 @@ test('le date si possono dare anche come nelle Note, GG/MM/AAAA', () => {
 // --- la riga di comando, come la usa la skill ---
 
 const CLI = require.resolve('./dono-ccnl.js');
-const esegui = (...argomenti) => promisify(execFile)(process.execPath, [CLI, ...argomenti]);
+const run = (...argomenti) => promisify(execFile)(process.execPath, [CLI, ...argomenti]);
 
 test('CLI classifica: legge il file delle affermazioni e stampa classificazione, decisione e testo della Verifica', async t => {
   const cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'link-dono-'));
@@ -415,7 +415,7 @@ test('CLI classifica: legge il file delle affermazioni e stampa classificazione,
     {id: 'A1', frase: 'IV livello: 1.783,75 €', livello: '4', importo: 1783.75, vigente: true},
     {id: 'A2', frase: 'V livello: 1.660,08 €', livello: '5', importo: 1660.08, vigente: true},
   ]}));
-  const {stdout} = await esegui('classifica', file);
+  const {stdout} = await run('classifica', file);
   const esito = JSON.parse(stdout);
   assert.equal(esito.decisione, 'scrivi');
   assert.deepEqual(esito.affermazioni.map(a => a.stato), ['superato', 'superato']);
@@ -423,13 +423,13 @@ test('CLI classifica: legge il file delle affermazioni e stampa classificazione,
 });
 
 test('CLI netto: accetta lo slug del sito e stampa il testo da incollare', async () => {
-  const {stdout} = await esegui('netto', 'commercio', '2026-10-31', '2026-11-01', '--livelli', '4');
+  const {stdout} = await run('netto', 'commercio', '2026-10-31', '2026-11-01', '--livelli', '4');
   assert.match(stdout, /^Netto per livello, CCNL Terziario/);
   assert.match(stdout, /4° livello: lordo 1\.783,75 → 1\.818,75 € al mese/);
 });
 
 test('CLI valori: le tabelle della fonte per decorrenza, con quelle ricostruite segnate e la fonte firmataria', async () => {
-  const {stdout} = await esegui('valori', 'commercio');
+  const {stdout} = await run('valori', 'commercio');
   const valori = JSON.parse(stdout);
   assert.equal(valori.fonte.firmataria, true);
   assert.deepEqual(valori.tabelle.map(t => [t.decorrenza, Boolean(t.ricostruita)]), [
@@ -445,10 +445,10 @@ test('CLI valori: le tabelle della fonte per decorrenza, con quelle ricostruite 
 });
 
 test('CLI tranche: JSON delle tranche nella finestra, filtrabile per CCNL', async () => {
-  const {stdout} = await esegui('tranche', '2026-10-15', '2026-11-03', '--ccnl', 'commercio');
+  const {stdout} = await run('tranche', '2026-10-15', '2026-11-03', '--ccnl', 'commercio');
   assert.deepEqual(JSON.parse(stdout).map(t => [t.ccnl, t.decorrenza]), [['commercio', '2026-11-01']]);
 });
 
 test('CLI senza comando valido: esce con 2 e spiega l’uso', async () => {
-  await assert.rejects(esegui('boh'), err => err.code === 2 && /Uso:/.test(err.stderr));
+  await assert.rejects(run('boh'), err => err.code === 2 && /Uso:/.test(err.stderr));
 });

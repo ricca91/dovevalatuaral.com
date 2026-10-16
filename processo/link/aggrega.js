@@ -8,16 +8,16 @@ const { isOurs, normalizeDomain, inDomains } = require('./sito.js');
 // Un co-citato di AI Overview conta solo se compare in almeno tante risposte accanto a un dominio del top 10.
 const MIN_CO_MENZIONI = 3;
 
-function citazioni(voce) {
+function citazioni(citato) {
   const parti = [];
-  if (voce.prompt.length) parti.push(`${voce.prompt.length} prompt ChatGPT`);
-  if (voce.aiOverview.length) parti.push(`${voce.aiOverview.length} cluster AI Overview`);
-  return `${parti.join(' + ')} · ${voce.motori.join(', ')}`;
+  if (citato.prompt.length) parti.push(`${citato.prompt.length} prompt ChatGPT`);
+  if (citato.aiOverview.length) parti.push(`${citato.aiOverview.length} cluster AI Overview`);
+  return `${parti.join(' + ')} · ${citato.motori.join(', ')}`;
 }
 
 function aggrega(raccolta, esclusi) {
   const perDominio = new Map();
-  const voceDi = (dominio) => {
+  const dominioCitato = (dominio) => {
     if (!perDominio.has(dominio)) {
       perDominio.set(dominio, { dominio, promptPerPagina: new Map(), prompt: [], aiOverview: [] });
     }
@@ -26,23 +26,23 @@ function aggrega(raccolta, esclusi) {
 
   for (const [id, urls] of Object.entries(raccolta.chatgpt || {})) {
     for (const url of urls) {
-      const voce = voceDi(normalizeDomain(url));
-      const promptDellaPagina = voce.promptPerPagina.get(url) || [];
+      const citato = dominioCitato(normalizeDomain(url));
+      const promptDellaPagina = citato.promptPerPagina.get(url) || [];
       if (!promptDellaPagina.includes(id)) promptDellaPagina.push(id);
-      voce.promptPerPagina.set(url, promptDellaPagina);
-      if (!voce.prompt.includes(id)) voce.prompt.push(id);
+      citato.promptPerPagina.set(url, promptDellaPagina);
+      if (!citato.prompt.includes(id)) citato.prompt.push(id);
     }
   }
 
   for (const [cluster, { top = {}, co = {} }] of Object.entries(raccolta.aiOverview || {})) {
     for (const [host, menzioni] of Object.entries(top)) {
-      voceDi(normalizeDomain(host)).aiOverview.push({ cluster, menzioni, coCitato: false });
+      dominioCitato(normalizeDomain(host)).aiOverview.push({ cluster, menzioni, coCitato: false });
     }
     for (const [host, menzioni] of Object.entries(co)) {
       if (menzioni < MIN_CO_MENZIONI) continue;
-      const voce = voceDi(normalizeDomain(host));
-      if (voce.aiOverview.some((a) => a.cluster === cluster)) continue;
-      voce.aiOverview.push({ cluster, menzioni, coCitato: true });
+      const citato = dominioCitato(normalizeDomain(host));
+      if (citato.aiOverview.some((a) => a.cluster === cluster)) continue;
+      citato.aiOverview.push({ cluster, menzioni, coCitato: true });
     }
   }
 
@@ -59,21 +59,21 @@ function aggrega(raccolta, esclusi) {
   const prospect = [];
   const esclusiDalRun = [];
   const nostre = { chatgpt: [], aiOverview: [] };
-  for (const { promptPerPagina, ...voce } of perDominio.values()) {
-    if (isOurs(voce.dominio)) {
+  for (const { promptPerPagina, ...citato } of perDominio.values()) {
+    if (isOurs(citato.dominio)) {
       for (const [url, prompt] of promptPerPagina) nostre.chatgpt.push({ url, prompt });
-      nostre.aiOverview.push(...voce.aiOverview);
+      nostre.aiOverview.push(...citato.aiOverview);
       continue;
     }
-    const motivo = motivoEsclusione(voce.dominio);
+    const motivo = motivoEsclusione(citato.dominio);
     if (motivo) {
-      esclusiDalRun.push({ dominio: voce.dominio, motivo });
+      esclusiDalRun.push({ dominio: citato.dominio, motivo });
       continue;
     }
     const motori = [];
-    if (voce.prompt.length) motori.push('ChatGPT');
-    if (voce.aiOverview.length) motori.push('AI Overview');
-    const completa = { dominio: voce.dominio, pagine: [...promptPerPagina.keys()], prompt: voce.prompt, aiOverview: voce.aiOverview, motori };
+    if (citato.prompt.length) motori.push('ChatGPT');
+    if (citato.aiOverview.length) motori.push('AI Overview');
+    const completa = { dominio: citato.dominio, pagine: [...promptPerPagina.keys()], prompt: citato.prompt, aiOverview: citato.aiOverview, motori };
     prospect.push({ ...completa, citazioni: citazioni(completa) });
   }
   const menzioniAio = (p) => p.aiOverview.reduce((somma, a) => somma + a.menzioni, 0);

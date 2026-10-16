@@ -38,21 +38,21 @@ function finestre(ultimo) {
 }
 
 // Una pagina del sito come percorso: senza host (www o no), query e frammento; slash finale tranne sui file (.html).
-export function normalizzaPagina(indirizzo) {
+export function normalizePath(indirizzo) {
   let percorso = new URL(indirizzo, ORIGIN).pathname.replace(/\/index\.html$/, '/');
   if (!percorso.endsWith('/') && !percorso.split('/').at(-1).includes('.')) percorso += '/';
   return percorso;
 }
 
-const arrotonda = (n) => Math.round(n * 10) / 10;
+const round1 = (n) => Math.round(n * 10) / 10;
 
 // Somma clic e impressioni delle righe; posizione media pesata sulle impressioni.
-function aggrega(righe) {
+function summarize(righe) {
   const impressioni = righe.reduce((s, r) => s + r.impressions, 0);
   return {
     clic: righe.reduce((s, r) => s + r.clicks, 0),
     impressioni,
-    posizione: impressioni ? arrotonda(righe.reduce((s, r) => s + r.position * r.impressions, 0) / impressioni) : null,
+    posizione: impressioni ? round1(righe.reduce((s, r) => s + r.position * r.impressions, 0) / impressioni) : null,
   };
 }
 
@@ -70,7 +70,7 @@ export async function misuraGsc({ oggi, pagine = [], query }) {
       impressioni: righe.reduce((s, r) => s + r.impressions, 0),
     };
   }
-  const linkate = [...new Set(pagine.map(normalizzaPagina))];
+  const linkate = [...new Set(pagine.map(normalizePath))];
   const risultato = {
     ultimo_giorno_con_dati: ultimo,
     finestre: f,
@@ -87,7 +87,7 @@ export async function misuraGsc({ oggi, pagine = [], query }) {
   }
   risultato.pagine = linkate.map((pagina) => {
     const [recenti, precedenti] = ['recenti', 'precedenti'].map((nome) =>
-      aggrega(perPagina[nome].filter((r) => normalizzaPagina(r.keys[0]) === pagina)),
+      summarize(perPagina[nome].filter((r) => normalizePath(r.keys[0]) === pagina)),
     );
     return {
       pagina,
@@ -105,12 +105,12 @@ export async function misuraGsc({ oggi, pagine = [], query }) {
   for (const [nome, { dal, al }] of Object.entries(f)) {
     const gruppi = new Map();
     for (const r of await query(dal, al, 'query,page')) {
-      const pagina = normalizzaPagina(r.keys[1]);
+      const pagina = normalizePath(r.keys[1]);
       if (!linkate.includes(pagina)) continue;
       const chiave = JSON.stringify([r.keys[0], pagina]);
       gruppi.set(chiave, [...(gruppi.get(chiave) ?? []), r]);
     }
-    coppie[nome] = new Map([...gruppi].map(([chiave, righe]) => [chiave, aggrega(righe)]));
+    coppie[nome] = new Map([...gruppi].map(([chiave, righe]) => [chiave, summarize(righe)]));
   }
   for (const [chiave, ora] of coppie.recenti) {
     const prima = coppie.precedenti.get(chiave);
@@ -134,7 +134,7 @@ export async function misuraGsc({ oggi, pagine = [], query }) {
   return risultato;
 }
 
-function relEffettivo(rel) {
+function effectiveRel(rel) {
   const token = rel.toLowerCase().split(/\s+/);
   return ['sponsored', 'ugc', 'nofollow'].find((t) => token.includes(t)) ?? 'follow';
 }
@@ -142,15 +142,15 @@ function relEffettivo(rel) {
 // I link della pagina `pagina` che puntano al sito, confrontati con la `destinazione` concordata. Quali sono e il
 // loro testo li dice verifica-pagina.js, l'unico controllo dei link; qui il confronto per la revisione.
 export function controllaLink({ html, pagina, destinazione }) {
-  const attesa = normalizzaPagina(destinazione);
+  const attesa = normalizePath(destinazione);
   const link_al_sito = findLinks(html, pagina).map(({ url, text, imageAlt, rel, context }) => ({
     href: url.href,
     host: url.hostname.toLowerCase(),
-    percorso: normalizzaPagina(url.href),
+    percorso: normalizePath(url.href),
     anchor: text || (imageAlt ? `[immagine: ${imageAlt}]` : '[immagine senza alt]'),
     rel: rel ?? '',
-    rel_effettivo: relEffettivo(rel ?? ''),
-    verso_destinazione: isOurSite(url.hostname) && normalizzaPagina(url.href) === attesa,
+    rel_effettivo: effectiveRel(rel ?? ''),
+    verso_destinazione: isOurSite(url.hostname) && normalizePath(url.href) === attesa,
     contesto: context,
   }));
   return { link_al_sito, verso_destinazione: link_al_sito.some((l) => l.verso_destinazione) };
@@ -158,7 +158,7 @@ export function controllaLink({ html, pagina, destinazione }) {
 
 // DataFast chiama alcune sorgenti per nome invece che per dominio (visto il 2026-10-15: Google, LinkedIn, Bing,
 // ChatGPT, Yahoo, DuckDuckGo, GitHub). Le altre arrivano come dominio (riccsartori.com, vercel.com).
-const SORGENTI_PER_NOME = {
+const SOURCES_BY_NAME = {
   google: 'google.com',
   linkedin: 'linkedin.com',
   bing: 'bing.com',
@@ -181,9 +181,9 @@ export async function misuraDatafast({ oggi, domini = [], referrers }) {
   for (const [nome, { dal, al }] of Object.entries(f)) righe[nome] = await referrers(dal, al);
   const somma = (nome, filtro = () => true) =>
     righe[nome].filter(filtro).reduce((s, r) => s + r.visitors, 0);
-  const daDominio = (dominio) => (r) => {
+  const fromDomain = (dominio) => (r) => {
     const nome = normalizeDomain(r.referrer);
-    return inDomains(SORGENTI_PER_NOME[nome] ?? nome, [dominio]);
+    return inDomains(SOURCES_BY_NAME[nome] ?? nome, [dominio]);
   };
   return {
     finestre: f,
@@ -191,82 +191,82 @@ export async function misuraDatafast({ oggi, domini = [], referrers }) {
     visitatori_somma: { recenti: somma('recenti'), precedenti: somma('precedenti') },
     domini: [...new Set(domini.map(normalizeDomain))].map((dominio) => ({
       dominio,
-      recenti: somma('recenti', daDominio(dominio)),
-      precedenti: somma('precedenti', daDominio(dominio)),
+      recenti: somma('recenti', fromDomain(dominio)),
+      precedenti: somma('precedenti', fromDomain(dominio)),
     })),
   };
 }
 
 // ---------------------------------------------------------------------------------------------------------------
-// Riga di comando. Le dipendenze esterne stanno qui, sovrascrivibili dall'ambiente (i test le sostituiscono).
+// Riga di command. Le dipendenze esterne stanno qui, sovrascrivibili dall'ambiente (i test le sostituiscono).
 
 // gsc.mjs vive fuori dal repo, non è versionato e porta con sé le credenziali OAuth (~/.config/ricc-os/…).
 const GSC_BIN = process.env.GSC_BIN || '/root/ricc-os/integrazioni/gsc/gsc.mjs';
 const GSC_SITE = process.env.GSC_SITE || 'sc-domain:dovevalatuaral.com';
 
-class FonteMuta extends Error {}
+class SourceDown extends Error {}
 
-function queryGsc(dal, al, dimensioni) {
+function gscQuery(dal, al, dimensioni) {
   return new Promise((risolvi, rifiuta) => {
     execFile(
       process.execPath,
       [GSC_BIN, 'query', GSC_SITE, dal, al, dimensioni, '25000'],
       { maxBuffer: 256 * 1024 * 1024, timeout: 120_000 },
       (errore, stdout, stderr) => {
-        if (errore) return rifiuta(new FonteMuta(`GSC non ha risposto: ${(stderr || errore.message).trim()}`));
+        if (errore) return rifiuta(new SourceDown(`GSC non ha risposto: ${(stderr || errore.message).trim()}`));
         try {
           risolvi(JSON.parse(stdout));
         } catch {
-          rifiuta(new FonteMuta(`GSC non ha risposto: output non JSON da ${GSC_BIN}`));
+          rifiuta(new SourceDown(`GSC non ha risposto: output non JSON da ${GSC_BIN}`));
         }
       },
     );
   });
 }
 
-// La chiave DataFast: prima l'ambiente, poi il .env del checkout principale (fuori da git, assente nei worktree).
+// La chiave DataFast: prima l'ambiente, poi il .env del checkout main (fuori da git, assente nei worktree).
 const DATAFAST_ENV_FILE = process.env.DATAFAST_ENV_FILE || '/root/ricc-os/projects/dovevalatuaral.com/.env';
 const DATAFAST_API = process.env.DATAFAST_API || 'https://datafa.st/api/v1';
 
-function chiaveDatafast() {
+function datafastKey() {
   if (process.env.DATAFAST_API_KEY) return process.env.DATAFAST_API_KEY;
   const chiave = existsSync(DATAFAST_ENV_FILE) ? parseEnv(readFileSync(DATAFAST_ENV_FILE, 'utf8')).DATAFAST_API_KEY : '';
-  if (!chiave) throw new FonteMuta(`DataFast non ha risposto: DATAFAST_API_KEY assente (né nell'ambiente né in ${DATAFAST_ENV_FILE})`);
+  if (!chiave) throw new SourceDown(`DataFast non ha risposto: DATAFAST_API_KEY assente (né nell'ambiente né in ${DATAFAST_ENV_FILE})`);
   return chiave;
 }
 
-function referrersDatafast(chiave) {
+function datafastReferrers(chiave) {
   return async (dal, al) => {
     const url = new URL(`${DATAFAST_API}/analytics/referrers`);
     url.search = new URLSearchParams({ startAt: dal, endAt: al, timezone: 'Europe/Rome', limit: '1000' });
     const res = await fetch(url, { headers: { Authorization: `Bearer ${chiave}` }, signal: AbortSignal.timeout(60_000) });
     const corpo = await res.text();
-    if (!res.ok) throw new FonteMuta(`DataFast non ha risposto: HTTP ${res.status} ${corpo.slice(0, 200)}`);
+    if (!res.ok) throw new SourceDown(`DataFast non ha risposto: HTTP ${res.status} ${corpo.slice(0, 200)}`);
     return JSON.parse(corpo).data ?? [];
   };
 }
 
-const oggiARoma = () => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
-const DATA = /^\d{4}-\d{2}-\d{2}$/;
+const todayInRome = () => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(new Date());
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-const comandi = {
-  async date(oggi = oggiARoma()) {
+const commands = {
+  async date(oggi = todayInRome()) {
     return calendario(oggi);
   },
-  async gsc(oggi = oggiARoma(), ...pagine) {
+  async gsc(oggi = todayInRome(), ...pagine) {
     try {
-      return await misuraGsc({ oggi, pagine, query: queryGsc });
+      return await misuraGsc({ oggi, pagine, query: gscQuery });
     } catch (e) {
-      throw e instanceof FonteMuta ? e : new FonteMuta(`GSC non ha risposto: ${e.message}`);
+      throw e instanceof SourceDown ? e : new SourceDown(`GSC non ha risposto: ${e.message}`);
     }
   },
-  async datafast(oggi = oggiARoma(), ...domini) {
-    const chiave = chiaveDatafast();
+  async datafast(oggi = todayInRome(), ...domini) {
+    const chiave = datafastKey();
     try {
-      return await misuraDatafast({ oggi, domini, referrers: referrersDatafast(chiave) });
+      return await misuraDatafast({ oggi, domini, referrers: datafastReferrers(chiave) });
     } catch (e) {
-      const messaggio = e instanceof FonteMuta ? e.message : `DataFast non ha risposto: ${e.message}`;
-      throw new FonteMuta(messaggio.replaceAll(chiave, '***'));
+      const messaggio = e instanceof SourceDown ? e.message : `DataFast non ha risposto: ${e.message}`;
+      throw new SourceDown(messaggio.replaceAll(chiave, '***'));
     }
   },
   async link(pagina, destinazione) {
@@ -275,27 +275,27 @@ const comandi = {
     try {
       pag = await fetchPage(pagina, { timeoutMs: 30_000 });
     } catch (e) {
-      throw new FonteMuta(`pagina non raggiungibile: ${e.cause?.code ?? e.message}`);
+      throw new SourceDown(`pagina non raggiungibile: ${e.cause?.code ?? e.message}`);
     }
     const html = pag.status >= 200 && pag.status < 300 ? pag.html : '';
     return { pagina, http: pag.status, url_finale: pag.finalUrl, ...controllaLink({ html, pagina: pag.finalUrl, destinazione }) };
   },
 };
 
-async function principale([comando, ...argomenti]) {
-  if (!comandi[comando] || (argomenti[0] !== undefined && comando !== 'link' && !DATA.test(argomenti[0]))) {
+async function main([command, ...args]) {
+  if (!commands[command] || (args[0] !== undefined && command !== 'link' && !ISO_DATE.test(args[0]))) {
     console.error('uso: date [oggi] | gsc <oggi> [pagina ...] | datafast <oggi> [dominio ...] | link <url> <destinazione>');
     return 1;
   }
   try {
-    console.log(JSON.stringify(await comandi[comando](...argomenti), null, 2));
+    console.log(JSON.stringify(await commands[command](...args), null, 2));
     return 0;
   } catch (e) {
-    console.error(e instanceof FonteMuta ? e.message : `errore: ${e.message}`);
+    console.error(e instanceof SourceDown ? e.message : `errore: ${e.message}`);
     return 2;
   }
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  process.exitCode = await principale(process.argv.slice(2));
+  process.exitCode = await main(process.argv.slice(2));
 }

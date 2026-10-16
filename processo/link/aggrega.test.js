@@ -7,12 +7,12 @@ const path = require('node:path');
 const { spawnSync } = require('node:child_process');
 const { aggrega } = require('./aggrega.js');
 
-const NESSUNO = { nostri: [], competitor: [], giganti: [], istituzioni: [] };
+const NONE = { nostri: [], competitor: [], giganti: [], istituzioni: [] };
 
 test('un dominio citato da un prompt ChatGPT diventa un prospect con pagina, prompt e citazioni', () => {
   const esito = aggrega({
     chatgpt: { 'COM-1': ['https://ascom.bo.it/2026/10/09/aumento/'] },
-  }, NESSUNO);
+  }, NONE);
 
   assert.deepEqual(esito.prospect, [{
     dominio: 'ascom.bo.it',
@@ -30,7 +30,7 @@ test('lo stesso dominio, con o senza www, conta una volta per prompt e tiene le 
       'COM-1': ['https://www.filcams.cgil.it/page/terziario', 'https://www.filcams.cgil.it/page/terziario'],
       'COM-4': ['https://filcams.cgil.it/article/terziario/43d4', 'https://www.filcams.cgil.it/page/terziario'],
     },
-  }, NESSUNO);
+  }, NONE);
 
   assert.equal(esito.prospect.length, 1);
   const [filcams] = esito.prospect;
@@ -53,7 +53,7 @@ test('AI Overview aggiunge il motore e i cluster; i co-citati contano solo da 3 
       },
       'studi-professionali': { top: { 'www.filcams.cgil.it': 31 }, co: {} },
     },
-  }, NESSUNO);
+  }, NONE);
 
   const per = Object.fromEntries(esito.prospect.map((p) => [p.dominio, p]));
   assert.deepEqual(per['filcams.cgil.it'].aiOverview, [
@@ -80,7 +80,7 @@ test('le pagine nostre escono dai prospect e finiscono nella metrica GEO, con i 
       'MET-3': ['https://www.dovevalatuaral.com/minimi-ccnl/commercio/'],
     },
     aiOverview: { commercio: { top: { 'www.dovevalatuaral.com': 4 }, co: {} } },
-  }, { ...NESSUNO, nostri: ['dovevalatuaral.com'] });
+  }, { ...NONE, nostri: ['dovevalatuaral.com'] });
 
   assert.deepEqual(esito.prospect.map((p) => p.dominio), ['quantospetta.it']);
   assert.deepEqual(esito.nostre, {
@@ -127,7 +127,7 @@ test('i prospect sono ordinati per motori, poi prompt ChatGPT, poi cluster e men
       commercio: { top: { 'entrambi.it': 5, 'aio-poche.it': 10, 'aio-tante.it': 90 }, co: {} },
       tredicesima: { top: { 'aio-poche.it': 3 }, co: {} },
     },
-  }, NESSUNO);
+  }, NONE);
 
   assert.deepEqual(esito.prospect.map((p) => p.dominio), [
     'entrambi.it', 'solo-chatgpt.it', 'aio-poche.it', 'aio-tante.it',

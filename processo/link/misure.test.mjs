@@ -13,19 +13,19 @@ import { fileURLToPath } from 'node:url';
 import { calendario, misuraGsc, misuraDatafast, controllaLink } from './misure.mjs';
 
 const CLI = fileURLToPath(new URL('./misure.mjs', import.meta.url));
-const { DATAFAST_API_KEY: _chiaveVera, ...AMBIENTE } = process.env; // la chiave vera non arriva mai ai test
+const { DATAFAST_API_KEY: _realKey, ...ENV } = process.env; // la chiave vera non arriva mai ai test
 
 // Lancia la CLI come la lancia l'agente; risolve sempre con { codice, stdout, stderr }.
 function cli(argomenti, ambiente = {}) {
   return new Promise((risolvi) => {
-    execFile(process.execPath, [CLI, ...argomenti], { env: { ...AMBIENTE, ...ambiente } }, (errore, stdout, stderr) =>
+    execFile(process.execPath, [CLI, ...argomenti], { env: { ...ENV, ...ambiente } }, (errore, stdout, stderr) =>
       risolvi({ codice: errore ? errore.code : 0, stdout, stderr }),
     );
   });
 }
 
 // Un gsc.mjs finto: stampa le righe come quello vero, oppure fallisce come quello vero.
-function gscBinFinto({ fallisci } = {}) {
+function fakeGscBin({ fallisci } = {}) {
   const cartella = mkdtempSync(join(tmpdir(), 'link-review-gsc-'));
   const file = join(cartella, 'gsc.mjs');
   writeFileSync(
@@ -52,7 +52,7 @@ test('calendario del lunedì: settimana, follow-up dovuti, soglia dei 60 giorni 
 });
 
 // GSC finto: risponde come gsc.mjs (righe {keys, clicks, impressions, ctr, position}) a seconda delle dimensioni.
-function gscFinto({ giorni = [], pagine = {}, queryPagine = {} } = {}) {
+function fakeGsc({ giorni = [], pagine = {}, queryPagine = {} } = {}) {
   const chiamate = [];
   const query = async (dal, al, dimensioni) => {
     chiamate.push({ dal, al, dimensioni });
@@ -66,7 +66,7 @@ function gscFinto({ giorni = [], pagine = {}, queryPagine = {} } = {}) {
 const giorno = (data, clicks = 0, impressions = 0) => ({ keys: [data], clicks, impressions, ctr: 0, position: 7 });
 
 test("GSC: le finestre partono dall'ultimo giorno con dati, non da oggi meno un ritardo fisso", async () => {
-  const { query } = gscFinto({ giorni: [giorno('2026-10-11', 9, 916), giorno('2026-10-12', 34, 2273)] });
+  const { query } = fakeGsc({ giorni: [giorno('2026-10-11', 9, 916), giorno('2026-10-12', 34, 2273)] });
   const r = await misuraGsc({ oggi: '2026-10-15', pagine: [], query });
   assert.equal(r.ultimo_giorno_con_dati, '2026-10-12');
   assert.deepEqual(r.finestre, {
@@ -76,7 +76,7 @@ test("GSC: le finestre partono dall'ultimo giorno con dati, non da oggi meno un 
 });
 
 test('GSC: clic e impressioni del sito sommati giorno per giorno in ciascuna finestra', async () => {
-  const { query } = gscFinto({
+  const { query } = fakeGsc({
     giorni: [
       giorno('2026-08-17', 1000, 1000), // fuori da entrambe le finestre
       giorno('2026-08-18', 3, 300),
@@ -97,7 +97,7 @@ const RECENTI = '2026-09-15/2026-10-12';
 const PRECEDENTI = '2026-08-18/2026-09-14';
 
 test('GSC: pagine linkate confrontate tra le finestre, varianti www e senza www sommate', async () => {
-  const { query } = gscFinto({
+  const { query } = fakeGsc({
     giorni: [giorno('2026-10-12')],
     pagine: {
       [RECENTI]: [
@@ -138,7 +138,7 @@ test('GSC: pagine linkate confrontate tra le finestre, varianti www e senza www 
 
 test('GSC: query delle pagine linkate entrate in top 10 (prima oltre il 10° posto o assenti)', async () => {
   const commercio = 'https://www.dovevalatuaral.com/minimi-ccnl/commercio/';
-  const { query } = gscFinto({
+  const { query } = fakeGsc({
     giorni: [giorno('2026-10-12')],
     queryPagine: {
       [RECENTI]: [
@@ -160,7 +160,7 @@ test('GSC: query delle pagine linkate entrate in top 10 (prima oltre il 10° pos
 
 test('GSC: sotto le 10 impressioni una query entrata in top 10 è rumore: si conta ma non si elenca', async () => {
   const commercio = 'https://www.dovevalatuaral.com/minimi-ccnl/commercio/';
-  const { query } = gscFinto({
+  const { query } = fakeGsc({
     giorni: [giorno('2026-10-12')],
     queryPagine: {
       [RECENTI]: [
@@ -302,7 +302,7 @@ test("link: le entità HTML nell'href vengono decodificate", () => {
 });
 
 test('CLI gsc: interroga gsc.mjs sulla proprietà del sito e stampa il JSON delle misure', async () => {
-  const r = await cli(['gsc', '2026-10-15'], { GSC_BIN: gscBinFinto() });
+  const r = await cli(['gsc', '2026-10-15'], { GSC_BIN: fakeGscBin() });
   assert.equal(r.codice, 0, r.stderr);
   const misure = JSON.parse(r.stdout);
   assert.equal(misure.ultimo_giorno_con_dati, '2026-10-12');
@@ -310,7 +310,7 @@ test('CLI gsc: interroga gsc.mjs sulla proprietà del sito e stampa il JSON dell
 });
 
 test('CLI gsc: se GSC non risponde lo dice ed esce con 2, senza numeri', async () => {
-  const r = await cli(['gsc', '2026-10-15'], { GSC_BIN: gscBinFinto({ fallisci: 'errore: token: invalid_grant' }) });
+  const r = await cli(['gsc', '2026-10-15'], { GSC_BIN: fakeGscBin({ fallisci: 'errore: token: invalid_grant' }) });
   assert.equal(r.codice, 2);
   assert.equal(r.stdout, '');
   assert.match(r.stderr, /GSC non ha risposto: .*invalid_grant/);
@@ -323,7 +323,7 @@ async function server(gestore) {
   return { base: `http://127.0.0.1:${s.address().port}`, chiudi: () => s.close() };
 }
 
-const CHIAVE_FINTA = 'df_chiave_finta_da_non_stampare_123';
+const FAKE_KEY = 'df_chiave_finta_da_non_stampare_123';
 
 test('CLI datafast: legge la chiave dal file .env indicato, la usa come Bearer e non la stampa mai', async () => {
   const referrer = {
@@ -332,7 +332,7 @@ test('CLI datafast: legge la chiave dal file .env indicato, la usa come Bearer e
   };
   const df = await server((req, res) => {
     const url = new URL(req.url, 'http://x');
-    if (req.headers.authorization !== `Bearer ${CHIAVE_FINTA}` || url.pathname !== '/api/v1/analytics/referrers') {
+    if (req.headers.authorization !== `Bearer ${FAKE_KEY}` || url.pathname !== '/api/v1/analytics/referrers') {
       res.writeHead(401).end(JSON.stringify({ status: 'error', message: 'unauthorized' }));
       return;
     }
@@ -340,12 +340,12 @@ test('CLI datafast: legge la chiave dal file .env indicato, la usa come Bearer e
     res.end(JSON.stringify({ status: 'success', data: referrer[url.searchParams.get('startAt')] ?? [] }));
   });
   const env = join(mkdtempSync(join(tmpdir(), 'link-review-env-')), '.env');
-  writeFileSync(env, `ANTHROPIC_API_KEY=altro\nDATAFAST_API_KEY=${CHIAVE_FINTA}\n`);
+  writeFileSync(env, `ANTHROPIC_API_KEY=altro\nDATAFAST_API_KEY=${FAKE_KEY}\n`);
   try {
     const r = await cli(['datafast', '2026-10-15', 'cgil-esempio.it'], { DATAFAST_ENV_FILE: env, DATAFAST_API: `${df.base}/api/v1` });
     assert.equal(r.codice, 0, r.stderr);
     assert.deepEqual(JSON.parse(r.stdout).domini, [{ dominio: 'cgil-esempio.it', recenti: 3, precedenti: 0 }]);
-    assert.doesNotMatch(r.stdout + r.stderr, new RegExp(CHIAVE_FINTA));
+    assert.doesNotMatch(r.stdout + r.stderr, new RegExp(FAKE_KEY));
   } finally {
     df.chiudi();
   }

@@ -56,7 +56,7 @@ function tabelle(ccnl, sezione) {
   for (const [decorrenzaAumento, decorrenza, conPagaBase] of storico.passi) {
     if (dopo.decorrenza !== decorrenzaAumento) break;
     const aumenti = storico.aumenti[decorrenzaAumento];
-    const meno = (importo, codice) => (cent(importo) - cent(aumenti[codice])) / 100;
+    const meno = (importo, codice) => (cents(importo) - cents(aumenti[codice])) / 100;
     dopo = {
       decorrenza, titolo: `ricostruita dall'art. 213: in vigore fino al ${formatDay(addDays(decorrenzaAumento, -1))}`,
       ricostruita: storico.fonte,
@@ -89,11 +89,11 @@ function fontiFirmatarie(contratto) {
   return [...new Set(fonti)].filter(f => firmata(f).firmataria)
     .map(({titolo, url, archivio}) => ({titolo, url, archivio: archivio || null}));
 }
-const chiaviFirmatarie = contratto => fontiFirmatarie(contratto)
-  .flatMap(f => [f.url, f.archivio]).filter(Boolean).map(chiaveFonte);
+const signedSourceKeys = contratto => fontiFirmatarie(contratto)
+  .flatMap(f => [f.url, f.archivio]).filter(Boolean).map(sourceKey);
 
 // Lo stesso indirizzo scritto in due modi (www o no, slash finale, frammento) è la stessa fonte.
-function chiaveFonte(indirizzo) {
+function sourceKey(indirizzo) {
   if (!/^https?:\/\//i.test(indirizzo)) return indirizzo.replace(/^\.\//, '');
   const url = new URL(indirizzo);
   return `${url.hostname.toLowerCase().replace(/^www\./, '')}${url.pathname.replace(/\/+$/, '')}${url.search}`;
@@ -110,7 +110,7 @@ function controllataAMano(affermazione, firmatarie) {
     return {...affermazione, stato: 'non verificabile', motivo: `stato sconosciuto: ${affermazione.stato}`};
   if (!affermazione.fonte?.url)
     return {...affermazione, stato: 'non verificabile', motivo: 'manca l’URL della fonte primaria'};
-  const firmataria = firmatarie.includes(chiaveFonte(affermazione.fonte.url));
+  const firmataria = firmatarie.includes(sourceKey(affermazione.fonte.url));
   const correzione = affermazione.stato === 'cambiato' || affermazione.stato === 'superato';
   return {...affermazione, fonte: {...affermazione.fonte, firmataria},
     ...(correzione && !firmataria ? {motivo: 'la fonte non è una fonte firmataria del dataset per questo contratto'} : {})};
@@ -126,7 +126,7 @@ function importoDi(tabella, codice, voce) {
   return livello.voci.find(v => v.id === voce)?.importo ?? null;
 }
 
-const cent = euro => Math.round(euro * 100);
+const cents = euro => Math.round(euro * 100);
 // Fino a due centesimi di differenza sono arrotondamento: Filcams pubblica i totali per livello, l'accordo
 // gli aumenti a parametro, e chi somma dall'accordo può trovarsi un centesimo sopra o sotto.
 const ARROTONDAMENTO = 2;
@@ -139,7 +139,7 @@ const ALL_EURO = 99;
 function corrispondenze(elenco, codice, importo, tolleranza) {
   const trovate = [];
   const prova = (atteso, trovata) => {
-    const scarto = cent(importo) - cent(atteso);
+    const scarto = cents(importo) - cents(atteso);
     if (Math.abs(scarto) <= tolleranza) trovate.push({...trovata, scarto});
   };
   for (const tabella of elenco) {
@@ -163,10 +163,10 @@ function classificaAumento(affermazione, elenco, fonte) {
     return {...affermazione, stato: 'non verificabile', fonte, motivo: 'aumento senza decorrenza: non si sa quale tranche'};
   const tranche = elenco.slice(1).map((tabella, i) => ({
     decorrenza: tabella.decorrenza, voce: 'aumento',
-    importo: (cent(importoDi(tabella, affermazione.livello, 'totale')) - cent(importoDi(elenco[i], affermazione.livello, 'totale'))) / 100,
+    importo: (cents(importoDi(tabella, affermazione.livello, 'totale')) - cents(importoDi(elenco[i], affermazione.livello, 'totale'))) / 100,
     ...(tabella.ricostruita ? {ricostruito: true} : {}),
   }));
-  const vicino = t => Math.abs(cent(t.importo) - cent(affermazione.importo)) <= ARROTONDAMENTO;
+  const vicino = t => Math.abs(cents(t.importo) - cents(affermazione.importo)) <= ARROTONDAMENTO;
   const sua = tranche.find(t => t.decorrenza === affermazione.decorrenza);
   if (sua && vicino(sua)) return {...affermazione, stato: 'ancora vero', fonte};
   const altra = tranche.find(vicino);
@@ -229,7 +229,7 @@ function classificaUna(affermazione, {ccnl, sezione, oggi, invio}) {
 }
 
 function classifica({ccnl, sezione = null, oggi, invio = oggi, affermazioni}) {
-  const firmatarie = chiaviFirmatarie(R.trovaContratto(ccnl));
+  const firmatarie = signedSourceKeys(R.trovaContratto(ccnl));
   return affermazioni.map(a => ('stato' in a ? controllataAMano(a, firmatarie) : classificaUna(a, {ccnl, sezione, oggi, invio})));
 }
 
@@ -334,7 +334,7 @@ function testoNetto({ccnl, dopo, righe, tabella}) {
 }
 
 // La skill parla con gli slug del sito (`commercio`), il dataset con gli id (`terziario-confcommercio-h011`).
-function idDi(ccnl) {
+function datasetId(ccnl) {
   return G.CONTRATTI_SEO.find(c => c.slug === ccnl)?.id || R.trovaContratto(ccnl).id;
 }
 
@@ -344,7 +344,7 @@ function idDi(ccnl) {
 function tranche({dopo, fino, ccnl = null}) {
   // Le date arrivano anche dalle Note di Airtable, scritte GG/MM/AAAA.
   const [da, a] = [parseDay(dopo), parseDay(fino)];
-  const perChiave = new Map();
+  const byKey = new Map();
   for (const contratto of R.CONTRATTI) {
     const slug = G.CONTRATTI_SEO.find(c => c.id === contratto.id)?.slug || contratto.id;
     if (ccnl && ccnl !== slug && ccnl !== contratto.id) continue;
@@ -352,12 +352,12 @@ function tranche({dopo, fino, ccnl = null}) {
     for (const profilo of profili) {
       for (const tabella of profilo.tabelle.filter(t => t.decorrenza > da && t.decorrenza <= a)) {
         const chiave = `${tabella.decorrenza} ${slug}`;
-        if (!perChiave.has(chiave)) perChiave.set(chiave, {ccnl: slug, decorrenza: tabella.decorrenza, titolo: tabella.titolo, sezioni: []});
-        if (profilo.id) perChiave.get(chiave).sezioni.push(profilo.id);
+        if (!byKey.has(chiave)) byKey.set(chiave, {ccnl: slug, decorrenza: tabella.decorrenza, titolo: tabella.titolo, sezioni: []});
+        if (profilo.id) byKey.get(chiave).sezioni.push(profilo.id);
       }
     }
   }
-  return [...perChiave.values()].sort((x, y) => x.decorrenza.localeCompare(y.decorrenza) || x.ccnl.localeCompare(y.ccnl));
+  return [...byKey.values()].sort((x, y) => x.decorrenza.localeCompare(y.decorrenza) || x.ccnl.localeCompare(y.ccnl));
 }
 
 // Cosa sa la fonte, per leggere la pagina del prospect con gli stessi codici di livello e le stesse voci.
@@ -378,7 +378,7 @@ function valori(ccnl, sezione = null) {
 
 module.exports = {classifica, cancello, nettoPrimaDopo, valori, tranche};
 
-const USO = `Uso:
+const USAGE = `Uso:
   node processo/link/dono-ccnl.js valori <ccnl> [--sezione <id>]
       → JSON: fonte (con firmataria sì/no), firmatarie (le sole fonti che reggono una correzione controllata a
         mano), tabelle per decorrenza con totale, voci e scatto per livello
@@ -390,33 +390,33 @@ const USO = `Uso:
   node processo/link/dono-ccnl.js tranche <dopo il> <fino al> [--ccnl <slug>]
       → JSON: le tranche con decorrenza dopo la prima data e fino alla seconda compresa (AAAA-MM-GG o GG/MM/AAAA)`;
 
-function opzione(argomenti, nome) {
-  const i = argomenti.indexOf(nome);
-  return i === -1 ? null : argomenti[i + 1];
+function option(args, nome) {
+  const i = args.indexOf(nome);
+  return i === -1 ? null : args[i + 1];
 }
 
 if (require.main === module) {
-  const [comando, ...argomenti] = process.argv.slice(2);
-  if (comando === 'valori' && argomenti[0]) {
-    console.log(JSON.stringify(valori(idDi(argomenti[0]), opzione(argomenti, '--sezione')), null, 2));
-  } else if (comando === 'classifica' && argomenti[0]) {
-    const input = JSON.parse(require('node:fs').readFileSync(argomenti[0], 'utf8'));
-    const ccnl = idDi(input.ccnl);
+  const [command, ...args] = process.argv.slice(2);
+  if (command === 'valori' && args[0]) {
+    console.log(JSON.stringify(valori(datasetId(args[0]), option(args, '--sezione')), null, 2));
+  } else if (command === 'classifica' && args[0]) {
+    const input = JSON.parse(require('node:fs').readFileSync(args[0], 'utf8'));
+    const ccnl = datasetId(input.ccnl);
     const affermazioni = classifica({...input, ccnl});
     const esito = cancello(affermazioni, input);
     console.log(JSON.stringify({ccnl, oggi: input.oggi, invio: input.invio || input.oggi, affermazioni,
       decisione: esito.decisione, foglio: esito.foglio.map(c => c.id), fuori: esito.fuori.map(c => c.id),
       nonPrimaDel: esito.nonPrimaDel, verifica: esito.verifica}, null, 2));
-  } else if (comando === 'netto' && argomenti.length >= 3) {
-    const [ccnl, prima, dopo] = argomenti;
-    const livelli = opzione(argomenti, '--livelli')?.split(',') || null;
-    const risultato = nettoPrimaDopo(idDi(ccnl), {prima, dopo, sezione: opzione(argomenti, '--sezione'), livelli});
-    console.log(argomenti.includes('--json') ? JSON.stringify(risultato, null, 2) : risultato.testo);
-  } else if (comando === 'tranche' && argomenti.length >= 2) {
-    const [dopo, fino] = argomenti;
-    console.log(JSON.stringify(tranche({dopo, fino, ccnl: opzione(argomenti, '--ccnl')}), null, 2));
+  } else if (command === 'netto' && args.length >= 3) {
+    const [ccnl, prima, dopo] = args;
+    const livelli = option(args, '--livelli')?.split(',') || null;
+    const risultato = nettoPrimaDopo(datasetId(ccnl), {prima, dopo, sezione: option(args, '--sezione'), livelli});
+    console.log(args.includes('--json') ? JSON.stringify(risultato, null, 2) : risultato.testo);
+  } else if (command === 'tranche' && args.length >= 2) {
+    const [dopo, fino] = args;
+    console.log(JSON.stringify(tranche({dopo, fino, ccnl: option(args, '--ccnl')}), null, 2));
   } else {
-    console.error(USO);
+    console.error(USAGE);
     process.exit(2);
   }
 }
