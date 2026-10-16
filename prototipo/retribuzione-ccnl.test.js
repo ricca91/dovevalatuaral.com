@@ -89,7 +89,7 @@ test.describe('dataset retributivo — le tabelle come le pubblica il contratto'
         }
     /* I due contratti originari pubblicano il totale su ogni riga,
        e la somma delle voci lo ritrova al centesimo senza scarti. */
-    for(const [id,righe] of [[TERZIARIO,30],[METAL,9]]){
+    for(const [id,righe] of [[TERZIARIO,30],[METAL,36]]){
       const tutte=R.trovaContratto(id).tabelle.flatMap(t=>t.livelli);
       assert.equal(tutte.length,righe,id);
       for(const livello of tutte){
@@ -159,9 +159,16 @@ test.describe('decorrenze — la tabella vigente e quella che verrà',()=>{
     assert.equal(prossima.decorrenza,'2026-11-01');
     assert.equal(prossima.livelli.find(l=>l.codice==='4').totale,1818.75);
     assert.equal(R.trovaLivello(TERZIARIO,'4','2027-02-01').totale,1858.75);
-    /* La Metalmeccanica ha una sola decorrenza pubblicata: la
-       prossima si adegua per indice IPCA-NEI e non è ancora firmata. */
-    assert.equal(R.prossimaTabella(METAL,OGGI),null);
+    assert.equal(R.prossimaTabella(METAL,OGGI).decorrenza,'2027-06-01');
+    // Accordo 22 novembre 2025, p. 2; tabella FIM giugno 2026 per il 2025.
+    const attesi={
+      '2025-06-01':[1742.03,1931.78,1973.51,2015.24,2158.26,2313.34,2481.84,2770.74,2837.12],
+      '2027-06-01':[1833.02,2032.70,2076.59,2120.52,2271.01,2434.19,2611.49,2915.48,2985.33],
+      '2028-06-01':[1885.37,2090.76,2135.89,2181.09,2335.88,2503.72,2686.08,2998.76,3070.61],
+    };
+    for(const [alla,importi] of Object.entries(attesi))
+      assert.deepEqual(R.livelli(METAL,alla).map(l=>l.totale),importi);
+
   });
 
   test('gli scatti del Terziario non si muovono con le tranche',()=>{
