@@ -78,6 +78,10 @@ Dipendenze di `misure.mjs` fuori dal repo (non copiarle, non stamparle):
   Se `link` esce con 2 o la pagina non è HTML leggibile (JavaScript, 403), scrivi "non verificato" e perché.
 - Link persi: ricontrolla con `link` anche tutti i record `Link ottenuto` più vecchi. Se la pagina non risponde
   200 o il link verso di noi non c'è più, il link è perso: va in cima alle azioni se la pagina prendeva clic.
+- Limite noto: i link persi che non sono su Airtable non li vedi. `backlinks_backlinks` restituisce solo i link
+  vivi: l'API sceglie vivi o persi con `backlinks_status_type` (default `live`), che lo strumento MCP non espone,
+  e un filtro su `is_lost` non trova niente tra i vivi; la risposta non ha nemmeno una data di perdita. Non provare
+  altre strade a pagamento: scrivi nel report che i persi fuori da Airtable non sono misurati.
 
 ### 2. Misura
 
