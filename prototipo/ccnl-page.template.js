@@ -155,15 +155,19 @@ function tabellaSezione(rotta,d,s){
     <tbody>${righe}</tbody></table></div>`;
 }
 
+function tabelleAumenti(d){
+  return d.aumenti.map(a=>`<section class="ccnl-aumento" data-decorrenza="${a.decorrenza}"><h3>Dal ${data(a.decorrenza)}</h3>
+      <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Aumento del ${data(a.decorrenza)} — importi mensili in euro</caption>
+      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
+      <tbody>${a.righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div></section>`).join('');
+}
+
 function aumentiCommercio(d){
-  if(!d.aumenti.length)return '';
+  if(d.seo.slug!=='commercio')return '';
   return `<section><h2>Aumenti 2026 e 2027: quanto cambia il netto</h2>
     <p>Il rinnovo del 22 marzo 2024 prevede due ultime tranche: novembre 2026 e febbraio 2027. Gli aumenti sono lordi mensili e variano per livello. Un superminimo assorbibile può ridurre l’aumento effettivo in busta paga.</p>
     <p>Confronto a parità di condizioni: regole fiscali 2026 anche per febbraio 2027, RAL annualizzata su 14 mensilità. Il netto è una media annua, non il cedolino del mese dell’aumento; non è una previsione della fiscalità 2027.</p>
-    ${d.aumenti.map(a=>`<section class="ccnl-aumento" data-decorrenza="${a.decorrenza}"><h3>Dal ${data(a.decorrenza)}</h3>
-      <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Aumento del ${data(a.decorrenza)} — importi mensili in euro</caption>
-      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
-      <tbody>${a.righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div></section>`).join('')}
+    ${tabelleAumenti(d)}
     <p class="small">Fonte degli aumenti: <a href="https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf">accordo di rinnovo, art. 213, pagina 59 del PDF</a>. I totali seguono le tabelle nazionali Filcams, inclusi gli arrotondamenti per livello.</p>
   </section>
   <section><h2>Scatti di anzianità e quattordicesima</h2>
@@ -174,7 +178,7 @@ function aumentiCommercio(d){
 }
 
 function faqCommercio(d){
-  if(!d.aumenti.length)return '';
+  if(d.seo.slug!=='commercio')return '';
   const r=codice=>d.sezioni[0].righe.find(r=>r.livello.codice===codice);
   const tre=r('3'),quattro=r('4');
   const faq=[
@@ -186,6 +190,28 @@ function faqCommercio(d){
   const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faq.map(f=>({'@type':'Question',name:f.domanda,acceptedAnswer:{'@type':'Answer',text:f.risposta}}))};
   return `<section class="ccnl-faq"><h2>Domande frequenti sul CCNL Commercio</h2>${faq.map(f=>`<h3>${esc(f.domanda)}</h3><p>${esc(f.risposta)} <a href="${verso(d.rotta,`/minimi-ccnl/commercio/${f.livello}-livello/`)}">Approfondisci il ${f.livello}° livello</a>.</p>`).join('')}</section>
     <script id="faq-commercio" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
+}
+
+function metalmeccanico(d){
+  if(d.seo.slug!=='metalmeccanico')return '';
+  const r=codice=>d.sezioni[0].righe.find(r=>r.livello.codice===codice);
+  const c3=r('C3'),d1=r('D1'),a1=r('A1');
+  const faq=[
+    ['Quali sono gli aumenti del CCNL Metalmeccanico nel 2026, 2027 e 2028?', 'Al C3 sono previsti 53,17 € lordi mensili da giugno 2026, 59,58 € da giugno 2027 e 64,87 € da giugno 2028. Sono importi del rinnovo del 22 novembre 2025; la salvaguardia IPCA-NEI può aumentare i valori futuri.','C3'],
+    ['Quanto guadagna netto un metalmeccanico di livello C3?',`Al C3 il minimo vigente è ${eur(c3.composta.baseMensile)} lordi mensili; il netto medio stimato è ${eur(c3.nettoMensile)} su 13 mensilità. Il confronto usa tempo pieno a Milano, senza scatti né superminimo, con regole fiscali 2026.`,'C3'],
+    ['Quali sono i livelli del CCNL Metalmeccanico Industria?',`I nove livelli sono D1, D2, C1, C2, C3, B1, B2, B3 e A1. Il minimo vigente va da ${eur(d1.composta.baseMensile)} del D1 a ${eur(a1.composta.baseMensile)} dell’A1. Questa tabella riguarda Federmeccanica-Assistal, codice CNEL C011.`,'D1'],
+    ['Quante mensilità ha il CCNL Metalmeccanico?', 'Il C011 prevede 13 mensilità: dodici ordinarie e la tredicesima. Il netto in tabella è il netto annuo diviso 13, non il valore esatto di ogni cedolino. I contratti Confapi e artigiani hanno discipline proprie.','A1'],
+  ];
+  const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faq.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))};
+  return `<section><h2>Aumenti 2026, 2027 e 2028: lordo e netto prima e dopo</h2>
+    <p>Il rinnovo del 22 novembre 2025 fissa tre tranche dal 1° giugno di ogni anno. Per il C3 gli aumenti lordi mensili sono 53,17 €, 59,58 € e 64,87 €. La clausola di salvaguardia IPCA-NEI prevede l’adeguamento se l’inflazione supera gli incrementi di riferimento: i valori futuri possono quindi crescere.</p>
+    <p>Confronto a parità di condizioni: regole fiscali 2026 anche per il 2027 e il 2028, RAL annualizzata su 13 mensilità, imposta sostitutiva del 5% non applicata. Il netto medio non è il cedolino del mese dell’aumento né una previsione delle imposte future. Scatti, superminimo, premi e welfare non sono inclusi.</p>
+    <p>Un superminimo assorbibile può ridurre l’aumento effettivo: l’accordo prevede l’assorbimento degli aumenti individuali riconosciuti dal 1° gennaio 2017, salvo espressa clausola di non assorbibilità.</p>
+    ${tabelleAumenti(d)}
+    <p class="small">Fonte: <a href="${esc(d.contratto.fonteAccordo.url)}">accordo firmato il 22 novembre 2025, pagina 2 del PDF</a>; <a href="${esc(d.contratto.fonte.url)}">tabella FIM CISL di giugno 2026</a> per il confronto con giugno 2025. Importi verificati il 16 ottobre 2026.</p>
+  </section>
+  <section class="ccnl-faq"><h2>Domande frequenti sul CCNL Metalmeccanico</h2>${faq.map(([domanda,risposta,codice])=>`<h3>${esc(domanda)}</h3><p>${esc(risposta)} <a href="${verso(d.rotta,`/minimi-ccnl/metalmeccanico/livello-${codice.toLowerCase()}/`)}">Approfondisci il livello ${codice}</a>.</p>`).join('')}</section>
+  <script id="faq-metalmeccanico" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
 }
 
 function decorrenzeSettore(d){
@@ -247,6 +273,7 @@ function renderTabella(d){
   ${blocchi}
   ${aumentiCommercio(d)}
   ${faqCommercio(d)}
+  ${metalmeccanico(d)}
   ${decorrenzeSettore(d)}
   ${faqSettore(d)}
   ${pagine.length?`<section class="related" aria-labelledby="livelli-titolo"><h2 id="livelli-titolo">Approfondisci un livello</h2><div class="related__grid">${pagine.map(r=>`

@@ -138,9 +138,9 @@
   /* ------------------------------------------------------------
      INDUSTRIA METALMECCANICA E INSTALLAZIONE IMPIANTI — C011
 
-     Fonte: pubblicazione FIM CISL, parte firmataria, del 15
-     giugno 2026, che dà minimi e scatti della decorrenza 1° giugno
-     2026 discendente dal verbale di accordo 16 giugno 2026.
+     Fonti: accordo firmato il 22 novembre 2025, pagina 2 (2026–2028),
+     e pubblicazione FIM CISL del 15 giugno 2026 (2025–2026 e scatti).
+     I minimi futuri sono soggetti alla salvaguardia IPCA-NEI.
 
      Importo unico per livello: il contratto non scompone. La
      colonna `exCategoria` conserva la vecchia numerazione perché
@@ -158,7 +158,15 @@
     parte:'FIM CISL, organizzazione sindacale firmataria',
     url:'https://www.fim-cisl.it/2026/06/15/ccnl-federmeccanica-assistal-2025-2028-nuovi-minimi-tabellari-giugno-2026/',
     archivio:null,
-    verificataIl:'2026-09-07',
+    verificataIl:'2026-10-16',
+  });
+
+  const FONTE_ACCORDO_METALMECCANICA=congela({
+    titolo:'Rinnovo Federmeccanica-Assistal del 22 novembre 2025 — tabelle dei minimi contrattuali, pagina 2',
+    parte:'Federmeccanica, Assistal, FIM, FIOM e UILM',
+    url:'https://www.fim-cisl.it/wp-content/uploads/2025/11/20251122-CCNL-Federmeccanica-Assistal-Fim-Fiom-Uilm_Ipotesi-di-accordo-siglata.pdf',
+    archivio:null,
+    verificataIl:'2026-10-16',
   });
 
   const FONTE_DISCIPLINA_SCATTI_METALMECCANICA=congela({
@@ -242,12 +250,17 @@
         decorrenza:'dal primo giorno del mese successivo a quello in cui si compie il biennio'},
       fonte:FONTE_METALMECCANICA,
       fonteDisciplinaScatti:FONTE_DISCIPLINA_SCATTI_METALMECCANICA,
-      fonteAccordo:null,
-      tabelle:[{
-        decorrenza:'2026-06-01',
-        titolo:'adeguamento IPCA-NEI del verbale di accordo 16 giugno 2026',
-        livelli:TABELLA_METALMECCANICA.map(livelloMetalmeccanica),
-      }],
+      fonteAccordo:FONTE_ACCORDO_METALMECCANICA,
+      // Importi pubblicati: nessuna proiezione percentuale né arrotondamento ricostruito.
+      tabelle:[
+        ['2025-06-01',[1742.03,1931.78,1973.51,2015.24,2158.26,2313.34,2481.84,2770.74,2837.12]],
+        ['2026-06-01',TABELLA_METALMECCANICA.map(r=>r[3])],
+        ['2027-06-01',[1833.02,2032.70,2076.59,2120.52,2271.01,2434.19,2611.49,2915.48,2985.33]],
+        ['2028-06-01',[1885.37,2090.76,2135.89,2181.09,2335.88,2503.72,2686.08,2998.76,3070.61]],
+      ].map(([decorrenza,minimi])=>({decorrenza,
+        titolo:'minimi del rinnovo 22 novembre 2025; salvaguardia IPCA-NEI per gli anni futuri',
+        livelli:TABELLA_METALMECCANICA.map((r,i)=>livelloMetalmeccanica([...r.slice(0,3),minimi[i],r[4]])),
+      })),
     },
   ];
 
