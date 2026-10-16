@@ -186,6 +186,18 @@
     /* — Area meccanica, artigianato (C030) — */
 
     /* — Industria alimentare (E012) — */
+    congela({
+      id:'alimentare-industria-e012',
+      nome:'Industria alimentare',
+      parti:'Federalimentare e associazioni di categoria con FLAI CGIL, FAI CISL, UILA UIL',
+      codiceCnel:'E012',
+      mensilita:14,
+      dataRiferimento:'2024-10-28',
+      fonte:{
+        titolo:'CCNL per l’industria alimentare 2023–2027, verbale di stesura 28 ottobre 2024',
+        url:'https://www.faicisl.it/attachments/article/2350/CCNL%20INDUSTRIA%20ALIMENTARE%20%202023-2027%20versione%20web.pdf',
+      },
+    }),
 
     /* — Chimico-farmaceutico, industria (B011) — */
 

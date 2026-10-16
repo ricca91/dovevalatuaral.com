@@ -1285,8 +1285,113 @@
 
   /* --- INDUSTRIA ALIMENTARE, E012 ------------------------------ */
 
-  const ALIMENTARE=null;
-  const ESCLUSIONI_ALIMENTARE=[];
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-alimentare.md.
+
+     Il testo vigente è il verbale di stesura del 28 ottobre 2024
+     (decorrenza 1° dicembre 2023, scadenza 30 novembre 2027), nella
+     copia coordinata FAI CISL. Due sezioni con scale di livelli
+     diverse: la parte comune (1S–6, parametro 100–230 su 137) e le
+     Disposizioni specifiche dell'industria olearia e margariniera
+     (1–10, su 138), con contingenza, scatti, minimi e IAR propri.
+
+     Le voci non hanno la stessa incidenza: minimo, contingenza, IAR e
+     scatti entrano nella 13ª e nella 14ª (art. 54, art. 51 lett. D),
+     l'EDR di 10,33 € vale invece 13 mensilità (art. 52). Il CCNL non
+     pubblica un totale mensile, quindi `totalePubblicato` è null e il
+     totale è derivato. Gli scatti sono in cifra fissa per livello,
+     consolidati dal 1998 (olearia dal 2019): non cambiano con le tranche.
+
+     Il 1° settembre 2027 sale solo l'IAR (+11 € sul parametro 138):
+     è una tabella in più con i minimi della precedente. */
+  const fonteAlimentare=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
+    verificataIl:'2026-10-16'});
+  const DATE_ALIMENTARE=['2023-12-01','2024-09-01','2025-01-01','2026-01-01','2027-01-01','2027-09-01'];
+  const TITOLI_ALIMENTARE=['prima tranche dei minimi e IAR di 55 € (art. 51)',
+    'seconda tranche dei minimi','terza tranche dei minimi','quarta tranche dei minimi',
+    'quinta e ultima tranche dei minimi','seconda tranche dell’IAR, minimi invariati'];
+  const EDR_ALIMENTARE=10.33;
+  /* [livello,contingenza,IAR dal 1/12/2023,IAR dal 1/9/2027,scatto,
+      minimi dal 1/12/2023, 1/9/2024, 1/1/2025, 1/1/2026, 1/1/2027] */
+  const LIVELLI_ALIMENTARE=[
+    ['1S',545.72,151.11,169.57,51.42,[2510.63,2569.39,2670.12,2770.85,2836.32]],
+    ['1',538.7,131.39,147.45,44.71,[2183.13,2234.22,2321.81,2409.4,2466.34]],
+    ['2',530.51,108.4,121.65,36.89,[1801.12,1843.27,1915.53,1987.8,2034.77]],
+    ['3A',525.83,95.26,106.9,32.42,[1582.79,1619.83,1683.34,1746.84,1788.12]],
+    ['3',522.32,85.41,95.85,29.06,[1419.08,1452.29,1509.22,1566.16,1603.17]],
+    ['4',519.99,78.84,88.47,26.83,[1309.89,1340.55,1393.1,1445.65,1479.82]],
+    ['5',517.65,72.27,81.1,24.59,[1200.76,1228.86,1277.04,1325.21,1356.52]],
+    ['6',515.31,65.7,73.73,22.35,[1091.6,1117.15,1160.94,1204.74,1233.2]],
+  ];
+  const LIVELLI_OLEARIA=[
+    ['1',535,141.53,158.83,32.12,[2369.61,2424.65,2519,2613.35,2674.68]],
+    ['2',532.82,131.74,147.84,29.81,[2206.44,2257.67,2345.5,2433.33,2490.42]],
+    ['3',528.65,118.7,133.21,26.64,[1987.27,2033.43,2112.56,2191.69,2243.12]],
+    ['4',524.32,105,117.83,22.72,[1755.01,1795.84,1865.84,1935.84,1981.34]],
+    ['5',521.62,95.87,107.59,21.96,[1605.26,1642.54,1706.45,1770.36,1811.9]],
+    ['6',519.47,88.69,99.53,21.15,[1482.69,1517.18,1576.31,1635.44,1673.87]],
+    ['7',517.21,80.87,90.75,19.18,[1353.45,1384.9,1438.81,1492.72,1527.76]],
+    ['8',516,76.3,85.63,18.8,[1277.69,1307.36,1358.23,1409.1,1442.16]],
+    ['9',515.15,71.74,80.51,18.05,[1201.11,1229.01,1276.84,1324.67,1355.76]],
+    ['10',513.13,65.21,73.18,15.68,[1091.15,1116.51,1159.99,1203.47,1231.73]],
+  ];
+  /* Art. 23: indennità di funzione dei quadri (1S), 100 € mensili dal 1° giugno 2007. */
+  const FUNZIONE_ALIMENTARE=100;
+  /* Disposizioni specifiche olearia, art. 51: elemento aggiuntivo dei quadri
+     inquadrati nei livelli 1 e 2. */
+  const QUADRI_OLEARIA={'1':142,'2':122.5};
+  const nomeAlimentare=codice=>codice==='1S'?'Livello 1S (quadri)':/^\d+$/.test(codice)
+    ?`${codice}° livello`:`Livello ${codice}`;
+  const tabelleAlimentare=(livelli,conQuadri)=>DATE_ALIMENTARE.map((decorrenza,t)=>tabella(decorrenza,
+    TITOLI_ALIMENTARE[t],livelli.map(([codice,contingenza,iarPrima,iarDopo,scatto,minimi])=>({
+      codice,nome:nomeAlimentare(codice),
+      voci:[voce('minimo','Minimo tabellare (paga base)',minimi[Math.min(t,4)]),
+        voce('contingenza','Ex indennità di contingenza',contingenza),
+        voce('iar','I.A.R. (incremento aggiuntivo della retribuzione)',t===5?iarDopo:iarPrima),
+        ...(!conQuadri&&codice==='1S'?[voce('indennitaFunzione','Indennità di funzione dei quadri (art. 23)',
+          FUNZIONE_ALIMENTARE)]:[]),
+        voce('edr','E.D.R. (elemento distinto della retribuzione)',EDR_ALIMENTARE,{mensilita:13})],
+      totalePubblicato:null,scatto,
+      profili:conQuadri&&QUADRI_OLEARIA[codice]
+        ?[{id:'quadro',nome:'Quadro',voce:voce('elementoAggiuntivoQuadri',
+          'Elemento aggiuntivo dei quadri (art. 51 olearia)',QUADRI_OLEARIA[codice])}]:[]}))));
+
+  const FONTE_ALIMENTARE=fonteAlimentare(
+    'CCNL per l’industria alimentare 2023–2027, testo coordinato con il verbale di stesura 28 ottobre 2024 — artt. 51, 52, 53, 54',
+    'FAI CISL, organizzazione sindacale firmataria (stesso testo pubblicato da FLAI CGIL)',
+    'https://www.faicisl.it/attachments/article/2350/CCNL%20INDUSTRIA%20ALIMENTARE%20%202023-2027%20versione%20web.pdf',
+    'processo/dati/fonti/alimentare-e012-ccnl-2023-2027-faicisl-2026-10-16.pdf');
+
+  const ALIMENTARE={
+    id:'alimentare-industria-e012',
+    nome:'Industria alimentare',
+    parti:'Federalimentare e associazioni di categoria con FLAI CGIL, FAI CISL, UILA UIL',
+    codiceCnel:'E012',
+    mensilita:14,
+    oreSettimanali:40,
+    scatti:cifraFissa(2,5,'art. 53 — aumenti periodici di anzianità, importi consolidati dal 1° agosto 1998'),
+    fonte:FONTE_ALIMENTARE,
+    sezioni:[
+      {id:'alimentare',nome:'Industria alimentare (parte comune)',
+        descrizione:'Livelli 1S (quadri), 1, 2, 3A, 3, 4, 5, 6: tutti i settori che applicano l’art. 51 comune.',
+        tabelle:tabelleAlimentare(LIVELLI_ALIMENTARE,false)},
+      {id:'olearia-margariniera',nome:'Industria olearia e margariniera (aziende oltre 40 dipendenti)',
+        descrizione:'Disposizioni specifiche Assitol: scala propria di dieci livelli, contingenza, scatti, minimi e IAR propri. Il calcolo vale per le aziende oltre 40 dipendenti, dove la 14ª è intera. I quadri sono nei livelli 1 e 2, con un elemento aggiuntivo.',
+        scatti:cifraFissa(2,5,'art. 53 delle Disposizioni specifiche olearia — importi dal 1° luglio 2019'),
+        tabelle:tabelleAlimentare(LIVELLI_OLEARIA,true),
+        esclusioni:['Quattordicesima ridotta per dimensione aziendale (art. 54 delle Disposizioni specifiche): il 35% fino a 10 dipendenti e il 50% da 11 a 40. Questa sezione vale per le aziende oltre 40 dipendenti, dove la 14ª è intera; nelle aziende più piccole la cifra annua è più bassa di quella mostrata.',
+          'Elemento aggiuntivo dei quadri (142,00 € al livello 1, 122,50 € al livello 2): il testo non dice su quante mensilità; il calcolo lo conta su 14 per assunzione, come la retribuzione di fatto.']},
+    ],
+  };
+  const ESCLUSIONI_ALIMENTARE=[
+    'Indennità di funzione dei quadri (art. 23, 100,00 € mensili, livello 1S): il testo non dichiara le mensilità. Il calcolo la conta su 14 mensilità per assunzione, come la retribuzione di fatto dell’art. 54.',
+    'Trattamento per mancata contrattazione di secondo livello (art. 51 bis): importo condizionato all’assenza di contrattazione aziendale del premio per obiettivi, assorbibile e senza incidenza sugli altri istituti. Non è nella RAL.',
+    'Premio per obiettivi (art. 55) e premi di risultato aziendali: variabili e definiti in azienda.',
+    'Welfare e contributi datoriali a fondi (FASA, cassa maternità e paternità, cassa rischio vita, Alifond, EBS): non sono retribuzione monetaria.',
+    'Premi di settore: premio di campagna delle conserve vegetali, premio di produzione e maggiorazioni di zona del saccarifero, premi sul quintalato.',
+    'Maggiorazioni per straordinario, notturno, festivo e turni, indennità varie, superminimi individuali e aumenti di merito (il superminimo si indica a parte), ROL.',
+    'Viaggiatori o piazzisti e addetti discontinui o di custodia con orario fino a 60 ore (livelli 9 e 10 olearia): fuori dal perimetro del calcolatore.',
+    'Tempo parziale: ogni voce, EDR compreso, è riproporzionata sull’orario di 40 ore (art. 20); il testo non esclude l’IAR e l’EDR dalla proporzione.',
+  ];
 
   /* --- CHIMICO-FARMACEUTICO — INDUSTRIA, B011 ------------------ */
 
