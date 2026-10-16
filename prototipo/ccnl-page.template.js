@@ -188,6 +188,41 @@ function faqCommercio(d){
     <script id="faq-commercio" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
 }
 
+function decorrenzeSettore(d){
+  if(!['studi-professionali','cooperative-sociali'].includes(d.seo.slug))return '';
+  const studi=d.seo.slug==='studi-professionali';
+  const codice=studi?'3':'D1';
+  const righe=d.contratto.tabelle.map(t=>{
+    const importo=R.componiRal({ccnl:d.contratto.id,livello:codice,alla:t.decorrenza}).baseMensile;
+    const stato=t.decorrenza>d.alla?'Prossima tranche firmata':t.decorrenza===d.sezioni[0].decorrenza?'In vigore':'Tranche precedente';
+    return `<tr><th scope="row"><time datetime="${t.decorrenza}">${data(t.decorrenza)}</time></th><td>${stato}</td><td>${eur(importo)}</td></tr>`;
+  }).join('');
+  return `<section class="ccnl-decorrenze"><h2>Decorrenze e prossimi aumenti</h2>
+    <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Minimo lordo mensile del livello ${codice}: cronologia delle tranche firmate</caption><thead><tr><th scope="col">Decorrenza</th><th scope="col">Stato al ${data(d.alla)}</th><th scope="col">Lordo mensile</th></tr></thead><tbody>${righe}</tbody></table></div>
+    <p class="small">Fonte: ${fonte(d.contratto)}.</p>
+    ${studi?'<p>La tabella principale riporta per ogni livello il minimo vigente e, quando futura, la tranche di dicembre 2026.</p>':`<p>Prossimi aumenti: nessuna decorrenza successiva nel testo contrattuale citato. Il <a href="https://www.uilfp.it/ccnl-cooperative-sociali-report-sulla-prosecuzione-della-trattativa-per-il-rinnovo/">comunicato UILFP del 1° ottobre 2026</a> riferisce che la discussione su vigenza e aumenti è rinviata a una fase successiva della trattativa; non attribuiamo importi al rinnovo in corso.</p>`}
+  </section>`;
+}
+
+// RIC-101: risposte e schema condividono gli stessi dati della tabella.
+function faqSettore(d){
+  const studi=d.seo.slug==='studi-professionali';
+  if(!studi&&d.seo.slug!=='cooperative-sociali')return '';
+  const r=d.sezioni[0].righe.find(r=>r.livello.codice===(studi?'3':'D1'));
+  const faq=studi?[
+    ['Quanto guadagna il 3° livello degli studi professionali?',`Il minimo è ${eur(r.composta.baseMensile)} lordi mensili; il netto medio stimato è ${eur(r.nettoMensile)} su 14 mensilità. La stima considera tempo pieno a Milano, senza scatti né superminimo.`,'3'],
+    ['Quando aumentano gli stipendi degli studi professionali?', 'La quarta tranche firmata decorre dal 1° dicembre 2026: al 3° livello il minimo passa da 1.706,37 € a 1.726,37 € lordi mensili. Gli importi degli altri livelli sono nella tabella.','3'],
+    ['Quante mensilità prevede il CCNL Studi professionali?', 'Sono 14 mensilità, comprese tredicesima e quattordicesima. Il netto in tabella è una media annua, non il valore del singolo cedolino.','4'],
+  ]:[
+    ['Quanto guadagna un D1?',`Il minimo D1 è ${eur(r.composta.baseMensile)} lordi mensili su 13,5 mensilità. Il netto medio stimato è ${eur(r.nettoMensile)} al mese per un tempo pieno a Milano, senza scatti né superminimo.`,'D1'],
+    ['Qual è lo stipendio netto in una cooperativa sociale?', 'Dipende da livello, orario, comune e condizioni personali. La tabella mostra il netto medio annuo su 13,5 mensilità; nella pagina D2 puoi personalizzare il calcolo.','D2'],
+    ['Quando sono previsti i prossimi aumenti nelle cooperative sociali?', 'L’ultima tranche del CCNL 2023–2025 decorre da ottobre 2025. Il comunicato UILFP del 1° ottobre 2026 descrive una trattativa ancora aperta e rinvia la discussione sugli aumenti.','C1'],
+  ];
+  const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faq.map(([name,text])=>({'@type':'Question',name,acceptedAnswer:{'@type':'Answer',text}}))};
+  return `<section class="ccnl-faq"><h2>Domande frequenti: ${esc(d.seo.breve)}</h2>${faq.map(([q,a,c])=>`<h3>${esc(q)}</h3><p>${esc(a)} <a href="${verso(d.rotta,d.sezioni[0].righe.find(r=>r.livello.codice===c).rotta)}">Vedi il livello ${esc(c)}</a>.</p>`).join('')}</section>
+    <script id="faq-settore" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
+}
+
 function renderTabella(d){
   const {seo,contratto,sezioni,rotta,alla}=d;
   const conSezioni=sezioni[0].sezione!==null;
@@ -204,7 +239,7 @@ function renderTabella(d){
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
     <h1>${esc(seo.titoloTabella)} 2026: tabelle retributive</h1>
-    ${d.aumenti.length?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
+    ${(d.aumenti.length||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
     <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
   ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
@@ -212,6 +247,8 @@ function renderTabella(d){
   ${blocchi}
   ${aumentiCommercio(d)}
   ${faqCommercio(d)}
+  ${decorrenzeSettore(d)}
+  ${faqSettore(d)}
   ${pagine.length?`<section class="related" aria-labelledby="livelli-titolo"><h2 id="livelli-titolo">Approfondisci un livello</h2><div class="related__grid">${pagine.map(r=>`
     <a class="related-card" href="${verso(rotta,r.rotta)}"><span><b>${esc(seo.etichetta(r.livello))} ${esc(seo.breve)}</b><small>${eur(r.composta.baseMensile)} lordi · ${eur(r.nettoMensile)} netti al mese</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>`).join('')}
   </div></section>`:''}
