@@ -18,11 +18,11 @@ const testo=html=>html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
 const uno=(html,re,label)=>{const m=[...html.matchAll(re)];assert.equal(m.length,1,label);return m[0][1];};
 
 test('le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset',()=>{
-  assert.equal(ROTTE.length,52);
+  assert.equal(ROTTE.length,69);
   assert.equal(new Set(ROTTE).size,ROTTE.length);
   const perContratto=Object.fromEntries(CONTRATTI_SEO.map(c=>[c.slug,ROTTE.filter(r=>r.startsWith(`/minimi-ccnl/${c.slug}/`)&&r!==`/minimi-ccnl/${c.slug}/`).length]));
-  assert.deepEqual(perContratto,{commercio:8,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:0,
-    multiservizi:4,'studi-professionali':4,'cooperative-sociali':8,dmo:0,'metalmeccanico-confapi':0,
+  assert.deepEqual(perContratto,{commercio:8,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:4,
+    multiservizi:6,'studi-professionali':6,'cooperative-sociali':13,dmo:4,'metalmeccanico-confapi':0,
     'grafici-editoriali':0,poligrafici:0,vetro:0});
   for(const rotta of ['/minimi-ccnl/','/minimi-ccnl/commercio/5-livello/','/minimi-ccnl/metalmeccanico/livello-c3/',
     '/minimi-ccnl/cooperative-sociali/livello-d2/','/minimi-ccnl/studi-professionali/4s-livello/'])
@@ -106,7 +106,7 @@ test('ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb 
 
 test('il title delle pagine livello porta il netto mensile della pagina, all’euro, entro 60 caratteri (RIC-99)',()=>{
   const livelli=ROTTE.filter(r=>r.split('/').filter(Boolean).length===3);
-  assert.equal(livelli.length,37);
+  assert.equal(livelli.length,54);
   for(const rotta of livelli){
     const html=leggi(rotta);
     const titolo=uno(html,/<title>([^<]+)<\/title>/g,`${rotta}: title`);
@@ -329,6 +329,58 @@ test('RIC-101: decorrenze contrattuali e prossimi aumenti con fonte, anche dopo 
       if(slug==='cooperative-sociali')assert.match(timeline,/uilfp.it/);
     }
   }
+});
+
+test('Studi professionali: pagine 1° e 5° livello (RIC-100); quadro e 3° super restano fuori',()=>{
+  const base='/minimi-ccnl/studi-professionali/';
+  for(const [slug,nome] of [['1-livello','1°'],['5-livello','5°']]){
+    assert.ok(ROTTE.includes(base+slug+'/'),slug);
+    const html=leggi(base+slug+'/');
+    assert.match(uno(html,/<title>([^<]+)<\/title>/g,slug),new RegExp('^'+nome+' livello (CCNL )?Studi professionali 2026: [\\d.]+ € netti'));
+    assert.doesNotMatch(html,/NaN|undefined/);
+    assert.ok(leggi(base).includes('<th scope="row"><a href="../../minimi-ccnl/studi-professionali/'+slug+'/">'+nome+' livello</a></th>'),'tabella');
+  }
+  for(const slug of ['quadro','q-livello','3s-livello'])assert.ok(!ROTTE.includes(base+slug+'/'),slug);
+});
+
+test('Logistica: pagine per i livelli 3-6 del non viaggiante, senza NaN',()=>{
+  const tabellaHtml=leggi('/minimi-ccnl/logistica/');
+  for(const n of [3,4,5,6]){
+    const html=leggi(`/minimi-ccnl/logistica/${n}-livello/`);
+    assert.match(uno(html,/<h1[^>]*>(.*?)<\/h1>/gs,`h1 ${n}`),new RegExp(`${n}° livello`));
+    assert.doesNotMatch(html,/NaN|undefined/);
+    assert.ok(tabellaHtml.includes(`/minimi-ccnl/logistica/${n}-livello/`),`link tabella ${n}`);
+  }
+  for(const r of ['/minimi-ccnl/logistica/3-super-livello/','/minimi-ccnl/logistica/c3-livello/'])
+    assert.ok(!ROTTE.includes(r),r);
+});
+
+test('Cooperative sociali: pagine per i livelli A1, A2, F1, F2, senza NaN (RIC-100)',()=>{
+  const tabellaHtml=leggi('/minimi-ccnl/cooperative-sociali/');
+  for(const l of ['A1','A2','F1','F2']){
+    const rotta=`/minimi-ccnl/cooperative-sociali/livello-${l.toLowerCase()}/`;
+    assert.ok(ROTTE.includes(rotta),rotta);
+    const html=leggi(rotta);
+    assert.match(uno(html,/<h1[^>]*>(.*?)<\/h1>/gs,`h1 ${l}`),new RegExp(`Livello ${l}`));
+    assert.equal(uno(html,/<link rel="canonical" href="([^"]+)">/g,`canonical ${l}`),`${ORIGIN}${rotta}`);
+    assert.doesNotMatch(html,/NaN|undefined/);
+    assert.match(html,/ € netti al mese/);
+    assert.ok(tabellaHtml.includes(rotta),`link tabella ${l}`);
+  }
+});
+
+test('la tabella Pubblici esercizi linka solo i livelli 3-6 «generale» alle pagine Turismo',()=>{
+  const html=leggi('/minimi-ccnl/pubblici-esercizi/');
+  const sezioni=html.split('<section class="ccnl-sezione"').slice(1);
+  assert.equal(sezioni.length,3);
+  const link=s=>[...s.matchAll(/<th scope="row"><a href="([^"]+)">([^<]+)<\/a><\/th>/g)];
+  const generale=link(sezioni.find(s=>s.startsWith(' id="generale"')));
+  assert.deepEqual(generale.map(m=>m[1]),['3','4','5','6'].map(n=>`../../minimi-ccnl/turismo/${n}-livello/`));
+  for(const [,href] of generale)assert.ok(ROTTE.includes(new URL(href,`${ORIGIN}/minimi-ccnl/pubblici-esercizi/`).pathname),href);
+  for(const s of sezioni.filter(s=>!s.startsWith(' id="generale"')))assert.equal(link(s).length,0);
+  /* nessuna pagina propria, nessuna carta «Approfondisci un livello» */
+  assert.equal(ROTTE.filter(r=>r.startsWith('/minimi-ccnl/pubblici-esercizi/')&&r!=='/minimi-ccnl/pubblici-esercizi/').length,0);
+  assert.doesNotMatch(html,/Approfondisci un livello/);
 });
 
 test('Metalmeccanico: tre tranche mostrano lordo e netto prima/dopo per tutti i livelli (RIC-98)',()=>{

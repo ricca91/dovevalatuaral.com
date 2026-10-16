@@ -36,7 +36,13 @@ const CONTRATTI_SEO=Object.freeze([
     titoloTabella:'CCNL Metalmeccanico',livelli:['D1','D2','C1','C2','C3','B1','B2','B3','A1'],
     slugLivello:lettera,etichetta:livelloL},
   {id:'pubblici-esercizi-fipe-h05y',slug:'pubblici-esercizi',breve:'Pubblici esercizi',
-    titoloTabella:'CCNL Pubblici esercizi (FIPE)'},
+    titoloTabella:'CCNL Pubblici esercizi (FIPE)',
+    /* Nessuna pagina livello propria, per scelta: i livelli 3-6 della
+       sezione «generale» sono serviti dalle pagine /turismo/<n>-livello/,
+       che mostrano i due contratti affiancati (vedi `affianca` di
+       Turismo). La tabella linka quelle pagine; 6s, Qa, Qb, 1, 2, 7 e le
+       sezioni «collettiva» e «minori» restano senza link. */
+    livelliServitiDa:'turismo',sezioneLivelli:'generale'},
   {id:'turismo-federalberghi-h052',slug:'turismo',breve:'Turismo',query:'CCNL Turismo',
     titoloTabella:'CCNL Turismo',livelli:['3','4','5','6'],slugLivello:numerico,etichetta:livelloN,
     sezioneLivelli:'generale',
@@ -49,19 +55,34 @@ const CONTRATTI_SEO=Object.freeze([
      non è misurata. */
   {id:'agenzie-viaggi-fiavet-h04z',slug:'agenzie-di-viaggio',breve:'Agenzie di viaggio',
     titoloTabella:'CCNL Agenzie di viaggio e tour operator'},
-  {id:'logistica-trasporto-merci-i100',slug:'logistica',breve:'Logistica',
-    titoloTabella:'CCNL Logistica e trasporto merci'},
+  /* Solo i livelli 3°, 4°, 5° e 6° del personale non viaggiante, gli unici con
+     query misurate (DataForSEO, Italia, 16 ottobre 2026: «5 livello ccnl
+     logistica» 10, «ccnl logistica 5 livello» 30, «ccnl logistica 6
+     livello» 30, «ccnl logistica 4 livello» 20, «ccnl logistica 3
+     livello» 10; volumi bassi, ma sono le uniche misurate). Il 1° e il 2°
+     non risultano; 3° super, 4° junior, Quadri e i codici del viaggiante
+     (C3, B3, rider I/L...) non hanno volume o sono parametri. */
+  {id:'logistica-trasporto-merci-i100',slug:'logistica',breve:'Logistica',query:'CCNL Logistica',
+    titoloTabella:'CCNL Logistica e trasporto merci',livelli:['3°','4°','5°','6°'],
+    sezioneLivelli:'non-viaggiante',
+    slugLivello:codice=>`${codice.replace('°','')}-livello`,etichetta:l=>l.nome},
   {id:'multiservizi-pulizia-k511',slug:'multiservizi',breve:'Multiservizi',query:'CCNL Multiservizi',
-    titoloTabella:'CCNL Multiservizi e pulizie',livelli:['1','2','3','4'],slugLivello:numerico,
+    titoloTabella:'CCNL Multiservizi e pulizie',livelli:['1','2','3','4','5','6'],slugLivello:numerico,
     etichetta:livelloN},
   {id:'studi-professionali-confprofessioni-h442',slug:'studi-professionali',breve:'Studi professionali',
     query:'CCNL Studi professionali',titoloTabella:'CCNL Studi professionali',
-    livelli:['2','3','4','4S'],slugLivello:numerico,etichetta:livelloN},
+    livelli:['1','2','3','4','4S','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'cooperative-sociali-t151',slug:'cooperative-sociali',breve:'Cooperative sociali',
     query:'cooperative sociali',titoloTabella:'CCNL Cooperative sociali',
-    livelli:['B1','C1','C2','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
+    livelli:['A1','A2','B1','C1','C2','C3','D1','D2','D3','E1','E2','F1','F2'],slugLivello:lettera,etichetta:livelloL},
   {id:'distribuzione-moderna-federdistribuzione-h008',slug:'dmo',breve:'DMO',
-    titoloTabella:'CCNL DMO, distribuzione moderna'},
+    query:'CCNL DMO',titoloTabella:'CCNL DMO, distribuzione moderna',
+    /* DMO ha livelli e importi propri, diversi dal Commercio: le query
+       «5 livello ccnl commercio» restano alle pagine Commercio. Qui solo
+       le query che citano DMO (DataForSEO Italia, 12 mesi a settembre
+       2026: «ccnl dmo 5 livello» 50, «3 livello» 20, «1 livello» 20,
+       «4 livello» 10). Nessun dato per 2°, 6°, 7°, Quadro, OV. */
+    livelli:['1','3','4','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'metalmeccanica-pmi-confapi-c018',slug:'metalmeccanico-confapi',breve:'Metalmeccanico Confapi',
     titoloTabella:'CCNL Metalmeccanico Confapi'},
   {id:'grafici-editori-g011',slug:'grafici-editoriali',breve:'Grafici editoriali',
@@ -114,7 +135,9 @@ function tabella(id,sezione,alla,rottaDi){
 function datiContratto(c,alla){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
-  const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice):null;
+  const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
+  const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
+    :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
   return {seo:c,contratto,rotta:rottaTabella(c),esclusioni:R.ESCLUSIONI[c.id]||[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
