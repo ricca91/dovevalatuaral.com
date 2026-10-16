@@ -107,7 +107,7 @@ Un record per menzione senza link e per link perso che chiede un intervento loro
 | Nostra pagina di destinazione | dal passo 5, o vuoto |
 | Contatto / Dove trovato il contatto | dal passo 6, o `n/d` |
 | Verifica | `<data>: verifica-pagina.js esito <esito>, link [], frase «…»` |
-| Recuperato o nuovo | `Recuperato` per i link persi, vuoto per le menzioni |
+| Recuperato o nuovo | `Recuperato`, per i link persi e per le menzioni: sono link già nostri da riprendere |
 | Stato | `Bozza pronta` se hai creato la bozza, altrimenti `Da qualificare` |
 | Note | id della bozza Gmail, o perché la bozza non c'è |
 

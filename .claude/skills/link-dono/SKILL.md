@@ -35,6 +35,7 @@ CRM: Airtable, base `appAsCWc7NBzY5nam`, tabella Outreach `tbl3ELP9SWiFPTO2A`. G
 | Verifica | `fldDXQXkUtXlpNvaL` |
 | Stato | `fldkWYpJEJTuiP7OY` (filtri con l'id: Qualificato `selXIPfVad7PMJ3NA`, Bozza pronta `sel0AVRbTjMU0mozf`, Inviata `selYGRWG9O4LKRQV2`, Follow-up `seluyeO5YFrcztkTq`; in scrittura il nome) |
 | Data invio | `fldbcnBYKCDhtdAbP` (scrivi `AAAA-MM-GG`) |
+| Recuperato o nuovo | `fld1JGV1rSImhscDD` (in scrittura il nome: `Nuovo`) |
 | Note | `fldhJwhlPaqkJm7Xg` |
 
 Gmail (connettore claude.ai, bozze nell'account di Riccardo): `create_draft`, `list_drafts`, `get_draft`,
@@ -219,6 +220,7 @@ Ricontrolla i doppioni (`list_drafts` con `to:<contatto>`), poi `create_draft` c
 
 - Verifica: la `verifica` di `classifica`, identica;
 - Stato: `Bozza pronta`;
+- Recuperato o nuovo: `Nuovo`, se è vuoto (un record di link-recupero resta `Recuperato`);
 - Note: le Note esistenti + `link-dono GG/MM/AAAA: bozza Gmail <id>, thread <threadId>.` + `Non inviare prima del
   GG/MM/AAAA, e ricontrolla la pagina prima di inviare.` se c'è `nonPrimaDel` + la `nota` degli argomenti;
 - Contatto, Dove trovato il contatto, Nostra pagina di destinazione, se li hai trovati o cambiati.

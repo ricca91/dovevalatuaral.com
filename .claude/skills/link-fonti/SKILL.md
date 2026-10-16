@@ -129,6 +129,7 @@ Rileggi i domini della tabella subito prima di scrivere (un altro job può avern
 | Contatto | `fldBKV9mPAqx1z327` | indirizzo o `n/d` |
 | Dove trovato il contatto | `fld0eRBnzwBcJepIl` | URL, solo se c'è un contatto |
 | Stato | `fldkWYpJEJTuiP7OY` | `Da qualificare` |
+| Recuperato o nuovo | `fld1JGV1rSImhscDD` | `Nuovo` |
 | Note | `fldhJwhlPaqkJm7Xg` | `link-fonti, run del GG/MM/AAAA.` + come hai trovato la pagina, altre pagine citate, cosa non hai potuto leggere |
 
 Nessun DR, traffico o altro numero che non venga da questo run.

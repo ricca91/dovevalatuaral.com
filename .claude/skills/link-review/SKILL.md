@@ -95,6 +95,10 @@ Mai mescolati: link nuovi e link recuperati (campo Recuperato o nuovo), della se
 referenti e backlink (`backlinks_summary`: `referring_domains` e `backlinks`, con i nofollow) confrontati con il
 punto zero; link spontanei a parte.
 
+Recuperato o nuovo lo scrivono le skill: link-recupero `Recuperato`, link-fonti e link-dono `Nuovo`.
+Un record con Recuperato o nuovo vuoto conta come `Nuovo`: contalo così e segnalalo (quanti record e quali
+domini) in questa sezione e in `REPORT_NOTE`.
+
 ### 4. Attesa
 
 Una pagina il cui link più vecchio ha Data link dopo `attesa_se_link_dopo` ha un link da meno di 60 giorni:

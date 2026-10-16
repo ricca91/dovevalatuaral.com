@@ -560,6 +560,14 @@ for riga in "link-review:REPORT_DATA REPORT_STATO REPORT_LINK_NUOVI REPORT_GSC R
   done
 done
 
+echo "=== caso 38: le skill vere -> Recuperato o nuovo scritto da chi crea o lavora il record ==="
+skill(){ echo "$ROOT/.claude/skills/$1/SKILL.md"; }
+check "link-fonti scrive Nuovo"             "grep -qE 'Recuperato o nuovo.*\`Nuovo\`' \"\$(skill link-fonti)\""
+check "link-dono scrive Nuovo"              "grep -qE 'Recuperato o nuovo.*\`Nuovo\`' \"\$(skill link-dono)\""
+check "link-recupero scrive Recuperato"     "grep -qE 'Recuperato o nuovo.*\`Recuperato\`' \"\$(skill link-recupero)\""
+check "link-recupero: anche sulle menzioni" "! grep -q 'vuoto per le menzioni' \"\$(skill link-recupero)\""
+check "link-review: vuoto conta come Nuovo" "grep -qE 'Recuperato o nuovo.*vuoto.*\`Nuovo\`' \"\$(skill link-review)\""
+
 echo
 echo "=== $PASS pass, $FAIL fail ==="
 [ "$FAIL" -eq 0 ]
