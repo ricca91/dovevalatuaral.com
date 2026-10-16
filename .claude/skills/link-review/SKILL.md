@@ -22,7 +22,7 @@ Il sito vive per due prodotti: "Ti spiego la busta paga" e il calcolatore RAL �
 
 Se il prompt contiene RUNNER FACTS con la data di oggi, usa quella. Altrimenti:
 
-    node .claude/skills/link-review/misure.mjs date
+    node processo/link/misure.mjs date
 
 Prendi da lì tutte le soglie, non contarle a mano: `settimana` (ultimi 7 giorni), `dataforseo_date_from`,
 `followup_dovuto_se_invio_entro`, `attesa_se_link_dopo`. Con una data esplicita: `… misure.mjs date AAAA-MM-GG`.
@@ -39,7 +39,7 @@ Prendi da lì tutte le soglie, non contarle a mano: `settimana` (ultimi 7 giorni
 - **DataForSEO**: `mcp__dataforseo__backlinks_summary` e `mcp__dataforseo__backlinks_backlinks`, target sempre
   `dovevalatuaral.com`. Non usare `backlinks_bulk_new_lost_referring_domains`: il 15 ottobre 2026 contava come
   "nuovi dall'8 ottobre" due domini che DataForSEO aveva visto il 9 e il 25 settembre, e non restituisce i persi.
-- **`node .claude/skills/link-review/misure.mjs`**, l'attrezzo deterministico accanto a questo file. Stampa JSON.
+- **`node processo/link/misure.mjs`**, l'attrezzo deterministico delle skill backlink. Stampa JSON.
   Se una fonte non risponde stampa il motivo su stderr ed esce con 2: in quel caso quella fonte "non ha risposto",
   e lo scrivi così.
   - `gsc <oggi> [pagina …]`: trova l'ultimo giorno con dati GSC (di solito 2-3 giorni fa), confronta gli ultimi
@@ -78,6 +78,10 @@ Dipendenze di `misure.mjs` fuori dal repo (non copiarle, non stamparle):
   Se `link` esce con 2 o la pagina non è HTML leggibile (JavaScript, 403), scrivi "non verificato" e perché.
 - Link persi: ricontrolla con `link` anche tutti i record `Link ottenuto` più vecchi. Se la pagina non risponde
   200 o il link verso di noi non c'è più, il link è perso: va in cima alle azioni se la pagina prendeva clic.
+- Limite noto: i link persi che non sono su Airtable non li vedi. `backlinks_backlinks` restituisce solo i link
+  vivi: l'API sceglie vivi o persi con `backlinks_status_type` (default `live`), che lo strumento MCP non espone,
+  e un filtro su `is_lost` non trova niente tra i vivi; la risposta non ha nemmeno una data di perdita. Non provare
+  altre strade a pagamento: scrivi nel report che i persi fuori da Airtable non sono misurati.
 
 ### 2. Misura
 
@@ -94,6 +98,10 @@ Dipendenze di `misure.mjs` fuori dal repo (non copiarle, non stamparle):
 Mai mescolati: link nuovi e link recuperati (campo Recuperato o nuovo), della settimana e in totale; domini
 referenti e backlink (`backlinks_summary`: `referring_domains` e `backlinks`, con i nofollow) confrontati con il
 punto zero; link spontanei a parte.
+
+Recuperato o nuovo lo scrivono le skill: link-recupero `Recuperato`, link-fonti e link-dono `Nuovo`.
+Un record con Recuperato o nuovo vuoto conta come `Nuovo`: contalo così e segnalalo (quanti record e quali
+domini) in questa sezione e in `REPORT_NOTE`.
 
 ### 4. Attesa
 
@@ -177,10 +185,11 @@ sola, nessuna riga vuota in mezzo.
 - `REPORT_GSC`, `REPORT_DATAFAST`, `REPORT_DATAFORSEO`, `REPORT_AIRTABLE`: `ok` oppure `non ha risposto: <motivo>`.
 - `REPORT_LINK_NUOVI`, `REPORT_LINK_RECUPERATI`, `REPORT_LINK_SPONTANEI`: link della settimana.
   `REPORT_DOMINI_REFERENTI`, `REPORT_BACKLINK`: totali DataForSEO di oggi. `REPORT_IN_ATTESA`: pagine in attesa.
-- Se un valore non lo hai, scrivi `n/d` e spiega in `REPORT_NOTE`: mai inventarlo.
+- Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+  inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).
 
 ## Dipendenze per chi lancia la skill
 
 `claude -p "/link-review RUNNER FACTS …"` dalla radice del repo. Allowlist minima, per nome:
-`mcp__plugin_airtable_airtable__list_records_for_table,mcp__claude_ai_Airtable__list_records_for_table,mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node .claude/skills/link-review/misure.mjs:*)`.
-Niente Gmail, Write, Edit. Test dell'attrezzo: `node --test .claude/skills/link-review/misure.test.mjs`.
+`mcp__plugin_airtable_airtable__list_records_for_table,mcp__claude_ai_Airtable__list_records_for_table,mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node processo/link/misure.mjs:*)`.
+Niente Gmail, Write, Edit. Test dell'attrezzo: `node --test processo/link/misure.test.mjs` (gira anche in `npm test`).

@@ -5,7 +5,7 @@ const os = require('node:os');
 const path = require('node:path');
 const {execFile} = require('node:child_process');
 const {promisify} = require('node:util');
-const {classifica, cancello, nettoPrimaDopo} = require('./dono-ccnl.js');
+const {classifica, cancello, nettoPrimaDopo, tranche} = require('./dono-ccnl.js');
 
 // Importi attesi presi dalle tabelle Filcams CGIL (firmataria) e dall'art. 213 dell'accordo
 // di rinnovo del 22 marzo 2024, non ricalcolati dal codice.
@@ -203,7 +203,8 @@ test('un aumento si confronta con la differenza tra la tabella della sua decorre
 test('un’affermazione controllata a mano sulla fonte primaria passa così com’è; senza URL della fonte no', () => {
   const [conFonte, senzaFonte, daBancaDati] = classifica({ccnl: COMMERCIO, oggi: OGGI, invio: INVIO, affermazioni: [
     {id: 'A1', frase: 'una tantum di 350 € in due rate', stato: 'ancora vero',
-      fonte: {url: 'https://ce-mu.it/x/AccordoRinnovo.pdf', parte: 'testo dell’accordo sottoscritto dalle parti firmatarie'},
+      fonte: {url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf',
+        parte: 'testo dell’accordo sottoscritto dalle parti firmatarie'},
       nota: 'art. 213: 175 € a luglio 2024 e 175 € a luglio 2025'},
     {id: 'A2', frase: 'il contratto scade nel 2026', stato: 'cambiato', nota: 'scade il 31/3/2027'},
     {id: 'A3', frase: '14 mensilità', stato: 'ancora vero',
@@ -256,6 +257,42 @@ test('una correzione su una fonte non firmataria non conta: con una sola solida 
   assert.deepEqual(esito.foglio.map(c => c.id), ['A1']);
   assert.deepEqual(esito.fuori.map(c => c.id), ['A2']);
   assert.match(esito.verifica, /\[cambiato, fuori dalla mail\] «13 mensilità»/);
+});
+
+test('una fonte descritta come firmataria ma con un URL che il dataset non conosce non regge: la pagina si salta', () => {
+  // La descrizione la scrive l'agente; l'URL no. ilCCNL.it è un portale che riprende le tabelle, non una parte.
+  const portale = {url: 'https://www.ilccnl.it/commercio/tabelle-retributive', parte: 'portale che riprende le tabelle dei firmatari'};
+  const esito = cancello(pagina([
+    {id: 'A1', frase: 'una tantum di 400 €', stato: 'cambiato', fonte: portale, nota: 'sono 350 €'},
+    {id: 'A2', frase: 'scade il 31/12/2026', stato: 'cambiato', fonte: portale, nota: 'scade il 31/3/2027'},
+  ]), {oggi: OGGI, invio: INVIO});
+  assert.equal(esito.decisione, 'salta');
+  assert.deepEqual(esito.foglio, []);
+  assert.deepEqual(esito.fuori.map(c => c.id), ['A1', 'A2']);
+});
+
+test('una fonte controllata a mano regge se è l’URL o la copia d’archivio di una fonte firmataria del dataset', () => {
+  const [accordo, archivio, filcams] = classifica({ccnl: COMMERCIO, oggi: OGGI, invio: INVIO, affermazioni: [
+    {id: 'A1', frase: 'una tantum di 400 €', stato: 'cambiato', nota: 'sono 350 €',
+      fonte: {url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf'}},
+    {id: 'A2', frase: 'scade il 31/12/2026', stato: 'cambiato', nota: 'scade il 31/3/2027',
+      fonte: {url: 'processo/dati/fonti/accordo-rinnovo-terziario-2024-03-22.pdf'}},
+    {id: 'A3', frase: '14 mensilità', stato: 'ancora vero', fonte: {url: 'https://filcams.cgil.it/page/confcommercio_terziario/'}},
+  ]});
+  assert.equal(accordo.fonte.firmataria, true);
+  assert.equal(archivio.fonte.firmataria, true);
+  assert.equal(filcams.fonte.firmataria, true, 'stesso URL senza www e con lo slash finale');
+});
+
+test('una cifra marcata a mano «superato», senza la data della tranche, entra nella Verifica senza errori', () => {
+  const accordo = {url: 'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf'};
+  const esito = cancello(pagina([
+    {id: 'A1', frase: 'una tantum di 350 € a luglio 2026', stato: 'superato', fonte: accordo,
+      nota: 'art. 213: le due rate erano a luglio 2024 e luglio 2025'},
+    {id: 'A2', frase: 'IV livello: 1.783,75 €', livello: '4', importo: 1783.75, vigente: true},
+  ]), {oggi: OGGI, invio: INVIO});
+  assert.equal(esito.decisione, 'scrivi');
+  assert.match(esito.verifica, /\[superato\] «una tantum di 350 € a luglio 2026» → art\. 213/);
 });
 
 test('se una correzione è vera fino alla tranche, la mail non parte prima della tranche e la Verifica lo dice', () => {
@@ -340,10 +377,35 @@ test('il testo del netto porta un solo link: la pagina del livello se il livello
   assert.deepEqual(link(due), ['https://www.dovevalatuaral.com/minimi-ccnl/commercio/']);
 });
 
+// --- il calendario delle tranche ---
+
+// Decorrenze lette nel dataset (prototipo/retribuzione-ccnl.js): commercio e DMO 1/11/2026, multiservizi
+// (due sezioni) e vetro 1/10/2026.
+test('le tranche partite dopo una data e fino a un’altra, con lo slug del sito', () => {
+  assert.deepEqual(tranche({dopo: '2026-10-15', fino: '2026-11-03'}).map(t => [t.ccnl, t.decorrenza]),
+    [['commercio', '2026-11-01'], ['dmo', '2026-11-01']]);
+});
+
+test('la prima data è esclusa: una pagina saltata il giorno della tranche aspetta la tranche dopo', () => {
+  assert.deepEqual(tranche({dopo: '2026-11-01', fino: '2026-11-03', ccnl: 'commercio'}), []);
+  assert.deepEqual(tranche({dopo: '2026-10-15', fino: '2026-10-31', ccnl: 'commercio'}), []);
+  assert.deepEqual(tranche({dopo: '2026-10-15', fino: '2026-11-03', ccnl: 'commercio'}).map(t => t.decorrenza), ['2026-11-01']);
+});
+
+test('una tranche di un contratto con più sezioni compare una volta, con le sezioni', () => {
+  const [multiservizi] = tranche({dopo: '2026-09-30', fino: '2026-10-01', ccnl: 'multiservizi'});
+  assert.equal(multiservizi.decorrenza, '2026-10-01');
+  assert.deepEqual(multiservizi.sezioni, ['impiegati', 'operai']);
+});
+
+test('le date si possono dare anche come nelle Note, GG/MM/AAAA', () => {
+  assert.deepEqual(tranche({dopo: '15/10/2026', fino: '3/11/2026', ccnl: 'commercio'}).map(t => t.decorrenza), ['2026-11-01']);
+});
+
 // --- la riga di comando, come la usa la skill ---
 
 const CLI = require.resolve('./dono-ccnl.js');
-const esegui = (...argomenti) => promisify(execFile)(process.execPath, [CLI, ...argomenti]);
+const run = (...argomenti) => promisify(execFile)(process.execPath, [CLI, ...argomenti]);
 
 test('CLI classifica: legge il file delle affermazioni e stampa classificazione, decisione e testo della Verifica', async t => {
   const cartella = fs.mkdtempSync(path.join(os.tmpdir(), 'link-dono-'));
@@ -353,7 +415,7 @@ test('CLI classifica: legge il file delle affermazioni e stampa classificazione,
     {id: 'A1', frase: 'IV livello: 1.783,75 €', livello: '4', importo: 1783.75, vigente: true},
     {id: 'A2', frase: 'V livello: 1.660,08 €', livello: '5', importo: 1660.08, vigente: true},
   ]}));
-  const {stdout} = await esegui('classifica', file);
+  const {stdout} = await run('classifica', file);
   const esito = JSON.parse(stdout);
   assert.equal(esito.decisione, 'scrivi');
   assert.deepEqual(esito.affermazioni.map(a => a.stato), ['superato', 'superato']);
@@ -361,24 +423,32 @@ test('CLI classifica: legge il file delle affermazioni e stampa classificazione,
 });
 
 test('CLI netto: accetta lo slug del sito e stampa il testo da incollare', async () => {
-  const {stdout} = await esegui('netto', 'commercio', '2026-10-31', '2026-11-01', '--livelli', '4');
+  const {stdout} = await run('netto', 'commercio', '2026-10-31', '2026-11-01', '--livelli', '4');
   assert.match(stdout, /^Netto per livello, CCNL Terziario/);
   assert.match(stdout, /4° livello: lordo 1\.783,75 → 1\.818,75 € al mese/);
 });
 
 test('CLI valori: le tabelle della fonte per decorrenza, con quelle ricostruite segnate e la fonte firmataria', async () => {
-  const {stdout} = await esegui('valori', 'commercio');
+  const {stdout} = await run('valori', 'commercio');
   const valori = JSON.parse(stdout);
   assert.equal(valori.fonte.firmataria, true);
   assert.deepEqual(valori.tabelle.map(t => [t.decorrenza, Boolean(t.ricostruita)]), [
     ['2020-01-01', true], ['2023-04-01', true], ['2024-04-01', true], ['2025-03-01', true],
     ['2025-11-01', false], ['2026-11-01', false], ['2027-02-01', false]]);
   assert.equal(valori.accordo.firmataria, true, 'il testo dell’accordo sottoscritto dalle parti è fonte primaria');
+  assert.deepEqual(valori.firmatarie.map(f => f.url), [
+    'https://www.filcams.cgil.it/page/confcommercio_terziario',
+    'https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf']);
   const quarto = valori.tabelle[5].livelli.find(l => l.codice === '4');
   assert.equal(quarto.totale, 1818.75);
   assert.equal(quarto.voci.pagaBase, 1292.46);
 });
 
+test('CLI tranche: JSON delle tranche nella finestra, filtrabile per CCNL', async () => {
+  const {stdout} = await run('tranche', '2026-10-15', '2026-11-03', '--ccnl', 'commercio');
+  assert.deepEqual(JSON.parse(stdout).map(t => [t.ccnl, t.decorrenza]), [['commercio', '2026-11-01']]);
+});
+
 test('CLI senza comando valido: esce con 2 e spiega l’uso', async () => {
-  await assert.rejects(esegui('boh'), err => err.code === 2 && /Uso:/.test(err.stderr));
+  await assert.rejects(run('boh'), err => err.code === 2 && /Uso:/.test(err.stderr));
 });

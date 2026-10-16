@@ -7,7 +7,7 @@ senza commit né push: l'agente scrive solo su Airtable e nelle bozze Gmail.
 | Quando (ora di Roma) | Job | Cosa produce |
 |---|---|---|
 | lunedì 07:00 | `link-review` | mail con la revisione (sola lettura) |
-| martedì 07:00 | `link-dono` | al massimo 5 bozze Gmail + Airtable `Bozza pronta`, solleciti |
+| martedì 07:00 | `link-dono` | al massimo 5 bozze Gmail, solleciti compresi + Airtable `Bozza pronta` |
 | primo lunedì del mese 07:05 | `link-fonti` | prospect `Da qualificare` su Airtable |
 | primo lunedì del mese 07:10 | `link-recupero` | link persi e menzioni senza link, al massimo 5 bozze |
 
@@ -32,10 +32,14 @@ che riporta l'agente (record, bozze, misure).
 |---|---|
 | `lancia.sh` | lock, worktree staccato su origin/main dal clone bare, `run.sh <job>`, copia dei dati di lavoro, rimozione del worktree |
 | `run.sh` | tutto ciò che deve andare bene sempre (sopra) |
+| `jobs.sh` | la tabella dei job: allowlist, guardia, modello, autenticazione, argomenti, chiavi REPORT_, tetto delle bozze. La leggono `run.sh`, `lancia.sh` e il test |
 | `systemd/link@.service` | il servizio, uno per job (`link@link-review.service`, …) |
 | `systemd/link-fallito@.service` | mail se il servizio muore prima che `run.sh` possa scrivere |
 | `systemd/link-*.timer` | i quattro orari |
 | `test/test.sh` | casi su repo fixture con stub: nessun Opus, nessuna mail, nessun Airtable o Gmail veri |
+
+Gli attrezzi node delle skill stanno tutti in `processo/link/` (`misure.mjs`, `dono-ccnl.js`, `verifica-pagina.js`,
+`aggrega.js` con `esclusi.json`), ognuno col suo test; `npm test` li esegue tutti.
 
 Fuori dal repo, sul VPS:
 
@@ -43,6 +47,7 @@ Fuori dal repo, sul VPS:
 |---|---|
 | `/root/cron/dovevalatuaral.git` | il clone bare di `articolo-quotidiano`, riusato |
 | `/root/cron/link/lancia.sh` | la copia installata, quella che systemd esegue |
+| `/root/cron/link/jobs.sh` | la tabella dei job installata accanto, da cui `lancia.sh` sa quali job esistono |
 | `/root/cron/link/logs/<job>-AAAA-MM-GG.log` | un log per job e giorno |
 | `/root/cron/link/logs/state-<job>` | la guardia anti-doppione |
 | `/root/cron/link/dati/.link-fonti/`, `.link-dono/` | raccolte e affermazioni dei prospect: dati che il repo pubblico non deve vedere, tenuti per rileggere un run |
@@ -63,22 +68,18 @@ uno dopo l'altro, `link-review` per primo; tra `link-fonti` e `link-recupero` l'
 Per nome di strumento, mai per server (`mcp__claude_ai_Gmail` ammetterebbe anche l'invio). Airtable con i due
 prefissi (`mcp__plugin_airtable_airtable__` col token, `mcp__claude_ai_Airtable__` con la login).
 
-| job | ammessi |
-|---|---|
-| `link-review` | Airtable `list_records_for_table`; DataForSEO `backlinks_summary`, `backlinks_backlinks`; `Bash(node .claude/skills/link-review/misure.mjs:*)` |
-| `link-dono` | Airtable `list_records_for_table`, `update_records_for_table`; Gmail (sotto); WebFetch, Read, Write, Edit; `dono-ccnl.js`, `verifica-pagina.js`, `misure.mjs` |
-| `link-fonti` | Airtable `list_records_for_table`, `create_records_for_table`; DataForSEO `ai_optimization_chat_gpt_scraper`, `ai_opt_llm_ment_top_domains`; WebFetch, WebSearch, Read, Write, Edit; `aggrega.js` |
-| `link-recupero` | Airtable `list_records_for_table`, `create_records_for_table`, `update_records_for_table`; DataForSEO `backlinks_backlinks`, `serp_organic_live_advanced`, `content_analysis_search`; Gmail (sotto); WebFetch; `verifica-pagina.js` |
+Gli strumenti di ogni job stanno in `jobs.sh` (`STRUMENTI` sempre, `SCRIVE` tolti in DRY_RUN), e solo lì.
 
 Gmail, solo questi sei: `create_draft`, `list_drafts`, `get_draft`, `search_threads`, `get_thread`,
 `get_message`. Negati in ogni job con `--disallowedTools`, anche se nessuno li ammette: `send_message`,
 `reply` e `forward` (inviano: `reply` non crea una bozza), `update_draft`, `delete_draft`, `trash_*`,
-il server AgentMail, Perplexity e Firecrawl (senza credito). `link-review` e `link-recupero` non scrivono
-file: `Write`, `Edit` e `NotebookEdit` negati. Il test fallisce se `send_message`, `reply` o `forward`
-compaiono nell'allowlist di un job, in qualunque modalità.
+il server AgentMail, Perplexity e Firecrawl (senza credito). Degli strumenti di file (`Write`, `Edit`,
+`NotebookEdit`) ogni job ha solo quelli che la sua skill usa (colonna `FILE`: `link-dono` Write, `link-fonti`
+Write ed Edit), gli altri sono negati: con `--permission-mode acceptEdits` non ammetterli non basterebbe. Il
+test fallisce se `send_message`, `reply` o `forward` compaiono nell'allowlist di un job, in qualunque modalità.
 
 Se un run muore o salta un passo per un permesso, la mail elenca gli strumenti negati
-(`permission_denials` dell'output JSON di claude): il posto da toccare è il `case` dei job in `run.sh`.
+(`permission_denials` dell'output JSON di claude): il posto da toccare è la tabella in `jobs.sh`.
 
 ## Autenticazione e Gmail
 
@@ -132,16 +133,33 @@ systemctl start link@link-review.service
 # un secondo giro nello stesso periodo (la guardia lo salterebbe)
 LINK_FORZA=1 /root/cron/link/lancia.sh link-dono
 
-# la settimana dopo una tranche CCNL (spec): argomenti della skill dopo i RUNNER FACTS
+# argomenti della skill a mano, dopo i RUNNER FACTS (valgono su quelli di run.sh)
 LINK_FORZA=1 LINK_ARGS="ccnl=commercio" /root/cron/link/lancia.sh link-dono
 ```
+
+La settimana dopo una tranche CCNL (spec) non serve niente a mano: `run.sh` chiede al dataset del checkout le
+tranche partite negli ultimi 7 giorni (`node processo/link/dono-ccnl.js tranche <7 giorni fa> <oggi>`) e, se ce
+ne sono, passa a link-dono `ccnl=<slug,…>`. Il martedì dopo il 1° novembre 2026 sarà `ccnl=commercio,dmo`. Il
+tetto delle 5 bozze resta. Se il calendario non si legge, il run parte senza filtro e la mail lo dice.
+
+## Il blocco REPORT_
+
+Ogni skill chiude con righe `REPORT_CHIAVE=valore`; `run.sh` legge quelle della colonna `REPORT` di `jobs.sh`
+per l'oggetto della mail (il test controlla che le skill le abbiano). Due valori convenzionali, uguali in tutte
+le skill e nel prompt di `run.sh`:
+
+- `nessuno`: non c'è niente (nessuna risposta, nessuna data, nessun redirect). `run.sh` non lo segnala;
+- `n/d`: il valore non si è potuto sapere; il perché sta in `REPORT_NOTE`.
+
+Il tetto delle bozze Gmail per run, solleciti compresi, è `MAX_BOZZE` in `jobs.sh` (5): `run.sh` lo passa alla
+skill nei RUNNER FACTS come `bozze_max` e avvisa nell'oggetto se `REPORT_BOZZE` + `REPORT_SOLLECITI` lo passano.
 
 ## La mail
 
 Oggetto con i numeri del blocco `REPORT_`: `link-review AAAA-MM-GG: punto-zero, 0 link nuovi`,
 `link-dono AAAA-MM-GG: 2 bozze, 1 solleciti, non inviare prima del …`, `link-fonti …: 12 prospect su Airtable
 (prompt 24/24)`, `link-recupero …: 0 link persi, 0 menzioni, 0 bozze`. In coda all'oggetto: fonti che non hanno
-risposto, strumenti negati, più di 5 bozze.
+risposto, strumenti negati, più di 5 bozze (per `link-dono` bozze nuove e solleciti insieme).
 
 Corpo: la prosa dell'agente, poi i fatti misurati da `run.sh` (checkout, modello, turni, minuti, costo,
 autenticazione, strumenti negati, avvisi), il blocco `REPORT_` e la riga "verificato da me / non verificato".
@@ -169,6 +187,7 @@ e le skill da origin/main):
 ```bash
 # il clone bare c'è già: /root/cron/dovevalatuaral.git (articolo-quotidiano)
 install -D -m 755 processo/cron/link/lancia.sh /root/cron/link/lancia.sh
+install -D -m 644 processo/cron/link/jobs.sh /root/cron/link/jobs.sh
 cp processo/cron/link/systemd/* /etc/systemd/system/
 systemctl daemon-reload
 
@@ -181,7 +200,8 @@ systemctl list-timers 'link-*'
 ```
 
 Per fermarne uno: `systemctl disable --now link-dono.timer`. A ogni modifica di `lancia.sh` o delle unit si
-reinstallano; `run.sh` no, arriva ogni volta da origin/main.
+reinstallano (`lancia.sh` e `jobs.sh` insieme); `run.sh` no, arriva ogni volta da origin/main con il suo
+`jobs.sh`.
 
 ## Decisioni aperte, per Riccardo
 
@@ -189,8 +209,8 @@ reinstallano; `run.sh` no, arriva ogni volta da origin/main.
   (ticket a parte). Il token non basta oggi.
 - **Chiave DataFast**: resta nel `.env` del checkout principale o si sposta in `/root/.config/datafast/env`.
 - **WebSearch in link-fonti**: la skill lo usa per trovare la pagina di un dominio visto solo in AI Overview.
-  È nell'allowlist; si toglie dal `case` di `run.sh` se lo si vuole fuori.
-- **Modello**: `claude-opus-5` per tutti e quattro (`MODEL` lo cambia).
+  È nell'allowlist; si toglie dalla riga di `link-fonti` in `jobs.sh` se lo si vuole fuori.
+- **Modello**: `claude-opus-5` per tutti e quattro (colonna `MODELLO` di `jobs.sh`; `MODEL` lo cambia per un giro).
 
 ## È acceso davvero solo quando
 

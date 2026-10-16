@@ -5,7 +5,7 @@ const {execFile} = require('node:child_process');
 const {promisify} = require('node:util');
 const {verificaPagina} = require('./verifica-pagina.js');
 const CLI = require.resolve('./verifica-pagina.js');
-const esegui = (...argomenti) => promisify(execFile)(process.execPath, [CLI, ...argomenti]);
+const run = (...argomenti) => promisify(execFile)(process.execPath, [CLI, ...argomenti]);
 
 // Server locale: ogni path simula una pagina esterna reale.
 const pagine = {
@@ -29,10 +29,10 @@ const pagine = {
   '/errore': [503, 'Service unavailable'],
 };
 
-let server, base, ultimoUserAgent;
+let server, base, lastUserAgent;
 before(async () => {
   server = http.createServer((req, res) => {
-    ultimoUserAgent = req.headers['user-agent'];
+    lastUserAgent = req.headers['user-agent'];
     if (req.url === '/muta') return; // non risponde mai
     const pagina = pagine[req.url];
     if (!pagina) { res.writeHead(404); res.end('non trovata'); return; }
@@ -125,16 +125,16 @@ test('pagina che non risponde entro il timeout: non verificato', async () => {
 });
 
 test('CLI: una riga JSON per URL, nell\'ordine dato', async () => {
-  const {stdout} = await esegui(`${base}/con-link`, `${base}/rimossa`);
+  const {stdout} = await run(`${base}/con-link`, `${base}/rimossa`);
   const righe = stdout.trim().split('\n').map(r => JSON.parse(r));
   assert.deepEqual(righe.map(r => [r.url, r.esito]), [[`${base}/con-link`, 'viva'], [`${base}/rimossa`, 'morta']]);
 });
 
 test('CLI senza URL: spiega l\'uso ed esce con 2', async () => {
-  await assert.rejects(esegui(), e => e.code === 2 && /uso:/i.test(e.stderr));
+  await assert.rejects(run(), e => e.code === 2 && /uso:/i.test(e.stderr));
 });
 
 test('si presenta con uno user agent che nomina il sito', async () => {
   await verificaPagina(`${base}/con-link`);
-  assert.match(ultimoUserAgent, /dovevalatuaral\.com/);
+  assert.match(lastUserAgent, /dovevalatuaral\.com/);
 });

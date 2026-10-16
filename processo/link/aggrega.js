@@ -1,33 +1,23 @@
 'use strict';
+const { isOurs, normalizeDomain, inDomains } = require('./sito.js');
 // Aggrega le citazioni raccolte da link-fonti: un dominio per riga, quanti prompt ChatGPT e quanti cluster
 // AI Overview lo citano, cosa si scarta (esclusi.json, domini già su Airtable) e quali pagine nostre sono citate.
-// Uso: node aggrega.js <raccolta.json>   (formato della raccolta: SKILL.md, passo 4)
+// Quali domini sono "nostri" lo dice sito.js, lo stesso degli altri attrezzi.
+// Uso: node processo/link/aggrega.js <raccolta.json>   (formato: .claude/skills/link-fonti/SKILL.md, passo 4)
 
 // Un co-citato di AI Overview conta solo se compare in almeno tante risposte accanto a un dominio del top 10.
 const MIN_CO_MENZIONI = 3;
 
-function normalizza(host) {
-  return host.toLowerCase().replace(/^www\./, '');
-}
-
-function dominioDi(url) {
-  return normalizza(new URL(url).hostname);
-}
-
-function inLista(dominio, lista = []) {
-  return lista.some((voce) => dominio === voce || dominio.endsWith(`.${voce}`));
-}
-
-function citazioni(voce) {
+function citazioni(citato) {
   const parti = [];
-  if (voce.prompt.length) parti.push(`${voce.prompt.length} prompt ChatGPT`);
-  if (voce.aiOverview.length) parti.push(`${voce.aiOverview.length} cluster AI Overview`);
-  return `${parti.join(' + ')} · ${voce.motori.join(', ')}`;
+  if (citato.prompt.length) parti.push(`${citato.prompt.length} prompt ChatGPT`);
+  if (citato.aiOverview.length) parti.push(`${citato.aiOverview.length} cluster AI Overview`);
+  return `${parti.join(' + ')} · ${citato.motori.join(', ')}`;
 }
 
 function aggrega(raccolta, esclusi) {
   const perDominio = new Map();
-  const voceDi = (dominio) => {
+  const dominioCitato = (dominio) => {
     if (!perDominio.has(dominio)) {
       perDominio.set(dominio, { dominio, promptPerPagina: new Map(), prompt: [], aiOverview: [] });
     }
@@ -36,31 +26,32 @@ function aggrega(raccolta, esclusi) {
 
   for (const [id, urls] of Object.entries(raccolta.chatgpt || {})) {
     for (const url of urls) {
-      const voce = voceDi(dominioDi(url));
-      const promptDellaPagina = voce.promptPerPagina.get(url) || [];
+      const citato = dominioCitato(normalizeDomain(url));
+      const promptDellaPagina = citato.promptPerPagina.get(url) || [];
       if (!promptDellaPagina.includes(id)) promptDellaPagina.push(id);
-      voce.promptPerPagina.set(url, promptDellaPagina);
-      if (!voce.prompt.includes(id)) voce.prompt.push(id);
+      citato.promptPerPagina.set(url, promptDellaPagina);
+      if (!citato.prompt.includes(id)) citato.prompt.push(id);
     }
   }
 
   for (const [cluster, { top = {}, co = {} }] of Object.entries(raccolta.aiOverview || {})) {
     for (const [host, menzioni] of Object.entries(top)) {
-      voceDi(normalizza(host)).aiOverview.push({ cluster, menzioni, coCitato: false });
+      dominioCitato(normalizeDomain(host)).aiOverview.push({ cluster, menzioni, coCitato: false });
     }
     for (const [host, menzioni] of Object.entries(co)) {
       if (menzioni < MIN_CO_MENZIONI) continue;
-      const voce = voceDi(normalizza(host));
-      if (voce.aiOverview.some((a) => a.cluster === cluster)) continue;
-      voce.aiOverview.push({ cluster, menzioni, coCitato: true });
+      const citato = dominioCitato(normalizeDomain(host));
+      if (citato.aiOverview.some((a) => a.cluster === cluster)) continue;
+      citato.aiOverview.push({ cluster, menzioni, coCitato: true });
     }
   }
 
-  const giaSuAirtable = (raccolta.giaInAirtable || []).map(normalizza);
+  const giaSuAirtable = (raccolta.giaInAirtable || []).map(normalizeDomain);
   const motivoEsclusione = (dominio) => {
-    if (inLista(dominio, esclusi.competitor)) return 'competitor';
-    if (inLista(dominio, esclusi.giganti)) return 'gigante';
-    if (inLista(dominio, esclusi.istituzioni)) return 'istituzione';
+    if (inDomains(dominio, esclusi.proprie)) return 'proprietà di Riccardo';
+    if (inDomains(dominio, esclusi.competitor)) return 'competitor';
+    if (inDomains(dominio, esclusi.giganti)) return 'gigante';
+    if (inDomains(dominio, esclusi.istituzioni)) return 'istituzione';
     if (giaSuAirtable.includes(dominio)) return 'già su Airtable';
     return null;
   };
@@ -68,21 +59,21 @@ function aggrega(raccolta, esclusi) {
   const prospect = [];
   const esclusiDalRun = [];
   const nostre = { chatgpt: [], aiOverview: [] };
-  for (const { promptPerPagina, ...voce } of perDominio.values()) {
-    if (inLista(voce.dominio, esclusi.nostri)) {
+  for (const { promptPerPagina, ...citato } of perDominio.values()) {
+    if (isOurs(citato.dominio)) {
       for (const [url, prompt] of promptPerPagina) nostre.chatgpt.push({ url, prompt });
-      nostre.aiOverview.push(...voce.aiOverview);
+      nostre.aiOverview.push(...citato.aiOverview);
       continue;
     }
-    const motivo = motivoEsclusione(voce.dominio);
+    const motivo = motivoEsclusione(citato.dominio);
     if (motivo) {
-      esclusiDalRun.push({ dominio: voce.dominio, motivo });
+      esclusiDalRun.push({ dominio: citato.dominio, motivo });
       continue;
     }
     const motori = [];
-    if (voce.prompt.length) motori.push('ChatGPT');
-    if (voce.aiOverview.length) motori.push('AI Overview');
-    const completa = { dominio: voce.dominio, pagine: [...promptPerPagina.keys()], prompt: voce.prompt, aiOverview: voce.aiOverview, motori };
+    if (citato.prompt.length) motori.push('ChatGPT');
+    if (citato.aiOverview.length) motori.push('AI Overview');
+    const completa = { dominio: citato.dominio, pagine: [...promptPerPagina.keys()], prompt: citato.prompt, aiOverview: citato.aiOverview, motori };
     prospect.push({ ...completa, citazioni: citazioni(completa) });
   }
   const menzioniAio = (p) => p.aiOverview.reduce((somma, a) => somma + a.menzioni, 0);
@@ -102,7 +93,7 @@ if (require.main === module) {
   const path = require('node:path');
   const [file] = process.argv.slice(2);
   if (!file) {
-    console.error('uso: node aggrega.js <raccolta.json>');
+    console.error('uso: node processo/link/aggrega.js <raccolta.json>');
     process.exit(2);
   }
   const raccolta = JSON.parse(fs.readFileSync(file, 'utf8'));

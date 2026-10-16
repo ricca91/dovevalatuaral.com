@@ -17,6 +17,8 @@
 set -uo pipefail
 
 JOB="${1:-}"
+# La tabella dei job: allowlist, guardia, autenticazione, argomenti, tetto delle bozze.
+. "$(dirname "${BASH_SOURCE[0]}")/jobs.sh"
 
 # Override per i test (vedi test/test.sh): repo fixture e stub, nessun Opus né mail veri.
 REPO="${DOVEVALA_REPO:-/root/ricc-os/projects/dovevalatuaral.com}"
@@ -26,7 +28,6 @@ CLAUDE_CRON_ENV="${CLAUDE_CRON_ENV:-/root/.config/claude-cron/env}"   # CLAUDE_C
 AGENTMAIL_ENV="${AGENTMAIL_ENV:-/root/.config/agentmail/env}"         # AGENTMAIL_API_KEY
 DRY_RUN="${DRY_RUN:-0}"     # 1 = niente mail (stampata nel log), niente stato, niente scritture Airtable/Gmail
 LOGDIR="${LINK_LOGDIR:-/root/cron/link/logs}"
-MODEL="${MODEL:-claude-opus-5}"
 PREFLIGHT_MODEL="${PREFLIGHT_MODEL:-claude-sonnet-5}"   # solo per il controllo Gmail, una riga
 # L'interruttore dell'autenticazione per i job che creano bozze (link-dono, link-recupero):
 #   login = senza CLAUDE_CODE_OAUTH_TOKEN, con la login interattiva di ~/.claude: oggi è l'unico
@@ -45,69 +46,17 @@ TO="riccsartori@gmail.com"
 # cron e systemd partono con un PATH minimo che non include ~/.local/bin, dove vive `claude`.
 export PATH="/root/.local/bin:$PATH"
 
-# --- i job ------------------------------------------------------------------------
-# Allowlist per nome di strumento, mai per server: `mcp__claude_ai_Gmail` ammetterebbe anche
-# send_message. Airtable con i due prefissi: col token di run.sh arriva il plugin, con la
-# login interattiva il connettore claude.ai (RIC-120).
-airtable() { local t out=""; for t in "$@"; do out+="mcp__plugin_airtable_airtable__$t,mcp__claude_ai_Airtable__$t,"; done; printf '%s' "${out%,}"; }
-# Gmail: lettura e creazione di bozze, nient'altro (nomi da RIC-120).
-GMAIL_LETTURA="mcp__claude_ai_Gmail__list_drafts,mcp__claude_ai_Gmail__get_draft,mcp__claude_ai_Gmail__search_threads,mcp__claude_ai_Gmail__get_thread,mcp__claude_ai_Gmail__get_message"
-GMAIL_BOZZA="mcp__claude_ai_Gmail__create_draft"
-# Negati in ogni job, anche se nessuno li ammette: send_message, reply e forward INVIANO
-# (reply non crea una bozza); le bozze create sono di Riccardo e non si toccano dopo;
-# AgentMail manderebbe mail dall'agente; Perplexity e Firecrawl sono senza credito.
-NEGATI="mcp__claude_ai_Gmail__send_message,mcp__claude_ai_Gmail__reply,mcp__claude_ai_Gmail__forward,mcp__claude_ai_Gmail__update_draft,mcp__claude_ai_Gmail__delete_draft,mcp__claude_ai_Gmail__trash_message,mcp__claude_ai_Gmail__trash_thread,mcp__agentmail,mcp__perplexity,mcp__claude_ai_Firecrawl"
-FILE_LOCALI="Write,Edit,NotebookEdit"
-
-# Per ogni job:
-#   PERIODO    chiave della guardia anti-doppione
-#   STRUMENTI  allowlist sempre ammessa (lettura, attrezzi, file di lavoro locali)
-#   SCRIVE     scritture su Airtable e Gmail: tolte e negate in DRY_RUN
-#   GMAIL=1    il job crea bozze: interruttore LINK_GMAIL_AUTH e controllo prima di partire
-#   FILE=1     scrive file di lavoro nel worktree (.link-fonti/, .link-dono/); altrimenti Write negato
-#   ARGOMENTI  righe in più per i RUNNER FACTS
-GMAIL=0; FILE=0; SCRIVE=""; ARGOMENTI=""
-case "$JOB" in
-  link-review)
-    PERIODO="$(date +%G-W%V)"   # una revisione per settimana ISO
-    TIMEOUT_JOB=30m
-    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node .claude/skills/link-review/misure.mjs:*)"
-    ;;
-  link-dono)
-    PERIODO="$(date +%G-W%V)"
-    TIMEOUT_JOB=60m
-    GMAIL=1; FILE=1
-    STRUMENTI="$(airtable list_records_for_table),$GMAIL_LETTURA,WebFetch,Read,Write,Edit,Bash(node processo/link/dono-ccnl.js:*),Bash(node processo/link/verifica-pagina.js:*),Bash(node .claude/skills/link-review/misure.mjs:*)"
-    SCRIVE="$(airtable update_records_for_table),$GMAIL_BOZZA"
-    ARGOMENTI="
-- oggi=$(date +%F)
-- invio=$(date +%F)
-- Al massimo 5 bozze di prospect nuovi in questo run (i solleciti sono a parte)."
-    ;;
-  link-fonti)
-    PERIODO="$(date +%Y-%m)"    # il primo lunedì del mese
-    TIMEOUT_JOB=60m
-    FILE=1
-    # WebSearch: la skill lo usa (site:dominio) per trovare la pagina di un dominio visto solo
-    # in AI Overview. Non è Perplexity né Firecrawl.
-    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__ai_optimization_chat_gpt_scraper,mcp__dataforseo__ai_opt_llm_ment_top_domains,WebFetch,WebSearch,Read,Write,Edit,Bash(node .claude/skills/link-fonti/aggrega.js:*)"
-    SCRIVE="$(airtable create_records_for_table)"
-    ARGOMENTI="
-- La raccolta va in .link-fonti/ nella root del repo: il checkout è usa e getta, lancia.sh la mette da parte fuori dal repo a fine run."
-    ;;
-  link-recupero)
-    PERIODO="$(date +%Y-%m)"
-    TIMEOUT_JOB=45m
-    GMAIL=1
-    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__backlinks_backlinks,mcp__dataforseo__serp_organic_live_advanced,mcp__dataforseo__content_analysis_search,$GMAIL_LETTURA,WebFetch,Bash(node processo/link/verifica-pagina.js:*)"
-    SCRIVE="$(airtable create_records_for_table update_records_for_table),$GMAIL_BOZZA"
-    ARGOMENTI="
-- Al massimo 5 bozze in questo run."
-    ;;
-  *)
-    echo "uso: run.sh link-review|link-dono|link-fonti|link-recupero" >&2
-    exit 2 ;;
-esac
+# --- il job -------------------------------------------------------------------------
+if ! job_config "$JOB"; then
+  echo "uso: run.sh ${LINK_JOBS// /|}" >&2
+  exit 2
+fi
+PERIODO="$(date +"$PERIODO")"
+MODEL="${MODEL:-$MODELLO}"
+if [ "$BOZZE" = "1" ]; then
+  ARGOMENTI+="
+- bozze_max=$MAX_BOZZE. Al massimo $MAX_BOZZE bozze in questo run, solleciti compresi."
+fi
 TIMEOUT="${TIMEOUT:-$TIMEOUT_JOB}"
 
 if [ "$GMAIL" = "1" ]; then
@@ -119,7 +68,10 @@ else
   AUTH=token
 fi
 
-[ "$FILE" = "1" ] || NEGATI+=",$FILE_LOCALI"
+NEGATI="$NEGATI_SEMPRE"
+for t in $FILE_LOCALI; do
+  [[ " $FILE " == *" $t "* ]] || NEGATI+=",$t"
+done
 if [ "$DRY_RUN" = "1" ]; then
   ALLOWED="$STRUMENTI"
   [ -n "$SCRIVE" ] && NEGATI+=",$SCRIVE"
@@ -260,6 +212,23 @@ Log: $LOG"
       FATTI_JOB="DataFast: DATAFAST_API_KEY NON trovata in $DATAFAST_ENV_FILE (misure.mjs dirà che DataFast non risponde)"
     fi
   fi
+  # La settimana dopo una tranche CCNL link-dono lavora su quel contratto (spec). Il calendario
+  # è quello del dataset nel checkout; il tetto delle bozze non cambia. Se non si legge, il run
+  # parte lo stesso, senza filtro, e la mail lo dice.
+  if [ "$JOB" = "link-dono" ]; then
+    DAL="$(date -d "$RUN_DATE -7 days" +%F)"
+    if TRANCHE="$(node processo/link/dono-ccnl.js tranche "$DAL" "$RUN_DATE" 2>&1)" \
+       && CCNL_TRANCHE="$(jq -er 'map(.ccnl) | unique | join(",")' <<<"$TRANCHE" 2>/dev/null)"; then
+      if [ -n "$CCNL_TRANCHE" ]; then
+        ELENCO="$(jq -r 'map("\(.ccnl) dal \(.decorrenza)") | join(", ")' <<<"$TRANCHE")"
+        ARGOMENTI+="
+- ccnl=$CCNL_TRANCHE (tranche partite negli ultimi 7 giorni: $ELENCO)"
+        FATTI_JOB="Tranche negli ultimi 7 giorni: $ELENCO. Run limitato a ccnl=$CCNL_TRANCHE"
+      fi
+    else
+      FATTI_JOB="Calendario delle tranche NON letto ($(tail -n 1 <<<"$TRANCHE")): run senza filtro ccnl"
+    fi
+  fi
 
   DRY_FATTI=""
   [ "$DRY_RUN" = "1" ] && DRY_FATTI="
@@ -273,9 +242,9 @@ Log: $LOG"
 - Data di oggi: $RUN_DATE
 - Repo: $REPO (checkout usa e getta di origin/main, $CHECKOUT)
 - La mail di esito la manda run.sh con la tua risposta: tu non mandi mail. Niente commit, niente push.
-- Gli attrezzi node della skill si lanciano col percorso relativo dalla radice del repo (node .claude/skills/… o node processo/link/…), senza pipe verso altri programmi: l'allowlist ammette solo quella forma.$ARGOMENTI${LINK_ARGS:+
+- Gli attrezzi node della skill si lanciano col percorso relativo dalla radice del repo (node processo/link/…), senza pipe verso altri programmi: l'allowlist ammette solo quella forma.$ARGOMENTI${LINK_ARGS:+
 - Argomenti a mano (valgono su quelli sopra): $LINK_ARGS}$DRY_FATTI
-- Chiudi col blocco REPORT_, una coppia chiave=valore per riga, senza code fence."
+- Chiudi col blocco REPORT_, una coppia chiave=valore per riga, senza code fence. Dove non c'è niente scrivi $NESSUNO; dove un valore non lo hai, $ND e il perché in REPORT_NOTE."
 
   INIZIO=$SECONDS
   OUT="$(claude_job "$TIMEOUT" -p "$PROMPT" \
@@ -361,22 +330,24 @@ Log: $LOG"
       ;;
     link-dono)
       OGGETTO="$JOB $RUN_DATE: $(campo REPORT_BOZZE) bozze, $(campo REPORT_SOLLECITI) solleciti"
-      v="$(campo REPORT_NON_PRIMA_DEL)"; [ -n "$v" ] && [ "$v" != "nessuna" ] && OGGETTO+=", non inviare prima del $v"
-      v="$(campo REPORT_RISPOSTE)"; [ -n "$v" ] && [ "$v" != "nessuna" ] && OGGETTO+=", risposte da leggere"
+      v="$(campo REPORT_NON_PRIMA_DEL)"; [ -n "$v" ] && [ "$v" != "$NESSUNO" ] && OGGETTO+=", non inviare prima del $v"
+      v="$(campo REPORT_RISPOSTE)"; [ -n "$v" ] && [ "$v" != "$NESSUNO" ] && OGGETTO+=", risposte da leggere"
       ;;
     link-fonti)
       OGGETTO="$JOB $RUN_DATE: $(campo REPORT_SCRITTI) prospect su Airtable (prompt $(campo REPORT_PROMPT))"
-      v="$(campo REPORT_FALLITE)"; [ -n "$v" ] && [ "$v" != "nessuna" ] && OGGETTO+=", fallite: $v"
+      v="$(campo REPORT_FALLITE)"; [ -n "$v" ] && [ "$v" != "$NESSUNO" ] && OGGETTO+=", fallite: $v"
       ;;
     link-recupero)
       OGGETTO="$JOB $RUN_DATE: $(campo REPORT_LINK_PERSI) link persi, $(campo REPORT_MENZIONI) menzioni, $(campo REPORT_BOZZE) bozze"
-      v="$(campo REPORT_PIANO_REDIRECT)"; [ -n "$v" ] && [ "$v" != "nessuno" ] && OGGETTO+=", piano redirect da applicare"
+      v="$(campo REPORT_PIANO_REDIRECT)"; [ -n "$v" ] && [ "$v" != "$NESSUNO" ] && OGGETTO+=", piano redirect da applicare"
       ;;
   esac
-  # Il tetto di bozze lo dice la skill; qui lo si controlla sul suo report.
-  B="$(campo REPORT_BOZZE)"
-  if [[ "$B" =~ ^[0-9]+$ ]] && [ "$B" -gt 5 ]; then
-    OGGETTO+=" — ATTENZIONE: $B bozze, oltre il tetto di 5"
+  # Il tetto di bozze lo rispetta la skill; qui lo si controlla sul suo report. I solleciti sono
+  # bozze anche loro: contano nel tetto (link-recupero non ne fa).
+  B="$(campo REPORT_BOZZE)"; S="$(campo REPORT_SOLLECITI)"
+  [[ "$S" =~ ^[0-9]+$ ]] || S=0
+  if [ "$BOZZE" = "1" ] && [[ "$B" =~ ^[0-9]+$ ]] && [ $((B + S)) -gt "$MAX_BOZZE" ]; then
+    OGGETTO+=" — ATTENZIONE: $((B + S)) bozze, oltre il tetto di $MAX_BOZZE"
   fi
   [ -n "$NEGATI_RUN" ] && OGGETTO+=" (strumenti negati)"
 

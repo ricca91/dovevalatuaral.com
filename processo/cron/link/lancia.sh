@@ -25,10 +25,11 @@
 set -uo pipefail
 
 JOB="${1:-}"
-case "$JOB" in
-  link-review|link-dono|link-fonti|link-recupero) ;;
-  *) echo "uso: lancia.sh link-review|link-dono|link-fonti|link-recupero" >&2; exit 2 ;;
-esac
+# I job esistenti dalla tabella installata accanto a questo file (/root/cron/link/jobs.sh).
+JOBS_SH="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/jobs.sh"
+[ -f "$JOBS_SH" ] || { echo "lancia.sh: manca $JOBS_SH, installalo accanto a lancia.sh (README, \"Accenderlo\")" >&2; exit 1; }
+. "$JOBS_SH"
+job_config "$JOB" || { echo "uso: lancia.sh ${LINK_JOBS// /|}" >&2; exit 2; }
 
 GITDIR="${LINK_GITDIR:-/root/cron/dovevalatuaral.git}"
 LINK_HOME="${LINK_HOME:-/root/cron/link}"

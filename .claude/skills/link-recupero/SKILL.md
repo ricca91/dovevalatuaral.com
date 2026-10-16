@@ -5,7 +5,7 @@ disable-model-invocation: true
 ---
 
 Fai il giro mensile di recupero link di dovevalatuaral.com: link persi verso pagine 404/410 e menzioni senza link.
-Al massimo 5 bozze Gmail per run.
+Al massimo `bozze_max` bozze Gmail per run: il tetto lo passa il runner nei RUNNER FACTS; a mano, 5.
 
 ## Contesto
 
@@ -16,7 +16,8 @@ Lo stato vive su Airtable, base `appAsCWc7NBzY5nam`, tabella **Outreach** (`tbl3
 pubblico: prospect, contatti e frasi trovate stanno solo su Airtable e nelle bozze, mai in un file del repo.
 
 La parte una tantum di RIC-122 (proprietà proprie, testimonianze ai fornitori) è chiusa: i fornitori hanno già un
-record con Fonte = `Fornitore`. Qui non li ricontatti.
+record con Fonte = `Fornitore`. Qui non li ricontatti, e non ricontrolli le proprietà di Riccardo (README, GitHub,
+riccsartori.com, profili): si sono sistemate una volta sola.
 
 Data del run: quella dei RUNNER FACTS se ci sono, altrimenti oggi.
 
@@ -36,7 +37,7 @@ Data del run: quella dei RUNNER FACTS se ci sono, altrimenti oggi.
     node processo/link/verifica-pagina.js <url> [<url>...]
 
 Una riga JSON per URL: `stato` HTTP, `esito`, `urlFinale` dopo i redirect, `link` (ogni `<a>` verso
-`dovevalatuaral.com`, `www.` o il dominio di lancio `jethr.riccsartori.com`, con `href`, `testo`, `rel`) e
+`dovevalatuaral.com` e i suoi sottodomini o il dominio di lancio `jethr.riccsartori.com`, con `href`, `testo`, `rel`) e
 `menzioni` (i paragrafi visibili che nominano il sito).
 
 - `esito: morta` solo per 404 e 410. 403, 429, 5xx, 999 (LinkedIn), timeout ed errori di rete danno
@@ -67,7 +68,6 @@ Ricerche (DataForSEO, `location_name: "Italy"`, `language_code: "it"`, `depth: 1
 
 - `serp_organic_live_advanced` con `"dovevalatuaral" -site:dovevalatuaral.com`
 - `serp_organic_live_advanced` con `"dove va la tua ral"`
-- `serp_organic_live_advanced` con `"Riccardo Sartori" calcolatore RAL netto` (chi racconta il lancio cita l'autore)
 - `content_analysis_search` con `dovevalatuaral` e con `"dove va la tua ral"`, `limit: 100`
 
 Google riscrive le parole che non conosce e scioglie le virgolette: il 15/10/2026 `"dovevalatuaral"` è diventato
@@ -107,7 +107,7 @@ Un record per menzione senza link e per link perso che chiede un intervento loro
 | Nostra pagina di destinazione | dal passo 5, o vuoto |
 | Contatto / Dove trovato il contatto | dal passo 6, o `n/d` |
 | Verifica | `<data>: verifica-pagina.js esito <esito>, link [], frase «…»` |
-| Recuperato o nuovo | `Recuperato` per i link persi, vuoto per le menzioni |
+| Recuperato o nuovo | `Recuperato`, per i link persi e per le menzioni: sono link già nostri da riprendere |
 | Stato | `Bozza pronta` se hai creato la bozza, altrimenti `Da qualificare` |
 | Note | id della bozza Gmail, o perché la bozza non c'è |
 
@@ -123,14 +123,9 @@ Solo se c'è un indirizzo email pubblicato. Testo semplice, italiano, firmata Ri
 `create_draft` con `to`, `subject`, `body`. Se il tool Gmail non c'è in questo run, il record resta
 `Da qualificare` con la nota "bozza non creata: Gmail non disponibile".
 
-## Proprietà proprie
-
-`verifica-pagina.js` su `https://github.com/ricca91/dovevalatuaral.com` e `https://www.riccsartori.com/`: dicono
-nel report se linkano ancora il sito. LinkedIn e X non si leggono senza login: non verificati.
-
 ## Cosa NON fai
 
-Le modifiche al sito (redirect in `vercel.json`) e ai profili sono di Riccardo: tu scrivi il piano. Non committi,
+Le modifiche al sito (redirect in `vercel.json`) sono di Riccardo: tu scrivi il piano. Non committi,
 non pushi, non mandi mail: la mail di esito la manda il runner. Su Airtable crei record e ne aggiorni solo lo Stato
 dei tuoi; i record degli altri playbook li leggi soltanto.
 
@@ -143,15 +138,16 @@ Poi chiudi con questo blocco, una coppia per riga, niente altro dopo. Il runner 
 sola, nessuna riga vuota in mezzo.
 
     REPORT_DATA=2026-11-02
-    REPORT_FONTI=backlinks 2+0, SERP 10+10+10, Content Analysis 0+0
+    REPORT_FONTI=backlinks 2+0, SERP 10+10, Content Analysis 0+0
     REPORT_LINK_PERSI=0
     REPORT_LINK_NON_VERIFICATI=0
     REPORT_PIANO_REDIRECT=nessuno
     REPORT_MENZIONI=0
     REPORT_RECORD=nessuno
     REPORT_BOZZE=0
-    REPORT_PROPRIETA=README linka www, riccsartori.com no, LinkedIn e X non verificati
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
 `REPORT_RECORD` elenca gli id `rec…` creati, separati da virgola. `REPORT_PIANO_REDIRECT` mette i redirect proposti
-separati da `;`. Se un valore non lo hai, scrivi `REPORT_NOTE=` con la spiegazione: mai inventarlo.
+separati da `;`.
+Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).

@@ -29,7 +29,8 @@ arrivare come `mcp__plugin_airtable_airtable__*` o `mcp__claude_ai_Airtable__*`:
 ## Leggi prima di partire
 
 1. `crescita/link/prompt.md`: i prompt con ID e cluster, e per ogni cluster il filtro AI Overview e le pagine nostre.
-2. `.claude/skills/link-fonti/esclusi.json`: domini nostri, competitor, giganti, istituzioni.
+2. `processo/link/esclusi.json`: proprietà di Riccardo, competitor, giganti, istituzioni (i domini del sito li
+   riconosce `aggrega.js` da `processo/link/sito.js`).
 
 ## I passi
 
@@ -65,11 +66,11 @@ dei prospect e il repo è pubblico), oppure nella cartella di lavoro dei RUNNER 
      "aiOverview": {"commercio": {"top": {"www.esempio.it": 107}, "co": {"altro.it": 13}}},
      "giaInAirtable": ["dominio.it"]}
 
-Poi `node .claude/skills/link-fonti/aggrega.js .link-fonti/raccolta-AAAA-MM-GG.json`. Restituisce:
+Poi `node processo/link/aggrega.js .link-fonti/raccolta-AAAA-MM-GG.json`. Restituisce:
 
 - `prospect`: domini con pagine citate, prompt ChatGPT, cluster AI Overview, `motori` e la stringa `citazioni`,
   già ordinati (più motori, poi più prompt, poi più cluster e menzioni);
-- `esclusi`: competitor, giganti, istituzioni e domini già su Airtable, col motivo;
+- `esclusi`: proprietà di Riccardo, competitor, giganti, istituzioni e domini già su Airtable, col motivo;
 - `nostre`: le pagine di dovevalatuaral.com citate e da quali prompt (la metrica GEO, sotto).
 
 I conteggi e i filtri li fa lo script: non rifarli a mano.
@@ -129,6 +130,7 @@ Rileggi i domini della tabella subito prima di scrivere (un altro job può avern
 | Contatto | `fldBKV9mPAqx1z327` | indirizzo o `n/d` |
 | Dove trovato il contatto | `fld0eRBnzwBcJepIl` | URL, solo se c'è un contatto |
 | Stato | `fldkWYpJEJTuiP7OY` | `Da qualificare` |
+| Recuperato o nuovo | `fld1JGV1rSImhscDD` | `Nuovo` |
 | Note | `fldhJwhlPaqkJm7Xg` | `link-fonti, run del GG/MM/AAAA.` + come hai trovato la pagina, altre pagine citate, cosa non hai potuto leggere |
 
 Nessun DR, traffico o altro numero che non venga da questo run.
@@ -154,18 +156,20 @@ una riga sola:
     REPORT_DATA=AAAA-MM-GG
     REPORT_PROMPT=<eseguiti>/<totali>
     REPORT_CLUSTER=<eseguiti>/<totali>
-    REPORT_FALLITE=nessuna
+    REPORT_FALLITE=nessuno
     REPORT_CANDIDATI=<prospect di aggrega.js>
     REPORT_SCRITTI=<record creati su Airtable>
     REPORT_SCARTATI=<scartati al passo 5>
     REPORT_COMPETITOR_NUOVI=<domini da aggiungere a esclusi.json, o nessuno>
     REPORT_GEO_PROMPT=<prompt che citano una pagina nostra>/<prompt eseguiti>
     REPORT_GEO_PAGINE=<path della pagina> (<ID prompt>); <path> (<ID>, <ID>)
-    REPORT_GEO_AIO=<cluster in cui dovevalatuaral.com compare, con le menzioni, o "assente">
+    REPORT_GEO_AIO=<cluster in cui dovevalatuaral.com compare, con le menzioni, o nessuno>
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
 `REPORT_FALLITE` elenca gli ID dei prompt e i cluster saltati. `REPORT_GEO_PROMPT` = prompt che citano almeno una
-pagina nostra / prompt eseguiti. Se un valore non lo hai, scrivilo in `REPORT_NOTE`: mai inventarlo.
+pagina nostra / prompt eseguiti.
+Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).
 
 Prima del blocco, in poche righe: quanti prospect per Tipo, i 5 più citati, cosa non hai potuto verificare (pagine
 bloccate, contatti non letti). Finisce nella mail.

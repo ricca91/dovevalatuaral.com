@@ -6,7 +6,8 @@ disable-model-invocation: true
 
 Per ogni prospect da lavorare leggi la sua pagina, controlla ogni cifra sui minimi CCNL contro le fonti primarie,
 e solo se restano almeno due correzioni solide prepara il foglio di correzioni, il netto per livello e una bozza
-Gmail. Prima ancora, gestisci i solleciti delle mail già inviate. Al massimo 5 prospect nuovi per run.
+Gmail. Prima ancora, gestisci i solleciti delle mail già inviate. Al massimo `bozze_max` bozze per run, solleciti compresi:
+prima i solleciti, poi i prospect nuovi fino al tetto.
 
 ## Contesto
 
@@ -34,6 +35,7 @@ CRM: Airtable, base `appAsCWc7NBzY5nam`, tabella Outreach `tbl3ELP9SWiFPTO2A`. G
 | Verifica | `fldDXQXkUtXlpNvaL` |
 | Stato | `fldkWYpJEJTuiP7OY` (filtri con l'id: Qualificato `selXIPfVad7PMJ3NA`, Bozza pronta `sel0AVRbTjMU0mozf`, Inviata `selYGRWG9O4LKRQV2`, Follow-up `seluyeO5YFrcztkTq`; in scrittura il nome) |
 | Data invio | `fldbcnBYKCDhtdAbP` (scrivi `AAAA-MM-GG`) |
+| Recuperato o nuovo | `fld1JGV1rSImhscDD` (in scrittura il nome: `Nuovo`) |
 | Note | `fldhJwhlPaqkJm7Xg` |
 
 Gmail (connettore claude.ai, bozze nell'account di Riccardo): `create_draft`, `list_drafts`, `get_draft`,
@@ -48,17 +50,21 @@ Dai RUNNER FACTS o dal testo dopo `/link-dono`:
   data: con `oggi=2026-10-15 invio=2026-11-03` una tabella vera fino al 31/10 è superata.
 - `record`: id `rec…` separati da virgola. Se ci sono, lavori quei record (qualunque Stato tranne Bozza pronta,
   Inviata, Follow-up, Link ottenuto, Menzione, Rifiutato, Chiuso) invece dei `Qualificato`. Serve alle sessioni a mano.
-- `ccnl`: slug. Se c'è, solo prospect con quel CCNL (la settimana dopo una tranche).
+- `ccnl`: uno o più slug separati da virgola. Se c'è, solo prospect con quei CCNL. La settimana dopo una tranche
+  lo passa da solo il runner, con le tranche partite; il tetto delle bozze resta quello.
 - `nota`: testo da aggiungere alle Note di ogni record su cui scrivi.
+- `bozze_max`: il tetto di bozze del run, solleciti compresi. Lo passa il runner nei RUNNER FACTS; a mano, 5.
 
 ## Lo strumento: `dono-ccnl.js`
 
     node processo/link/dono-ccnl.js valori <ccnl> [--sezione <id>]
     node processo/link/dono-ccnl.js classifica <file.json>
     node processo/link/dono-ccnl.js netto <ccnl> <prima> <dopo> [--sezione <id>] [--livelli 3,4,5]
+    node processo/link/dono-ccnl.js tranche <dopo il> <fino al> [--ccnl <slug>]
 
 - `valori`: le tabelle della fonte per decorrenza (totale, voci, scatto per livello, con i codici di livello del
-  dataset), la fonte con `firmataria` sì/no e l'accordo. Per il commercio ci sono anche le tabelle precedenti, fino a
+  dataset), la fonte con `firmataria` sì/no, l'accordo e `firmatarie`, le sole fonti (URL e copia in
+  `processo/dati/fonti/`) su cui regge una correzione controllata a mano. Per il commercio ci sono anche le tabelle precedenti, fino a
   quella in vigore al 31/3/2023, ricostruite dall'art. 213 (`ricostruita`): servono a riconoscere una cifra vecchia,
   mai a proporla.
 - `classifica`: classifica le affermazioni e applica il cancello. Restituisce per ogni affermazione `stato`
@@ -68,12 +74,14 @@ Dai RUNNER FACTS o dal testo dopo `/link-dono`:
 - `netto`: il netto per livello prima e dopo una tranche con il motore delle pagine (Milano, tempo pieno, zero
   scatti, media sulle mensilità del contratto), in testo semplice da incollare nella mail, con la pagina nostra di
   ogni livello e l'avviso dove l'aumento passa un salto.
+- `tranche`: le tranche del dataset con decorrenza dopo la prima data e fino alla seconda compresa (date
+  `AAAA-MM-GG` o `GG/MM/AAAA`), con lo slug del sito. `[]` se nessuna.
 
 Le cifre escono da qui: non rifare i conti a mano e non ritoccare quelle che lo script stampa.
 
 ## 1. Solleciti
 
-Prima dei prospect nuovi. Soglia: `node .claude/skills/link-review/misure.mjs date <oggi>` →
+Prima dei prospect nuovi. Soglia: `node processo/link/misure.mjs date <oggi>` →
 `followup_dovuto_se_invio_entro` (sette giorni fa). Sono tuoi solo i record con una riga
 `link-dono … thread <threadId>` nelle Note: le bozze degli altri playbook (link-recupero) restano dei loro.
 
@@ -87,14 +95,24 @@ Prima dei prospect nuovi. Soglia: `node .claude/skills/link-review/misure.mjs da
 - **Follow-up**: se il sollecito è stato inviato, è più vecchio della soglia e non c'è risposta, Stato `Chiuso`.
   Se il sollecito non è ancora partito, niente.
 
+Ogni sollecito è una bozza e conta nel tetto `bozze_max`. Se i solleciti dovuti sono di più, fai i primi (Data invio
+più vecchia prima) e scrivi gli altri nel report: restano `Inviata` e li riprende il run dopo.
+
 Fatto quando: ogni record Bozza pronta, Inviata e Follow-up con il thread di link-dono è stato guardato.
 
 ## 2. Quali prospect
 
-`record` se c'è, altrimenti `list_records_for_table` con Stato = Qualificato (e CCNL = `ccnl` se c'è), al massimo 5.
-Per ognuno, prima di leggere la pagina:
+`record` se c'è, altrimenti `list_records_for_table` con Stato = Qualificato (e CCNL = `ccnl` se c'è), tolti quelli
+**in pausa**: l'ultima riga di link-dono nelle Note è `link-dono GG/MM/AAAA: in pausa fino alla prossima tranche, …`
+e `node processo/link/dono-ccnl.js tranche <GG/MM/AAAA della pausa> <oggi> --ccnl <CCNL>` dà `[]`, cioè nessuna
+tranche del loro CCNL è partita dopo la pausa. Se la lista non è vuota la pausa è finita e il record si lavora come
+gli altri. I record passati con `record` si lavorano anche in pausa: li ha scelti Riccardo.
 
-- **Doppioni.** Se le Note hanno già una bozza di link-dono, o `list_drafts` con `to:<contatto>` ne trova una, salta.
+Ne lavori fino a riempire il tetto: `bozze_max` meno i solleciti creati al passo 1. Con il tetto pieno, nessun prospect
+nuovo. Per ognuno, prima di leggere la pagina:
+
+- **Doppioni.** Se le Note hanno già una bozza di link-dono, o `list_drafts` con `to:<contatto>` ne trova una,
+  passa oltre senza scrivere niente: non è un salto, la bozza c'è già.
 - **Contatto.** Serve un indirizzo pubblicato sul loro sito. Se Contatto è `n/d`, cercalo (contatti, footer, chi
   siamo, redazione); se lo trovi, scrivilo identico con l'URL in Dove trovato il contatto. Tra più indirizzi preferisci
   quello per redazione, contenuti o collaborazioni a quello generico. Se non lo trovi, salta.
@@ -104,15 +122,21 @@ Per ognuno, prima di leggere la pagina:
   salta.
 - **Concorrente.** Se il loro sito offre un proprio calcolo del netto o della busta paga (un calcolatore linkato dalla
   pagina o dal menu), il netto per livello e il link non gli servono e le correzioni migliorano un concorrente: salta
-  e proponi il dominio nel report per `.claude/skills/link-fonti/esclusi.json`.
+  e proponi il dominio nel report per `processo/link/esclusi.json`.
 
-Ogni salto va nelle Note del record (`link-dono GG/MM/AAAA: saltato, <motivo>`) e nel report. Lo Stato non cambia.
+Ogni salto va nelle Note del record e nel report, ed è di due tipi:
+
+- **permanente** (concorrente, la pagina è la fonte del dataset, nessun contatto pubblicato, un CCNL che non è del
+  sito): la pagina non diventerà lavorabile. Stato `Chiuso`, Note + `link-dono GG/MM/AAAA: chiuso, <motivo>`.
+- **temporaneo** (pagina non leggibile al passo 3, meno di due correzioni solide al passo 4): alla prossima tranche
+  del loro CCNL la pagina può cambiare, o diventare superata. Stato invariato, Note + `link-dono GG/MM/AAAA: in pausa
+  fino alla prossima tranche, <motivo>`: è la marca che questo passo legge nei run dopo.
 
 ## 3. Leggi la pagina ed estrai le affermazioni
 
 `node processo/link/verifica-pagina.js <URL pagina>` dice se la pagina risponde e se ci linka già (`link`). Il testo
-leggilo con WebFetch; se è bloccata (403, Cloudflare) prova lo scrape Firecrawl se lo hai, altrimenti salta con
-"pagina non leggibile". Un PDF si legge col tool Read dopo WebFetch, a blocchi di pagine.
+leggilo con WebFetch; se è bloccata (403, Cloudflare) prova lo scrape Firecrawl se lo hai, altrimenti è un salto
+temporaneo (passo 2) con motivo "pagina non leggibile". Un PDF si legge col tool Read dopo WebFetch, a blocchi di pagine.
 
 Estrai **ogni** dato controllabile sul contratto: minimi per livello (ogni cifra di ogni riga: paga base, totale),
 aumenti con la loro decorrenza, decorrenze, una tantum, scatti, mensilità, date della tredicesima, scadenza del
@@ -140,17 +164,18 @@ Scrivi `.link-dono/<dominio>-<oggi>.json` nella root del repo (cartella ignorata
   nessuna data); `false` se è un fatto datato che non pretende di valere oggi (una notizia del 21/11/2025 sulle
   "tabelle di novembre 2025"). Un fatto datato giusto resta vero: la storia non scade.
 - Ciò che il dataset non contiene (una tantum, tredicesima, scadenza, mensilità) controllalo tu sulla fonte primaria
-  (`valori` → `fonte` e `accordo`, i file in `processo/dati/fonti/`, `processo/fonti-ccnl-2026.md`) e passalo con
-  `stato`, `fonte` (`url` e `parte`, cioè chi la pubblica) e `nota`. Se non lo trovi su una fonte delle parti
-  firmatarie, `stato: "non verificabile"`. Banche dati, portali e la stampa non sono fonti primarie: per Poligrafici
+  (`valori` → `firmatarie`: l'URL o la copia in `processo/dati/fonti/`) e passalo con `stato`, `fonte` (`url` e
+  `parte`, cioè chi la pubblica) e `nota`. Lo script guarda l'URL, non la `parte`: una fonte che non è in
+  `firmatarie` lascia la correzione fuori dalla mail, comunque la descrivi. Se non lo trovi su una di quelle fonti,
+  `stato: "non verificabile"`. Banche dati, portali e la stampa non sono fonti primarie: per Poligrafici
   e Vetro il dataset stesso viene da una banca dati non firmataria, quindi lì nessuna correzione regge.
 
 ## 4. Il cancello
 
 `node processo/link/dono-ccnl.js classifica .link-dono/<dominio>-<oggi>.json`.
 
-- `decisione: salta`: scrivi `verifica` nel campo Verifica, Note + `link-dono GG/MM/AAAA: saltato, <n> correzioni
-  solide`, Stato invariato, nessuna bozza.
+- `decisione: salta`: scrivi `verifica` nel campo Verifica, nessuna bozza; è un salto temporaneo (passo 2): Stato
+  invariato, Note + `link-dono GG/MM/AAAA: in pausa fino alla prossima tranche, <n> correzioni solide`.
 - `decisione: scrivi`: rileggi sulla pagina ogni correzione del `foglio`. Lo script sa i numeri, non il contesto: se la
   cifra non è presentata come hai scritto in `vigente`/`decorrenza`, o se la pagina dichiara la differenza (p.es.
   "tabelle con il terzo elemento provinciale di Vicenza"), correggi il file e rilancia. Il cancello ha l'ultima parola.
@@ -197,6 +222,7 @@ Ricontrolla i doppioni (`list_drafts` con `to:<contatto>`), poi `create_draft` c
 
 - Verifica: la `verifica` di `classifica`, identica;
 - Stato: `Bozza pronta`;
+- Recuperato o nuovo: `Nuovo`, se è vuoto (un record di link-recupero resta `Recuperato`);
 - Note: le Note esistenti + `link-dono GG/MM/AAAA: bozza Gmail <id>, thread <threadId>.` + `Non inviare prima del
   GG/MM/AAAA, e ricontrolla la pagina prima di inviare.` se c'è `nonPrimaDel` + la `nota` degli argomenti;
 - Contatto, Dove trovato il contatto, Nostra pagina di destinazione, se li hai trovati o cambiati.
@@ -229,16 +255,21 @@ sola:
     REPORT_PROSPECT=4
     REPORT_BOZZE=2
     REPORT_RECORD=recXXXXXXXXXXXXXX, recYYYYYYYYYYYYYY
-    REPORT_SALTATI=dominio.it (1 correzione solida); altro.it (contatto n/d)
+    REPORT_SALTATI=dominio.it (in pausa: 1 correzione solida); altro.it (chiuso: contatto n/d)
     REPORT_SOLLECITI=0
     REPORT_CHIUSI=0
-    REPORT_RISPOSTE=nessuna
+    REPORT_RISPOSTE=nessuno
     REPORT_NON_PRIMA_DEL=2026-11-01
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
+`REPORT_BOZZE` sono le bozze ai prospect nuovi, `REPORT_SOLLECITI` le bozze di sollecito: insieme non passano
+`bozze_max`.
 `REPORT_RECORD` sono i record con una bozza nuova; `REPORT_RISPOSTE` i domini con una risposta da leggere;
-`REPORT_NON_PRIMA_DEL` la data più lontana tra i `nonPrimaDel`, o `nessuna`. Se un valore non lo hai, scrivilo in
-`REPORT_NOTE`: mai inventarlo.
+`REPORT_SALTATI` dice per ogni salto se è in pausa o chiuso, e perché; `REPORT_CHIUSI` conta i record messi
+`Chiuso` in questo run, dai solleciti e dai salti permanenti. `REPORT_NON_PRIMA_DEL` la data più lontana tra i
+`nonPrimaDel`, o `nessuno`.
+Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).
 
 ## Per chi lancia la skill
 
@@ -246,5 +277,6 @@ sola:
 Allowlist per nome: i sei strumenti Gmail sopra (mai `send_message`, `reply`, `forward`, `update_draft`,
 `delete_draft`), `list_records_for_table` e `update_records_for_table` dei due server Airtable, WebFetch,
 `Bash(node processo/link/dono-ccnl.js:*)`, `Bash(node processo/link/verifica-pagina.js:*)`,
-`Bash(node .claude/skills/link-review/misure.mjs:*)`, Read, Write (solo per `.link-dono/`).
+`Bash(node processo/link/misure.mjs:*)`, Read, Write (solo per `.link-dono/`; niente Edit: il file si riscrive).
+La fonte di questo elenco per il runner è la riga di `link-dono` in `processo/cron/link/jobs.sh`.
 Test dello strumento: `node --test processo/link/dono-ccnl.test.js` (gira anche in `npm test`).
