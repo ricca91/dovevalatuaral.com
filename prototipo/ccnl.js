@@ -184,6 +184,18 @@
        retribuzione-ccnl.js, un blocco per contratto. */
 
     /* — Area meccanica, artigianato (C030) — */
+    congela({
+      id:'area-meccanica-artigianato-c030',
+      nome:'Area meccanica — artigianato (metalmeccanica e installazione impianti, orafi, odontotecnica, restauro)',
+      parti:'Confartigianato Autoriparazione, Metalmeccanica di produzione, Impianti, Orafi, Odontotecnici, Restauro; CNA Produzione, Installazione e Impianti, Servizi alla comunità/Autoriparatori, Artistico e tradizionale, Benessere e Sanità–SNO; Casartigiani; CLAAI / FIM-CISL, FIOM-CGIL, UILM-UIL',
+      codiceCnel:'C030',
+      mensilita:13,
+      dataRiferimento:'2024-11-19',
+      fonte:{
+        titolo:'CCNL Area Meccanica, testo definitivo, Roma 19 novembre 2024',
+        url:'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/221687',
+      },
+    }),
 
     /* — Industria alimentare (E012) — */
     congela({
