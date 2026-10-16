@@ -32,6 +32,13 @@ git config user.email t@t && git config user.name test
 for j in review dono fonti recupero; do
   mkdir -p ".claude/skills/link-$j"; echo "skill finta" > ".claude/skills/link-$j/SKILL.md"
 done
+# Calendario delle tranche finto: run.sh lo chiede al checkout come chiede le skill.
+mkdir -p processo/link
+cat > processo/link/dono-ccnl.js <<'EOF2'
+require('node:fs').appendFileSync(`${process.env.STUB_OUT}/tranche-args.txt`, `${process.argv.slice(2).join(' ')}\n`);
+if (process.env.STUB_TRANCHE_RC) { console.error('calendario finto rotto'); process.exit(Number(process.env.STUB_TRANCHE_RC)); }
+process.stdout.write(process.env.STUB_TRANCHE || '[]');
+EOF2
 git add -A && git commit -q -m init && git push -q -u origin main
 
 # Segreti finti: i test controllano a chi arrivano, non il valore.
@@ -91,7 +98,7 @@ mails(){ grep -c '^CALL:' "$FIX/mail.log" 2>/dev/null || echo 0; }
 log(){ cat "$LOGDIR"/*.log 2>/dev/null; }
 # Il valore di un'opzione passata allo stub nell'ultimo run (una riga per argomento).
 opzione(){ awk -v o="$1" 'p{print; exit} $0==o{p=1}' "$FIX/last-args.txt"; }
-pulisci(){ rm -f "$LOGDIR"/*.log "$FIX"/mail.log "$FIX"/last-*.txt "$FIX"/preflight* "$FIX"/main.log; }
+pulisci(){ rm -f "$LOGDIR"/*.log "$FIX"/mail.log "$FIX"/last-*.txt "$FIX"/preflight* "$FIX"/main.log "$FIX"/tranche-args.txt; }
 azzera(){ pulisci; rm -f "$LOGDIR"/state-*; }
 
 echo "=== caso 1: link-review -> prompt slash con RUNNER FACTS, una mail, stato avanzato ==="
@@ -361,6 +368,25 @@ echo "=== caso 24: LINK_ARGS -> argomenti a mano nel prompt ==="
 azzera
 LINK_ARGS="ccnl=commercio" STUB_REPORT="$REPORT_DONO" run link-dono
 check "argomenti a mano nel prompt"         "grep -q 'ccnl=commercio' '$FIX/last-prompt.txt'"
+
+echo "=== caso 24b: link-dono la settimana dopo una tranche -> ccnl= da solo ==="
+azzera
+STUB_TRANCHE='[{"ccnl":"commercio","decorrenza":"2026-11-01","sezioni":[]},{"ccnl":"dmo","decorrenza":"2026-11-01","sezioni":[]}]' \
+  STUB_REPORT="$REPORT_DONO" run link-dono
+check "chiede le tranche degli ultimi 7 giorni" "grep -qx \"tranche \$(date -d '7 days ago' +%F) $OGGI\" '$FIX/tranche-args.txt'"
+check "ccnl= nel prompt"                    "grep -qx -- '- ccnl=commercio,dmo (tranche partite negli ultimi 7 giorni: commercio dal 2026-11-01, dmo dal 2026-11-01)' '$FIX/last-prompt.txt'"
+check "il tetto resta nel prompt"           "grep -q 'Al massimo 5 bozze in questo run' '$FIX/last-prompt.txt'"
+check "la mail lo dice"                     "grep -q 'Tranche negli ultimi 7 giorni: commercio dal 2026-11-01, dmo dal 2026-11-01' '$FIX/mail.log'"
+azzera
+STUB_TRANCHE='[]' STUB_REPORT="$REPORT_DONO" run link-dono
+check "nessuna tranche: niente ccnl="       "! grep -q 'ccnl=' '$FIX/last-prompt.txt'"
+azzera
+STUB_TRANCHE_RC=1 STUB_REPORT="$REPORT_DONO" run link-dono
+check "calendario rotto: il run parte"      "[ -f '$FIX/last-prompt.txt' ] && ! grep -q 'ccnl=' '$FIX/last-prompt.txt'"
+check "calendario rotto: la mail lo dice"   "grep -q 'Calendario delle tranche NON letto' '$FIX/mail.log'"
+azzera
+STUB_TRANCHE='[{"ccnl":"commercio","decorrenza":"2026-11-01","sezioni":[]}]' run link-review
+check "link-review non lo chiede"           "[ ! -f '$FIX/tranche-args.txt' ]"
 
 # --- link-fonti e link-recupero: il primo lunedì del mese ------------------------------
 echo "=== caso 25: link-fonti -> token, niente Gmail, guardia per mese ==="

@@ -50,7 +50,8 @@ Dai RUNNER FACTS o dal testo dopo `/link-dono`:
   data: con `oggi=2026-10-15 invio=2026-11-03` una tabella vera fino al 31/10 è superata.
 - `record`: id `rec…` separati da virgola. Se ci sono, lavori quei record (qualunque Stato tranne Bozza pronta,
   Inviata, Follow-up, Link ottenuto, Menzione, Rifiutato, Chiuso) invece dei `Qualificato`. Serve alle sessioni a mano.
-- `ccnl`: slug. Se c'è, solo prospect con quel CCNL (la settimana dopo una tranche).
+- `ccnl`: uno o più slug separati da virgola. Se c'è, solo prospect con quei CCNL. La settimana dopo una tranche
+  lo passa da solo il runner, con le tranche partite; il tetto delle bozze resta quello.
 - `nota`: testo da aggiungere alle Note di ogni record su cui scrivi.
 
 ## Lo strumento: `dono-ccnl.js`

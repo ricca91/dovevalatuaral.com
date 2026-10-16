@@ -260,6 +260,23 @@ Log: $LOG"
       FATTI_JOB="DataFast: DATAFAST_API_KEY NON trovata in $DATAFAST_ENV_FILE (misure.mjs dirà che DataFast non risponde)"
     fi
   fi
+  # La settimana dopo una tranche CCNL link-dono lavora su quel contratto (spec). Il calendario
+  # è quello del dataset nel checkout; il tetto delle bozze non cambia. Se non si legge, il run
+  # parte lo stesso, senza filtro, e la mail lo dice.
+  if [ "$JOB" = "link-dono" ]; then
+    DAL="$(date -d "$RUN_DATE -7 days" +%F)"
+    if TRANCHE="$(node processo/link/dono-ccnl.js tranche "$DAL" "$RUN_DATE" 2>&1)" \
+       && CCNL_TRANCHE="$(jq -er 'map(.ccnl) | unique | join(",")' <<<"$TRANCHE" 2>/dev/null)"; then
+      if [ -n "$CCNL_TRANCHE" ]; then
+        ELENCO="$(jq -r 'map("\(.ccnl) dal \(.decorrenza)") | join(", ")' <<<"$TRANCHE")"
+        ARGOMENTI+="
+- ccnl=$CCNL_TRANCHE (tranche partite negli ultimi 7 giorni: $ELENCO)"
+        FATTI_JOB="Tranche negli ultimi 7 giorni: $ELENCO. Run limitato a ccnl=$CCNL_TRANCHE"
+      fi
+    else
+      FATTI_JOB="Calendario delle tranche NON letto ($(tail -n 1 <<<"$TRANCHE")): run senza filtro ccnl"
+    fi
+  fi
 
   DRY_FATTI=""
   [ "$DRY_RUN" = "1" ] && DRY_FATTI="

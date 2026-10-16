@@ -132,9 +132,14 @@ systemctl start link@link-review.service
 # un secondo giro nello stesso periodo (la guardia lo salterebbe)
 LINK_FORZA=1 /root/cron/link/lancia.sh link-dono
 
-# la settimana dopo una tranche CCNL (spec): argomenti della skill dopo i RUNNER FACTS
+# argomenti della skill a mano, dopo i RUNNER FACTS (valgono su quelli di run.sh)
 LINK_FORZA=1 LINK_ARGS="ccnl=commercio" /root/cron/link/lancia.sh link-dono
 ```
+
+La settimana dopo una tranche CCNL (spec) non serve niente a mano: `run.sh` chiede al dataset del checkout le
+tranche partite negli ultimi 7 giorni (`node processo/link/dono-ccnl.js tranche <7 giorni fa> <oggi>`) e, se ce
+ne sono, passa a link-dono `ccnl=<slug,…>`. Il martedì dopo il 1° novembre 2026 sarà `ccnl=commercio,dmo`. Il
+tetto delle 5 bozze resta. Se il calendario non si legge, il run parte senza filtro e la mail lo dice.
 
 ## La mail
 
