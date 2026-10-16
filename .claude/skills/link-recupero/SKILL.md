@@ -16,7 +16,8 @@ Lo stato vive su Airtable, base `appAsCWc7NBzY5nam`, tabella **Outreach** (`tbl3
 pubblico: prospect, contatti e frasi trovate stanno solo su Airtable e nelle bozze, mai in un file del repo.
 
 La parte una tantum di RIC-122 (proprietà proprie, testimonianze ai fornitori) è chiusa: i fornitori hanno già un
-record con Fonte = `Fornitore`. Qui non li ricontatti.
+record con Fonte = `Fornitore`. Qui non li ricontatti, e non ricontrolli le proprietà di Riccardo (README, GitHub,
+riccsartori.com, profili): si sono sistemate una volta sola.
 
 Data del run: quella dei RUNNER FACTS se ci sono, altrimenti oggi.
 
@@ -67,7 +68,6 @@ Ricerche (DataForSEO, `location_name: "Italy"`, `language_code: "it"`, `depth: 1
 
 - `serp_organic_live_advanced` con `"dovevalatuaral" -site:dovevalatuaral.com`
 - `serp_organic_live_advanced` con `"dove va la tua ral"`
-- `serp_organic_live_advanced` con `"Riccardo Sartori" calcolatore RAL netto` (chi racconta il lancio cita l'autore)
 - `content_analysis_search` con `dovevalatuaral` e con `"dove va la tua ral"`, `limit: 100`
 
 Google riscrive le parole che non conosce e scioglie le virgolette: il 15/10/2026 `"dovevalatuaral"` è diventato
@@ -123,14 +123,9 @@ Solo se c'è un indirizzo email pubblicato. Testo semplice, italiano, firmata Ri
 `create_draft` con `to`, `subject`, `body`. Se il tool Gmail non c'è in questo run, il record resta
 `Da qualificare` con la nota "bozza non creata: Gmail non disponibile".
 
-## Proprietà proprie
-
-`verifica-pagina.js` su `https://github.com/ricca91/dovevalatuaral.com` e `https://www.riccsartori.com/`: dicono
-nel report se linkano ancora il sito. LinkedIn e X non si leggono senza login: non verificati.
-
 ## Cosa NON fai
 
-Le modifiche al sito (redirect in `vercel.json`) e ai profili sono di Riccardo: tu scrivi il piano. Non committi,
+Le modifiche al sito (redirect in `vercel.json`) sono di Riccardo: tu scrivi il piano. Non committi,
 non pushi, non mandi mail: la mail di esito la manda il runner. Su Airtable crei record e ne aggiorni solo lo Stato
 dei tuoi; i record degli altri playbook li leggi soltanto.
 
@@ -143,14 +138,13 @@ Poi chiudi con questo blocco, una coppia per riga, niente altro dopo. Il runner 
 sola, nessuna riga vuota in mezzo.
 
     REPORT_DATA=2026-11-02
-    REPORT_FONTI=backlinks 2+0, SERP 10+10+10, Content Analysis 0+0
+    REPORT_FONTI=backlinks 2+0, SERP 10+10, Content Analysis 0+0
     REPORT_LINK_PERSI=0
     REPORT_LINK_NON_VERIFICATI=0
     REPORT_PIANO_REDIRECT=nessuno
     REPORT_MENZIONI=0
     REPORT_RECORD=nessuno
     REPORT_BOZZE=0
-    REPORT_PROPRIETA=README linka www, riccsartori.com no, LinkedIn e X non verificati
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
 `REPORT_RECORD` elenca gli id `rec…` creati, separati da virgola. `REPORT_PIANO_REDIRECT` mette i redirect proposti
