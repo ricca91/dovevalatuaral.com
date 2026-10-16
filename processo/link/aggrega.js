@@ -1,22 +1,12 @@
 'use strict';
+const { isOurs, normalizeDomain, inDomains } = require('./sito.js');
 // Aggrega le citazioni raccolte da link-fonti: un dominio per riga, quanti prompt ChatGPT e quanti cluster
 // AI Overview lo citano, cosa si scarta (esclusi.json, domini già su Airtable) e quali pagine nostre sono citate.
+// Quali domini sono "nostri" lo dice sito.js, lo stesso degli altri attrezzi.
 // Uso: node processo/link/aggrega.js <raccolta.json>   (formato: .claude/skills/link-fonti/SKILL.md, passo 4)
 
 // Un co-citato di AI Overview conta solo se compare in almeno tante risposte accanto a un dominio del top 10.
 const MIN_CO_MENZIONI = 3;
-
-function normalizza(host) {
-  return host.toLowerCase().replace(/^www\./, '');
-}
-
-function dominioDi(url) {
-  return normalizza(new URL(url).hostname);
-}
-
-function inLista(dominio, lista = []) {
-  return lista.some((voce) => dominio === voce || dominio.endsWith(`.${voce}`));
-}
 
 function citazioni(voce) {
   const parti = [];
@@ -36,7 +26,7 @@ function aggrega(raccolta, esclusi) {
 
   for (const [id, urls] of Object.entries(raccolta.chatgpt || {})) {
     for (const url of urls) {
-      const voce = voceDi(dominioDi(url));
+      const voce = voceDi(normalizeDomain(url));
       const promptDellaPagina = voce.promptPerPagina.get(url) || [];
       if (!promptDellaPagina.includes(id)) promptDellaPagina.push(id);
       voce.promptPerPagina.set(url, promptDellaPagina);
@@ -46,21 +36,22 @@ function aggrega(raccolta, esclusi) {
 
   for (const [cluster, { top = {}, co = {} }] of Object.entries(raccolta.aiOverview || {})) {
     for (const [host, menzioni] of Object.entries(top)) {
-      voceDi(normalizza(host)).aiOverview.push({ cluster, menzioni, coCitato: false });
+      voceDi(normalizeDomain(host)).aiOverview.push({ cluster, menzioni, coCitato: false });
     }
     for (const [host, menzioni] of Object.entries(co)) {
       if (menzioni < MIN_CO_MENZIONI) continue;
-      const voce = voceDi(normalizza(host));
+      const voce = voceDi(normalizeDomain(host));
       if (voce.aiOverview.some((a) => a.cluster === cluster)) continue;
       voce.aiOverview.push({ cluster, menzioni, coCitato: true });
     }
   }
 
-  const giaSuAirtable = (raccolta.giaInAirtable || []).map(normalizza);
+  const giaSuAirtable = (raccolta.giaInAirtable || []).map(normalizeDomain);
   const motivoEsclusione = (dominio) => {
-    if (inLista(dominio, esclusi.competitor)) return 'competitor';
-    if (inLista(dominio, esclusi.giganti)) return 'gigante';
-    if (inLista(dominio, esclusi.istituzioni)) return 'istituzione';
+    if (inDomains(dominio, esclusi.proprie)) return 'proprietà di Riccardo';
+    if (inDomains(dominio, esclusi.competitor)) return 'competitor';
+    if (inDomains(dominio, esclusi.giganti)) return 'gigante';
+    if (inDomains(dominio, esclusi.istituzioni)) return 'istituzione';
     if (giaSuAirtable.includes(dominio)) return 'già su Airtable';
     return null;
   };
@@ -69,7 +60,7 @@ function aggrega(raccolta, esclusi) {
   const esclusiDalRun = [];
   const nostre = { chatgpt: [], aiOverview: [] };
   for (const { promptPerPagina, ...voce } of perDominio.values()) {
-    if (inLista(voce.dominio, esclusi.nostri)) {
+    if (isOurs(voce.dominio)) {
       for (const [url, prompt] of promptPerPagina) nostre.chatgpt.push({ url, prompt });
       nostre.aiOverview.push(...voce.aiOverview);
       continue;

@@ -29,7 +29,8 @@ arrivare come `mcp__plugin_airtable_airtable__*` o `mcp__claude_ai_Airtable__*`:
 ## Leggi prima di partire
 
 1. `crescita/link/prompt.md`: i prompt con ID e cluster, e per ogni cluster il filtro AI Overview e le pagine nostre.
-2. `processo/link/esclusi.json`: domini nostri, competitor, giganti, istituzioni.
+2. `processo/link/esclusi.json`: proprietà di Riccardo, competitor, giganti, istituzioni (i domini del sito li
+   riconosce `aggrega.js` da `processo/link/sito.js`).
 
 ## I passi
 
@@ -69,7 +70,7 @@ Poi `node processo/link/aggrega.js .link-fonti/raccolta-AAAA-MM-GG.json`. Restit
 
 - `prospect`: domini con pagine citate, prompt ChatGPT, cluster AI Overview, `motori` e la stringa `citazioni`,
   già ordinati (più motori, poi più prompt, poi più cluster e menzioni);
-- `esclusi`: competitor, giganti, istituzioni e domini già su Airtable, col motivo;
+- `esclusi`: proprietà di Riccardo, competitor, giganti, istituzioni e domini già su Airtable, col motivo;
 - `nostre`: le pagine di dovevalatuaral.com citate e da quali prompt (la metrica GEO, sotto).
 
 I conteggi e i filtri li fa lo script: non rifarli a mano.

@@ -37,7 +37,7 @@ Data del run: quella dei RUNNER FACTS se ci sono, altrimenti oggi.
     node processo/link/verifica-pagina.js <url> [<url>...]
 
 Una riga JSON per URL: `stato` HTTP, `esito`, `urlFinale` dopo i redirect, `link` (ogni `<a>` verso
-`dovevalatuaral.com`, `www.` o il dominio di lancio `jethr.riccsartori.com`, con `href`, `testo`, `rel`) e
+`dovevalatuaral.com` e i suoi sottodomini o il dominio di lancio `jethr.riccsartori.com`, con `href`, `testo`, `rel`) e
 `menzioni` (i paragrafi visibili che nominano il sito).
 
 - `esito: morta` solo per 404 e 410. 403, 429, 5xx, 999 (LinkedIn), timeout ed errori di rete danno

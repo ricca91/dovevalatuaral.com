@@ -4,7 +4,9 @@
 const path = require('node:path');
 const R = require(path.join(__dirname, '../../prototipo/retribuzione-ccnl.js'));
 const G = require(path.join(__dirname, '../../prototipo/genera-pagine-ccnl.js'));
-const {soglie} = require(path.join(__dirname, '../../prototipo/motore.js'));
+const {soglie, eur} = require(path.join(__dirname, '../../prototipo/motore.js'));
+const {addDays, formatDay, parseDay} = require('./date.js');
+const {ORIGIN} = require('./sito.js');
 
 /* Le tabelle del dataset partono dalla tranche in vigore quando il sito le ha trascritte. Molte pagine da
    correggere sono ferme a tranche più vecchie: per riconoscerle (e solo per quello: il valore nuovo esce
@@ -56,7 +58,7 @@ function tabelle(ccnl, sezione) {
     const aumenti = storico.aumenti[decorrenzaAumento];
     const meno = (importo, codice) => (cent(importo) - cent(aumenti[codice])) / 100;
     dopo = {
-      decorrenza, titolo: `ricostruita dall'art. 213: in vigore fino al ${giorno(ieri(decorrenzaAumento))}`,
+      decorrenza, titolo: `ricostruita dall'art. 213: in vigore fino al ${formatDay(addDays(decorrenzaAumento, -1))}`,
       ricostruita: storico.fonte,
       livelli: dopo.livelli.map(l => ({...l, totale: meno(l.totale, l.codice),
         voci: l.voci.flatMap(v => (v.id !== 'pagaBase' ? [v] : conPagaBase ? [{...v, importo: meno(v.importo, l.codice)}] : []))})),
@@ -65,8 +67,6 @@ function tabelle(ccnl, sezione) {
   }
   return [...ricostruite, ...profilo.tabelle];
 }
-
-const giorno = iso => iso.split('-').reverse().map(Number).join('/');
 
 // Una correzione regge solo su una fonte delle parti firmatarie, o sul testo che hanno sottoscritto. Per le fonti
 // del dataset lo dice `parte`, scritta da chi ha trascritto le tabelle ("organizzazione sindacale firmataria",
@@ -172,10 +172,10 @@ function classificaAumento(affermazione, elenco, fonte) {
   const altra = tranche.find(vicino);
   if (sua && altra) {
     return {...affermazione, stato: 'cambiato', atteso: sua, fonte,
-      motivo: `è l'aumento della tranche del ${giorno(altra.decorrenza)}`};
+      motivo: `è l'aumento della tranche del ${formatDay(altra.decorrenza)}`};
   }
   return {...affermazione, stato: 'non verificabile', fonte,
-    motivo: sua ? 'l’aumento non corrisponde a nessuna tranche della fonte' : `nessuna tranche dal ${giorno(affermazione.decorrenza)} nella fonte`};
+    motivo: sua ? 'l’aumento non corrisponde a nessuna tranche della fonte' : `nessuna tranche dal ${formatDay(affermazione.decorrenza)} nella fonte`};
 }
 
 function classificaUna(affermazione, {ccnl, sezione, oggi, invio}) {
@@ -203,7 +203,7 @@ function classificaUna(affermazione, {ccnl, sezione, oggi, invio}) {
   const dopo = elenco.find(t => t.decorrenza > trovata.tabella.decorrenza);
   if (dichiarata && trovata.tabella !== dichiarata) {
     return {...affermazione, stato: 'cambiato', atteso: valore(dichiarata), fonte,
-      motivo: `è il valore in vigore dal ${giorno(trovata.tabella.decorrenza)}`};
+      motivo: `è il valore in vigore dal ${formatDay(trovata.tabella.decorrenza)}`};
   }
   if (trovata.manca) {
     const cambiato = {...affermazione, stato: 'cambiato', atteso: valore(trovata.tabella), manca: trovata.manca, fonte};
@@ -216,7 +216,7 @@ function classificaUna(affermazione, {ccnl, sezione, oggi, invio}) {
   }
   if (trovata.tabella.decorrenza > invio) {
     return {...affermazione, stato: 'cambiato', atteso: valore(allInvio), fonte,
-      motivo: `è il valore che entra in vigore dal ${giorno(trovata.tabella.decorrenza)}`};
+      motivo: `è il valore che entra in vigore dal ${formatDay(trovata.tabella.decorrenza)}`};
   }
   return {
     ...affermazione,
@@ -233,9 +233,6 @@ function classifica({ccnl, sezione = null, oggi, invio = oggi, affermazioni}) {
   return affermazioni.map(a => ('stato' in a ? controllataAMano(a, firmatarie) : classificaUna(a, {ccnl, sezione, oggi, invio})));
 }
 
-const euro = importo => `${importo.toLocaleString('it-IT',
-  {minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: 'always'})} €`;
-const ieri = iso => new Date(Date.parse(`${iso}T00:00:00Z`) - 864e5).toISOString().slice(0, 10);
 
 // La cifra da proporre deve essere pubblicata dalla fonte: una tabella ricostruita all'indietro serve a
 // riconoscere la cifra vecchia, non a sostituirla.
@@ -245,10 +242,10 @@ function solida(c) {
 }
 
 function dettaglio(c) {
-  const valore = v => `${euro(v.importo)} (${v.voce}) dal ${giorno(v.decorrenza)}`;
+  const valore = v => `${eur(v.importo)} (${v.voce}) dal ${formatDay(v.decorrenza)}`;
   const parti = [];
-  if (c.stato === 'superato' && c.dal && !c.veroOggi) parti.push(`era il valore in vigore fino al ${giorno(ieri(c.dal))}`);
-  if (c.manca) parti.push(`manca ${c.manca.nome} (${euro(c.manca.importo)})`);
+  if (c.stato === 'superato' && c.dal && !c.veroOggi) parti.push(`era il valore in vigore fino al ${formatDay(addDays(c.dal, -1))}`);
+  if (c.manca) parti.push(`manca ${c.manca.nome} (${eur(c.manca.importo)})`);
   if (c.motivo) parti.push(c.motivo);
   if (c.atteso) parti.push(`la fonte dice ${valore(c.atteso)}`);
   if (c.nuovo) parti.push(`all’invio vale ${valore(c.nuovo)}`);
@@ -260,7 +257,7 @@ function etichetta(c, inMail) {
   // Una cifra marcata «superato» a mano non ha la data della tranche: la data, se c'è, è nella nota.
   if (c.stato === 'superato' && !c.dal) return 'superato';
   if (c.stato === 'superato')
-    return `superato dal ${giorno(c.dal)}${c.veroOggi ? `, vero fino al ${giorno(ieri(c.dal))}` : ''}`;
+    return `superato dal ${formatDay(c.dal)}${c.veroOggi ? `, vero fino al ${formatDay(addDays(c.dal, -1))}` : ''}`;
   if (c.stato === 'ancora vero' || inMail) return c.stato;
   return `${c.stato}, fuori dalla mail`;
 }
@@ -281,9 +278,9 @@ function cancello(classificate, {oggi, invio = oggi}) {
   // e una cifra proposta che entra in vigore dopo oggi non è ancora quella giusta.
   const nonPrimaDel = foglio.flatMap(c => [c.veroOggi ? c.dal : null, (c.nuovo || c.atteso)?.decorrenza])
     .filter(data => data && data > oggi).sort().at(-1) || null;
-  const intestazione = `link-dono, controllo del ${giorno(oggi)}, invio previsto dal ${giorno(invio)}: `
+  const intestazione = `link-dono, controllo del ${formatDay(oggi)}, invio previsto dal ${formatDay(invio)}: `
     + `${foglio.length} correzioni solide su ${classificate.length} affermazioni → ${decisione}`
-    + (nonPrimaDel ? `. Non inviare prima del ${giorno(nonPrimaDel)}, e prima di inviare ricontrolla la pagina: `
+    + (nonPrimaDel ? `. Non inviare prima del ${formatDay(nonPrimaDel)}, e prima di inviare ricontrolla la pagina: `
       + 'se l’hanno già aggiornata, la mail non serve' : '');
   return {decisione, foglio, fuori, nonPrimaDel, verifica: [intestazione, ...righe].join('\n')};
 }
@@ -291,7 +288,6 @@ function cancello(classificate, {oggi, invio = oggi}) {
 /* Il netto per livello prima e dopo una tranche: il complemento che chi pubblica il lordo non ha. Esce da
    stima(), la stessa funzione delle pagine /minimi-ccnl/, quindi con il loro profilo: tempo pieno, zero
    scatti, nessun superminimo, comune di Milano, nessun familiare a carico. */
-const ORIGINE = 'https://www.dovevalatuaral.com';
 const SALTI_MILANO = soglie({comune: 'F205', nucleo: []});
 
 function nettoPrimaDopo(ccnl, {prima, dopo, sezione = null, livelli = null}) {
@@ -299,7 +295,7 @@ function nettoPrimaDopo(ccnl, {prima, dopo, sezione = null, livelli = null}) {
   const pagina = codice => {
     if (!seo) return null;
     const conPagina = (seo.livelli || []).includes(codice) && (!seo.sezioneLivelli || seo.sezioneLivelli === sezione);
-    return `${ORIGINE}${G.rottaTabella(seo)}${conPagina ? `${seo.slugLivello(codice)}/` : ''}`;
+    return `${ORIGIN}${G.rottaTabella(seo)}${conPagina ? `${seo.slugLivello(codice)}/` : ''}`;
   };
   const codici = R.tabellaVigente(ccnl, dopo, sezione).livelli.map(l => l.codice)
     .filter(codice => !livelli || livelli.includes(codice));
@@ -315,21 +311,21 @@ function nettoPrimaDopo(ccnl, {prima, dopo, sezione = null, livelli = null}) {
       nettoMensile: {prima: a.nettoMensile, dopo: b.nettoMensile},
       mensilita: b.composta.mensilita,
       pagina: pagina(codice),
-      salto: soglia ? `soglia a ${euro(soglia.ral)} di RAL: ${soglia.causa}` : null,
+      salto: soglia ? `soglia a ${eur(soglia.ral)} di RAL: ${soglia.causa}` : null,
     };
   });
-  const tabella = seo ? `${ORIGINE}${G.rottaTabella(seo)}` : null;
+  const tabella = seo ? `${ORIGIN}${G.rottaTabella(seo)}` : null;
   return {ccnl, sezione, prima, dopo, righe, testo: testoNetto({ccnl, dopo, righe, tabella})};
 }
 
 // Per il corpo della mail: testo semplice, una riga per livello, le ipotesi scritte. Le cifre non si ricopiano a
 // mano. Un solo link, il più specifico: la pagina del livello se il livello è uno, altrimenti la tabella.
 function testoNetto({ccnl, dopo, righe, tabella}) {
-  const freccia = ({prima, dopo: poi}) => `${euro(prima).slice(0, -2)} → ${euro(poi)}`;
+  const freccia = ({prima, dopo: poi}) => `${eur(prima).slice(0, -2)} → ${eur(poi)}`;
   const mensilita = [...new Set(righe.map(r => r.mensilita))].join(' o ');
   const link = righe.length === 1 && righe[0].pagina ? righe[0].pagina : tabella;
   return [
-    `Netto per livello, CCNL ${R.trovaContratto(ccnl).nome}, prima e dopo la tranche dal ${giorno(dopo)}`,
+    `Netto per livello, CCNL ${R.trovaContratto(ccnl).nome}, prima e dopo la tranche dal ${formatDay(dopo)}`,
     `(tempo pieno, nessuno scatto di anzianità, residenza a Milano, nessun familiare a carico; netto annuo diviso per ${mensilita} mensilità)`,
     ...righe.map(r => `${r.nome}: lordo ${freccia(r.minimo)} al mese, netto ${freccia(r.nettoMensile)} al mese`
       + (r.salto ? ` (${r.salto}; il netto cresce meno del lordo)` : '')),
@@ -342,19 +338,12 @@ function idDi(ccnl) {
   return G.CONTRATTI_SEO.find(c => c.slug === ccnl)?.id || R.trovaContratto(ccnl).id;
 }
 
-// Le date arrivano anche dalle Note di Airtable, scritte GG/MM/AAAA.
-function dataIso(data) {
-  const m = String(data).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
-  if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(data))) throw new RangeError(`data non valida: ${data}`);
-  return data;
-}
-
 /* Il calendario delle tranche del dataset: le tabelle con decorrenza dopo `dopo` e fino a `fino` compreso, una per
    contratto e decorrenza, con lo slug del sito. Serve al runner (la settimana dopo una tranche) e alla skill (un
    prospect in pausa torna lavorabile quando parte una tranche del suo CCNL dopo il giorno del salto). */
 function tranche({dopo, fino, ccnl = null}) {
-  const [da, a] = [dataIso(dopo), dataIso(fino)];
+  // Le date arrivano anche dalle Note di Airtable, scritte GG/MM/AAAA.
+  const [da, a] = [parseDay(dopo), parseDay(fino)];
   const perChiave = new Map();
   for (const contratto of R.CONTRATTI) {
     const slug = G.CONTRATTI_SEO.find(c => c.id === contratto.id)?.slug || contratto.id;

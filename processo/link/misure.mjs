@@ -14,36 +14,32 @@ import { execFile } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 import { parseEnv } from 'node:util';
-
-const GIORNO = 86_400_000;
-
-function sposta(data, giorni) {
-  const [a, m, g] = data.split('-').map(Number);
-  return new Date(Date.UTC(a, m - 1, g) + giorni * GIORNO).toISOString().slice(0, 10);
-}
+import { addDays } from './date.js';
+import { ORIGIN, inDomains, isOurSite, normalizeDomain } from './sito.js';
+import { fetchPage, findLinks } from './verifica-pagina.js';
 
 export function calendario(oggi) {
-  const settimanaDal = sposta(oggi, -7);
+  const settimanaDal = addDays(oggi, -7);
   return {
     oggi,
-    settimana: { dal: settimanaDal, al: sposta(oggi, -1) },
+    settimana: { dal: settimanaDal, al: addDays(oggi, -1) },
     dataforseo_date_from: settimanaDal,
     followup_dovuto_se_invio_entro: settimanaDal,
-    attesa_se_link_dopo: sposta(oggi, -60),
+    attesa_se_link_dopo: addDays(oggi, -60),
   };
 }
 
 // 28 giorni che finiscono in `ultimo` e i 28 prima.
 function finestre(ultimo) {
   return {
-    recenti: { dal: sposta(ultimo, -27), al: ultimo },
-    precedenti: { dal: sposta(ultimo, -55), al: sposta(ultimo, -28) },
+    recenti: { dal: addDays(ultimo, -27), al: ultimo },
+    precedenti: { dal: addDays(ultimo, -55), al: addDays(ultimo, -28) },
   };
 }
 
 // Una pagina del sito come percorso: senza host (www o no), query e frammento; slash finale tranne sui file (.html).
 export function normalizzaPagina(indirizzo) {
-  let percorso = new URL(indirizzo, 'https://www.dovevalatuaral.com').pathname.replace(/\/index\.html$/, '/');
+  let percorso = new URL(indirizzo, ORIGIN).pathname.replace(/\/index\.html$/, '/');
   if (!percorso.endsWith('/') && !percorso.split('/').at(-1).includes('.')) percorso += '/';
   return percorso;
 }
@@ -62,8 +58,8 @@ function aggrega(righe) {
 
 // `query(dal, al, dimensioni)` restituisce le righe di searchAnalytics/query (formato di gsc.mjs).
 export async function misuraGsc({ oggi, pagine = [], query }) {
-  const giorni = await query(sposta(oggi, -10), oggi, 'date');
-  if (!giorni.length) throw new Error(`nessun dato GSC tra ${sposta(oggi, -10)} e ${oggi}`);
+  const giorni = await query(addDays(oggi, -10), oggi, 'date');
+  if (!giorni.length) throw new Error(`nessun dato GSC tra ${addDays(oggi, -10)} e ${oggi}`);
   const ultimo = giorni.map((r) => r.keys[0]).sort().at(-1);
   const f = finestre(ultimo);
   const sito = {};
@@ -138,77 +134,26 @@ export async function misuraGsc({ oggi, pagine = [], query }) {
   return risultato;
 }
 
-// Host che contano come "il sito": il dominio con i sottodomini e il vecchio dominio, che fa 301 verso www.
-const NOSTRO = /(^|\.)dovevalatuaral\.com$/;
-const LEGACY = 'jethr.riccsartori.com';
-
-const ENTITA = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', agrave: 'à', egrave: 'è', eacute: 'é', igrave: 'ì', ograve: 'ò', ugrave: 'ù' };
-const decodifica = (s) =>
-  s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (e, n) =>
-    n[0] === '#' ? String.fromCodePoint(Number(n[1].toLowerCase() === 'x' ? `0${n.slice(1)}` : n.slice(1))) : ENTITA[n.toLowerCase()] ?? e,
-  );
-const testo = (html) =>
-  decodifica(html.replace(/<[^>]*>/g, ' '))
-    .replace(/\s+/g, ' ')
-    .replace(/ ([,.;:!?])/g, '$1')
-    .trim();
-
-function attributo(attributi, nome) {
-  const m = attributi.match(new RegExp(`\\b${nome}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, 'i'));
-  return m ? decodifica(m[1] ?? m[2] ?? m[3]) : null;
-}
-
-const BLOCCO = 'p|li|td|th|div|blockquote|h[1-6]|dd|dt|figcaption|section|article';
-
-// Il testo del blocco (paragrafo, voce di lista, cella…) che contiene il link.
-function contesto(html, inizio, fine) {
-  const aperture = [...html.slice(0, inizio).matchAll(new RegExp(`<(?:${BLOCCO})\\b[^>]*>`, 'gi'))];
-  const da = aperture.length ? aperture.at(-1).index + aperture.at(-1)[0].length : Math.max(0, inizio - 300);
-  const chiusura = html.slice(fine).match(new RegExp(`</(?:${BLOCCO})\\s*>`, 'i'));
-  const a = chiusura ? fine + chiusura.index : fine + 300;
-  return testo(html.slice(da, a)).slice(0, 500);
-}
-
 function relEffettivo(rel) {
   const token = rel.toLowerCase().split(/\s+/);
   return ['sponsored', 'ugc', 'nofollow'].find((t) => token.includes(t)) ?? 'follow';
 }
 
-// I link della pagina `pagina` che puntano al sito, confrontati con la `destinazione` concordata.
+// I link della pagina `pagina` che puntano al sito, confrontati con la `destinazione` concordata. Quali sono e il
+// loro testo li dice verifica-pagina.js, l'unico controllo dei link; qui il confronto per la revisione.
 export function controllaLink({ html, pagina, destinazione }) {
   const attesa = normalizzaPagina(destinazione);
-  const link_al_sito = [];
-  for (const m of html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a\s*>/gi)) {
-    const href = attributo(m[1], 'href');
-    if (!href) continue;
-    let url;
-    try {
-      url = new URL(href, pagina);
-    } catch {
-      continue;
-    }
-    const host = url.hostname.toLowerCase();
-    if (!NOSTRO.test(host) && host !== LEGACY) continue;
-    const alt = m[2].match(/<img\b[^>]*>/i) ? attributo(m[2].match(/<img\b[^>]*>/i)[0], 'alt') : null;
-    const rel = attributo(m[1], 'rel') ?? '';
-    link_al_sito.push({
-      href: url.href,
-      host,
-      percorso: normalizzaPagina(url.href),
-      anchor: testo(m[2]) || (alt ? `[immagine: ${alt}]` : '[immagine senza alt]'),
-      rel,
-      rel_effettivo: relEffettivo(rel),
-      verso_destinazione: NOSTRO.test(host) && normalizzaPagina(url.href) === attesa,
-      contesto: contesto(html, m.index, m.index + m[0].length),
-    });
-  }
+  const link_al_sito = findLinks(html, pagina).map(({ url, text, imageAlt, rel, context }) => ({
+    href: url.href,
+    host: url.hostname.toLowerCase(),
+    percorso: normalizzaPagina(url.href),
+    anchor: text || (imageAlt ? `[immagine: ${imageAlt}]` : '[immagine senza alt]'),
+    rel: rel ?? '',
+    rel_effettivo: relEffettivo(rel ?? ''),
+    verso_destinazione: isOurSite(url.hostname) && normalizzaPagina(url.href) === attesa,
+    contesto: context,
+  }));
   return { link_al_sito, verso_destinazione: link_al_sito.some((l) => l.verso_destinazione) };
-}
-
-// Dominio radice come lo scrive Airtable: senza protocollo, percorso né www, minuscolo.
-export function normalizzaDominio(dominio) {
-  const host = /^[a-z]+:\/\//i.test(dominio) ? new URL(dominio).hostname : dominio.split('/')[0];
-  return host.toLowerCase().replace(/^www\./, '');
 }
 
 // DataFast chiama alcune sorgenti per nome invece che per dominio (visto il 2026-10-15: Google, LinkedIn, Bing,
@@ -231,21 +176,20 @@ const SORGENTI_PER_NOME = {
 // `referrers(dal, al)` restituisce data[] di GET /analytics/referrers: [{referrer, visitors}].
 // Finestre di 28 giorni completi fino a ieri: DataFast non ha il ritardo di GSC.
 export async function misuraDatafast({ oggi, domini = [], referrers }) {
-  const f = finestre(sposta(oggi, -1));
+  const f = finestre(addDays(oggi, -1));
   const righe = {};
   for (const [nome, { dal, al }] of Object.entries(f)) righe[nome] = await referrers(dal, al);
   const somma = (nome, filtro = () => true) =>
     righe[nome].filter(filtro).reduce((s, r) => s + r.visitors, 0);
   const daDominio = (dominio) => (r) => {
-    const nome = r.referrer.toLowerCase().replace(/^www\./, '');
-    const ref = SORGENTI_PER_NOME[nome] ?? nome;
-    return ref === dominio || ref.endsWith(`.${dominio}`);
+    const nome = normalizeDomain(r.referrer);
+    return inDomains(SORGENTI_PER_NOME[nome] ?? nome, [dominio]);
   };
   return {
     finestre: f,
     referrer_distinti: { recenti: righe.recenti.length, precedenti: righe.precedenti.length },
     visitatori_somma: { recenti: somma('recenti'), precedenti: somma('precedenti') },
-    domini: [...new Set(domini.map(normalizzaDominio))].map((dominio) => ({
+    domini: [...new Set(domini.map(normalizeDomain))].map((dominio) => ({
       dominio,
       recenti: somma('recenti', daDominio(dominio)),
       precedenti: somma('precedenti', daDominio(dominio)),
@@ -327,18 +271,14 @@ const comandi = {
   },
   async link(pagina, destinazione) {
     if (!pagina || !destinazione) throw new Error('uso: link <url della pagina che linka> <nostra pagina concordata>');
-    let res;
+    let pag;
     try {
-      res = await fetch(pagina, {
-        redirect: 'follow',
-        headers: { 'User-Agent': 'Mozilla/5.0 (link-review di dovevalatuaral.com)', Accept: 'text/html' },
-        signal: AbortSignal.timeout(30_000),
-      });
+      pag = await fetchPage(pagina, { timeoutMs: 30_000 });
     } catch (e) {
       throw new FonteMuta(`pagina non raggiungibile: ${e.cause?.code ?? e.message}`);
     }
-    const html = res.ok ? await res.text() : '';
-    return { pagina, http: res.status, url_finale: res.url, ...controllaLink({ html, pagina: res.url, destinazione }) };
+    const html = pag.status >= 200 && pag.status < 300 ? pag.html : '';
+    return { pagina, http: pag.status, url_finale: pag.finalUrl, ...controllaLink({ html, pagina: pag.finalUrl, destinazione }) };
   },
 };
 
