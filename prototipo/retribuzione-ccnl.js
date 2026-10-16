@@ -1295,8 +1295,70 @@
 
   /* --- GOMMA, CAVI ELETTRICI E PLASTICA — INDUSTRIA, B371 ------ */
 
-  const GOMMA_PLASTICA=null;
-  const ESCLUSIONI_GOMMA_PLASTICA=[];
+  /* Ipotesi di rinnovo del 10 dicembre 2025, resa efficace dallo
+     scioglimento positivo della riserva (30 gennaio 2026). Una sola
+     scala di dieci livelli e una sola tabella dei minimi (TEM), senza
+     sezioni: gomma, plastica e ricostruzione non hanno importi propri.
+     Le quattro tabelle 2026–2028 vengono dall'ipotesi (art. 17 par. A
+     c.3, p. 15), riscontrate da Eutekne, FiscoeTasse e Consulenza
+     Buffetti; le tre 2023–2025 dal CCNL 26 gennaio 2023, letto sul
+     testo consolidato Eutekne, che è a riproduzione riservata e non è
+     archiviato. La fonte non stampa totali: totalePubblicato è null e
+     il totale è derivato. L'unica voce oltre al minimo è l'indennità
+     di funzione dei Quadri (art. 28 c.5), 50,00 € solo sul livello Q,
+     nelle tredici mensilità come gli scatti. */
+  const fonteGomma=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
+    verificataIl:'2026-10-16'});
+  const NOME_GOMMA={Q:'Quadri'};
+  /* [decorrenza, titolo, minimi di Q, A, B, C, D, E, F, G, H, I] */
+  const TABELLE_GOMMA=[
+    ['2023-01-01','minimi del CCNL 26 gennaio 2023, dal 1° gennaio 2023 (art. 17)',
+      [2309.97,2174.98,2051.87,2024.93,1999.48,1918.78,1869.12,1741.80,1661.03,1493.30]],
+    ['2024-01-01','minimi del CCNL 26 gennaio 2023, dal 1° gennaio 2024 (art. 17)',
+      [2365.59,2227.34,2101.27,2073.68,2047.62,1964.98,1914.12,1783.74,1701.02,1529.25]],
+    ['2025-04-01','minimi del CCNL 26 gennaio 2023, dal 1° aprile 2025 (art. 17)',
+      [2423.68,2282.03,2152.87,2124.60,2097.90,2013.23,1961.12,1827.54,1742.79,1566.80]],
+    ['2026-01-01','prima tranche dell’ipotesi 10 dicembre 2025 (art. 17)',
+      [2497.83,2351.85,2218.74,2189.60,2162.08,2074.83,2021.12,1883.45,1796.11,1614.73]],
+    ['2027-04-01','seconda tranche dell’ipotesi 10 dicembre 2025 (art. 17)',
+      [2571.98,2421.67,2284.61,2254.60,2226.26,2136.43,2081.12,1939.36,1849.43,1662.66]],
+    ['2028-04-01','terza tranche dell’ipotesi 10 dicembre 2025 (art. 17)',
+      [2646.13,2491.49,2350.48,2319.60,2290.44,2198.03,2141.12,1995.27,1902.75,1710.59]],
+    ['2028-12-01','quarta e ultima tranche dell’ipotesi 10 dicembre 2025 (art. 17)',
+      [2664.67,2508.94,2366.95,2335.85,2306.49,2213.43,2156.12,2009.25,1916.08,1722.57]],
+  ];
+  const LIVELLI_GOMMA=['Q','A','B','C','D','E','F','G','H','I'];
+  /* Art. 23: un solo importo per B-C-D e per E-F. */
+  const SCATTI_GOMMA={Q:20.14,A:18.59,B:16.53,C:16.53,D:16.53,E:13.94,F:13.94,G:13.43,H:11.88,I:10.33};
+
+  const GOMMA_PLASTICA={
+    id:'gomma-plastica-industria-b371',
+    nome:'Gomma, cavi elettrici e plastica — industria',
+    parti:'Federazione Gomma Plastica (Assogomma, Unionplast) e A.I.R.P. / Filctem-Cgil, Femca-Cisl, Uiltec-Uil',
+    codiceCnel:'B371',
+    mensilita:13,
+    oreSettimanali:40,
+    scatti:cifraFissa(2,5,'art. 23 — scatti di anzianità'),
+    fonte:fonteGomma('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17, tabella dei minimi',
+      'testo dell’ipotesi in formato CNEL, riprodotto da Uniolex; efficacia da scioglimento della riserva, Assolombarda 30 gennaio 2026; tabella riscontrata da Eutekne, FiscoeTasse e Consulenza Buffetti',
+      'https://uniolex.com/wp-content/uploads/2026/02/CCNL-Gomma-Plastica-Ipotesi-accordo-di-rinnovo.pdf',
+      'processo/dati/fonti/gomma-plastica-b371-ipotesi-accordo-rinnovo-2025-12-10-uniolex-2026-10-16.pdf'),
+    notaFonte:'Il testo coordinato 2026 e la circolare della Federazione sono riservati e non sono stati letti: le tabelle 2026–2028 sono quelle dell’ipotesi, concordi in quattro fonti; scatti, tredicesima e part-time vengono dal consolidato del CCNL 2023 e dall’ipotesi.',
+    tabelle:TABELLE_GOMMA.map(([decorrenza,titolo,minimi])=>tabella(decorrenza,titolo,
+      LIVELLI_GOMMA.map((codice,i)=>({
+        codice,nome:NOME_GOMMA[codice]||`Livello ${codice}`,
+        voci:[voce('minimo','Minimo tabellare mensile (TEM)',minimi[i]),
+          ...(codice==='Q'?[voce('indennitaFunzione','Indennità di funzione dei Quadri (art. 28 c.5)',50)]:[])],
+        totalePubblicato:null,scatto:SCATTI_GOMMA[codice]})))),
+  };
+  const ESCLUSIONI_GOMMA_PLASTICA=[
+    'Indennità sostitutiva del premio di risultato (Allegato 1, da 30,00 € al livello I a 51,00 € al livello Q al mese): spetta solo alle aziende fino a 100 dipendenti senza contrattazione del premio, o che nei tre anni precedenti non lo hanno applicato (art. 24 c.5–6). È condizionata all’assenza di contrattazione di secondo livello, quindi non è nella RAL.',
+    'Contributi aziendali al Fondo Gomma Plastica (1,56% fino al 2026, 1,78% dal 1° gennaio 2027, 2,00% dal 1° gennaio 2028) e al fondo sanitario FASG&P (14 € al mese a carico dell’azienda): welfare e contributi datoriali, non retribuzione.',
+    'Maggiorazioni per turni, lavoro notturno, festivo e straordinario, cottimo, premi di produzione e di risultato aziendali, aumenti di merito, superminimi e importi ad personam, importi individuali ex art. 17 del CCNL 2 luglio 1992 e scatti congelati al 30 giugno 1980: il superminimo lo indichi tu.',
+    'Passaggio di livello (art. 23 c.4): l’importo degli scatti maturati si conserva e si divide per lo scatto del livello nuovo. Il calcolo valorizza tutti gli scatti al livello attuale: se hai cambiato livello, indica tu il numero di scatti.',
+    'Livello I: dal 1° dicembre 2028 è eliminato nelle aree produzione e funzioni integrate trasversali (posizioni riclassificate nel livello H), ma la tabella lo riporta ancora e il calcolo lo mantiene.',
+    'Limiti delle fonti: scatti (art. 23), tredicesima (art. 25) e part-time (art. 10) sono letti sul testo consolidato del CCNL 2023, non sul testo coordinato 2026, che è riservato e non è stato letto; il part-time è la riproporzione legale sulle 40 ore (D.Lgs. 81/2015 art. 7), senza una formula del contratto per scatti e indennità di funzione. Non è stato letto nemmeno l’accordo del 30 giugno 2026, che modifica solo il Titolo III (previdenza complementare).',
+  ];
 
   /* --- CREDITO — ABI, AREE PROFESSIONALI E QUADRI, J241 -------- */
 

@@ -190,6 +190,18 @@
     /* — Chimico-farmaceutico, industria (B011) — */
 
     /* — Gomma, cavi elettrici e plastica, industria (B371) — */
+    congela({
+      id:'gomma-plastica-industria-b371',
+      nome:'Gomma, cavi elettrici e plastica — industria',
+      parti:'Federazione Gomma Plastica (Assogomma, Unionplast) e A.I.R.P. / Filctem-Cgil, Femca-Cisl, Uiltec-Uil',
+      codiceCnel:'B371',
+      mensilita:13,
+      dataRiferimento:'2025-12-10',
+      fonte:{
+        titolo:'CCNL gomma, cavi elettrici e plastica — ipotesi di accordo 10 dicembre 2025, scioglimento della riserva del 30 gennaio 2026',
+        url:'https://www.assolombarda.it/servizi/assistenza-sindacale/informazioni/ccnl-per-l2019industria-della-gomma-plastica-e-cavi-elettrici-ed-affini-10-12-2025-scioglimento-della-riserva-da-parte-delle-oo-ss-ll',
+      },
+    }),
 
     /* — Credito ABI, aree professionali e quadri (J241) — */
 
