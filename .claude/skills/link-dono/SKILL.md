@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 Per ogni prospect da lavorare leggi la sua pagina, controlla ogni cifra sui minimi CCNL contro le fonti primarie,
 e solo se restano almeno due correzioni solide prepara il foglio di correzioni, il netto per livello e una bozza
-Gmail. Prima ancora, gestisci i solleciti delle mail già inviate. Al massimo 5 bozze per run, solleciti compresi:
+Gmail. Prima ancora, gestisci i solleciti delle mail già inviate. Al massimo `bozze_max` bozze per run, solleciti compresi:
 prima i solleciti, poi i prospect nuovi fino al tetto.
 
 ## Contesto
@@ -53,6 +53,7 @@ Dai RUNNER FACTS o dal testo dopo `/link-dono`:
 - `ccnl`: uno o più slug separati da virgola. Se c'è, solo prospect con quei CCNL. La settimana dopo una tranche
   lo passa da solo il runner, con le tranche partite; il tetto delle bozze resta quello.
 - `nota`: testo da aggiungere alle Note di ogni record su cui scrivi.
+- `bozze_max`: il tetto di bozze del run, solleciti compresi. Lo passa il runner nei RUNNER FACTS; a mano, 5.
 
 ## Lo strumento: `dono-ccnl.js`
 
@@ -94,7 +95,7 @@ Prima dei prospect nuovi. Soglia: `node processo/link/misure.mjs date <oggi>` �
 - **Follow-up**: se il sollecito è stato inviato, è più vecchio della soglia e non c'è risposta, Stato `Chiuso`.
   Se il sollecito non è ancora partito, niente.
 
-Ogni sollecito è una bozza e conta nel tetto delle 5. Se i solleciti dovuti sono più di 5, fai i primi 5 (Data invio
+Ogni sollecito è una bozza e conta nel tetto `bozze_max`. Se i solleciti dovuti sono di più, fai i primi (Data invio
 più vecchia prima) e scrivi gli altri nel report: restano `Inviata` e li riprende il run dopo.
 
 Fatto quando: ogni record Bozza pronta, Inviata e Follow-up con il thread di link-dono è stato guardato.
@@ -107,7 +108,7 @@ e `node processo/link/dono-ccnl.js tranche <GG/MM/AAAA della pausa> <oggi> --ccn
 tranche del loro CCNL è partita dopo la pausa. Se la lista non è vuota la pausa è finita e il record si lavora come
 gli altri. I record passati con `record` si lavorano anche in pausa: li ha scelti Riccardo.
 
-Ne lavori fino a riempire il tetto: 5 bozze meno i solleciti creati al passo 1. Con il tetto pieno, nessun prospect
+Ne lavori fino a riempire il tetto: `bozze_max` meno i solleciti creati al passo 1. Con il tetto pieno, nessun prospect
 nuovo. Per ognuno, prima di leggere la pagina:
 
 - **Doppioni.** Se le Note hanno già una bozza di link-dono, o `list_drafts` con `to:<contatto>` ne trova una,
@@ -257,15 +258,18 @@ sola:
     REPORT_SALTATI=dominio.it (in pausa: 1 correzione solida); altro.it (chiuso: contatto n/d)
     REPORT_SOLLECITI=0
     REPORT_CHIUSI=0
-    REPORT_RISPOSTE=nessuna
+    REPORT_RISPOSTE=nessuno
     REPORT_NON_PRIMA_DEL=2026-11-01
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
-`REPORT_BOZZE` sono le bozze ai prospect nuovi, `REPORT_SOLLECITI` le bozze di sollecito: insieme non passano 5.
+`REPORT_BOZZE` sono le bozze ai prospect nuovi, `REPORT_SOLLECITI` le bozze di sollecito: insieme non passano
+`bozze_max`.
 `REPORT_RECORD` sono i record con una bozza nuova; `REPORT_RISPOSTE` i domini con una risposta da leggere;
 `REPORT_SALTATI` dice per ogni salto se è in pausa o chiuso, e perché; `REPORT_CHIUSI` conta i record messi
 `Chiuso` in questo run, dai solleciti e dai salti permanenti. `REPORT_NON_PRIMA_DEL` la data più lontana tra i
-`nonPrimaDel`, o `nessuna`. Se un valore non lo hai, scrivilo in `REPORT_NOTE`: mai inventarlo.
+`nonPrimaDel`, o `nessuno`.
+Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).
 
 ## Per chi lancia la skill
 
@@ -273,5 +277,6 @@ sola:
 Allowlist per nome: i sei strumenti Gmail sopra (mai `send_message`, `reply`, `forward`, `update_draft`,
 `delete_draft`), `list_records_for_table` e `update_records_for_table` dei due server Airtable, WebFetch,
 `Bash(node processo/link/dono-ccnl.js:*)`, `Bash(node processo/link/verifica-pagina.js:*)`,
-`Bash(node processo/link/misure.mjs:*)`, Read, Write (solo per `.link-dono/`).
+`Bash(node processo/link/misure.mjs:*)`, Read, Write (solo per `.link-dono/`; niente Edit: il file si riscrive).
+La fonte di questo elenco per il runner è la riga di `link-dono` in `processo/cron/link/jobs.sh`.
 Test dello strumento: `node --test processo/link/dono-ccnl.test.js` (gira anche in `npm test`).

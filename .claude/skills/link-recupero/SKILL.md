@@ -5,7 +5,7 @@ disable-model-invocation: true
 ---
 
 Fai il giro mensile di recupero link di dovevalatuaral.com: link persi verso pagine 404/410 e menzioni senza link.
-Al massimo 5 bozze Gmail per run.
+Al massimo `bozze_max` bozze Gmail per run: il tetto lo passa il runner nei RUNNER FACTS; a mano, 5.
 
 ## Contesto
 
@@ -148,4 +148,6 @@ sola, nessuna riga vuota in mezzo.
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
 `REPORT_RECORD` elenca gli id `rec…` creati, separati da virgola. `REPORT_PIANO_REDIRECT` mette i redirect proposti
-separati da `;`. Se un valore non lo hai, scrivi `REPORT_NOTE=` con la spiegazione: mai inventarlo.
+separati da `;`.
+Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).

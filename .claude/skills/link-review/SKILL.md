@@ -185,7 +185,8 @@ sola, nessuna riga vuota in mezzo.
 - `REPORT_GSC`, `REPORT_DATAFAST`, `REPORT_DATAFORSEO`, `REPORT_AIRTABLE`: `ok` oppure `non ha risposto: <motivo>`.
 - `REPORT_LINK_NUOVI`, `REPORT_LINK_RECUPERATI`, `REPORT_LINK_SPONTANEI`: link della settimana.
   `REPORT_DOMINI_REFERENTI`, `REPORT_BACKLINK`: totali DataForSEO di oggi. `REPORT_IN_ATTESA`: pagine in attesa.
-- Se un valore non lo hai, scrivi `n/d` e spiega in `REPORT_NOTE`: mai inventarlo.
+- Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+  inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).
 
 ## Dipendenze per chi lancia la skill
 

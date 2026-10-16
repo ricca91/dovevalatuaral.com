@@ -156,18 +156,20 @@ una riga sola:
     REPORT_DATA=AAAA-MM-GG
     REPORT_PROMPT=<eseguiti>/<totali>
     REPORT_CLUSTER=<eseguiti>/<totali>
-    REPORT_FALLITE=nessuna
+    REPORT_FALLITE=nessuno
     REPORT_CANDIDATI=<prospect di aggrega.js>
     REPORT_SCRITTI=<record creati su Airtable>
     REPORT_SCARTATI=<scartati al passo 5>
     REPORT_COMPETITOR_NUOVI=<domini da aggiungere a esclusi.json, o nessuno>
     REPORT_GEO_PROMPT=<prompt che citano una pagina nostra>/<prompt eseguiti>
     REPORT_GEO_PAGINE=<path della pagina> (<ID prompt>); <path> (<ID>, <ID>)
-    REPORT_GEO_AIO=<cluster in cui dovevalatuaral.com compare, con le menzioni, o "assente">
+    REPORT_GEO_AIO=<cluster in cui dovevalatuaral.com compare, con le menzioni, o nessuno>
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
 `REPORT_FALLITE` elenca gli ID dei prompt e i cluster saltati. `REPORT_GEO_PROMPT` = prompt che citano almeno una
-pagina nostra / prompt eseguiti. Se un valore non lo hai, scrivilo in `REPORT_NOTE`: mai inventarlo.
+pagina nostra / prompt eseguiti.
+Dove non c'è niente scrivi `nessuno`; se un valore non lo hai, `n/d` e il perché in `REPORT_NOTE`: mai
+inventarlo. Sono i due valori che il runner conosce (`processo/cron/link/README.md`).
 
 Prima del blocco, in poche righe: quanti prospect per Tipo, i 5 più citati, cosa non hai potuto verificare (pagine
 bloccate, contatti non letti). Finisce nella mail.

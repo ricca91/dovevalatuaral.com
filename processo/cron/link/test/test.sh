@@ -11,6 +11,8 @@ unset AGENTMAIL_API_KEY CLAUDE_CODE_OAUTH_TOKEN DATAFAST_API_KEY DATAFAST_ENV_FI
 
 HERE="$(cd "$(dirname "$0")" && pwd)"
 RUN="$HERE/../run.sh"
+# La tabella dei job, la stessa di run.sh e lancia.sh: LINK_JOBS, job_config, MAX_BOZZE, NESSUNO.
+. "$HERE/../jobs.sh"
 ROOT="$(cd "$HERE/../../../.." && pwd)"   # il repo vero: per controllare che gli attrezzi esistano
 FIX="$(mktemp -d)"
 # KEEP=1 lascia la fixture su disco per leggerne i log quando un caso fallisce.
@@ -72,7 +74,7 @@ if [ "${CLAUDE_STUB_RC:-0}" -ne 0 ]; then echo "${STUB_STDOUT:-}"; exit "$CLAUDE
 if [ -n "${STUB_RAW+x}" ]; then printf '%s' "$STUB_RAW"; exit 0; fi
 PAD=""; [ -n "${STUB_INDENT:-}" ] && PAD="    "
 REPORT="${STUB_REPORT-REPORT_DATA=$(date +%F)
-REPORT_NOTE=nessuna}"
+REPORT_NOTE=nessuno}"
 BODY="$(printf '%s\n\n%s\n' "${STUB_PROSA:-Prosa di prova: cosa ho verificato.}" "$(sed "s/^/$PAD/" <<<"$REPORT")")"
 jq -n --arg r "$BODY" --argjson err "${STUB_IS_ERROR:-false}" --argjson den "${STUB_DENIALS:-[]}" \
   '{type:"result", subtype:(if $err then "error_max_turns" else "success" end), is_error:$err,
@@ -110,7 +112,7 @@ REPORT_DATAFAST=ok
 REPORT_DATAFORSEO=ok
 REPORT_AIRTABLE=ok
 REPORT_LINK_NUOVI=0
-REPORT_NOTE=nessuna" run link-review
+REPORT_NOTE=nessuno" run link-review
 check "invoca /link-review in testa"        "head -c 13 '$FIX/last-prompt.txt' | grep -qx '/link-review '"
 check "RUNNER FACTS: data di oggi"          "grep -q 'Data di oggi: $OGGI' '$FIX/last-prompt.txt'"
 check "RUNNER FACTS: la mail non è sua"     "grep -q 'tu non mandi mail' '$FIX/last-prompt.txt'"
@@ -193,7 +195,7 @@ azzera
 STUB_INDENT=1 STUB_REPORT="REPORT_DATA=$OGGI
 REPORT_STATO=attesa
 REPORT_LINK_NUOVI=2
-REPORT_NOTE=nessuna" run link-review
+REPORT_NOTE=nessuno" run link-review
 check "oggetto dal report indentato"        "grep -q -- '--subject link-review $OGGI: attesa, 2 link nuovi' '$FIX/mail.log'"
 check "blocco REPORT_ nella mail, senza rientro" "grep -q '^REPORT_LINK_NUOVI=2' '$FIX/mail.log'"
 check "prosa senza righe REPORT_"           "[ \$(grep -c 'REPORT_LINK_NUOVI' '$FIX/mail.log') -eq 1 ]"
@@ -277,9 +279,9 @@ REPORT_INVIO=$OGGI
 REPORT_PROSPECT=4
 REPORT_BOZZE=2
 REPORT_SOLLECITI=1
-REPORT_RISPOSTE=nessuna
-REPORT_NON_PRIMA_DEL=nessuna
-REPORT_NOTE=nessuna"
+REPORT_RISPOSTE=nessuno
+REPORT_NON_PRIMA_DEL=nessuno
+REPORT_NOTE=nessuno"
 in_lista(){ tr ',' '\n' <<<"$1" | grep -qxF -- "$2"; }
 
 echo "=== caso 18: link-dono -> controllo Gmail con la login, poi il run ==="
@@ -297,6 +299,10 @@ check "allowlist: dono-ccnl.js"             "in_lista '$A' 'Bash(node processo/l
 check "allowlist: Airtable update, due prefissi" "in_lista '$A' 'mcp__plugin_airtable_airtable__update_records_for_table' && in_lista '$A' 'mcp__claude_ai_Airtable__update_records_for_table'"
 check "negati: send_message, reply, forward" "N=\"\$(opzione --disallowedTools)\"; in_lista \"\$N\" mcp__claude_ai_Gmail__send_message && in_lista \"\$N\" mcp__claude_ai_Gmail__reply && in_lista \"\$N\" mcp__claude_ai_Gmail__forward"
 check "oggetto: bozze e solleciti"          "grep -q -- \"--subject link-dono $OGGI: 2 bozze, 1 solleciti\" '$FIX/mail.log'"
+check "nessuno: niente da leggere né date"  "! grep -q -- '--subject .*\\(risposte da leggere\\|non inviare prima\\)' '$FIX/mail.log'"
+check "il tetto viene da jobs.sh"           "grep -qx -- '- bozze_max=$MAX_BOZZE. Al massimo $MAX_BOZZE bozze in questo run, solleciti compresi.' '$FIX/last-prompt.txt'"
+check "il prompt dice nessuno e n/d"        "grep -q 'Dove non c.è niente scrivi nessuno; dove un valore non lo hai, n/d' '$FIX/last-prompt.txt'"
+check "Edit: la skill non lo usa, negato"   "! in_lista '$A' Edit && in_lista \"\$(opzione --disallowedTools)\" Edit && in_lista '$A' Write"
 check "la mail dice l'autenticazione"       "grep -q 'Autenticazione: login interattiva (LINK_GMAIL_AUTH=login), Gmail verificato prima di partire' '$FIX/mail.log'"
 check "stato per settimana ISO"             "grep -q 'LAST_PERIOD=\"$SETTIMANA\"' '$LOGDIR/state-link-dono'"
 check "rc=0"                                "[ \"\$(rc)\" = 'rc=0' ]"
@@ -455,7 +461,7 @@ for cattiva in "WebFetch,mcp__claude_ai_Gmail__send_message" "mcp__claude_ai_Gma
 done
 
 echo "=== caso 28: allowlist di ogni job, normale e DRY_RUN -> nessuno strumento che invia ==="
-for j in link-review link-dono link-fonti link-recupero; do
+for j in $LINK_JOBS; do
   for d in 0 1; do
     azzera
     DRY_RUN=$d LINK_FORZA=1 run "$j"
@@ -530,6 +536,14 @@ check "rc=1"                                "[ \"\$(rc)\" = 'rc=1' ]"
 check "ha riprovato"                        "grep -q 'riprovo' '$FIX/lancia.err'"
 check "run.sh non chiamato"                 "[ ! -f '$FIX/finto-run.txt' ]"
 
+echo "=== caso 34b: lancia.sh installato senza jobs.sh accanto -> muore e lo dice ==="
+mkdir -p "$FIX/solo" && cp "$LANCIA" "$FIX/solo/lancia.sh"
+rm -f "$FIX/finto-run.txt"
+LINK_GITDIR="$GITDIR" LINK_HOME="$AHOME" LINK_RUN="$FIX/bin/finto-run" "$FIX/solo/lancia.sh" link-review 2>"$FIX/lancia.err"; echo "rc=$?" > "$FIX/rc"
+check "rc=1"                                "[ \"\$(rc)\" = 'rc=1' ]"
+check "dice che manca jobs.sh"              "grep -q 'manca $FIX/solo/jobs.sh' '$FIX/lancia.err'"
+check "run.sh non chiamato"                 "[ ! -f '$FIX/finto-run.txt' ]"
+
 # --- systemd ----------------------------------------------------------------------
 # Le unit non si installano qui: si controllano i file e, con systemd-analyze, che ogni
 # OnCalendar scatti nel giorno e all'ora di Roma giusti, cambio d'ora compreso.
@@ -575,15 +589,15 @@ check "$F: %% per la data"                  "grep -q 'date +%%F' '$UNITS/$F'"
 # run.sh le invoca con lo slash e legge chiavi precise del loro blocco REPORT_: se una skill
 # perde il flag o rinomina una chiave, la mail si svuota senza errori. Lo dice questo test.
 echo "=== caso 37: le skill vere -> slash e chiavi REPORT_ che run.sh legge ==="
-for riga in "link-review:REPORT_DATA REPORT_STATO REPORT_LINK_NUOVI REPORT_GSC REPORT_DATAFAST REPORT_DATAFORSEO REPORT_AIRTABLE" \
-            "link-dono:REPORT_DATA REPORT_BOZZE REPORT_SOLLECITI REPORT_RISPOSTE REPORT_NON_PRIMA_DEL" \
-            "link-fonti:REPORT_DATA REPORT_SCRITTI REPORT_PROMPT REPORT_FALLITE" \
-            "link-recupero:REPORT_DATA REPORT_LINK_PERSI REPORT_MENZIONI REPORT_BOZZE REPORT_PIANO_REDIRECT"; do
-  j="${riga%%:*}"; SK="$ROOT/.claude/skills/$j/SKILL.md"
+for j in $LINK_JOBS; do
+  job_config "$j"; SK="$ROOT/.claude/skills/$j/SKILL.md"
   check "$j: disable-model-invocation"      "grep -qx 'disable-model-invocation: true' '$SK'"
-  for k in ${riga#*:}; do
+  for k in $REPORT; do
     check "$j: $k nel blocco REPORT_"       "grep -qE '^[[:space:]]*$k=' '$SK'"
   done
+  check "$j: un solo nessuno nel REPORT_"   "! grep -qE '^[[:space:]]*REPORT_[A-Z_]+=.*nessuna' '$SK'"
+  check "$j: dice nessuno e n/d"            "grep -q 'Dove non c.è niente scrivi \`$NESSUNO\`; se un valore non lo hai, \`$ND\`' '$SK'"
+  [ "$BOZZE" = 1 ] && check "$j: il tetto dai RUNNER FACTS" "grep -q 'bozze_max' '$SK' && ! grep -qE 'Al massimo [0-9]+ bozze' '$SK'"
 done
 
 echo "=== caso 38: le skill vere -> Recuperato o nuovo scritto da chi crea o lavora il record ==="
