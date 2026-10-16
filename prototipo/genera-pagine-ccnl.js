@@ -68,7 +68,7 @@ const CONTRATTI_SEO=Object.freeze([
     livelli:['1','2','3','4','4S','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'cooperative-sociali-t151',slug:'cooperative-sociali',breve:'Cooperative sociali',
     query:'cooperative sociali',titoloTabella:'CCNL Cooperative sociali',
-    livelli:['B1','C1','C2','C3','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
+    livelli:['A1','A2','B1','C1','C2','C3','D1','D2','D3','E1','E2','F1','F2'],slugLivello:lettera,etichetta:livelloL},
   {id:'distribuzione-moderna-federdistribuzione-h008',slug:'dmo',breve:'DMO',
     query:'CCNL DMO',titoloTabella:'CCNL DMO, distribuzione moderna',
     /* DMO ha livelli e importi propri, diversi dal Commercio: le query

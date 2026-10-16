@@ -18,11 +18,11 @@ const testo=html=>html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
 const uno=(html,re,label)=>{const m=[...html.matchAll(re)];assert.equal(m.length,1,label);return m[0][1];};
 
 test('le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset',()=>{
-  assert.equal(ROTTE.length,65);
+  assert.equal(ROTTE.length,69);
   assert.equal(new Set(ROTTE).size,ROTTE.length);
   const perContratto=Object.fromEntries(CONTRATTI_SEO.map(c=>[c.slug,ROTTE.filter(r=>r.startsWith(`/minimi-ccnl/${c.slug}/`)&&r!==`/minimi-ccnl/${c.slug}/`).length]));
   assert.deepEqual(perContratto,{commercio:8,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:4,
-    multiservizi:6,'studi-professionali':6,'cooperative-sociali':9,dmo:4,'metalmeccanico-confapi':0,
+    multiservizi:6,'studi-professionali':6,'cooperative-sociali':13,dmo:4,'metalmeccanico-confapi':0,
     'grafici-editoriali':0,poligrafici:0,vetro:0});
   for(const rotta of ['/minimi-ccnl/','/minimi-ccnl/commercio/5-livello/','/minimi-ccnl/metalmeccanico/livello-c3/',
     '/minimi-ccnl/cooperative-sociali/livello-d2/','/minimi-ccnl/studi-professionali/4s-livello/'])
@@ -106,7 +106,7 @@ test('ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb 
 
 test('il title delle pagine livello porta il netto mensile della pagina, all’euro, entro 60 caratteri (RIC-99)',()=>{
   const livelli=ROTTE.filter(r=>r.split('/').filter(Boolean).length===3);
-  assert.equal(livelli.length,50);
+  assert.equal(livelli.length,54);
   for(const rotta of livelli){
     const html=leggi(rotta);
     const titolo=uno(html,/<title>([^<]+)<\/title>/g,`${rotta}: title`);
@@ -353,4 +353,18 @@ test('Logistica: pagine per i livelli 3-6 del non viaggiante, senza NaN',()=>{
   }
   for(const r of ['/minimi-ccnl/logistica/3-super-livello/','/minimi-ccnl/logistica/c3-livello/'])
     assert.ok(!ROTTE.includes(r),r);
+});
+
+test('Cooperative sociali: pagine per i livelli A1, A2, F1, F2, senza NaN (RIC-100)',()=>{
+  const tabellaHtml=leggi('/minimi-ccnl/cooperative-sociali/');
+  for(const l of ['A1','A2','F1','F2']){
+    const rotta=`/minimi-ccnl/cooperative-sociali/livello-${l.toLowerCase()}/`;
+    assert.ok(ROTTE.includes(rotta),rotta);
+    const html=leggi(rotta);
+    assert.match(uno(html,/<h1[^>]*>(.*?)<\/h1>/gs,`h1 ${l}`),new RegExp(`Livello ${l}`));
+    assert.equal(uno(html,/<link rel="canonical" href="([^"]+)">/g,`canonical ${l}`),`${ORIGIN}${rotta}`);
+    assert.doesNotMatch(html,/NaN|undefined/);
+    assert.match(html,/ € netti al mese/);
+    assert.ok(tabellaHtml.includes(rotta),`link tabella ${l}`);
+  }
 });
