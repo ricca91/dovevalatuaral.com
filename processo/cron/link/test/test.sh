@@ -205,8 +205,8 @@ STUB_DENIALS='[{"tool_name":"mcp__dataforseo__backlinks_bulk_ranks","tool_use_id
 check "elenca gli strumenti negati"         "grep -q 'Strumenti negati: mcp__dataforseo__backlinks_bulk_ranks (2), WebSearch (1)' '$FIX/mail.log'"
 check "l'oggetto lo segnala"                "grep -q -- '--subject .*strumenti negati' '$FIX/mail.log'"
 azzera
-STUB_DENIALS='[{"tool_name":"Bash","tool_use_id":"a","tool_input":{"command":"node .claude/skills/link-review/misure.mjs gsc 2026-10-15 | python3 -c \"import json\""}}]' run link-review
-check "Bash negato: dice quale comando"     "grep -q 'Bash: node .claude/skills/link-review/misure.mjs gsc 2026-10-15 | python3 -c' '$FIX/mail.log'"
+STUB_DENIALS='[{"tool_name":"Bash","tool_use_id":"a","tool_input":{"command":"node processo/link/misure.mjs gsc 2026-10-15 | python3 -c \"import json\""}}]' run link-review
+check "Bash negato: dice quale comando"     "grep -q 'Bash: node processo/link/misure.mjs gsc 2026-10-15 | python3 -c' '$FIX/mail.log'"
 
 echo "=== caso 10b: il prompt dice in che forma si lanciano gli attrezzi ==="
 check "percorso relativo, niente pipe"      "grep -q 'percorso relativo dalla radice del repo' '$FIX/last-prompt.txt'"
@@ -402,7 +402,7 @@ check "nessun controllo Gmail"              "[ ! -f '$FIX/preflight.log' ]"
 check "col token"                           "grep -q '^token=si ' '$FIX/main.log'"
 check "allowlist: scraper ChatGPT"          "in_lista '$A' mcp__dataforseo__ai_optimization_chat_gpt_scraper"
 check "allowlist: AI Overview top domains"  "in_lista '$A' mcp__dataforseo__ai_opt_llm_ment_top_domains"
-check "allowlist: aggrega.js"               "in_lista '$A' 'Bash(node .claude/skills/link-fonti/aggrega.js:*)'"
+check "allowlist: aggrega.js"               "in_lista '$A' 'Bash(node processo/link/aggrega.js:*)'"
 check "allowlist: crea record, due prefissi" "in_lista '$A' mcp__plugin_airtable_airtable__create_records_for_table && in_lista '$A' mcp__claude_ai_Airtable__create_records_for_table"
 check "allowlist: niente Gmail"             "! grep -q 'Gmail' <<<'$A'"
 check "Write ammesso (la raccolta)"         "in_lista '$A' Write && ! in_lista '$N' Write"

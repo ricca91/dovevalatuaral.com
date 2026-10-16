@@ -1,7 +1,7 @@
 'use strict';
 // Aggrega le citazioni raccolte da link-fonti: un dominio per riga, quanti prompt ChatGPT e quanti cluster
 // AI Overview lo citano, cosa si scarta (esclusi.json, domini già su Airtable) e quali pagine nostre sono citate.
-// Uso: node aggrega.js <raccolta.json>   (formato della raccolta: SKILL.md, passo 4)
+// Uso: node processo/link/aggrega.js <raccolta.json>   (formato: .claude/skills/link-fonti/SKILL.md, passo 4)
 
 // Un co-citato di AI Overview conta solo se compare in almeno tante risposte accanto a un dominio del top 10.
 const MIN_CO_MENZIONI = 3;
@@ -102,7 +102,7 @@ if (require.main === module) {
   const path = require('node:path');
   const [file] = process.argv.slice(2);
   if (!file) {
-    console.error('uso: node aggrega.js <raccolta.json>');
+    console.error('uso: node processo/link/aggrega.js <raccolta.json>');
     process.exit(2);
   }
   const raccolta = JSON.parse(fs.readFileSync(file, 'utf8'));

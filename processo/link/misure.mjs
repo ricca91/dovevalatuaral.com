@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-// Misure per la skill link-review: date, GSC 28 contro 28 giorni, DataFast per referrer, controllo dei link.
-// Node puro, nessuna dipendenza. Uso e dipendenze esterne: vedi SKILL.md accanto a questo file.
+// Misure per le skill backlink (.claude/skills/link-review, link-dono per le date): date, GSC 28 contro 28 giorni,
+// DataFast per referrer, controllo dei link. Node puro, nessuna dipendenza. Uso e dipendenze esterne: vedi
+// .claude/skills/link-review/SKILL.md.
 //
-//   node misure.mjs date [oggi]
-//   node misure.mjs gsc <oggi> [pagina linkata ...]
-//   node misure.mjs datafast <oggi> [dominio che linka ...]
-//   node misure.mjs link <url della pagina che linka> <nostra pagina concordata>
+//   node processo/link/misure.mjs date [oggi]
+//   node processo/link/misure.mjs gsc <oggi> [pagina linkata ...]
+//   node processo/link/misure.mjs datafast <oggi> [dominio che linka ...]
+//   node processo/link/misure.mjs link <url della pagina che linka> <nostra pagina concordata>
 //
 // Stampa JSON su stdout. Se una fonte non risponde: messaggio su stderr, stdout vuoto, uscita 2.
 

@@ -80,7 +80,7 @@ Le cifre escono da qui: non rifare i conti a mano e non ritoccare quelle che lo 
 
 ## 1. Solleciti
 
-Prima dei prospect nuovi. Soglia: `node .claude/skills/link-review/misure.mjs date <oggi>` →
+Prima dei prospect nuovi. Soglia: `node processo/link/misure.mjs date <oggi>` →
 `followup_dovuto_se_invio_entro` (sette giorni fa). Sono tuoi solo i record con una riga
 `link-dono … thread <threadId>` nelle Note: le bozze degli altri playbook (link-recupero) restano dei loro.
 
@@ -121,7 +121,7 @@ nuovo. Per ognuno, prima di leggere la pagina:
   salta.
 - **Concorrente.** Se il loro sito offre un proprio calcolo del netto o della busta paga (un calcolatore linkato dalla
   pagina o dal menu), il netto per livello e il link non gli servono e le correzioni migliorano un concorrente: salta
-  e proponi il dominio nel report per `.claude/skills/link-fonti/esclusi.json`.
+  e proponi il dominio nel report per `processo/link/esclusi.json`.
 
 Ogni salto va nelle Note del record e nel report, ed è di due tipi:
 
@@ -273,5 +273,5 @@ sola:
 Allowlist per nome: i sei strumenti Gmail sopra (mai `send_message`, `reply`, `forward`, `update_draft`,
 `delete_draft`), `list_records_for_table` e `update_records_for_table` dei due server Airtable, WebFetch,
 `Bash(node processo/link/dono-ccnl.js:*)`, `Bash(node processo/link/verifica-pagina.js:*)`,
-`Bash(node .claude/skills/link-review/misure.mjs:*)`, Read, Write (solo per `.link-dono/`).
+`Bash(node processo/link/misure.mjs:*)`, Read, Write (solo per `.link-dono/`).
 Test dello strumento: `node --test processo/link/dono-ccnl.test.js` (gira anche in `npm test`).

@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "pretest": "node processo/attrezzi/genera-home.cjs && node prototipo/genera-pagine-ral.js",
-    "test": "node --test prototipo/*.test.js server/*.test.js processo/link/*.test.js",
+    "test": "node --test prototipo/*.test.js server/*.test.js processo/link/*.test.js processo/link/*.test.mjs",
     "predev": "node processo/attrezzi/genera-home.cjs && node prototipo/genera-pagine-ral.js",
     "dev": "node processo/attrezzi/server-preview.cjs",
     "build": "node processo/attrezzi/build.cjs"

@@ -37,6 +37,9 @@ che riporta l'agente (record, bozze, misure).
 | `systemd/link-*.timer` | i quattro orari |
 | `test/test.sh` | casi su repo fixture con stub: nessun Opus, nessuna mail, nessun Airtable o Gmail veri |
 
+Gli attrezzi node delle skill stanno tutti in `processo/link/` (`misure.mjs`, `dono-ccnl.js`, `verifica-pagina.js`,
+`aggrega.js` con `esclusi.json`), ognuno col suo test; `npm test` li esegue tutti.
+
 Fuori dal repo, sul VPS:
 
 | percorso | cos'è |
@@ -65,7 +68,7 @@ prefissi (`mcp__plugin_airtable_airtable__` col token, `mcp__claude_ai_Airtable_
 
 | job | ammessi |
 |---|---|
-| `link-review` | Airtable `list_records_for_table`; DataForSEO `backlinks_summary`, `backlinks_backlinks`; `Bash(node .claude/skills/link-review/misure.mjs:*)` |
+| `link-review` | Airtable `list_records_for_table`; DataForSEO `backlinks_summary`, `backlinks_backlinks`; `Bash(node processo/link/misure.mjs:*)` |
 | `link-dono` | Airtable `list_records_for_table`, `update_records_for_table`; Gmail (sotto); WebFetch, Read, Write, Edit; `dono-ccnl.js`, `verifica-pagina.js`, `misure.mjs` |
 | `link-fonti` | Airtable `list_records_for_table`, `create_records_for_table`; DataForSEO `ai_optimization_chat_gpt_scraper`, `ai_opt_llm_ment_top_domains`; WebFetch, WebSearch, Read, Write, Edit; `aggrega.js` |
 | `link-recupero` | Airtable `list_records_for_table`, `create_records_for_table`, `update_records_for_table`; DataForSEO `backlinks_backlinks`, `serp_organic_live_advanced`, `content_analysis_search`; Gmail (sotto); WebFetch; `verifica-pagina.js` |

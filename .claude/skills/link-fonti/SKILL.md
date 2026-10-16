@@ -29,7 +29,7 @@ arrivare come `mcp__plugin_airtable_airtable__*` o `mcp__claude_ai_Airtable__*`:
 ## Leggi prima di partire
 
 1. `crescita/link/prompt.md`: i prompt con ID e cluster, e per ogni cluster il filtro AI Overview e le pagine nostre.
-2. `.claude/skills/link-fonti/esclusi.json`: domini nostri, competitor, giganti, istituzioni.
+2. `processo/link/esclusi.json`: domini nostri, competitor, giganti, istituzioni.
 
 ## I passi
 
@@ -65,7 +65,7 @@ dei prospect e il repo è pubblico), oppure nella cartella di lavoro dei RUNNER 
      "aiOverview": {"commercio": {"top": {"www.esempio.it": 107}, "co": {"altro.it": 13}}},
      "giaInAirtable": ["dominio.it"]}
 
-Poi `node .claude/skills/link-fonti/aggrega.js .link-fonti/raccolta-AAAA-MM-GG.json`. Restituisce:
+Poi `node processo/link/aggrega.js .link-fonti/raccolta-AAAA-MM-GG.json`. Restituisce:
 
 - `prospect`: domini con pagine citate, prompt ChatGPT, cluster AI Overview, `motori` e la stringa `citazioni`,
   già ordinati (più motori, poi più prompt, poi più cluster e menzioni);

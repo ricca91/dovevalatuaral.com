@@ -1,5 +1,5 @@
 // Test di misure.mjs, l'attrezzo deterministico della skill link-review.
-// Si lanciano con: node --test .claude/skills/link-review/misure.test.mjs
+// Si lanciano con: node --test processo/link/misure.test.mjs (o con npm test)
 // Nessuna rete vera: GSC e DataFast sono finti (funzioni iniettate, script e server locali).
 
 import { test } from 'node:test';

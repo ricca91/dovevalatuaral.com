@@ -71,13 +71,13 @@ case "$JOB" in
   link-review)
     PERIODO="$(date +%G-W%V)"   # una revisione per settimana ISO
     TIMEOUT_JOB=30m
-    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node .claude/skills/link-review/misure.mjs:*)"
+    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node processo/link/misure.mjs:*)"
     ;;
   link-dono)
     PERIODO="$(date +%G-W%V)"
     TIMEOUT_JOB=60m
     GMAIL=1; FILE=1
-    STRUMENTI="$(airtable list_records_for_table),$GMAIL_LETTURA,WebFetch,Read,Write,Edit,Bash(node processo/link/dono-ccnl.js:*),Bash(node processo/link/verifica-pagina.js:*),Bash(node .claude/skills/link-review/misure.mjs:*)"
+    STRUMENTI="$(airtable list_records_for_table),$GMAIL_LETTURA,WebFetch,Read,Write,Edit,Bash(node processo/link/dono-ccnl.js:*),Bash(node processo/link/verifica-pagina.js:*),Bash(node processo/link/misure.mjs:*)"
     SCRIVE="$(airtable update_records_for_table),$GMAIL_BOZZA"
     ARGOMENTI="
 - oggi=$(date +%F)
@@ -90,7 +90,7 @@ case "$JOB" in
     FILE=1
     # WebSearch: la skill lo usa (site:dominio) per trovare la pagina di un dominio visto solo
     # in AI Overview. Non è Perplexity né Firecrawl.
-    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__ai_optimization_chat_gpt_scraper,mcp__dataforseo__ai_opt_llm_ment_top_domains,WebFetch,WebSearch,Read,Write,Edit,Bash(node .claude/skills/link-fonti/aggrega.js:*)"
+    STRUMENTI="$(airtable list_records_for_table),mcp__dataforseo__ai_optimization_chat_gpt_scraper,mcp__dataforseo__ai_opt_llm_ment_top_domains,WebFetch,WebSearch,Read,Write,Edit,Bash(node processo/link/aggrega.js:*)"
     SCRIVE="$(airtable create_records_for_table)"
     ARGOMENTI="
 - La raccolta va in .link-fonti/ nella root del repo: il checkout è usa e getta, lancia.sh la mette da parte fuori dal repo a fine run."
@@ -290,7 +290,7 @@ Log: $LOG"
 - Data di oggi: $RUN_DATE
 - Repo: $REPO (checkout usa e getta di origin/main, $CHECKOUT)
 - La mail di esito la manda run.sh con la tua risposta: tu non mandi mail. Niente commit, niente push.
-- Gli attrezzi node della skill si lanciano col percorso relativo dalla radice del repo (node .claude/skills/… o node processo/link/…), senza pipe verso altri programmi: l'allowlist ammette solo quella forma.$ARGOMENTI${LINK_ARGS:+
+- Gli attrezzi node della skill si lanciano col percorso relativo dalla radice del repo (node processo/link/…), senza pipe verso altri programmi: l'allowlist ammette solo quella forma.$ARGOMENTI${LINK_ARGS:+
 - Argomenti a mano (valgono su quelli sopra): $LINK_ARGS}$DRY_FATTI
 - Chiudi col blocco REPORT_, una coppia chiave=valore per riga, senza code fence."
 

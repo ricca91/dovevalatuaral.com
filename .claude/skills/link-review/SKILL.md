@@ -22,7 +22,7 @@ Il sito vive per due prodotti: "Ti spiego la busta paga" e il calcolatore RAL �
 
 Se il prompt contiene RUNNER FACTS con la data di oggi, usa quella. Altrimenti:
 
-    node .claude/skills/link-review/misure.mjs date
+    node processo/link/misure.mjs date
 
 Prendi da lì tutte le soglie, non contarle a mano: `settimana` (ultimi 7 giorni), `dataforseo_date_from`,
 `followup_dovuto_se_invio_entro`, `attesa_se_link_dopo`. Con una data esplicita: `… misure.mjs date AAAA-MM-GG`.
@@ -39,7 +39,7 @@ Prendi da lì tutte le soglie, non contarle a mano: `settimana` (ultimi 7 giorni
 - **DataForSEO**: `mcp__dataforseo__backlinks_summary` e `mcp__dataforseo__backlinks_backlinks`, target sempre
   `dovevalatuaral.com`. Non usare `backlinks_bulk_new_lost_referring_domains`: il 15 ottobre 2026 contava come
   "nuovi dall'8 ottobre" due domini che DataForSEO aveva visto il 9 e il 25 settembre, e non restituisce i persi.
-- **`node .claude/skills/link-review/misure.mjs`**, l'attrezzo deterministico accanto a questo file. Stampa JSON.
+- **`node processo/link/misure.mjs`**, l'attrezzo deterministico delle skill backlink. Stampa JSON.
   Se una fonte non risponde stampa il motivo su stderr ed esce con 2: in quel caso quella fonte "non ha risposto",
   e lo scrivi così.
   - `gsc <oggi> [pagina …]`: trova l'ultimo giorno con dati GSC (di solito 2-3 giorni fa), confronta gli ultimi
@@ -190,5 +190,5 @@ sola, nessuna riga vuota in mezzo.
 ## Dipendenze per chi lancia la skill
 
 `claude -p "/link-review RUNNER FACTS …"` dalla radice del repo. Allowlist minima, per nome:
-`mcp__plugin_airtable_airtable__list_records_for_table,mcp__claude_ai_Airtable__list_records_for_table,mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node .claude/skills/link-review/misure.mjs:*)`.
-Niente Gmail, Write, Edit. Test dell'attrezzo: `node --test .claude/skills/link-review/misure.test.mjs`.
+`mcp__plugin_airtable_airtable__list_records_for_table,mcp__claude_ai_Airtable__list_records_for_table,mcp__dataforseo__backlinks_summary,mcp__dataforseo__backlinks_backlinks,Bash(node processo/link/misure.mjs:*)`.
+Niente Gmail, Write, Edit. Test dell'attrezzo: `node --test processo/link/misure.test.mjs` (gira anche in `npm test`).
