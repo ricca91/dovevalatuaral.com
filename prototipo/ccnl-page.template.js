@@ -230,7 +230,7 @@ function renderTabella(d){
   const min=tutte.reduce((a,b)=>b.composta.baseMensile<a.composta.baseMensile?b:a);
   const max=tutte.reduce((a,b)=>b.composta.baseMensile>a.composta.baseMensile?b:a);
   const s0=sezioni[0];
-  const pagine=tutte.filter(r=>r.rotta);
+  const pagine=seo.etichetta?tutte.filter(r=>r.rotta):[];
   const blocchi=sezioni.map(s=>`<section class="ccnl-sezione"${s.sezione?` id="${esc(s.sezione)}"`:''}>
     ${s.nome?`<h2>${esc(s.nome)}</h2>${s.descrizione?`<p>${esc(s.descrizione)}</p>`:''}`:'<h2>La tabella dei minimi</h2>'}
     ${tabellaSezione(rotta,d,s)}

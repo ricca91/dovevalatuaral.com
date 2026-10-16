@@ -36,7 +36,13 @@ const CONTRATTI_SEO=Object.freeze([
     titoloTabella:'CCNL Metalmeccanico',livelli:['D1','D2','C1','C2','C3','B1','B2','B3','A1'],
     slugLivello:lettera,etichetta:livelloL},
   {id:'pubblici-esercizi-fipe-h05y',slug:'pubblici-esercizi',breve:'Pubblici esercizi',
-    titoloTabella:'CCNL Pubblici esercizi (FIPE)'},
+    titoloTabella:'CCNL Pubblici esercizi (FIPE)',
+    /* Nessuna pagina livello propria, per scelta: i livelli 3-6 della
+       sezione «generale» sono serviti dalle pagine /turismo/<n>-livello/,
+       che mostrano i due contratti affiancati (vedi `affianca` di
+       Turismo). La tabella linka quelle pagine; 6s, Qa, Qb, 1, 2, 7 e le
+       sezioni «collettiva» e «minori» restano senza link. */
+    livelliServitiDa:'turismo',sezioneLivelli:'generale'},
   {id:'turismo-federalberghi-h052',slug:'turismo',breve:'Turismo',query:'CCNL Turismo',
     titoloTabella:'CCNL Turismo',livelli:['3','4','5','6'],slugLivello:numerico,etichetta:livelloN,
     sezioneLivelli:'generale',
@@ -129,7 +135,9 @@ function tabella(id,sezione,alla,rottaDi){
 function datiContratto(c,alla){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
-  const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice):null;
+  const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
+  const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
+    :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
   return {seo:c,contratto,rotta:rottaTabella(c),esclusioni:R.ESCLUSIONI[c.id]||[],
     aumenti:c.slug==='commercio'?['2026-11-01','2027-02-01'].map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);

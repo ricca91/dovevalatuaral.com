@@ -368,3 +368,17 @@ test('Cooperative sociali: pagine per i livelli A1, A2, F1, F2, senza NaN (RIC-1
     assert.ok(tabellaHtml.includes(rotta),`link tabella ${l}`);
   }
 });
+
+test('la tabella Pubblici esercizi linka solo i livelli 3-6 «generale» alle pagine Turismo',()=>{
+  const html=leggi('/minimi-ccnl/pubblici-esercizi/');
+  const sezioni=html.split('<section class="ccnl-sezione"').slice(1);
+  assert.equal(sezioni.length,3);
+  const link=s=>[...s.matchAll(/<th scope="row"><a href="([^"]+)">([^<]+)<\/a><\/th>/g)];
+  const generale=link(sezioni.find(s=>s.startsWith(' id="generale"')));
+  assert.deepEqual(generale.map(m=>m[1]),['3','4','5','6'].map(n=>`../../minimi-ccnl/turismo/${n}-livello/`));
+  for(const [,href] of generale)assert.ok(ROTTE.includes(new URL(href,`${ORIGIN}/minimi-ccnl/pubblici-esercizi/`).pathname),href);
+  for(const s of sezioni.filter(s=>!s.startsWith(' id="generale"')))assert.equal(link(s).length,0);
+  /* nessuna pagina propria, nessuna carta «Approfondisci un livello» */
+  assert.equal(ROTTE.filter(r=>r.startsWith('/minimi-ccnl/pubblici-esercizi/')&&r!=='/minimi-ccnl/pubblici-esercizi/').length,0);
+  assert.doesNotMatch(html,/Approfondisci un livello/);
+});
