@@ -59,3 +59,25 @@ test('la tredicesima per mesi lavorati distingue la ritenuta di dicembre dal ben
   assert.equal(voce(22500,'somma'),undefined);
   assert.equal(voce(22500,'detrult').importo,1000);
 });
+
+test('le quattro pagine tredicesima hanno title 2026 e date CCNL con fonte per riga',()=>{
+  const {prepare}=require('./genera-articoli');
+  const {pages}=prepare();
+  const pagine=[fs.readFileSync(path.join(__dirname,'calcolo-tredicesima/index.html'),'utf8'),
+    ...['tassazione-tredicesima','tredicesima-mensilita-quanto-arriva','tredicesima-detassata'].map(slug=>pages.get(`/blog/${slug}/`))];
+  for(const html of pagine){
+    assert.match(html.match(/<title>([^<]+)<\/title>/)[1],/2026/);
+    for(const [contratto,data,fonte] of [
+      ['Commercio Confcommercio','24 dicembre 2026','www.confcommercio.it'],
+      ['Metalmeccanico industria','24 dicembre 2026','www.federmeccanica.it'],
+      ['Turismo Federalberghi','ricorrenze natalizie','intranet.federalberghi.it'],
+      ['Pubblici esercizi FIPE','ricorrenze natalizie','www.fipe.it']
+    ]){
+      const row=[...html.matchAll(/<tr>[\s\S]*?<\/tr>/g)].map(m=>m[0]).find(r=>r.includes(contratto));
+      assert.ok(row,contratto);
+      assert.ok(row.includes(data),`${contratto}: ${data}`);
+      assert.ok(row.includes(`https://${fonte}/`),`${contratto}: fonte primaria`);
+    }
+    assert.match(html,/giorno fisso/);
+  }
+});

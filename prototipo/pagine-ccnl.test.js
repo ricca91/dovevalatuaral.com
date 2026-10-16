@@ -292,7 +292,7 @@ test('Commercio: FAQ visibili e schema coerenti, link ai livelli e aggiornamento
   }
   const visibile=uno(html,/<section class="ccnl-faq">([\s\S]*?)<\/section>/g,'FAQ visibili');
   for(const codice of ['3','4','5'])assert.ok(visibile.includes(`commercio/${codice}-livello/`));
-  assert.doesNotMatch(leggi('/minimi-ccnl/metalmeccanico/'),/FAQPage|faq-commercio/);
+  assert.doesNotMatch(leggi('/minimi-ccnl/metalmeccanico/'),/faq-commercio/);
 });
 
 test('RIC-101: FAQ brevi, schema coerente, link ai livelli e aggiornamento per Studi e Cooperative',()=>{
@@ -381,4 +381,40 @@ test('la tabella Pubblici esercizi linka solo i livelli 3-6 «generale» alle pa
   /* nessuna pagina propria, nessuna carta «Approfondisci un livello» */
   assert.equal(ROTTE.filter(r=>r.startsWith('/minimi-ccnl/pubblici-esercizi/')&&r!=='/minimi-ccnl/pubblici-esercizi/').length,0);
   assert.doesNotMatch(html,/Approfondisci un livello/);
+});
+
+test('Metalmeccanico: tre tranche mostrano lordo e netto prima/dopo per tutti i livelli (RIC-98)',()=>{
+  const html=leggi('/minimi-ccnl/metalmeccanico/');
+  for(const decorrenza of ['2026-06-01','2027-06-01','2028-06-01']){
+    const blocco=uno(html,new RegExp(`<section class="ccnl-aumento" data-decorrenza="${decorrenza}">([\\s\\S]*?)</section>`,'g'),decorrenza);
+    const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
+    for(const livello of R.livelli('metalmeccanica-industria-c011',prima)){
+      const riga=uno(blocco,new RegExp(`<tr data-livello="${livello.codice}">([\\s\\S]*?)</tr>`,'g'),livello.codice);
+      for(const alla of [prima,decorrenza]){
+        const composta=R.componiRal({ccnl:'metalmeccanica-industria-c011',livello:livello.codice,alla});
+        const netto=applicaMensilita(calcola(String(composta.ral),{comune:'F205',nucleo:[]}),13).kpi.mediaMensile;
+        assert.ok(testo(riga).includes(eur(composta.baseMensile)));
+        assert.ok(testo(riga).includes(eur(netto)));
+      }
+    }
+  }
+  assert.match(testo(html),/regole fiscali 2026 anche per il 2027 e il 2028/);
+});
+
+
+test('RIC-98: FAQ metalmeccanico visibili, schema e limiti delle stime',()=>{
+  const html=leggi('/minimi-ccnl/metalmeccanico/');
+  assert.match(html,/<time datetime="2026-09-22">22 settembre 2026<\/time>/);
+  const faq=JSON.parse(uno(html,/<script id="faq-metalmeccanico" type="application\/ld\+json">([^<]+)<\/script>/g,'FAQ'));
+  assert.equal(faq['@type'],'FAQPage');
+  assert.equal(faq.mainEntity.length,4);
+  for(const q of faq.mainEntity){
+    assert.ok(testo(html).includes(q.name));
+    assert.ok(testo(html).includes(q.acceptedAnswer.text));
+  }
+  for(const codice of ['d1','c3','a1'])assert.ok(html.includes(`metalmeccanico/livello-${codice}/`));
+  assert.match(testo(html),/salvaguardia IPCA-NEI/);
+  assert.match(testo(html),/superminimo assorbibile/);
+  assert.match(testo(html),/imposta sostitutiva del 5% non applicata/);
+  assert.match(html,/20251122-CCNL-Federmeccanica/);
 });
