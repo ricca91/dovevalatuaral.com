@@ -1,12 +1,12 @@
 ---
 slug: tredicesima-detassata
 titolo: "Tredicesima detassata: quanto vale davvero in euro, nel tuo caso"
-title_seo: "Tredicesima detassata: quanto vale in euro nel tuo caso"
+title_seo: "Tredicesima detassata 2026: quanto vale nel tuo caso"
 description: "La tredicesima detassata non è in vigore: è una proposta. Nell'ipotesi al 15% vale 83,83 € l'anno e solo sotto 16.518 € di RAL. Il conto per ogni fascia."
 query_principale: "tredicesima detassata"
 cluster: "tredicesima"
 data_pubblicazione: 2026-09-24
-data_aggiornamento: 2026-09-27
+data_aggiornamento: 2026-10-16
 cta: "/"
 link_interni: ["/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/confronti-ral/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html", "/calcolo-tredicesima/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
@@ -18,6 +18,19 @@ La **tredicesima detassata** oggi non esiste. Non è una norma in vigore: è una
 > **In breve**: la tredicesima detassata non è legge, quindi sulla mensilità che incasserai a dicembre 2026 non cambia niente. Se passasse l'ipotesi del 15% con il tetto a 15.000 € di reddito, il risparmio sarebbe di 83,83 € l'anno su una RAL di 15.000 €. Sopra la soglia sarebbe zero.
 
 I numeri di questa pagina escono dal motore di calcolo del sito. Le ipotesi sono queste: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, regole 2026. Dove la proposta è ancora vaga, lo scrivo invece di riempire il buco.
+
+## Quando arriva la tredicesima 2026? Le date per CCNL
+
+Non c’è un giorno uguale per tutti. Per sapere quando arriva la tredicesima nel 2026, guarda il CCNL indicato in busta paga: anche nello stesso settore possono esserci contratti diversi.
+
+| CCNL | Pagamento nel 2026 | Fonte |
+| --- | --- | --- |
+| Commercio Confcommercio (H011) | 24 dicembre 2026, in coincidenza con la vigilia di Natale | [Art. 220, testo CCNL](https://www.confcommercio.it/documents/20126/3213306/Testo%20CCNL%202019.pdf/6d0afa9a-89c1-ce34-969c-577393206bc7?version=1.0) |
+| Metalmeccanico industria Federmeccanica-Assistal (C011) | Normalmente il 24 dicembre 2026, vigilia di Natale | [Sez. IV, titolo IV, art. 7](https://www.federmeccanica.it/images/files/ccnl/CCNL2021-nostampa.pdf#page=178) |
+| Turismo Federalberghi-Faita (H052) | In occasione delle ricorrenze natalizie di dicembre 2026; nessun giorno fisso indicato | [Art. 160, rinnovo 5 luglio 2024, p. 45](https://intranet.federalberghi.it/pubblicazioni/Documenti%20Generali/ccnl%20turismo%20-%20ipotesi%20di%20accordo%205%20luglio%202024.pdf#page=45) |
+| Pubblici esercizi FIPE (H05Y) | In occasione delle ricorrenze natalizie di dicembre 2026; nessun giorno fisso indicato | [Art. 183, testo FIPE](https://www.fipe.it/2025/03/10/area-lavoro/titolo-vi-trattamento-economico/) |
+
+La tabella riporta la data o il periodo previsto dal contratto, non la data del tuo bonifico. Turismo e pubblici esercizi non fissano un giorno preciso negli articoli citati: chiedi all’ufficio paghe il calendario aziendale. Il calcolatore stima l’importo, non il giorno di accredito. Fonti contrattuali controllate il 16 ottobre 2026.
 
 ## La tredicesima detassata è già legge?
 

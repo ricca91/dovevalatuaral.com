@@ -1,12 +1,12 @@
 ---
 slug: tredicesima-mensilita-quanto-arriva
 titolo: "Tredicesima: quanto ti arriverà, calcolato sul tuo caso"
-title_seo: "Tredicesima mensilità: quanto arriva netto, col conto"
+title_seo: "Tredicesima 2026: quanto arriva e quando, per CCNL"
 description: "Tredicesima mensilità: su 30.000 € di RAL arrivano 1.613,62 € netti a dodici mesi, 857,10 € a sei. Le tabelle per RAL, lordo mensile e mesi lavorati."
 query_principale: "tredicesima mensilità"
 cluster: "tredicesima"
 data_pubblicazione: 2026-10-05
-data_aggiornamento: 2026-10-06
+data_aggiornamento: 2026-10-16
 cta: "/"
 link_interni: ["/calcolo-tredicesima/", "/blog/tassazione-tredicesima/", "/ral-30000-netto/", "/netto-ral.html", "/confronti-ral/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, FPLD ordinario, 13 mensilità salvo dove indicato, regole 2026"
@@ -18,6 +18,19 @@ La **tredicesima mensilità** è una mensilità in più che maturi un dodicesimo
 > **In breve**: la tredicesima mensilità vale una mensilità intera solo se hai lavorato dodici mesi. Altrimenti ti spetta un dodicesimo per ogni mese. Su 30.000 € di RAL sono 1.613,62 € netti a dodici mesi, 857,10 € a sei, 428,55 € a tre. Il lordo è proporzionale ai mesi; il netto quasi, e sotto spiego dove si rompe.
 
 I numeri di questa pagina escono dal motore di calcolo del sito. Le ipotesi sono queste: dipendente privato, Milano, nessun familiare a carico, FPLD ordinario, 13 mensilità salvo dove scritto, regole 2026. Se vuoi il conto sul tuo lordo e sui tuoi mesi, c'è il [calcolatore della tredicesima](/calcolo-tredicesima/).
+
+## Quando arriva la tredicesima 2026? Le date per CCNL
+
+Non c’è un giorno uguale per tutti. Per sapere quando arriva la tredicesima nel 2026, guarda il CCNL indicato in busta paga: anche nello stesso settore possono esserci contratti diversi.
+
+| CCNL | Pagamento nel 2026 | Fonte |
+| --- | --- | --- |
+| Commercio Confcommercio (H011) | 24 dicembre 2026, in coincidenza con la vigilia di Natale | [Art. 220, testo CCNL](https://www.confcommercio.it/documents/20126/3213306/Testo%20CCNL%202019.pdf/6d0afa9a-89c1-ce34-969c-577393206bc7?version=1.0) |
+| Metalmeccanico industria Federmeccanica-Assistal (C011) | Normalmente il 24 dicembre 2026, vigilia di Natale | [Sez. IV, titolo IV, art. 7](https://www.federmeccanica.it/images/files/ccnl/CCNL2021-nostampa.pdf#page=178) |
+| Turismo Federalberghi-Faita (H052) | In occasione delle ricorrenze natalizie di dicembre 2026; nessun giorno fisso indicato | [Art. 160, rinnovo 5 luglio 2024, p. 45](https://intranet.federalberghi.it/pubblicazioni/Documenti%20Generali/ccnl%20turismo%20-%20ipotesi%20di%20accordo%205%20luglio%202024.pdf#page=45) |
+| Pubblici esercizi FIPE (H05Y) | In occasione delle ricorrenze natalizie di dicembre 2026; nessun giorno fisso indicato | [Art. 183, testo FIPE](https://www.fipe.it/2025/03/10/area-lavoro/titolo-vi-trattamento-economico/) |
+
+La tabella riporta la data o il periodo previsto dal contratto, non la data del tuo bonifico. Turismo e pubblici esercizi non fissano un giorno preciso negli articoli citati: chiedi all’ufficio paghe il calendario aziendale. Il calcolatore stima l’importo, non il giorno di accredito. Fonti contrattuali controllate il 16 ottobre 2026.
 
 ## Come si calcola la tredicesima se non hai lavorato tutto l'anno?
 
@@ -92,7 +105,7 @@ Il confronto qui sopra mette a fianco il bonifico medio dell'anno e quello di di
 
 ## Cos'è la tredicesima, e quando viene pagata?
 
-La tredicesima è retribuzione differita: non un premio, ma una parte del tuo stipendio annuo che maturi mese per mese e incassi a dicembre, prima di Natale. Spetta a chi ha un contratto di lavoro subordinato, anche a tempo determinato e anche part-time. La data esatta la fissa il tuo CCNL, non la legge: va da inizio mese alla vigilia, e non la copro contratto per contratto.
+La tredicesima è retribuzione differita: non un premio, ma una parte del tuo stipendio annuo che maturi mese per mese e incassi a dicembre, prima di Natale. Spetta a chi ha un contratto di lavoro subordinato, anche a tempo determinato e anche part-time. Il periodo di pagamento dipende dal tuo CCNL: nella tabella qui sopra trovi le regole di commercio, metalmeccanico industria, turismo e pubblici esercizi.
 
 Ai pensionati la tredicesima la paga l'INPS, con regole di ritenuta diverse da quelle del lavoro dipendente. Quel caso qui non c'è.
 
