@@ -6,6 +6,8 @@ const Motore=require('./busta-paga');
 const T=require('./busta-paga-tetti');
 
 const ORA=3600000,GIORNO=24*ORA;
+const RIPROVABILI=Object.freeze(['SERVIZIO_NON_DISPONIBILE','RISPOSTA_NON_CONFORME','REPORT_NON_UTILIZZABILE']);
+const TENTATIVI_MAX=3;
 const DURATE=Object.freeze({anteprima:2*GIORNO,report:30*GIORNO,transazione:90*GIORNO});
 const CODICI=Object.freeze({ACCESSO_NON_VALIDO:401,SESSIONE_SCADUTA:410,
   OPERAZIONE_DIVERSA:409,ANALISI_IN_CORSO:202,ANALISI_INTERROTTA:409,
@@ -42,6 +44,7 @@ function anteprima(report){
   return{periodo:a.periodo,totali:Object.fromEntries(['competenze','trattenute','netto'].map(k=>[k,a.totali[k]])),
     estratto:{sourceLabel:v.sourceLabel,sourceAmount:v.sourceAmount,plainExplanation:v.plainExplanation,
       sourceReference:v.sourceReference},
+    guardie:{dropped_bucket:a.guardie?.dropped_bucket||null},
     sezioni:['Riepilogo del cedolino','Le voci spiegate e le loro fonti','Percorso lordo/netto e riconciliazione','Dubbi e dati non individuati']};
 }
 
@@ -91,7 +94,17 @@ function creaServizio({archivio,stripe,ambiente=process.env,adesso=Date.now,
     if(ambiente.BUSTA_PAGA_ATTIVO==='0')errore('SERVIZIO_NON_DISPONIBILE');
     const impronta=crypto.createHmac('sha256',chiave).update(id).update(testo).digest('hex');
     const nuova=await archivio.transazione(id,async(o,salva,contatori)=>{
-      if(o){attivo(o);if(o.impronta!==impronta)errore('OPERAZIONE_DIVERSA');return false;}
+      if(o){
+        attivo(o);
+        if(o.impronta!==impronta)errore('OPERAZIONE_DIVERSA');
+        const riprova=o.stato==='errore'&&RIPROVABILI.includes(o.codice)&&(o.tentativo||0)<TENTATIVI_MAX-1;
+        if(!riprova)return false;
+        // Stesso ordine e stesso testo: una nuova chiamata passa dagli stessi limiti di spesa.
+        await limita('analisi:'+chiamante,5,ORA,contatori);
+        await limita('analisi:globale',Number(ambiente.BUSTA_PAGA_ANALISI_GIORNO)||100,GIORNO,contatori);
+        o.stato='analisi';o.creatoIl=adesso();o.tentativo=(o.tentativo||0)+1;delete o.codice;
+        salva(o);return true;
+      }
       await limita('analisi:'+chiamante,5,ORA,contatori);
       await limita('analisi:globale',Number(ambiente.BUSTA_PAGA_ANALISI_GIORNO)||100,GIORNO,contatori);
       const p=await prezzo(); // Mai spendere per analizzare se non possiamo offrire un acquisto.

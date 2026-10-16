@@ -343,6 +343,9 @@
     }
 
     P.mostra(esito);
+    // Solo la fascia di voci scartate dalle guardie, mai conteggi né contenuto.
+    const fascia=esito.anteprima&&esito.anteprima.guardie&&esito.anteprima.guardie.dropped_bucket;
+    if(fascia)misura('payslip_guards',{dropped_bucket:fascia});
     righe=[];redazione=null;payload.textContent='';legenda.textContent='';
     revisione.hidden=true;consenso.checked=false;
     mostraStato('Il testo è stato elaborato. Puoi recuperare l’anteprima senza una nuova analisi.');

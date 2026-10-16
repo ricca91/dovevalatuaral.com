@@ -6,7 +6,7 @@
       "maxDuration": 10
     },
     "api/busta-paga.js": {
-      "maxDuration": 60
+      "maxDuration": 90
     },
     "api/busta-paga-webhook.mjs": {
       "maxDuration": 30

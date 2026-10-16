@@ -39,6 +39,25 @@ test('sessione interrotta non richiama il motore automaticamente',async()=>{
   const s=scenario();await s.crea();const o=s.archivio.righe.get(idDaToken(s.token));o.stato='analisi';
   s.avanza(130000);await rifiuta(s.crea(),'ANALISI_INTERROTTA');assert.equal(s.chiamate,1);
 });
+test('un errore transitorio del fornitore permette di riprovare lo stesso testo, con tetto ai tentativi',async()=>{
+  let n=0;
+  const s=scenario({analizza:async()=>{n+=1;if(n<3)return{ok:false,codice:'SERVIZIO_NON_DISPONIBILE'};return REPORT;}});
+  await rifiuta(s.crea(),'SERVIZIO_NON_DISPONIBILE');
+  await rifiuta(s.crea(),'SERVIZIO_NON_DISPONIBILE');
+  assert.equal((await s.crea()).stato,'anteprima');assert.equal(n,3);
+  const sempre=scenario({analizza:async()=>({ok:false,codice:'RISPOSTA_NON_CONFORME'})});
+  for(let i=0;i<3;i++)await rifiuta(sempre.crea(),'RISPOSTA_NON_CONFORME');
+  await rifiuta(sempre.crea(),'RISPOSTA_NON_CONFORME');assert.equal(sempre.chiamate,3);
+  const diverso=scenario({analizza:async()=>({ok:false,codice:'SERVIZIO_NON_DISPONIBILE'})});
+  await rifiuta(diverso.crea(),'SERVIZIO_NON_DISPONIBILE');
+  await rifiuta(diverso.servizio.crea(diverso.token,TESTO+' modifica',true,'ip'),'OPERAZIONE_DIVERSA');
+});
+test('l’anteprima espone solo la fascia di voci scartate dalle guardie',async()=>{
+  const r=structuredClone(REPORT);r.analisi.guardie={ricevute:9,scartate:2,dropped_bucket:'11-25'};
+  const s=scenario({analizza:async()=>r}),a=await s.crea();
+  assert.deepEqual(a.anteprima.guardie,{dropped_bucket:'11-25'});
+  assert.ok(!JSON.stringify(a.anteprima.guardie).includes('scartate'));
+});
 test('chiavi diverse e ID ordine non danno accesso incrociato',async()=>{
   const s=scenario(),a=await s.crea();
   for(const token of ['ff'.repeat(32),idDaToken(s.token),a.ordine])
