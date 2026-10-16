@@ -294,3 +294,39 @@ test('Commercio: FAQ visibili e schema coerenti, link ai livelli e aggiornamento
   for(const codice of ['3','4','5'])assert.ok(visibile.includes(`commercio/${codice}-livello/`));
   assert.doesNotMatch(leggi('/minimi-ccnl/metalmeccanico/'),/FAQPage|faq-commercio/);
 });
+
+test('RIC-101: FAQ brevi, schema coerente, link ai livelli e aggiornamento per Studi e Cooperative',()=>{
+  for(const slug of ['studi-professionali','cooperative-sociali']){
+    const html=leggi(`/minimi-ccnl/${slug}/`);
+    assert.match(html,/<time datetime="2026-09-22">/);
+    const schema=JSON.parse(uno(html,/<script id="faq-settore" type="application\/ld\+json">([^<]+)<\/script>/g,'schema settore'));
+    assert.equal(schema['@type'],'FAQPage');
+    assert.equal(schema.mainEntity.length,3);
+    const visible=uno(html,/<section class="ccnl-faq">([\s\S]*?)<\/section>/g,'FAQ');
+    for(const q of schema.mainEntity){
+      assert.ok(testo(visible).includes(q.name));
+      assert.ok(testo(visible).includes(q.acceptedAnswer.text));
+      assert.ok(q.acceptedAnswer.text.length<350);
+    }
+    assert.equal([...visible.matchAll(/<a href="([^"]+)"/g)].length,3);
+    if(slug==='cooperative-sociali')assert.match(visible,/Quanto guadagna un D1\?/);
+  }
+});
+
+test('RIC-101: decorrenze contrattuali e prossimi aumenti con fonte, anche dopo dicembre',()=>{
+  for(const alla of ['2026-10-16','2026-12-01']){
+    const out=fs.mkdtempSync(path.join(os.tmpdir(),'ric101-'));
+    generate(out,{alla});
+    for(const [slug,date,valori] of [
+      ['studi-professionali',['2024-03-01','2024-10-01','2025-10-01','2026-12-01'],['1.706,37 €','1.726,37 €']],
+      ['cooperative-sociali',['2024-02-01','2024-10-01','2025-10-01'],['1.637,57 €']],
+    ]){
+      const html=fs.readFileSync(path.join(out,'minimi-ccnl',slug,'index.html'),'utf8');
+      const timeline=uno(html,/<section class="ccnl-decorrenze">([\s\S]*?)<\/section>/g,'decorrenze');
+      for(const d of date)assert.ok(timeline.includes(`datetime="${d}"`));
+      for(const v of valori)assert.ok(timeline.includes(v));
+      assert.match(timeline,/Fonte.*href=/s);
+      if(slug==='cooperative-sociali')assert.match(timeline,/uilfp.it/);
+    }
+  }
+});
