@@ -1,0 +1,598 @@
+[
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2026-01-01",
+  "dataScadenzaContrattuale": "2028-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2026-01-09",
+  "dataInserimento": "2026-03-17",
+  "dataRicezione": "2026-03-02",
+  "dataPubblicazione": "2026-03-17",
+  "dipendenti": null,
+  "idAccordo": 239734,
+  "idAccordoString": "239734",
+  "idCcnl": 189,
+  "identificativoAccordo": "20983",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "FAILC CONFAIL"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "Non Classificato",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Accordo di rinnovo",
+  "titolo": "Accordo di sottoscrizione per adesione dell'ipotesi di accordo del 10 dicembre 2025 di rinnovo del CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2026-01-01",
+  "dataScadenzaContrattuale": "2028-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2025-12-10",
+  "dataInserimento": "2026-03-17",
+  "dataRicezione": "2026-03-16",
+  "dataPubblicazione": "2026-03-17",
+  "dipendenti": null,
+  "idAccordo": 239733,
+  "idAccordoString": "239733",
+  "idCcnl": 189,
+  "identificativoAccordo": "20982",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "UGL CHIMICI"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "Non Classificato",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Accordo di rinnovo",
+  "titolo": "Ipotesi di Accordo per il rinnovo del CCNL 26 gennaio 2023 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2026-01-01",
+  "dataScadenzaContrattuale": "2028-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2025-12-10",
+  "dataInserimento": "2026-03-17",
+  "dataRicezione": "2026-03-16",
+  "dataPubblicazione": "2026-03-17",
+  "dipendenti": null,
+  "idAccordo": 239732,
+  "idAccordoString": "239732",
+  "idCcnl": 189,
+  "identificativoAccordo": "20981",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "FEMCA CISL",
+   "UILTEC UIL",
+   "FILCTEM CGIL"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "Non Classificato",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Accordo di rinnovo",
+  "titolo": "Ipotesi di Accordo per il rinnovo del CCNL 26 gennaio 2023 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2023-01-01",
+  "dataScadenzaContrattuale": "2025-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2023-02-06",
+  "dataInserimento": "2023-03-15",
+  "dataRicezione": "2023-03-14",
+  "dataPubblicazione": "2023-03-15",
+  "dipendenti": null,
+  "idAccordo": 164922,
+  "idAccordoString": "164922",
+  "idCcnl": 189,
+  "identificativoAccordo": "19977",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "FAILC CONFAIL"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "In Classificazione",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Accordo di rinnovo",
+  "titolo": "Accordo 26 gennaio 2023 di rinnovo del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2023-01-01",
+  "dataScadenzaContrattuale": "2025-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2023-02-02",
+  "dataInserimento": "2023-03-15",
+  "dataRicezione": "2023-03-14",
+  "dataPubblicazione": "2023-03-15",
+  "dipendenti": null,
+  "idAccordo": 164921,
+  "idAccordoString": "164921",
+  "idCcnl": 189,
+  "identificativoAccordo": "19976",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "UGL CHIMICI"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "In Classificazione",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Accordo di rinnovo",
+  "titolo": "Accordo 26 gennaio 2023 di rinnovo del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2023-01-01",
+  "dataScadenzaContrattuale": "2025-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2023-02-02",
+  "dataInserimento": "2023-03-15",
+  "dataRicezione": "2023-03-14",
+  "dataPubblicazione": "2023-03-15",
+  "dipendenti": null,
+  "idAccordo": 164920,
+  "idAccordoString": "164920",
+  "idCcnl": 189,
+  "identificativoAccordo": "19975",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "FEMCA CISL",
+   "UILTEC UIL",
+   "FILCTEM CGIL"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "In Classificazione",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Accordo di rinnovo",
+  "titolo": "Accordo 26 gennaio 2023 di rinnovo del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2019-07-01",
+  "dataScadenzaContrattuale": "2022-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2021-04-12",
+  "dataInserimento": "2021-07-29",
+  "dataRicezione": "2021-07-28",
+  "dataPubblicazione": "2021-07-29",
+  "dipendenti": null,
+  "idAccordo": 138012,
+  "idAccordoString": "138012",
+  "idCcnl": 189,
+  "identificativoAccordo": "19482",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "FEMCA CISL",
+   "UILTEC UIL",
+   "FILCTEM CGIL"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "Pubblicato",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Testo definitivo",
+  "titolo": "Stesura del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2019-07-01",
+  "dataScadenzaContrattuale": "2022-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2021-04-12",
+  "dataInserimento": "2021-07-29",
+  "dataRicezione": "2021-07-28",
+  "dataPubblicazione": "2021-07-29",
+  "dipendenti": null,
+  "idAccordo": 138015,
+  "idAccordoString": "138015",
+  "idCcnl": 189,
+  "identificativoAccordo": "19484",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "FAILC CONFAIL"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "Non Classificato",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Testo definitivo",
+  "titolo": "Stesura del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ },
+ {
+  "ambito": "Contratto collettivo nazionale",
+  "codiceAmbito": "4",
+  "codiceCcnl": "B371",
+  "comparto": null,
+  "comune": [],
+  "dataDecorrenza": "2019-07-01",
+  "dataScadenzaContrattuale": "2022-12-31",
+  "dataScadenzaEconomica": null,
+  "dataStipula": "2021-04-12",
+  "dataInserimento": "2021-07-29",
+  "dataRicezione": "2021-07-28",
+  "dataPubblicazione": "2021-07-29",
+  "dipendenti": null,
+  "idAccordo": 138013,
+  "idAccordoString": "138013",
+  "idCcnl": 189,
+  "identificativoAccordo": "19483",
+  "identificativoRichiestaPud": null,
+  "partiDatorialiFirmatarie": [
+   "FEDERAZIONE GOMMA E PLASTICA"
+  ],
+  "partiSindacaliFirmatarie": [
+   "UGL CHIMICI"
+  ],
+  "provincia": [],
+  "regione": [],
+  "settori": [
+   "B",
+   "B07"
+  ],
+  "settoriDescrizione": [
+   "CHIMICI"
+  ],
+  "sottosettoriDescrizione": [
+   "settore della gomma e della plastica"
+  ],
+  "settoriAteco": [
+   "22",
+   "C",
+   "20"
+  ],
+  "settoriAtecoDescrizione": [
+   "ATTIVITÀ MANIFATTURIERE"
+  ],
+  "sottosettoriAtecoDescrizione": [
+   "Fabbricazione di prodotti chimici",
+   "Fabbricazione di prodotti in gomma e in materie plastiche"
+  ],
+  "sezione": null,
+  "stato": "Acquisito",
+  "statoAA": "Non Classificato",
+  "testo": null,
+  "tipoRicezione": "BACK_OFFICE",
+  "tipologiaAccordo": "Testo definitivo",
+  "titolo": "Stesura del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+  "ultimoAccordoVigente": true,
+  "visibileOnline": true,
+  "utenteAssegnatario": null,
+  "note": null,
+  "settoriAtecoAccordo": [],
+  "settoriAtecoAccordoDescrizione": [],
+  "@search.score": 1.0
+ }
+]
