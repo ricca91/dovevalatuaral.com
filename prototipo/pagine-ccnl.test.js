@@ -18,11 +18,11 @@ const testo=html=>html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
 const uno=(html,re,label)=>{const m=[...html.matchAll(re)];assert.equal(m.length,1,label);return m[0][1];};
 
 test('le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset',()=>{
-  assert.equal(ROTTE.length,52);
+  assert.equal(ROTTE.length,54);
   assert.equal(new Set(ROTTE).size,ROTTE.length);
   const perContratto=Object.fromEntries(CONTRATTI_SEO.map(c=>[c.slug,ROTTE.filter(r=>r.startsWith(`/minimi-ccnl/${c.slug}/`)&&r!==`/minimi-ccnl/${c.slug}/`).length]));
   assert.deepEqual(perContratto,{commercio:8,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:0,
-    multiservizi:4,'studi-professionali':4,'cooperative-sociali':8,dmo:0,'metalmeccanico-confapi':0,
+    multiservizi:4,'studi-professionali':6,'cooperative-sociali':8,dmo:0,'metalmeccanico-confapi':0,
     'grafici-editoriali':0,poligrafici:0,vetro:0});
   for(const rotta of ['/minimi-ccnl/','/minimi-ccnl/commercio/5-livello/','/minimi-ccnl/metalmeccanico/livello-c3/',
     '/minimi-ccnl/cooperative-sociali/livello-d2/','/minimi-ccnl/studi-professionali/4s-livello/'])
@@ -106,7 +106,7 @@ test('ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb 
 
 test('il title delle pagine livello porta il netto mensile della pagina, all’euro, entro 60 caratteri (RIC-99)',()=>{
   const livelli=ROTTE.filter(r=>r.split('/').filter(Boolean).length===3);
-  assert.equal(livelli.length,37);
+  assert.equal(livelli.length,39);
   for(const rotta of livelli){
     const html=leggi(rotta);
     const titolo=uno(html,/<title>([^<]+)<\/title>/g,`${rotta}: title`);
@@ -329,4 +329,16 @@ test('RIC-101: decorrenze contrattuali e prossimi aumenti con fonte, anche dopo 
       if(slug==='cooperative-sociali')assert.match(timeline,/uilfp.it/);
     }
   }
+});
+
+test('Studi professionali: pagine 1° e 5° livello (RIC-100); quadro e 3° super restano fuori',()=>{
+  const base='/minimi-ccnl/studi-professionali/';
+  for(const [slug,nome] of [['1-livello','1°'],['5-livello','5°']]){
+    assert.ok(ROTTE.includes(base+slug+'/'),slug);
+    const html=leggi(base+slug+'/');
+    assert.match(uno(html,/<title>([^<]+)<\/title>/g,slug),new RegExp('^'+nome+' livello (CCNL )?Studi professionali 2026: [\\d.]+ € netti'));
+    assert.doesNotMatch(html,/NaN|undefined/);
+    assert.ok(leggi(base).includes('<th scope="row"><a href="../../minimi-ccnl/studi-professionali/'+slug+'/">'+nome+' livello</a></th>'),'tabella');
+  }
+  for(const slug of ['quadro','q-livello','3s-livello'])assert.ok(!ROTTE.includes(base+slug+'/'),slug);
 });

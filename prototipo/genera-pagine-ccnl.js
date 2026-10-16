@@ -56,7 +56,7 @@ const CONTRATTI_SEO=Object.freeze([
     etichetta:livelloN},
   {id:'studi-professionali-confprofessioni-h442',slug:'studi-professionali',breve:'Studi professionali',
     query:'CCNL Studi professionali',titoloTabella:'CCNL Studi professionali',
-    livelli:['2','3','4','4S'],slugLivello:numerico,etichetta:livelloN},
+    livelli:['1','2','3','4','4S','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'cooperative-sociali-t151',slug:'cooperative-sociali',breve:'Cooperative sociali',
     query:'cooperative sociali',titoloTabella:'CCNL Cooperative sociali',
     livelli:['B1','C1','C2','D1','D2','D3','E1','E2'],slugLivello:lettera,etichetta:livelloL},
