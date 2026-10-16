@@ -332,6 +332,19 @@ check "tetto superato"                      "grep -q -- '--subject .*ATTENZIONE:
 check "non inviare prima del"               "grep -q -- '--subject .*non inviare prima del 2026-11-01' '$FIX/mail.log'"
 check "risposte da leggere"                 "grep -q -- '--subject .*risposte da leggere' '$FIX/mail.log'"
 
+echo "=== caso 22b: link-dono, i solleciti contano nel tetto delle 5 bozze ==="
+azzera
+STUB_REPORT="REPORT_DATA=$OGGI
+REPORT_BOZZE=4
+REPORT_SOLLECITI=2" run link-dono
+check "il prompt: solleciti compresi"       "grep -q 'Al massimo 5 bozze in questo run, solleciti compresi' '$FIX/last-prompt.txt'"
+check "4 nuove + 2 solleciti: oltre il tetto" "grep -q -- '--subject .*ATTENZIONE: 6 bozze, oltre il tetto di 5' '$FIX/mail.log'"
+azzera
+STUB_REPORT="REPORT_DATA=$OGGI
+REPORT_BOZZE=3
+REPORT_SOLLECITI=2" run link-dono
+check "3 nuove + 2 solleciti: nel tetto"    "! grep -q 'ATTENZIONE' '$FIX/mail.log'"
+
 echo "=== caso 23: DRY_RUN di link-dono -> niente strumenti di scrittura ==="
 azzera
 DRY_RUN=1 STUB_REPORT="$REPORT_DONO" run link-dono

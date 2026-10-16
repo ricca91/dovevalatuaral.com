@@ -7,7 +7,7 @@ senza commit né push: l'agente scrive solo su Airtable e nelle bozze Gmail.
 | Quando (ora di Roma) | Job | Cosa produce |
 |---|---|---|
 | lunedì 07:00 | `link-review` | mail con la revisione (sola lettura) |
-| martedì 07:00 | `link-dono` | al massimo 5 bozze Gmail + Airtable `Bozza pronta`, solleciti |
+| martedì 07:00 | `link-dono` | al massimo 5 bozze Gmail, solleciti compresi + Airtable `Bozza pronta` |
 | primo lunedì del mese 07:05 | `link-fonti` | prospect `Da qualificare` su Airtable |
 | primo lunedì del mese 07:10 | `link-recupero` | link persi e menzioni senza link, al massimo 5 bozze |
 
@@ -141,7 +141,7 @@ LINK_FORZA=1 LINK_ARGS="ccnl=commercio" /root/cron/link/lancia.sh link-dono
 Oggetto con i numeri del blocco `REPORT_`: `link-review AAAA-MM-GG: punto-zero, 0 link nuovi`,
 `link-dono AAAA-MM-GG: 2 bozze, 1 solleciti, non inviare prima del …`, `link-fonti …: 12 prospect su Airtable
 (prompt 24/24)`, `link-recupero …: 0 link persi, 0 menzioni, 0 bozze`. In coda all'oggetto: fonti che non hanno
-risposto, strumenti negati, più di 5 bozze.
+risposto, strumenti negati, più di 5 bozze (per `link-dono` bozze nuove e solleciti insieme).
 
 Corpo: la prosa dell'agente, poi i fatti misurati da `run.sh` (checkout, modello, turni, minuti, costo,
 autenticazione, strumenti negati, avvisi), il blocco `REPORT_` e la riga "verificato da me / non verificato".

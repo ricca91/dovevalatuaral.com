@@ -6,7 +6,8 @@ disable-model-invocation: true
 
 Per ogni prospect da lavorare leggi la sua pagina, controlla ogni cifra sui minimi CCNL contro le fonti primarie,
 e solo se restano almeno due correzioni solide prepara il foglio di correzioni, il netto per livello e una bozza
-Gmail. Prima ancora, gestisci i solleciti delle mail già inviate. Al massimo 5 prospect nuovi per run.
+Gmail. Prima ancora, gestisci i solleciti delle mail già inviate. Al massimo 5 bozze per run, solleciti compresi:
+prima i solleciti, poi i prospect nuovi fino al tetto.
 
 ## Contesto
 
@@ -88,11 +89,15 @@ Prima dei prospect nuovi. Soglia: `node .claude/skills/link-review/misure.mjs da
 - **Follow-up**: se il sollecito è stato inviato, è più vecchio della soglia e non c'è risposta, Stato `Chiuso`.
   Se il sollecito non è ancora partito, niente.
 
+Ogni sollecito è una bozza e conta nel tetto delle 5. Se i solleciti dovuti sono più di 5, fai i primi 5 (Data invio
+più vecchia prima) e scrivi gli altri nel report: restano `Inviata` e li riprende il run dopo.
+
 Fatto quando: ogni record Bozza pronta, Inviata e Follow-up con il thread di link-dono è stato guardato.
 
 ## 2. Quali prospect
 
-`record` se c'è, altrimenti `list_records_for_table` con Stato = Qualificato (e CCNL = `ccnl` se c'è), al massimo 5.
+`record` se c'è, altrimenti `list_records_for_table` con Stato = Qualificato (e CCNL = `ccnl` se c'è). Ne lavori
+fino a riempire il tetto: 5 bozze meno i solleciti creati al passo 1. Con il tetto pieno, nessun prospect nuovo.
 Per ognuno, prima di leggere la pagina:
 
 - **Doppioni.** Se le Note hanno già una bozza di link-dono, o `list_drafts` con `to:<contatto>` ne trova una, salta.
@@ -238,6 +243,7 @@ sola:
     REPORT_NON_PRIMA_DEL=2026-11-01
     REPORT_NOTE=tutto ciò che non è riuscito o che hai assunto, in una riga sola
 
+`REPORT_BOZZE` sono le bozze ai prospect nuovi, `REPORT_SOLLECITI` le bozze di sollecito: insieme non passano 5.
 `REPORT_RECORD` sono i record con una bozza nuova; `REPORT_RISPOSTE` i domini con una risposta da leggere;
 `REPORT_NON_PRIMA_DEL` la data più lontana tra i `nonPrimaDel`, o `nessuna`. Se un valore non lo hai, scrivilo in
 `REPORT_NOTE`: mai inventarlo.

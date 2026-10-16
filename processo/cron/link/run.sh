@@ -82,7 +82,7 @@ case "$JOB" in
     ARGOMENTI="
 - oggi=$(date +%F)
 - invio=$(date +%F)
-- Al massimo 5 bozze di prospect nuovi in questo run (i solleciti sono a parte)."
+- Al massimo 5 bozze in questo run, solleciti compresi: prima i solleciti, poi i prospect nuovi."
     ;;
   link-fonti)
     PERIODO="$(date +%Y-%m)"    # il primo lunedì del mese
@@ -373,10 +373,12 @@ Log: $LOG"
       v="$(campo REPORT_PIANO_REDIRECT)"; [ -n "$v" ] && [ "$v" != "nessuno" ] && OGGETTO+=", piano redirect da applicare"
       ;;
   esac
-  # Il tetto di bozze lo dice la skill; qui lo si controlla sul suo report.
-  B="$(campo REPORT_BOZZE)"
-  if [[ "$B" =~ ^[0-9]+$ ]] && [ "$B" -gt 5 ]; then
-    OGGETTO+=" — ATTENZIONE: $B bozze, oltre il tetto di 5"
+  # Il tetto di bozze lo dice la skill; qui lo si controlla sul suo report. I solleciti sono
+  # bozze anche loro: contano nel tetto (link-recupero non ne fa).
+  B="$(campo REPORT_BOZZE)"; S="$(campo REPORT_SOLLECITI)"
+  [[ "$S" =~ ^[0-9]+$ ]] || S=0
+  if [[ "$B" =~ ^[0-9]+$ ]] && [ $((B + S)) -gt 5 ]; then
+    OGGETTO+=" — ATTENZIONE: $((B + S)) bozze, oltre il tetto di 5"
   fi
   [ -n "$NEGATI_RUN" ] && OGGETTO+=" (strumenti negati)"
 
