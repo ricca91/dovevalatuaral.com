@@ -342,6 +342,35 @@ function idDi(ccnl) {
   return G.CONTRATTI_SEO.find(c => c.slug === ccnl)?.id || R.trovaContratto(ccnl).id;
 }
 
+// Le date arrivano anche dalle Note di Airtable, scritte GG/MM/AAAA.
+function dataIso(data) {
+  const m = String(data).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if (m) return `${m[3]}-${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}`;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(data))) throw new RangeError(`data non valida: ${data}`);
+  return data;
+}
+
+/* Il calendario delle tranche del dataset: le tabelle con decorrenza dopo `dopo` e fino a `fino` compreso, una per
+   contratto e decorrenza, con lo slug del sito. Serve al runner (la settimana dopo una tranche) e alla skill (un
+   prospect in pausa torna lavorabile quando parte una tranche del suo CCNL dopo il giorno del salto). */
+function tranche({dopo, fino, ccnl = null}) {
+  const [da, a] = [dataIso(dopo), dataIso(fino)];
+  const perChiave = new Map();
+  for (const contratto of R.CONTRATTI) {
+    const slug = G.CONTRATTI_SEO.find(c => c.id === contratto.id)?.slug || contratto.id;
+    if (ccnl && ccnl !== slug && ccnl !== contratto.id) continue;
+    const profili = R.sezioni(contratto.id).length ? R.sezioni(contratto.id) : [{id: null, tabelle: contratto.tabelle}];
+    for (const profilo of profili) {
+      for (const tabella of profilo.tabelle.filter(t => t.decorrenza > da && t.decorrenza <= a)) {
+        const chiave = `${tabella.decorrenza} ${slug}`;
+        if (!perChiave.has(chiave)) perChiave.set(chiave, {ccnl: slug, decorrenza: tabella.decorrenza, titolo: tabella.titolo, sezioni: []});
+        if (profilo.id) perChiave.get(chiave).sezioni.push(profilo.id);
+      }
+    }
+  }
+  return [...perChiave.values()].sort((x, y) => x.decorrenza.localeCompare(y.decorrenza) || x.ccnl.localeCompare(y.ccnl));
+}
+
 // Cosa sa la fonte, per leggere la pagina del prospect con gli stessi codici di livello e le stesse voci.
 function valori(ccnl, sezione = null) {
   const contratto = R.trovaContratto(ccnl);
@@ -358,7 +387,7 @@ function valori(ccnl, sezione = null) {
   };
 }
 
-module.exports = {classifica, cancello, nettoPrimaDopo, valori};
+module.exports = {classifica, cancello, nettoPrimaDopo, valori, tranche};
 
 const USO = `Uso:
   node processo/link/dono-ccnl.js valori <ccnl> [--sezione <id>]
@@ -368,7 +397,9 @@ const USO = `Uso:
       {"ccnl": "commercio", "sezione": null, "oggi": "AAAA-MM-GG", "invio": "AAAA-MM-GG", "affermazioni": [...]}
       → JSON: affermazioni classificate, decisione del cancello, foglio, fuori, nonPrimaDel, verifica
   node processo/link/dono-ccnl.js netto <ccnl> <prima> <dopo> [--sezione <id>] [--livelli 3,4,5] [--json]
-      → testo del netto per livello da incollare nella mail (JSON con --json)`;
+      → testo del netto per livello da incollare nella mail (JSON con --json)
+  node processo/link/dono-ccnl.js tranche <dopo il> <fino al> [--ccnl <slug>]
+      → JSON: le tranche con decorrenza dopo la prima data e fino alla seconda compresa (AAAA-MM-GG o GG/MM/AAAA)`;
 
 function opzione(argomenti, nome) {
   const i = argomenti.indexOf(nome);
@@ -392,6 +423,9 @@ if (require.main === module) {
     const livelli = opzione(argomenti, '--livelli')?.split(',') || null;
     const risultato = nettoPrimaDopo(idDi(ccnl), {prima, dopo, sezione: opzione(argomenti, '--sezione'), livelli});
     console.log(argomenti.includes('--json') ? JSON.stringify(risultato, null, 2) : risultato.testo);
+  } else if (comando === 'tranche' && argomenti.length >= 2) {
+    const [dopo, fino] = argomenti;
+    console.log(JSON.stringify(tranche({dopo, fino, ccnl: opzione(argomenti, '--ccnl')}), null, 2));
   } else {
     console.error(USO);
     process.exit(2);
