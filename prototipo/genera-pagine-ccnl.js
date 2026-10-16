@@ -114,6 +114,11 @@ function datiContratto(c,alla){
   const conPagina=new Set(c.livelli||[]);
   const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice):null;
   return {seo:c,contratto,rotta:rottaTabella(c),esclusioni:R.ESCLUSIONI[c.id]||[],
+    aumenti:c.slug==='commercio'?['2026-11-01','2027-02-01'].map(decorrenza=>{
+      const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
+      return {decorrenza,righe:R.livelli(c.id,prima).map(livello=>({livello,rotta:rottaDi(livello.codice),
+        prima:stima(c.id,null,livello.codice,prima),dopo:stima(c.id,null,livello.codice,decorrenza)}))};
+    }):[],
     sezioni:profili(c.id).map(p=>({...p,...tabella(c.id,p.sezione,alla,
       !c.sezioneLivelli||c.sezioneLivelli===p.sezione||!p.sezione?rottaDi:null)}))};
 }

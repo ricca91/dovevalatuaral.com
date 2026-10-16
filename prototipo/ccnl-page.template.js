@@ -155,6 +155,39 @@ function tabellaSezione(rotta,d,s){
     <tbody>${righe}</tbody></table></div>`;
 }
 
+function aumentiCommercio(d){
+  if(!d.aumenti.length)return '';
+  return `<section><h2>Aumenti 2026 e 2027: quanto cambia il netto</h2>
+    <p>Il rinnovo del 22 marzo 2024 prevede due ultime tranche: novembre 2026 e febbraio 2027. Gli aumenti sono lordi mensili e variano per livello. Un superminimo assorbibile può ridurre l’aumento effettivo in busta paga.</p>
+    <p>Confronto a parità di condizioni: regole fiscali 2026 anche per febbraio 2027, RAL annualizzata su 14 mensilità. Il netto è una media annua, non il cedolino del mese dell’aumento; non è una previsione della fiscalità 2027.</p>
+    ${d.aumenti.map(a=>`<section class="ccnl-aumento" data-decorrenza="${a.decorrenza}"><h3>Dal ${data(a.decorrenza)}</h3>
+      <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Aumento del ${data(a.decorrenza)} — importi mensili in euro</caption>
+      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
+      <tbody>${a.righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div></section>`).join('')}
+    <p class="small">Fonte degli aumenti: <a href="https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf">accordo di rinnovo, art. 213, pagina 59 del PDF</a>. I totali seguono le tabelle nazionali Filcams, inclusi gli arrotondamenti per livello.</p>
+  </section>
+  <section><h2>Scatti di anzianità e quattordicesima</h2>
+    <p>Sono previsti fino a 10 scatti, uno ogni 3 anni nella stessa azienda o gruppo. Il valore lordo mensile di un singolo scatto è:</p>
+    <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Valore di uno scatto di anzianità</caption><thead><tr><th scope="col">Livello</th><th scope="col">Scatto mensile lordo</th></tr></thead><tbody>${d.sezioni[0].righe.map(r=>`<tr><th scope="row">${esc(r.livello.nome)}</th><td>${eur(r.composta.valoreScatto)}</td></tr>`).join('')}</tbody></table></div>
+    <p>Le mensilità sono 14: dodici ordinarie, tredicesima a Natale e quattordicesima il 1° luglio. La media netta in tabella divide il netto annuo per 14: le mensilità aggiuntive non hanno necessariamente lo stesso netto di quelle ordinarie.</p>
+  </section>`;
+}
+
+function faqCommercio(d){
+  if(!d.aumenti.length)return '';
+  const r=codice=>d.sezioni[0].righe.find(r=>r.livello.codice===codice);
+  const tre=r('3'),quattro=r('4');
+  const faq=[
+    {domanda:'Quanto prende netto il 3° livello CCNL Commercio?',risposta:`Il netto medio stimato è ${eur(tre.nettoMensile)} al mese su 14 mensilità, con minimo lordo di ${eur(tre.composta.baseMensile)}. Il caso è un tempo pieno a Milano senza scatti né superminimo.`,livello:'3'},
+    {domanda:'Cosa cambia tra 4° e 3° livello di Commercio?',risposta:`Il minimo lordo passa da ${eur(quattro.composta.baseMensile)} del 4° livello a ${eur(tre.composta.baseMensile)} del 3°. Il netto dipende anche da comune, anzianità e condizioni personali: il confronto usa lo stesso profilo.`,livello:'4'},
+    {domanda:'Quali sono gli aumenti previsti per il 2026 e il 2027?',risposta:'Al 4° livello sono previsti 35 € lordi mensili dal 1° novembre 2026 e altri 40 € dal 1° febbraio 2027. Gli importi sono riparametrati sugli altri livelli, come mostrano le tabelle prima e dopo.',livello:'4'},
+    {domanda:'Quali sono le fasce di retribuzione nel CCNL Commercio?',risposta:'La tabella nazionale comprende Quadro e livelli dal 1° al 7°, oltre alle due categorie degli operatori di vendita. Sono minimi contrattuali: scatti, superminimo e maggiorazioni possono aumentare la retribuzione.',livello:'5'},
+  ];
+  const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faq.map(f=>({'@type':'Question',name:f.domanda,acceptedAnswer:{'@type':'Answer',text:f.risposta}}))};
+  return `<section class="ccnl-faq"><h2>Domande frequenti sul CCNL Commercio</h2>${faq.map(f=>`<h3>${esc(f.domanda)}</h3><p>${esc(f.risposta)} <a href="${verso(d.rotta,`/minimi-ccnl/commercio/${f.livello}-livello/`)}">Approfondisci il ${f.livello}° livello</a>.</p>`).join('')}</section>
+    <script id="faq-commercio" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
+}
+
 function renderTabella(d){
   const {seo,contratto,sezioni,rotta,alla}=d;
   const conSezioni=sezioni[0].sezione!==null;
@@ -171,11 +204,14 @@ function renderTabella(d){
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
     <h1>${esc(seo.titoloTabella)} 2026: tabelle retributive</h1>
+    ${d.aumenti.length?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
     <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
   ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
+  ${aumentiCommercio(d)}
+  ${faqCommercio(d)}
   ${pagine.length?`<section class="related" aria-labelledby="livelli-titolo"><h2 id="livelli-titolo">Approfondisci un livello</h2><div class="related__grid">${pagine.map(r=>`
     <a class="related-card" href="${verso(rotta,r.rotta)}"><span><b>${esc(seo.etichetta(r.livello))} ${esc(seo.breve)}</b><small>${eur(r.composta.baseMensile)} lordi · ${eur(r.nettoMensile)} netti al mese</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>`).join('')}
   </div></section>`:''}

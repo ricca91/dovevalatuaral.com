@@ -157,3 +157,26 @@ Quando si aggiorna: scaricare il documento della parte firmataria, conservarlo
 in `processo/dati/fonti/` con la data, aggiornare `VERSIONE_DATASET` e
 `verificataIl`, e lasciare che la prova di riconciliazione dica se la
 trascrizione tiene.
+
+## RIC-95 — riscontro del 16 ottobre 2026
+
+Ricontrollati la [pagina della firmataria Filcams](https://www.filcams.cgil.it/page/confcommercio_terziario)
+e l'[accordo di rinnovo 22 marzo 2024](https://ce-mu.it/rapportolavoro/contratti/cms_magazine/uploads/CommercioConfcommercio_AccordoRinnovo_22.3.2024.pdf),
+art. 213, pagina 59 del PDF (pagina stampata 58). Confermate le decorrenze
+1° novembre 2026 e 1° febbraio 2027. I 40 € di febbraio sono riferiti al
+4° livello, non a tutti i livelli; a novembre lo stesso livello aumenta di 35 €.
+Le tabelle nazionali Filcams confermano tutti i totali già trascritti nel dataset.
+
+La tabella dell'accordo esprime l'aumento parametrico: al 1° livello indica
+62,55 € a febbraio e al 6° 32,45 €. La tabella Filcams aggiornata riporta
+invece 62,56 € e 32,44 €: si conservano i totali Filcams e si mostrano come
+incrementi le differenze fra i totali, evitando di alterare di un centesimo le
+retribuzioni pubblicate. Nessun dato del dataset è stato cambiato.
+
+La stessa scheda Filcams conferma 10 scatti triennali, tredicesima a Natale
+e quattordicesima il 1° luglio. Importi degli scatti già documentati sopra.
+Il netto prima/dopo è calcolato dal motore su ciascuna RAL annualizzata,
+con profilo identico e regole fiscali 2026 anche per la tranche 2027:
+è un confronto a fiscalità costante, non una stima delle future regole fiscali
+né del cedolino del mese di decorrenza. Restano fuori scatti e superminimi;
+l'assorbibilità del superminimo può ridurre l'aumento effettivo.

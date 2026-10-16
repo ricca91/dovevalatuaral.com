@@ -243,3 +243,36 @@ test('hub: il Vetro è segnalato come copertura parziale, fuori dai confronti di
   assert.equal((html.match(/Copertura parziale/g)||[]).length,1);
   assert.match(testo(html),/Per il CCNL Vetro la cifra annua è una base tabellare parziale e non va confrontata con la RAL degli altri contratti/);
 });
+
+test('Commercio: entrambe le tranche mostrano lordo e netto prima/dopo per tutti i livelli (RIC-95)',()=>{
+  const html=leggi('/minimi-ccnl/commercio/');
+  for(const decorrenza of ['2026-11-01','2027-02-01']){
+    const blocco=uno(html,new RegExp(`<section class="ccnl-aumento" data-decorrenza="${decorrenza}">([\\s\\S]*?)</section>`,'g'),decorrenza);
+    const prima=decorrenza==='2026-11-01'?'2026-10-31':'2027-01-31';
+    for(const livello of R.livelli('terziario-confcommercio-h011',prima)){
+      const riga=uno(blocco,new RegExp(`<tr data-livello="${livello.codice}">([\\s\\S]*?)</tr>`,'g'),livello.codice);
+      for(const alla of [prima,decorrenza]){
+        const composta=R.componiRal({ccnl:'terziario-confcommercio-h011',livello:livello.codice,alla});
+        const netto=applicaMensilita(calcola(String(composta.ral),{comune:'F205',nucleo:[]}),14).kpi.mediaMensile;
+        assert.ok(testo(riga).includes(eur(composta.baseMensile)));
+        assert.ok(testo(riga).includes(eur(netto)));
+      }
+    }
+  }
+  assert.match(testo(html),/regole fiscali 2026 anche per febbraio 2027/);
+});
+
+test('Commercio: FAQ visibili e schema coerenti, link ai livelli e aggiornamento (RIC-95)',()=>{
+  const html=leggi('/minimi-ccnl/commercio/');
+  assert.match(html,/<time datetime="2026-09-22">22 settembre 2026<\/time>/);
+  const faq=JSON.parse(uno(html,/<script id="faq-commercio" type="application\/ld\+json">([^<]+)<\/script>/g,'FAQ'));
+  assert.equal(faq['@type'],'FAQPage');
+  assert.equal(faq.mainEntity.length,4);
+  for(const q of faq.mainEntity){
+    assert.ok(testo(html).includes(q.name));
+    assert.ok(testo(html).includes(q.acceptedAnswer.text));
+  }
+  const visibile=uno(html,/<section class="ccnl-faq">([\s\S]*?)<\/section>/g,'FAQ visibili');
+  for(const codice of ['3','4','5'])assert.ok(visibile.includes(`commercio/${codice}-livello/`));
+  assert.doesNotMatch(leggi('/minimi-ccnl/metalmeccanico/'),/FAQPage|faq-commercio/);
+});
