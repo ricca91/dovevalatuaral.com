@@ -53,3 +53,8 @@ test('il form usa i componenti del design system',()=>{
   assert.match(html,/<fieldset class="modi"><legend class="label">Parto da<\/legend><div class="segmented">/);
   assert.match(html,/<p class="error-text" id="importo-errore"/);
 });
+
+test('il title 2026 della tredicesima resta sotto 60 caratteri',()=>{
+  const title=html.match(/<title>([^<]+)<\/title>/)[1];
+  assert.ok(title.length<60,`${title.length} caratteri: ${title}`);
+});
