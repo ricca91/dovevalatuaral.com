@@ -29,7 +29,9 @@ const livelloL=l=>`Livello ${l.codice}`;
 
 const CONTRATTI_SEO=Object.freeze([
   {id:'terziario-confcommercio-h011',slug:'commercio',breve:'Commercio',query:'CCNL Commercio',
-    titoloTabella:'CCNL Commercio',livelli:['2','3','4','5'],slugLivello:numerico,etichetta:livelloN},
+    titoloTabella:'CCNL Commercio',livelli:['Q','1','2','3','4','5','6','7'],
+    slugLivello:codice=>codice==='Q'?'quadro':numerico(codice),
+    etichetta:l=>l.codice==='Q'?l.nome:livelloN(l)},
   {id:'metalmeccanica-industria-c011',slug:'metalmeccanico',breve:'Metalmeccanico',query:'metalmeccanico',
     titoloTabella:'CCNL Metalmeccanico',livelli:['D1','D2','C1','C2','C3','B1','B2','B3','A1'],
     slugLivello:lettera,etichetta:livelloL},

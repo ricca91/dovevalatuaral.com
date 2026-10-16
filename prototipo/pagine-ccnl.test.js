@@ -18,10 +18,10 @@ const testo=html=>html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
 const uno=(html,re,label)=>{const m=[...html.matchAll(re)];assert.equal(m.length,1,label);return m[0][1];};
 
 test('le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset',()=>{
-  assert.equal(ROTTE.length,48);
+  assert.equal(ROTTE.length,52);
   assert.equal(new Set(ROTTE).size,ROTTE.length);
   const perContratto=Object.fromEntries(CONTRATTI_SEO.map(c=>[c.slug,ROTTE.filter(r=>r.startsWith(`/minimi-ccnl/${c.slug}/`)&&r!==`/minimi-ccnl/${c.slug}/`).length]));
-  assert.deepEqual(perContratto,{commercio:4,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:0,
+  assert.deepEqual(perContratto,{commercio:8,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:0,
     multiservizi:4,'studi-professionali':4,'cooperative-sociali':8,dmo:0,'metalmeccanico-confapi':0,
     'grafici-editoriali':0,poligrafici:0,vetro:0});
   for(const rotta of ['/minimi-ccnl/','/minimi-ccnl/commercio/5-livello/','/minimi-ccnl/metalmeccanico/livello-c3/',
@@ -41,6 +41,24 @@ test('il generatore scrive esattamente le rotte dichiarate',()=>{
     }
   })('minimi-ccnl');
   assert.deepEqual(scritte.sort(),[...ROTTE].sort());
+});
+
+test('Commercio: 1°, 6°, 7° e Quadro hanno pagina, link dalla tabella e sitemap (RIC-96)',()=>{
+  const tabella=leggi('/minimi-ccnl/commercio/');
+  const xml=sitemap();
+  for(const [codice,slug,etichetta] of [
+    ['1','1-livello','1° livello'],['6','6-livello','6° livello'],
+    ['7','7-livello','7° livello'],['Q','quadro','Quadro'],
+  ]){
+    const rotta=`/minimi-ccnl/commercio/${slug}/`;
+    assert.ok(ROTTE.includes(rotta),rotta);
+    const html=leggi(rotta);
+    assert.ok(html.includes(`<h1>${etichetta} CCNL Commercio: minimo, RAL e netto</h1>`),rotta);
+    assert.ok(html.includes(`livello=${codice}"`),`${rotta}: calcolatore`);
+    assert.ok(tabella.includes(`<th scope="row"><a href="../../minimi-ccnl/commercio/${slug}/">${etichetta}</a></th>`),`${rotta}: tabella`);
+    assert.ok(xml.includes(`<loc>${ORIGIN}${rotta}</loc>`),`${rotta}: sitemap`);
+    assert.doesNotMatch(html,/Q° livello/);
+  }
 });
 
 test('gli importi escono dal dataset: riscontro con le tabelle pubblicate',()=>{
@@ -88,7 +106,7 @@ test('ogni pagina ha title, description, H1 e canonical propri, e il breadcrumb 
 
 test('il title delle pagine livello porta il netto mensile della pagina, all’euro, entro 60 caratteri (RIC-99)',()=>{
   const livelli=ROTTE.filter(r=>r.split('/').filter(Boolean).length===3);
-  assert.equal(livelli.length,33);
+  assert.equal(livelli.length,37);
   for(const rotta of livelli){
     const html=leggi(rotta);
     const titolo=uno(html,/<title>([^<]+)<\/title>/g,`${rotta}: title`);
