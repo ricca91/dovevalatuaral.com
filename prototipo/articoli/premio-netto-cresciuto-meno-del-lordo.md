@@ -2,21 +2,22 @@
 slug: premio-netto-cresciuto-meno-del-lordo
 titolo: "Mi hanno dato un premio e il netto è cresciuto meno del lordo"
 title_seo: "Premio di risultato in busta paga: quanto resta netto"
-description: "Con tassazione ordinaria, 2.000 € di premio su una RAL di 30.000 € lasciano 1.086,52 € netti. Con l'imposta sostitutiva all'1% ne lasciano 1.798,04 €."
+description: "Con tassazione ordinaria, 2.000 € di premio su una RAL di 30.000 € lasciano 1.086,52 € netti. Con l'imposta sostitutiva all'1%, senza decontribuzione, ne lasciano 1.798,04 €."
 query_principale: "premio di risultato busta paga"
 cluster: "sintomi"
 data_pubblicazione: 2026-10-14
+data_aggiornamento: 2026-10-16
 cta: "/"
 link_interni: ["/blog/netto-piu-basso-del-mese-scorso/", "/blog/taglio-irpef-effetto-sul-netto/", "/blog/detassazione-straordinari/", "/ral-30000-netto/", "/confronti-ral/"]
-ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
-fonti_verificate: 2026-10-14
+ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, senza decontribuzione del premio"
+fonti_verificate: 2026-10-16
 stato: pubblicato
 ---
-Un **premio di risultato in busta paga** lascia in tasca molto meno del suo lordo, e quanto meno dipende da come è stato tassato. Con la tassazione ordinaria, 2.000 € di premio su una RAL di 30.000 € aggiungono **1.086,52 € netti all'anno**: il 45,67% resta per strada. Con l'imposta sostitutiva all'1% prevista per il 2026 gli stessi 2.000 € ne lasciano **1.798,04 €**. La differenza fra i due regimi, nello stesso caso, è di 711,52 €.
+Un **premio di risultato in busta paga** lascia in tasca molto meno del suo lordo, e quanto meno dipende da come è stato tassato. Con la tassazione ordinaria, 2.000 € di premio su una RAL di 30.000 € aggiungono **1.086,52 € netti all'anno**: il 45,67% resta per strada. Con l'imposta sostitutiva all'1% prevista per il 2026 gli stessi 2.000 € ne lasciano **1.798,04 €**, senza applicare la distinta decontribuzione del premio. La differenza fra i due regimi, nello stesso caso, è di 711,52 €.
 
 > **In breve**: su un premio tassato in modo ordinario non pagano solo contributi e IRPEF. Il premio alza il reddito, e alzando il reddito **riduce le detrazioni** che ti tornavano indietro. È questa terza riga, che nessuno si aspetta, a far crescere il netto meno del lordo.
 
-I numeri di questa pagina escono dal motore di calcolo del sito, con queste ipotesi: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, regole 2026. Il motore calcola l'anno, non la singola busta paga: dove la differenza conta, lo dico.
+I numeri di questa pagina escono dal motore di calcolo del sito, con queste ipotesi: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, regole 2026, senza decontribuzione del premio per coinvolgimento paritetico dei lavoratori. Il motore calcola l'anno, non la singola busta paga: dove la differenza conta, lo dico.
 
 ## Come viene tassato il premio aziendale in busta paga?
 
@@ -78,7 +79,9 @@ Un premio che cade a cavallo di uno di questi punti è il motivo più frequente 
 
 ## Quanto cambia con l'imposta sostitutiva all'1%?
 
-Cambia moltissimo, perché il premio agevolato **non entra nel reddito complessivo** e quindi non intacca le detrazioni. Su 2.000 € lordi restano 1.798,04 €, qualunque sia la RAL di partenza.
+Cambia moltissimo, perché il premio agevolato **non entra nel reddito complessivo** e quindi non intacca le detrazioni. Nelle ipotesi di questa pagina, con IVS al 9,19% e senza decontribuzione, su 2.000 € lordi restano 1.798,04 €. Il conto vale se sono rispettati i requisiti del regime agevolato.
+
+**La tabella assume che non si applichi lo sgravio contributivo per coinvolgimento paritetico dei lavoratori, previsto su una quota di premio fino a 800 € annui.**
 
 | Passaggio | Importo |
 | --- | --- |
@@ -94,9 +97,13 @@ A parità di premio il regime agevolato vale **+711,52 €** su una RAL di 30.00
 
 ## Il premio di risultato è soggetto ai contributi INPS?
 
-Sì, i contributi restano dovuti per intero. L'imposta sostitutiva dell'art. 1 c. 182 della legge 208/2015 sostituisce **l'IRPEF e le addizionali regionale e comunale**, e nient'altro: la norma nomina quelle tre imposte e non i contributi previdenziali. Nel conto qui sopra i 183,80 € di INPS si pagano in entrambi i regimi.
+Di regola sì: l'imposta sostitutiva dell'art. 1 c. 182 della legge 208/2015 sostituisce **l'IRPEF e le addizionali regionale e comunale**, non i contributi previdenziali. Nel conto qui sopra i 183,80 € di INPS si pagano in entrambi i regimi perché l'esempio assume che non si applichi la decontribuzione.
 
-Non è del tutto una cattiva notizia. I contributi non sono una tassa: finanziano la tua pensione, e un premio contributivo pesa sul montante come il resto della retribuzione.
+Esiste però una **distinta agevolazione su una quota di premio fino a 800 € annui per lavoratore**, prevista dall'art. 1 c. 189 della legge 208/2015, modificato dall'art. 55 del DL 50/2017. Richiede il coinvolgimento paritetico dei lavoratori nell'organizzazione del lavoro, i requisiti del premio di risultato e il contratto collettivo aziendale o territoriale depositato. Non basta ricevere un premio: devono essere rispettate anche le condizioni di regolarità contributiva e gli altri obblighi indicati dall'INPS.
+
+Sulla quota agevolata si riduce di 20 punti percentuali l'aliquota IVS del datore ed è esclusa la contribuzione del dipendente oggetto dello sgravio. **Restano dovute le contribuzioni escluse dal beneficio**: la [circolare INPS 104/2018, sezioni 1–2](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?Accessibile=yes&iIDLink=-1&sVirtualURL=/Circolari/Circolare+numero+104+del+18-10-2018.htm) indica, tra le altre, i contributi ai Fondi di solidarietà e il contributo aggiuntivo dell'1%, quando dovuti. Non è quindi un'esenzione totale di ogni contributo.
+
+Lo sgravio comporta anche una corrispondente riduzione del computo ai fini pensionistici. Il premio soggetto a contribuzione ordinaria, invece, alimenta la pensione come il resto della retribuzione.
 
 ## Il premio di produzione è sempre tassato all'1%?
 
@@ -111,13 +118,13 @@ Se anche uno solo manca, la tassazione del premio di risultato torna ordinaria e
 
 ## Qual è la differenza tra premio di risultato e welfare aziendale?
 
-Il premio in denaro paga contributi e un'imposta; il welfare aziendale non paga né l'una né gli altri, ma non arriva in euro. Molti accordi permettono di convertire il premio in beni e servizi: quelle somme escono dal reddito di lavoro dipendente, quindi niente imposta sostitutiva e niente INPS.
+Il premio in denaro di regola paga contributi e un'imposta, salvo la decontribuzione appena descritta; il welfare aziendale non paga né l'una né gli altri, ma non arriva in euro. Molti accordi permettono di convertire il premio in beni e servizi: quelle somme escono dal reddito di lavoro dipendente, quindi niente imposta sostitutiva e niente INPS.
 
 Se convenga dipende da quanto quei beni ti servono davvero, e quel conto qui non lo faccio: il motore non modella il welfare. Con l'aliquota all'1% il vantaggio fiscale della conversione si è assottigliato, mentre il costo resta: rinunci a scegliere come spendere quei soldi.
 
 ## Come si calcola il bonus netto?
 
-Partendo dal regime, non dall'importo. Se il premio è agevolato, togli il 9,19% di contributi e l'1% sul resto: due passaggi, e il risultato non dipende dalla tua RAL.
+Partendo dal regime, non dall'importo. Se il premio è agevolato e valgono le ipotesi dell'esempio — IVS al 9,19% e nessuna decontribuzione — togli il 9,19% di contributi e l'1% sul resto. Se si applica lo sgravio fino a 800 € annui, questo conto non basta: bisogna considerare la quota agevolata e le contribuzioni escluse dal beneficio.
 
 Se è ordinario non esiste una percentuale da applicare. Il netto dipende da dove ti trovi sulla curva delle detrazioni, e lo stesso premio vale 786 € o 1.087 € a seconda del punto di partenza. Il conto completo per importo sta nelle [pagine per RAL](/confronti-ral/), e il caso dei 30.000 € usato qui è in [RAL 30.000 € netti](/ral-30000-netto/).
 
@@ -125,13 +132,15 @@ Se è ordinario non esiste una percentuale da applicare. Il netto dipende da dov
 
 Non posso dirti se la tua busta paga è corretta: posso dirti quale riga guardare e quanto dovrebbe pesare. Nessun consulente del lavoro ha validato questi numeri, che escono da un motore pubblico con le regole 2026 e le ipotesi dichiarate.
 
-Il motore assume aliquota FPLD ordinaria al 9,19% e anno intero lavorato. Non modella l'imposta sostitutiva, il welfare, la ritenuta del singolo mese né il conguaglio. Apprendistato, part time, settori con aliquota contributiva diversa, più datori nello stesso anno: lì le soglie si spostano e qui non le stimo. Le addizionali sono quelle di Milano e della Lombardia.
+Il motore assume aliquota FPLD ordinaria al 9,19% e anno intero lavorato. Gli esempi escludono la decontribuzione fino a 800 € annui per coinvolgimento paritetico: il netto di 1.798,04 € si riferisce al caso senza sgravio. Il motore non modella questa decontribuzione, l'imposta sostitutiva, il welfare, la ritenuta del singolo mese né il conguaglio. Apprendistato, part time, settori con aliquota contributiva diversa, più datori nello stesso anno: lì le soglie si spostano e qui non le stimo. Le addizionali sono quelle di Milano e della Lombardia.
 
 La parte di premio oltre i 5.000 € torna a tassazione ordinaria e paga l'aliquota marginale, con l'effetto sulle detrazioni descritto sopra: il conto di un premio misto non è in queste tabelle.
 
 Se il numero non ti torna, potrebbe valere la pena cercare nel cedolino se il premio compare come voce separata con la sua imposta oppure dentro l'imponibile fiscale del mese. Sono due righe diverse, e distinguono i due conti di questa pagina.
 
 ## Fonti
+
+- INPS, [circolare 104 del 18 ottobre 2018](https://servizi2.inps.it/servizi/Bussola/VisualizzaDoc.aspx?Accessibile=yes&iIDLink=-1&sVirtualURL=/Circolari/Circolare+numero+104+del+18-10-2018.htm), sezioni 1–2 — decontribuzione ex art. 1 c. 189 L. 208/2015, modificato dall’art. 55 DL 50/2017: quota fino a 800 € annui, requisiti contrattuali e deposito, contribuzioni escluse e riduzione del computo pensionistico · verificata il 16 ottobre 2026
 
 - L. 30 dicembre 2025, n. 199, art. 1 c. 9 — imposta sostitutiva all'1% entro 5.000 € sui premi di produttività erogati negli anni 2026 e 2027 ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/ORIGINAL)) · testo originario, verificato il 14 ottobre 2026. La disposizione è abrogata dal D.Lgs. 117/2026, il nuovo testo unico delle imposte sui redditi, che si applica dal 1° gennaio 2027: per il 2026 resta la norma applicabile
 - L. 28 dicembre 2015, n. 208, art. 1 c. 182 — imposta sostitutiva dell'IRPEF e delle addizionali regionale e comunale sui premi di risultato del settore privato, nel testo riportato dall'Agenzia delle Entrate, [circolare 28/E del 15 giugno 2016](https://www.agenziaentrate.gov.it/portale/documents/20143/298189/Circolare+n.+28E+del+15+giugno+2016_CIRCOLARE+N.+28+DEL+15+GIUGNO+2016.pdf/5fc5bdaa-d3fe-dbe7-f6ee-e7eaa839f06a), par. 1 e 1.1.1 · verificata il 14 ottobre 2026
