@@ -11,7 +11,7 @@ cta: "/ccnl-livello.html"
 link_interni: ["/minimi-ccnl/commercio/", "/minimi-ccnl/commercio/quadro/", "/minimi-ccnl/commercio/1-livello/", "/minimi-ccnl/commercio/2-livello/", "/minimi-ccnl/commercio/3-livello/", "/minimi-ccnl/commercio/4-livello/", "/minimi-ccnl/commercio/5-livello/", "/minimi-ccnl/commercio/6-livello/", "/minimi-ccnl/commercio/7-livello/", "/blog/tredicesima-mensilita-quanto-arriva/", "/blog/superminimo-in-busta-paga/"]
 ipotesi_calcolo: "CCNL Terziario, Distribuzione e Servizi (Confcommercio), minimi tabellari prima e dopo il 1° novembre 2026 e il 1° febbraio 2027, 14 mensilità, nessuno scatto, nessun superminimo, tempo pieno; dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario; regole fiscali 2026 applicate anche alla tranche 2027 e imposta sostitutiva del 5% non applicata; netto medio = netto annuo diviso 14"
 fonti_verificate: 2026-10-16
-stato: bozza
+stato: pubblicato
 ---
 L'**aumento del CCNL Commercio** dal 1° novembre 2026 porta il minimo tra 24,31 € e 60,76 € lordi al mese in più, a seconda del livello. Al **3° livello** sono 40,47 € lordi, cioè **24,06 € netti al mese**, da 1.578,75 € a 1.602,81 €. Al **4° livello**, quello su cui il contratto fissa i 35,00 €, gli aumenti lordi sono 35,00 € ma i netti solo **7,84 €**: ti spiego sotto perché. La tranche successiva arriva il 1° febbraio 2027.
 
