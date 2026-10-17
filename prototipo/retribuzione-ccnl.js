@@ -1647,7 +1647,7 @@
     tabelle:tabelleChimico(),
   };
   const ESCLUSIONI_CHIMICO=[
-    'Solo il settore chimico e chimico-farmaceutico: fibre chimiche, abrasivi, lubrificanti e GPL hanno tabelle proprie (e i lubrificanti e il GPL una quattordicesima), non pubbliche per il 2025–2028 nelle fonti accessibili. Coibenti e cere e lumini hanno accordi separati.',
+    'Copre solo il settore chimico e chimico-farmaceutico. Lo stesso contratto (codice CNEL B011) vale anche per fibre chimiche, abrasivi, lubrificanti e GPL, che hanno tabelle proprie (e i lubrificanti e il GPL una quattordicesima) non pubbliche per il 2025–2028 nelle fonti accessibili: per questi settori la cifra mostrata non vale. Coibenti e cere e lumini hanno accordi separati.',
     'Scatti di anzianità: aboliti dal 1° gennaio 2010 (art. 17). Gli importi maturati fino al 31/12/2009 sono congelati come superminimo individuale non assorbibile: se ne hai, sommali nel superminimo.',
     'Elemento aggiuntivo della retribuzione (EAR, 190 € categoria A e 100 € categoria B): incluso, ma è assorbibile dal superminimo individuale; con un superminimo l’assorbimento non è simulato e le due voci si sommano.',
     'Orario: i giornalieri e i turnisti hanno un orario medio di 37 ore e 45 minuti (art. 8 B), realizzato con riduzioni annue; la retribuzione mensile non cambia e per il tempo pieno si lascia 40 ore.',

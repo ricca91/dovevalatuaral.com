@@ -472,7 +472,13 @@ ogni tre, decorrenza dal primo giorno del mese in cui matura, anzianità sospesa
 `sospensioni`), con default che lasciano identici tutti gli altri contratti. Il tetto diverso dei
 quadri di 3° e 4° livello (7 scatti invece di 8, contati dalla nomina) non è diventato una
 quarta regola: sono due sezioni sulla stessa tabella con `codiciLivello`, che il modello sapeva
-già fare.
+già fare. La quarta regola è arrivata con la review, e dice dove il modello smette: chi era in
+servizio al 19 dicembre 1994 conserva fino a 12 scatti con regole non modellate, e una data così
+vecchia dava 8 scatti senza avviso. Ora la regola dichiara `anzianitaDal` (dal 20 dicembre 1994
+per aree e quadri di 1° e 2° livello) e una data precedente ferma il calcolo con il motivo,
+mentre il numero dichiarato a mano resta possibile. Una variante non documentata non si espone
+come supportata. Cadenza, decorrenza, periodi sospesi e soglia si scrivono in un punto solo
+(`descrizioneScatti`), per la pagina e per le tabelle dei minimi.
 
 **L'orario che cambia nel tempo non entra nel modello.** Fino al 2025 il tempo pieno ABI era
 di 37 ore e mezza, poi di 37, e la base del part-time è passata a 37 solo dal 2026. Invece di
@@ -488,13 +494,23 @@ mensilità via URL, per un settore di nicchia: la sezione è dichiarata per le a
 dipendenti e la riduzione sta nelle esclusioni. Gli scatti del chimico, aboliti dal 2010, sono
 `assenti`; quelli congelati come superminimo li indica chi li ha.
 
+**Il chimico copre un settore, non tutto il suo codice.** Il CCNL B011 vale anche per fibre
+chimiche, abrasivi, lubrificanti e GPL, che hanno tabelle proprie (e i lubrificanti e il GPL una
+quattordicesima) non pubbliche per il 2025–2028. Il dataset copre il settore chimico e
+chimico-farmaceutico e dice, fra le esclusioni del contratto, che per gli altri settori dello
+stesso codice la cifra non vale: è una lacuna del perimetro, non un'approssimazione.
+
 **Una fonte a riproduzione riservata non entra nell'archivio.** Il consolidato del CCNL
 gomma-plastica letto per scatti, tredicesima e part-time porta «copia riservata a» un'azienda
-cliente: è citato con titolo, URL e pagine lette, non copiato in `processo/dati/fonti/`.
+cliente: è citato con titolo, URL e pagine lette, non copiato in `processo/dati/fonti/`. Dopo la
+review non serve più come fonte: le stesse letture sono state rifatte sui depositi CNEL
+dell'ipotesi 2025, del rinnovo 2023 e della stesura 2020, archiviati, e coincidono.
 
-**Le pagine SEO crescono di una tabella per contratto, non di un livello.** Il RIC-59 vuole
-una tabella per ogni contratto del dataset e pagine per livello solo dove la domanda è misurata:
-cinque tabelle nuove, nessuna pagina per livello. Gli slug seguono la formulazione più cercata
+**Le pagine SEO crescono di una tabella per contratto, non di un livello.** Una tabella per ogni
+contratto del dataset la impone la prova «Tabelle per tutti i contratti del dataset» di
+`prototipo/pagine-ccnl.test.js`, introdotta il 22 settembre 2026 (ebd76e2) sul dataset del gruppo
+1, non la spec del RIC-59; le pagine per livello, dal RIC-59, esistono solo dove la domanda è
+misurata: cinque tabelle nuove, nessuna pagina per livello. Gli slug seguono la formulazione più cercata
 (DataForSEO, 16 ottobre 2026): «ccnl metalmeccanico artigiano», non «area meccanica»;
 «industria alimentare»; «chimico farmaceutico»; «gomma plastica»; «bancari», non «credito» né
 «abi».
