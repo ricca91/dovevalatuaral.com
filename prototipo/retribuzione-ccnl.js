@@ -1280,8 +1280,159 @@
 
   /* --- AREA MECCANICA — ARTIGIANATO, C030 ---------------------- */
 
-  const AREA_MECCANICA=null;
-  const ESCLUSIONI_AREA_MECCANICA=[];
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-area-meccanica.md.
+
+     Il testo vigente è il CCNL Area Meccanica del 19 novembre 2024
+     (decorrenza 1° gennaio 2023, scadenza 31 dicembre 2026, poi
+     ultrattività: art. 2), nel deposito CNEL, con le tabelle uguali a
+     quelle del verbale integrativo del 25 novembre 2024. Quattro sezioni
+     con tabelle e scatti propri: metalmeccanica e installazione di
+     impianti (nella quale è confluita l'autoriparazione), orafi,
+     odontotecnica, restauro. Quattro tranche per tutte (art. 29, p. 89):
+     1° dicembre 2024, 1° luglio 2025, 1° marzo 2026 e 1° novembre 2026,
+     l'ultima già firmata.
+
+     Retribuzione a voce unica («retribuzione tabellare», conglobata dal
+     2011) su 13 mensilità (artt. 29 bis e 29 ter) e 40 ore (art. 18). Il
+     totale stampato è la sola tabellare. Le indennità fisse nazionali
+     stanno dove il livello coincide con la qualifica come voci del
+     livello (70 € al 1Q di metalmeccanica e orafi, 50 € al QS del
+     restauro), e dove dipendono dalla funzione come profili (50 € di
+     funzioni direttive al livello 1 di metalmeccanica e orafi, I.R.S. di
+     100 € al tecnico del restauro senior, livello 4): art. 22 e note alle
+     tabelle. Gli scatti sono in cifra fissa per livello e per sezione,
+     biennali, massimo 5; il 1Q prende quello del livello 1 (art. 22). */
+  const fonteAreaMeccanica=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
+    verificataIl:'2026-10-16'});
+  const DATE_AREA_MECCANICA=['2024-12-01','2025-07-01','2026-03-01','2026-11-01'];
+  const TITOLI_AREA_MECCANICA=['prima tranche, retribuzione tabellare dal 1° dicembre 2024 (art. 29)',
+    'seconda tranche, dal 1° luglio 2025 (art. 29)','terza tranche, dal 1° marzo 2026 (art. 29)',
+    'quarta e ultima tranche, dal 1° novembre 2026 (art. 29)'];
+  const ID_METALMECCANICA='metalmeccanica-impianti';
+  const ID_ORAFI='orafi';
+  const ID_ODONTOTECNICA='odontotecnica';
+  const ID_RESTAURO='restauro';
+  /* metalmeccanica-impianti: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
+  const LIVELLI_METALMECCANICA_AM=[
+    ['1Q','1Q — Quadro',32.94,[2018.11,2049.51,2080.91,2106.03]],
+    ['1','1',32.94,[2018.11,2049.51,2080.91,2106.03]],
+    ['2','2',29.08,[1877.78,1906.99,1936.2,1959.57]],
+    ['2bis','2 bis',26.13,[1773.08,1800.66,1828.24,1850.31]],
+    ['3','3',24.29,[1704.96,1731.48,1758,1779.22]],
+    ['4','4',21.72,[1606.98,1631.98,1656.98,1676.98]],
+    ['5','5',20.24,[1547.75,1571.83,1595.91,1615.17]],
+    ['6','6',18.4,[1475.92,1498.88,1521.84,1540.21]],
+  ];
+  /* orafi: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
+  const LIVELLI_ORAFI_AM=[
+    ['1Q','1Q — Quadro',33.57,[2019.31,2050.65,2081.99,2107.06]],
+    ['1','1',33.57,[2019.31,2050.65,2081.99,2107.06]],
+    ['2','2',29.79,[1881.34,1910.54,1939.74,1963.1]],
+    ['3','3',24.95,[1712.51,1739.09,1765.67,1786.93]],
+    ['4','4',22.31,[1610.64,1635.64,1660.64,1680.64]],
+    ['5','5',20.68,[1548.78,1572.82,1596.86,1616.09]],
+    ['6','6',18.51,[1468.44,1491.23,1514.02,1532.25]],
+  ];
+  /* restauro: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
+  const LIVELLI_RESTAURO_AM=[
+    ['QS','Quadro Super — restauratore di beni culturali con funzioni di gerente',32.94,[2678.96,2716.72,2754.48,2820.94]],
+    ['Q','Quadro — restauratore di beni culturali con funzioni direttive',32.94,[2678.96,2716.72,2754.48,2820.94]],
+    ['1','1 — restauratore di beni culturali con funzioni di responsabile',29.08,[2515.5,2550.96,2586.42,2648.83]],
+    ['2','2 — restauratore di beni culturali specializzato provetto',26.13,[1934.83,1962.1,1989.37,2037.37]],
+    ['3','3 — restauratore di beni culturali specializzato',24.29,[1798.01,1823.35,1848.69,1893.3]],
+    ['4','4 — tecnico del restauro senior; addetti all’amministrazione o ai servizi',21.72,[1773.55,1798.55,1823.55,1867.55]],
+    ['5','5 — tecnico del restauro junior; tecnici con competenze settoriali; addetti all’amministrazione o ai servizi; operaio qualificato',20.24,[1662.41,1685.84,1709.27,1750.51]],
+    ['6','6 — operaio generico',18.4,[1587.3,1609.67,1632.04,1671.42]],
+  ];
+  /* odontotecnica: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
+  const LIVELLI_ODONTOTECNICA_AM=[
+    ['1S','1S — primo livello super',35.43,[2103.82,2138.11,2172.4,2184.74]],
+    ['1','1',29.95,[1902.71,1933.72,1964.73,1975.89]],
+    ['2','2',27.04,[1802.33,1831.7,1861.07,1871.64]],
+    ['3','3',22.27,[1629.22,1655.77,1682.32,1691.88]],
+    ['4','4',19.84,[1534,1559,1584,1593]],
+    ['5','5',18.14,[1469.14,1493.08,1517.02,1525.64]],
+    ['6','6',16.7,[1413.52,1436.56,1459.6,1467.89]],
+  ];
+
+  /* Voci fisse dove il livello coincide con la qualifica: art. 22 p. 71 e
+     nota sotto la tabella metalmeccanica p. 91 (indennità quadri); nota * al
+     restauro p. 93 (Quadro Super). Per gli orafi vedi le esclusioni. */
+  const INDENNITA_QUADRI_AM=voce('indennitaQuadri','Indennità quadri (art. 22)',70);
+  const FISSE_AREA_MECCANICA={
+    [ID_METALMECCANICA]:{'1Q':INDENNITA_QUADRI_AM},
+    [ID_ORAFI]:{'1Q':INDENNITA_QUADRI_AM},
+    [ID_ODONTOTECNICA]:{},
+    [ID_RESTAURO]:{QS:voce('indennitaFunzioniDirettive','Indennità per funzioni direttive (nota * del restauro)',50)},
+  };
+  /* Profili legati alla funzione: 50 € di funzioni direttive al livello 1
+     (art. 22; nota p. 91) e I.R.S. di 100 € al tecnico del restauro senior
+     (nota ** p. 93), non agli addetti all'amministrazione dello stesso livello. */
+  const FUNZIONI_DIRETTIVE_AM=[{id:'funzioniDirettive',nome:'Impiegato con funzioni direttive',
+    voce:voce('indennitaFunzione','Indennità di funzione (art. 22)',50)}];
+  const PROFILI_AREA_MECCANICA={
+    [ID_METALMECCANICA]:{'1':FUNZIONI_DIRETTIVE_AM},
+    [ID_ORAFI]:{'1':FUNZIONI_DIRETTIVE_AM},
+    [ID_ODONTOTECNICA]:{},
+    [ID_RESTAURO]:{'4':[{id:'tecnicoRestauroSenior',nome:'Tecnico del restauro senior',
+      voce:voce('irs','Indennità di ruolo strategico (I.R.S.)',100)}]},
+  };
+  const tabelleAreaMeccanica=(sezione,livelli)=>DATE_AREA_MECCANICA.map((decorrenza,t)=>
+    tabella(decorrenza,TITOLI_AREA_MECCANICA[t],livelli.map(([codice,nome,scatto,tabellari])=>({
+      codice,nome,
+      voci:[voce('tabellare','Retribuzione tabellare',tabellari[t]),
+        ...(FISSE_AREA_MECCANICA[sezione][codice]?[FISSE_AREA_MECCANICA[sezione][codice]]:[])],
+      totalePubblicato:tabellari[t],vociTotalePubblicato:['tabellare'],scatto,
+      profili:PROFILI_AREA_MECCANICA[sezione][codice]||[]}))));
+
+  const FONTE_AREA_MECCANICA=fonteAreaMeccanica(
+    'CCNL Area Meccanica, testo definitivo, Roma 19 novembre 2024 — art. 29 (tabelle), artt. 22, 24, 28, 29 bis, 29 ter, scatti',
+    'Archivio CNEL, deposito delle parti firmatarie (idAccordo 221687); tabelle uguali al verbale integrativo 25 novembre 2024 (idAccordo 198588)',
+    'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/221687',
+    'processo/dati/fonti/area-meccanica-c030-cnel-testo-definitivo-ccnl-2024-11-19.pdf');
+
+  const AREA_MECCANICA={
+    id:'area-meccanica-artigianato-c030',
+    nome:'Area meccanica — artigianato (metalmeccanica e installazione impianti, orafi, odontotecnica, restauro)',
+    parti:'Confartigianato Autoriparazione, Metalmeccanica di produzione, Impianti, Orafi, Odontotecnici, Restauro; CNA Produzione, Installazione e Impianti, Servizi alla comunità/Autoriparatori, Artistico e tradizionale, Benessere e Sanità–SNO; Casartigiani; CLAAI / FIM-CISL, FIOM-CGIL, UILM-UIL',
+    codiceCnel:'C030',
+    mensilita:13,
+    oreSettimanali:40,
+    scatti:cifraFissa(2,5,'artt. 57 e 64 (metalmeccanica), 70 e 77 (orafi), 70 ultimo comma (restauro), 85 e 94 (odontotecnica) — aumenti periodici di anzianità'),
+    fonte:FONTE_AREA_MECCANICA,
+    notaFonte:'Il testo definitivo è una scansione di 144 pagine: sono state lette a immagine le pagine citate nel dossier, non l’intero testo. Le tabelle coincidono con il verbale integrativo del 25 novembre 2024, con la sintesi UILM e con lavoro-economia.it (minimi del 1° marzo 2026). Mancano le tabelle anteriori al 1° dicembre 2024 (comprendono l’AFAC).',
+    sezioni:[
+      {id:ID_METALMECCANICA,nome:'Metalmeccanica e installazione di impianti',
+        descrizione:'Metalmeccanica di produzione, installazione di impianti, elettronica, ponteggi, progettazione industriale e autoriparazione (art. 1): livelli 1Q, 1, 2, 2 bis, 3–6. L’autoriparazione è confluita in questa sezione e non ha una tabella propria.',
+        scatti:cifraFissa(2,5,'artt. 57 e 64 — aumenti periodici di anzianità, importi per livello'),
+        tabelle:tabelleAreaMeccanica(ID_METALMECCANICA,LIVELLI_METALMECCANICA_AM)},
+      {id:ID_ORAFI,nome:'Orafi, argentieri ed affini',
+        descrizione:'Laboratori orafi, argentieri, bigiotteria, orologeria, incisori, incastonatori e pietre preziose (art. 1): livelli 1Q, 1–6.',
+        scatti:cifraFissa(2,5,'artt. 70 e 77 — aumenti periodici di anzianità, importi per livello'),
+        tabelle:tabelleAreaMeccanica(ID_ORAFI,LIVELLI_ORAFI_AM)},
+      {id:ID_ODONTOTECNICA,nome:'Odontotecnica',
+        descrizione:'Imprese odontotecniche, artigiane e non artigiane (art. 1): livelli 1S, 1–6.',
+        scatti:cifraFissa(2,5,'artt. 85 e 94 — aumenti periodici di anzianità, importi per livello'),
+        tabelle:tabelleAreaMeccanica(ID_ODONTOTECNICA,LIVELLI_ODONTOTECNICA_AM)},
+      {id:ID_RESTAURO,nome:'Restauro di beni culturali',
+        descrizione:'Tutti i datori di lavoro del restauro di beni culturali, anche non artigiani, escluse le imprese edili (art. 1): livelli QS, Q, 1–6.',
+        scatti:cifraFissa(2,5,'art. 70, ultimo comma — aumenti periodici di anzianità, importi per livello'),
+        tabelle:tabelleAreaMeccanica(ID_RESTAURO,LIVELLI_RESTAURO_AM)},
+    ],
+  };
+  const ESCLUSIONI_AREA_MECCANICA=[
+    'Contrattazione regionale (CCRL): l’art. 7 rende obbligatorio, per chi applica il CCNL, anche il contratto regionale, che può aggiungere elementi retributivi fissi propri e cambia da regione a regione. Qui non sono inclusi: la RAL mostrata è la sola base nazionale, e questa cifra può essere più bassa della retribuzione dovuta nella tua regione.',
+    'E.A.R. di 25 € lordi al mese per 13 mensilità (art. 11): è dovuto solo dalle imprese che non aderiscono alla bilateralità artigiana e non versano il contributo. È condizionato, quindi non è nella RAL.',
+    'Contributi a bilateralità (EBNA, FSBA), sanità integrativa San.Arti. e previdenza Fon.Te., e trattenuta «quota contratto» di 30 € (aprile 2025): non sono retribuzione.',
+    'Indennità quadri (70 €) e di funzione (50 €) degli orafi: nel calcolo valgono come per la metalmeccanica, perché l’art. 22 è di parte comune; la nota esplicita sta però solo sotto la tabella metalmeccanica, e l’art. 22 è stampato in coda al paragrafo dell’odontotecnica. Il perimetro per gli orafi poggia su quell’articolo.',
+    'Odontotecnica: l’indennità di 50 € per le funzioni direttive (art. 22) non è assegnata a nessun livello del settore, quindi non è modellata; il calcolo la lascia fuori.',
+    'Livello «Secondo B» delle tabelle degli scatti della metalmeccanica (artt. 57 e 64): è attribuito al livello 2 bis, l’unico intermedio fra 2 e 3; il testo non lo dice in modo esplicito.',
+    'Incidenza delle indennità sulla 13ª: le indennità fisse sono contate su 13 mensilità perché la retribuzione globale di fatto comprende tutte le voci (art. 28); l’art. 22 aggiunge che l’indennità di funzione vale «esclusivamente per la definizione dei nuovi minimi tabellari», frase di senso non univoco.',
+    'Scatti delle norme transitorie: chi aveva maturato il primo scatto prima del 27/11/1997 (metalmeccanica), del 7/10/1998 (orafi) o del 4/12/1998 (odontotecnica) resta nel regime percentuale con importi congelati. Indica tu il numero di scatti, ma il loro valore può essere diverso. Nel passaggio di livello gli scatti maturati si adeguano al valore del livello nuovo.',
+    'Apprendisti (retribuzione in percentuale, scatti di 10 € dal 1° gennaio 2025), AFAC e tabelle anteriori al 1° dicembre 2024: non modellati.',
+    'Maggiorazioni per straordinario, notturno, festivo e turni, reperibilità, trasferte, indennità di maneggio denaro, cottimo e superminimi individuali (il superminimo lo indichi tu).',
+    'Tempo parziale: ogni voce è riproporzionata sull’orario di 40 ore (art. 24); il superminimo che indichi non lo è.',
+  ];
 
   /* --- INDUSTRIA ALIMENTARE, E012 ------------------------------ */
 
@@ -1395,8 +1546,113 @@
 
   /* --- CHIMICO-FARMACEUTICO — INDUSTRIA, B011 ------------------ */
 
-  const CHIMICO=null;
-  const ESCLUSIONI_CHIMICO=[];
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-chimico.md.
+
+     Vale l'ipotesi di rinnovo del 15 aprile 2025 (decorrenza 1° luglio
+     2025, scadenza 30 giugno 2028), sciolta positivamente il 4 giugno
+     2025; la stesura complessiva è stata firmata a luglio 2025. Le
+     tabelle vengono dalla p. 48 dell'ipotesi (colonne Min. e IPO,
+     settore chimico e chimico-farmaceutico); le due tabelle del 2024
+     dall'intesa 8 gennaio 2024 e dal CCNL 13 giugno 2022. Una sola
+     scala di quindici righe (categorie A–F con posizioni
+     organizzative, la A è dei quadri): il minimo è della categoria,
+     l'IPO della posizione, come nei meccanizzati del Vetro. Nessuna
+     sezione: turnisti e giornalieri hanno la stessa tabella mensile.
+
+     Il CCNL non stampa il totale della riga: `totalePubblicato` è null
+     e il totale è derivato. Tutte le voci valgono 13 mensilità (art.
+     21; l'EDR «per il numero di mensilità previste dal CCNL»). Gli
+     scatti di anzianità sono aboliti dal 1° gennaio 2010. L'EDR è 0
+     fino al 30 giugno 2027 (intesa 8 gennaio 2024): nelle tabelle in
+     cui vale zero non c'è la voce. Il part-time si riproporziona su
+     40 ore (art. 3 E punto 5) anche se l'orario medio dei giornalieri
+     è di 37 ore e 45 minuti. */
+  const fonteChimico=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
+    verificataIl:'2026-10-16'});
+  const DATE_CHIMICO=['2024-01-01','2024-07-01','2025-07-01','2025-12-01','2026-07-01','2027-07-01','2028-06-01'];
+  const TITOLI_CHIMICO=[
+    'anticipo dei minimi dell’intesa 8 gennaio 2024, EDR azzerato e assorbito nel minimo',
+    'tranche di luglio 2024 del CCNL 13 giugno 2022 (colonna «previgente» del rinnovo 2025)',
+    'prima tranche del rinnovo 15 aprile 2025 (101 € alla D1, compresi i 20 € residui del CCNL 2022)',
+    'seconda tranche del rinnovo 15 aprile 2025 (20 € alla D1)',
+    'terza tranche del rinnovo 15 aprile 2025 (60 € alla D1)',
+    'quarta tranche del rinnovo 15 aprile 2025 (60 € alla D1) e nuovo EDR',
+    'quinta e ultima tranche del rinnovo 15 aprile 2025 (16 € alla D1)'];
+  /* [riga, minimo e IPO a ognuna delle sette date, EDR dal 1/7/2027] */
+  const RIGHE_CHIMICO=[
+    ['A1',[2496.52,2520.52,2627.52,2648.52,2711.52,2774.52,2793.52],
+      [537.96,547.96,590.96,599.96,626.96,653.96,659.96],39],
+    ['A2',[2496.52,2520.52,2627.52,2648.52,2711.52,2774.52,2793.52],
+      [306.07,313.07,340.07,345.07,360.07,375.07,379.07],34],
+    ['A3',[2496.52,2520.52,2627.52,2648.52,2711.52,2774.52,2793.52],
+      [245.7,250.7,274.7,278.7,291.7,304.7,308.7],33],
+    ['B1',[2304.22,2325.22,2425.22,2444.22,2504.22,2564.22,2581.22],
+      [303.76,308.76,332.76,337.76,350.76,362.76,367.76],32],
+    ['B2',[2304.22,2325.22,2425.22,2444.22,2504.22,2564.22,2581.22],
+      [211.39,215.39,232.39,236.39,245.39,254.39,257.39],30],
+    ['C1',[2054.25,2072.25,2153.25,2169.25,2217.25,2265.25,2278.25],
+      [322.4,328.4,357.4,363.4,380.4,397.4,402.4],28],
+    ['C2',[2054.25,2072.25,2153.25,2169.25,2217.25,2265.25,2278.25],
+      [236.61,241.61,263.61,268.61,281.61,294.61,298.61],27],
+    ['D1',[1900.03,1917.03,1993.03,2008.03,2053.03,2098.03,2111.03],
+      [316.23,322.23,347.23,352.23,367.23,382.23,385.23],26],
+    ['D2',[1900.03,1917.03,1993.03,2008.03,2053.03,2098.03,2111.03],
+      [219.74,223.74,242.74,246.74,258.74,270.74,273.74],25],
+    ['D3',[1900.03,1917.03,1993.03,2008.03,2053.03,2098.03,2111.03],
+      [166.73,169.73,185.73,188.73,197.73,205.73,207.73],24],
+    ['E1',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [249.41,252.41,269.41,272.41,282.41,292.41,294.41],22],
+    ['E2',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [152.27,154.27,164.27,165.27,169.27,173.27,175.27],20],
+    ['E3',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [89.42,89.42,95.42,95.42,97.42,99.42,100.42],19],
+    ['E4',[1717.87,1732.87,1801.87,1815.87,1856.87,1897.87,1909.87],
+      [44.17,44.17,47.17,47.17,48.17,49.17,49.17],19],
+    ['F',[1684.46,1698.46,1767.46,1781.46,1821.46,1861.46,1873.46],
+      [0,0,0,0,0,0,0],18],
+  ];
+  /* Art. 16 del rinnovo 18 dicembre 2009 e art. 15 B1 punto 3 del rinnovo
+     2018: EAR dei quadri (categoria A) e della categoria B, invariato dal
+     1° luglio 2010. */
+  const EAR_CHIMICO={A:190,B:100};
+  const nomeChimico=codice=>codice.length===1?`Categoria ${codice}`
+    :`Categoria ${codice[0]}, posizione organizzativa ${codice[1]}${codice[0]==='A'?' — quadri':''}`;
+  const tabelleChimico=()=>DATE_CHIMICO.map((decorrenza,t)=>tabella(decorrenza,TITOLI_CHIMICO[t],
+    RIGHE_CHIMICO.map(([codice,minimi,ipo,edr])=>({
+      codice,nome:nomeChimico(codice),
+      voci:[voce('minimo','Minimo contrattuale',minimi[t]),
+        ...(ipo[t]?[voce('ipo','Indennità di posizione organizzativa (IPO)',ipo[t])]:[]),
+        ...(EAR_CHIMICO[codice[0]]?[voce('ear','Elemento aggiuntivo della retribuzione (EAR)',
+          EAR_CHIMICO[codice[0]])]:[]),
+        ...(t>=5?[voce('edr','Elemento distinto della retribuzione (EDR)',edr)]:[])],
+      totalePubblicato:null}))));
+
+  const CHIMICO={
+    id:'chimico-farmaceutico-industria-b011',
+    nome:'Chimico-farmaceutico — industria (settore chimico e chimico-farmaceutico)',
+    parti:'Federchimica, Farmindustria / Filctem CGIL, Femca CISL, Uiltec UIL (testo gemello con UGL Chimici, Failc Confail, Fialc Cisal)',
+    codiceCnel:'B011',
+    mensilita:13,
+    oreSettimanali:40,
+    scatti:{tipo:'assenti',articolo:'art. 17 — scatti di anzianità, abrogato dal 1° gennaio 2010 (rinnovo 18 dicembre 2009)'},
+    fonte:fonteChimico('Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025 — trattamento economico, p. 48 (TEM mensile alle diverse scadenze)',
+      'Filctem CGIL, organizzazione sindacale firmataria (stessa ipotesi depositata al CNEL, idAccordo 221298); scioglimento della riserva del 4 giugno 2025 e stesura complessiva di luglio 2025 da Assolombarda',
+      'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
+      'processo/dati/fonti/chimico-b011-ipotesi-rinnovo-2025-04-15-filctem.pdf'),
+    notaFonte:'Il testo coordinato 2025–2028 è riservato e non è stato letto: le tabelle sono quelle dell’ipotesi sciolta (copia Filctem e deposito CNEL identici, riscontrate su leggeinchiaro.it); orario, part-time e tredicesima vengono dal testo del 2006 depositato al CNEL e dai rinnovi successivi.',
+    tabelle:tabelleChimico(),
+  };
+  const ESCLUSIONI_CHIMICO=[
+    'Solo il settore chimico e chimico-farmaceutico: fibre chimiche, abrasivi, lubrificanti e GPL hanno tabelle proprie (e i lubrificanti e il GPL una quattordicesima), non pubbliche per il 2025–2028 nelle fonti accessibili. Coibenti e cere e lumini hanno accordi separati.',
+    'Scatti di anzianità: aboliti dal 1° gennaio 2010 (art. 17). Gli importi maturati fino al 31/12/2009 sono congelati come superminimo individuale non assorbibile: se ne hai, sommali nel superminimo.',
+    'Elemento aggiuntivo della retribuzione (EAR, 190 € categoria A e 100 € categoria B): incluso, ma è assorbibile dal superminimo individuale; con un superminimo l’assorbimento non è simulato e le due voci si sommano.',
+    'Orario: i giornalieri e i turnisti hanno un orario medio di 37 ore e 45 minuti (art. 8 B), realizzato con riduzioni annue; la retribuzione mensile non cambia e per il tempo pieno si lascia 40 ore.',
+    'Part-time: la retribuzione mensile è riproporzionata su 40 ore (art. 3 E, punto 5). Non è inclusa l’indennità annua IPT (art. 3 E, punto 21: ore settimanali × ROL × retribuzione oraria / 40, in dodici quote), che compensa i ROL non goduti ed è sostituibile con la fruizione dei ROL riproporzionati.',
+    'Premio di partecipazione e contrattazione aziendale; nelle imprese senza premio, premio variabile o elemento perequativo (importi condizionati, non inclusi).',
+    'Welfare contrattuale e contributi a carico dell’impresa a Fonchim (2,3% dal 2027) e Faschim: non sono retribuzione. Il «trattamento economico complessivo» di 294 € annunciato per la D1 comprende queste voci: non è un aumento della RAL.',
+    'Maggiorazioni per lavoro eccedente, straordinario, notturno, festivo e a turni, indennità di turno notturno (15,50 € dal 1/7/2027), reperibilità, trasferte.',
+    'Apprendisti (minimo senza IPO, categoria inferiore nel primo periodo), operatori di vendita (elemento retributivo scorporato) e lavoratori discontinui.',
+  ];
 
   /* --- GOMMA, CAVI ELETTRICI E PLASTICA — INDUSTRIA, B371 ------ */
 

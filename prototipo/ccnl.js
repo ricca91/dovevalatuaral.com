@@ -184,6 +184,18 @@
        retribuzione-ccnl.js, un blocco per contratto. */
 
     /* — Area meccanica, artigianato (C030) — */
+    congela({
+      id:'area-meccanica-artigianato-c030',
+      nome:'Area meccanica — artigianato (metalmeccanica e installazione impianti, orafi, odontotecnica, restauro)',
+      parti:'Confartigianato Autoriparazione, Metalmeccanica di produzione, Impianti, Orafi, Odontotecnici, Restauro; CNA Produzione, Installazione e Impianti, Servizi alla comunità/Autoriparatori, Artistico e tradizionale, Benessere e Sanità–SNO; Casartigiani; CLAAI / FIM-CISL, FIOM-CGIL, UILM-UIL',
+      codiceCnel:'C030',
+      mensilita:13,
+      dataRiferimento:'2024-11-19',
+      fonte:{
+        titolo:'CCNL Area Meccanica, testo definitivo, Roma 19 novembre 2024',
+        url:'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/221687',
+      },
+    }),
 
     /* — Industria alimentare (E012) — */
     congela({
@@ -200,6 +212,18 @@
     }),
 
     /* — Chimico-farmaceutico, industria (B011) — */
+    congela({
+      id:'chimico-farmaceutico-industria-b011',
+      nome:'Chimico-farmaceutico — industria (settore chimico e chimico-farmaceutico)',
+      parti:'Federchimica, Farmindustria / Filctem CGIL, Femca CISL, Uiltec UIL (testo gemello con UGL Chimici, Failc Confail, Fialc Cisal)',
+      codiceCnel:'B011',
+      mensilita:13,
+      dataRiferimento:'2025-04-15',
+      fonte:{
+        titolo:'Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025, sciolta il 4 giugno 2025',
+        url:'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
+      },
+    }),
 
     /* — Gomma, cavi elettrici e plastica, industria (B371) — */
     congela({
