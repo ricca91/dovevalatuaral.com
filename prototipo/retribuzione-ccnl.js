@@ -1657,18 +1657,22 @@
 
   /* --- GOMMA, CAVI ELETTRICI E PLASTICA — INDUSTRIA, B371 ------ */
 
-  /* Ipotesi di rinnovo del 10 dicembre 2025, resa efficace dallo
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-gomma-plastica.md.
+
+     Ipotesi di rinnovo del 10 dicembre 2025, resa efficace dallo
      scioglimento positivo della riserva (30 gennaio 2026). Una sola
      scala di dieci livelli e una sola tabella dei minimi (TEM), senza
      sezioni: gomma, plastica e ricostruzione non hanno importi propri.
-     Le quattro tabelle 2026–2028 vengono dall'ipotesi (art. 17 par. A
-     c.3, p. 15), riscontrate da Eutekne, FiscoeTasse e Consulenza
-     Buffetti; le tre 2023–2025 dal CCNL 26 gennaio 2023, letto sul
-     testo consolidato Eutekne, che è a riproduzione riservata e non è
-     archiviato. La fonte non stampa totali: totalePubblicato è null e
-     il totale è derivato. L'unica voce oltre al minimo è l'indennità
-     di funzione dei Quadri (art. 28 c.5), 50,00 € solo sul livello Q,
-     nelle tredici mensilità come gli scatti. */
+     Tutto è letto sui depositi CNEL delle parti firmatarie: le quattro
+     tabelle 2026–2028 sull'ipotesi (art. 17 c.3, p. 31), le tre
+     2023–2025 sull'accordo di rinnovo del 26 gennaio 2023 (art. 17 c.3,
+     p. 15), scatti (art. 23), tredicesima (artt. 25 e 19), part-time
+     (art. 10) e indennità dei Quadri (art. 28 c.5) sulla stesura del
+     CCNL 16 settembre 2020, che i due rinnovi non modificano in questi
+     articoli. La fonte non stampa totali: totalePubblicato è null e il
+     totale è derivato. L'unica voce oltre al minimo è l'indennità di
+     funzione dei Quadri, 50,00 € solo sul livello Q, nelle tredici
+     mensilità come gli scatti (art. 19 c.1–2). */
   const NOME_GOMMA={Q:'Quadri'};
   /* [decorrenza, titolo, minimi di Q, A, B, C, D, E, F, G, H, I] */
   const TABELLE_GOMMA=[
@@ -1699,11 +1703,11 @@
     mensilita:13,
     oreSettimanali:40,
     scatti:cifraFissa(2,5,'art. 23 — scatti di anzianità'),
-    fonte:fonteGruppo2('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17, tabella dei minimi',
-      'testo dell’ipotesi in formato CNEL, riprodotto da Uniolex; efficacia da scioglimento della riserva, Assolombarda 30 gennaio 2026; tabella riscontrata da Eutekne, FiscoeTasse e Consulenza Buffetti',
-      'https://uniolex.com/wp-content/uploads/2026/02/CCNL-Gomma-Plastica-Ipotesi-accordo-di-rinnovo.pdf',
-      'processo/dati/fonti/gomma-plastica-b371-ipotesi-accordo-rinnovo-2025-12-10-uniolex-2026-10-16.pdf'),
-    notaFonte:'Il testo coordinato 2026 e la circolare della Federazione sono riservati e non sono stati letti: le tabelle 2026–2028 sono quelle dell’ipotesi, concordi in quattro fonti; scatti, tredicesima e part-time vengono dal consolidato del CCNL 2023 e dall’ipotesi.',
+    fonte:fonteGruppo2('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17 c.3, tabella dei minimi (p. 31)',
+      'Archivio CNEL, deposito delle parti firmatarie (idAccordo 239732); efficacia da scioglimento della riserva, Assolombarda 30 gennaio 2026; tabella riscontrata da Eutekne, FiscoeTasse e Consulenza Buffetti',
+      'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/239732',
+      'processo/dati/fonti/gomma-plastica-b371-cnel-ipotesi-accordo-rinnovo-2025-12-10.pdf'),
+    notaFonte:'Tabelle, scatti, tredicesima, part-time e indennità dei Quadri sono letti sui depositi CNEL dell’ipotesi 2025, del rinnovo 2023 e della stesura del CCNL 2020. Il testo coordinato 2026 e la circolare della Federazione sono riservati e non sono stati letti.',
     tabelle:TABELLE_GOMMA.map(([decorrenza,titolo,minimi])=>tabella(decorrenza,titolo,
       LIVELLI_GOMMA.map((codice,i)=>({
         codice,nome:NOME_GOMMA[codice]||`Livello ${codice}`,
@@ -1717,7 +1721,8 @@
     'Maggiorazioni per turni, lavoro notturno, festivo e straordinario, cottimo, premi di produzione e di risultato aziendali, aumenti di merito, superminimi e importi ad personam, importi individuali ex art. 17 del CCNL 2 luglio 1992 e scatti congelati al 30 giugno 1980: il superminimo lo indichi tu.',
     'Passaggio di livello (art. 23 c.4): l’importo degli scatti maturati si conserva e si divide per lo scatto del livello nuovo. Il calcolo valorizza tutti gli scatti al livello attuale: se hai cambiato livello, indica tu il numero di scatti.',
     'Livello I: dal 1° dicembre 2028 è eliminato nelle aree produzione e funzioni integrate trasversali (posizioni riclassificate nel livello H), ma la tabella lo riporta ancora e il calcolo lo mantiene.',
-    'Limiti delle fonti: scatti (art. 23), tredicesima (art. 25) e part-time (art. 10) sono letti sul testo consolidato del CCNL 2023, non sul testo coordinato 2026, che è riservato e non è stato letto; il part-time è la riproporzione legale sulle 40 ore (D.Lgs. 81/2015 art. 7), senza una formula del contratto per scatti e indennità di funzione. Non è stato letto nemmeno l’accordo del 30 giugno 2026, che modifica solo il Titolo III (previdenza complementare).',
+    'Indennità di funzione dei Quadri (art. 28 c.5, 50,00 € dal 1° settembre 2008): inclusa, ma può assorbire fino a concorrenza il superminimo individuale o indennità aziendali analoghe; con un superminimo l’assorbimento non è simulato e le due voci si sommano.',
+    'Limiti delle fonti: tabelle, scatti (art. 23), tredicesima (art. 25), part-time (art. 10, che rinvia al D.Lgs. 81/2015, art. 7: riproporzione sulle 40 ore) e indennità dei Quadri sono letti sui depositi CNEL dell’ipotesi 2025, del rinnovo 2023 e della stesura del CCNL 2020. Non sono stati letti il testo coordinato 2026, che è riservato e potrebbe precisare questi articoli, e l’accordo del 30 giugno 2026, che modifica solo il Titolo III (previdenza complementare).',
   ];
 
   /* --- CREDITO — ABI, AREE PROFESSIONALI E QUADRI, J241 -------- */
