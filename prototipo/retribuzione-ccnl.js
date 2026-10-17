@@ -389,8 +389,11 @@
     ['7',[963.78,984.77,1005.76,1040.75,1077.14]],
   ];
 
-  const fonte=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-09-22'});
+  /* Una fonte porta la data in cui è stata verificata: un costruttore
+     per data di verifica, uno per gruppo. */
+  const fonteVerificataIl=verificataIl=>(titolo,parte,url,archivio)=>
+    congela({titolo,parte,url,archivio,verificataIl});
+  const fonte=fonteVerificataIl('2026-09-22');
   const cifraFissa=(cadenzaAnni,massimo,articolo,extra={})=>({tipo:'cifraFissa',
     cadenzaAnni,massimo,articolo,
     base:'anzianità di servizio presso la stessa azienda o gruppo aziendale',
@@ -1278,7 +1281,9 @@
      Il Credito ABI è l'unico che ha chiesto regole nuove al modello
      degli scatti: primo scatto dopo un periodo diverso, decorrenza nel
      mese di maturazione, anzianità sospesa (vedi IL CATALOGO).
+     Tutte le fonti del gruppo sono state verificate lo stesso giorno.
      ============================================================ */
+  const fonteGruppo2=fonteVerificataIl('2026-10-16');
 
   /* --- AREA MECCANICA — ARTIGIANATO, C030 ---------------------- */
 
@@ -1304,8 +1309,6 @@
      100 € al tecnico del restauro senior, livello 4): art. 22 e note alle
      tabelle. Gli scatti sono in cifra fissa per livello e per sezione,
      biennali, massimo 5; il 1Q prende quello del livello 1 (art. 22). */
-  const fonteAreaMeccanica=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const DATE_AREA_MECCANICA=['2024-12-01','2025-07-01','2026-03-01','2026-11-01'];
   const TITOLI_AREA_MECCANICA=['prima tranche, retribuzione tabellare dal 1° dicembre 2024 (art. 29)',
     'seconda tranche, dal 1° luglio 2025 (art. 29)','terza tranche, dal 1° marzo 2026 (art. 29)',
@@ -1315,7 +1318,7 @@
   const ID_ODONTOTECNICA='odontotecnica';
   const ID_RESTAURO='restauro';
   /* metalmeccanica-impianti: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_METALMECCANICA_AM=[
+  const LIVELLI_AREA_MECCANICA_METALMECCANICA=[
     ['1Q','1Q — Quadro',32.94,[2018.11,2049.51,2080.91,2106.03]],
     ['1','1',32.94,[2018.11,2049.51,2080.91,2106.03]],
     ['2','2',29.08,[1877.78,1906.99,1936.2,1959.57]],
@@ -1326,7 +1329,7 @@
     ['6','6',18.4,[1475.92,1498.88,1521.84,1540.21]],
   ];
   /* orafi: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_ORAFI_AM=[
+  const LIVELLI_AREA_MECCANICA_ORAFI=[
     ['1Q','1Q — Quadro',33.57,[2019.31,2050.65,2081.99,2107.06]],
     ['1','1',33.57,[2019.31,2050.65,2081.99,2107.06]],
     ['2','2',29.79,[1881.34,1910.54,1939.74,1963.1]],
@@ -1336,7 +1339,7 @@
     ['6','6',18.51,[1468.44,1491.23,1514.02,1532.25]],
   ];
   /* restauro: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_RESTAURO_AM=[
+  const LIVELLI_AREA_MECCANICA_RESTAURO=[
     ['QS','Quadro Super — restauratore di beni culturali con funzioni di gerente',32.94,[2678.96,2716.72,2754.48,2820.94]],
     ['Q','Quadro — restauratore di beni culturali con funzioni direttive',32.94,[2678.96,2716.72,2754.48,2820.94]],
     ['1','1 — restauratore di beni culturali con funzioni di responsabile',29.08,[2515.5,2550.96,2586.42,2648.83]],
@@ -1347,7 +1350,7 @@
     ['6','6 — operaio generico',18.4,[1587.3,1609.67,1632.04,1671.42]],
   ];
   /* odontotecnica: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_ODONTOTECNICA_AM=[
+  const LIVELLI_AREA_MECCANICA_ODONTOTECNICA=[
     ['1S','1S — primo livello super',35.43,[2103.82,2138.11,2172.4,2184.74]],
     ['1','1',29.95,[1902.71,1933.72,1964.73,1975.89]],
     ['2','2',27.04,[1802.33,1831.7,1861.07,1871.64]],
@@ -1359,22 +1362,26 @@
 
   /* Voci fisse dove il livello coincide con la qualifica: art. 22 p. 71 e
      nota sotto la tabella metalmeccanica p. 91 (indennità quadri); nota * al
-     restauro p. 93 (Quadro Super). Per gli orafi vedi le esclusioni. */
-  const INDENNITA_QUADRI_AM=voce('indennitaQuadri','Indennità quadri (art. 22)',70);
+     restauro p. 93 (Quadro Super). Gli orafi le hanno per l'art. 22, che è di
+     parte comune: p. 69 lo apre con le regole di tutti e quattro i settori, e
+     il paragrafo «Lavoratori con funzioni direttive» (p. 71, «Quadri € 70.00;
+     Impiegati con funzioni direttive € 50.00») non sta sotto la voce di un
+     settore, odontotecnica compresa. */
+  const INDENNITA_QUADRI_AREA_MECCANICA=voce('indennitaQuadri','Indennità quadri (art. 22)',70);
   const FISSE_AREA_MECCANICA={
-    [ID_METALMECCANICA]:{'1Q':INDENNITA_QUADRI_AM},
-    [ID_ORAFI]:{'1Q':INDENNITA_QUADRI_AM},
+    [ID_METALMECCANICA]:{'1Q':INDENNITA_QUADRI_AREA_MECCANICA},
+    [ID_ORAFI]:{'1Q':INDENNITA_QUADRI_AREA_MECCANICA},
     [ID_ODONTOTECNICA]:{},
     [ID_RESTAURO]:{QS:voce('indennitaFunzioniDirettive','Indennità per funzioni direttive (nota * del restauro)',50)},
   };
   /* Profili legati alla funzione: 50 € di funzioni direttive al livello 1
      (art. 22; nota p. 91) e I.R.S. di 100 € al tecnico del restauro senior
      (nota ** p. 93), non agli addetti all'amministrazione dello stesso livello. */
-  const FUNZIONI_DIRETTIVE_AM=[{id:'funzioniDirettive',nome:'Impiegato con funzioni direttive',
+  const FUNZIONI_DIRETTIVE_AREA_MECCANICA=[{id:'funzioniDirettive',nome:'Impiegato con funzioni direttive',
     voce:voce('indennitaFunzione','Indennità di funzione (art. 22)',50)}];
   const PROFILI_AREA_MECCANICA={
-    [ID_METALMECCANICA]:{'1':FUNZIONI_DIRETTIVE_AM},
-    [ID_ORAFI]:{'1':FUNZIONI_DIRETTIVE_AM},
+    [ID_METALMECCANICA]:{'1':FUNZIONI_DIRETTIVE_AREA_MECCANICA},
+    [ID_ORAFI]:{'1':FUNZIONI_DIRETTIVE_AREA_MECCANICA},
     [ID_ODONTOTECNICA]:{},
     [ID_RESTAURO]:{'4':[{id:'tecnicoRestauroSenior',nome:'Tecnico del restauro senior',
       voce:voce('irs','Indennità di ruolo strategico (I.R.S.)',100)}]},
@@ -1387,7 +1394,7 @@
       totalePubblicato:tabellari[t],vociTotalePubblicato:['tabellare'],scatto,
       profili:PROFILI_AREA_MECCANICA[sezione][codice]||[]}))));
 
-  const FONTE_AREA_MECCANICA=fonteAreaMeccanica(
+  const FONTE_AREA_MECCANICA=fonteGruppo2(
     'CCNL Area Meccanica, testo definitivo, Roma 19 novembre 2024 — art. 29 (tabelle), artt. 22, 24, 28, 29 bis, 29 ter, scatti',
     'Archivio CNEL, deposito delle parti firmatarie (idAccordo 221687); tabelle uguali al verbale integrativo 25 novembre 2024 (idAccordo 198588)',
     'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/221687',
@@ -1407,26 +1414,25 @@
       {id:ID_METALMECCANICA,nome:'Metalmeccanica e installazione di impianti',
         descrizione:'Metalmeccanica di produzione, installazione di impianti, elettronica, ponteggi, progettazione industriale e autoriparazione (art. 1): livelli 1Q, 1, 2, 2 bis, 3–6. L’autoriparazione è confluita in questa sezione e non ha una tabella propria.',
         scatti:cifraFissa(2,5,'artt. 57 e 64 — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_METALMECCANICA,LIVELLI_METALMECCANICA_AM)},
+        tabelle:tabelleAreaMeccanica(ID_METALMECCANICA,LIVELLI_AREA_MECCANICA_METALMECCANICA)},
       {id:ID_ORAFI,nome:'Orafi, argentieri ed affini',
         descrizione:'Laboratori orafi, argentieri, bigiotteria, orologeria, incisori, incastonatori e pietre preziose (art. 1): livelli 1Q, 1–6.',
         scatti:cifraFissa(2,5,'artt. 70 e 77 — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_ORAFI,LIVELLI_ORAFI_AM)},
+        tabelle:tabelleAreaMeccanica(ID_ORAFI,LIVELLI_AREA_MECCANICA_ORAFI)},
       {id:ID_ODONTOTECNICA,nome:'Odontotecnica',
         descrizione:'Imprese odontotecniche, artigiane e non artigiane (art. 1): livelli 1S, 1–6.',
         scatti:cifraFissa(2,5,'artt. 85 e 94 — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_ODONTOTECNICA,LIVELLI_ODONTOTECNICA_AM)},
+        tabelle:tabelleAreaMeccanica(ID_ODONTOTECNICA,LIVELLI_AREA_MECCANICA_ODONTOTECNICA)},
       {id:ID_RESTAURO,nome:'Restauro di beni culturali',
         descrizione:'Tutti i datori di lavoro del restauro di beni culturali, anche non artigiani, escluse le imprese edili (art. 1): livelli QS, Q, 1–6.',
         scatti:cifraFissa(2,5,'art. 70, ultimo comma — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_RESTAURO,LIVELLI_RESTAURO_AM)},
+        tabelle:tabelleAreaMeccanica(ID_RESTAURO,LIVELLI_AREA_MECCANICA_RESTAURO)},
     ],
   };
   const ESCLUSIONI_AREA_MECCANICA=[
     'Contrattazione regionale (CCRL): l’art. 7 rende obbligatorio, per chi applica il CCNL, anche il contratto regionale, che può aggiungere elementi retributivi fissi propri e cambia da regione a regione. Qui non sono inclusi: la RAL mostrata è la sola base nazionale, e questa cifra può essere più bassa della retribuzione dovuta nella tua regione.',
     'E.A.R. di 25 € lordi al mese per 13 mensilità (art. 11): è dovuto solo dalle imprese che non aderiscono alla bilateralità artigiana e non versano il contributo. È condizionato, quindi non è nella RAL.',
     'Contributi a bilateralità (EBNA, FSBA), sanità integrativa San.Arti. e previdenza Fon.Te., e trattenuta «quota contratto» di 30 € (aprile 2025): non sono retribuzione.',
-    'Indennità quadri (70 €) e di funzione (50 €) degli orafi: nel calcolo valgono come per la metalmeccanica, perché l’art. 22 è di parte comune; la nota esplicita sta però solo sotto la tabella metalmeccanica, e l’art. 22 è stampato in coda al paragrafo dell’odontotecnica. Il perimetro per gli orafi poggia su quell’articolo.',
     'Odontotecnica: l’indennità di 50 € per le funzioni direttive (art. 22) non è assegnata a nessun livello del settore, quindi non è modellata; il calcolo la lascia fuori.',
     'Livello «Secondo B» delle tabelle degli scatti della metalmeccanica (artt. 57 e 64): è attribuito al livello 2 bis, l’unico intermedio fra 2 e 3; il testo non lo dice in modo esplicito.',
     'Incidenza delle indennità sulla 13ª: le indennità fisse sono contate su 13 mensilità perché la retribuzione globale di fatto comprende tutte le voci (art. 28); l’art. 22 aggiunge che l’indennità di funzione vale «esclusivamente per la definizione dei nuovi minimi tabellari», frase di senso non univoco.',
@@ -1456,8 +1462,6 @@
 
      Il 1° settembre 2027 sale solo l'IAR (+11 € sul parametro 138):
      è una tabella in più con i minimi della precedente. */
-  const fonteAlimentare=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const DATE_ALIMENTARE=['2023-12-01','2024-09-01','2025-01-01','2026-01-01','2027-01-01','2027-09-01'];
   const TITOLI_ALIMENTARE=['prima tranche dei minimi e IAR di 55 € (art. 51)',
     'seconda tranche dei minimi','terza tranche dei minimi','quarta tranche dei minimi',
@@ -1508,7 +1512,7 @@
         ?[{id:'quadro',nome:'Quadro',voce:voce('elementoAggiuntivoQuadri',
           'Elemento aggiuntivo dei quadri (art. 51 olearia)',QUADRI_OLEARIA[codice])}]:[]}))));
 
-  const FONTE_ALIMENTARE=fonteAlimentare(
+  const FONTE_ALIMENTARE=fonteGruppo2(
     'CCNL per l’industria alimentare 2023–2027, testo coordinato con il verbale di stesura 28 ottobre 2024 — artt. 51, 52, 53, 54',
     'FAI CISL, organizzazione sindacale firmataria (stesso testo pubblicato da FLAI CGIL)',
     'https://www.faicisl.it/attachments/article/2350/CCNL%20INDUSTRIA%20ALIMENTARE%20%202023-2027%20versione%20web.pdf',
@@ -1569,8 +1573,6 @@
      cui vale zero non c'è la voce. Il part-time si riproporziona su
      40 ore (art. 3 E punto 5) anche se l'orario medio dei giornalieri
      è di 37 ore e 45 minuti. */
-  const fonteChimico=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const DATE_CHIMICO=['2024-01-01','2024-07-01','2025-07-01','2025-12-01','2026-07-01','2027-07-01','2028-06-01'];
   const TITOLI_CHIMICO=[
     'anticipo dei minimi dell’intesa 8 gennaio 2024, EDR azzerato e assorbito nel minimo',
@@ -1637,7 +1639,7 @@
     mensilita:13,
     oreSettimanali:40,
     scatti:{tipo:'assenti',articolo:'art. 17 — scatti di anzianità, abrogato dal 1° gennaio 2010 (rinnovo 18 dicembre 2009)'},
-    fonte:fonteChimico('Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025 — trattamento economico, p. 48 (TEM mensile alle diverse scadenze)',
+    fonte:fonteGruppo2('Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025 — trattamento economico, p. 48 (TEM mensile alle diverse scadenze)',
       'Filctem CGIL, organizzazione sindacale firmataria (stessa ipotesi depositata al CNEL, idAccordo 221298); scioglimento della riserva del 4 giugno 2025 e stesura complessiva di luglio 2025 da Assolombarda',
       'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
       'processo/dati/fonti/chimico-b011-ipotesi-rinnovo-2025-04-15-filctem.pdf'),
@@ -1645,7 +1647,7 @@
     tabelle:tabelleChimico(),
   };
   const ESCLUSIONI_CHIMICO=[
-    'Solo il settore chimico e chimico-farmaceutico: fibre chimiche, abrasivi, lubrificanti e GPL hanno tabelle proprie (e i lubrificanti e il GPL una quattordicesima), non pubbliche per il 2025–2028 nelle fonti accessibili. Coibenti e cere e lumini hanno accordi separati.',
+    'Copre solo il settore chimico e chimico-farmaceutico. Lo stesso contratto (codice CNEL B011) vale anche per fibre chimiche, abrasivi, lubrificanti e GPL, che hanno tabelle proprie (e i lubrificanti e il GPL una quattordicesima) non pubbliche per il 2025–2028 nelle fonti accessibili: per questi settori la cifra mostrata non vale. Coibenti e cere e lumini hanno accordi separati.',
     'Scatti di anzianità: aboliti dal 1° gennaio 2010 (art. 17). Gli importi maturati fino al 31/12/2009 sono congelati come superminimo individuale non assorbibile: se ne hai, sommali nel superminimo.',
     'Elemento aggiuntivo della retribuzione (EAR, 190 € categoria A e 100 € categoria B): incluso, ma è assorbibile dal superminimo individuale; con un superminimo l’assorbimento non è simulato e le due voci si sommano.',
     'Orario: i giornalieri e i turnisti hanno un orario medio di 37 ore e 45 minuti (art. 8 B), realizzato con riduzioni annue; la retribuzione mensile non cambia e per il tempo pieno si lascia 40 ore.',
@@ -1658,20 +1660,22 @@
 
   /* --- GOMMA, CAVI ELETTRICI E PLASTICA — INDUSTRIA, B371 ------ */
 
-  /* Ipotesi di rinnovo del 10 dicembre 2025, resa efficace dallo
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-gomma-plastica.md.
+
+     Ipotesi di rinnovo del 10 dicembre 2025, resa efficace dallo
      scioglimento positivo della riserva (30 gennaio 2026). Una sola
      scala di dieci livelli e una sola tabella dei minimi (TEM), senza
      sezioni: gomma, plastica e ricostruzione non hanno importi propri.
-     Le quattro tabelle 2026–2028 vengono dall'ipotesi (art. 17 par. A
-     c.3, p. 15), riscontrate da Eutekne, FiscoeTasse e Consulenza
-     Buffetti; le tre 2023–2025 dal CCNL 26 gennaio 2023, letto sul
-     testo consolidato Eutekne, che è a riproduzione riservata e non è
-     archiviato. La fonte non stampa totali: totalePubblicato è null e
-     il totale è derivato. L'unica voce oltre al minimo è l'indennità
-     di funzione dei Quadri (art. 28 c.5), 50,00 € solo sul livello Q,
-     nelle tredici mensilità come gli scatti. */
-  const fonteGomma=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
+     Tutto è letto sui depositi CNEL delle parti firmatarie: le quattro
+     tabelle 2026–2028 sull'ipotesi (art. 17 c.3, p. 31), le tre
+     2023–2025 sull'accordo di rinnovo del 26 gennaio 2023 (art. 17 c.3,
+     p. 15), scatti (art. 23), tredicesima (artt. 25 e 19), part-time
+     (art. 10) e indennità dei Quadri (art. 28 c.5) sulla stesura del
+     CCNL 16 settembre 2020, che i due rinnovi non modificano in questi
+     articoli. La fonte non stampa totali: totalePubblicato è null e il
+     totale è derivato. L'unica voce oltre al minimo è l'indennità di
+     funzione dei Quadri, 50,00 € solo sul livello Q, nelle tredici
+     mensilità come gli scatti (art. 19 c.1–2). */
   const NOME_GOMMA={Q:'Quadri'};
   /* [decorrenza, titolo, minimi di Q, A, B, C, D, E, F, G, H, I] */
   const TABELLE_GOMMA=[
@@ -1702,11 +1706,11 @@
     mensilita:13,
     oreSettimanali:40,
     scatti:cifraFissa(2,5,'art. 23 — scatti di anzianità'),
-    fonte:fonteGomma('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17, tabella dei minimi',
-      'testo dell’ipotesi in formato CNEL, riprodotto da Uniolex; efficacia da scioglimento della riserva, Assolombarda 30 gennaio 2026; tabella riscontrata da Eutekne, FiscoeTasse e Consulenza Buffetti',
-      'https://uniolex.com/wp-content/uploads/2026/02/CCNL-Gomma-Plastica-Ipotesi-accordo-di-rinnovo.pdf',
-      'processo/dati/fonti/gomma-plastica-b371-ipotesi-accordo-rinnovo-2025-12-10-uniolex-2026-10-16.pdf'),
-    notaFonte:'Il testo coordinato 2026 e la circolare della Federazione sono riservati e non sono stati letti: le tabelle 2026–2028 sono quelle dell’ipotesi, concordi in quattro fonti; scatti, tredicesima e part-time vengono dal consolidato del CCNL 2023 e dall’ipotesi.',
+    fonte:fonteGruppo2('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17 c.3, tabella dei minimi (p. 31)',
+      'Archivio CNEL, deposito delle parti firmatarie (idAccordo 239732); efficacia da scioglimento della riserva, Assolombarda 30 gennaio 2026; tabella riscontrata da Eutekne, FiscoeTasse e Consulenza Buffetti',
+      'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/239732',
+      'processo/dati/fonti/gomma-plastica-b371-cnel-ipotesi-accordo-rinnovo-2025-12-10.pdf'),
+    notaFonte:'Tabelle, scatti, tredicesima, part-time e indennità dei Quadri sono letti sui depositi CNEL dell’ipotesi 2025, del rinnovo 2023 e della stesura del CCNL 2020. Il testo coordinato 2026 e la circolare della Federazione sono riservati e non sono stati letti.',
     tabelle:TABELLE_GOMMA.map(([decorrenza,titolo,minimi])=>tabella(decorrenza,titolo,
       LIVELLI_GOMMA.map((codice,i)=>({
         codice,nome:NOME_GOMMA[codice]||`Livello ${codice}`,
@@ -1720,7 +1724,8 @@
     'Maggiorazioni per turni, lavoro notturno, festivo e straordinario, cottimo, premi di produzione e di risultato aziendali, aumenti di merito, superminimi e importi ad personam, importi individuali ex art. 17 del CCNL 2 luglio 1992 e scatti congelati al 30 giugno 1980: il superminimo lo indichi tu.',
     'Passaggio di livello (art. 23 c.4): l’importo degli scatti maturati si conserva e si divide per lo scatto del livello nuovo. Il calcolo valorizza tutti gli scatti al livello attuale: se hai cambiato livello, indica tu il numero di scatti.',
     'Livello I: dal 1° dicembre 2028 è eliminato nelle aree produzione e funzioni integrate trasversali (posizioni riclassificate nel livello H), ma la tabella lo riporta ancora e il calcolo lo mantiene.',
-    'Limiti delle fonti: scatti (art. 23), tredicesima (art. 25) e part-time (art. 10) sono letti sul testo consolidato del CCNL 2023, non sul testo coordinato 2026, che è riservato e non è stato letto; il part-time è la riproporzione legale sulle 40 ore (D.Lgs. 81/2015 art. 7), senza una formula del contratto per scatti e indennità di funzione. Non è stato letto nemmeno l’accordo del 30 giugno 2026, che modifica solo il Titolo III (previdenza complementare).',
+    'Indennità di funzione dei Quadri (art. 28 c.5, 50,00 € dal 1° settembre 2008): inclusa, ma può assorbire fino a concorrenza il superminimo individuale o indennità aziendali analoghe; con un superminimo l’assorbimento non è simulato e le due voci si sommano.',
+    'Limiti delle fonti: tabelle, scatti (art. 23), tredicesima (art. 25), part-time (art. 10, che rinvia al D.Lgs. 81/2015, art. 7: riproporzione sulle 40 ore) e indennità dei Quadri sono letti sui depositi CNEL dell’ipotesi 2025, del rinnovo 2023 e della stesura del CCNL 2020. Non sono stati letti il testo coordinato 2026, che è riservato e potrebbe precisare questi articoli, e l’accordo del 30 giugno 2026, che modifica solo il Titolo III (previdenza complementare).',
   ];
 
   /* --- CREDITO — ABI, AREE PROFESSIONALI E QUADRI, J241 -------- */
@@ -1748,8 +1753,6 @@
      luglio 2014 l'anzianità non matura. Massimo 8, ma 7 per i quadri di
      3° e 4° livello, che li contano dalla nomina «in luogo dei
      precedenti»: per questo due sezioni sulla stessa tabella. */
-  const fonteAbi=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   /* Allegato 2, «Dal 1° marzo 2026»: [codice, nome, stipendio, scatto
      di anzianità, importo ex ristrutturazione tabellare]. */
   const TABELLA_ABI=[
@@ -1771,8 +1774,15 @@
       totalePubblicato:null,
       scatto:euro(cent(scatto)+cent(exRistrutturazione)),
       nota:`Ogni scatto vale ${virgola(scatto)} € di scatto di anzianità più ${virgola(exRistrutturazione)} € di importo ex ristrutturazione tabellare (Allegato 2).`})))];
+  /* Il conto dalla data vale per chi è stato assunto dopo il 19
+     dicembre 1994: chi era già in servizio conserva il numero di scatti
+     dei contratti di allora (artt. 103 c. 2 e 94 c. 2), e con una data
+     precedente il calcolo si ferma invece di dare 8. */
   const SCATTI_ABI={tipo:'cifraFissa',primoDopoAnni:4,cadenzaAnni:3,massimo:8,decorre:'meseMaturazione',
     sospensioni:[{dal:'2013-01-01',al:'2014-07-31',articolo:'art. 94 c. 5 e art. 103 c. 3'}],
+    anzianitaDal:{data:'1994-12-20',motivo:'chi era in servizio al 19 dicembre 1994 conserva il numero di '+
+      'scatti dei contratti di allora (fino a 12 nelle aree professionali, art. 103 c. 2; per i quadri '+
+      'direttivi di 1° e 2° livello quello del ccnl 1994, art. 94 c. 2), con regole che il calcolo non applica'},
     base:'anzianità di servizio dalla data di assunzione',
     articolo:'artt. 94 e 103 — scatti di anzianità; ogni scatto comprende l’importo ex ristrutturazione tabellare (artt. 93 e 102, Allegato 2)',
     decorrenza:'dal primo giorno del mese in cui matura: il primo dopo 4 anni, i successivi ogni 3'};
@@ -1785,15 +1795,15 @@
     mensilita:13,
     oreSettimanali:37,
     scatti:SCATTI_ABI,
-    fonte:fonteAbi('CCNL 23 novembre 2023 per i quadri direttivi e per il personale delle aree professionali, testo coordinato firmato il 14 luglio 2025 — Allegato 2, tabella dal 1° marzo 2026',
+    fonte:fonteGruppo2('CCNL 23 novembre 2023 per i quadri direttivi e per il personale delle aree professionali, testo coordinato firmato il 14 luglio 2025 — Allegato 2, tabella dal 1° marzo 2026',
       'FABI, organizzazione sindacale firmataria (edizione del testo coordinato); tabella riscontrata su Edotto e First CISL',
       'https://fabitreviso.it/fm/files/CCNL/ccnl-23-nov-2023_fabi.pdf',
       'processo/dati/fonti/credito-abi-j241-testo-coordinato-ccnl-23-nov-2023-fabi-2025-07-14.pdf'),
-    fonteAccordo:fonteAbi('Accordo di rinnovo del ccnl 19 dicembre 2019, 23 novembre 2023 — art. 20 e tabelle economiche',
+    fonteAccordo:fonteGruppo2('Accordo di rinnovo del ccnl 19 dicembre 2019, 23 novembre 2023 — art. 20 e tabelle economiche',
       'ABI, FABI, First CISL, Fisac CGIL, Uilca, Unisin (copia pubblicata da FABI Treviso)',
       'https://fabitreviso.it/fm/files/CCNL/Accordo-di-rinnovo-23-11-2023.pdf',
       'processo/dati/fonti/credito-abi-j241-accordo-rinnovo-abi-fabi-first-fisac-uilca-unisin-2023-11-23.pdf'),
-    fonteSospensione:fonteAbi('Verbale di accordo 16 luglio 2026 — sospensione dei termini fino al 31 dicembre 2026',
+    fonteSospensione:fonteGruppo2('Verbale di accordo 16 luglio 2026 — sospensione dei termini fino al 31 dicembre 2026',
       'ABI, FABI, First CISL, Fisac CGIL, Uilca, Unisin (copia pubblicata da Unisin Falcri Gruppo Intesa Sanpaolo)',
       'https://www.falcri-is.com/wp-content/uploads/2026/08/Verbale-di-accordo-16-luglio-2026-1.pdf',
       'processo/dati/fonti/credito-abi-j241-verbale-sospensione-termini-unisin-2026-07-16.pdf'),
@@ -1806,7 +1816,9 @@
       {id:'qd34',nome:'Quadri direttivi di 3° e 4° livello',
         descrizione:'Fino a 7 scatti, contati dalla data di assunzione o di nomina a quadro direttivo di 3° o 4° livello, in luogo di quelli maturati prima (art. 94 c. 1–2). Il contratto non fissa un orario per i quadri: il calcolo usa le 37 ore della 3ª area (art. 96 c. 2).',
         codiciLivello:['QD4','QD3'],
-        scatti:{...SCATTI_ABI,massimo:7,
+        /* Contati dalla nomina, «in luogo dei precedenti»: il dossier non
+           documenta una soglia di anzianità per i QD3–QD4, quindi nessuna. */
+        scatti:{...SCATTI_ABI,massimo:7,anzianitaDal:null,
           base:'anzianità dalla data di assunzione o di nomina a quadro direttivo di 3° o 4° livello, che sostituisce gli scatti maturati prima',
           articolo:'art. 94 c. 1–2 — fino a 7 scatti per i quadri direttivi di 3° e 4° livello, dalla data di assunzione o nomina; ogni scatto comprende l’importo ex ristrutturazione tabellare (art. 93, Allegato 2)'},
         tabelle:TABELLE_ABI,
@@ -1826,7 +1838,7 @@
     'Una tantum per luglio–novembre 2023 (da 873,95 a 1.679,60 €): pagamento unico, non ricorrente.',
     'Apposito elemento della retribuzione per la vacanza contrattuale (art. 8): temporaneo e condizionato al rispetto delle procedure; i verbali di sospensione dei termini ne rinviano, per nostra lettura, l’applicazione, e nessuna fonte dice se nel 2026 sia stato pagato.',
     'Previdenza complementare, assistenza sanitaria, long term care, contributo a Prosolidar (10 € annui trattenuti in busta paga) e contributo al Fondo per l’occupazione (pagato in ore di riduzione d’orario, non in denaro).',
-    'Scatti di chi era in servizio prima del 1995 o ha anzianità anteriore al 1° novembre 1999: valgono regole precedenti che il calcolo non applica. Le aree professionali in servizio al 19 dicembre 1994 hanno fino a 12 scatti, ma il calcolo ne accetta al massimo 8: per loro la cifra può essere più bassa. I quadri di 1° e 2° livello in servizio a quelle date conservano il numero del ccnl 1994, che non è stato letto.',
+    'Scatti di chi era in servizio prima del 1995 o ha anzianità anteriore al 1° novembre 1999: valgono regole precedenti che il calcolo non applica. Con un’anzianità anteriore al 20 dicembre 1994 il calcolo dalla data si ferma: le aree professionali in servizio al 19 dicembre 1994 hanno fino a 12 scatti, ma il numero che puoi indicare è al massimo 8, quindi per loro la cifra può essere più bassa. I quadri di 1° e 2° livello in servizio a quelle date conservano il numero del ccnl 1994, che non è stato letto.',
     'Promozioni fra livelli con scatto di valore diverso: il calcolo valorizza tutti gli scatti al livello attuale; la regola per gli scatti maturati nel livello precedente non è stata trovata.',
     'Orari diversi da 37 ore: 40 ore per custodia e guardiania, 36 ore per turni, settimane su 4 o 6 giorni, con la domenica o dal lunedì pomeriggio al sabato mattina (art. 108). Il calcolo riproporziona sempre sulle 37.',
     'Orario dei quadri direttivi: il contratto non lo fissa (la prestazione segue «di massima» l’orario della 3ª area), quindi il tempo pieno è assunto a 37 ore e il part-time si misura lì (art. 96 c. 2).',
@@ -1848,6 +1860,13 @@
      DATE
      ------------------------------------------------------------ */
   const oggi=()=>new Date().toISOString().slice(0,10);
+
+  /* Le date nei testi per l'utente: «1° gennaio 2013», come nelle
+     pagine dei minimi. Nei messaggi d'errore resta gg/mm/aaaa. */
+  const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto',
+    'settembre','ottobre','novembre','dicembre'];
+  const dataEstesa=iso=>{const [a,m,g]=iso.split('-').map(Number);
+    return `${g===1?'1°':g} ${MESI[m-1]} ${a}`;};
 
   function dataIsoValida(valore){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(String(valore)))return false;
@@ -1940,6 +1959,12 @@
              l'inizio del periodo slitta di quanto del periodo cade
              dopo l'inizio dell'anzianità, in mesi di calendario più i
              giorni che avanzano; quelle già compiute restano;
+           – `anzianitaDal` {data,motivo}: la prima data di anzianità
+             da cui il conto dalla data vale. Una data precedente
+             ferma il calcolo con il motivo, invece di dare un numero
+             per un regime che il catalogo non modella; il numero di
+             scatti dichiarato resta possibile entro il tetto. Assente,
+             nessuna soglia;
        · per ogni livello, i profili che portano una voce propria;
        · per le righe che si succedono con l'anzianità (i rider della
          Logistica), la progressione: con la data di anzianità si
@@ -1966,10 +1991,14 @@
       for(const s of sospensioni)
         if(!dataIsoValida(s.dal)||!dataIsoValida(s.al)||s.dal>s.al)
           throw new RangeError(`Periodo di anzianità sospesa non valido: ${s.dal} – ${s.al}`);
+      const soglia=regola.anzianitaDal;
+      if(soglia&&(!dataIsoValida(soglia.data)||typeof soglia.motivo!=='string'||!soglia.motivo.trim()))
+        throw new RangeError(`Soglia di anzianità non valida: serve una data e il motivo (${soglia.data})`);
       return congela({...regola,tipo,massimo,decorre,
         ...(regola.cadenzaAnni!==undefined
           ?{primoDopoAnni:regola.primoDopoAnni??regola.cadenzaAnni}:{}),
         sospensioni:congela(sospensioni.map(s=>congela({...s}))),
+        anzianitaDal:soglia?congela({data:soglia.data,motivo:soglia.motivo}):null,
         ...(regola.importi?{importi:congela({...regola.importi})}:{}),
         ...(regola.finestre?{finestre:congela(regola.finestre.map(f=>
           congela({...f,importi:congela({...f.importi})})))}:{})});
@@ -2042,6 +2071,34 @@
       const c=contrattoNoto(id);
       const mancanti=c.quoteAnnueMancanti.map(q=>`il ${q.nome} previsto dall’${q.fonte}`).join(' e ');
       return `Base tabellare annualizzata: lordo mensile di tabella × mensilità. Non è la RAL contrattuale completa: manca ${mancanti}, non ancora quantificato da una fonte primaria per i livelli attuali. Anche il netto mostrato è quindi sottostimato.`;
+    }
+
+    /* La regola degli scatti detta all'utente, la stessa nella pagina
+       CCNL e livello e nelle pagine dei minimi: ognuna compone la frase
+       a modo suo, ma cadenza, decorrenza e periodi sospesi si scrivono
+       solo qui. Una parte che la regola non dichiara è vuota, così chi
+       resta sui default legge il testo di sempre.
+         · cadenza — «uno ogni 2 anni», o «il primo dopo 4 anni e poi
+           uno ogni 3» dove il primo arriva dopo un periodo diverso;
+         · decorrenza — «, ciascuno dal primo giorno del mese in cui
+           matura» per `meseMaturazione`;
+         · sospensioni — una frase per periodo, con lo spazio davanti;
+         · anzianitaDal — la frase sulla soglia, con lo spazio davanti:
+           da quale anzianità il calcolo dalla data si ferma, e perché. */
+    function descrizioneScatti(regola){
+      return congela({
+        cadenza:regola.cadenzaAnni===undefined?''
+          :regola.primoDopoAnni!==undefined&&regola.primoDopoAnni!==regola.cadenzaAnni
+          ?`il primo dopo ${regola.primoDopoAnni} anni e poi uno ogni ${regola.cadenzaAnni}`
+          :`uno ogni ${regola.cadenzaAnni} anni`,
+        decorrenza:regola.decorre==='meseMaturazione'
+          ?', ciascuno dal primo giorno del mese in cui matura':'',
+        sospensioni:(regola.sospensioni||[]).map(s=>
+          ` L’anzianità non matura dal ${dataEstesa(s.dal)} al ${dataEstesa(s.al)} (${s.articolo}).`).join(''),
+        anzianitaDal:regola.anzianitaDal
+          ?` Con un’anzianità anteriore al ${dataEstesa(regola.anzianitaDal.data)} il calcolo dalla data si ferma: ${
+            regola.anzianitaDal.motivo}.`:'',
+      });
     }
 
     function contrattoNoto(id){
@@ -2150,8 +2207,25 @@
       return elenco;
     }
 
+    /* Il numero di scatti ricavato dalla data. Dove la regola dichiara
+       da quale anzianità vale (`anzianitaDal`), una data precedente
+       ferma il calcolo con il motivo: chi l'ha ricade in un regime che
+       il catalogo non modella, e un numero sarebbe una variante non
+       documentata spacciata per supportata. Il numero dichiarato a
+       mano non passa di qui. */
+    function scadenzeDaData(regola,dataInizio,alla,contratto){
+      validaAnzianita(dataInizio,alla);
+      const soglia=regola.anzianitaDal;
+      if(soglia&&dataInizio<soglia.data)
+        throw new RangeError(`Con un’anzianità dal ${dataItaliana(dataInizio)} gli scatti di ${contratto.nome} `+
+          `non si calcolano dalla data: ${soglia.motivo}. Il calcolo dalla data vale dal ${dataItaliana(soglia.data)}; `+
+          `se sai quanti scatti hai, indicane il numero (al massimo ${regola.massimo}).`);
+      return scadenze(regola,dataInizio,alla);
+    }
+
     function scattiMaturati(id,dataInizio,alla=oggi(),sezione){
-      return scadenze(profilo(id,sezione).scatti,dataInizio,alla).length;
+      const P=profilo(id,sezione);
+      return scadenzeDaData(P.scatti,dataInizio,alla,P.contratto).length;
     }
 
     function importoScatto(regola,livello){
@@ -2247,7 +2321,7 @@
 
       let dettaglio=[];
       if(dichiarati===null&&anzianitaDichiarata&&documentati)
-        dettaglio=scadenze(regola,dataAnzianita,alla);
+        dettaglio=scadenzeDaData(regola,dataAnzianita,alla,contratto);
       else if(dichiarati!==null){
         if(anzianitaDichiarata)scadenze(regola,dataAnzianita,alla);   // la data resta validata
         dettaglio=Array.from({length:dichiarati},(_,i)=>({n:i+1,maturazione:null,decorrenza:null}));
@@ -2349,7 +2423,7 @@
     return congela({VERSIONE_DATASET:versione,CONTRATTI,ESCLUSIONI,FONTE_RIPROPORZIONE,
       trovaContratto,sezioni,tabellaVigente,prossimaTabella,livelli,trovaLivello,
       oreContrattuali,regolaScatti,mensilitaAlla,ralCompleta,etichettaAnnua,avvisoRalParziale,
-      scattiMaturati,riproporziona,componiRal,riconciliaLivello});
+      descrizioneScatti,scattiMaturati,riproporziona,componiRal,riconciliaLivello});
   }
 
   return congela({...creaCatalogo({versione:VERSIONE_DATASET,

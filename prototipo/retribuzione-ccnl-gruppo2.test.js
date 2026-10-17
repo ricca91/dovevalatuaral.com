@@ -71,4 +71,14 @@ test.describe('il gruppo 2 nel suo insieme',()=>{
       }
     assert.deepEqual(particolari,['credito-abi-j241 aree-qd12','credito-abi-j241 qd34']);
   });
+
+  /* La soglia di anzianità la dichiarano solo aree e QD1–QD2 del Credito
+     ABI: per ogni altro contratto e sezione il conto dalla data non ha
+     limiti, come prima. */
+  test('solo aree e QD1–QD2 del Credito ABI dichiarano una soglia di anzianità',()=>{
+    const conSoglia=R.CONTRATTI.flatMap(contratto=>sezioniDi(contratto.id)
+      .filter(sezione=>R.regolaScatti(contratto.id,sezione).anzianitaDal!==null)
+      .map(sezione=>`${contratto.id} ${sezione}`));
+    assert.deepEqual(conSoglia,['credito-abi-j241 aree-qd12']);
+  });
 });

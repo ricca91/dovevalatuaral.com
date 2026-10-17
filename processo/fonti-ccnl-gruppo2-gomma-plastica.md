@@ -12,7 +12,7 @@ Copie dei documenti in `processo/dati/fonti/`, tranne il consolidato Eutekne (ve
 
 ## Stato alla data di verifica (16.10.2026)
 
-- Ipotesi firmata il 10.12.2025. L'efficacia era sospesa fino alla comunicazione di approvazione dei lavoratori.
+- Ipotesi firmata il 10.12.2025. L'efficacia era sospesa fino alla comunicazione di approvazione dei lavoratori, da dare entro il 30.1.2026 (deposito CNEL, p. 1).
 - Riserva sciolta positivamente: Filctem, Femca, Uiltec lo hanno comunicato il 30.1.2026 alla Federazione (Assolombarda, pagina pubblica). Il contratto è quindi efficace.
 - Le parti hanno diffuso il 16.1.2026 il testo con la tabella ufficiale dei minimi per livello (Eutekne 17.1.2026; FiscoeTasse).
 - Tranche determinate: 1.1.2026, 1.4.2027, 1.4.2028, 1.12.2028. Alla data di oggi vige la tabella 1.1.2026; le altre tre sono future già firmate, con importi determinati.
@@ -22,8 +22,11 @@ Copie dei documenti in `processo/dati/fonti/`, tranne il consolidato Eutekne (ve
 
 | Fonte | Uso | Archivio |
 |---|---|---|
-| Ipotesi 10.12.2025 con tabelle, formato CNEL (Uniolex), 41 pp. | tabelle minimi e incrementi (pp. 15-16), art. 17, 8, 10, 24, previdenza (p. 6) | `processo/dati/fonti/gomma-plastica-b371-ipotesi-accordo-rinnovo-2025-12-10-uniolex-2026-10-16.pdf` |
-| Testo consolidato CCNL 26.1.2023 + ipotesi (Eutekne, 174 pp.) | art. 17-19, 23, 25, 28, Allegato 1, art. 8, 10, FASG&P | non archiviato (riproduzione riservata) |
+| **Ipotesi 10.12.2025, deposito CNEL** (idAccordo 239732, Femca/Uiltec/Filctem), scansione firmata, 45 pp. | **fonte del dataset**: tabella dei minimi e degli incrementi (art. 17 c.3, p. 31), articoli modificati, termine di approvazione (p. 1) | `processo/dati/fonti/gomma-plastica-b371-cnel-ipotesi-accordo-rinnovo-2025-12-10.pdf` |
+| **Accordo di rinnovo 26.1.2023, deposito CNEL** (idAccordo 164920), scansione firmata, 19 pp. | tabelle 2023–2025 (art. 17 c.3, p. 15), articoli modificati | `processo/dati/fonti/gomma-plastica-b371-cnel-accordo-rinnovo-2023-01-26.pdf` |
+| **Stesura del CCNL 16.9.2020, deposito CNEL** (idAccordo 138012), scansione firmata, 115 pp. | art. 10 (pp. 35–36), 19 (p. 45), 23 (pp. 50–51), 25 (pp. 57–58), 28 (pp. 58–59) | `processo/dati/fonti/gomma-plastica-b371-cnel-stesura-ccnl-2020-09-16.pdf` |
+| Ipotesi 10.12.2025 con tabelle, formato CNEL (Uniolex), 41 pp. | riproduzione di terzi, ora solo riscontro; art. 8, 24, previdenza (p. 6) | `processo/dati/fonti/gomma-plastica-b371-ipotesi-accordo-rinnovo-2025-12-10-uniolex-2026-10-16.pdf` |
+| Testo consolidato CCNL 26.1.2023 + ipotesi (Eutekne, 174 pp.) | lettura del 16.10.2026 (art. 17-19, 23, 25, 28, Allegato 1, art. 8, 10, FASG&P), ora sostituita dai depositi CNEL salvo Allegato 1 e FASG&P | non archiviato (riproduzione riservata) |
 | Assolombarda: scioglimento riserva | stato efficacia | `processo/dati/fonti/gomma-plastica-b371-assolombarda-scioglimento-riserva-2026-01-30.html` |
 | Eutekne 17.1.2026, FiscoeTasse, Consulenza Buffetti | corroborazione indipendente | `processo/dati/fonti/…eutekne…`, `…fiscoetasse…`, `…consulenza…` |
 | Edotto, Dottrinalavoro | sintesi (incrementi, previdenza, orario) | `processo/dati/fonti/…edotto…`, `…dottrinalavoro…` |
@@ -65,20 +68,69 @@ Il testo coordinato 2026 e la circolare della Federazione sono riservati (chiave
 
 ## Discrepanze nella fonte
 
-- Termine per la comunicazione di approvazione: 30.6.2026 nel testo riprodotto da Uniolex, 30.1.2026 in Eutekne, Edotto e Assolombarda. La riserva è stata sciolta il 30.1.2026.
+- Termine per la comunicazione di approvazione: 30.6.2026 nel testo riprodotto da Uniolex, 30.1.2026 in Eutekne, Edotto e Assolombarda. **Risolta**: il deposito CNEL firmato (p. 1) dice 30 gennaio 2026; la copia Uniolex sbaglia. La riserva è stata sciolta il 30.1.2026.
+- La copia Uniolex presenta la tabella dei minimi come «N.d.R.: Le parti hanno elaborato le seguenti tabelle»; nel deposito firmato la tabella è il comma 3 dell'art. 17 (p. 31), con gli stessi importi.
 - Incremento «204 euro» (TEC, secondo i sindacati) contro 195 euro sui minimi di F: nel modello vale solo la tabella dei minimi.
 
 ## Limiti dichiarati
 
-- Testo coordinato 2026 e circolare della Federazione riservati, non letti: scatti, tredicesima e
-  part-time sono letti sul consolidato 2023 più l'ipotesi, e non si può escludere una modifica in stesura.
+- Testo coordinato 2026 e circolare della Federazione riservati, non letti. Scatti, tredicesima,
+  part-time e indennità dei Quadri sono letti sui depositi CNEL (stesura 2020, che né il rinnovo 2023
+  né l'ipotesi 2025 modificano in quegli articoli): una precisazione in stesura 2026 non si può escludere.
 - Comunicazione sindacale originale del 30.1.2026 non letta: l'efficacia poggia su Assolombarda.
-- Nessuna fonte primaria scaricabile: l'ipotesi è una riproduzione di terzi; la tabella è concorde in 4 fonti.
-- Importi degli scatti dopo il rinnovo 2026 non confermati in stesura 2026.
-- Riproporzione part-time di scatti e indennità di funzione: regola legale ore/40, non formula del contratto.
+- Riproporzione part-time di scatti e indennità di funzione: l'art. 10 c.7 rinvia al D.Lgs. 81/2015,
+  art. 7; il contratto non ha una formula propria.
 - Accordo 30.6.2026 (solo Titolo III, previdenza complementare) non letto.
+- Indennità sostitutiva del premio di risultato (Allegato 1 del CCNL) e FASG&P: importi letti sul
+  consolidato Eutekne, non sui depositi CNEL. Sono esclusioni, non entrano nella RAL.
 - Livello I: nessuna regola sui lavoratori I fuori da produzione e funzioni integrate dopo l'1.12.2028.
 - Nessun rinnovo dopo il 12 settembre 2026 in CNEL (ultimo inserimento 17.3.2026).
+
+## Riscontro sui depositi CNEL (correzione di review, 17 ottobre 2026)
+
+I tre depositi sono stati scaricati dall'API pubblica dell'Archivio CNEL
+(`…/ricerca/pubblica/accordi/scarica/accordi/<idAccordo>`, PDF in base64 nel campo
+`model.fileContent`), sono scansioni senza testo: le pagine citate sono state rese con
+`pdftoppm` e lette a immagine; le altre viste in miniatura per trovare gli articoli.
+
+- **Ipotesi 10.12.2025 (239732)**, p. 31, art. 17 c.3: «Dal 1° gennaio 2026 i minimi retributivi
+  sono fissati per ciascun livello nella seguente tabella», quattro colonne (1.1.2026, 1.4.2027,
+  1.4.2028, 1.12.2028) e la tabella degli incrementi. **Le 40 cifre coincidono** con il dataset
+  (es. Q 2.497,83 / 2.571,98 / 2.646,13 / 2.664,67; F 2.021,12 / 2.081,12 / 2.141,12 / 2.156,12;
+  I 1.614,73 … 1.722,57). Articoli modificati dall'ipotesi: 2, 3, 4, 8, 10 (c.5 e c.8: maggiorazione
+  delle clausole elastiche e trasformazioni non computate), 17, 24, 39, 45, 51, 70 e l'allegato delle
+  posizioni professionali. Non toccati: 19, 23, 25, 28.
+- **Rinnovo 26.1.2023 (164920)**, p. 15, art. 17 c.3: tabella «Dal 1/1/2023, Dal 1/1/2024, Dal
+  1/4/2025». **Le 30 cifre coincidono** con il dataset (es. Q 2.309,97 / 2.365,59 / 2.423,68; F
+  1.869,12 / 1.914,12 / 1.961,12). Articoli modificati: 2, 4, 8, 9, 17, 34, 39, 41, 70 e titoli
+  di parte I; non 10, 19, 23, 25, 28.
+- **Stesura del CCNL 16.9.2020 (138012)**:
+  - art. 23 (pp. 50–51): «per ogni biennio di servizio maturato presso la stessa azienda o gruppo»
+    un aumento in cifra fissa, Q 20,14; A 18,59; B-C-D 16,53; E-F 13,94; G 13,43; H 11,88; I 10,33;
+    massimo 5 (c.2); «decorrenza dal primo giorno del mese successivo a quello in cui si compie il
+    biennio» (c.3); passaggio di livello (c.4). **Coincide** con il dataset;
+  - art. 25 (pp. 57–58): tredicesima «di importo ragguagliato alla retribuzione mensile, calcolata
+    con riferimento agli elementi ed alle modalità di cui all'art. 19, comma 2»; art. 19 (p. 45): la
+    paga mensile comprende minimo, scatti e «indennità di funzione per la qualifica dei quadri».
+    **13 mensilità** per tutte le voci del dataset;
+  - art. 10 (pp. 35–36): c.1 «regolato dalle disposizioni del D.Lgs. 81/2015»; c.7 «I trattamenti
+    normativi ed economici sono regolati dal D.Lgs. 81/2015 ed in particolare dall'art. 7»;
+  - art. 28 c.5 (p. 59): indennità di funzione dei quadri «pari a € 50,00 lordi» dal 1° settembre
+    2008, che «potrà assorbire fino a concorrenza quanto corrisposto a titolo di superminimo
+    individuale o da analoghe indennità riconosciute a livello aziendale»: l'assorbimento è ora fra
+    le esclusioni.
+
+Esito: nessun dato cambia. La `fonte` del contratto diventa il deposito CNEL dell'ipotesi; il limite
+«nessuna fonte primaria scaricabile» cade, quello sugli articoli letti sul consolidato si riduce al
+testo coordinato 2026 non letto.
+
+Hash sha256 dei depositi archiviati:
+
+```
+cb24e54ecfa6440de36301bfee030dae53caf0829aa71e7dfa8337115fd59058  gomma-plastica-b371-cnel-ipotesi-accordo-rinnovo-2025-12-10.pdf
+97ed6db2fe98cdbafffa895e9b3ecc1d839f14ffec6abd9943abf15ba04e2a80  gomma-plastica-b371-cnel-accordo-rinnovo-2023-01-26.pdf
+2ec73cf8b46366b973eb3e1a6f5067071f6c070208969fd55a0c5183f61120d4  gomma-plastica-b371-cnel-stesura-ccnl-2020-09-16.pdf
+```
 
 ## Il consolidato Eutekne non è archiviato
 
@@ -93,8 +145,10 @@ del 16 ottobre 2026 (pdftotext): pp. 16, 35, 39-41, 46-50 (art. 8, 10, 17-19), 5
 
 - **Tabelle**: sette, in `GOMMA_PLASTICA` (`prototipo/retribuzione-ccnl.js`). Le quattro 2026–2028
   (1.1.2026 vigente, 1.4.2027, 1.4.2028, 1.12.2028, future già firmate) sono ricopiate dall'ipotesi
-  (art. 17 par. A c.3, p. 15); le tre 2023–2025 (1.1.2023, 1.1.2024, 1.4.2025) dal consolidato 2023
-  (pp. 46-47). Ogni importo è stato ricontrollato per stringa sul testo estratto dei due PDF.
+  (art. 17 par. A c.3, p. 15 della copia Uniolex); le tre 2023–2025 (1.1.2023, 1.1.2024, 1.4.2025) dal
+  consolidato 2023 (pp. 46-47). Ogni importo è stato ricontrollato per stringa sul testo estratto dei
+  due PDF, e poi, il 17 ottobre 2026, a immagine sui depositi CNEL (ipotesi p. 31, rinnovo 2023 p. 15):
+  vedi «Riscontro sui depositi CNEL». La `fonte` del contratto è il deposito CNEL dell'ipotesi.
 - **Voci**: `minimo` (TEM) su tutti i livelli; `indennitaFunzione` di 50,00 € solo sul livello Q
   (art. 28 c.5), nelle tredici mensilità come le altre voci fisse. Nessun EDR o contingenza.
 - **Totale**: la fonte non stampa totali, quindi `totalePubblicato:null` e il totale è derivato.
@@ -102,7 +156,8 @@ del 16 ottobre 2026 (pdftotext): pp. 16, 35, 39-41, 46-50 (art. 8, 10, 17-19), 5
   nessuna `mensilita` per voce, nessuna `quoteAnnueMancanti`, `ralCompleta` vera.
 - **Scatti**: `cifraFissa(2,5)`, importo per livello (Q 20,14; A 18,59; B/C/D 16,53; E/F 13,94;
   G 13,43; H 11,88; I 10,33), dal mese successivo al biennio, su 13 mensilità. Gli importi sono
-  uguali in tutte e sette le tabelle: l'art. 23 non risulta modificato dall'ipotesi (limite dichiarato).
+  uguali in tutte e sette le tabelle: l'art. 23 della stesura 2020 non è modificato né dal rinnovo 2023
+  né dall'ipotesi 2025 (depositi CNEL); resta non letto il testo coordinato 2026.
   Il passaggio di livello (c.4) è nelle esclusioni.
 - **Part-time**: riproporzione ore/40 su minimo, indennità di funzione e scatti; superminimo non
   riproporzionato. È la regola legale (D.Lgs. 81/2015 art. 7, richiamato dall'art. 10).

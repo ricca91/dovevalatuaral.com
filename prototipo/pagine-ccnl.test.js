@@ -3,8 +3,8 @@ const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
 const {test}=require('node:test');
-const {ROTTE,CONTRATTI_SEO,generate}=require('./genera-pagine-ccnl.js');
-const {titoloLivello}=require('./ccnl-page.template.js');
+const {ROTTE,CONTRATTI_SEO,generate,datiContratto}=require('./genera-pagine-ccnl.js');
+const {titoloLivello,renderHub}=require('./ccnl-page.template.js');
 const {sitemap,RALS}=require('./genera-pagine-ral.js');
 const R=require('./retribuzione-ccnl.js');
 const {calcola,applicaMensilita,eur}=require('./motore.js');
@@ -182,6 +182,20 @@ test('la tabella della Logistica dice che il parametro del rider cresce con l’
   assert.ok(pagina.includes('Rider su ciclomotori e motocicli — L, parametro 119 (dopo 15 mesi)'));
 });
 
+/* Artt. 94 e 103 del CCNL ABI: primo scatto dopo 4 anni, poi ogni 3,
+   dal primo del mese in cui matura; anzianità sospesa dal 1° gennaio
+   2013 al 31 luglio 2014. La tabella lo dice come la pagina CCNL e
+   livello; le tabelle degli altri contratti restano come prima. */
+test('la tabella dei Bancari dice cadenza, decorrenza nel mese e periodo sospeso degli scatti',()=>{
+  const t=testo(leggi('/minimi-ccnl/bancari/'));
+  const sospensione=' L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 94 c. 5 e art. 103 c. 3).';
+  for(const massimo of [8,7])
+    assert.ok(t.includes(`Scatti: fino a ${massimo} scatti, il primo dopo 4 anni e poi uno ogni 3, `+
+      `ciascuno dal primo giorno del mese in cui matura.${sospensione} Nessuna tranche successiva è firmata.`),String(massimo));
+  assert.ok(testo(leggi('/minimi-ccnl/commercio/')).includes('Scatti: fino a 10 scatti, uno ogni 3 anni. La prossima tranche'));
+  assert.doesNotMatch(testo(leggi('/minimi-ccnl/commercio/')),/non matura|mese in cui matura/);
+});
+
 test('le pagine per livello mostrano scatti, part-time e tranche futura solo dove il contratto li documenta',()=>{
   const commercio=testo(leggi('/minimi-ccnl/commercio/5-livello/'));
   assert.ok(commercio.includes('Ogni scatto vale 20,30 €'));
@@ -199,6 +213,20 @@ test('«Turismo» a un livello mostra anche il contratto dei pubblici esercizi',
   assert.ok(t.includes('Lavori in un bar, un ristorante o una mensa?'));
   assert.ok(t.includes(eur(fipe.baseMensile)));
   assert.ok(t.includes('1.590,27 €'));
+});
+
+/* Il numero di contratti nell'hub viene da quelli che il template
+   riceve: un contratto in più nel dataset non lascia un «diciannove»
+   scritto a mano. */
+test('l’hub conta i contratti che riceve, nell’apertura e nella description',()=>{
+  const descrizione=html=>uno(html,/<meta name="description" content="([^"]+)">/g,'description');
+  const hub=leggi('/minimi-ccnl/');
+  assert.ok(testo(hub).includes('19 contratti collettivi, livello per livello'));
+  assert.match(descrizione(hub),/^Tabelle retributive 2026 di 19 CCNL, dal Commercio ai Bancari/);
+  const due=renderHub({contratti:CONTRATTI_SEO.slice(0,2).map(c=>datiContratto(c,ALLA)),alla:ALLA});
+  assert.ok(testo(due).includes('2 contratti collettivi, livello per livello'));
+  assert.match(descrizione(due),/^Tabelle retributive 2026 di 2 CCNL/);
+  assert.doesNotMatch(testo(due),/iciannove/);
 });
 
 test('«Turismo» nell’hub porta anche alle agenzie di viaggio',()=>{

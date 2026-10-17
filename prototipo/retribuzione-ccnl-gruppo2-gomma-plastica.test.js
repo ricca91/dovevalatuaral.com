@@ -23,7 +23,7 @@ test.describe('Gomma, cavi elettrici e plastica — B371',()=>{
       ['Q','A','B','C','D','E','F','G','H','I']);
   });
 
-  /* Ipotesi 10.12.2025, p. 15 (art. 17 par. A c.3), tabella 1.1.2026. */
+  /* Ipotesi 10.12.2025, deposito CNEL, p. 31 (art. 17 c.3), tabella 1.1.2026. */
   test('tabella vigente: minimi per livello, indennità di funzione solo sul Quadro',()=>{
     const q=R.trovaLivello(GP,'Q',OGGI);
     assert.deepEqual(voci(q),[['minimo',2497.83],['indennitaFunzione',50]]);
@@ -40,9 +40,9 @@ test.describe('Gomma, cavi elettrici e plastica — B371',()=>{
     assert.equal(R.trovaLivello(GP,'Q',OGGI).nome,'Quadri');
   });
 
-  /* Ipotesi p. 15: F 2.021,12 / 2.081,12 / 2.141,12 / 2.156,12;
+  /* Ipotesi, deposito CNEL p. 31: F 2.021,12 / 2.081,12 / 2.141,12 / 2.156,12;
      Q 2.497,83 / 2.571,98 / 2.646,13 / 2.664,67; I 1.614,73 … 1.722,57.
-     Gli incrementi di p. 16: F +60, +60, +60, +15 (= 195); Q +74,15 ×3, +18,54. */
+     Gli incrementi, stessa pagina: F +60, +60, +60, +15 (= 195); Q +74,15 ×3, +18,54. */
   test('sette tabelle: tre storiche, la vigente e tre future già firmate',()=>{
     provaDecorrenze(GP,null,['2023-01-01','2024-01-01','2025-04-01','2026-01-01',
       '2027-04-01','2028-04-01','2028-12-01']);
@@ -58,7 +58,7 @@ test.describe('Gomma, cavi elettrici e plastica — B371',()=>{
     assert.equal(Math.round((minimo('F','2028-12-01')-minimo('F','2025-04-01'))*100),19500);
   });
 
-  /* CCNL 26.1.2023, art. 17 par. A c.3, pp. 46-47 del consolidato. */
+  /* Accordo di rinnovo 26.1.2023, deposito CNEL, art. 17 c.3, p. 15. */
   test('tabelle storiche 2023–2025 del CCNL 26.1.2023',()=>{
     const minimo=(codice,data)=>R.trovaLivello(GP,codice,data).voci[0].importo;
     const date=['2023-01-01','2024-01-01','2025-04-01'];
@@ -70,7 +70,8 @@ test.describe('Gomma, cavi elettrici e plastica — B371',()=>{
       [['minimo',2365.59],['indennitaFunzione',50]]);
   });
 
-  /* Art. 23: 20,14 Q; 18,59 A; 16,53 B-C-D; 13,94 E-F; 13,43 G; 11,88 H; 10,33 I. */
+  /* Art. 23 della stesura 16.9.2020, deposito CNEL, pp. 50–51: 20,14 Q; 18,59 A;
+     16,53 B-C-D; 13,94 E-F; 13,43 G; 11,88 H; 10,33 I. */
   test('scatti biennali in cifra fissa, cinque, su tredici mensilità',()=>{
     provaScattiFissi({ccnl:GP,livello:'F',cadenza:2,massimo:5,importo:13.94,mensilita:13});
     provaScattiFissi({ccnl:GP,livello:'Q',cadenza:2,massimo:5,importo:20.14,mensilita:13});
@@ -117,7 +118,7 @@ test.describe('Gomma, cavi elettrici e plastica — B371',()=>{
     assert.equal(R.componiRal({ccnl:GP,livello:'F',alla:'2028-12-01'}).ral,28029.56);
   });
 
-  /* Art. 10 rinvia al D.Lgs. 81/2015: riproporzione sulle 40 ore.
+  /* Art. 10 c.7 (stesura 2020, p. 36) rinvia al D.Lgs. 81/2015, art. 7: riproporzione sulle 40 ore.
      F a 20 ore: 2.021,12 / 2 = 1.010,56 × 13 = 13.137,28; superminimo
      non riproporzionato: (1.010,56 + 100,00) × 13 = 14.437,28.
      Q a 20 ore, 1.4.2027, 5 scatti: base (2.571,98 + 50,00) / 2 = 1.310,99;
@@ -139,15 +140,33 @@ test.describe('Gomma, cavi elettrici e plastica — B371',()=>{
     assert.throws(()=>R.componiRal({ccnl:GP,livello:'F',alla:'2022-12-31'}),RangeError);
   });
 
+  /* Fonte primaria: l'ipotesi firmata depositata al CNEL (idAccordo
+     239732), tabella dei minimi all'art. 17 c.3, p. 31 del deposito.
+     Il riscontro cifra per cifra con le tabelle del dataset è nel dossier. */
+  test('fonte: il deposito CNEL dell’ipotesi, archiviato',()=>{
+    const f=R.trovaContratto(GP).fonte;
+    assert.equal(f.url,'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/239732');
+    assert.equal(f.archivio,'processo/dati/fonti/gomma-plastica-b371-cnel-ipotesi-accordo-rinnovo-2025-12-10.pdf');
+    assert.match(f.titolo,/art\. 17 c\.3/);
+    assert.match(f.parte,/CNEL[^.]*239732/);
+    assert.doesNotMatch(R.trovaContratto(GP).notaFonte,/consolidato/);
+  });
+
   test('esclusioni: premio sostitutivo, welfare, limiti documentali; la RAL è completa',()=>{
     const testo=R.ESCLUSIONI[GP].join('\n');
     assert.match(testo,/Allegato 1/);
     assert.match(testo,/art\. 24/);
     assert.match(testo,/Fondo Gomma Plastica/);
     assert.match(testo,/FASG&P/);
-    assert.match(testo,/scatti \(art\. 23\), tredicesima \(art\. 25\) e part-time \(art\. 10\)/);
     assert.match(testo,/art\. 23 c\.4/);
+    /* Letti sui depositi CNEL: resta non letto solo il testo coordinato
+       2026 e l'accordo del 30 giugno 2026. */
+    assert.match(testo,/depositi CNEL/);
     assert.match(testo,/testo coordinato 2026/);
+    assert.match(testo,/30 giugno 2026/);
+    assert.doesNotMatch(testo,/consolidato/);
+    /* Art. 28 c.5: l'indennità di funzione può assorbire il superminimo. */
+    assert.match(testo,/art\. 28 c\.5[^\n]*assorb/);
     assert.equal(R.trovaContratto(GP).quoteAnnueMancanti.length,0);
     assert.equal(R.etichettaAnnua(GP),'RAL');
     assert.equal(R.avvisoRalParziale(GP),null);

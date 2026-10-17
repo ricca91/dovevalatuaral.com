@@ -220,6 +220,9 @@ test.describe('Chimico-farmaceutico industria — B011',()=>{
       /EAR/,/assorbibile/,/non è simulato/,/art\. 3/,/IPT/,/premio di partecipazione/i,
       /perequativo/,/Fonchim/,/Faschim/,/294/,/apprendisti/i,/37 ore e 45/])
       assert.match(testo,attesa);
+    /* Lacuna di perimetro, detta come tale: lo stesso codice copre settori
+       le cui tabelle 2025–2028 non sono pubbliche. */
+    assert.match(testo,/B011[^.]*fibre chimiche, abrasivi, lubrificanti e GPL[^.]*la cifra mostrata non vale/);
   });
 
   test('ogni riga riconcilia: totale derivato = somma delle voci, nessun totale pubblicato',()=>{
