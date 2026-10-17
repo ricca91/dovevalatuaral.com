@@ -31,17 +31,20 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | `motore.test.js` | la matrice di prova |
 | `ral-page.template.js` | il template canonico condiviso delle pagine RAL e dell’hub |
 | `genera-pagine-ral.js` | il generatore deterministico delle 17 pagine RAL, dell’hub e della sitemap |
-| `genera-pagine-ccnl.js` | quali pagine dei minimi CCNL esistono (hub, 13 tabelle, 33 pagine per livello) e come si chiamano; nessun importo |
+| `genera-pagine-ccnl.js` | quali pagine dei minimi CCNL esistono (hub, 19 tabelle, 54 pagine per livello) e come si chiamano; nessun importo |
 | `ccnl-page.template.js`, `ccnl-pages.css` | il template e lo stile delle pagine `minimi-ccnl/` |
 | `pagine-ccnl.test.js` | rotte, importi riscontrati sulla fonte, link, breadcrumb strutturato, rigenerazione alla tranche |
 | `ccnl-livello.html` | il generatore da CCNL e livello a RAL e netto: nessun campo RAL in ingresso |
-| `retribuzione-ccnl.js` | il dataset retributivo dei tredici CCNL coperti, il modello (`creaCatalogo()`) e `componiRal()`, la sola funzione che ne produce un numero |
+| `retribuzione-ccnl.js` | il dataset retributivo dei diciannove CCNL coperti, il modello (`creaCatalogo()`) e `componiRal()`, la sola funzione che ne produce un numero |
 | `retribuzione-ccnl.test.js` | le prove del dataset, di H011 e C011, degli scatti, del part-time e del contratto della pagina |
-| `retribuzione-ccnl-modello.test.js` | le sette estensioni del modello provate su contratti inventati |
+| `retribuzione-ccnl-modello.test.js` | le estensioni del modello provate su contratti inventati, comprese le regole degli scatti del RIC-61 |
 | `retribuzione-ccnl-gruppo1.test.js` | le fixture degli undici contratti del gruppo 1, importi presi dalla fonte |
+| `retribuzione-ccnl-gruppo2-*.test.js`, `retribuzione-ccnl-gruppo2.test.js` | le fixture dei cinque contratti del gruppo 2, uno per file, e le prove del gruppo nell'insieme |
+| `prove-ccnl.js` | gli aiuti comuni alle prove dei gruppi (decorrenze, scatti in cifra fissa, netto che riconcilia); escluso dalla build |
 | `ccnl-livello.md` | che cosa fa quella pagina e quali decisioni il dataset incorpora |
 | `../processo/fonti-ccnl-2026.md` | da dove viene ogni numero contrattuale di H011 e C011, e che cosa resta dichiarato come limite |
 | `../processo/fonti-ccnl-gruppo1.md` | lo stesso per gli undici contratti del gruppo 1, con le righe escluse |
+| `../processo/fonti-ccnl-gruppo2.md` | l'indice dei dossier dei cinque contratti del gruppo 2, con identificazione CNEL e matrice di copertura |
 | `righe.js` | l'adapter che trasforma ogni Voce in una Riga |
 | `righe.test.js` | le prove della seam Voce → Riga |
 | `sezioni.js` | i riepiloghi delle due sezioni facoltative del modulo, e quali partono aperte |

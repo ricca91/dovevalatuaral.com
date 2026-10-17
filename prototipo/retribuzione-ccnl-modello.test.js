@@ -373,3 +373,283 @@ test.describe('8 — righe che si succedono per anzianità',()=>{
     assert.throws(()=>componi('R0','2026-10-01','2026-09-22'),RangeError);
   });
 });
+
+test.describe('9 — scatti con primo scatto diverso, decorrenza nel mese e anzianità sospesa',()=>{
+  const conScatti=(id,regola)=>({...semplice,id,scatti:{...scattiFissi,...regola}});
+  const maturazioni=(C,id,inizio,alla)=>C.componiRal({ccnl:id,livello:'A',dataAnzianita:inizio,alla})
+    .dettaglioScatti.map(s=>[s.maturazione,s.decorrenza]);
+
+  /* Il primo dopo 4 anni, poi ogni 3: assunto il 15/3/2015 matura il
+     15/3/2019, il 15/3/2022 e il 15/3/2025, ciascuno dal 1° del mese
+     successivo. Con la sola cadenza sarebbero 2018, 2021, 2024. */
+  test('primoDopoAnni: il primo scatto dopo N anni, i successivi ogni cadenzaAnni',()=>{
+    const C=catalogo([conScatti('scaglionato',{primoDopoAnni:4,cadenzaAnni:3,massimo:3})]);
+    const maturati=alla=>C.scattiMaturati('scaglionato','2015-03-15',alla);
+    assert.equal(maturati('2019-03-31'),0);
+    assert.equal(maturati('2019-04-01'),1);
+    assert.equal(maturati('2022-03-31'),1);
+    assert.equal(maturati('2022-04-01'),2);
+    assert.equal(maturati('2025-04-01'),3);
+    assert.equal(maturati('2040-01-01'),3);       // tetto
+    assert.deepEqual(maturazioni(C,'scaglionato','2015-03-15','2026-09-22'),[
+      ['2019-03-15','2019-04-01'],['2022-03-15','2022-04-01'],['2025-03-15','2025-04-01']]);
+    assert.equal(C.regolaScatti('scaglionato').primoDopoAnni,4);
+  });
+
+  test('senza primoDopoAnni il primo scatto matura dopo cadenzaAnni, come prima',()=>{
+    const C=catalogo([semplice]);
+    assert.equal(C.regolaScatti('semplice').primoDopoAnni,2);
+    assert.equal(C.scattiMaturati('semplice','2015-03-15','2017-03-31'),0);
+    assert.equal(C.scattiMaturati('semplice','2015-03-15','2017-04-01'),1);
+  });
+
+  /* Lo scatto decorre dal 1° del mese in cui matura: assunto il
+     20/10/2024, biennale, matura il 20/10/2026 ma è dovuto dal
+     1/10/2026 — già il 16 ottobre, prima della maturazione. Con il
+     mese successivo sarebbe dovuto dal 1/11/2026. */
+  test('decorre meseMaturazione: dal primo giorno del mese in cui lo scatto matura',()=>{
+    const C=catalogo([conScatti('nelMese',{decorre:'meseMaturazione'}),
+      conScatti('dopo',{decorre:'meseSuccessivo'})]);
+    assert.equal(C.scattiMaturati('nelMese','2024-10-20','2026-09-30'),0);
+    assert.equal(C.scattiMaturati('nelMese','2024-10-20','2026-10-01'),1);
+    assert.equal(C.scattiMaturati('dopo','2024-10-20','2026-10-16'),0);
+    assert.equal(C.scattiMaturati('dopo','2024-10-20','2026-11-01'),1);
+    assert.deepEqual(maturazioni(C,'nelMese','2024-10-20','2026-10-16'),[['2026-10-20','2026-10-01']]);
+    /* Assunto il primo del mese: decorrenza e maturazione coincidono. */
+    assert.deepEqual(maturazioni(C,'nelMese','2024-10-01','2026-10-01'),[['2026-10-01','2026-10-01']]);
+  });
+
+  test('una modalità di decorrenza sconosciuta ferma il catalogo invece di diventare un default',()=>{
+    assert.throws(()=>catalogo([conScatti('refuso',{decorre:'inizioMese'})]),/decorrenza/);
+  });
+
+  /* Un anno in cui l'anzianità non matura, il 2020: biennali, tetto 3,
+     dal 1° del mese successivo. Le maturazioni che cadrebbero dopo
+     l'inizio del periodo slittano di quanto del periodo cade dopo
+     l'inizio dell'anzianità; quelle già compiute restano dove sono. */
+  const sospesa=conScatti('sospesa',{sospensioni:[{dal:'2020-01-01',al:'2020-12-31',articolo:'art. 9'}]});
+
+  test('sospensioni: inizio prima del periodo, solo le maturazioni successive slittano',()=>{
+    const C=catalogo([sospesa]);
+    /* 10/6/2017: il primo il 10/6/2019, prima del periodo; il secondo
+       cadrebbe il 10/6/2021 e slitta di 12 mesi, come il terzo. */
+    assert.deepEqual(maturazioni(C,'sospesa','2017-06-10','2026-09-22'),[
+      ['2019-06-10','2019-07-01'],['2022-06-10','2022-07-01'],['2024-06-10','2024-07-01']]);
+    /* 1/1/2018: due anni compiuti il 31/12/2019, il primo matura il
+       1/1/2020, giorno d'inizio del periodo, e non slitta. */
+    assert.deepEqual(maturazioni(C,'sospesa','2018-01-01','2026-09-22').slice(0,2),[
+      ['2020-01-01','2020-02-01'],['2023-01-01','2023-02-01']]);
+  });
+
+  /* 10/5/2018: il primo cadrebbe il 10/5/2020, dentro il periodo. Al
+     31/12/2019 mancano 4 mesi e 9 giorni, che si compiono dal
+     1/1/2021: maturazione 10/5/2021, decorrenza 1/6/2021. */
+  test('sospensioni: una maturazione a cavallo del periodo si compie dopo la ripresa',()=>{
+    const C=catalogo([sospesa]);
+    assert.equal(C.scattiMaturati('sospesa','2018-05-10','2021-05-31'),0);
+    assert.equal(C.scattiMaturati('sospesa','2018-05-10','2021-06-01'),1);
+    assert.deepEqual(maturazioni(C,'sospesa','2018-05-10','2026-09-22')[0],['2021-05-10','2021-06-01']);
+  });
+
+  test('sospensioni: inizio dentro il periodo conta dalla ripresa, inizio dopo non slitta',()=>{
+    const C=catalogo([sospesa]);
+    /* 15/6/2020: l'anzianità comincia a maturare il 1/1/2021. */
+    assert.deepEqual(maturazioni(C,'sospesa','2020-06-15','2026-09-22'),[
+      ['2023-01-01','2023-02-01'],['2025-01-01','2025-02-01']]);
+    assert.deepEqual(maturazioni(C,'sospesa','2021-03-01','2026-09-22'),[
+      ['2023-03-01','2023-04-01'],['2025-03-01','2025-04-01']]);
+  });
+
+  /* Due periodi, dichiarati in disordine: 6 mesi nel 2018, 12 nel
+     2020. Dal 1/1/2017 il primo cadrebbe il 1/1/2019, slitta di 6 al
+     1/7/2019, che è prima del secondo periodo; il secondo cadrebbe il
+     1/1/2021 e slitta di 6 e poi di 12, al 1/7/2022. Controprova:
+     12 mesi nel 2017, 18 da luglio 2018 a dicembre 2019, i 18 che
+     mancano da gennaio 2021 a giugno 2022. */
+  test('sospensioni: più periodi si sommano in ordine di data',()=>{
+    const C=catalogo([conScatti('dueVolte',{sospensioni:[
+      {dal:'2020-01-01',al:'2020-12-31',articolo:'art. 9'},
+      {dal:'2018-01-01',al:'2018-06-30',articolo:'art. 9'}]})]);
+    assert.deepEqual(maturazioni(C,'dueVolte','2017-01-01','2026-09-22'),[
+      ['2019-07-01','2019-08-01'],['2022-07-01','2022-08-01'],['2024-07-01','2024-08-01']]);
+    assert.deepEqual(C.regolaScatti('dueVolte').sospensioni.map(s=>s.dal),['2018-01-01','2020-01-01']);
+  });
+
+  /* Un regime che il catalogo non modella per le anzianità più vecchie
+     (i 12 scatti dei bancari in servizio al 19 dicembre 1994): una data
+     precedente alla soglia ferma il calcolo invece di dare un numero,
+     con data all'italiana, nome del contratto e motivo. Il numero di
+     scatti dichiarato a mano resta possibile entro il tetto. */
+  const soglia=conScatti('soglia',{anzianitaDal:{data:'2000-03-01',
+    motivo:'chi era in servizio prima ha un regime che il calcolo non applica'}});
+  const ferma=(...attesi)=>errore=>errore instanceof RangeError
+    &&attesi.every(a=>errore.message.includes(a));
+
+  test('anzianitaDal: un’anzianità precedente alla soglia ferma il calcolo, non dà un numero',()=>{
+    const C=catalogo([soglia]);
+    /* Dal giorno della soglia si calcola: 1/3/2000, biennali, tetto 3. */
+    assert.equal(C.scattiMaturati('soglia','2000-03-01','2026-09-22'),3);
+    const atteso=ferma('29/02/2000','Semplice','chi era in servizio prima ha un regime che il calcolo non applica');
+    assert.throws(()=>C.scattiMaturati('soglia','2000-02-29','2026-09-22'),atteso);
+    assert.throws(()=>C.componiRal({ccnl:'soglia',livello:'A',dataAnzianita:'2000-02-29',
+      alla:'2026-09-22'}),atteso);
+    /* Una data non valida resta l'errore di sempre. */
+    assert.throws(()=>C.scattiMaturati('soglia','2000-02-30','2026-09-22'),/non valida/);
+  });
+
+  /* Minimo 1.000 + 3 scatti da 10 = 1.030 × 14 = 14.420, con o senza la data. */
+  test('anzianitaDal: il numero di scatti dichiarato resta possibile entro il tetto',()=>{
+    const C=catalogo([soglia]);
+    assert.equal(C.componiRal({ccnl:'soglia',livello:'A',scatti:3,dataAnzianita:'1990-01-01',
+      alla:'2026-09-22'}).ral,14420);
+    assert.equal(C.componiRal({ccnl:'soglia',livello:'A',scatti:3,alla:'2026-09-22'}).ral,14420);
+    assert.throws(()=>C.componiRal({ccnl:'soglia',livello:'A',scatti:4,alla:'2026-09-22'}),RangeError);
+  });
+
+  test('senza anzianitaDal nessuna soglia; una soglia senza data valida o senza motivo ferma il catalogo',()=>{
+    const C=catalogo([semplice]);
+    assert.equal(C.regolaScatti('semplice').anzianitaDal,null);
+    assert.equal(C.scattiMaturati('semplice','1950-01-01','2026-09-22'),3);
+    assert.deepEqual({...catalogo([soglia]).regolaScatti('soglia').anzianitaDal},
+      {data:'2000-03-01',motivo:'chi era in servizio prima ha un regime che il calcolo non applica'});
+    for(const anzianitaDal of [{data:'2000-02-30',motivo:'x'},{data:'2000-03-01'},{data:'2000-03-01',motivo:''}])
+      assert.throws(()=>catalogo([conScatti('rotta',{anzianitaDal})]),/anzianità/);
+  });
+
+  test('un periodo sospeso con date non valide ferma il catalogo',()=>{
+    assert.throws(()=>catalogo([conScatti('rovescio',{sospensioni:[
+      {dal:'2020-12-31',al:'2020-01-01',articolo:'art. 9'}]})]),/sospe/);
+    assert.throws(()=>catalogo([conScatti('mese13',{sospensioni:[
+      {dal:'2020-13-01',al:'2020-12-31',articolo:'art. 9'}]})]),/sospe/);
+    assert.deepEqual(catalogo([semplice]).regolaScatti('semplice').sospensioni,[]);
+  });
+});
+
+test.describe('10 — la pagina CCNL e livello descrive la regola degli scatti',()=>{
+  const vm=require('node:vm');
+  const fs=require('node:fs');
+  const path=require('node:path');
+  const sorgente=fs.readFileSync(path.join(__dirname,'ccnl-livello-ui.js'),'utf8');
+
+  /* Il minimo di DOM che la pagina tocca al caricamento: si apre con
+     contratto, sezione e livello nell'indirizzo, come dalle pagine dei
+     minimi, e si leggono i testi d'aiuto che mostra. */
+  class Elemento{
+    constructor(){this.options=[];this.value='';this.hidden=false;this.textContent='';
+      this.disabled=false;this.html='';}
+    get innerHTML(){return this.html;}
+    set innerHTML(v){this.html=v;if(v===''){this.options=[];this.value='';}}
+    append(o){this.options.push(o);if(this.options.length===1)this.value=o.value;}
+    addEventListener(){}
+    setAttribute(){}
+    removeAttribute(){}
+    focus(){}
+  }
+  function aiuti(C,richiesta){
+    const elementi=new Map();
+    const document={getElementById:id=>{
+      if(!elementi.has(id))elementi.set(id,new Elemento());
+      return elementi.get(id);},createElement:()=>({value:'',textContent:''})};
+    vm.runInNewContext(sorgente,{RETRIBUZIONE_CCNL:C,CALCOLATORE_AVVIO:{errore:false,pronto(){}},
+      document,location:{search:`?${new URLSearchParams(richiesta)}`},URLSearchParams,
+      matchMedia:()=>({matches:false}),eur:String});
+    return {scatti:document.getElementById('scatti-help').textContent,
+      anzianita:document.getElementById('anzianita-help').textContent};
+  }
+
+  /* Il testo che la pagina mostrava prima dell'estensione, contratto
+     per contratto: chi non dichiara primo scatto, decorrenza nel mese
+     o periodi sospesi deve vedere esattamente lo stesso. */
+  test('i contratti che non dichiarano le regole nuove mostrano lo stesso testo di prima',()=>{
+    const R=require('./retribuzione-ccnl.js');
+    const fisso=(massimo,anni)=>`Massimo ${massimo}, uno ogni ${anni} anni. Se lo compili prevale sull’anzianità.`;
+    const atteso=[
+      [fisso(10,3),['terziario-confcommercio-h011','distribuzione-moderna-federdistribuzione-h008']],
+      [fisso(5,2),['metalmeccanica-industria-c011','logistica-trasporto-merci-i100|non-viaggiante',
+        'logistica-trasporto-merci-i100|viaggiante','cooperative-sociali-t151','metalmeccanica-pmi-confapi-c018',
+        'grafici-editori-g011|grafici|A','grafici-editori-g011|editori|1','vetro-lampade-display-b132|meccanizzati',
+        'vetro-lampade-display-b132|trasformazione','vetro-lampade-display-b132|soffio',
+        'vetro-lampade-display-b132|soffio-36-ore','vetro-lampade-display-b132|lampade',
+        'alimentare-industria-e012|alimentare','alimentare-industria-e012|olearia-margariniera',
+        'gomma-plastica-industria-b371']],
+      [fisso(6,4),['pubblici-esercizi-fipe-h05y|generale','pubblici-esercizi-fipe-h05y|collettiva',
+        'pubblici-esercizi-fipe-h05y|minori']],
+      [fisso(6,3),['turismo-federalberghi-h052|generale','turismo-federalberghi-h052|minori',
+        'agenzie-viaggi-fiavet-h04z']],
+      [fisso(8,3),['studi-professionali-confprofessioni-h442']],
+      [fisso(7,2),['poligrafici-quotidiani-g041']],
+      ['Fino a 8, uno ogni 2 anni, ciascuno pari alla tabella del giorno in cui matura: qui serve la data di anzianità, il numero da solo non basta.',
+        ['multiservizi-pulizia-k511|impiegati']],
+      ['Nessuno scatto: una quota unica di anzianità forfettaria dal quinto anno nel settore. Scrivi 1 se la percepisci già, 0 se no.',
+        ['multiservizi-pulizia-k511|operai']],
+    ];
+    for(const [testo,chiavi] of atteso)
+      for(const chiave of chiavi){
+        const [ccnl,sezione,livello]=chiave.split('|');
+        assert.equal(aiuti(R,{ccnl,...(sezione?{sezione}:{}),...(livello?{livello}:{})}).scatti,testo,chiave);
+      }
+  });
+
+  /* Il primo dopo 4 anni, poi ogni 3, dal primo del mese di
+     maturazione, con un periodo sospeso: la pagina dice tutte e tre
+     le cose, perché sono quelle che spostano la data da indicare. */
+  test('primo scatto diverso, mese di maturazione e periodi sospesi sono detti',()=>{
+    const C=catalogo([{...semplice,id:'nuovo',scatti:{...scattiFissi,massimo:8,primoDopoAnni:4,
+      cadenzaAnni:3,decorre:'meseMaturazione',
+      sospensioni:[{dal:'2013-01-01',al:'2014-07-31',articolo:'art. 9'}]}}]);
+    assert.equal(aiuti(C,{ccnl:'nuovo'}).scatti,
+      'Massimo 8, il primo dopo 4 anni e poi uno ogni 3, ciascuno dal primo giorno del mese in cui matura. '+
+      'L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 9). '+
+      'Se lo compili prevale sull’anzianità.');
+    /* Una sola regola nuova alla volta: le altre parti non compaiono. */
+    const soloPrimo=catalogo([{...semplice,id:'primo',scatti:{...scattiFissi,primoDopoAnni:4}}]);
+    assert.equal(aiuti(soloPrimo,{ccnl:'primo'}).scatti,
+      'Massimo 3, il primo dopo 4 anni e poi uno ogni 2. Se lo compili prevale sull’anzianità.');
+    const soloMese=catalogo([{...semplice,id:'mese',scatti:{...scattiFissi,decorre:'meseMaturazione'}}]);
+    assert.equal(aiuti(soloMese,{ccnl:'mese'}).scatti,
+      'Massimo 3, uno ogni 2 anni, ciascuno dal primo giorno del mese in cui matura. Se lo compili prevale sull’anzianità.');
+  });
+
+  test('la percentuale alla maturazione dice primo scatto e periodi sospesi allo stesso modo',()=>{
+    const C=catalogo([{...semplice,id:'perc',scatti:{tipo:'percentualeMaturazione',cadenzaAnni:2,
+      primoDopoAnni:3,massimo:8,base:'anzianità in azienda',articolo:'art. 22',
+      sospensioni:[{dal:'2020-01-01',al:'2020-12-31',articolo:'art. 9'}],
+      finestre:[{dal:'2022-07-01',importi:{A:50}}]}}]);
+    assert.equal(aiuti(C,{ccnl:'perc'}).scatti,
+      'Fino a 8, il primo dopo 3 anni e poi uno ogni 2, ciascuno pari alla tabella del giorno in cui matura: '+
+      'qui serve la data di anzianità, il numero da solo non basta. '+
+      'L’anzianità non matura dal 1° gennaio 2020 al 31 dicembre 2020 (art. 9).');
+  });
+
+  /* La soglia di anzianità si dice prima del calcolo, nell'aiuto della
+     data: chi ha un'anzianità più vecchia sa già che il calcolo si
+     fermerà e perché. Chi non ne dichiara legge l'aiuto di sempre. */
+  test('l’aiuto dell’anzianità dice la soglia oltre la quale il calcolo dalla data si ferma',()=>{
+    const C=catalogo([semplice,{...semplice,id:'soglia',scatti:{...scattiFissi,
+      anzianitaDal:{data:'2000-03-01',motivo:'chi era in servizio prima ha un regime che il calcolo non applica'}}}]);
+    const base='Conta l’anzianità in azienda. Serve per far decorrere lo scatto dal momento giusto; lascia vuoto se non la sai.';
+    assert.equal(aiuti(C,{ccnl:'soglia'}).anzianita,base+' Con un’anzianità anteriore al 1° marzo 2000 '+
+      'il calcolo dalla data si ferma: chi era in servizio prima ha un regime che il calcolo non applica.');
+    assert.equal(aiuti(C,{ccnl:'semplice'}).anzianita,base);
+    assert.equal(C.descrizioneScatti(C.regolaScatti('semplice')).anzianitaDal,'');
+  });
+
+  /* Una sola descrizione per la pagina CCNL e livello e per le pagine
+     dei minimi: il catalogo scrive cadenza, decorrenza e periodi
+     sospesi, le pagine compongono la frase. Le date sono quelle delle
+     pagine dei minimi, «1° gennaio». */
+  test('il catalogo descrive cadenza, decorrenza e periodi sospesi; vuoto ciò che la regola non dichiara',()=>{
+    const C=catalogo([semplice,{...semplice,id:'nuovo',scatti:{...scattiFissi,massimo:8,primoDopoAnni:4,
+      cadenzaAnni:3,decorre:'meseMaturazione',sospensioni:[
+        {dal:'2020-03-15',al:'2020-12-31',articolo:'art. 10'},
+        {dal:'2013-01-01',al:'2014-07-31',articolo:'art. 9'}]}}]);
+    assert.deepEqual({...C.descrizioneScatti(C.regolaScatti('nuovo'))},{
+      cadenza:'il primo dopo 4 anni e poi uno ogni 3',
+      decorrenza:', ciascuno dal primo giorno del mese in cui matura',
+      sospensioni:' L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 9).'+
+        ' L’anzianità non matura dal 15 marzo 2020 al 31 dicembre 2020 (art. 10).',
+      anzianitaDal:''});
+    assert.deepEqual({...C.descrizioneScatti(C.regolaScatti('semplice'))},
+      {cadenza:'uno ogni 2 anni',decorrenza:'',sospensioni:'',anzianitaDal:''});
+  });
+});

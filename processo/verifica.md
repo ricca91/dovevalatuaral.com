@@ -349,6 +349,63 @@ natura: la correttezza viene ancora dal confronto a mano con la fonte.
   indipendenti, riscontrate fra loro e con gli aumenti annunciati dalle parti. La pagina lo dice
   contratto per contratto.
 
+## Cinque contratti in più (RIC-61)
+
+Il dataset passa da quattordici a diciannove CCNL e da 1.105 a 1.517 righe (sezione ×
+decorrenza × livello). Il metodo è quello del gruppo 1; cambia l'organizzazione del lavoro.
+
+- **Una ricerca e un'implementazione per contratto**, in parallelo, ciascuna nel proprio blocco
+  di `retribuzione-ccnl.js` e `ccnl.js` e nel proprio file di prova: i cinque merge sul ramo di
+  integrazione non hanno avuto conflitti. Dossier per contratto in
+  `processo/fonti-ccnl-gruppo2-*.md`, indice e matrice di copertura in
+  `processo/fonti-ccnl-gruppo2.md`.
+- **Le fixture sono scritte a mano dalla fonte**, con il conto per esteso, in
+  `retribuzione-ccnl-gruppo2-<contratto>.test.js` (102 prove dopo la review: 33 area meccanica,
+  22 alimentare, 20 chimico, 12 gomma-plastica, 15 credito ABI), con gli aiuti comuni estratti in
+  `prove-ccnl.js` e usati anche dal gruppo 1. `retribuzione-ccnl-gruppo2.test.js` prova il gruppo
+  nell'insieme: diciannove codici CNEL distinti, dossier e fonte archiviata per ciascuno, RAL
+  completa su ogni sezione, regole nuove degli scatti e soglia di anzianità del solo Credito ABI.
+- **Riscontro a campione dell'orchestratore sulle fonti archiviate**, oltre a quello degli
+  implementer: gomma-plastica (livelli I, F, Q su tutte le tranche nel PDF dell'ipotesi), alimentare
+  (tutti i minimi della parte comune nel PDF FLAI), area meccanica (tabelle di metalmeccanica,
+  orafi e restauro sul verbale integrativo scansionato, scatti del restauro e degli orafi a p. 123 del
+  testo definitivo), chimico (A1, D1, F su tutte le scadenze a p. 48 dell'ipotesi), credito ABI (i
+  nove stipendi di marzo 2026 sul documento First CISL).
+- **Le regole nuove degli scatti hanno prove proprie** su contratti inventati in
+  `retribuzione-ccnl-modello.test.js` (primo scatto dopo un periodo diverso, decorrenza nel mese
+  di maturazione, anzianità sospesa: inizio prima, dentro e dopo la finestra, maturazione a
+  cavallo; soglia di anzianità `anzianitaDal`, aggiunta con la review), e una prova di gruppo fissa
+  che le dichiara il solo Credito ABI. Cadenza, decorrenza, periodi sospesi e soglia li scrive il
+  catalogo (`descrizioneScatti`) per la pagina e per le tabelle dei minimi. Il testo d'aiuto della
+  pagina non cambia per nessun contratto che non le dichiara, e una prova lo verifica caricando la
+  pagina; alla review il confronto è stato rifatto prima/dopo su tutti i 325 livelli e su tutte le
+  pagine SEO generate: cambiano solo l'aiuto e la tabella del Credito ABI e il numero di contratti
+  nell'hub.
+- **H011, C011 e il gruppo 1 non si muovono**: le loro prove sono rimaste com'erano, salvo i due
+  conteggi globali diventati relativi al proprio gruppo. `motore.js` è identico a main e le 2.001
+  corse del confronto non hanno divergenze contro la base salvata prima del lavoro.
+- **`npm test`**: 703 prove, tutte verdi (577 prima del lavoro, 693 prima della review).
+  **`npm run build`**: riuscita, `prove-ccnl.js` fuori da `dist/`; gli aiuti di prova si escludono
+  per prefisso `prove-`, come `genera-`.
+- **Pagina guidata in Chromium** headless a 1280 × 900 e 390 × 844, sul server di anteprima
+  locale: 336 combinazioni di contratto, sezione, livello e profilo per viewport, tutte con RAL,
+  netto e media finiti e RAL uguale a `componiRal()`, CTA verso il calcolatore completo con la RAL
+  esatta, fonte con link, nessun risultato precedente rimasto visibile al cambio, nessun errore
+  JavaScript, nessuno sbordo orizzontale su mobile. Per ogni sezione del gruppo 2: part-time a 20
+  ore, orario fuori contratto e data futura rifiutati, anzianità e superminimo. La verifica sulla
+  preview della PR è riportata nella PR.
+- **Gomma-plastica riletta sui depositi CNEL** dopo la review: ipotesi 2025, rinnovo 2023 e
+  stesura 2020 scaricati dall'Archivio CNEL e archiviati; le 70 cifre delle sette tabelle, gli
+  scatti, la tredicesima, il part-time e l'indennità dei Quadri coincidono con il dataset. Resta non
+  letto il testo coordinato 2026, riservato.
+- **Chimico, lacuna di perimetro**: il codice B011 copre anche fibre chimiche, abrasivi,
+  lubrificanti e GPL, le cui tabelle 2025–2028 non sono pubbliche. Il dataset copre il solo settore
+  chimico e chimico-farmaceutico e lo dice nelle esclusioni; per gli altri settori dello stesso
+  codice la cifra non è provata e non vale.
+- **Non provato: che le tabelle da fonti secondarie siano quelle firmate**, dove il testo firmato
+  non era pubblico: olearia dell'alimentare (livelli 5–10 senza riscontro indipendente). Ogni
+  dossier dice che cosa è stato letto e che cosa no.
+
 ## Cosa NON è provato
 
 - **Nessuna validazione da un consulente del lavoro.** I numeri sono derivati da fonti
