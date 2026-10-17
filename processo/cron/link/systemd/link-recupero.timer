@@ -1,0 +1,12 @@
+[Unit]
+Description=link-recupero, il primo lunedì del mese, dopo link-review
+
+[Timer]
+# Come link-fonti, 5 minuti dopo: aspetta sul lock di lancia.sh. L'ordine tra link-fonti e
+# link-recupero non conta (due fonti di prospect indipendenti); conta che non girino insieme.
+OnCalendar=Mon *-*-01..07 07:10:00 Europe/Rome
+Persistent=true
+Unit=link@link-recupero.service
+
+[Install]
+WantedBy=timers.target

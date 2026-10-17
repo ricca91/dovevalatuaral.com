@@ -1,0 +1,13 @@
+[Unit]
+Description=link-fonti, il primo lunedì del mese, dopo link-review
+
+[Timer]
+# Il primo lunedì del mese è un lunedì tra l'1 e il 7. Parte 5 minuti dopo link-review e
+# aspetta sul lock di lancia.sh che finisca: un job alla volta sulla tabella Outreach.
+OnCalendar=Mon *-*-01..07 07:05:00 Europe/Rome
+# Recupero all'avvio; la guardia di run.sh tiene un giro per mese.
+Persistent=true
+Unit=link@link-fonti.service
+
+[Install]
+WantedBy=timers.target
