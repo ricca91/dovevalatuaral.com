@@ -29,10 +29,16 @@ function scattiTesto(regola){
   switch(regola.tipo){
     case 'assenti':return 'nessuno scatto di anzianità';
     case 'quotaUnica':return `nessuno scatto: una quota unica di anzianità forfettaria dopo ${regola.dopoAnni} anni`;
-    case 'percentualeMaturazione':return `fino a ${regola.massimo} scatti, uno ogni ${regola.cadenzaAnni} anni, calcolati in percentuale della tabella del momento`;
-    default:return `fino a ${regola.massimo} scatti, uno ogni ${regola.cadenzaAnni} anni`;
+    case 'percentualeMaturazione':return `fino a ${regola.massimo} scatti, ${cadenzaTesto(regola)}, calcolati in percentuale della tabella del momento`;
+    default:return `fino a ${regola.massimo} scatti, ${cadenzaTesto(regola)}`;
   }
 }
+
+/* Il primo scatto può arrivare dopo un periodo diverso dalla cadenza
+   (il Credito ABI: dopo 4 anni, poi ogni 3). */
+const cadenzaTesto=regola=>regola.primoDopoAnni!==undefined&&regola.primoDopoAnni!==regola.cadenzaAnni
+  ?`il primo dopo ${regola.primoDopoAnni} anni e poi uno ogni ${regola.cadenzaAnni}`
+  :`uno ogni ${regola.cadenzaAnni} anni`;
 
 function layout({rotta,title,description,briciole,body,jsonLd=true}){
   const r=radice(rotta);
@@ -121,7 +127,7 @@ function renderHub({contratti,alla}){
   const parziali=contratti.filter(d=>d.contratto.quoteAnnueMancanti.length);
   const body=`<header class="ral-intro"><div class="eyebrow">Minimi CCNL 2026</div>
     <h1>Minimi CCNL: tabelle retributive, lordo e netto</h1>
-    <p class="lead">Tredici contratti collettivi, livello per livello: il minimo lordo mensile che il CCNL fissa, la RAL che ne risulta e il netto che ne resta. Tutti ricalcolati con le tabelle in vigore e le regole fiscali 2026.</p>
+    <p class="lead">Diciannove contratti collettivi, livello per livello: il minimo lordo mensile che il CCNL fissa, la RAL che ne risulta e il netto che ne resta. Tutti ricalcolati con le tabelle in vigore e le regole fiscali 2026.</p>
     <p class="ral-thesis">Gli importi sono la base nazionale: scatti, superminimo e integrativi si aggiungono sopra.</p>
     ${parziali.map(d=>`<p class="small">Per il ${esc(d.seo.titoloTabella)} la cifra annua è una base tabellare parziale e non va confrontata con la RAL degli altri contratti: manca il ${esc(d.contratto.quoteAnnueMancanti.map(q=>`${q.nome} (${q.fonte})`).join(' e il '))}.</p>`).join('')}
   </header>
@@ -136,7 +142,7 @@ function renderHub({contratti,alla}){
   <aside class="personalize"><a class="btn btn--primary btn--lg" href="${calcolatore(rotta,{ccnl:contratti[0].contratto.id})}">Calcola il tuo livello →</a><p>Aggiungi anzianità, superminimo e orario ridotto nel calcolatore CCNL e livello.</p></aside>
   <p class="ral-disclaimer">${PROFILO} Tabelle in vigore al ${data(alla)}. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,title:'Minimi CCNL 2026: tabelle retributive, lordo e netto per livello',
-    description:'Tabelle retributive 2026 di quattordici CCNL, dal Commercio al Metalmeccanico: minimo lordo mensile, RAL e netto stimato per ogni livello, con fonti e decorrenze.',
+    description:'Tabelle retributive 2026 di diciannove CCNL, dal Commercio ai Bancari: minimo lordo mensile, RAL e netto stimato per ogni livello, con fonti e decorrenze.',
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta}],body});
 }
 

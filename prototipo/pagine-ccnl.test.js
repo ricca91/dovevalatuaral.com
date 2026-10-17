@@ -18,22 +18,18 @@ const testo=html=>html.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ');
 const uno=(html,re,label)=>{const m=[...html.matchAll(re)];assert.equal(m.length,1,label);return m[0][1];};
 
 test('le rotte sono quelle decise dai volumi di ricerca, non una per riga del dataset',()=>{
-  assert.equal(ROTTE.length,69);
+  assert.equal(ROTTE.length,74);
   assert.equal(new Set(ROTTE).size,ROTTE.length);
   const perContratto=Object.fromEntries(CONTRATTI_SEO.map(c=>[c.slug,ROTTE.filter(r=>r.startsWith(`/minimi-ccnl/${c.slug}/`)&&r!==`/minimi-ccnl/${c.slug}/`).length]));
   assert.deepEqual(perContratto,{commercio:8,metalmeccanico:9,'pubblici-esercizi':0,turismo:4,'agenzie-di-viaggio':0,logistica:4,
     multiservizi:6,'studi-professionali':6,'cooperative-sociali':13,dmo:4,'metalmeccanico-confapi':0,
-    'grafici-editoriali':0,poligrafici:0,vetro:0});
+    'grafici-editoriali':0,poligrafici:0,vetro:0,'metalmeccanico-artigiano':0,'industria-alimentare':0,
+    'chimico-farmaceutico':0,'gomma-plastica':0,bancari:0});
   for(const rotta of ['/minimi-ccnl/','/minimi-ccnl/commercio/5-livello/','/minimi-ccnl/metalmeccanico/livello-c3/',
     '/minimi-ccnl/cooperative-sociali/livello-d2/','/minimi-ccnl/studi-professionali/4s-livello/'])
     assert.ok(ROTTE.includes(rotta),rotta);
-  /* Tabelle per tutti i contratti del dataset. Durante RIC-61 i cinque
-     del gruppo 2 entrano nel dataset prima della loro tabella SEO: la
-     deroga sparisce quando si chiude il gruppo. */
-  const GRUPPO_2_IN_CORSO=['area-meccanica-artigianato-c030','alimentare-industria-e012',
-    'chimico-farmaceutico-industria-b011','gomma-plastica-industria-b371','credito-abi-j241'];
-  assert.deepEqual(new Set(CONTRATTI_SEO.map(c=>c.id)),
-    new Set(R.CONTRATTI.map(c=>c.id).filter(id=>!GRUPPO_2_IN_CORSO.includes(id))));
+  /* Tabelle per tutti i contratti del dataset. */
+  assert.deepEqual(new Set(CONTRATTI_SEO.map(c=>c.id)),new Set(R.CONTRATTI.map(c=>c.id)));
   for(const rotta of ROTTE)assert.doesNotMatch(rotta,/stipendio/);
 });
 

@@ -7,12 +7,8 @@ const MENSILITA_AMMESSE=[12,13,14,15,16];
 
 test.describe('catalogo CCNL',()=>{
   test('identifica precisamente i contratti e le loro fonti',()=>{
-    assert.equal(VERSIONE_CATALOGO,'2026-09-23');
-    /* I contratti fino al gruppo 1 restano quelli, nello stesso ordine;
-       i gruppi successivi si inseriscono prima di Funzioni Centrali e
-       hanno le loro prove. */
-    const fino=[...CCNL.slice(0,14),CCNL[CCNL.length-1]];
-    assert.deepEqual(fino.map(({id,codiceCnel,mensilita})=>({id,codiceCnel,mensilita})),[
+    assert.equal(VERSIONE_CATALOGO,'2026-10-16');
+    assert.deepEqual(CCNL.map(({id,codiceCnel,mensilita})=>({id,codiceCnel,mensilita})),[
       {id:'terziario-confcommercio-h011',codiceCnel:'H011',mensilita:14},
       {id:'metalmeccanica-industria-c011',codiceCnel:'C011',mensilita:13},
       {id:'pubblici-esercizi-fipe-h05y',codiceCnel:'H05Y',mensilita:14},
@@ -27,6 +23,11 @@ test.describe('catalogo CCNL',()=>{
       {id:'grafici-editori-g011',codiceCnel:'G011',mensilita:13},
       {id:'poligrafici-quotidiani-g041',codiceCnel:'G041',mensilita:13},
       {id:'vetro-lampade-display-b132',codiceCnel:'B132',mensilita:13},
+      {id:'area-meccanica-artigianato-c030',codiceCnel:'C030',mensilita:13},
+      {id:'alimentare-industria-e012',codiceCnel:'E012',mensilita:14},
+      {id:'chimico-farmaceutico-industria-b011',codiceCnel:'B011',mensilita:13},
+      {id:'gomma-plastica-industria-b371',codiceCnel:'B371',mensilita:13},
+      {id:'credito-abi-j241',codiceCnel:'J241',mensilita:13},
       {id:'funzioni-centrali',codiceCnel:null,mensilita:13},
     ]);
     for(const contratto of CCNL){
@@ -40,8 +41,7 @@ test.describe('catalogo CCNL',()=>{
 
   /* Il catalogo delle mensilità e il dataset retributivo parlano degli
      stessi contratti con gli stessi ID e codici CNEL: un codice distinto
-     per contratto. Funzioni Centrali resta solo qui. Il conteggio
-     esatto sta nelle prove di ogni gruppo, non in un numero globale. */
+     per contratto. Funzioni Centrali resta solo qui. */
   test('ogni contratto del dataset retributivo è nel catalogo con lo stesso codice',()=>{
     const R=require('./retribuzione-ccnl.js');
     assert.equal(new Set(R.CONTRATTI.map(c=>c.codiceCnel)).size,R.CONTRATTI.length);
@@ -76,7 +76,10 @@ test.describe('catalogo CCNL',()=>{
       ['logistica-trasporto-merci-i100',14],['multiservizi-pulizia-k511',14],
       ['studi-professionali-confprofessioni-h442',14],['distribuzione-moderna-federdistribuzione-h008',14],
       ['metalmeccanica-pmi-confapi-c018',13],['grafici-editori-g011',13],
-      ['poligrafici-quotidiani-g041',13],['vetro-lampade-display-b132',13]])
+      ['poligrafici-quotidiani-g041',13],['vetro-lampade-display-b132',13],
+      ['area-meccanica-artigianato-c030',13],['alimentare-industria-e012',14],
+      ['chimico-farmaceutico-industria-b011',13],['gomma-plastica-industria-b371',13],
+      ['credito-abi-j241',13]])
       assert.equal(suggerisciMensilita(id,12),mensilita,id);
   });
 

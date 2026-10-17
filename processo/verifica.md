@@ -349,6 +349,50 @@ natura: la correttezza viene ancora dal confronto a mano con la fonte.
   indipendenti, riscontrate fra loro e con gli aumenti annunciati dalle parti. La pagina lo dice
   contratto per contratto.
 
+## Cinque contratti in più (RIC-61)
+
+Il dataset passa da quattordici a diciannove CCNL e da 1.105 a 1.517 righe (sezione ×
+decorrenza × livello). Il metodo è quello del gruppo 1; cambia l'organizzazione del lavoro.
+
+- **Una ricerca e un'implementazione per contratto**, in parallelo, ciascuna nel proprio blocco
+  di `retribuzione-ccnl.js` e `ccnl.js` e nel proprio file di prova: i cinque merge sul ramo di
+  integrazione non hanno avuto conflitti. Dossier per contratto in
+  `processo/fonti-ccnl-gruppo2-*.md`, indice e matrice di copertura in
+  `processo/fonti-ccnl-gruppo2.md`.
+- **Le fixture sono scritte a mano dalla fonte**, con il conto per esteso, in
+  `retribuzione-ccnl-gruppo2-<contratto>.test.js` (100 prove), con gli aiuti comuni estratti in
+  `prove-ccnl.js` e usati anche dal gruppo 1. `retribuzione-ccnl-gruppo2.test.js` prova il gruppo
+  nell'insieme: diciannove codici CNEL distinti, dossier e fonte archiviata per ciascuno, RAL
+  completa su ogni sezione.
+- **Riscontro a campione dell'orchestratore sulle fonti archiviate**, oltre a quello degli
+  implementer: gomma-plastica (livelli I, F, Q su tutte le tranche nel PDF dell'ipotesi), alimentare
+  (tutti i minimi della parte comune nel PDF FLAI), area meccanica (tabelle di metalmeccanica,
+  orafi e restauro sul verbale integrativo scansionato, scatti del restauro e degli orafi a p. 123 del
+  testo definitivo), chimico (A1, D1, F su tutte le scadenze a p. 48 dell'ipotesi), credito ABI (i
+  nove stipendi di marzo 2026 sul documento First CISL).
+- **Le regole nuove degli scatti hanno prove proprie** su contratti inventati in
+  `retribuzione-ccnl-modello.test.js` (primo scatto dopo un periodo diverso, decorrenza nel mese
+  di maturazione, anzianità sospesa: inizio prima, dentro e dopo la finestra, maturazione a
+  cavallo), e una prova di gruppo fissa che le dichiara il solo Credito ABI. Il testo d'aiuto della
+  pagina non cambia per nessun contratto che non le dichiara, e una prova lo verifica caricando la
+  pagina.
+- **H011, C011 e il gruppo 1 non si muovono**: le loro prove sono rimaste com'erano, salvo i due
+  conteggi globali diventati relativi al proprio gruppo. `motore.js` è identico a main e le 2.001
+  corse del confronto non hanno divergenze contro la base salvata prima del lavoro.
+- **`npm test`**: 693 prove, tutte verdi (577 prima del lavoro). **`npm run build`**: riuscita,
+  `prove-ccnl.js` fuori da `dist/`.
+- **Pagina guidata in Chromium** headless a 1280 × 900 e 390 × 844, sul server di anteprima
+  locale: 336 combinazioni di contratto, sezione, livello e profilo per viewport, tutte con RAL,
+  netto e media finiti e RAL uguale a `componiRal()`, CTA verso il calcolatore completo con la RAL
+  esatta, fonte con link, nessun risultato precedente rimasto visibile al cambio, nessun errore
+  JavaScript, nessuno sbordo orizzontale su mobile. Per ogni sezione del gruppo 2: part-time a 20
+  ore, orario fuori contratto e data futura rifiutati, anzianità e superminimo. La verifica sulla
+  preview della PR è riportata nella PR.
+- **Non provato: che le tabelle da fonti secondarie siano quelle firmate**, dove il testo firmato
+  non era pubblico: gomma-plastica (ipotesi riprodotta da terzi, tabella concorde in quattro
+  fonti), olearia dell'alimentare (livelli 5–10 senza riscontro indipendente). Ogni dossier dice
+  che cosa è stato letto e che cosa no.
+
 ## Cosa NON è provato
 
 - **Nessuna validazione da un consulente del lavoro.** I numeri sono derivati da fonti

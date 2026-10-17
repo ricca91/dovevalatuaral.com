@@ -77,7 +77,7 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('livello-help').textContent=
       `${livelli.length} livelli · ${mensilitaTesto(mensilita)} mensilità · tempo pieno ${ore} ore settimanali.`;
     campo('ccnl-help').textContent=contratto.notaFonte
-      ?'Tabelle da fonti non firmatarie: i dettagli sono nel risultato.'
+      ?'Nota sulle fonti o sullo stato del contratto: i dettagli sono nel risultato.'
       :'Mensilità e orario a tempo pieno li fissa il contratto.';
     popolaProfili();
   }

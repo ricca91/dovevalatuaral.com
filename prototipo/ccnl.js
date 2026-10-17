@@ -5,7 +5,7 @@
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.CCNL_CATALOGO=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
-  const VERSIONE_CATALOGO='2026-09-23';
+  const VERSIONE_CATALOGO='2026-10-16';
   const congela=contratto=>Object.freeze({...contratto,fonte:Object.freeze(contratto.fonte)});
   const CCNL=Object.freeze([
     congela({
@@ -181,9 +181,7 @@
       },
     }),
     /* Gruppo 2 (RIC-61): gli stessi ID del dataset in
-       retribuzione-ccnl.js, un blocco per contratto. */
-
-    /* — Area meccanica, artigianato (C030) — */
+       retribuzione-ccnl.js. Le mensilità sono quelle vigenti. */
     congela({
       id:'area-meccanica-artigianato-c030',
       nome:'Area meccanica — artigianato (metalmeccanica e installazione impianti, orafi, odontotecnica, restauro)',
@@ -196,8 +194,6 @@
         url:'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/221687',
       },
     }),
-
-    /* — Industria alimentare (E012) — */
     congela({
       id:'alimentare-industria-e012',
       nome:'Industria alimentare',
@@ -210,8 +206,6 @@
         url:'https://www.faicisl.it/attachments/article/2350/CCNL%20INDUSTRIA%20ALIMENTARE%20%202023-2027%20versione%20web.pdf',
       },
     }),
-
-    /* — Chimico-farmaceutico, industria (B011) — */
     congela({
       id:'chimico-farmaceutico-industria-b011',
       nome:'Chimico-farmaceutico — industria (settore chimico e chimico-farmaceutico)',
@@ -224,8 +218,6 @@
         url:'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
       },
     }),
-
-    /* — Gomma, cavi elettrici e plastica, industria (B371) — */
     congela({
       id:'gomma-plastica-industria-b371',
       nome:'Gomma, cavi elettrici e plastica — industria',
@@ -238,8 +230,6 @@
         url:'https://www.assolombarda.it/servizi/assistenza-sindacale/informazioni/ccnl-per-l2019industria-della-gomma-plastica-e-cavi-elettrici-ed-affini-10-12-2025-scioglimento-della-riserva-da-parte-delle-oo-ss-ll',
       },
     }),
-
-    /* — Credito ABI, aree professionali e quadri (J241) — */
     congela({
       id:'credito-abi-j241',
       nome:'Credito — ABI, aree professionali e quadri direttivi',
@@ -252,8 +242,6 @@
         url:'https://fabitreviso.it/fm/files/CCNL/ccnl-23-nov-2023_fabi.pdf',
       },
     }),
-
-    /* — fine del gruppo 2 — */
     congela({
       id:'funzioni-centrali',
       nome:'Comparto Funzioni Centrali — personale non dirigente',

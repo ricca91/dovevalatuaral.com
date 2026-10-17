@@ -459,6 +459,52 @@ build invece di uscire troncato.
 Le Cooperative sociali perdono il loro «stipendio lordo e netto»: le loro pagine per livello
 non avevano impressioni, e un'eccezione per un solo contratto non valeva una seconda forma.
 
+## Cinque contratti, un solo modello (RIC-61)
+
+Il gruppo 2 è entrato sul modello del RIC-60 senza un secondo modello retributivo. Quattro
+contratti su cinque non hanno chiesto nulla: sezioni, incidenza per voce, profili, scatti
+assenti e totale derivato bastavano. Le decisioni che contano sono quelle in cui il modello
+avrebbe potuto crescere e non è cresciuto.
+
+**Il Credito ABI estende gli scatti, e solo gli scatti.** Primo scatto dopo quattro anni e poi
+ogni tre, decorrenza dal primo giorno del mese in cui matura, anzianità sospesa dal 1° gennaio
+2013 al 31 luglio 2014: tre campi della regola (`primoDopoAnni`, `decorre: 'meseMaturazione'`,
+`sospensioni`), con default che lasciano identici tutti gli altri contratti. Il tetto diverso dei
+quadri di 3° e 4° livello (7 scatti invece di 8, contati dalla nomina) non è diventato una
+quarta regola: sono due sezioni sulla stessa tabella con `codiciLivello`, che il modello sapeva
+già fare.
+
+**L'orario che cambia nel tempo non entra nel modello.** Fino al 2025 il tempo pieno ABI era
+di 37 ore e mezza, poi di 37, e la base del part-time è passata a 37 solo dal 2026. Invece di
+un orario per data, il dataset porta soltanto la tabella vigente dal 1° marzo 2026, quando le
+due grandezze coincidono; le tabelle 2023–2025 restano lette e riconciliate nel dossier. È lo
+stesso perimetro di H011 e C011, che partono dalla tranche vigente: il calcolatore lavora alle
+condizioni di oggi.
+
+**Le varianti costose da modellare si dichiarano invece di fingerle.** La quattordicesima
+ridotta dell'olearia per le aziende fino a 40 dipendenti (35% o 50%) avrebbe chiesto mensilità
+frazionarie per sezione, un caso che rompe l'allineamento con il catalogo e il passaggio delle
+mensilità via URL, per un settore di nicchia: la sezione è dichiarata per le aziende oltre 40
+dipendenti e la riduzione sta nelle esclusioni. Gli scatti del chimico, aboliti dal 2010, sono
+`assenti`; quelli congelati come superminimo li indica chi li ha.
+
+**Una fonte a riproduzione riservata non entra nell'archivio.** Il consolidato del CCNL
+gomma-plastica letto per scatti, tredicesima e part-time porta «copia riservata a» un'azienda
+cliente: è citato con titolo, URL e pagine lette, non copiato in `processo/dati/fonti/`.
+
+**Le pagine SEO crescono di una tabella per contratto, non di un livello.** Il RIC-59 vuole
+una tabella per ogni contratto del dataset e pagine per livello solo dove la domanda è misurata:
+cinque tabelle nuove, nessuna pagina per livello. Gli slug seguono la formulazione più cercata
+(DataForSEO, 16 ottobre 2026): «ccnl metalmeccanico artigiano», non «area meccanica»;
+«industria alimentare»; «chimico farmaceutico»; «gomma plastica»; «bancari», non «credito» né
+«abi».
+
+**Il lavoro è stato diviso per contratto, non per strato.** Un agente di ricerca e uno di
+implementazione per CCNL, ciascuno nel proprio blocco del dataset e nel proprio file di prova,
+un merge alla volta su un ramo di integrazione. I blocchi preparati prima hanno tenuto i cinque
+merge senza conflitti; le chiusure comuni (versioni, conteggi, SEO, documentazione) sono state
+fatte una volta sola, alla fine.
+
 ## Dove finisce il registro
 
 Nel codice, in tre pull request:

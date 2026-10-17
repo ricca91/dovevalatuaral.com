@@ -31,7 +31,7 @@
   else root.RETRIBUZIONE_CCNL=api;
 })(typeof globalThis!=='undefined'?globalThis:this,function(){
 
-  const VERSIONE_DATASET='2026-09-23';
+  const VERSIONE_DATASET='2026-10-16';
 
   /* Gli importi contrattuali sono in euro con due decimali, e le
      somme devono tornare al centesimo con il totale pubblicato.
@@ -1273,9 +1273,11 @@
 
      Fonti, letture e limiti di ognuno stanno nei dossier
      processo/fonti-ccnl-gruppo2-*.md, indicizzati da
-     processo/fonti-ccnl-gruppo2.md. Ogni contratto occupa il proprio
-     blocco, con le sue esclusioni accanto: un blocco ancora vuoto
-     (null) non entra nel catalogo.
+     processo/fonti-ccnl-gruppo2.md, con la matrice di copertura. Ogni
+     contratto occupa il proprio blocco, con le sue esclusioni accanto.
+     Il Credito ABI è l'unico che ha chiesto regole nuove al modello
+     degli scatti: primo scatto dopo un periodo diverso, decorrenza nel
+     mese di maturazione, anzianità sospesa (vedi IL CATALOGO).
      ============================================================ */
 
   /* --- AREA MECCANICA — ARTIGIANATO, C030 ---------------------- */
@@ -1522,10 +1524,10 @@
     scatti:cifraFissa(2,5,'art. 53 — aumenti periodici di anzianità, importi consolidati dal 1° agosto 1998'),
     fonte:FONTE_ALIMENTARE,
     sezioni:[
-      {id:'alimentare',nome:'Industria alimentare (parte comune)',
+      {id:'alimentare',nome:'Industria alimentare — parte comune',
         descrizione:'Livelli 1S (quadri), 1, 2, 3A, 3, 4, 5, 6: tutti i settori che applicano l’art. 51 comune.',
         tabelle:tabelleAlimentare(LIVELLI_ALIMENTARE,false)},
-      {id:'olearia-margariniera',nome:'Industria olearia e margariniera (aziende oltre 40 dipendenti)',
+      {id:'olearia-margariniera',nome:'Industria olearia e margariniera — aziende oltre 40 dipendenti',
         descrizione:'Disposizioni specifiche Assitol: scala propria di dieci livelli, contingenza, scatti, minimi e IAR propri. Il calcolo vale per le aziende oltre 40 dipendenti, dove la 14ª è intera. I quadri sono nei livelli 1 e 2, con un elemento aggiuntivo.',
         scatti:cifraFissa(2,5,'art. 53 delle Disposizioni specifiche olearia — importi dal 1° luglio 2019'),
         tabelle:tabelleAlimentare(LIVELLI_OLEARIA,true),
@@ -1832,13 +1834,15 @@
     'Straordinario, banca delle ore, lavoro notturno e festivo.',
   ];
 
-  /* --- fine dei blocchi del gruppo 2 --------------------------- */
+  const CONTRATTI_GRUPPO_2=[AREA_MECCANICA,ALIMENTARE,CHIMICO,GOMMA_PLASTICA,CREDITO_ABI];
 
-  const GRUPPO_2=[[AREA_MECCANICA,ESCLUSIONI_AREA_MECCANICA],[ALIMENTARE,ESCLUSIONI_ALIMENTARE],
-    [CHIMICO,ESCLUSIONI_CHIMICO],[GOMMA_PLASTICA,ESCLUSIONI_GOMMA_PLASTICA],
-    [CREDITO_ABI,ESCLUSIONI_CREDITO_ABI]].filter(([contratto])=>contratto);
-  const CONTRATTI_GRUPPO_2=GRUPPO_2.map(([contratto])=>contratto);
-  const ESCLUSIONI_GRUPPO_2=Object.fromEntries(GRUPPO_2.map(([contratto,voci])=>[contratto.id,voci]));
+  const ESCLUSIONI_GRUPPO_2={
+    [AREA_MECCANICA.id]:ESCLUSIONI_AREA_MECCANICA,
+    [ALIMENTARE.id]:ESCLUSIONI_ALIMENTARE,
+    [CHIMICO.id]:ESCLUSIONI_CHIMICO,
+    [GOMMA_PLASTICA.id]:ESCLUSIONI_GOMMA_PLASTICA,
+    [CREDITO_ABI.id]:ESCLUSIONI_CREDITO_ABI,
+  };
 
   /* ------------------------------------------------------------
      DATE
