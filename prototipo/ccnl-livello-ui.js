@@ -105,7 +105,8 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('anzianita-help').textContent=nonCalcolabili
       ?'Scatti non calcolabili per questo livello: la data non serve.'
       :`Conta l’${regola.base}. Serve per far decorrere lo scatto dal momento giusto${livello.progressione
-        ?` e per applicare il parametro maturato (${descriviPassi(livello.progressione)})`:''}; lascia vuoto se non la sai.`;
+        ?` e per applicare il parametro maturato (${descriviPassi(livello.progressione)})`:''}; lascia vuoto se non la sai.${
+        R.descrizioneScatti(regola).anzianitaDal}`;
   }
 
   const numero=(raw,{intero=false}={})=>{

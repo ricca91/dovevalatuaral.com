@@ -348,6 +348,16 @@ Sono fra le esclusioni del dataset (`ESCLUSIONI_CREDITO_ABI`), scritte per l'ute
   numero dichiarato resta limitato a 8 (7 per QD3–QD4), quindi i 12 scatti
   delle aree in servizio al 19 dicembre 1994 non sono esprimibili e sono
   dichiarati fra le esclusioni.
+- **Soglia di anzianità (correzione di review, 17 ottobre 2026).** Prima una data
+  anteriore al 20 dicembre 1994 dava 8 scatti senza avviso. Ora la sezione
+  `aree-qd12` dichiara `anzianitaDal:{data:'1994-12-20', motivo}` (artt. 103 c. 2
+  e 94 c. 2, riletti sul testo coordinato, pp. 129 e 140): con una data
+  precedente il calcolo dalla data si ferma con il motivo, e l'aiuto della data
+  lo dice prima; il numero dichiarato resta possibile fino a 8. La sezione `qd34`
+  non ha soglia: l'art. 94 c. 2 fa contare i 7 scatti dalla data di assunzione o
+  nomina «in luogo dei precedenti» e non fissa una data per chi era in servizio.
+  La soglia per i quadri destinatari del ccnl 22 giugno 1995 (in servizio al
+  1° luglio 1995, art. 94 c. 2) non è modellata: resta nelle esclusioni.
 - **Estensione del modello** (`creaCatalogo`, commento «IL CATALOGO»), provata
   su contratti inventati in `prototipo/retribuzione-ccnl-modello.test.js`
   (describe 9 e 10):
@@ -362,8 +372,11 @@ Sono fra le esclusioni del dataset (`ESCLUSIONI_CREDITO_ABI`), scritte per l'ute
     l'inizio dell'anzianità (mesi di calendario più giorni); quelle già compiute
     restano. Esempio: assunto il 15/3/2010, il primo scatto passa dal 15/3/2014
     al 15/10/2015.
-  - La pagina CCNL e livello (`descriviScatti`) dice primo scatto, mese di
-    maturazione e periodi sospesi solo dove la regola li dichiara; per ogni altro
+  - `anzianitaDal:{data,motivo}` — la prima data di anzianità da cui vale il
+    conto dalla data; una data precedente ferma il calcolo con il motivo.
+  - La pagina CCNL e livello e le tabelle dei minimi dicono primo scatto, mese di
+    maturazione e periodi sospesi con lo stesso testo, scritto dal catalogo
+    (`descrizioneScatti`), solo dove la regola li dichiara; per ogni altro
     contratto il testo è identico a prima (prova sul testo, contratto per
     contratto).
 - **Part-time.** Riproporzione sulle 37 ore (art. 38 c. 12) per aree e quadri;

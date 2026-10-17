@@ -58,6 +58,7 @@ Nessuna regola conosce il nome di un CCNL.
 | Mensilità che dipendono dalla data | `mensilita: [{dal, mensilita}]` | Cooperative sociali: 13 fino al 2024, 13,5 dal 2025 |
 | Famiglie di scatti | `scatti.tipo`: `cifraFissa`, `percentualeMaturazione` (finestre per data di maturazione), `quotaUnica` (dopo N anni), `assenti`; scatto `null` sul livello = non documentato | Multiservizi impiegati e operai; Grafici Q e AS non calcolabili; Chimico-farmaceutico senza scatti dal 2010 |
 | Cadenza e decorrenza degli scatti | `scatti.primoDopoAnni` (default la cadenza), `scatti.decorre`: `meseSuccessivo` (default), `meseMaturazione`, `anniversario`; `scatti.sospensioni: [{dal, al, articolo}]`, periodi in cui l'anzianità non matura | Credito ABI: primo dopo 4 anni e poi ogni 3, dal primo del mese in cui matura, anzianità sospesa dal 1° gennaio 2013 al 31 luglio 2014 |
+| Anzianità da cui vale il conto dalla data | `scatti.anzianitaDal: {data, motivo}` (default nessuna soglia): una data di anzianità precedente ferma il calcolo con il motivo, il numero di scatti dichiarato resta possibile entro il tetto; l'aiuto della data lo dice prima | Credito ABI, aree e QD1–QD2: dal 20 dicembre 1994, perché chi era in servizio al 19 dicembre 1994 conserva fino a 12 scatti con regole non modellate; nessuna soglia per i QD3–QD4, che contano dalla nomina |
 | Voci per profilo | `livello.profili: [{id, nome, voce}]` | indennità professionali delle Cooperative sociali; quadri dell'olearia (Alimentare); funzioni direttive e tecnico del restauro senior (Area meccanica) |
 | Orario per contratto o sezione | `oreSettimanali` | 39 Logistica, 38 Cooperative sociali, 37 Credito ABI, 36 Poligrafici e soffio del Vetro |
 | Totale pubblicato contro derivato | `totalePubblicato`, `vociTotalePubblicato`, `discrepanzaFonte: {scarto, nota}` | ovunque; scarti registrati su Logistica e Poligrafici |
@@ -122,7 +123,9 @@ il bottone verso il calcolatore completo porta la RAL giusta e una media su 13.
 ## Prove
 
 `retribuzione-ccnl-modello.test.js` prova le estensioni su contratti
-inventati, comprese le tre regole degli scatti del RIC-61. `retribuzione-ccnl.test.js` fissa H011 e C011 con le RAL calcolate
+inventati, comprese le regole degli scatti del RIC-61 (primo scatto, decorrenza nel
+mese, anzianità sospesa, soglia di anzianità) e la descrizione unica che ne danno la
+pagina e le tabelle dei minimi. `retribuzione-ccnl.test.js` fissa H011 e C011 con le RAL calcolate
 prima dell'estensione, la riconciliazione di ogni riga, l'integrazione con il
 motore su ogni livello di ogni contratto e sezione, e il contratto della pagina.
 `retribuzione-ccnl-gruppo1.test.js` ha le fixture dei nuovi contratti: importi

@@ -1766,8 +1766,15 @@
       totalePubblicato:null,
       scatto:euro(cent(scatto)+cent(exRistrutturazione)),
       nota:`Ogni scatto vale ${virgola(scatto)} € di scatto di anzianità più ${virgola(exRistrutturazione)} € di importo ex ristrutturazione tabellare (Allegato 2).`})))];
+  /* Il conto dalla data vale per chi è stato assunto dopo il 19
+     dicembre 1994: chi era già in servizio conserva il numero di scatti
+     dei contratti di allora (artt. 103 c. 2 e 94 c. 2), e con una data
+     precedente il calcolo si ferma invece di dare 8. */
   const SCATTI_ABI={tipo:'cifraFissa',primoDopoAnni:4,cadenzaAnni:3,massimo:8,decorre:'meseMaturazione',
     sospensioni:[{dal:'2013-01-01',al:'2014-07-31',articolo:'art. 94 c. 5 e art. 103 c. 3'}],
+    anzianitaDal:{data:'1994-12-20',motivo:'chi era in servizio al 19 dicembre 1994 conserva il numero di '+
+      'scatti dei contratti di allora (fino a 12 nelle aree professionali, art. 103 c. 2; per i quadri '+
+      'direttivi di 1° e 2° livello quello del ccnl 1994, art. 94 c. 2), con regole che il calcolo non applica'},
     base:'anzianità di servizio dalla data di assunzione',
     articolo:'artt. 94 e 103 — scatti di anzianità; ogni scatto comprende l’importo ex ristrutturazione tabellare (artt. 93 e 102, Allegato 2)',
     decorrenza:'dal primo giorno del mese in cui matura: il primo dopo 4 anni, i successivi ogni 3'};
@@ -1801,7 +1808,9 @@
       {id:'qd34',nome:'Quadri direttivi di 3° e 4° livello',
         descrizione:'Fino a 7 scatti, contati dalla data di assunzione o di nomina a quadro direttivo di 3° o 4° livello, in luogo di quelli maturati prima (art. 94 c. 1–2). Il contratto non fissa un orario per i quadri: il calcolo usa le 37 ore della 3ª area (art. 96 c. 2).',
         codiciLivello:['QD4','QD3'],
-        scatti:{...SCATTI_ABI,massimo:7,
+        /* Contati dalla nomina, «in luogo dei precedenti»: il dossier non
+           documenta una soglia di anzianità per i QD3–QD4, quindi nessuna. */
+        scatti:{...SCATTI_ABI,massimo:7,anzianitaDal:null,
           base:'anzianità dalla data di assunzione o di nomina a quadro direttivo di 3° o 4° livello, che sostituisce gli scatti maturati prima',
           articolo:'art. 94 c. 1–2 — fino a 7 scatti per i quadri direttivi di 3° e 4° livello, dalla data di assunzione o nomina; ogni scatto comprende l’importo ex ristrutturazione tabellare (art. 93, Allegato 2)'},
         tabelle:TABELLE_ABI,
@@ -1821,7 +1830,7 @@
     'Una tantum per luglio–novembre 2023 (da 873,95 a 1.679,60 €): pagamento unico, non ricorrente.',
     'Apposito elemento della retribuzione per la vacanza contrattuale (art. 8): temporaneo e condizionato al rispetto delle procedure; i verbali di sospensione dei termini ne rinviano, per nostra lettura, l’applicazione, e nessuna fonte dice se nel 2026 sia stato pagato.',
     'Previdenza complementare, assistenza sanitaria, long term care, contributo a Prosolidar (10 € annui trattenuti in busta paga) e contributo al Fondo per l’occupazione (pagato in ore di riduzione d’orario, non in denaro).',
-    'Scatti di chi era in servizio prima del 1995 o ha anzianità anteriore al 1° novembre 1999: valgono regole precedenti che il calcolo non applica. Le aree professionali in servizio al 19 dicembre 1994 hanno fino a 12 scatti, ma il calcolo ne accetta al massimo 8: per loro la cifra può essere più bassa. I quadri di 1° e 2° livello in servizio a quelle date conservano il numero del ccnl 1994, che non è stato letto.',
+    'Scatti di chi era in servizio prima del 1995 o ha anzianità anteriore al 1° novembre 1999: valgono regole precedenti che il calcolo non applica. Con un’anzianità anteriore al 20 dicembre 1994 il calcolo dalla data si ferma: le aree professionali in servizio al 19 dicembre 1994 hanno fino a 12 scatti, ma il numero che puoi indicare è al massimo 8, quindi per loro la cifra può essere più bassa. I quadri di 1° e 2° livello in servizio a quelle date conservano il numero del ccnl 1994, che non è stato letto.',
     'Promozioni fra livelli con scatto di valore diverso: il calcolo valorizza tutti gli scatti al livello attuale; la regola per gli scatti maturati nel livello precedente non è stata trovata.',
     'Orari diversi da 37 ore: 40 ore per custodia e guardiania, 36 ore per turni, settimane su 4 o 6 giorni, con la domenica o dal lunedì pomeriggio al sabato mattina (art. 108). Il calcolo riproporziona sempre sulle 37.',
     'Orario dei quadri direttivi: il contratto non lo fissa (la prestazione segue «di massima» l’orario della 3ª area), quindi il tempo pieno è assunto a 37 ore e il part-time si misura lì (art. 96 c. 2).',
@@ -1942,6 +1951,12 @@
              l'inizio del periodo slitta di quanto del periodo cade
              dopo l'inizio dell'anzianità, in mesi di calendario più i
              giorni che avanzano; quelle già compiute restano;
+           – `anzianitaDal` {data,motivo}: la prima data di anzianità
+             da cui il conto dalla data vale. Una data precedente
+             ferma il calcolo con il motivo, invece di dare un numero
+             per un regime che il catalogo non modella; il numero di
+             scatti dichiarato resta possibile entro il tetto. Assente,
+             nessuna soglia;
        · per ogni livello, i profili che portano una voce propria;
        · per le righe che si succedono con l'anzianità (i rider della
          Logistica), la progressione: con la data di anzianità si
@@ -1968,10 +1983,14 @@
       for(const s of sospensioni)
         if(!dataIsoValida(s.dal)||!dataIsoValida(s.al)||s.dal>s.al)
           throw new RangeError(`Periodo di anzianità sospesa non valido: ${s.dal} – ${s.al}`);
+      const soglia=regola.anzianitaDal;
+      if(soglia&&(!dataIsoValida(soglia.data)||typeof soglia.motivo!=='string'||!soglia.motivo.trim()))
+        throw new RangeError(`Soglia di anzianità non valida: serve una data e il motivo (${soglia.data})`);
       return congela({...regola,tipo,massimo,decorre,
         ...(regola.cadenzaAnni!==undefined
           ?{primoDopoAnni:regola.primoDopoAnni??regola.cadenzaAnni}:{}),
         sospensioni:congela(sospensioni.map(s=>congela({...s}))),
+        anzianitaDal:soglia?congela({data:soglia.data,motivo:soglia.motivo}):null,
         ...(regola.importi?{importi:congela({...regola.importi})}:{}),
         ...(regola.finestre?{finestre:congela(regola.finestre.map(f=>
           congela({...f,importi:congela({...f.importi})})))}:{})});
@@ -2055,7 +2074,9 @@
            uno ogni 3» dove il primo arriva dopo un periodo diverso;
          · decorrenza — «, ciascuno dal primo giorno del mese in cui
            matura» per `meseMaturazione`;
-         · sospensioni — una frase per periodo, con lo spazio davanti. */
+         · sospensioni — una frase per periodo, con lo spazio davanti;
+         · anzianitaDal — la frase sulla soglia, con lo spazio davanti:
+           da quale anzianità il calcolo dalla data si ferma, e perché. */
     function descrizioneScatti(regola){
       return congela({
         cadenza:regola.cadenzaAnni===undefined?''
@@ -2066,6 +2087,9 @@
           ?', ciascuno dal primo giorno del mese in cui matura':'',
         sospensioni:(regola.sospensioni||[]).map(s=>
           ` L’anzianità non matura dal ${dataEstesa(s.dal)} al ${dataEstesa(s.al)} (${s.articolo}).`).join(''),
+        anzianitaDal:regola.anzianitaDal
+          ?` Con un’anzianità anteriore al ${dataEstesa(regola.anzianitaDal.data)} il calcolo dalla data si ferma: ${
+            regola.anzianitaDal.motivo}.`:'',
       });
     }
 
@@ -2175,8 +2199,25 @@
       return elenco;
     }
 
+    /* Il numero di scatti ricavato dalla data. Dove la regola dichiara
+       da quale anzianità vale (`anzianitaDal`), una data precedente
+       ferma il calcolo con il motivo: chi l'ha ricade in un regime che
+       il catalogo non modella, e un numero sarebbe una variante non
+       documentata spacciata per supportata. Il numero dichiarato a
+       mano non passa di qui. */
+    function scadenzeDaData(regola,dataInizio,alla,contratto){
+      validaAnzianita(dataInizio,alla);
+      const soglia=regola.anzianitaDal;
+      if(soglia&&dataInizio<soglia.data)
+        throw new RangeError(`Con un’anzianità dal ${dataItaliana(dataInizio)} gli scatti di ${contratto.nome} `+
+          `non si calcolano dalla data: ${soglia.motivo}. Il calcolo dalla data vale dal ${dataItaliana(soglia.data)}; `+
+          `se sai quanti scatti hai, indicane il numero (al massimo ${regola.massimo}).`);
+      return scadenze(regola,dataInizio,alla);
+    }
+
     function scattiMaturati(id,dataInizio,alla=oggi(),sezione){
-      return scadenze(profilo(id,sezione).scatti,dataInizio,alla).length;
+      const P=profilo(id,sezione);
+      return scadenzeDaData(P.scatti,dataInizio,alla,P.contratto).length;
     }
 
     function importoScatto(regola,livello){
@@ -2272,7 +2313,7 @@
 
       let dettaglio=[];
       if(dichiarati===null&&anzianitaDichiarata&&documentati)
-        dettaglio=scadenze(regola,dataAnzianita,alla);
+        dettaglio=scadenzeDaData(regola,dataAnzianita,alla,contratto);
       else if(dichiarati!==null){
         if(anzianitaDichiarata)scadenze(regola,dataAnzianita,alla);   // la data resta validata
         dettaglio=Array.from({length:dichiarati},(_,i)=>({n:i+1,maturazione:null,decorrenza:null}));

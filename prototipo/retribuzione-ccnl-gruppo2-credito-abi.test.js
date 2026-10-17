@@ -133,9 +133,33 @@ test.describe('Credito — ABI, aree professionali e quadri direttivi — J241',
     const dichiarati=R.componiRal({ccnl:ABI,sezione:AREE,livello:'AU',scatti:8,alla:OGGI});
     assert.equal(dichiarati.valoreScatto,34.66);
     assert.equal(dichiarati.ral,35837.49);
-    assert.equal(R.scattiMaturati(ABI,'1980-01-01',OGGI,AREE),8);
     assert.throws(()=>R.componiRal({ccnl:ABI,sezione:AREE,livello:'AU',scatti:9,alla:OGGI}),RangeError);
     assert.throws(()=>R.componiRal({ccnl:ABI,sezione:AREE,livello:'AU',scatti:-1,alla:OGGI}),RangeError);
+  });
+
+  /* Art. 103 c. 2 (aree) e art. 94 c. 2 (QD1–QD2): chi era in servizio
+     al 19 dicembre 1994 conserva il numero di scatti dei contratti di
+     allora, fino a 12 nelle aree, con regole che il dataset non porta.
+     Dal 20/12/1994 si calcola: Area unificata, 4 + 7 × 3 = 25 anni, i
+     primi cinque prima del 2013, il sesto (20/12/2013) e i successivi
+     slittano di 19 mesi; l'ottavo matura il 20/7/2021: 8, al tetto.
+     Il 19/12/1994 il calcolo si ferma, invece di dare 8 senza avviso.
+     Il numero dichiarato resta, fino a 8: (2.479,45 + 8 × 34,66) × 13
+     = 35.837,49. */
+  test('scatti: un’anzianità anteriore al 20 dicembre 1994 ferma il calcolo dalla data',()=>{
+    assert.equal(R.scattiMaturati(ABI,'1994-12-20',OGGI,AREE),8);
+    const fermo=data=>errore=>errore instanceof RangeError&&[`anzianità dal ${data}`,'Credito — ABI',
+      'in servizio al 19 dicembre 1994','fino a 12','dal 20/12/1994','al massimo 8']
+      .every(t=>errore.message.includes(t));
+    assert.throws(()=>R.scattiMaturati(ABI,'1994-12-19',OGGI,AREE),fermo('19/12/1994'));
+    assert.throws(()=>R.scattiMaturati(ABI,'1980-01-01',OGGI,AREE),fermo('01/01/1980'));
+    assert.throws(()=>R.componiRal({ccnl:ABI,sezione:AREE,livello:'QD1',dataAnzianita:'1990-06-01',
+      alla:OGGI}),fermo('01/06/1990'));
+    assert.equal(R.componiRal({ccnl:ABI,sezione:AREE,livello:'AU',dataAnzianita:'1980-01-01',scatti:8,
+      alla:OGGI}).ral,35837.49);
+    /* QD3–QD4: gli scatti contano dalla nomina «in luogo dei precedenti»
+       e il dossier non documenta una soglia: nessuna. */
+    assert.equal(R.regolaScatti(ABI,QD34).anzianitaDal,null);
   });
 
   /* Art. 94 c. 2: per i quadri di 3° e 4° livello fino a 7 scatti,

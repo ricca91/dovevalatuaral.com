@@ -475,6 +475,47 @@ test.describe('9 — scatti con primo scatto diverso, decorrenza nel mese e anzi
     assert.deepEqual(C.regolaScatti('dueVolte').sospensioni.map(s=>s.dal),['2018-01-01','2020-01-01']);
   });
 
+  /* Un regime che il catalogo non modella per le anzianità più vecchie
+     (i 12 scatti dei bancari in servizio al 19 dicembre 1994): una data
+     precedente alla soglia ferma il calcolo invece di dare un numero,
+     con data all'italiana, nome del contratto e motivo. Il numero di
+     scatti dichiarato a mano resta possibile entro il tetto. */
+  const soglia=conScatti('soglia',{anzianitaDal:{data:'2000-03-01',
+    motivo:'chi era in servizio prima ha un regime che il calcolo non applica'}});
+  const ferma=(...attesi)=>errore=>errore instanceof RangeError
+    &&attesi.every(a=>errore.message.includes(a));
+
+  test('anzianitaDal: un’anzianità precedente alla soglia ferma il calcolo, non dà un numero',()=>{
+    const C=catalogo([soglia]);
+    /* Dal giorno della soglia si calcola: 1/3/2000, biennali, tetto 3. */
+    assert.equal(C.scattiMaturati('soglia','2000-03-01','2026-09-22'),3);
+    const atteso=ferma('29/02/2000','Semplice','chi era in servizio prima ha un regime che il calcolo non applica');
+    assert.throws(()=>C.scattiMaturati('soglia','2000-02-29','2026-09-22'),atteso);
+    assert.throws(()=>C.componiRal({ccnl:'soglia',livello:'A',dataAnzianita:'2000-02-29',
+      alla:'2026-09-22'}),atteso);
+    /* Una data non valida resta l'errore di sempre. */
+    assert.throws(()=>C.scattiMaturati('soglia','2000-02-30','2026-09-22'),/non valida/);
+  });
+
+  /* Minimo 1.000 + 3 scatti da 10 = 1.030 × 14 = 14.420, con o senza la data. */
+  test('anzianitaDal: il numero di scatti dichiarato resta possibile entro il tetto',()=>{
+    const C=catalogo([soglia]);
+    assert.equal(C.componiRal({ccnl:'soglia',livello:'A',scatti:3,dataAnzianita:'1990-01-01',
+      alla:'2026-09-22'}).ral,14420);
+    assert.equal(C.componiRal({ccnl:'soglia',livello:'A',scatti:3,alla:'2026-09-22'}).ral,14420);
+    assert.throws(()=>C.componiRal({ccnl:'soglia',livello:'A',scatti:4,alla:'2026-09-22'}),RangeError);
+  });
+
+  test('senza anzianitaDal nessuna soglia; una soglia senza data valida o senza motivo ferma il catalogo',()=>{
+    const C=catalogo([semplice]);
+    assert.equal(C.regolaScatti('semplice').anzianitaDal,null);
+    assert.equal(C.scattiMaturati('semplice','1950-01-01','2026-09-22'),3);
+    assert.deepEqual({...catalogo([soglia]).regolaScatti('soglia').anzianitaDal},
+      {data:'2000-03-01',motivo:'chi era in servizio prima ha un regime che il calcolo non applica'});
+    for(const anzianitaDal of [{data:'2000-02-30',motivo:'x'},{data:'2000-03-01'},{data:'2000-03-01',motivo:''}])
+      assert.throws(()=>catalogo([conScatti('rotta',{anzianitaDal})]),/anzianità/);
+  });
+
   test('un periodo sospeso con date non valide ferma il catalogo',()=>{
     assert.throws(()=>catalogo([conScatti('rovescio',{sospensioni:[
       {dal:'2020-12-31',al:'2020-01-01',articolo:'art. 9'}]})]),/sospe/);
@@ -580,6 +621,19 @@ test.describe('10 — la pagina CCNL e livello descrive la regola degli scatti',
       'L’anzianità non matura dal 1° gennaio 2020 al 31 dicembre 2020 (art. 9).');
   });
 
+  /* La soglia di anzianità si dice prima del calcolo, nell'aiuto della
+     data: chi ha un'anzianità più vecchia sa già che il calcolo si
+     fermerà e perché. Chi non ne dichiara legge l'aiuto di sempre. */
+  test('l’aiuto dell’anzianità dice la soglia oltre la quale il calcolo dalla data si ferma',()=>{
+    const C=catalogo([semplice,{...semplice,id:'soglia',scatti:{...scattiFissi,
+      anzianitaDal:{data:'2000-03-01',motivo:'chi era in servizio prima ha un regime che il calcolo non applica'}}}]);
+    const base='Conta l’anzianità in azienda. Serve per far decorrere lo scatto dal momento giusto; lascia vuoto se non la sai.';
+    assert.equal(aiuti(C,{ccnl:'soglia'}).anzianita,base+' Con un’anzianità anteriore al 1° marzo 2000 '+
+      'il calcolo dalla data si ferma: chi era in servizio prima ha un regime che il calcolo non applica.');
+    assert.equal(aiuti(C,{ccnl:'semplice'}).anzianita,base);
+    assert.equal(C.descrizioneScatti(C.regolaScatti('semplice')).anzianitaDal,'');
+  });
+
   /* Una sola descrizione per la pagina CCNL e livello e per le pagine
      dei minimi: il catalogo scrive cadenza, decorrenza e periodi
      sospesi, le pagine compongono la frase. Le date sono quelle delle
@@ -593,8 +647,9 @@ test.describe('10 — la pagina CCNL e livello descrive la regola degli scatti',
       cadenza:'il primo dopo 4 anni e poi uno ogni 3',
       decorrenza:', ciascuno dal primo giorno del mese in cui matura',
       sospensioni:' L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 9).'+
-        ' L’anzianità non matura dal 15 marzo 2020 al 31 dicembre 2020 (art. 10).'});
+        ' L’anzianità non matura dal 15 marzo 2020 al 31 dicembre 2020 (art. 10).',
+      anzianitaDal:''});
     assert.deepEqual({...C.descrizioneScatti(C.regolaScatti('semplice'))},
-      {cadenza:'uno ogni 2 anni',decorrenza:'',sospensioni:''});
+      {cadenza:'uno ogni 2 anni',decorrenza:'',sospensioni:'',anzianitaDal:''});
   });
 });
