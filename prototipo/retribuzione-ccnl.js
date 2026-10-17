@@ -1467,8 +1467,114 @@
 
   /* --- CREDITO — ABI, AREE PROFESSIONALI E QUADRI, J241 -------- */
 
-  const CREDITO_ABI=null;
-  const ESCLUSIONI_CREDITO_ABI=[];
+  /* Fonti, letture e limiti: processo/fonti-ccnl-gruppo2-credito-abi.md.
+
+     CCNL 23 novembre 2023 (testo coordinato firmato il 14 luglio 2025),
+     scaduto il 31 marzo 2026. I verbali del 31 marzo e del 16 luglio
+     2026 sospendono i termini fino al 31 dicembre 2026 e fanno
+     decorrere dal 1° aprile 2026 un eventuale rinnovo: oggi vale per
+     intero la tabella del 1° marzo 2026, ultima tranche, e solo questa
+     entra nel dataset. Dal 1° gennaio 2026 tempo pieno e base del
+     part-time coincidono a 37 ore; prima divergevano (37,5 per il
+     part-time fino al 31 dicembre 2025), e le tabelle 2023–2025 restano
+     nel dossier.
+
+     Nove livelli, una voce: lo stipendio. La fonte non stampa un
+     totale, quindi totalePubblicato è null. Lo scatto vale la somma
+     delle due colonne che l'Allegato 2 dà «per ciascuno scatto»
+     (artt. 93 e 102): scatto di anzianità e importo ex
+     ristrutturazione tabellare, uguali in tutte le tranche.
+
+     Scatti (artt. 94 e 103): il primo dopo 4 anni, poi ogni 3, ciascuno
+     dal primo giorno del mese in cui matura; dal 1° gennaio 2013 al 31
+     luglio 2014 l'anzianità non matura. Massimo 8, ma 7 per i quadri di
+     3° e 4° livello, che li contano dalla nomina «in luogo dei
+     precedenti»: per questo due sezioni sulla stessa tabella. */
+  const fonteAbi=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
+    verificataIl:'2026-10-16'});
+  /* Allegato 2, «Dal 1° marzo 2026»: [codice, nome, stipendio, scatto
+     di anzianità, importo ex ristrutturazione tabellare]. */
+  const TABELLA_ABI=[
+    ['QD4','Quadro direttivo di 4° livello',5160.06,95.31,14.30],
+    ['QD3','Quadro direttivo di 3° livello',4396.88,95.31,14.30],
+    ['QD2','Quadro direttivo di 2° livello',3965.48,41.55,7.99],
+    ['QD1','Quadro direttivo di 1° livello',3743.21,41.55,7.99],
+    ['3A4','3ª area professionale, 4° livello',3341.90,41.55,7.99],
+    ['3A3','3ª area professionale, 3° livello',3059.49,41.55,7.99],
+    ['3A2','3ª area professionale, 2° livello',2890.41,41.55,7.99],
+    ['3A1','3ª area professionale, 1° livello',2742.34,41.55,7.99],
+    ['AU','Area unificata (ex 1ª e 2ª area professionale)',2479.45,29.07,5.59],
+  ];
+  const virgola=importo=>importo.toFixed(2).replace('.',',');
+  const TABELLE_ABI=[tabella('2026-03-01',
+    'quarta e ultima tranche del rinnovo 23 novembre 2023 (Allegato 2), in vigore fino al rinnovo',
+    TABELLA_ABI.map(([codice,nome,stipendio,scatto,exRistrutturazione])=>({
+      codice,nome,voci:[voce('stipendio','Stipendio',stipendio)],
+      totalePubblicato:null,
+      scatto:euro(cent(scatto)+cent(exRistrutturazione)),
+      nota:`Ogni scatto vale ${virgola(scatto)} € di scatto di anzianità più ${virgola(exRistrutturazione)} € di importo ex ristrutturazione tabellare (Allegato 2).`})))];
+  const SCATTI_ABI={tipo:'cifraFissa',primoDopoAnni:4,cadenzaAnni:3,massimo:8,decorre:'meseMaturazione',
+    sospensioni:[{dal:'2013-01-01',al:'2014-07-31',articolo:'art. 94 c. 5 e art. 103 c. 3'}],
+    base:'anzianità di servizio dalla data di assunzione',
+    articolo:'artt. 94 e 103 — scatti di anzianità; ogni scatto comprende l’importo ex ristrutturazione tabellare (artt. 93 e 102, Allegato 2)',
+    decorrenza:'dal primo giorno del mese in cui matura: il primo dopo 4 anni, i successivi ogni 3'};
+
+  const CREDITO_ABI={
+    id:'credito-abi-j241',
+    nome:'Credito — ABI, aree professionali e quadri direttivi',
+    parti:'ABI / FABI, First CISL, Fisac CGIL, Uilca, Unisin',
+    codiceCnel:'J241',
+    mensilita:13,
+    oreSettimanali:37,
+    scatti:SCATTI_ABI,
+    fonte:fonteAbi('CCNL 23 novembre 2023 per i quadri direttivi e per il personale delle aree professionali, testo coordinato firmato il 14 luglio 2025 — Allegato 2, tabella dal 1° marzo 2026',
+      'FABI, organizzazione sindacale firmataria (edizione del testo coordinato); tabella riscontrata su Edotto e First CISL',
+      'https://fabitreviso.it/fm/files/CCNL/ccnl-23-nov-2023_fabi.pdf',
+      'processo/dati/fonti/credito-abi-j241-testo-coordinato-ccnl-23-nov-2023-fabi-2025-07-14.pdf'),
+    fonteAccordo:fonteAbi('Accordo di rinnovo del ccnl 19 dicembre 2019, 23 novembre 2023 — art. 20 e tabelle economiche',
+      'ABI, FABI, First CISL, Fisac CGIL, Uilca, Unisin (copia pubblicata da FABI Treviso)',
+      'https://fabitreviso.it/fm/files/CCNL/Accordo-di-rinnovo-23-11-2023.pdf',
+      'processo/dati/fonti/credito-abi-j241-accordo-rinnovo-abi-fabi-first-fisac-uilca-unisin-2023-11-23.pdf'),
+    fonteSospensione:fonteAbi('Verbale di accordo 16 luglio 2026 — sospensione dei termini fino al 31 dicembre 2026',
+      'ABI, FABI, First CISL, Fisac CGIL, Uilca, Unisin (copia pubblicata da Unisin Falcri Gruppo Intesa Sanpaolo)',
+      'https://www.falcri-is.com/wp-content/uploads/2026/08/Verbale-di-accordo-16-luglio-2026-1.pdf',
+      'processo/dati/fonti/credito-abi-j241-verbale-sospensione-termini-unisin-2026-07-16.pdf'),
+    notaFonte:'Contratto scaduto il 31 marzo 2026 e non ancora rinnovato: i verbali del 31 marzo e del 16 luglio 2026 sospendono i termini fino al 31 dicembre 2026 e applicano per intero il CCNL 23 novembre 2023. Il rinnovo, quando sarà firmato, decorrerà dal 1° aprile 2026 e potrà cambiare questi importi con arretrati.',
+    sezioni:[
+      {id:'aree-qd12',nome:'Aree professionali e quadri direttivi di 1° e 2° livello',
+        descrizione:'Area unificata (ex 1ª e 2ª area), 3ª area professionale dal 1° al 4° livello, quadri direttivi di 1° e 2° livello: fino a 8 scatti, contati dalla data di assunzione (artt. 94 e 103). Orario di 37 ore settimanali (art. 108); per i quadri il contratto non fissa un orario e il calcolo usa lo stesso.',
+        codiciLivello:['QD2','QD1','3A4','3A3','3A2','3A1','AU'],
+        tabelle:TABELLE_ABI},
+      {id:'qd34',nome:'Quadri direttivi di 3° e 4° livello',
+        descrizione:'Fino a 7 scatti, contati dalla data di assunzione o di nomina a quadro direttivo di 3° o 4° livello, in luogo di quelli maturati prima (art. 94 c. 1–2). Il contratto non fissa un orario per i quadri: il calcolo usa le 37 ore della 3ª area (art. 96 c. 2).',
+        codiciLivello:['QD4','QD3'],
+        scatti:{...SCATTI_ABI,massimo:7,
+          base:'anzianità dalla data di assunzione o di nomina a quadro direttivo di 3° o 4° livello, che sostituisce gli scatti maturati prima',
+          articolo:'art. 94 c. 1–2 — fino a 7 scatti per i quadri direttivi di 3° e 4° livello, dalla data di assunzione o nomina; ogni scatto comprende l’importo ex ristrutturazione tabellare (art. 93, Allegato 2)'},
+        tabelle:TABELLE_ABI,
+        esclusioni:['Passaggio dal 3° al 4° livello dei quadri direttivi: l’art. 94 fa ripartire il conto degli scatti «in caso di passaggio al 3° o 4° livello» e non chiarisce se il passaggio dal 3° al 4° lo faccia ripartire di nuovo. Il calcolo conta dalla data che indichi: se sei passato dal 3° al 4°, indica quella da cui l’azienda conta i tuoi scatti.']},
+    ],
+  };
+  const ESCLUSIONI_CREDITO_ABI=[
+    'Contratto scaduto il 31 marzo 2026 e non ancora rinnovato: si applica la tabella del 1° marzo 2026, ultima tranche del CCNL 23 novembre 2023. I verbali del 31 marzo e del 16 luglio 2026 sospendono i termini fino al 31 dicembre 2026; il futuro rinnovo decorrerà dal 1° aprile 2026 e potrà cambiare questi importi con arretrati.',
+    'Premio aziendale (VAP), sistema incentivante e premio variabile di risultato (artt. 52, 55 e 56): dipendono dalla contrattazione aziendale e dai risultati.',
+    'Buono pasto di 4,00 € per giornata, escluso per i quadri di 3° e 4° livello (art. 54): non è retribuzione.',
+    'Indennità di rischio per cassa e custodia pegni, lavoro in locali sotterranei, turni notturni, sabato e altre indennità modali (art. 53 e Allegati 3 e 5): dipendono dalla mansione.',
+    'Concorso spese tranviarie, da 1,11 a 2,92 € al mese per 12 mensilità nei comuni con più di duecentomila abitanti, esclusi i quadri di 3° e 4° livello (art. 53 c. 5 e Allegato 4).',
+    'Assegno ex intesa 8 dicembre 2007 e assegno ex intesa 11 luglio 1999 per chi passa a quadro di 3° livello (art. 94), assegno ad personam ex art. 66 del ccnl 11 luglio 1999, Integrazione stipendio ex ccnl 2019 per chi era nel 3° livello della 2ª area: importi individuali.',
+    'Assegni mensili di anzianità (Allegato 2: 23,71 € per la 3ª area di 2° e 3° livello, 22,35 € per l’Area unificata): legati agli automatismi del ccnl 1994 e alle previsioni aziendali (art. 118), spettano solo in casi specifici.',
+    'Quote «ex premio di rendimento», differenza ex mensa (9,92 € annui) e differenze di assegno ex ACRI: solo per chi era in servizio nel 1999 o nelle aziende ex ACRI.',
+    'Livello retributivo di inserimento professionale (2.373,39 € per la 3ª area di 1° livello) e Integrazione ex F.O.C. 2019: abrogati nel 2019, restano solo casi residuali. Apprendistato escluso.',
+    'Una tantum per luglio–novembre 2023 (da 873,95 a 1.679,60 €): pagamento unico, non ricorrente.',
+    'Apposito elemento della retribuzione per la vacanza contrattuale (art. 8): temporaneo e condizionato al rispetto delle procedure; i verbali di sospensione dei termini ne rinviano, per nostra lettura, l’applicazione, e nessuna fonte dice se nel 2026 sia stato pagato.',
+    'Previdenza complementare, assistenza sanitaria, long term care, contributo a Prosolidar (10 € annui trattenuti in busta paga) e contributo al Fondo per l’occupazione (pagato in ore di riduzione d’orario, non in denaro).',
+    'Scatti di chi era in servizio prima del 1995 o ha anzianità anteriore al 1° novembre 1999: valgono regole precedenti che il calcolo non applica. Le aree professionali in servizio al 19 dicembre 1994 hanno fino a 12 scatti, ma il calcolo ne accetta al massimo 8: per loro la cifra può essere più bassa. I quadri di 1° e 2° livello in servizio a quelle date conservano il numero del ccnl 1994, che non è stato letto.',
+    'Promozioni fra livelli con scatto di valore diverso: il calcolo valorizza tutti gli scatti al livello attuale; la regola per gli scatti maturati nel livello precedente non è stata trovata.',
+    'Orari diversi da 37 ore: 40 ore per custodia e guardiania, 36 ore per turni, settimane su 4 o 6 giorni, con la domenica o dal lunedì pomeriggio al sabato mattina (art. 108). Il calcolo riproporziona sempre sulle 37.',
+    'Orario dei quadri direttivi: il contratto non lo fissa (la prestazione segue «di massima» l’orario della 3ª area), quindi il tempo pieno è assunto a 37 ore e il part-time si misura lì (art. 96 c. 2).',
+    'Part-time: riproporzione sulle 37 ore dal 1° gennaio 2026 (art. 38 c. 12; lettera ABI del 14 luglio 2025, non reperita, riportata concordemente da FABI, Fisac CGIL ed Edotto). Fino al 31 dicembre 2025 la base era di 37 ore e 30 minuti.',
+    'Straordinario, banca delle ore, lavoro notturno e festivo.',
+  ];
 
   /* --- fine dei blocchi del gruppo 2 --------------------------- */
 
