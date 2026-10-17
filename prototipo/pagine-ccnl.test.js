@@ -3,8 +3,8 @@ const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
 const {test}=require('node:test');
-const {ROTTE,CONTRATTI_SEO,generate}=require('./genera-pagine-ccnl.js');
-const {titoloLivello}=require('./ccnl-page.template.js');
+const {ROTTE,CONTRATTI_SEO,generate,datiContratto}=require('./genera-pagine-ccnl.js');
+const {titoloLivello,renderHub}=require('./ccnl-page.template.js');
 const {sitemap,RALS}=require('./genera-pagine-ral.js');
 const R=require('./retribuzione-ccnl.js');
 const {calcola,applicaMensilita,eur}=require('./motore.js');
@@ -199,6 +199,20 @@ test('«Turismo» a un livello mostra anche il contratto dei pubblici esercizi',
   assert.ok(t.includes('Lavori in un bar, un ristorante o una mensa?'));
   assert.ok(t.includes(eur(fipe.baseMensile)));
   assert.ok(t.includes('1.590,27 €'));
+});
+
+/* Il numero di contratti nell'hub viene da quelli che il template
+   riceve: un contratto in più nel dataset non lascia un «diciannove»
+   scritto a mano. */
+test('l’hub conta i contratti che riceve, nell’apertura e nella description',()=>{
+  const descrizione=html=>uno(html,/<meta name="description" content="([^"]+)">/g,'description');
+  const hub=leggi('/minimi-ccnl/');
+  assert.ok(testo(hub).includes('19 contratti collettivi, livello per livello'));
+  assert.match(descrizione(hub),/^Tabelle retributive 2026 di 19 CCNL, dal Commercio ai Bancari/);
+  const due=renderHub({contratti:CONTRATTI_SEO.slice(0,2).map(c=>datiContratto(c,ALLA)),alla:ALLA});
+  assert.ok(testo(due).includes('2 contratti collettivi, livello per livello'));
+  assert.match(descrizione(due),/^Tabelle retributive 2026 di 2 CCNL/);
+  assert.doesNotMatch(testo(due),/iciannove/);
 });
 
 test('«Turismo» nell’hub porta anche alle agenzie di viaggio',()=>{
