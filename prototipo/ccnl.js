@@ -240,6 +240,18 @@
     }),
 
     /* — Credito ABI, aree professionali e quadri (J241) — */
+    congela({
+      id:'credito-abi-j241',
+      nome:'Credito — ABI, aree professionali e quadri direttivi',
+      parti:'ABI / FABI, First CISL, Fisac CGIL, Uilca, Unisin',
+      codiceCnel:'J241',
+      mensilita:13,
+      dataRiferimento:'2023-11-23',
+      fonte:{
+        titolo:'CCNL 23 novembre 2023 per i quadri direttivi e per il personale delle aree professionali, testo coordinato firmato il 14 luglio 2025',
+        url:'https://fabitreviso.it/fm/files/CCNL/ccnl-23-nov-2023_fabi.pdf',
+      },
+    }),
 
     /* — fine del gruppo 2 — */
     congela({

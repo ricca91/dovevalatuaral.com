@@ -34,12 +34,24 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('campo-sezione').hidden=sezioni.length===0;
   }
 
+  /* Il primo scatto quando arriva dopo un periodo diverso dalla
+     cadenza, la decorrenza quando è il mese stesso della maturazione,
+     i periodi in cui l'anzianità non matura: cambiano la data da
+     indicare, quindi la pagina li dice. Chi non li dichiara legge il
+     testo di sempre. */
+  const cadenzaScatti=regola=>regola.primoDopoAnni!==undefined&&regola.primoDopoAnni!==regola.cadenzaAnni
+    ?`il primo dopo ${regola.primoDopoAnni} anni e poi uno ogni ${regola.cadenzaAnni}`
+    :`uno ogni ${regola.cadenzaAnni} anni`;
+  const sospensioniScatti=regola=>(regola.sospensioni||[]).map(s=>
+    ` L’anzianità non matura dal ${data(s.dal)} al ${data(s.al)} (${s.articolo}).`).join('');
+
   function descriviScatti(regola){
     switch(regola.tipo){
       case 'assenti':return 'Questo contratto non prevede scatti di anzianità.';
       case 'quotaUnica':return 'Nessuno scatto: una quota unica di anzianità forfettaria dal quinto anno nel settore. Scrivi 1 se la percepisci già, 0 se no.';
-      case 'percentualeMaturazione':return `Fino a ${regola.massimo}, uno ogni ${regola.cadenzaAnni} anni, ciascuno pari alla tabella del giorno in cui matura: qui serve la data di anzianità, il numero da solo non basta.`;
-      default:return `Massimo ${regola.massimo}, uno ogni ${regola.cadenzaAnni} anni. Se lo compili prevale sull’anzianità.`;
+      case 'percentualeMaturazione':return `Fino a ${regola.massimo}, ${cadenzaScatti(regola)}, ciascuno pari alla tabella del giorno in cui matura: qui serve la data di anzianità, il numero da solo non basta.${sospensioniScatti(regola)}`;
+      default:return `Massimo ${regola.massimo}, ${cadenzaScatti(regola)}${regola.decorre==='meseMaturazione'
+        ?', ciascuno dal primo giorno del mese in cui matura':''}.${sospensioniScatti(regola)} Se lo compili prevale sull’anzianità.`;
     }
   }
 
