@@ -143,7 +143,8 @@ di parte comune.
     **50 €** (nota in testa a p. 91 sotto la tabella metalmeccanica; art. 22 «Lavoratori
     con funzioni direttive», p. 71: «Quadri € 70.00; Impiegati con funzioni direttive
     € 50.00»). Il 50 € è un profilo del livello 1, non di tutto il livello;
-  - orafi 1Q e 1 con funzioni direttive: stessi importi per l'art. 22 (vedi «Limiti»);
+  - orafi 1Q e 1 con funzioni direttive: stessi importi per l'art. 22, di parte comune (vedi
+    «Rilettura dell'art. 22 e degli scatti»);
   - restauro: **50 €** a ogni Quadro Super (nota *) e **I.R.S. 100 €** al solo tecnico
     del restauro senior del livello 4 (nota **), p. 93. Il livello 4 comprende anche gli
     addetti all'amministrazione, che non la ricevono: profilo.
@@ -238,10 +239,8 @@ di parte comune.
   FIM/UILM), il cui accordo del 21 dicembre 2023 non è stato letto. Prima del 1/12/2024
   nessuna tabella applicabile.
 - **«Secondo B» = 2 bis**: attribuzione per esclusione (unico livello intermedio fra 2 e 3
-  della metalmeccanica); il testo non lo dice in modo esplicito.
-- **Indennità 70/50 € per gli orafi**: la nota esplicita sta solo sotto la tabella
-  metalmeccanica (p. 91). Per gli orafi si regge sull'art. 22, di parte comune ma
-  stampato in coda al paragrafo del settore odontotecnico; lavoro-economia.it la applica.
+  della metalmeccanica); il testo non lo dice in modo esplicito. Riletti gli artt. 57 (p. 111)
+  e 64 (pp. 117–118): le tabelle chiamano il livello «Secondo B» senza rinviare al 2 bis.
 - **Odontotecnica**: l'indennità di 50 € per funzioni direttive (art. 22) non è
   attribuita a un livello del settore; non modellata.
 - **Incidenza delle indennità su 13**: dedotta dalla definizione di retribuzione globale
@@ -254,6 +253,28 @@ di parte comune.
   esclusi.
 - Declaratorie dei livelli (artt. 17–17 quater) non lette per esteso: i nomi dei livelli
   sono i codici, salvo il restauro (qualifiche della tabella a p. 93).
+
+## Rilettura dell'art. 22 e degli scatti (correzione di review, 17 ottobre 2026)
+
+Pagine del testo definitivo rese con `pdftoppm` e lette a immagine: 69–71 (art. 22), 90–91
+(tabelle metalmeccanica e orafi), 110–111 (art. 57), 117–118 (art. 64).
+
+- **Art. 22 «Lavoro straordinario, notturno e festivo» è di parte comune.** A p. 69 si apre
+  con le regole valide per tutti e il recupero «per le imprese» di ciascun settore
+  (metalmeccanica, installazione di impianti, odontotecnica, orafi), poi ha tre paragrafi di
+  settore con il titolo sottolineato (metalmeccanica e installazione, orafi, odontotecnico,
+  pp. 69–70). Il paragrafo **«Lavoratori con funzioni direttive»** (p. 71) ha un titolo in
+  grassetto, non è sotto la voce di un settore e si riferisce a «dette norme contrattuali»,
+  cioè all'intero art. 22: «Per tali lavoratori è prevista una indennità mensile di funzione
+  pari a: Quadri € 70.00; Impiegati con funzioni direttive € 50.00 … al quadro trovano
+  applicazione quelli previsti per gli impiegati di 1 livello, ivi compresi gli aumenti
+  periodici di anzianità». Il testo quindi **attribuisce i 70 € e i 50 € anche agli orafi**, che
+  hanno il livello 1Q (tabella p. 91). La nota in testa a p. 91 è della tabella metalmeccanica
+  e la tabella orafi non ne ha una propria, ma l'attribuzione non dipende dalla nota. La
+  riserva sugli orafi è tolta dalle esclusioni; dati e prove invariati.
+- **«Secondo B»**: le tabelle degli artt. 57 (p. 111) e 64 (pp. 117–118) elencano Primo,
+  Secondo, Secondo B, Terzo … senza dire che il Secondo B è il 2 bis della tabella di p. 90.
+  L'attribuzione resta per esclusione e resta fra le esclusioni.
 
 ## Nota per l'implementazione
 
@@ -274,7 +295,7 @@ fissa aggiuntiva per 1Q e QS. Totale stampato = sola retribuzione tabellare
 - **Mensilità.** 13 per tutte le voci, indennità e profili compresi (art. 28: retribuzione globale di fatto); nessuna quota a parte, identità semplice.
 - **Scatti.** Cifra fissa biennale, massimo 5, dal mese successivo, importo per livello e per sezione, uguale in ogni tranche; il 1Q ha lo scatto del livello 1 (art. 22). Dove la fonte secondaria differisce (metalmeccanica 5, 2 e 2 bis; odontotecnica 6) vale il testo depositato.
 - **Part-time.** Riproporzione sulle 40 ore (art. 24) di ogni voce, profili e scatti compresi; superminimo non riproporzionato.
-- **Orafi.** Il 70/50 € è applicato come da art. 22 (decisione dell'orchestratore); l'ambiguità di perimetro è dichiarata nelle esclusioni. **Odontotecnica:** i 50 € di funzioni direttive non sono modellati, dichiarato nelle esclusioni.
-- **Esclusioni** nel dataset (la prima è il CCRL regionale, obbligatorio: la cifra nazionale può essere più bassa della retribuzione dovuta): E.A.R., bilateralità e fondi, quota contratto, perimetro orafi, odontotecnica, «Secondo B», incidenza delle indennità, scatti transitori, apprendisti/AFAC/tabelle antecedenti, maggiorazioni, part-time.
+- **Orafi.** Il 70/50 € è applicato come da art. 22, di parte comune (riletto il 17 ottobre 2026, pp. 69–71): nessuna riserva nelle esclusioni. **Odontotecnica:** i 50 € di funzioni direttive non sono modellati, dichiarato nelle esclusioni.
+- **Esclusioni** nel dataset (la prima è il CCRL regionale, obbligatorio: la cifra nazionale può essere più bassa della retribuzione dovuta): E.A.R., bilateralità e fondi, quota contratto, odontotecnica, «Secondo B», incidenza delle indennità, scatti transitori, apprendisti/AFAC/tabelle antecedenti, maggiorazioni, part-time.
 - **Fonte archiviata.** Il testo definitivo CNEL (19 MB, scansione) è in `processo/dati/fonti/area-meccanica-c030-cnel-testo-definitivo-ccnl-2024-11-19.pdf`.
 - **Estensioni del modello:** nessuna. `ralCompleta` è vera (nessuna quota annua mancante).

@@ -1362,7 +1362,11 @@
 
   /* Voci fisse dove il livello coincide con la qualifica: art. 22 p. 71 e
      nota sotto la tabella metalmeccanica p. 91 (indennità quadri); nota * al
-     restauro p. 93 (Quadro Super). Per gli orafi vedi le esclusioni. */
+     restauro p. 93 (Quadro Super). Gli orafi le hanno per l'art. 22, che è di
+     parte comune: p. 69 lo apre con le regole di tutti e quattro i settori, e
+     il paragrafo «Lavoratori con funzioni direttive» (p. 71, «Quadri € 70.00;
+     Impiegati con funzioni direttive € 50.00») non sta sotto la voce di un
+     settore, odontotecnica compresa. */
   const INDENNITA_QUADRI_AREA_MECCANICA=voce('indennitaQuadri','Indennità quadri (art. 22)',70);
   const FISSE_AREA_MECCANICA={
     [ID_METALMECCANICA]:{'1Q':INDENNITA_QUADRI_AREA_MECCANICA},
@@ -1429,7 +1433,6 @@
     'Contrattazione regionale (CCRL): l’art. 7 rende obbligatorio, per chi applica il CCNL, anche il contratto regionale, che può aggiungere elementi retributivi fissi propri e cambia da regione a regione. Qui non sono inclusi: la RAL mostrata è la sola base nazionale, e questa cifra può essere più bassa della retribuzione dovuta nella tua regione.',
     'E.A.R. di 25 € lordi al mese per 13 mensilità (art. 11): è dovuto solo dalle imprese che non aderiscono alla bilateralità artigiana e non versano il contributo. È condizionato, quindi non è nella RAL.',
     'Contributi a bilateralità (EBNA, FSBA), sanità integrativa San.Arti. e previdenza Fon.Te., e trattenuta «quota contratto» di 30 € (aprile 2025): non sono retribuzione.',
-    'Indennità quadri (70 €) e di funzione (50 €) degli orafi: nel calcolo valgono come per la metalmeccanica, perché l’art. 22 è di parte comune; la nota esplicita sta però solo sotto la tabella metalmeccanica, e l’art. 22 è stampato in coda al paragrafo dell’odontotecnica. Il perimetro per gli orafi poggia su quell’articolo.',
     'Odontotecnica: l’indennità di 50 € per le funzioni direttive (art. 22) non è assegnata a nessun livello del settore, quindi non è modellata; il calcolo la lascia fuori.',
     'Livello «Secondo B» delle tabelle degli scatti della metalmeccanica (artt. 57 e 64): è attribuito al livello 2 bis, l’unico intermedio fra 2 e 3; il testo non lo dice in modo esplicito.',
     'Incidenza delle indennità sulla 13ª: le indennità fisse sono contate su 13 mensilità perché la retribuzione globale di fatto comprende tutte le voci (art. 28); l’art. 22 aggiunge che l’indennità di funzione vale «esclusivamente per la definizione dei nuovi minimi tabellari», frase di senso non univoco.',
