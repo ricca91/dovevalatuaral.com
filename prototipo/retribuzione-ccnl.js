@@ -1318,7 +1318,7 @@
   const ID_ODONTOTECNICA='odontotecnica';
   const ID_RESTAURO='restauro';
   /* metalmeccanica-impianti: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_METALMECCANICA_AM=[
+  const LIVELLI_AREA_MECCANICA_METALMECCANICA=[
     ['1Q','1Q — Quadro',32.94,[2018.11,2049.51,2080.91,2106.03]],
     ['1','1',32.94,[2018.11,2049.51,2080.91,2106.03]],
     ['2','2',29.08,[1877.78,1906.99,1936.2,1959.57]],
@@ -1329,7 +1329,7 @@
     ['6','6',18.4,[1475.92,1498.88,1521.84,1540.21]],
   ];
   /* orafi: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_ORAFI_AM=[
+  const LIVELLI_AREA_MECCANICA_ORAFI=[
     ['1Q','1Q — Quadro',33.57,[2019.31,2050.65,2081.99,2107.06]],
     ['1','1',33.57,[2019.31,2050.65,2081.99,2107.06]],
     ['2','2',29.79,[1881.34,1910.54,1939.74,1963.1]],
@@ -1339,7 +1339,7 @@
     ['6','6',18.51,[1468.44,1491.23,1514.02,1532.25]],
   ];
   /* restauro: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_RESTAURO_AM=[
+  const LIVELLI_AREA_MECCANICA_RESTAURO=[
     ['QS','Quadro Super — restauratore di beni culturali con funzioni di gerente',32.94,[2678.96,2716.72,2754.48,2820.94]],
     ['Q','Quadro — restauratore di beni culturali con funzioni direttive',32.94,[2678.96,2716.72,2754.48,2820.94]],
     ['1','1 — restauratore di beni culturali con funzioni di responsabile',29.08,[2515.5,2550.96,2586.42,2648.83]],
@@ -1350,7 +1350,7 @@
     ['6','6 — operaio generico',18.4,[1587.3,1609.67,1632.04,1671.42]],
   ];
   /* odontotecnica: [codice, nome, scatto, tabellare dal 1/12/2024, 1/7/2025, 1/3/2026, 1/11/2026] */
-  const LIVELLI_ODONTOTECNICA_AM=[
+  const LIVELLI_AREA_MECCANICA_ODONTOTECNICA=[
     ['1S','1S — primo livello super',35.43,[2103.82,2138.11,2172.4,2184.74]],
     ['1','1',29.95,[1902.71,1933.72,1964.73,1975.89]],
     ['2','2',27.04,[1802.33,1831.7,1861.07,1871.64]],
@@ -1363,21 +1363,21 @@
   /* Voci fisse dove il livello coincide con la qualifica: art. 22 p. 71 e
      nota sotto la tabella metalmeccanica p. 91 (indennità quadri); nota * al
      restauro p. 93 (Quadro Super). Per gli orafi vedi le esclusioni. */
-  const INDENNITA_QUADRI_AM=voce('indennitaQuadri','Indennità quadri (art. 22)',70);
+  const INDENNITA_QUADRI_AREA_MECCANICA=voce('indennitaQuadri','Indennità quadri (art. 22)',70);
   const FISSE_AREA_MECCANICA={
-    [ID_METALMECCANICA]:{'1Q':INDENNITA_QUADRI_AM},
-    [ID_ORAFI]:{'1Q':INDENNITA_QUADRI_AM},
+    [ID_METALMECCANICA]:{'1Q':INDENNITA_QUADRI_AREA_MECCANICA},
+    [ID_ORAFI]:{'1Q':INDENNITA_QUADRI_AREA_MECCANICA},
     [ID_ODONTOTECNICA]:{},
     [ID_RESTAURO]:{QS:voce('indennitaFunzioniDirettive','Indennità per funzioni direttive (nota * del restauro)',50)},
   };
   /* Profili legati alla funzione: 50 € di funzioni direttive al livello 1
      (art. 22; nota p. 91) e I.R.S. di 100 € al tecnico del restauro senior
      (nota ** p. 93), non agli addetti all'amministrazione dello stesso livello. */
-  const FUNZIONI_DIRETTIVE_AM=[{id:'funzioniDirettive',nome:'Impiegato con funzioni direttive',
+  const FUNZIONI_DIRETTIVE_AREA_MECCANICA=[{id:'funzioniDirettive',nome:'Impiegato con funzioni direttive',
     voce:voce('indennitaFunzione','Indennità di funzione (art. 22)',50)}];
   const PROFILI_AREA_MECCANICA={
-    [ID_METALMECCANICA]:{'1':FUNZIONI_DIRETTIVE_AM},
-    [ID_ORAFI]:{'1':FUNZIONI_DIRETTIVE_AM},
+    [ID_METALMECCANICA]:{'1':FUNZIONI_DIRETTIVE_AREA_MECCANICA},
+    [ID_ORAFI]:{'1':FUNZIONI_DIRETTIVE_AREA_MECCANICA},
     [ID_ODONTOTECNICA]:{},
     [ID_RESTAURO]:{'4':[{id:'tecnicoRestauroSenior',nome:'Tecnico del restauro senior',
       voce:voce('irs','Indennità di ruolo strategico (I.R.S.)',100)}]},
@@ -1410,19 +1410,19 @@
       {id:ID_METALMECCANICA,nome:'Metalmeccanica e installazione di impianti',
         descrizione:'Metalmeccanica di produzione, installazione di impianti, elettronica, ponteggi, progettazione industriale e autoriparazione (art. 1): livelli 1Q, 1, 2, 2 bis, 3–6. L’autoriparazione è confluita in questa sezione e non ha una tabella propria.',
         scatti:cifraFissa(2,5,'artt. 57 e 64 — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_METALMECCANICA,LIVELLI_METALMECCANICA_AM)},
+        tabelle:tabelleAreaMeccanica(ID_METALMECCANICA,LIVELLI_AREA_MECCANICA_METALMECCANICA)},
       {id:ID_ORAFI,nome:'Orafi, argentieri ed affini',
         descrizione:'Laboratori orafi, argentieri, bigiotteria, orologeria, incisori, incastonatori e pietre preziose (art. 1): livelli 1Q, 1–6.',
         scatti:cifraFissa(2,5,'artt. 70 e 77 — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_ORAFI,LIVELLI_ORAFI_AM)},
+        tabelle:tabelleAreaMeccanica(ID_ORAFI,LIVELLI_AREA_MECCANICA_ORAFI)},
       {id:ID_ODONTOTECNICA,nome:'Odontotecnica',
         descrizione:'Imprese odontotecniche, artigiane e non artigiane (art. 1): livelli 1S, 1–6.',
         scatti:cifraFissa(2,5,'artt. 85 e 94 — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_ODONTOTECNICA,LIVELLI_ODONTOTECNICA_AM)},
+        tabelle:tabelleAreaMeccanica(ID_ODONTOTECNICA,LIVELLI_AREA_MECCANICA_ODONTOTECNICA)},
       {id:ID_RESTAURO,nome:'Restauro di beni culturali',
         descrizione:'Tutti i datori di lavoro del restauro di beni culturali, anche non artigiani, escluse le imprese edili (art. 1): livelli QS, Q, 1–6.',
         scatti:cifraFissa(2,5,'art. 70, ultimo comma — aumenti periodici di anzianità, importi per livello'),
-        tabelle:tabelleAreaMeccanica(ID_RESTAURO,LIVELLI_RESTAURO_AM)},
+        tabelle:tabelleAreaMeccanica(ID_RESTAURO,LIVELLI_AREA_MECCANICA_RESTAURO)},
     ],
   };
   const ESCLUSIONI_AREA_MECCANICA=[
