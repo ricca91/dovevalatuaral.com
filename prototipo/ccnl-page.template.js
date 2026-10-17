@@ -25,20 +25,19 @@ function calcolatore(da,{ccnl,sezione,livello}){
   return `${radice(da)}ccnl-livello.html?${esc(q.toString())}`;
 }
 
+/* Cadenza, decorrenza e periodi sospesi li scrive il catalogo
+   (descrizioneScatti), lo stesso testo della pagina CCNL e livello. */
 function scattiTesto(regola){
+  const {cadenza,decorrenza}=R.descrizioneScatti(regola);
   switch(regola.tipo){
     case 'assenti':return 'nessuno scatto di anzianità';
     case 'quotaUnica':return `nessuno scatto: una quota unica di anzianità forfettaria dopo ${regola.dopoAnni} anni`;
-    case 'percentualeMaturazione':return `fino a ${regola.massimo} scatti, ${cadenzaTesto(regola)}, calcolati in percentuale della tabella del momento`;
-    default:return `fino a ${regola.massimo} scatti, ${cadenzaTesto(regola)}`;
+    case 'percentualeMaturazione':return `fino a ${regola.massimo} scatti, ${cadenza}${decorrenza}, calcolati in percentuale della tabella del momento`;
+    default:return `fino a ${regola.massimo} scatti, ${cadenza}${decorrenza}`;
   }
 }
-
-/* Il primo scatto può arrivare dopo un periodo diverso dalla cadenza
-   (il Credito ABI: dopo 4 anni, poi ogni 3). */
-const cadenzaTesto=regola=>regola.primoDopoAnni!==undefined&&regola.primoDopoAnni!==regola.cadenzaAnni
-  ?`il primo dopo ${regola.primoDopoAnni} anni e poi uno ogni ${regola.cadenzaAnni}`
-  :`uno ogni ${regola.cadenzaAnni} anni`;
+/* I periodi sospesi sono frasi intere: vanno dopo il punto. */
+const sospensioniTesto=regola=>R.descrizioneScatti(regola).sospensioni;
 
 function layout({rotta,title,description,briciole,body,jsonLd=true}){
   const r=radice(rotta);
@@ -266,7 +265,7 @@ function renderTabella(d){
   const blocchi=sezioni.map(s=>`<section class="ccnl-sezione"${s.sezione?` id="${esc(s.sezione)}"`:''}>
     ${s.nome?`<h2>${esc(s.nome)}</h2>${s.descrizione?`<p>${esc(s.descrizione)}</p>`:''}`:'<h2>La tabella dei minimi</h2>'}
     ${tabellaSezione(rotta,d,s)}
-    <p class="small">Scatti: ${esc(scattiTesto(s.scatti))}. ${s.prossima?`La prossima tranche firmata decorre dal ${data(s.prossima)}.`:'Nessuna tranche successiva è firmata.'}</p>
+    <p class="small">Scatti: ${esc(scattiTesto(s.scatti))}.${esc(sospensioniTesto(s.scatti))} ${s.prossima?`La prossima tranche firmata decorre dal ${data(s.prossima)}.`:'Nessuna tranche successiva è firmata.'}</p>
     <a class="btn btn--ghost" href="${calcolatore(rotta,{ccnl:contratto.id,sezione:s.sezione})}">Calcola con anzianità e superminimo${s.nome?` — ${esc(s.nome)}`:''}</a>
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
@@ -329,12 +328,12 @@ function scomposizione(r){
 
 function blocchiRiga(rotta,d,r,conNome){
   const scatti=r.tappe.length?`<section class="ccnl-blocco"><h3>Con gli scatti di anzianità</h3>
-    <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’anzianità nella stessa azienda.</p>
+    <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’anzianità nella stessa azienda.${esc(sospensioniTesto(r.regola))}</p>
     <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">Anzianità in azienda</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>
     <tr><th scope="row">Nessuno scatto</th><td>${eur(r.composta.mensileTotale)}</td><td>${eur(r.composta.ral)}</td><td>${eur(r.nettoMensile)}</td></tr>
     ${r.tappe.map(t=>`<tr><th scope="row">${t.anni} anni · ${t.n} ${t.n===1?'scatto':'scatti'}</th><td>${eur(t.composta.mensileTotale)}</td><td>${eur(t.composta.ral)}</td><td>${eur(t.nettoMensile)}</td></tr>`).join('')}
     </tbody></table></div></section>`
-    :`<section class="ccnl-blocco"><h3>Scatti di anzianità</h3><p>Regola del contratto: ${esc(scattiTesto(r.regola))}${r.regola.tipo==='percentualeMaturazione'?': il loro valore dipende dalla data in cui maturano, e il calcolatore lo ricostruisce dalla data di anzianità':''}.</p></section>`;
+    :`<section class="ccnl-blocco"><h3>Scatti di anzianità</h3><p>Regola del contratto: ${esc(scattiTesto(r.regola))}${r.regola.tipo==='percentualeMaturazione'?': il loro valore dipende dalla data in cui maturano, e il calcolatore lo ricostruisce dalla data di anzianità':''}.${esc(sospensioniTesto(r.regola))}</p></section>`;
   const partTime=r.partTime.length?`<section class="ccnl-blocco"><h3>Part-time</h3>
     <p>Il tempo pieno è di ${r.ore} ore settimanali. A orario ridotto costante il minimo si riproporziona sulle ore lavorate.</p>
     <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">Ore settimanali</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>

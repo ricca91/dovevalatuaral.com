@@ -558,7 +558,7 @@ test.describe('10 — la pagina CCNL e livello descrive la regola degli scatti',
       sospensioni:[{dal:'2013-01-01',al:'2014-07-31',articolo:'art. 9'}]}}]);
     assert.equal(aiuti(C,{ccnl:'nuovo'}).scatti,
       'Massimo 8, il primo dopo 4 anni e poi uno ogni 3, ciascuno dal primo giorno del mese in cui matura. '+
-      'L’anzianità non matura dal 1 gennaio 2013 al 31 luglio 2014 (art. 9). '+
+      'L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 9). '+
       'Se lo compili prevale sull’anzianità.');
     /* Una sola regola nuova alla volta: le altre parti non compaiono. */
     const soloPrimo=catalogo([{...semplice,id:'primo',scatti:{...scattiFissi,primoDopoAnni:4}}]);
@@ -577,6 +577,24 @@ test.describe('10 — la pagina CCNL e livello descrive la regola degli scatti',
     assert.equal(aiuti(C,{ccnl:'perc'}).scatti,
       'Fino a 8, il primo dopo 3 anni e poi uno ogni 2, ciascuno pari alla tabella del giorno in cui matura: '+
       'qui serve la data di anzianità, il numero da solo non basta. '+
-      'L’anzianità non matura dal 1 gennaio 2020 al 31 dicembre 2020 (art. 9).');
+      'L’anzianità non matura dal 1° gennaio 2020 al 31 dicembre 2020 (art. 9).');
+  });
+
+  /* Una sola descrizione per la pagina CCNL e livello e per le pagine
+     dei minimi: il catalogo scrive cadenza, decorrenza e periodi
+     sospesi, le pagine compongono la frase. Le date sono quelle delle
+     pagine dei minimi, «1° gennaio». */
+  test('il catalogo descrive cadenza, decorrenza e periodi sospesi; vuoto ciò che la regola non dichiara',()=>{
+    const C=catalogo([semplice,{...semplice,id:'nuovo',scatti:{...scattiFissi,massimo:8,primoDopoAnni:4,
+      cadenzaAnni:3,decorre:'meseMaturazione',sospensioni:[
+        {dal:'2020-03-15',al:'2020-12-31',articolo:'art. 10'},
+        {dal:'2013-01-01',al:'2014-07-31',articolo:'art. 9'}]}}]);
+    assert.deepEqual({...C.descrizioneScatti(C.regolaScatti('nuovo'))},{
+      cadenza:'il primo dopo 4 anni e poi uno ogni 3',
+      decorrenza:', ciascuno dal primo giorno del mese in cui matura',
+      sospensioni:' L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 9).'+
+        ' L’anzianità non matura dal 15 marzo 2020 al 31 dicembre 2020 (art. 10).'});
+    assert.deepEqual({...C.descrizioneScatti(C.regolaScatti('semplice'))},
+      {cadenza:'uno ogni 2 anni',decorrenza:'',sospensioni:''});
   });
 });

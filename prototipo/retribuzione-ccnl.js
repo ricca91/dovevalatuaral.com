@@ -1844,6 +1844,13 @@
      ------------------------------------------------------------ */
   const oggi=()=>new Date().toISOString().slice(0,10);
 
+  /* Le date nei testi per l'utente: «1° gennaio 2013», come nelle
+     pagine dei minimi. Nei messaggi d'errore resta gg/mm/aaaa. */
+  const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto',
+    'settembre','ottobre','novembre','dicembre'];
+  const dataEstesa=iso=>{const [a,m,g]=iso.split('-').map(Number);
+    return `${g===1?'1°':g} ${MESI[m-1]} ${a}`;};
+
   function dataIsoValida(valore){
     if(!/^\d{4}-\d{2}-\d{2}$/.test(String(valore)))return false;
     const [anno,mese,giorno]=String(valore).split('-').map(Number);
@@ -2037,6 +2044,29 @@
       const c=contrattoNoto(id);
       const mancanti=c.quoteAnnueMancanti.map(q=>`il ${q.nome} previsto dall’${q.fonte}`).join(' e ');
       return `Base tabellare annualizzata: lordo mensile di tabella × mensilità. Non è la RAL contrattuale completa: manca ${mancanti}, non ancora quantificato da una fonte primaria per i livelli attuali. Anche il netto mostrato è quindi sottostimato.`;
+    }
+
+    /* La regola degli scatti detta all'utente, la stessa nella pagina
+       CCNL e livello e nelle pagine dei minimi: ognuna compone la frase
+       a modo suo, ma cadenza, decorrenza e periodi sospesi si scrivono
+       solo qui. Una parte che la regola non dichiara è vuota, così chi
+       resta sui default legge il testo di sempre.
+         · cadenza — «uno ogni 2 anni», o «il primo dopo 4 anni e poi
+           uno ogni 3» dove il primo arriva dopo un periodo diverso;
+         · decorrenza — «, ciascuno dal primo giorno del mese in cui
+           matura» per `meseMaturazione`;
+         · sospensioni — una frase per periodo, con lo spazio davanti. */
+    function descrizioneScatti(regola){
+      return congela({
+        cadenza:regola.cadenzaAnni===undefined?''
+          :regola.primoDopoAnni!==undefined&&regola.primoDopoAnni!==regola.cadenzaAnni
+          ?`il primo dopo ${regola.primoDopoAnni} anni e poi uno ogni ${regola.cadenzaAnni}`
+          :`uno ogni ${regola.cadenzaAnni} anni`,
+        decorrenza:regola.decorre==='meseMaturazione'
+          ?', ciascuno dal primo giorno del mese in cui matura':'',
+        sospensioni:(regola.sospensioni||[]).map(s=>
+          ` L’anzianità non matura dal ${dataEstesa(s.dal)} al ${dataEstesa(s.al)} (${s.articolo}).`).join(''),
+      });
     }
 
     function contrattoNoto(id){
@@ -2344,7 +2374,7 @@
     return congela({VERSIONE_DATASET:versione,CONTRATTI,ESCLUSIONI,FONTE_RIPROPORZIONE,
       trovaContratto,sezioni,tabellaVigente,prossimaTabella,livelli,trovaLivello,
       oreContrattuali,regolaScatti,mensilitaAlla,ralCompleta,etichettaAnnua,avvisoRalParziale,
-      scattiMaturati,riproporziona,componiRal,riconciliaLivello});
+      descrizioneScatti,scattiMaturati,riproporziona,componiRal,riconciliaLivello});
   }
 
   return congela({...creaCatalogo({versione:VERSIONE_DATASET,

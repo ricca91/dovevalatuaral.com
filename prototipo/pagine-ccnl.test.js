@@ -182,6 +182,20 @@ test('la tabella della Logistica dice che il parametro del rider cresce con l’
   assert.ok(pagina.includes('Rider su ciclomotori e motocicli — L, parametro 119 (dopo 15 mesi)'));
 });
 
+/* Artt. 94 e 103 del CCNL ABI: primo scatto dopo 4 anni, poi ogni 3,
+   dal primo del mese in cui matura; anzianità sospesa dal 1° gennaio
+   2013 al 31 luglio 2014. La tabella lo dice come la pagina CCNL e
+   livello; le tabelle degli altri contratti restano come prima. */
+test('la tabella dei Bancari dice cadenza, decorrenza nel mese e periodo sospeso degli scatti',()=>{
+  const t=testo(leggi('/minimi-ccnl/bancari/'));
+  const sospensione=' L’anzianità non matura dal 1° gennaio 2013 al 31 luglio 2014 (art. 94 c. 5 e art. 103 c. 3).';
+  for(const massimo of [8,7])
+    assert.ok(t.includes(`Scatti: fino a ${massimo} scatti, il primo dopo 4 anni e poi uno ogni 3, `+
+      `ciascuno dal primo giorno del mese in cui matura.${sospensione} Nessuna tranche successiva è firmata.`),String(massimo));
+  assert.ok(testo(leggi('/minimi-ccnl/commercio/')).includes('Scatti: fino a 10 scatti, uno ogni 3 anni. La prossima tranche'));
+  assert.doesNotMatch(testo(leggi('/minimi-ccnl/commercio/')),/non matura|mese in cui matura/);
+});
+
 test('le pagine per livello mostrano scatti, part-time e tranche futura solo dove il contratto li documenta',()=>{
   const commercio=testo(leggi('/minimi-ccnl/commercio/5-livello/'));
   assert.ok(commercio.includes('Ogni scatto vale 20,30 €'));
