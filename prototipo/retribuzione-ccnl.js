@@ -389,8 +389,11 @@
     ['7',[963.78,984.77,1005.76,1040.75,1077.14]],
   ];
 
-  const fonte=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-09-22'});
+  /* Una fonte porta la data in cui è stata verificata: un costruttore
+     per data di verifica, uno per gruppo. */
+  const fonteVerificataIl=verificataIl=>(titolo,parte,url,archivio)=>
+    congela({titolo,parte,url,archivio,verificataIl});
+  const fonte=fonteVerificataIl('2026-09-22');
   const cifraFissa=(cadenzaAnni,massimo,articolo,extra={})=>({tipo:'cifraFissa',
     cadenzaAnni,massimo,articolo,
     base:'anzianità di servizio presso la stessa azienda o gruppo aziendale',
@@ -1278,7 +1281,9 @@
      Il Credito ABI è l'unico che ha chiesto regole nuove al modello
      degli scatti: primo scatto dopo un periodo diverso, decorrenza nel
      mese di maturazione, anzianità sospesa (vedi IL CATALOGO).
+     Tutte le fonti del gruppo sono state verificate lo stesso giorno.
      ============================================================ */
+  const fonteGruppo2=fonteVerificataIl('2026-10-16');
 
   /* --- AREA MECCANICA — ARTIGIANATO, C030 ---------------------- */
 
@@ -1304,8 +1309,6 @@
      100 € al tecnico del restauro senior, livello 4): art. 22 e note alle
      tabelle. Gli scatti sono in cifra fissa per livello e per sezione,
      biennali, massimo 5; il 1Q prende quello del livello 1 (art. 22). */
-  const fonteAreaMeccanica=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const DATE_AREA_MECCANICA=['2024-12-01','2025-07-01','2026-03-01','2026-11-01'];
   const TITOLI_AREA_MECCANICA=['prima tranche, retribuzione tabellare dal 1° dicembre 2024 (art. 29)',
     'seconda tranche, dal 1° luglio 2025 (art. 29)','terza tranche, dal 1° marzo 2026 (art. 29)',
@@ -1387,7 +1390,7 @@
       totalePubblicato:tabellari[t],vociTotalePubblicato:['tabellare'],scatto,
       profili:PROFILI_AREA_MECCANICA[sezione][codice]||[]}))));
 
-  const FONTE_AREA_MECCANICA=fonteAreaMeccanica(
+  const FONTE_AREA_MECCANICA=fonteGruppo2(
     'CCNL Area Meccanica, testo definitivo, Roma 19 novembre 2024 — art. 29 (tabelle), artt. 22, 24, 28, 29 bis, 29 ter, scatti',
     'Archivio CNEL, deposito delle parti firmatarie (idAccordo 221687); tabelle uguali al verbale integrativo 25 novembre 2024 (idAccordo 198588)',
     'https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/accordi/scarica/accordi/221687',
@@ -1456,8 +1459,6 @@
 
      Il 1° settembre 2027 sale solo l'IAR (+11 € sul parametro 138):
      è una tabella in più con i minimi della precedente. */
-  const fonteAlimentare=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const DATE_ALIMENTARE=['2023-12-01','2024-09-01','2025-01-01','2026-01-01','2027-01-01','2027-09-01'];
   const TITOLI_ALIMENTARE=['prima tranche dei minimi e IAR di 55 € (art. 51)',
     'seconda tranche dei minimi','terza tranche dei minimi','quarta tranche dei minimi',
@@ -1508,7 +1509,7 @@
         ?[{id:'quadro',nome:'Quadro',voce:voce('elementoAggiuntivoQuadri',
           'Elemento aggiuntivo dei quadri (art. 51 olearia)',QUADRI_OLEARIA[codice])}]:[]}))));
 
-  const FONTE_ALIMENTARE=fonteAlimentare(
+  const FONTE_ALIMENTARE=fonteGruppo2(
     'CCNL per l’industria alimentare 2023–2027, testo coordinato con il verbale di stesura 28 ottobre 2024 — artt. 51, 52, 53, 54',
     'FAI CISL, organizzazione sindacale firmataria (stesso testo pubblicato da FLAI CGIL)',
     'https://www.faicisl.it/attachments/article/2350/CCNL%20INDUSTRIA%20ALIMENTARE%20%202023-2027%20versione%20web.pdf',
@@ -1569,8 +1570,6 @@
      cui vale zero non c'è la voce. Il part-time si riproporziona su
      40 ore (art. 3 E punto 5) anche se l'orario medio dei giornalieri
      è di 37 ore e 45 minuti. */
-  const fonteChimico=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const DATE_CHIMICO=['2024-01-01','2024-07-01','2025-07-01','2025-12-01','2026-07-01','2027-07-01','2028-06-01'];
   const TITOLI_CHIMICO=[
     'anticipo dei minimi dell’intesa 8 gennaio 2024, EDR azzerato e assorbito nel minimo',
@@ -1637,7 +1636,7 @@
     mensilita:13,
     oreSettimanali:40,
     scatti:{tipo:'assenti',articolo:'art. 17 — scatti di anzianità, abrogato dal 1° gennaio 2010 (rinnovo 18 dicembre 2009)'},
-    fonte:fonteChimico('Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025 — trattamento economico, p. 48 (TEM mensile alle diverse scadenze)',
+    fonte:fonteGruppo2('Ipotesi di accordo di rinnovo del CCNL chimico-farmaceutico 15 aprile 2025 — trattamento economico, p. 48 (TEM mensile alle diverse scadenze)',
       'Filctem CGIL, organizzazione sindacale firmataria (stessa ipotesi depositata al CNEL, idAccordo 221298); scioglimento della riserva del 4 giugno 2025 e stesura complessiva di luglio 2025 da Assolombarda',
       'https://www.filctemcgil.it/images/download/CONTRATTI/chimico_farmaceutico/250415-_CHIMICO-FARMACEUTICO_RINNOVO%20CCNL_%201-7-2025__30-6-2028.pdf',
       'processo/dati/fonti/chimico-b011-ipotesi-rinnovo-2025-04-15-filctem.pdf'),
@@ -1670,8 +1669,6 @@
      il totale è derivato. L'unica voce oltre al minimo è l'indennità
      di funzione dei Quadri (art. 28 c.5), 50,00 € solo sul livello Q,
      nelle tredici mensilità come gli scatti. */
-  const fonteGomma=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   const NOME_GOMMA={Q:'Quadri'};
   /* [decorrenza, titolo, minimi di Q, A, B, C, D, E, F, G, H, I] */
   const TABELLE_GOMMA=[
@@ -1702,7 +1699,7 @@
     mensilita:13,
     oreSettimanali:40,
     scatti:cifraFissa(2,5,'art. 23 — scatti di anzianità'),
-    fonte:fonteGomma('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17, tabella dei minimi',
+    fonte:fonteGruppo2('Ipotesi di accordo 10 dicembre 2025 per il rinnovo del CCNL gomma, cavi elettrici e plastica — art. 17, tabella dei minimi',
       'testo dell’ipotesi in formato CNEL, riprodotto da Uniolex; efficacia da scioglimento della riserva, Assolombarda 30 gennaio 2026; tabella riscontrata da Eutekne, FiscoeTasse e Consulenza Buffetti',
       'https://uniolex.com/wp-content/uploads/2026/02/CCNL-Gomma-Plastica-Ipotesi-accordo-di-rinnovo.pdf',
       'processo/dati/fonti/gomma-plastica-b371-ipotesi-accordo-rinnovo-2025-12-10-uniolex-2026-10-16.pdf'),
@@ -1748,8 +1745,6 @@
      luglio 2014 l'anzianità non matura. Massimo 8, ma 7 per i quadri di
      3° e 4° livello, che li contano dalla nomina «in luogo dei
      precedenti»: per questo due sezioni sulla stessa tabella. */
-  const fonteAbi=(titolo,parte,url,archivio)=>congela({titolo,parte,url,archivio,
-    verificataIl:'2026-10-16'});
   /* Allegato 2, «Dal 1° marzo 2026»: [codice, nome, stipendio, scatto
      di anzianità, importo ex ristrutturazione tabellare]. */
   const TABELLA_ABI=[
@@ -1785,15 +1780,15 @@
     mensilita:13,
     oreSettimanali:37,
     scatti:SCATTI_ABI,
-    fonte:fonteAbi('CCNL 23 novembre 2023 per i quadri direttivi e per il personale delle aree professionali, testo coordinato firmato il 14 luglio 2025 — Allegato 2, tabella dal 1° marzo 2026',
+    fonte:fonteGruppo2('CCNL 23 novembre 2023 per i quadri direttivi e per il personale delle aree professionali, testo coordinato firmato il 14 luglio 2025 — Allegato 2, tabella dal 1° marzo 2026',
       'FABI, organizzazione sindacale firmataria (edizione del testo coordinato); tabella riscontrata su Edotto e First CISL',
       'https://fabitreviso.it/fm/files/CCNL/ccnl-23-nov-2023_fabi.pdf',
       'processo/dati/fonti/credito-abi-j241-testo-coordinato-ccnl-23-nov-2023-fabi-2025-07-14.pdf'),
-    fonteAccordo:fonteAbi('Accordo di rinnovo del ccnl 19 dicembre 2019, 23 novembre 2023 — art. 20 e tabelle economiche',
+    fonteAccordo:fonteGruppo2('Accordo di rinnovo del ccnl 19 dicembre 2019, 23 novembre 2023 — art. 20 e tabelle economiche',
       'ABI, FABI, First CISL, Fisac CGIL, Uilca, Unisin (copia pubblicata da FABI Treviso)',
       'https://fabitreviso.it/fm/files/CCNL/Accordo-di-rinnovo-23-11-2023.pdf',
       'processo/dati/fonti/credito-abi-j241-accordo-rinnovo-abi-fabi-first-fisac-uilca-unisin-2023-11-23.pdf'),
-    fonteSospensione:fonteAbi('Verbale di accordo 16 luglio 2026 — sospensione dei termini fino al 31 dicembre 2026',
+    fonteSospensione:fonteGruppo2('Verbale di accordo 16 luglio 2026 — sospensione dei termini fino al 31 dicembre 2026',
       'ABI, FABI, First CISL, Fisac CGIL, Uilca, Unisin (copia pubblicata da Unisin Falcri Gruppo Intesa Sanpaolo)',
       'https://www.falcri-is.com/wp-content/uploads/2026/08/Verbale-di-accordo-16-luglio-2026-1.pdf',
       'processo/dati/fonti/credito-abi-j241-verbale-sospensione-termini-unisin-2026-07-16.pdf'),
