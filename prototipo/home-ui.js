@@ -602,6 +602,7 @@ function pagina(res,st){
         <div class="sec-head"><h2>${s.t}</h2>${s.tool||''}</div>
         ${s.lede?`<p class="lead">${s.lede}</p>`:''}
         <div class="sec-body">${s.body}</div>
+        ${s.id==='risultato'?ingressiBustaPaga().dopoRisultato():''}
       </div></section>`;
   return `<div class="pg">${form(st)}</div>
     <div class="anchorbar" style="margin-top:clamp(32px,4vw,56px)"><div class="pg"><div class="inner">
@@ -613,7 +614,10 @@ function pagina(res,st){
     ${calcFooter()}
     ${eggDialog()}`;
 }
-const calcFooter=()=>`<footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR. · <a href="minimi-ccnl/">Minimi CCNL</a></footer>`;
+/* Gli ingressi vivono in site-nav.js. Il prerender della home gira senza window
+   e senza il gate aperto: in quel caso non c'è nessun ingresso da mostrare. */
+const ingressiBustaPaga=()=>typeof window!=='undefined'&&window.BUSTA_PAGA_INGRESSI||{strumento:()=>'',dopoRisultato:()=>''};
+const calcFooter=()=>`<footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR. · <a href="minimi-ccnl/">Minimi CCNL</a> · <a href="privacy.html">Privacy</a></footer>`;
 const eggDialog=()=>`<dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog>`;
 /* I cinque contratti con più clic organici a inizio ottobre 2026: le
    pagine dei minimi fanno quasi tutta la ricerca, e la home non le
@@ -633,6 +637,7 @@ function minimiCcnl(){
 }
 function vuoto(st){
   return `<div class="pg">${form(st)}
+    ${ingressiBustaPaga().strumento()}
     <section class="sec">
       <span class="no">§ 01</span>
       <div class="eyebrow">Prima di calcolare</div>

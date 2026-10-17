@@ -1,8 +1,28 @@
 (()=>{
+  // Gate editoriale di rilascio, distinto dalla configurazione Stripe test.
+  // Attivare solo dopo RIC-71/72, prezzo/termini approvati e verifica sul deploy.
+  const pubblicata=false;
+  const destinazione='/busta-paga.html#bp-upload';
+  window.BUSTA_PAGA_INGRESSI={
+    attivo:pubblicata,
+    strumento:()=>pubblicata?'<section class="sec"><div class="eyebrow">Altri strumenti</div><h2>Ti leggo la busta</h2><p>Capisci le diciture del tuo cedolino. Anteprima gratuita e report facoltativo a pagamento.</p><a class="btn btn--primary" href="'+destinazione+'">Carica la tua busta</a></section>':'',
+    dopoRisultato:()=>pubblicata?'<p class="cta-confronto"><a href="'+destinazione+'">Hai già il cedolino? Scopri cosa significano le voci →</a></p>':'',
+    ctaBlog:()=>pubblicata?destinazione:'/',
+  };
   const header=document.querySelector('.site-header');
   const button=header?.querySelector('.site-menu-toggle');
   const nav=header?.querySelector('.site-nav');
   if(!header||!button||!nav)return;
+
+  if(pubblicata&&!document.querySelector('.bp-page')){
+    const link=document.createElement('a');link.href=destinazione;link.textContent='Ti leggo la busta';nav.append(link);
+  }
+  // Il blog mantiene il fallback al calcolatore finché il gate resta chiuso.
+  document.querySelectorAll('[data-busta-paga-cta],.article-cta a[href="/busta-paga.html"]').forEach(link=>{
+    link.href=window.BUSTA_PAGA_INGRESSI.ctaBlog();
+    if(pubblicata)link.textContent='Carica la tua busta →';
+    else link.textContent='Metti la tua RAL e vedi il tuo caso →';
+  });
 
   const groups=[...nav.querySelectorAll('.site-nav__group')];
   const closeGroups=(except=null)=>groups.forEach(group=>{

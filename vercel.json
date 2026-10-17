@@ -4,6 +4,12 @@
     "api/risultato-immagine.js": {
       "includeFiles": "server/fonts/**",
       "maxDuration": 10
+    },
+    "api/busta-paga.js": {
+      "maxDuration": 90
+    },
+    "api/busta-paga-webhook.mjs": {
+      "maxDuration": 30
     }
   },
   "rewrites": [
@@ -28,5 +34,33 @@
       "permanent": true
     }
   ],
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "regions": [
+    "fra1"
+  ],
+  "crons": [
+    {
+      "path": "/api/busta-paga-pulizia",
+      "schedule": "15 3 * * *"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/busta-paga.html",
+      "headers": [
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        }
+      ]
+    }
+  ]
 }

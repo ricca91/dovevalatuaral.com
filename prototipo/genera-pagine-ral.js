@@ -14,6 +14,8 @@ const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/ccnl-livello.html`,
   `${ORIGIN}/netto-o-niente.html`,
   `${ORIGIN}/calcolo-tredicesima/`,
+
+  `${ORIGIN}/privacy.html`,
   `${ORIGIN}/confronti-ral/`,
 ]);
 

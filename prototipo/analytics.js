@@ -1,18 +1,10 @@
-/* Analytics delle pagine pubbliche: Google Analytics 4 e Datafast.
+/* Analytics delle pagine pubbliche: Datafast; GA4 sospeso in assenza di consenso.
    Gli snippet ufficiali vanno in linea in ogni <head>; qui stanno in un file
    perché le pagine pubbliche sono ventiquattro e diciotto nascono da un
    template: una riga sola da tenere allineata invece di ventiquattro.
    L'iniezione dinamica è il metodo che Datafast documenta per Tag Manager. */
 (()=>{
-  const GA_ID='G-9Y1NYDHTEZ';
-  window.dataLayer=window.dataLayer||[];
-  window.gtag=function(){window.dataLayer.push(arguments)};
-  gtag('js',new Date());
-  gtag('config',GA_ID);
-  const ga=document.createElement('script');
-  ga.async=true;
-  ga.src=`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`;
-  document.head.appendChild(ga);
+  // GA4 disabilitato: il sito non raccoglie ancora il consenso ai cookie.
 
   const datafast=document.createElement('script');
   datafast.defer=true;

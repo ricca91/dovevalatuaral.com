@@ -31,3 +31,4 @@ dist/
 videos/*/renders/
 videos/*/.media/
 videos/*/node_modules/
+!.env.example
