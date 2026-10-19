@@ -418,3 +418,15 @@ test('RIC-98: FAQ metalmeccanico visibili, schema e limiti delle stime',()=>{
   assert.match(testo(html),/imposta sostitutiva del 5% non applicata/);
   assert.match(html,/20251122-CCNL-Federmeccanica/);
 });
+
+test('Poligrafici: cinque scatti ordinari e fonte del rinnovo 2018–2019 (RIC-135)',()=>{
+  const html=leggi('/minimi-ccnl/poligrafici/');
+  const t=testo(html);
+  assert.match(t,/Scatti: fino a 5 scatti, uno ogni 2 anni/);
+  assert.doesNotMatch(t,/fino a 7 scatti/);
+  assert.match(html,/href="https:\/\/www.slc-cgil.it\/images\/CCNL_poligrafici_rinnovo_2018_2019.pdf/);
+  assert.match(t,/1° gennaio 2019/);
+  assert.match(t,/sesto o settimo/);
+  assert.match(t,/esclusivamente lo scatto in corso di maturazione/);
+  assert.match(t,/non gestisce.*transitori/);
+});
