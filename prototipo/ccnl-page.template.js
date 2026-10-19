@@ -84,7 +84,10 @@ const PROFILO=`Dove non è indicato diversamente, netto stimato con le regole fi
 
 function fonte(contratto){
   const f=contratto.fonte;
-  return `<a href="${esc(f.url)}" rel="nofollow">${esc(f.titolo)}</a> — ${esc(f.parte)}. Verificata il ${data(f.verificataIl)}.`;
+  const normativa=contratto.fonteNormativa;
+  const riferimento=normativa
+    ?` Fonte normativa: <a href="${esc(normativa.url)}" rel="nofollow">${esc(normativa.titolo)}</a>. Verificata il ${data(normativa.verificataIl)}.`:'';
+  return `<a href="${esc(f.url)}" rel="nofollow">${esc(f.titolo)}</a> — ${esc(f.parte)}. Verificata il ${data(f.verificataIl)}.${riferimento}`;
 }
 
 function avvisoFonte(contratto){

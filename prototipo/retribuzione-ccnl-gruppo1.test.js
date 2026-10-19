@@ -750,8 +750,10 @@ test.describe('Poligrafici — G041',()=>{
       tipo:'pubblicato',totalePubblicato:1973.69,scartoFonte:0.1});
   });
 
-  test('scatti biennali, sette',()=>{
-    provaScattiFissi({ccnl:POLIGRAFICI,livello:'5',cadenza:2,massimo:7,importo:15.75,mensilita:13});
+  test('scatti biennali: cinque ordinari dal rinnovo 2019 (RIC-135)',()=>{
+    provaScattiFissi({ccnl:POLIGRAFICI,livello:'5',cadenza:2,massimo:5,importo:15.75,mensilita:13});
+    for(const scatti of [6,7])
+      assert.throws(()=>R.componiRal({ccnl:POLIGRAFICI,livello:'5',scatti,alla:OGGI}),RangeError);
   });
 
   /* 5°: 1.694,81 × 13 = 22.032,53. A 18 ore su 36: 847,405 → 847,41 × 13 = 11.016,33. */
