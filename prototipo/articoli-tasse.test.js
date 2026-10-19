@@ -6,6 +6,29 @@ const {parse}=require('./articoli-parser');
 const text=fs.readFileSync(path.join(__dirname,'articoli','ho-pagato-piu-tasse-del-previsto.md'),'utf8');
 const sezione=titolo=>text.split(/^#{2,3} /m).find(s=>s.startsWith(titolo))||'';
 
+test('tasse: quota netta e prelievo incrementale sono distinti e riconciliati (RIC-134)',()=>{
+  const causa1=sezione('Causa 1: hai superato lo scaglione in quel mese?').replace(/\*\*/g,'');
+  const cents=value=>Math.round(Number(value.replace(/\./g,'').replace(',','.'))*100);
+  const netto=causa1.match(/netto annuo passa da ([\d.,]+) € a ([\d.,]+) €/);
+  const lordo=cents(causa1.match(/— ([\d.,]+) € lordi in più/)[1]);
+  const retained=causa1.match(/restano ([\d.,]+) €, cioè il ([\d,]+)% dell'aumento lordo/);
+  const withheld=causa1.match(/prelievo complessivo incrementale è di ([\d.,]+) €, pari al ([\d,]+)%/);
+  assert.ok(retained,'la percentuale netta deve essere indicata come quota che resta');
+  assert.ok(withheld,'il prelievo complessivo deve avere importo e percentuale propri');
+  const retainedShare=cents(retained[2]);
+  const withheldShare=cents(withheld[2]);
+  assert.equal(cents(netto[2])-cents(netto[1]),149186);
+  assert.equal(cents(retained[1]),149186);
+  assert.equal(cents(withheld[1]),90814);
+  assert.equal(retainedShare,Math.round(cents(retained[1])/lordo*10000));
+  assert.equal(withheldShare,Math.round(cents(withheld[1])/lordo*10000));
+  assert.equal(retainedShare+withheldShare,10000);
+  const trattenute=[...causa1.matchAll(/^\|[^\n|]+\| −([\d.,]+) € \|$/gm)];
+  assert.equal(trattenute.length,5);
+  assert.equal(trattenute.reduce((sum,row)=>sum+cents(row[1]),0),cents(withheld[1]));
+  assert.equal(cents(retained[1])+cents(withheld[1]),lordo);
+});
+
 test('tasse: l\'incapienza del mese non è data per definitiva (RIC-113)',()=>{
   assert.doesNotMatch(text,/non torna in nessun modo/);
   const causa2=sezione('Causa 2: la detrazione è entrata tutta?');

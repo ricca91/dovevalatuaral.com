@@ -54,7 +54,7 @@ Fra 25.000 e 30.000 € di RAL la quota fiscale passa dall'8,53% al 12,73%. Quat
 
 Può succedere anche se sul tuo anno non lo superi. La ritenuta mensile si calcola come se quel mese fosse il tuo mese tipo: la legge impone al datore di applicare l'imposta «ragguagliando al periodo di paga i corrispondenti scaglioni annui di reddito», con le detrazioni rapportate allo stesso periodo. Con un premio, degli straordinari o degli arretrati, quel mese sfonda una soglia che il tuo anno vero non sfonda.
 
-Il motore non simula quel cedolino. Simula l'anno, e sull'anno il prelievo su una somma aggiuntiva è comunque più alto di quanto sembri. Da 27.000 a 29.400 € di RAL — 2.400 € lordi in più — il netto annuo passa da 21.576,91 € a 23.068,77 €: **restano 1.491,86 €, il prelievo è del 62,16%**.
+Il motore non simula quel cedolino. Simula l'anno, e sull'anno il prelievo su una somma aggiuntiva è comunque più alto di quanto sembri. Da 27.000 a 29.400 € di RAL — 2.400 € lordi in più — il netto annuo passa da 21.576,91 € a 23.068,77 €: **restano 1.491,86 €, cioè il 62,16% dell'aumento lordo**. Il prelievo complessivo incrementale è di **908,14 €, pari al 37,84%**.
 
 | Cosa preleva sui 2.400 € lordi | Importo |
 | --- | --- |
