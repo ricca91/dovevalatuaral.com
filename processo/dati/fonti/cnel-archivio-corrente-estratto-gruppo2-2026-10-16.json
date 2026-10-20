@@ -1,0 +1,2703 @@
+{
+ "fonte": "https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/open-data?type=ARCHIVIO_CORRENTE",
+ "file": "archivio_corrente20261016.json",
+ "scaricatoIl": "2026-10-16",
+ "filtro": "codiceCcnl in C030,E012,B011,B371,J241",
+ "record": [
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C030",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2026-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-11-19",
+   "dataInserimento": "2025-07-31",
+   "dataRicezione": "2025-07-24",
+   "dataPubblicazione": "2025-07-31",
+   "dipendenti": null,
+   "idAccordo": 221687,
+   "idAccordoString": "221687",
+   "idCcnl": 186,
+   "identificativoAccordo": "20769",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFARTIGIANATO METALMECCANICA DI PRODUZIONE",
+    "CONFARTIGIANATO IMPIANTI",
+    "CNA INSTALLAZIONE E IMPIANTI",
+    "CONFARTIGIANATO ODONTOTECNICI",
+    "CNA PRODUZIONE",
+    "CNA SERVIZI ALLA COMUNITA' AUTORIPARATORI",
+    "CONFARTIGIANATO RESTAURO",
+    "CLAAI",
+    "CNA BENESSERE E SANITÀ SNO",
+    "CASARTIGIANI",
+    "CONFARTIGIANATO AUTORIPARAZIONE",
+    "CONFARTIGIANATO ORAFI",
+    "CNA ARTISTICO E TRADIZIONALE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CISL",
+    "UILM UIL",
+    "FIM CISL",
+    "FIOM CGIL",
+    "CGIL",
+    "UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "F",
+    "28",
+    "29",
+    "H",
+    "K",
+    "N",
+    "S",
+    "T",
+    "91",
+    "71",
+    "95",
+    "62",
+    "30",
+    "52",
+    "31",
+    "32",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "TRASPORTO E MAGAZZINAGGIO",
+    "ATTIVITÀ MANIFATTURIERE",
+    "COSTRUZIONI",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di altri mezzi di trasporto",
+    "Attività di biblioteche, archivi, musei e altre attività culturali",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Magazzinaggio, deposito e attività di supporto ai trasporti",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Attività di architettura e ingegneria; collaudi e analisi tecniche",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL Area Meccanica",
+   "titoloCcnl": "CCNL Area Meccanica",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C030",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-11-25",
+   "dataInserimento": "2024-12-03",
+   "dataRicezione": "2024-11-28",
+   "dataPubblicazione": "2024-12-03",
+   "dipendenti": null,
+   "idAccordo": 198588,
+   "idAccordoString": "198588",
+   "idCcnl": 186,
+   "identificativoAccordo": "20535",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CNA SERVIZI ALLA COMUNITA' AUTORIPARATORI",
+    "CLAAI",
+    "CNA BENESSERE E SANITÀ SNO",
+    "CNA INSTALLAZIONE E IMPIANTI",
+    "CONFARTIGIANATO AUTORIPARAZIONE",
+    "CNA PRODUZIONE",
+    "CNA ARTISTICO E TRADIZIONALE"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UILM",
+    "FIM CISL",
+    "FIOM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "F",
+    "28",
+    "29",
+    "H",
+    "K",
+    "N",
+    "S",
+    "T",
+    "91",
+    "71",
+    "95",
+    "62",
+    "30",
+    "52",
+    "31",
+    "32",
+    "43"
+   ],
+   "settoriAtecoDescrizione": [
+    "TRASPORTO E MAGAZZINAGGIO",
+    "ATTIVITÀ MANIFATTURIERE",
+    "COSTRUZIONI",
+    "ATTIVITÀ ARTISTICHE, SPORTIVE E DI DIVERTIMENTO",
+    "TELECOMUNICAZIONI, PROGRAMMAZIONE E CONSULENZA INFORMATICA, INFRASTRUTTURE INFORMATICHE E ALTRE ATTIVITÀ DEI SERVIZI D'INFORMAZIONE",
+    "ALTRE ATTIVITÀ DI SERVIZI",
+    "ATTIVITÀ PROFESSIONALI, SCIENTIFICHE E TECNICHE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di altri mezzi di trasporto",
+    "Attività di biblioteche, archivi, musei e altre attività culturali",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Magazzinaggio, deposito e attività di supporto ai trasporti",
+    "Fabbricazione di mobili",
+    "Attività di programmazione, consulenza informatica e attività connesse",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Lavori di costruzione specializzati",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Attività di architettura e ingegneria; collaudi e analisi tecniche",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Verbale integrativo dell'Ipotesi di accordo per il rinnovo del CCNL Area Meccanica del 19 novembre 2024",
+   "titoloCcnl": "CCNL Area Meccanica",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "E012",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-12-01",
+   "dataScadenzaContrattuale": "2023-11-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-07-31",
+   "dataInserimento": "2022-01-31",
+   "dataRicezione": "2022-01-03",
+   "dataPubblicazione": "2022-01-31",
+   "dipendenti": null,
+   "idAccordo": 146056,
+   "idAccordoString": "146056",
+   "idCcnl": 274,
+   "identificativoAccordo": "19632",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOLATTE",
+    "ASSITOL",
+    "ANICAV",
+    "ASSOBIBE",
+    "ASSICA",
+    "ASSOBIRRA",
+    "FEDERVINI",
+    "ANCIT",
+    "MINERACQUA",
+    "UNIONFOOD",
+    "UNAITALIA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FLAI CGIL",
+    "FAI CISL",
+    "UILA UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "E",
+    "E01"
+   ],
+   "settoriDescrizione": [
+    "ALIMENTARISTI"
+   ],
+   "sottosettoriDescrizione": [
+    "industrie alimentari"
+   ],
+   "settoriAteco": [
+    "11",
+    "C",
+    "10"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Produzione di prodotti alimentari",
+    "Produzione di bevande"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per i lavoratori dell'industria alimentare 31 luglio 2020",
+   "titoloCcnl": "CCNL per l'industria alimentare",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "E012",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-12-01",
+   "dataScadenzaContrattuale": "2027-11-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-03-01",
+   "dataInserimento": "2024-03-18",
+   "dataRicezione": "2024-03-02",
+   "dataPubblicazione": "2024-03-18",
+   "dipendenti": null,
+   "idAccordo": 182845,
+   "idAccordoString": "182845",
+   "idCcnl": 274,
+   "identificativoAccordo": "20243",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOLATTE",
+    "ASSITOL",
+    "ANICAV",
+    "ASSICA",
+    "ASSOCARNI",
+    "ASSALZOO",
+    "UNAITALIA",
+    "ASSOBIBE",
+    "ITALMOPA",
+    "ASSOBIRRA",
+    "UNIONE ITALIANA FOOD",
+    "FEDERVINI",
+    "ANCIT",
+    "MINERACQUA",
+    "UNIONZUCCHERO",
+    "UNIONFOOD"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FLAI CGIL",
+    "FAI CISL",
+    "UILA UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "E",
+    "E01"
+   ],
+   "settoriDescrizione": [
+    "ALIMENTARISTI"
+   ],
+   "sottosettoriDescrizione": [
+    "industrie alimentari"
+   ],
+   "settoriAteco": [
+    "11",
+    "C",
+    "10"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Produzione di prodotti alimentari",
+    "Produzione di bevande"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Verbale di accordo per il rinnovo del CCNL 31 luglio 2020 per l'industria alimentare",
+   "titoloCcnl": "CCNL per l'industria alimentare",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "E012",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-12-01",
+   "dataScadenzaContrattuale": "2027-11-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-10-28",
+   "dataInserimento": "2025-02-04",
+   "dataRicezione": "2025-01-20",
+   "dataPubblicazione": "2025-02-04",
+   "dipendenti": null,
+   "idAccordo": 209106,
+   "idAccordoString": "209106",
+   "idCcnl": 274,
+   "identificativoAccordo": "20592",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOLATTE",
+    "ASSITOL",
+    "ANICAV",
+    "ASSICA",
+    "ASSOCARNI",
+    "FEDERPRIMA (IN RAPPRESENTANZA DI: ASSALZOO",
+    "ITALMOPA)",
+    "UNAITALIA",
+    "ASSOBIBE",
+    "ASSOBIRRA",
+    "UNIONE ITALIANA FOOD",
+    "FEDERVINI",
+    "ANCIT",
+    "MINERACQUA",
+    "UNIONFOOD"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FLAI CGIL",
+    "FAI CISL",
+    "UILA UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "E",
+    "E01"
+   ],
+   "settoriDescrizione": [
+    "ALIMENTARISTI"
+   ],
+   "sottosettoriDescrizione": [
+    "industrie alimentari"
+   ],
+   "settoriAteco": [
+    "11",
+    "C",
+    "10"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Produzione di prodotti alimentari",
+    "Produzione di bevande"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Verbale di stesura CCNL industria alimentare 1° marzo 2024",
+   "titoloCcnl": "CCNL per l'industria alimentare",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "E012",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2026-02-26",
+   "dataInserimento": "2026-03-17",
+   "dataRicezione": "2026-03-06",
+   "dataPubblicazione": "2026-03-17",
+   "dipendenti": null,
+   "idAccordo": 239736,
+   "idAccordoString": "239736",
+   "idCcnl": 274,
+   "identificativoAccordo": "20985",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSITOL"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FLAI CGIL",
+    "FAI CISL",
+    "UILA UIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "E",
+    "E01"
+   ],
+   "settoriDescrizione": [
+    "ALIMENTARISTI"
+   ],
+   "sottosettoriDescrizione": [
+    "industrie alimentari"
+   ],
+   "settoriAteco": [
+    "11",
+    "C",
+    "10"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Produzione di prodotti alimentari",
+    "Produzione di bevande"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Disposizioni specifiche per gli addetti all'industria olearia e margariniera del CCNL dell'industria alimentare",
+   "titoloCcnl": "CCNL per l'industria alimentare",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2006-01-01",
+   "dataScadenzaContrattuale": "2009-12-31",
+   "dataScadenzaEconomica": "2007-12-31",
+   "dataStipula": "2006-05-10",
+   "dataInserimento": "2007-06-22",
+   "dataRicezione": "2007-06-18",
+   "dataPubblicazione": "2010-01-28",
+   "dipendenti": null,
+   "idAccordo": 579,
+   "idAccordoString": "579",
+   "idCcnl": 22,
+   "identificativoAccordo": "8955",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFINDUSTRIA",
+    "ASSOCIAZIONE CERAI D'ITALIA",
+    "FARMINDUSTRIA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILCEM UIL",
+    "FILCEM CGIL",
+    "FEDERAZIONE NAZIONALE DELL'INDUSTRIA CHIMICA"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL Industria Chimica",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-06-29",
+   "dataInserimento": "2007-07-17",
+   "dataRicezione": "2007-07-13",
+   "dataPubblicazione": "2009-11-26",
+   "dipendenti": null,
+   "idAccordo": 582,
+   "idAccordoString": "582",
+   "idCcnl": 22,
+   "identificativoAccordo": "8978",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILCEM UIL",
+    "FILCEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo nazionale in materia di Linee Guida su accordi aziendali in deroga alla normativa prevista dal ccnl (art. 18, lettera B, punto 3, CCNL 10 maggio 2006)",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-12-05",
+   "dataInserimento": "2007-12-21",
+   "dataRicezione": "2007-12-18",
+   "dataPubblicazione": "2009-06-30",
+   "dipendenti": null,
+   "idAccordo": 936,
+   "idAccordoString": "936",
+   "idCcnl": 22,
+   "identificativoAccordo": "9147",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Conclusione lavori della commissione bilaterale inquadramento",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-12-05",
+   "dataInserimento": "2007-12-21",
+   "dataRicezione": "2007-12-18",
+   "dataPubblicazione": "2009-06-30",
+   "dipendenti": null,
+   "idAccordo": 935,
+   "idAccordoString": "935",
+   "idCcnl": 22,
+   "identificativoAccordo": "9146",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILCEM UIL",
+    "FILCEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Conclusione lavori della commissione bilaterale inquadramento",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2008-01-01",
+   "dataScadenzaContrattuale": "2009-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-12-06",
+   "dataInserimento": "2007-12-21",
+   "dataRicezione": "2007-12-18",
+   "dataPubblicazione": "2008-07-15",
+   "dipendenti": null,
+   "idAccordo": 933,
+   "idAccordoString": "933",
+   "idCcnl": 22,
+   "identificativoAccordo": "9144",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILCEM UIL",
+    "FILCEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Economico secondo biennio",
+   "titolo": "Accordo di rinnovo di II biennio del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e GPL del 10 maggio 2006",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2008-01-01",
+   "dataScadenzaContrattuale": "2009-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2007-12-06",
+   "dataInserimento": "2007-12-21",
+   "dataRicezione": "2007-12-18",
+   "dataPubblicazione": "2008-07-15",
+   "dipendenti": null,
+   "idAccordo": 934,
+   "idAccordoString": "934",
+   "idCcnl": 22,
+   "identificativoAccordo": "9145",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Economico secondo biennio",
+   "titolo": "Accordo di rinnovo di II biennio del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e GPL del 10 maggio 2006",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2010-01-01",
+   "dataScadenzaContrattuale": "2012-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2009-12-18",
+   "dataInserimento": "2010-01-18",
+   "dataRicezione": "2009-12-23",
+   "dataPubblicazione": "2012-11-27",
+   "dipendenti": null,
+   "idAccordo": 298,
+   "idAccordoString": "298",
+   "idCcnl": 22,
+   "identificativoAccordo": "10137",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Rinnovo CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e GPL",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2010-01-01",
+   "dataScadenzaContrattuale": "2012-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2009-12-18",
+   "dataInserimento": "2010-01-18",
+   "dataRicezione": "2009-12-23",
+   "dataPubblicazione": "2012-11-27",
+   "dipendenti": null,
+   "idAccordo": 477,
+   "idAccordoString": "477",
+   "idCcnl": 22,
+   "identificativoAccordo": "10136",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILCEM UIL",
+    "FILCEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Rinnovo CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e GPL",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2012-11-01",
+   "dataScadenzaContrattuale": "2015-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2012-09-22",
+   "dataInserimento": "2012-11-22",
+   "dataRicezione": "2012-11-08",
+   "dataPubblicazione": "2013-01-14",
+   "dipendenti": null,
+   "idAccordo": 227,
+   "idAccordoString": "227",
+   "idCcnl": 22,
+   "identificativoAccordo": "14791",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2012-11-01",
+   "dataScadenzaContrattuale": "2015-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2012-09-22",
+   "dataInserimento": "2012-11-22",
+   "dataRicezione": "2012-11-08",
+   "dataPubblicazione": "2014-06-24",
+   "dipendenti": null,
+   "idAccordo": 321,
+   "idAccordoString": "321",
+   "idCcnl": 22,
+   "identificativoAccordo": "14790",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILCEM UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2012-11-01",
+   "dataScadenzaContrattuale": "2015-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2012-09-22",
+   "dataInserimento": "2013-04-09",
+   "dataRicezione": "2013-04-03",
+   "dataPubblicazione": "2014-06-24",
+   "dipendenti": null,
+   "idAccordo": 468,
+   "idAccordoString": "468",
+   "idCcnl": 22,
+   "identificativoAccordo": "14917",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Stesura definitiva del CCNL 22/09/2012 per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2016-01-01",
+   "dataScadenzaContrattuale": "2018-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2015-10-15",
+   "dataInserimento": "2015-10-29",
+   "dataRicezione": "2015-10-27",
+   "dataPubblicazione": "2018-10-09",
+   "dipendenti": null,
+   "idAccordo": 1341,
+   "idAccordoString": "1341",
+   "idCcnl": 22,
+   "identificativoAccordo": "17026",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2016-01-01",
+   "dataScadenzaContrattuale": "2018-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2015-10-15",
+   "dataInserimento": "2015-10-29",
+   "dataRicezione": "2015-10-27",
+   "dataPubblicazione": "2018-10-02",
+   "dipendenti": null,
+   "idAccordo": 1342,
+   "idAccordoString": "1342",
+   "idCcnl": 22,
+   "identificativoAccordo": "17027",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-01-01",
+   "dataScadenzaContrattuale": "2022-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2018-07-19",
+   "dataInserimento": "2018-10-09",
+   "dataRicezione": "2018-10-05",
+   "dataPubblicazione": "2018-10-09",
+   "dipendenti": null,
+   "idAccordo": 92322,
+   "idAccordoString": "92322",
+   "idCcnl": 22,
+   "identificativoAccordo": "18548",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-01-01",
+   "dataScadenzaContrattuale": "2022-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2018-07-19",
+   "dataInserimento": "2018-10-02",
+   "dataRicezione": "2018-09-21",
+   "dataPubblicazione": "2018-10-02",
+   "dipendenti": null,
+   "idAccordo": 92241,
+   "idAccordoString": "92241",
+   "idCcnl": 22,
+   "identificativoAccordo": "18527",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2020-03-12",
+   "dataInserimento": "2021-01-08",
+   "dataRicezione": "2020-04-15",
+   "dataPubblicazione": "2021-01-08",
+   "dipendenti": null,
+   "idAccordo": 128932,
+   "idAccordoString": "128932",
+   "idCcnl": 22,
+   "identificativoAccordo": "19312",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Secondo avviso comune relativo al DPCM 11 marzo 2020 e alle ulteriori misure in materia di contenimento e gestione dell'emergenza epidemiologica da COVID-19",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2022-07-01",
+   "dataScadenzaContrattuale": "2025-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2022-06-13",
+   "dataInserimento": "2022-06-17",
+   "dataRicezione": "2022-06-15",
+   "dataPubblicazione": "2022-06-17",
+   "dipendenti": null,
+   "idAccordo": 152465,
+   "idAccordoString": "152465",
+   "idCcnl": 22,
+   "identificativoAccordo": "19773",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2022-07-01",
+   "dataScadenzaContrattuale": "2025-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2022-06-13",
+   "dataInserimento": "2022-07-25",
+   "dataRicezione": "2022-07-07",
+   "dataPubblicazione": "2022-07-25",
+   "dipendenti": null,
+   "idAccordo": 153204,
+   "idAccordoString": "153204",
+   "idCcnl": 22,
+   "identificativoAccordo": "19795",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-01-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-01-08",
+   "dataInserimento": "2024-01-17",
+   "dataRicezione": "2024-01-15",
+   "dataPubblicazione": "2024-01-17",
+   "dipendenti": null,
+   "idAccordo": 178786,
+   "idAccordoString": "178786",
+   "idCcnl": 22,
+   "identificativoAccordo": "20195",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Intesa per il sostegno degli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl e il rafforzamento del ruolo delle relazioni industriali settoriali",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-06-28",
+   "dataInserimento": "2024-10-22",
+   "dataRicezione": "2024-10-17",
+   "dataPubblicazione": "2024-10-22",
+   "dipendenti": null,
+   "idAccordo": 196242,
+   "idAccordoString": "196242",
+   "idCcnl": 22,
+   "identificativoAccordo": "20493",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verifica scostamenti inflazione prevista per il rinnovo del CCNL 13 giugno 2022 per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": null,
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-06-28",
+   "dataInserimento": "2024-10-22",
+   "dataRicezione": "2024-10-17",
+   "dataPubblicazione": "2024-10-22",
+   "dipendenti": null,
+   "idAccordo": 196243,
+   "idAccordoString": "196243",
+   "idCcnl": 22,
+   "identificativoAccordo": "20492",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo economico",
+   "titolo": "Verifica scostamenti inflazione prevista per il rinnovo del CCNL 13 giugno 2022 per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2025-07-01",
+   "dataScadenzaContrattuale": "2028-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-04-15",
+   "dataInserimento": "2025-07-23",
+   "dataRicezione": "2025-07-15",
+   "dataPubblicazione": "2025-07-23",
+   "dipendenti": null,
+   "idAccordo": 221298,
+   "idAccordoString": "221298",
+   "idCcnl": 22,
+   "identificativoAccordo": "20746",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B011",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2025-07-01",
+   "dataScadenzaContrattuale": "2028-06-30",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-04-15",
+   "dataInserimento": "2025-07-23",
+   "dataRicezione": "2025-07-15",
+   "dataPubblicazione": "2025-07-23",
+   "dipendenti": null,
+   "idAccordo": 221301,
+   "idAccordoString": "221301",
+   "idCcnl": 22,
+   "identificativoAccordo": "20747",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FARMINDUSTRIA",
+    "FEDERCHIMICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL",
+    "UGL CHIMICI",
+    "FIALC CISAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B01"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "industria chimica, chimica farmaceutica, fibre chimiche, ceramica e abrasivi, coinbentazioni termico-acustiche"
+   ],
+   "settoriAteco": [
+    "C",
+    "20",
+    "21"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti farmaceutici di base e di preparati farmaceutici",
+    "Fabbricazione di prodotti chimici"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di accordo di rinnovo del CCNL per gli addetti all'industria chimica, chimico-farmaceutica, delle fibre chimiche e dei settori abrasivi, lubrificanti e gpl",
+   "titoloCcnl": "CCNL per gli addetti dell'industria chimica, chimica-farmaceutica, fibre chimiche e settori abrasivi, lubrificanti e GPL",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-07-01",
+   "dataScadenzaContrattuale": "2022-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-04-12",
+   "dataInserimento": "2021-07-29",
+   "dataRicezione": "2021-07-28",
+   "dataPubblicazione": "2021-07-29",
+   "dipendenti": null,
+   "idAccordo": 138012,
+   "idAccordoString": "138012",
+   "idCcnl": 189,
+   "identificativoAccordo": "19482",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Pubblicato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "Stesura del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-07-01",
+   "dataScadenzaContrattuale": "2022-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-04-12",
+   "dataInserimento": "2021-07-29",
+   "dataRicezione": "2021-07-28",
+   "dataPubblicazione": "2021-07-29",
+   "dipendenti": null,
+   "idAccordo": 138015,
+   "idAccordoString": "138015",
+   "idCcnl": 189,
+   "identificativoAccordo": "19484",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "Stesura del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2019-07-01",
+   "dataScadenzaContrattuale": "2022-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2021-04-12",
+   "dataInserimento": "2021-07-29",
+   "dataRicezione": "2021-07-28",
+   "dataPubblicazione": "2021-07-29",
+   "dipendenti": null,
+   "idAccordo": 138013,
+   "idAccordoString": "138013",
+   "idCcnl": 189,
+   "identificativoAccordo": "19483",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CHIMICI"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "Stesura del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2025-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-02-02",
+   "dataInserimento": "2023-03-15",
+   "dataRicezione": "2023-03-14",
+   "dataPubblicazione": "2023-03-15",
+   "dipendenti": null,
+   "idAccordo": 164921,
+   "idAccordoString": "164921",
+   "idCcnl": 189,
+   "identificativoAccordo": "19976",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CHIMICI"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo 26 gennaio 2023 di rinnovo del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2025-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-02-02",
+   "dataInserimento": "2023-03-15",
+   "dataRicezione": "2023-03-14",
+   "dataPubblicazione": "2023-03-15",
+   "dipendenti": null,
+   "idAccordo": 164920,
+   "idAccordoString": "164920",
+   "idCcnl": 189,
+   "identificativoAccordo": "19975",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo 26 gennaio 2023 di rinnovo del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-01-01",
+   "dataScadenzaContrattuale": "2025-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2023-02-06",
+   "dataInserimento": "2023-03-15",
+   "dataRicezione": "2023-03-14",
+   "dataPubblicazione": "2023-03-15",
+   "dipendenti": null,
+   "idAccordo": 164922,
+   "idAccordoString": "164922",
+   "idCcnl": 189,
+   "identificativoAccordo": "19977",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "In Classificazione",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo 26 gennaio 2023 di rinnovo del CCNL 16 settembre 2020 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2026-01-01",
+   "dataScadenzaContrattuale": "2028-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-12-10",
+   "dataInserimento": "2026-03-17",
+   "dataRicezione": "2026-03-16",
+   "dataPubblicazione": "2026-03-17",
+   "dipendenti": null,
+   "idAccordo": 239733,
+   "idAccordoString": "239733",
+   "idCcnl": 189,
+   "identificativoAccordo": "20982",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UGL CHIMICI"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di Accordo per il rinnovo del CCNL 26 gennaio 2023 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2026-01-01",
+   "dataScadenzaContrattuale": "2028-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-12-10",
+   "dataInserimento": "2026-03-17",
+   "dataRicezione": "2026-03-16",
+   "dataPubblicazione": "2026-03-17",
+   "dipendenti": null,
+   "idAccordo": 239732,
+   "idAccordoString": "239732",
+   "idCcnl": 189,
+   "identificativoAccordo": "20981",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FEMCA CISL",
+    "UILTEC UIL",
+    "FILCTEM CGIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Ipotesi di Accordo per il rinnovo del CCNL 26 gennaio 2023 per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "B371",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2026-01-01",
+   "dataScadenzaContrattuale": "2028-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2026-01-09",
+   "dataInserimento": "2026-03-17",
+   "dataRicezione": "2026-03-02",
+   "dataPubblicazione": "2026-03-17",
+   "dipendenti": null,
+   "idAccordo": 239734,
+   "idAccordoString": "239734",
+   "idCcnl": 189,
+   "identificativoAccordo": "20983",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ASSOCIAZIONE ITALIANA RICOSTRUTTORI PNEUMATICI",
+    "FEDERAZIONE GOMMA E PLASTICA"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FAILC CONFAIL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "B",
+    "B07"
+   ],
+   "settoriDescrizione": [
+    "CHIMICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore della gomma e della plastica"
+   ],
+   "settoriAteco": [
+    "22",
+    "C",
+    "20"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di prodotti chimici",
+    "Fabbricazione di prodotti in gomma e in materie plastiche"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Accordo di rinnovo",
+   "titolo": "Accordo di sottoscrizione per adesione dell'ipotesi di accordo del 10 dicembre 2025 di rinnovo del CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "titoloCcnl": "CCNL per gli addetti all'industria della gomma, cavi elettrici ed affini e all'industria delle materie plastiche",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "J241",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2023-11-23",
+   "dataScadenzaContrattuale": "2026-03-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2025-07-14",
+   "dataInserimento": "2025-08-01",
+   "dataRicezione": "2025-07-24",
+   "dataPubblicazione": "2025-08-01",
+   "dipendenti": null,
+   "idAccordo": 221747,
+   "idAccordoString": "221747",
+   "idCcnl": 1095,
+   "identificativoAccordo": "20771",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "ABI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "UNISIN",
+    "FABI",
+    "FISAC CGIL",
+    "UILCA",
+    "FIRST CISL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "J",
+    "J01"
+   ],
+   "settoriDescrizione": [
+    "CREDITO E ASSICURAZIONI"
+   ],
+   "sottosettoriDescrizione": [
+    "credito e assicurazioni"
+   ],
+   "settoriAteco": [
+    "66",
+    "L",
+    "64"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ FINANZIARIE E ASSICURATIVE"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Attività ausiliarie dei servizi finanziari e delle attività assicurative",
+    "Attività dei servizi finanziari, escluse le assicurazioni e i fondi pensione"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL per i quadri direttivi e per il personale delle aree professionali dipendenti dalle imprese creditizie, finanziarie e strumentali",
+   "titoloCcnl": "CCNL per i quadri direttivi e per il personale delle aree professionali dipendenti dalle imprese creditizie, finanziarie e strumentali",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  }
+ ]
+}

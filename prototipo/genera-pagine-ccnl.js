@@ -90,6 +90,22 @@ const CONTRATTI_SEO=Object.freeze([
   {id:'poligrafici-quotidiani-g041',slug:'poligrafici',breve:'Poligrafici',
     titoloTabella:'CCNL Poligrafici'},
   {id:'vetro-lampade-display-b132',slug:'vetro',breve:'Vetro',titoloTabella:'CCNL Vetro'},
+  /* Gruppo 2 (RIC-61): solo la tabella, nessuna pagina per livello.
+     Slug sulla formulazione più cercata (DataForSEO, Italia, 16 ottobre
+     2026): «ccnl metalmeccanico artigiano» 2.900 contro «ccnl area
+     meccanica» 30; «ccnl industria alimentare» 3.600 contro «ccnl
+     alimentare» 720; «ccnl chimico farmaceutico» 2.900 contro «ccnl
+     chimico» 880; «ccnl gomma plastica» 2.400; «ccnl bancari» 4.400
+     contro «ccnl credito» 3.600 e «ccnl abi» 880. */
+  {id:'area-meccanica-artigianato-c030',slug:'metalmeccanico-artigiano',breve:'Metalmeccanico artigiano',
+    titoloTabella:'CCNL Metalmeccanico artigiano'},
+  {id:'alimentare-industria-e012',slug:'industria-alimentare',breve:'Industria alimentare',
+    titoloTabella:'CCNL Industria alimentare'},
+  {id:'chimico-farmaceutico-industria-b011',slug:'chimico-farmaceutico',breve:'Chimico farmaceutico',
+    titoloTabella:'CCNL Chimico farmaceutico'},
+  {id:'gomma-plastica-industria-b371',slug:'gomma-plastica',breve:'Gomma plastica',
+    titoloTabella:'CCNL Gomma plastica'},
+  {id:'credito-abi-j241',slug:'bancari',breve:'Bancari',titoloTabella:'CCNL Bancari (ABI)'},
 ].map(Object.freeze));
 
 const HUB='/minimi-ccnl/';
@@ -164,7 +180,7 @@ function datiLivello(c,codice,alla){
     const base=stima(c.id,p.sezione,codice,alla);
     const regola=R.regolaScatti(c.id,p.sezione);
     const tappe=base.composta.valoreScatto!==null&&regola.tipo==='cifraFissa'&&regola.massimo>0
-      ?[...new Set([1,Math.ceil(regola.massimo/2),regola.massimo])].map(n=>({n,anni:n*regola.cadenzaAnni,
+      ?[...new Set([1,Math.ceil(regola.massimo/2),regola.massimo])].map(n=>({n,anni:regola.primoDopoAnni+(n-1)*regola.cadenzaAnni,
         ...stima(c.id,p.sezione,codice,alla,{scatti:n})})):[];
     const ore=R.oreContrattuali(c.id,p.sezione);
     const partTime=[20,24,30].filter(h=>h<ore).map(h=>({ore:h,...stima(c.id,p.sezione,codice,alla,{oreSettimanali:h})}));

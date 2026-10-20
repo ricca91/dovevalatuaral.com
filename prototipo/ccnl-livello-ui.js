@@ -34,12 +34,19 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('campo-sezione').hidden=sezioni.length===0;
   }
 
+  /* Il primo scatto quando arriva dopo un periodo diverso dalla
+     cadenza, la decorrenza quando è il mese stesso della maturazione,
+     i periodi in cui l'anzianità non matura: cambiano la data da
+     indicare, quindi la pagina li dice. Il testo lo scrive il catalogo,
+     lo stesso delle pagine dei minimi; chi non dichiara queste regole
+     legge il testo di sempre. */
   function descriviScatti(regola){
+    const {cadenza,decorrenza,sospensioni}=R.descrizioneScatti(regola);
     switch(regola.tipo){
       case 'assenti':return 'Questo contratto non prevede scatti di anzianità.';
       case 'quotaUnica':return 'Nessuno scatto: una quota unica di anzianità forfettaria dal quinto anno nel settore. Scrivi 1 se la percepisci già, 0 se no.';
-      case 'percentualeMaturazione':return `Fino a ${regola.massimo}, uno ogni ${regola.cadenzaAnni} anni, ciascuno pari alla tabella del giorno in cui matura: qui serve la data di anzianità, il numero da solo non basta.`;
-      default:return `Massimo ${regola.massimo}, uno ogni ${regola.cadenzaAnni} anni. Se lo compili prevale sull’anzianità.`;
+      case 'percentualeMaturazione':return `Fino a ${regola.massimo}, ${cadenza}${decorrenza}, ciascuno pari alla tabella del giorno in cui matura: qui serve la data di anzianità, il numero da solo non basta.${sospensioni}`;
+      default:return `Massimo ${regola.massimo}, ${cadenza}${decorrenza}.${sospensioni} Se lo compili prevale sull’anzianità.`;
     }
   }
 
@@ -65,7 +72,7 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('livello-help').textContent=
       `${livelli.length} livelli · ${mensilitaTesto(mensilita)} mensilità · tempo pieno ${ore} ore settimanali.`;
     campo('ccnl-help').textContent=contratto.notaFonte
-      ?'Tabelle da fonti non firmatarie: i dettagli sono nel risultato.'
+      ?'Nota sulle fonti o sullo stato del contratto: i dettagli sono nel risultato.'
       :'Mensilità e orario a tempo pieno li fissa il contratto.';
     popolaProfili();
   }
@@ -98,7 +105,8 @@ if(!CALCOLATORE_AVVIO.errore){
     campo('anzianita-help').textContent=nonCalcolabili
       ?'Scatti non calcolabili per questo livello: la data non serve.'
       :`Conta l’${regola.base}. Serve per far decorrere lo scatto dal momento giusto${livello.progressione
-        ?` e per applicare il parametro maturato (${descriviPassi(livello.progressione)})`:''}; lascia vuoto se non la sai.`;
+        ?` e per applicare il parametro maturato (${descriviPassi(livello.progressione)})`:''}; lascia vuoto se non la sai.${
+        R.descrizioneScatti(regola).anzianitaDal}`;
   }
 
   const numero=(raw,{intero=false}={})=>{
