@@ -24,7 +24,11 @@ const {renderHub,renderTabella,renderLivello}=require('./ccnl-page.template.js')
 
 const numerico=codice=>`${codice.toLowerCase()}-livello`;
 const lettera=codice=>`livello-${codice.toLowerCase()}`;
-const livelloN=l=>`${l.codice.replace(/S$/i,'')}° livello${/S$/i.test(l.codice)?' super':''}`;
+/* Solo i codici numerici prendono «°»: Quadro, Quadri e operatori di
+   vendita, che compaiono fra i livelli accanto, usano il nome del
+   dataset invece di «Q° livello» o «OV1° livello» (RIC-140). */
+const livelloN=l=>/^\d+S?$/i.test(l.codice)
+  ?`${l.codice.replace(/S$/i,'')}° livello${/S$/i.test(l.codice)?' super':''}`:l.nome;
 const livelloL=l=>`Livello ${l.codice}`;
 
 const CONTRATTI_SEO=Object.freeze([
@@ -90,24 +94,62 @@ const CONTRATTI_SEO=Object.freeze([
   {id:'poligrafici-quotidiani-g041',slug:'poligrafici',breve:'Poligrafici',
     titoloTabella:'CCNL Poligrafici'},
   {id:'vetro-lampade-display-b132',slug:'vetro',breve:'Vetro',titoloTabella:'CCNL Vetro'},
-  /* Gruppo 2 (RIC-61): solo la tabella, nessuna pagina per livello.
-     Slug sulla formulazione più cercata (DataForSEO, Italia, 16 ottobre
-     2026): «ccnl metalmeccanico artigiano» 2.900 contro «ccnl area
-     meccanica» 30; «ccnl industria alimentare» 3.600 contro «ccnl
-     alimentare» 720; «ccnl chimico farmaceutico» 2.900 contro «ccnl
-     chimico» 880; «ccnl gomma plastica» 2.400; «ccnl bancari» 4.400
-     contro «ccnl credito» 3.600 e «ccnl abi» 880. */
+  /* Gruppo 2 (RIC-61). Slug della tabella sulla formulazione più
+     cercata (DataForSEO, Italia, 16 ottobre 2026): «ccnl metalmeccanico
+     artigiano» 2.900 contro «ccnl area meccanica» 30; «ccnl industria
+     alimentare» 3.600 contro «ccnl alimentare» 720; «ccnl chimico
+     farmaceutico» 2.900 contro «ccnl chimico» 880; «ccnl gomma plastica»
+     2.400; «ccnl bancari» 4.400 contro «ccnl credito» 3.600 e «ccnl abi»
+     880.
+     Pagine per livello (RIC-140) dove la domanda sul netto è misurata
+     (DataForSEO Labs, Italia, media 12 mesi, 21 ottobre 2026):
+     «5 livello metalmeccanico artigiano stipendio netto» 390, «4 livello»
+     170, «3 livello» 140, «6 livello» 110 (al 20 ottobre «2° netto» 40),
+     «livello 2 bis metalmeccanico artigiano» 30, per cui lo slug è
+     `livello-2-bis`; «livello h gomma plastica stipendio netto» 260,
+     «livello f» 210, «livello h gomma plastica» 170; «livello e3 chimico
+     stipendio netto» 210, «livello e4» 170, «livello d3 chimico
+     farmaceutico» 110; «stipendio netto bancario 3 area 4 livello» 70,
+     «quadro direttivo 4 livello bancario netto» 70, «quadro direttivo 1
+     livello bancario» 40; «stipendio netto 3 livello industria
+     alimentare» 110, «5 livello alimentare industria» 70, «6 livello» 50.
+     Gli altri livelli restano solo in tabella finché GSC non mostra
+     impressioni (RIC-137).
+     `etichetta` serve anche ai livelli accanto, che non hanno pagina:
+     copre ogni codice del contratto, senza «2bis°» o «1Q°». */
   {id:'area-meccanica-artigianato-c030',slug:'metalmeccanico-artigiano',breve:'Metalmeccanico artigiano',
-    titoloTabella:'CCNL Metalmeccanico artigiano',sezioneLivelli:'metalmeccanica-impianti',
+    query:'CCNL Metalmeccanico artigiano',titoloTabella:'CCNL Metalmeccanico artigiano',
+    livelli:['5','4','3','6','2','2bis'],
+    /* Orafi, odontotecnica e restauro hanno gli stessi codici ma importi
+       propri: le loro righe restano senza link. */
+    sezioneLivelli:'metalmeccanica-impianti',
+    slugLivello:codice=>codice==='2bis'?'livello-2-bis':numerico(codice),
+    etichetta:l=>/^\d+$/.test(l.codice)?livelloN(l)
+      :{'2bis':'Livello 2 bis','1Q':'Quadro (1Q)','1S':'1° livello super','QS':'Quadro super','Q':'Quadro'}[l.codice]||livelloL(l),
     /* RIC-141: aumenti letti dal dataset (vedi trancheDalDataset). */
     aumentiDalDataset:true},
   {id:'alimentare-industria-e012',slug:'industria-alimentare',breve:'Industria alimentare',
-    titoloTabella:'CCNL Industria alimentare'},
+    query:'CCNL Industria alimentare',titoloTabella:'CCNL Industria alimentare',
+    livelli:['3','5','6'],
+    /* L'olearia ha anche il 3°, il 5° e il 6°, con importi propri: le
+       pagine mostrano la sola parte comune. */
+    sezioneLivelli:'alimentare',slugLivello:numerico,
+    etichetta:l=>/^\d+$/.test(l.codice)?livelloN(l):livelloL(l)},
   {id:'chimico-farmaceutico-industria-b011',slug:'chimico-farmaceutico',breve:'Chimico farmaceutico',
-    titoloTabella:'CCNL Chimico farmaceutico'},
+    query:'CCNL Chimico farmaceutico',titoloTabella:'CCNL Chimico farmaceutico',
+    livelli:['E3','E4','D3','E2','D1','C2','E1','B1','A3'],slugLivello:lettera,etichetta:livelloL},
   {id:'gomma-plastica-industria-b371',slug:'gomma-plastica',breve:'Gomma plastica',
-    titoloTabella:'CCNL Gomma plastica'},
-  {id:'credito-abi-j241',slug:'bancari',breve:'Bancari',titoloTabella:'CCNL Bancari (ABI)'},
+    query:'CCNL Gomma plastica',titoloTabella:'CCNL Gomma plastica',
+    livelli:['H','F','G','E','C','I','A'],slugLivello:lettera,
+    etichetta:l=>l.codice==='Q'?'Quadri':livelloL(l)},
+  /* Niente `sezioneLivelli`: QD4 sta nella sezione dei quadri direttivi
+     di 3° e 4° livello, gli altri tre in quella delle aree e dei quadri
+     di 1° e 2°; datiLivello tiene solo la sezione dove il codice esiste. */
+  {id:'credito-abi-j241',slug:'bancari',breve:'Bancari',query:'CCNL Bancari',titoloTabella:'CCNL Bancari (ABI)',
+    livelli:['3A4','3A3','QD4','QD1'],
+    slugLivello:codice=>codice.replace(/^QD(\d)$/,'quadro-direttivo-$1-livello').replace(/^3A(\d)$/,'3-area-$1-livello'),
+    etichetta:l=>l.codice==='AU'?'Area unificata'
+      :l.codice.replace(/^QD(\d)$/,'Quadro direttivo $1° livello').replace(/^3A(\d)$/,'3ª area $1° livello')},
 ].map(Object.freeze));
 
 const HUB='/minimi-ccnl/';
@@ -190,13 +232,28 @@ function trancheDalDataset(c,alla,rottaDi){
   });
 }
 
+/* RIC-144: dati per il riquadro fra i tre «metalmeccanico». Al 5° livello
+   dell'Area meccanica (sezione metalmeccanica e impianti) il minimo viene
+   dal dataset alla data della build. Solo le tabelle: nessuna pagina livello. */
+const SEO_DI=slug=>CONTRATTI_SEO.find(x=>x.slug===slug);
+function collegamentiMetalmeccanico(c,alla){
+  if(!['metalmeccanico','metalmeccanico-artigiano'].includes(c.slug))return {};
+  const ponte=slug=>({seo:SEO_DI(slug),contratto:R.trovaContratto(SEO_DI(slug).id),rotta:rottaTabella(SEO_DI(slug))});
+  const fuori={industria:ponte('metalmeccanico'),confapi:ponte('metalmeccanico-confapi')};
+  if(c.slug!=='metalmeccanico')return fuori;
+  const art=ponte('metalmeccanico-artigiano'),sezione='metalmeccanica-impianti',livello='5';
+  const livelli=R.livelli(art.contratto.id,alla,sezione);
+  return {confapi:fuori.confapi,artigiano:{...art,livello,primoLivello:livelli[0].codice,ultimoLivello:livelli.at(-1).codice,
+    composta:stima(art.contratto.id,sezione,livello,alla).composta}};
+}
+
 function datiContratto(c,alla){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
   const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
   const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
     :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
-  return {seo:c,contratto,rotta:rottaTabella(c),esclusioni:R.ESCLUSIONI[c.id]||[],
+  return {seo:c,contratto,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla),esclusioni:R.ESCLUSIONI[c.id]||[],
     aumentiDataset:c.aumentiDalDataset?trancheDalDataset(c,alla,rottaDi):[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
@@ -222,8 +279,12 @@ function datiLivello(c,codice,alla){
     const livello=R.trovaLivello(c.id,codice,alla,p.sezione);
     const base=stima(c.id,p.sezione,codice,alla);
     const regola=R.regolaScatti(c.id,p.sezione);
+    /* Con un periodo di anzianità sospeso (Bancari: 2013–2014) gli anni
+       di una tappa dipendono dalla data di assunzione: la tappa dice
+       solo quanti scatti, il testo della regola dice il resto (RIC-140). */
+    const anniDi=n=>regola.sospensioni.length?null:regola.primoDopoAnni+(n-1)*regola.cadenzaAnni;
     const tappe=base.composta.valoreScatto!==null&&regola.tipo==='cifraFissa'&&regola.massimo>0
-      ?[...new Set([1,Math.ceil(regola.massimo/2),regola.massimo])].map(n=>({n,anni:regola.primoDopoAnni+(n-1)*regola.cadenzaAnni,
+      ?[...new Set([1,Math.ceil(regola.massimo/2),regola.massimo])].map(n=>({n,anni:anniDi(n),
         ...stima(c.id,p.sezione,codice,alla,{scatti:n})})):[];
     const ore=R.oreContrattuali(c.id,p.sezione);
     const partTime=[20,24,30].filter(h=>h<ore).map(h=>({ore:h,...stima(c.id,p.sezione,codice,alla,{oreSettimanali:h})}));

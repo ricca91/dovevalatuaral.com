@@ -82,7 +82,7 @@ test('artigiano al 15 novembre 2026: la tranche di novembre resta, «In vigore d
   assert.match(blocco(html,'2026-11-01','metalmeccanica-impianti'),/<h4>In vigore dal 1° novembre 2026<\/h4>/);
   assert.match(blocco(html,'2026-03-01','orafi'),/<h4>In vigore dal 1° marzo 2026<\/h4>/);
   const principale=uno(html,/<section class="ccnl-sezione" id="metalmeccanica-impianti">([\s\S]*?)<\/section>/g,'tabella');
-  assert.ok(testo(uno(principale,/<tr><th scope="row">5<\/th>([\s\S]*?)<\/tr>/g,'5°')).includes('1.615,17 €'));
+  assert.ok(testo(uno(principale,/<tr><th scope="row">(?:<a [^>]+>)?5(?:<\/a>)?<\/th>([\s\S]*?)<\/tr>/g,'5°')).includes('1.615,17 €'));
   assert.match(html,/Aggiornato al <time datetime="2026-11-15">15 novembre 2026<\/time>/);
 });
 

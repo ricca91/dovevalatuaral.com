@@ -58,3 +58,30 @@ test('il title 2026 della tredicesima resta sotto 60 caratteri',()=>{
   const title=html.match(/<title>([^<]+)<\/title>/)[1];
   assert.ok(title.length<60,`${title.length} caratteri: ${title}`);
 });
+
+test('la tabella date-ccnl ha 9 righe, ognuna con un link alla fonte',()=>{
+  const tabella=html.match(/<table class="table date-ccnl">([\s\S]*?)<\/table>/)[1];
+  const righe=[...tabella.matchAll(/<tr><th scope="row">([^<]+)<\/th>([\s\S]*?)<\/tr>/g)];
+  assert.equal(righe.length,9);
+  for(const [,nome,resto] of righe)assert.match(resto,/<a href="https:\/\/[^"]+">/,nome);
+  for(const codice of ['C030','E012','B011','B371','J241'])assert.ok(righe.some(([,n])=>n.includes(`(${codice})`)),codice);
+});
+
+test('la riga dei bancari dice 20 dicembre',()=>{
+  const riga=html.match(/<tr><th scope="row">Bancari ABI[\s\S]*?<\/tr>/)[0];
+  assert.match(riga,/20 dicembre/);
+});
+
+test('la riga dell\'alimentare parla anche della quattordicesima',()=>{
+  const riga=html.match(/<tr><th scope="row">Industria alimentare[\s\S]*?<\/tr>/)[0];
+  assert.match(riga,/quattordicesima/);
+});
+
+test('la FAQ "Quando si paga" è identica nel JSON-LD e nel testo visibile',()=>{
+  const faq=[...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(m=>JSON.parse(m[1])).find(b=>b['@type']==='FAQPage');
+  const q=faq.mainEntity.find(x=>x.name==='Quando si paga la tredicesima?');
+  const visibile=html.match(/<h3>Quando si paga la tredicesima\?<\/h3>\s*<p>([\s\S]*?)<\/p>/)[1];
+  assert.equal(visibile,q.acceptedAnswer.text);
+  assert.match(q.acceptedAnswer.text,/20 dicembre/);
+  assert.match(q.acceptedAnswer.text,/ricorrenza natalizia/);
+});
