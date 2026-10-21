@@ -230,3 +230,142 @@ test('se la causa del calo non è una soglia di esenzione, la nota resta generic
   const html=renderTabella({...d,alla:ALLA});
   assert.ok(testo(html).includes('5° livello: il netto medio scende di 0,50 € al mese nonostante l’aumento lordo. Con il nuovo lordo imposte e detrazioni del calcolo 2026 cambiano più dell’aumento.'));
 });
+
+/* RIC-142: gomma plastica, chimico farmaceutico e industria alimentare. */
+
+const TRE={
+  'gomma-plastica':{id:'gomma-plastica-industria-b371',sezione:null,
+    tranche:['2026-01-01','2027-04-01','2028-04-01','2028-12-01'],mens:13},
+  'chimico-farmaceutico':{id:'chimico-farmaceutico-industria-b011',sezione:null,
+    tranche:['2025-12-01','2026-07-01','2027-07-01','2028-06-01'],mens:13},
+  'industria-alimentare':{id:'alimentare-industria-e012',sezione:'alimentare',
+    tranche:['2026-01-01','2027-01-01','2027-09-01'],mens:14},
+};
+const rotteTre=Object.keys(TRE).map(s=>`/minimi-ccnl/${s}/`);
+const nettoAtteso=(id,sezione,codice,alla)=>{
+  const composta=R.componiRal({ccnl:id,sezione,livello:codice,alla});
+  return {lordo:composta.baseMensile,
+    netto:applicaMensilita(calcola(String(composta.ral),{comune:'F205',nucleo:[]}),composta.mensilita).kpi.mediaMensile};
+};
+const faqDi=(html,slug)=>JSON.parse(uno(html,new RegExp(`<script id="faq-${slug}" type="application/ld\\+json">([^<]+)</script>`,'g'),`FAQ ${slug}`));
+
+for(const [slug,{id,sezione,tranche}] of Object.entries(TRE)){
+  test(`${slug}: flag acceso e una ccnl-aumento per tranche, lordo e netto prima/dopo dal motore`,()=>{
+    assert.equal(seo(slug).aumentiDalDataset,true);
+    const html=leggi(`/minimi-ccnl/${slug}/`);
+    /* L'alimentare ha anche l'olearia, chiusa nel <details>: una tranche in più per sezione. */
+    const sezioni=sezione?R.sezioni(id).map(s=>s.id):[null];
+    assert.equal([...html.matchAll(/<section class="ccnl-aumento" /g)].length,tranche.length*sezioni.length);
+    for(const s of sezioni)for(const decorrenza of tranche){
+      const b=blocco(html,decorrenza,s);
+      const prima=giornoPrima(decorrenza);
+      for(const livello of R.livelli(id,prima,s)){
+        const riga=testo(uno(b,new RegExp(`<tr data-livello="${livello.codice}">([\\s\\S]*?)</tr>`,'g'),`${s} ${decorrenza} ${livello.codice}`));
+        const p=nettoAtteso(id,s,livello.codice,prima),d=nettoAtteso(id,s,livello.codice,decorrenza);
+        for(const importo of [p.lordo,d.lordo,p.netto,d.netto])assert.ok(riga.includes(eur(importo)),`${s} ${decorrenza} ${livello.codice}: ${eur(importo)}`);
+        assert.ok(riga.includes(`+${eur(d.lordo-p.lordo)}`),`${s} ${decorrenza} ${livello.codice}: aumento`);
+      }
+    }
+    /* In vigore le tranche passate, «Dal» le future. */
+    const sez=sezione||undefined;
+    for(const t of tranche)assert.match(blocco(html,t,sez),new RegExp(`<h${sezione?4:3}>${t>ALLA?'Dal':'In vigore dal'} `),t);
+  });
+
+  test(`${slug}: «Aggiornato al» presente e blocco prima della FAQ`,()=>{
+    const html=leggi(`/minimi-ccnl/${slug}/`);
+    assert.match(html,/<p class="small">Aggiornato al <time datetime="2026-09-22">22 settembre 2026<\/time>\.<\/p>/);
+    assert.ok(html.indexOf('id="aumenti"')<html.indexOf('<section class="ccnl-faq">'));
+  });
+}
+
+test('alimentare: parte comune aperta, olearia nel <details> chiuso',()=>{
+  const html=leggi('/minimi-ccnl/industria-alimentare/');
+  const aumenti=uno(html,/<section class="ccnl-aumenti" id="aumenti">([\s\S]*?)<section class="ccnl-faq">/g,'blocco');
+  assert.equal([...aumenti.matchAll(/<div class="ccnl-aumenti__sezione"><h3>/g)].length,1);
+  const chiuse=[...aumenti.matchAll(/<details class="ccnl-aumenti__sezione"><summary>([^<]+)<\/summary>([\s\S]*?)<\/details>/g)];
+  assert.equal(chiuse.length,1);
+  assert.match(chiuse[0][1],/livera|Olearia|olearia/i);
+  assert.equal([...chiuse[0][2].matchAll(/data-sezione="alimentare"/g)].length,0);
+  assert.doesNotMatch(aumenti,/<details[^>]* open/);
+});
+
+test('valori di controllo del ticket: gomma H, chimico E3, alimentare 5°',()=>{
+  const riga=(slug,dec,cod,sez)=>testo(uno(blocco(leggi(`/minimi-ccnl/${slug}/`),dec,sez),new RegExp(`<tr data-livello="${cod}">([\\s\\S]*?)</tr>`,'g'),cod));
+  assert.equal(riga('gomma-plastica','2027-04-01','H'),' Livello H 1.796,11 € +53,32 € 1.849,43 € 1.505,87 € 1.537,96 € ');
+  assert.equal(riga('chimico-farmaceutico','2027-07-01','E3'),' Categoria E, posizione organizzativa 3 1.954,29 € +62,00 € 2.016,29 € 1.586,86 € 1.623,72 € ');
+  assert.equal(riga('industria-alimentare','2027-01-01','5','alimentare'),' 5° livello 1.925,46 € +31,31 € 1.956,77 € 1.538,92 € 1.557,54 € ');
+  /* Chimico E3 al 1° luglio 2027: minimo +41,00, IPO +2,00, nuovo EDR 19,00. */
+  const prima=R.livelli(TRE['chimico-farmaceutico'].id,'2027-06-30').find(l=>l.codice==='E3').voci;
+  const dopo=R.livelli(TRE['chimico-farmaceutico'].id,'2027-07-01').find(l=>l.codice==='E3').voci;
+  const v=(voci,i)=>(voci.find(x=>x.id===i)||{importo:0}).importo;
+  assert.deepEqual(['minimo','ipo','edr'].map(i=>Math.round((v(dopo,i)-v(prima,i))*100)/100),[41,2,19]);
+});
+
+test('nota sotto il blocco: una per contratto, con le date e i numeri del dataset',()=>{
+  const nota=slug=>testo(uno(leggi(`/minimi-ccnl/${slug}/`),/<p class="small ccnl-aumenti__nota">([\s\S]*?)<\/p>/g,slug));
+  assert.match(nota('gomma-plastica'),/Dal 1° dicembre 2028 il livello I è eliminato nelle aree produzione e funzioni integrate trasversali, con le posizioni riclassificate nel livello H\. La tabella lo riporta ancora e il calcolo lo mantiene/);
+  assert.match(nota('chimico-farmaceutico'),/Dal 1° luglio 2027 l’aumento comprende il nuovo EDR, da 18,00 € \(F\) a 39,00 € \(A1\), su 13 mensilità\..*294 € annunciato per la D1 comprende welfare e fondi: non è un aumento della RAL/);
+  assert.match(nota('industria-alimentare'),/Il 1° settembre 2027 sale solo l’IAR; i minimi restano quelli del 1° gennaio 2027/);
+  /* Il fatto dell'alimentare sta nei dati: a settembre cambia l'IAR, il minimo no. */
+  const id=TRE['industria-alimentare'].id,voce=(alla,i)=>R.livelli(id,alla,'alimentare').find(l=>l.codice==='5').voci.find(v=>v.id===i).importo;
+  assert.equal(voce('2027-09-01','minimo'),voce('2027-08-31','minimo'));
+  assert.ok(voce('2027-09-01','iar')>voce('2027-08-31','iar'));
+  /* Senza la tranche corrispondente la nota non esce. */
+  const html=generaAl('2030-01-15')('/minimi-ccnl/gomma-plastica/');
+  assert.doesNotMatch(html,/ccnl-aumenti__nota/);
+});
+
+test('FAQ: numero di domande, testo identico in pagina e schema, sotto i 350 caratteri, link e numeri dal dataset',()=>{
+  const attese={'gomma-plastica':4,'chimico-farmaceutico':4,'industria-alimentare':3};
+  for(const [slug,n] of Object.entries(attese)){
+    const html=leggi(`/minimi-ccnl/${slug}/`);
+    const faq=faqDi(html,slug);
+    assert.equal(faq['@type'],'FAQPage');
+    assert.equal(faq.mainEntity.length,n,slug);
+    const visibile=uno(html,/<section class="ccnl-faq">([\s\S]*?)<\/section>/g,`FAQ visibili ${slug}`);
+    const paragrafi=[...visibile.matchAll(/<h3>([^<]+)<\/h3><p>([\s\S]*?)<\/p>/g)];
+    assert.equal(paragrafi.length,n,slug);
+    faq.mainEntity.forEach((q,i)=>{
+      assert.equal(paragrafi[i][1],q.name);
+      assert.ok(testo(paragrafi[i][2]).startsWith(q.acceptedAnswer.text),q.name);
+      assert.ok(q.acceptedAnswer.text.length<350,`${q.name}: ${q.acceptedAnswer.text.length}`);
+      assert.match(paragrafi[i][2],new RegExp(`<a href="(#aumenti|[^"]*minimi-ccnl/${slug}/[^"]+/)">`),q.name);
+    });
+  }
+  const T=(slug)=>faqDi(leggi(`/minimi-ccnl/${slug}/`),slug).mainEntity.map(q=>q.acceptedAnswer.text);
+  const n=(id,s,c,alla=ALLA)=>nettoAtteso(id,s,c,alla);
+  const gomma=T('gomma-plastica'),g=TRE['gomma-plastica'];
+  for(const [i,c] of [[0,'H'],[1,'F']]){const a=n(g.id,null,c);assert.ok(gomma[i].includes(eur(a.lordo))&&gomma[i].includes(eur(a.netto))&&gomma[i].includes('13 mensilità'),c);}
+  assert.match(gomma[2],/10 dicembre 2025 \(art\. 17\).*1° gennaio 2026, 1° aprile 2027, 1° aprile 2028 e 1° dicembre 2028/);
+  assert.ok(gomma[2].includes(eur(n(g.id,null,'H').lordo))&&gomma[2].includes(eur(n(g.id,null,'H','2028-12-01').lordo)));
+  assert.match(gomma[3],/^13 \(art\. 25\)/);
+  const chimico=T('chimico-farmaceutico'),c=TRE['chimico-farmaceutico'];
+  for(const [i,l] of [[0,'E3'],[1,'D1']]){
+    const a=n(c.id,null,l),voci=R.livelli(c.id,ALLA).find(x=>x.codice===l).voci;
+    assert.ok(chimico[i].includes(eur(a.lordo))&&chimico[i].includes(eur(a.netto)),l);
+    for(const v of voci)assert.ok(chimico[i].includes(eur(v.importo)),`${l} ${v.id}`);
+    assert.equal(Math.round(voci.reduce((x,v)=>x+v.importo,0)*100)/100,a.lordo,`${l}: minimo + IPO = lordo`);
+  }
+  assert.match(chimico[2],/^No: sono aboliti dal 1° gennaio 2010 \(art\. 17\).*31 dicembre 2009.*superminimo individuale non assorbibile/);
+  assert.match(chimico[3],/^13 nel settore chimico e chimico-farmaceutico \(art\. 21\), non 14\..*14ª mensilità è dei soli lubrificanti e GPL/);
+  assert.equal(faqDi(leggi('/minimi-ccnl/chimico-farmaceutico/'),'chimico-farmaceutico').mainEntity[3].name,'Il CCNL chimico ha 13 o 14 mensilità?');
+  const ali=T('industria-alimentare'),a=TRE['industria-alimentare'];
+  assert.match(ali[0],/^14: tredicesima e quattordicesima \(art\. 54\)\. L’EDR di 10,33 € vale 13 mensilità \(art\. 52\)/);
+  assert.ok(ali[1].includes(`da ${eur(n(a.id,'alimentare','5','2026-12-31').lordo)} a ${eur(n(a.id,'alimentare','5','2027-01-01').lordo)}`));
+  assert.ok(ali[1].includes(`a ${eur(n(a.id,'alimentare','5','2027-09-01').lordo)} a settembre`));
+  assert.match(ali[1],/ultima tranche dei minimi.*seconda tranche dell’IAR/);
+  const v5=n(a.id,'alimentare','5');
+  assert.ok(ali[2].includes(eur(v5.lordo))&&ali[2].includes(eur(v5.netto))&&ali[2].includes('14 mensilità'));
+  for(const voce of ['minimo','contingenza','IAR','EDR'])assert.ok(ali[2].includes(voce),voce);
+});
+
+test('le tre tabelle senza tranche nella finestra: niente blocco né note, FAQ coerenti, nessun NaN',()=>{
+  const html=generaAl('2030-01-15');
+  for(const rotta of rotteTre){
+    const h=html(rotta);
+    assert.doesNotMatch(h,/ccnl-aumento|id="aumenti"|NaN|undefined/,rotta);
+    assert.match(h,/Aggiornato al <time datetime="2030-01-15">/,rotta);
+    const faq=faqDi(h,rotta.split('/')[2]);
+    for(const q of faq.mainEntity)assert.ok(testo(h).includes(q.acceptedAnswer.text),q.name);
+  }
+});

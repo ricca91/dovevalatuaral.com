@@ -221,6 +221,7 @@ function aumentiDalDataset(d){
   return `<section class="ccnl-aumenti" id="aumenti"><h2>${titolo}: lordo e netto prima e dopo</h2>
     <p>Confronto a parità di condizioni: regole fiscali ${ANNO_REGOLE}${oltre.length?` anche per ${elenco(oltre)}`:''}, RAL annualizzata su ${mensilita.length===1?`${mensilitaTesto(mensilita[0])} mensilità`:'le mensilità di ciascuna sezione'}. Il netto è una media annua, non il cedolino del mese dell’aumento${oltre.length?', e non è una previsione delle imposte future':''}. Un superminimo assorbibile può ridurre l’aumento effettivo in busta paga.</p>
     ${sezioni}
+    ${notaAumenti(d)}
     <p class="small">Fonte degli aumenti: ${fonte(d.contratto)}</p>
   </section>`;
 }
@@ -232,6 +233,101 @@ function faqConSchema(rotta,{id,titolo,voci}){
   const link=l=>`<a href="${l.href.startsWith('#')?l.href:verso(rotta,l.href)}">${esc(l.testo)}</a>`;
   return `<section class="ccnl-faq"><h2>${esc(titolo)}</h2>${voci.map(v=>`<h3>${esc(v.domanda)}</h3><p>${esc(v.risposta)} ${v.link.map(link).join(' · ')}.</p>`).join('')}</section>
     <script id="${esc(id)}" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
+}
+
+/* --- GOMMA PLASTICA, CHIMICO, ALIMENTARE (RIC-142) -----------
+
+   Nota sotto il blocco aumenti e FAQ. Le date dei fatti normativi (il
+   livello I che sparisce, l'IAR di settembre 2027) sono quelle delle
+   fonti in processo/fonti-ccnl-gruppo2-*: la nota esce solo se la
+   tranche corrispondente è nel blocco. Importi e mensilità vengono dal
+   dataset. */
+const unaNota=t=>`<p class="small ccnl-aumenti__nota">${t}</p>`;
+function notaAumenti(d){
+  const tranche=d.aumentiDataset||[];
+  const ha=iso=>tranche.some(t=>t.decorrenza===iso);
+  if(d.seo.slug==='gomma-plastica'&&ha('2028-12-01'))
+    return unaNota(`Dal ${data('2028-12-01')} il livello I è eliminato nelle aree produzione e funzioni integrate trasversali, con le posizioni riclassificate nel livello H. La tabella lo riporta ancora e il calcolo lo mantiene.`);
+  if(d.seo.slug==='chimico-farmaceutico'&&ha('2027-07-01')){
+    const t=R.tabellaVigente(d.contratto.id,'2027-07-01');
+    const edr=t.livelli.map(l=>({codice:l.codice,v:l.voci.find(v=>v.id==='edr')})).filter(x=>x.v&&x.v.importo>0)
+      .sort((a,b)=>a.v.importo-b.v.importo);
+    if(!edr.length)return '';
+    const mens=tranche.find(x=>x.decorrenza==='2027-07-01').righe[0].dopo.composta.mensilita;
+    return unaNota(`Dal ${data('2027-07-01')} l’aumento comprende il nuovo EDR, da ${eur(edr[0].v.importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).v.importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(mens)} mensilità. Il «trattamento economico complessivo» di 294 € annunciato per la D1 comprende welfare e fondi: non è un aumento della RAL.`);
+  }
+  if(d.seo.slug==='industria-alimentare'&&ha('2027-09-01'))
+    return unaNota(`Il ${data('2027-09-01')} sale solo l’IAR; i minimi restano quelli del ${data('2027-01-01')}.`);
+  return '';
+}
+
+const BREVI={minimo:'minimo',ipo:'IPO',edr:'EDR',iar:'IAR',contingenza:'contingenza'};
+const sezionePrincipale=d=>d.sezioni.find(s=>s.sezione===d.seo.sezioneLivelli)||d.sezioni[0];
+const rigaDi=(d,codice)=>sezionePrincipale(d).righe.find(r=>r.livello.codice===codice);
+const vaiAlLivello=(r,nome)=>r&&r.rotta?{href:r.rotta,testo:`Vedi ${nome}`}:{href:'#aumenti',testo:'Aumenti in tabella'};
+
+/* «Quanto prende netto…»: minimo (o minimo composto con le sue voci), netto medio e profilo. */
+function vociNetto(d,codice,di){
+  const s=sezionePrincipale(d),r=rigaDi(d,codice);
+  const voci=r.livello.voci.filter(v=>v.importo>0);
+  const composto=voci.length>1
+    ?`Il minimo composto ${di} è ${eur(r.composta.baseMensile)} lordi al mese (${voci.map(v=>`${BREVI[v.id]||v.nome.toLowerCase()} ${eur(v.importo)}`).join(', ')})`
+    :`Il minimo vigente ${di} è ${eur(r.composta.baseMensile)} lordi al mese`;
+  return {risposta:`${composto}: il netto medio stimato è ${eur(r.nettoMensile)} su ${mensilitaTesto(s.mensilita)} mensilità, per un tempo pieno a Milano senza scatti né superminimo.`};
+}
+
+function faqGruppo2(d){
+  const slug=d.seo.slug;
+  if(!['gomma-plastica','chimico-farmaceutico','industria-alimentare'].includes(slug))return '';
+  const s=sezionePrincipale(d);
+  const tranche=(d.aumentiDataset||[]).filter(t=>t.sezione===s.sezione);
+  const future=tranche.filter(t=>t.decorrenza>d.alla);
+  const netto=(codice,nome,di,domanda)=>{const v=vociNetto(d,codice,di);return {domanda,risposta:v.risposta,link:[vaiAlLivello(rigaDi(d,codice),nome)]};};
+  let voci=[];
+  if(slug==='gomma-plastica'){
+    const h=rigaDi(d,'H'),ultima=future.at(-1),h2=ultima&&ultima.righe.find(r=>r.livello.codice==='H');
+    const anni=[...new Set(tranche.map(t=>t.decorrenza.slice(0,4)))];
+    voci=[
+      netto('H','il livello H','del livello H','Quanto prende netto il livello H del CCNL gomma plastica?'),
+      netto('F','il livello F','del livello F','Quanto prende netto il livello F?'),
+      ...(h2?[{domanda:`Quali sono gli aumenti del rinnovo ${anni[0]}–${anni.at(-1)}?`,
+        risposta:`L’ipotesi del 10 dicembre 2025 (art. 17) fissa le tranche del ${elenco(tranche.map(t=>data(t.decorrenza)))}. Al livello H il minimo vigente di ${eur(h.composta.baseMensile)} arriva a ${eur(h2.dopo.composta.baseMensile)} lordi al mese dal ${data(ultima.decorrenza)}.`,
+        link:[vaiAlLivello(h,'il livello H')]}]:[]),
+      {domanda:'Quante mensilità ha il CCNL gomma plastica?',
+        risposta:`${mensilitaTesto(s.mensilita)} (art. 25): tredicesima compresa. Il netto in tabella è una media annua su ${mensilitaTesto(s.mensilita)} mensilità, non il valore del singolo cedolino.`,
+        link:[vaiAlLivello(h,'il livello H')]},
+    ];
+  }
+  if(slug==='chimico-farmaceutico'){
+    const e3=rigaDi(d,'E3');
+    voci=[
+      netto('E3','l’E3','dell’E3','Quanto prende netto un E3 nel CCNL chimico farmaceutico?'),
+      netto('D1','il D1','del D1','Quanto prende netto un D1?'),
+      ...(s.scatti.tipo==='assenti'?[{domanda:'Nel chimico ci sono gli scatti di anzianità?',
+        risposta:'No: sono aboliti dal 1° gennaio 2010 (art. 17). Gli importi maturati fino al 31 dicembre 2009 restano come superminimo individuale non assorbibile, da sommare al tuo superminimo.',
+        link:[vaiAlLivello(e3,'l’E3')]}]:[]),
+      {domanda:'Il CCNL chimico ha 13 o 14 mensilità?',
+        risposta:`${mensilitaTesto(s.mensilita)} nel settore chimico e chimico-farmaceutico (art. 21), non 14. La 14ª mensilità è dei soli lubrificanti e GPL, che queste tabelle non coprono. Il netto in tabella è una media su ${mensilitaTesto(s.mensilita)} mensilità.`,
+        link:[vaiAlLivello(e3,'l’E3')]},
+    ];
+  }
+  if(slug==='industria-alimentare'){
+    const c5=rigaDi(d,'5'),edr=c5.livello.voci.find(v=>v.id==='edr'&&v.mensilita);
+    const anno=tranche.at(-1)&&tranche.at(-1).decorrenza.slice(0,4);
+    const ts=tranche.filter(t=>t.decorrenza.startsWith(anno));
+    const riga5=t=>t.righe.find(r=>r.livello.codice==='5');
+    const proprio=ts.length===2&&ts[0].decorrenza===`${anno}-01-01`&&ts[1].decorrenza===`${anno}-09-01`&&riga5(ts[0])&&riga5(ts[1]);
+    voci=[
+      ...(edr?[{domanda:'Quante mensilità ha il CCNL industria alimentare?',
+        risposta:`${mensilitaTesto(s.mensilita)}: tredicesima e quattordicesima (art. 54). L’EDR di ${eur(edr.importo)} vale ${mensilitaTesto(edr.mensilita)} mensilità (art. 52). Il netto in tabella è una media annua su ${mensilitaTesto(s.mensilita)} mensilità.`,
+        link:[vaiAlLivello(c5,'il 5° livello')]}]:[]),
+      ...(proprio?[{domanda:`Quali aumenti ci sono nel ${anno}?`,
+        risposta:`Il ${data(ts[0].decorrenza)} scatta l’ultima tranche dei minimi, il ${data(ts[1].decorrenza)} la seconda tranche dell’IAR. Al 5° livello il lordo mensile passa da ${eur(riga5(ts[0]).prima.composta.baseMensile)} a ${eur(riga5(ts[0]).dopo.composta.baseMensile)} a gennaio e a ${eur(riga5(ts[1]).dopo.composta.baseMensile)} a settembre.`,
+        link:[vaiAlLivello(c5,'il 5° livello')]}]:[]),
+      netto('5','il 5° livello','del 5° livello','Quanto prende netto il 5° livello?'),
+    ];
+  }
+  return faqConSchema(d.rotta,{id:`faq-${slug}`,titolo:`Domande frequenti sul ${d.seo.titoloTabella}`,voci});
 }
 
 /* RIC-141: le risposte leggono la tabella principale e il blocco
@@ -401,6 +497,7 @@ function renderTabella(d){
   ${blocchi}
   ${aumentiDalDataset(d)}
   ${faqMetalmeccanicoArtigiano(d)}
+  ${faqGruppo2(d)}
   ${aumentiCommercio(d)}
   ${faqCommercio(d)}
   ${metalmeccanico(d)}
