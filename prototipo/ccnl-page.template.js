@@ -168,11 +168,103 @@ function tabellaSezione(rotta,d,s){
     <tbody>${righe}</tbody></table></div>`;
 }
 
+/* La tabella prima/dopo di una tranche: la usano commercio e
+   metalmeccanico (date scritte nel generatore) e il blocco letto dal
+   dataset (RIC-141). */
+function tabellaAumento(rotta,righe,caption){
+  return `<div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>${caption}</caption>
+      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
+      <tbody>${righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
 function tabelleAumenti(d){
   return d.aumenti.map(a=>`<section class="ccnl-aumento" data-decorrenza="${a.decorrenza}"><h3>Dal ${data(a.decorrenza)}</h3>
-      <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Aumento del ${data(a.decorrenza)} — importi mensili in euro</caption>
-      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
-      <tbody>${a.righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div></section>`).join('');
+      ${tabellaAumento(d.rotta,a.righe,`Aumento del ${data(a.decorrenza)} — importi mensili in euro`)}</section>`).join('');
+}
+
+/* --- AUMENTI LETTI DAL DATASET (RIC-141) ---------------------
+
+   Acceso da `aumentiDalDataset` in CONTRATTI_SEO; tranche e righe le
+   prepara il generatore in d.aumentiDataset. Qui nessuna data e nessun
+   importo scritti a mano: titolo, intestazioni e limiti si leggono dalle
+   tranche. Le sezioni diverse da `sezioneLivelli` stanno in un
+   <details> chiuso. */
+const ANNO_REGOLE='2026'; // le regole fiscali del motore, come in PROFILO
+const elenco=v=>v.length>1?`${v.slice(0,-1).join(', ')} e ${v.at(-1)}`:v.join('');
+
+function aumentiDalDataset(d){
+  const tranche=d.aumentiDataset||[];
+  if(!d.seo.aumentiDalDataset||!tranche.length)return '';
+  const date=[...new Set(tranche.map(t=>t.decorrenza))].sort();
+  const anni=[...new Set(date.map(x=>x.slice(0,4)))];
+  const titolo=date.length===1?`Aumento del ${data(date[0])}`
+    :`Aumenti ${anni.length===1?anni[0]:`${anni[0]}–${anni.at(-1)}`}`;
+  const oltre=anni.filter(a=>a>ANNO_REGOLE).map(a=>`il ${a}`);
+  const mensilita=[...new Set(tranche.flatMap(t=>t.righe.flatMap(r=>[r.prima.composta.mensilita,r.dopo.composta.mensilita])))];
+  const conSezioni=tranche[0].sezione!==null;
+  /* Netto dopo sotto il prima: una riga di spiegazione, con soglia ed
+     ente presi dal motore (caloNetto nel generatore). */
+  const etichetta=l=>d.seo.etichetta?d.seo.etichetta(l):`Livello ${l.nome}`;
+  const nota=r=>{
+    const c=r.calo,x=c.causa;
+    const perche=x?`L’imponibile IRPEF annuo passa da ${eur(x.imponibilePrima)} a ${eur(x.imponibileDopo)} e supera i ${eur(x.soglia)} fino a cui ${x.addizionale==='comunale'?'il Comune di':'la Regione'} ${esc(x.ente)} esenta dall’addizionale ${x.addizionale}: l’addizionale diventa dovuta, ${eur(x.importo)} l’anno.`
+      :`Con il nuovo lordo imposte e detrazioni del calcolo ${ANNO_REGOLE} cambiano più dell’aumento.`;
+    return `<p class="small ccnl-aumento__nota" data-livello="${esc(r.livello.codice)}">${esc(etichetta(r.livello))}: il netto medio scende di ${eur(c.netto)} al mese nonostante l’aumento lordo. ${perche}</p>`;
+  };
+  const blocco=t=>`<section class="ccnl-aumento" data-decorrenza="${t.decorrenza}"${t.sezione?` data-sezione="${esc(t.sezione)}"`:''}>
+      <${conSezioni?'h4':'h3'}>${t.decorrenza>d.alla?'Dal':'In vigore dal'} ${data(t.decorrenza)}</${conSezioni?'h4':'h3'}>
+      ${tabellaAumento(d.rotta,t.righe,`${t.nome?`${esc(t.nome)} — `:''}${esc(t.titolo)} — importi mensili in euro`)}${t.righe.filter(r=>r.calo).map(nota).join('')}</section>`;
+  const perSezione=[...new Set(tranche.map(t=>t.sezione))].map(s=>tranche.filter(t=>t.sezione===s));
+  const sezioni=perSezione.map(ts=>!conSezioni?ts.map(blocco).join('')
+    :ts[0].aperta?`<div class="ccnl-aumenti__sezione"><h3>${esc(ts[0].nome)}</h3>${ts.map(blocco).join('')}</div>`
+    :`<details class="ccnl-aumenti__sezione"><summary>${esc(ts[0].nome)}</summary>${ts.map(blocco).join('')}</details>`).join('\n    ');
+  return `<section class="ccnl-aumenti" id="aumenti"><h2>${titolo}: lordo e netto prima e dopo</h2>
+    <p>Confronto a parità di condizioni: regole fiscali ${ANNO_REGOLE}${oltre.length?` anche per ${elenco(oltre)}`:''}, RAL annualizzata su ${mensilita.length===1?`${mensilitaTesto(mensilita[0])} mensilità`:'le mensilità di ciascuna sezione'}. Il netto è una media annua, non il cedolino del mese dell’aumento${oltre.length?', e non è una previsione delle imposte future':''}. Un superminimo assorbibile può ridurre l’aumento effettivo in busta paga.</p>
+    ${sezioni}
+    <p class="small">Fonte degli aumenti: ${fonte(d.contratto)}</p>
+  </section>`;
+}
+
+/* Domande frequenti con schema FAQPage: il testo della risposta è lo
+   stesso nella pagina e nello schema; i link stanno solo nella pagina. */
+function faqConSchema(rotta,{id,titolo,voci}){
+  const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:voci.map(v=>({'@type':'Question',name:v.domanda,acceptedAnswer:{'@type':'Answer',text:v.risposta}}))};
+  const link=l=>`<a href="${l.href.startsWith('#')?l.href:verso(rotta,l.href)}">${esc(l.testo)}</a>`;
+  return `<section class="ccnl-faq"><h2>${esc(titolo)}</h2>${voci.map(v=>`<h3>${esc(v.domanda)}</h3><p>${esc(v.risposta)} ${v.link.map(link).join(' · ')}.</p>`).join('')}</section>
+    <script id="${esc(id)}" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
+}
+
+/* RIC-141: le risposte leggono la tabella principale e il blocco
+   aumenti. Il 5° livello è il più cercato (RIC-137). Il codice C049 del
+   contratto Conflavoro è verificato sull'archivio CNEL: vedi
+   processo/fonti-ccnl-gruppo2-area-meccanica.md. */
+function faqMetalmeccanicoArtigiano(d){
+  if(d.seo.slug!=='metalmeccanico-artigiano')return '';
+  const sezione=d.sezioni.find(s=>s.sezione==='metalmeccanica-impianti');
+  const r5=sezione.righe.find(r=>r.livello.codice==='5');
+  const vai=r=>r&&r.rotta?{href:r.rotta,testo:`Vedi il ${r.livello.codice}° livello`}
+    :{href:`#${sezione.sezione}`,testo:`Tabella ${sezione.nome.toLowerCase()}`};
+  const ultima=d.aumentiDataset.filter(t=>t.sezione===sezione.sezione).at(-1);
+  const a5=ultima&&ultima.righe.find(r=>r.livello.codice==='5');
+  const [,mese]=ultima?ultima.decorrenza.split('-').map(Number):[];
+  const industria=R.trovaContratto('metalmeccanica-industria-c011');
+  const livelliIndustria=R.livelli(industria.id,d.alla);
+  const voci=[
+    {domanda:'Quanto prende netto il 5° livello metalmeccanico artigiano?',
+      risposta:`Nella sezione ${sezione.nome.toLowerCase()} il minimo vigente del 5° livello è ${eur(r5.composta.baseMensile)} lordi al mese: il netto medio stimato è ${eur(r5.nettoMensile)} su ${mensilitaTesto(sezione.mensilita)} mensilità, per un tempo pieno a Milano senza scatti né superminimo.`,
+      link:[vai(r5)]},
+    /* Senza una tranche negli ultimi 12 mesi o futura la domanda non ha risposta dal blocco: si toglie. */
+    ...(a5?[{domanda:`Di quanto aumenta lo stipendio a ${MESI[mese-1]} ${ultima.decorrenza.slice(0,4)}?`,
+      risposta:`Dal ${data(ultima.decorrenza)} decorre la ${ultima.titolo.replace(/, dal .*?(?= \(|$)/,'')}. Al 5° livello il minimo passa da ${eur(a5.prima.composta.baseMensile)} a ${eur(a5.dopo.composta.baseMensile)} lordi al mese e il netto medio da ${eur(a5.prima.nettoMensile)} a ${eur(a5.dopo.nettoMensile)}.`,
+      link:[vai(r5)]}]:[]),
+    {domanda:'Che differenza c’è con il metalmeccanico industria?',
+      risposta:`Sono due contratti diversi. Il ${industria.codiceCnel} (Federmeccanica-Assistal, livelli ${livelliIndustria[0].codice}–${livelliIndustria.at(-1).codice}) vale per l’industria; il ${d.contratto.codiceCnel} (Confartigianato, CNA, Casartigiani, CLAAI, livelli ${sezione.righe[0].livello.codice}–${sezione.righe.at(-1).livello.codice}) per le imprese artigiane. Il codice va controllato in busta paga o nella lettera di assunzione.`,
+      link:[{href:'/minimi-ccnl/metalmeccanico/',testo:'Tabella del metalmeccanico industria'},vai(r5)]},
+    {domanda:'Il contratto metalmeccanico artigiano Conflavoro è lo stesso?',
+      risposta:`No. Il CCNL Metalmeccanico Artigianato di Conflavoro PMI e Fesica Confsal (codice CNEL C049) ha lo stesso nome, ma parti e importi propri. Queste tabelle sono del ${d.contratto.codiceCnel} e non lo coprono: controlla il codice in busta paga.`,
+      link:[vai(null)]},
+  ];
+  return faqConSchema(d.rotta,{id:'faq-metalmeccanico-artigiano',titolo:'Domande frequenti sul CCNL Metalmeccanico artigiano',voci});
 }
 
 function aumentiCommercio(d){
@@ -300,13 +392,15 @@ function renderTabella(d){
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
     <h1>${esc(seo.titoloTabella)} 2026: tabelle retributive</h1>
-    ${(d.aumenti.length||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
+    ${(d.aumenti.length||seo.aumentiDalDataset||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
     <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
   ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
   ${ponteMetalmeccanico(d)}
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
+  ${aumentiDalDataset(d)}
+  ${faqMetalmeccanicoArtigiano(d)}
   ${aumentiCommercio(d)}
   ${faqCommercio(d)}
   ${metalmeccanico(d)}

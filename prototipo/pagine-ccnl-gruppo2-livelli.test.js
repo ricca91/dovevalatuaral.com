@@ -106,7 +106,8 @@ test('orafi, odontotecnica, restauro e olearia restano senza link; le pagine mos
     ['industria-alimentare',['alimentare',3],['olearia-margariniera']],
   ]){
     const sezioni=leggi(`/minimi-ccnl/${slug}/`).split('<section class="ccnl-sezione"').slice(1);
-    const di=id=>sezioni.find(s=>s.startsWith(` id="${id}"`));
+    /* Solo la tabella della sezione: dopo l'ultima viene il blocco aumenti (RIC-141). */
+    const di=id=>sezioni.find(s=>s.startsWith(` id="${id}"`)).split('</section>')[0];
     assert.equal(link(di(conPagine[0])),conPagine[1],slug);
     for(const id of senza)assert.equal(link(di(id)),0,`${slug}: ${id}`);
     for(const p of PAGINE.filter(p=>p.slug===slug)){
