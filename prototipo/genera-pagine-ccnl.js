@@ -148,13 +148,28 @@ function tabella(id,sezione,alla,rottaDi){
     scatti:R.regolaScatti(id,sezione)};
 }
 
+/* RIC-144: dati per il riquadro fra i tre «metalmeccanico». Al 5° livello
+   dell'Area meccanica (sezione metalmeccanica e impianti) il minimo viene
+   dal dataset alla data della build. Solo le tabelle: nessuna pagina livello. */
+const SEO_DI=slug=>CONTRATTI_SEO.find(x=>x.slug===slug);
+function collegamentiMetalmeccanico(c,alla){
+  if(!['metalmeccanico','metalmeccanico-artigiano'].includes(c.slug))return {};
+  const ponte=slug=>({seo:SEO_DI(slug),contratto:R.trovaContratto(SEO_DI(slug).id),rotta:rottaTabella(SEO_DI(slug))});
+  const fuori={industria:ponte('metalmeccanico'),confapi:ponte('metalmeccanico-confapi')};
+  if(c.slug!=='metalmeccanico')return fuori;
+  const art=ponte('metalmeccanico-artigiano'),sezione='metalmeccanica-impianti',livello='5';
+  const livelli=R.livelli(art.contratto.id,alla,sezione);
+  return {confapi:fuori.confapi,artigiano:{...art,livello,primoLivello:livelli[0].codice,ultimoLivello:livelli.at(-1).codice,
+    composta:stima(art.contratto.id,sezione,livello,alla).composta}};
+}
+
 function datiContratto(c,alla){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
   const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
   const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
     :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
-  return {seo:c,contratto,rotta:rottaTabella(c),esclusioni:R.ESCLUSIONI[c.id]||[],
+  return {seo:c,contratto,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla),esclusioni:R.ESCLUSIONI[c.id]||[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
       return {decorrenza,righe:R.livelli(c.id,prima).map(livello=>({livello,rotta:rottaDi(livello.codice),

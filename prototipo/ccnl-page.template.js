@@ -127,6 +127,9 @@ function renderHub({contratti,alla}){
     return `<a class="hub-card" href="${verso(rotta,d.rotta)}"><span class="micro">${esc(d.contratto.codiceCnel)} · ${esc(d.contratto.parti)}</span><b>${esc(d.seo.titoloTabella)}</b><small>${esc(d.contratto.nome)} · da ${eur(min)} a ${eur(max)} lordi al mese${livelli?` · ${livelli} pagine per livello`:''}</small>${parziale}<span aria-hidden="true">→</span></a>`;
   };
   const parziali=contratti.filter(d=>d.contratto.quoteAnnueMancanti.length);
+  /* RIC-144: sigle e codici CNEL dei contratti omonimi si leggono dal dataset. */
+  const cnel=id=>esc(R.trovaContratto(id).codiceCnel);
+  const lnk=(slug,testo)=>`<a href="${verso(rotta,`/minimi-ccnl/${slug}/`)}">${testo}</a>`;
   const body=`<header class="ral-intro"><div class="eyebrow">Minimi CCNL 2026</div>
     <h1>Minimi CCNL: tabelle retributive, lordo e netto</h1>
     <p class="lead">${contratti.length} contratti collettivi, livello per livello: il minimo lordo mensile che il CCNL fissa, la RAL che ne risulta e il netto che ne resta. Tutti ricalcolati con le tabelle in vigore e le regole fiscali 2026.</p>
@@ -134,10 +137,12 @@ function renderHub({contratti,alla}){
     ${parziali.map(d=>`<p class="small">Per il ${esc(d.seo.titoloTabella)} la cifra annua è una base tabellare parziale e non va confrontata con la RAL degli altri contratti: manca il ${esc(d.contratto.quoteAnnueMancanti.map(q=>`${q.nome} (${q.fonte})`).join(' e il '))}.</p>`).join('')}
   </header>
   <section class="ccnl-omonimi" aria-labelledby="omonimi-titolo">
-    <h2 id="omonimi-titolo">Due nomi che si confondono</h2>
+    <h2 id="omonimi-titolo">Nomi che si confondono</h2>
     <div class="ccnl-omonimi__grid">
       <article><h3>«Commercio» sono due contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/commercio/')}">CCNL Terziario Confcommercio</a> (H011) e il <a href="${verso(rotta,'/minimi-ccnl/dmo/')}">CCNL Distribuzione moderna organizzata</a> (H008), applicato da molte catene della grande distribuzione. Hanno gli stessi livelli, importi vicini ma non identici: controlla quale è scritto nella tua lettera di assunzione.</p></article>
       <article><h3>«Turismo» sono tre contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/turismo/')}">CCNL Turismo Federalberghi</a> (H052) vale per alberghi e campeggi; bar, ristoranti e mense applicano il <a href="${verso(rotta,'/minimi-ccnl/pubblici-esercizi/')}">CCNL Pubblici esercizi FIPE</a> (H05Y), che nel nome dice anche «turismo»; agenzie di viaggi e tour operator hanno il <a href="${verso(rotta,'/minimi-ccnl/agenzie-di-viaggio/')}">CCNL Imprese di viaggi e turismo FIAVET</a> (H04Z), con importi e decorrenze diversi da quelli degli alberghi.</p></article>
+      <article><h3>«Metalmeccanico» sono tre contratti</h3><p>Il ${lnk('metalmeccanico','CCNL Metalmeccanico industria')} Federmeccanica-Assistal (${cnel('metalmeccanica-industria-c011')}) vale per l’industria; il ${lnk('metalmeccanico-confapi','CCNL Metalmeccanico PMI')} Unionmeccanica-Confapi (${cnel('metalmeccanica-pmi-confapi-c018')}) per le piccole e medie imprese associate; il ${lnk('metalmeccanico-artigiano','CCNL Area meccanica dell’artigianato')} di Confartigianato, CNA, Casartigiani e CLAAI (${cnel('area-meccanica-artigianato-c030')}) per le aziende artigiane. Ognuno ha livelli e importi propri. C’è anche un contratto «metalmeccanico artigiano» firmato da Conflavoro, con importi suoi, che queste tabelle non coprono: il codice CNEL è in busta paga.</p></article>
+      <article><h3>«Bancari»: l’ABI non è il credito cooperativo</h3><p>Il ${lnk('bancari','CCNL Credito ABI')} (${cnel('credito-abi-j241')}) vale per le banche associate all’ABI, per le aree professionali e i quadri direttivi. Le banche di credito cooperativo applicano un contratto proprio, che queste tabelle non coprono.</p></article>
     </div>
   </section>
   <section class="hub-grid" aria-label="Elenco dei contratti">${contratti.map(card).join('\n      ')}</section>
@@ -257,6 +262,28 @@ function faqSettore(d){
     <script id="faq-settore" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
 }
 
+/* RIC-144: tre contratti si chiamano «metalmeccanico». Il riquadro porta
+   chi lavora in un'azienda artigiana dall'industria all'Area meccanica
+   (importo letto dal dataset) e chi è in un'industria dall'artigiano
+   all'industria e al Confapi. Nessun confronto livello per livello. */
+function ponteMetalmeccanico(d){
+  const rotta=d.rotta;
+  if(d.seo.slug==='metalmeccanico'&&d.artigiano){
+    const a=d.artigiano;
+    return `<section class="ccnl-blocco ccnl-affiancato"><h2>Lavori in un’azienda artigiana?</h2>
+    <p>Allora il tuo contratto è probabilmente il CCNL Area meccanica dell’artigianato (${esc(a.contratto.codiceCnel)}), con livelli ${esc(a.primoLivello)}–${esc(a.ultimoLivello)} e importi propri. Al ${esc(a.livello)}° livello il minimo è <b>${eur(a.composta.baseMensile)}</b> lordi al mese, alla data della build. Le PMI non artigiane associate a Confapi applicano il ${esc(d.confapi.contratto.codiceCnel)}.</p>
+    <a class="btn btn--ghost" href="${verso(rotta,a.rotta)}">Tabella ${esc(a.seo.titoloTabella)} →</a>
+    <a class="btn btn--ghost" href="${verso(rotta,d.confapi.rotta)}">Tabella ${esc(d.confapi.seo.titoloTabella)} →</a></section>`;
+  }
+  if(d.seo.slug==='metalmeccanico-artigiano'&&d.industria){
+    return `<section class="ccnl-blocco ccnl-affiancato"><h2>Lavori in un’industria metalmeccanica?</h2>
+    <p>Allora il tuo contratto non è questo: l’industria applica il ${esc(d.industria.contratto.nome)} (${esc(d.industria.contratto.codiceCnel)}), le PMI associate a Confapi il ${esc(d.confapi.contratto.nome)} (${esc(d.confapi.contratto.codiceCnel)}). Livelli e importi sono diversi.</p>
+    <a class="btn btn--ghost" href="${verso(rotta,d.industria.rotta)}">Tabella ${esc(d.industria.seo.titoloTabella)} →</a>
+    <a class="btn btn--ghost" href="${verso(rotta,d.confapi.rotta)}">Tabella ${esc(d.confapi.seo.titoloTabella)} →</a></section>`;
+  }
+  return '';
+}
+
 function renderTabella(d){
   const {seo,contratto,sezioni,rotta,alla}=d;
   const conSezioni=sezioni[0].sezione!==null;
@@ -277,6 +304,7 @@ function renderTabella(d){
     <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
   ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
+  ${ponteMetalmeccanico(d)}
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
   ${aumentiCommercio(d)}

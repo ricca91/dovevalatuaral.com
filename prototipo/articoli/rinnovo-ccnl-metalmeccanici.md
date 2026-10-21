@@ -164,8 +164,8 @@ Se per «bonus» intendi l'elemento perequativo, sono 485 € lordi con la busta
 
 I numeri del rinnovo CCNL metalmeccanici che hai letto qui valgono per un contratto solo: l'Industria Metalmeccanica e Installazione Impianti, quello di Federmeccanica e Assistal. Non valgono per gli altri contratti del settore, e la confusione è facile:
 
-- **Unionmeccanica-Confapi**, il contratto delle piccole e medie imprese metalmeccaniche, è stato rinnovato separatamente il 4 giugno 2026 con tranche di importo diverso. Se la tua azienda applica quello, questa tabella non è la tua.
-- **Il metalmeccanico artigiano** ha un contratto suo, che qui non copro.
+- **[Unionmeccanica-Confapi](/minimi-ccnl/metalmeccanico-confapi/)**, il contratto delle piccole e medie imprese metalmeccaniche, è stato rinnovato separatamente il 4 giugno 2026 con tranche di importo diverso. Se la tua azienda applica quello, questa tabella non è la tua.
+- **Il metalmeccanico artigiano** ha un contratto suo, l'[Area meccanica dell'artigianato](/minimi-ccnl/metalmeccanico-artigiano/), con livelli e importi propri.
 - **La contrattazione aziendale e territoriale**, i premi di risultato e il superminimo individuale stanno fuori dal conto. Il minimo tabellare è un minimo: la tua retribuzione può stare sopra.
 - **Le indennità legate a mansione e orario** — turni, notturno, straordinario, trasferta — non entrano in nessuno di questi numeri.
 - **Il part-time** riduce il minimo in proporzione alle ore, e tutti i conti qui sono su 40 ore settimanali e dodici mesi di lavoro.
