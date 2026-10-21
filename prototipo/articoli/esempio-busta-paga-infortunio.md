@@ -2,22 +2,22 @@
 slug: esempio-busta-paga-infortunio
 titolo: "Esempio di busta paga con infortunio: chi paga cosa dal primo giorno"
 title_seo: "Esempio di busta paga con infortunio: chi paga cosa"
-description: "Esempio di busta paga con infortunio: 14 giorni su 2.100 € al mese. Il datore paga i primi quattro, l'INAIL i dieci dopo al 60%. Buco lordo 258,46 €."
+description: "Esempio di busta paga con infortunio: 14 giorni su 2.100 € al mese. Il datore paga i primi quattro, l'INAIL i dieci dopo al 60% di una base con la tredicesima. Buco lordo al massimo 218,08 €."
 query_principale: "esempio busta paga con infortunio"
 cluster: "esempi-per-casistica"
 data_pubblicazione: 2026-10-10
-data_aggiornamento: 2026-10-11
+data_aggiornamento: 2026-10-21
 cta: "/"
 link_interni: ["/blog/esempio-busta-paga-malattia/", "/blog/esempio-busta-paga/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html"]
-ipotesi_calcolo: "operaio a tempo pieno, 40 ore settimanali, paga fissa mensile di 2.100 €, divisore CCNL 26, nessuno straordinario nei quindici giorni precedenti l'infortunio; Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità; netti stimati in un intervallo: con e senza contributi a carico del lavoratore sull'indennità INAIL, che il motore non modella"
+ipotesi_calcolo: "operaio a tempo pieno, 40 ore settimanali, paga fissa mensile di 2.100 €, divisore CCNL 26, nessuno straordinario nei quindici giorni precedenti l'infortunio; base INAIL minima: paga più rateo di tredicesima, senza ferie, festività e permessi, che dipendono dal CCNL, e con premio di produzione e altre mensilità a zero: importi INAIL minimi, buco lordo massimo; Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità; netti stimati in un intervallo: con e senza contributi a carico del lavoratore sull'indennità INAIL, che il motore non modella"
 fonti_verificate: 2026-10-10
 stato: pubblicato
 ---
-In un esempio di busta paga con infortunio il conto si spezza in quattro pezzi, e solo il primo è pagato per intero. La giornata dell'infortunio la paga il datore al 100%. I tre giorni successivi li paga il datore al 60%. Dal quarto giorno successivo paga l'INAIL, al 60% della retribuzione media giornaliera, che sale al 75% dal novantunesimo giorno. Per un operaio con paga fissa di 2.100,00 € al mese e quattordici giorni di assenza, il lordo del mese scende di **258,46 €** se il contratto collettivo non integra.
+In un esempio di busta paga con infortunio il conto si spezza in quattro pezzi, e solo il primo è pagato per intero. La giornata dell'infortunio la paga il datore al 100%. I tre giorni successivi li paga il datore al 60%. Dal quarto giorno successivo paga l'INAIL, al 60% della retribuzione media giornaliera, che sale al 75% dal novantunesimo giorno. Per un operaio con paga fissa di 2.100,00 € al mese e quattordici giorni di assenza, il lordo del mese scende al massimo di **218,08 €** se il contratto collettivo non integra.
 
-> **In breve**: in un esempio di busta paga con infortunio su 2.100,00 € lordi al mese la retribuzione media giornaliera è 80,77 €. Su quattordici giorni la busta paga ne toglie 969,23 €: il datore ne ripaga 226,15 €, l'INAIL 484,62 € per i dieci giorni successivi al 60%. Senza integrazione del CCNL perdi 258,46 € lordi. Al netto perdi meno, fra 120 e 160 € sull'anno, ma è solo una stima orientativa: l'indennità INAIL ha un trattamento contributivo diverso dalla retribuzione, e il motore del sito non lo modella.
+> **In breve**: in un esempio di busta paga con infortunio su 2.100,00 € lordi al mese la busta paga toglie 80,77 € per ogni giornata di assenza, ma l'INAIL paga su un'altra base: la retribuzione media giornaliera, che comprende anche il rateo di tredicesima e qui vale almeno 87,50 €. Su quattordici giorni la busta paga toglie 969,23 €: il datore ne ripaga 226,15 €, l'INAIL almeno 525,00 € per i dieci giorni successivi al 60%. Senza integrazione del CCNL perdi al massimo 218,08 € lordi: ferie, festività e permessi del tuo contratto alzano la base INAIL e abbassano il buco. Al netto perdi meno, fra 90 e 130 € sull'anno con la base minima, ma è solo una stima orientativa: l'indennità INAIL ha un trattamento contributivo diverso dalla retribuzione, e il motore del sito non lo modella.
 
-Le ipotesi contano e sono queste: operaio a tempo pieno, 40 ore settimanali, paga fissa mensile di 2.100,00 €, divisore giornaliero contrattuale 26, nessuno straordinario nei quindici giorni precedenti l'infortunio; residenza a Milano, nessun familiare a carico, 13 mensilità, aliquota contributiva FPLD ordinaria, regole 2026. Gli importi lordi vengono da queste ipotesi e dalle fonti in fondo alla pagina, che fissano percentuali, decorrenza e base dell'indennità. Sono arrotondati al centesimo: una somma può scostarsi di un centesimo dai prodotti scritti accanto. Gli importi netti sono stime orientative del motore di calcolo del sito, date come intervallo: il perché sta nella sezione sul netto.
+Le ipotesi contano e sono queste: operaio a tempo pieno, 40 ore settimanali, paga fissa mensile di 2.100,00 €, divisore giornaliero contrattuale 26, nessuno straordinario nei quindici giorni precedenti l'infortunio; residenza a Milano, nessun familiare a carico, 13 mensilità, aliquota contributiva FPLD ordinaria, regole 2026. Nella base dell'indennità INAIL conto la paga e il rateo di tredicesima, non ferie, festività e permessi, che dipendono dal contratto collettivo: per questo gli importi INAIL sono minimi e il buco lordo è un massimo. Gli importi lordi vengono da queste ipotesi e dalle fonti in fondo alla pagina, che fissano percentuali, decorrenza e base dell'indennità. Sono arrotondati al centesimo: una somma può scostarsi di un centesimo dai prodotti scritti accanto. Gli importi netti sono stime orientative del motore di calcolo del sito, date come intervallo: il perché sta nella sezione sul netto.
 
 ## Chi paga i giorni di infortunio: il datore, l'INAIL o nessuno?
 
@@ -40,12 +40,26 @@ Una precisazione che cambia il conto: l'indennità INAIL copre **tutti i giorni 
 
 La retribuzione media giornaliera è la base su cui si applicano il 60% e il 75%, e non è la paga mensile divisa per i giorni del mese. È la sesta parte della retribuzione settimanale, costruita sul guadagno medio orario dei **quindici giorni** immediatamente precedenti l'infortunio ([DPR 1124/1965, art. 116 comma 2](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art116) e [art. 117](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art117)).
 
-Per un operaio a 40 ore con paga fissa e nessuno straordinario in quei quindici giorni il conto si chiude in tre passaggi. 2.100,00 € al mese valgono 12,12 € l'ora con il divisore orario 173,33. La settimana di 40 ore vale 484,62 €. La sua sesta parte è **80,77 € al giorno**, che è anche, non per caso, la paga mensile divisa per 26.
+Il guadagno, però, non è solo la paga del mese. Il servizio online con cui il datore comunica all'INAIL i dati per calcolare la base chiede, accanto alla paga, straordinari, festività e indennità, e altre quattro voci: tredicesima mensilità, ferie comprensive di festività e riposi compensativi, premio di produzione, altre mensilità aggiuntive ([INAIL, manuale del servizio Dati retributivi, pp. 13–15](https://www.inail.it/content/dam/inail-hub-site/documenti/modulistica-assicurazione/2025/02/20250206-Manuale%20Dati%20retributivi%20lavoratore%20a%20tempo%20pieno_V2.1.pdf)).
 
-Da qui escono le due indennità giornaliere di questo esempio:
+Per un operaio a 40 ore con paga fissa e nessuno straordinario in quei quindici giorni il conto parte dalla paga. 2.100,00 € al mese valgono 12,12 € l'ora con il divisore orario 173,33. La settimana di 40 ore vale 484,62 €, e la sua sesta parte è 80,77 € al giorno: la paga mensile divisa per 26, la stessa quota che la busta paga toglie per ogni giornata di assenza. Poi vengono le quattro voci:
 
-- dal 4° giorno successivo all'infortunio al 90°: 60% di 80,77 € = **48,46 € al giorno**;
-- dal 91° giorno: 75% di 80,77 € = **60,58 € al giorno**.
+| Voce chiesta dall'INAIL | In questo esempio | Perché |
+| --- | --- | --- |
+| Tredicesima mensilità | +6,73 € al giorno | L'esempio ha 13 mensilità: il rateo è un dodicesimo della paga, 80,77 € ÷ 12 |
+| Ferie, festività e riposi compensativi | non calcolate | Dipendono dai giorni che dà il tuo contratto collettivo, che l'esempio non fissa, e alzano la base |
+| Premio di produzione | 0,00 € | L'esempio ha solo la paga fissa, senza premi |
+| Altre mensilità aggiuntive | 0,00 € | 13 mensilità vuol dire nessuna quattordicesima |
+| **Retribuzione media giornaliera** | **almeno 87,50 €** | 2.100,00 € × 13 ÷ 12 ÷ 26 |
+
+**87,50 € è un minimo, non la tua retribuzione media giornaliera.** Ferie, festività e riposi la alzano, e di quanto lo decide il tuo contratto: qui non lo calcolo. Il numero esatto esce dai dati che il datore comunica all'INAIL, ed è quello da chiedere all'ufficio paghe se vuoi rifare il conto.
+
+Da qui escono le due indennità giornaliere di questo esempio, minime anche loro:
+
+- dal 4° giorno successivo all'infortunio al 90°: 60% di 87,50 € = **almeno 52,50 € al giorno**;
+- dal 91° giorno: 75% di 87,50 € = **almeno 65,63 € al giorno**.
+
+Sul tuo cedolino la formula è più corta dei numeri: **dieci giorni al 60% valgono sei volte la tua retribuzione media giornaliera**.
 
 Due avvertenze, perché qui i cedolini reali si discostano. La prima: se nei quindici giorni prima dell'infortunio hai fatto straordinari, maggiorazioni o indennità, la base sale e l'indennità con lei. La seconda: il divisore orario non è uguale per tutti. Con 168 o con 173 al posto di 173,33 la giornaliera si muove di qualche centesimo, e sulle assenze lunghe quei centesimi diventano euro.
 
@@ -59,13 +73,13 @@ Ecco l'esempio di busta paga con infortunio riga per riga. Infortunio il lunedì
 | Trattenuta per 12 giornate di assenza, 12 × 80,77 € | −969,23 € |
 | Giornata dell'infortunio, 100% a carico del datore | +80,77 € |
 | 3 giorni successivi, 60% a carico del datore, 3 × 48,46 € | +145,38 € |
-| Indennità INAIL, 10 giorni di calendario al 60%, 10 × 48,46 € | +484,62 € |
-| Totale lordo del mese, senza integrazione contrattuale | 1.841,54 € |
-| Integrazione del datore, se il CCNL la prevede | da 0,00 € a +258,46 € |
+| Indennità INAIL, 10 giorni di calendario al 60%, almeno 10 × 52,50 € | almeno +525,00 € |
+| Totale lordo del mese, senza integrazione contrattuale | almeno 1.881,92 € |
+| Integrazione del datore, se il CCNL la prevede | da 0,00 € a +218,08 € |
 
-Il conto si legge in una riga: **969,23 € tolti, 710,77 € restituiti, 258,46 € di differenza**. Quella differenza è lo spazio in cui lavora il contratto collettivo: se il tuo CCNL integra fino al 100%, il datore aggiunge 258,46 € e il lordo del mese torna 2.100,00 €.
+Il conto si legge in una riga: **969,23 € tolti, almeno 751,15 € restituiti, al massimo 218,08 € di differenza**. Quella differenza è lo spazio in cui lavora il contratto collettivo: se il tuo CCNL integra fino al 100%, il datore la aggiunge e il lordo del mese torna 2.100,00 €.
 
-C'è però una cosa che nessuno ti dice, e si vede solo rifacendo il conto. Le due domeniche dentro i quattordici giorni l'INAIL le indennizza, ma la trattenuta con il divisore 26 non le ha toccate. Risultato: fra datore e INAIL ti rientra il **73%** di quello che la busta paga ti ha tolto, non il 60%. Sulle assenze lunghe la quota si assesta intorno al 70%, perché il peso dei primi quattro giorni si diluisce.
+C'è però una cosa che nessuno ti dice, e si vede solo rifacendo il conto. Le due domeniche dentro i quattordici giorni l'INAIL le indennizza, ma la trattenuta con il divisore 26 non le ha toccate. E la base dell'INAIL contiene la tredicesima, la trattenuta no. Risultato: fra datore e INAIL ti rientra almeno il **77%** di quello che la busta paga ti ha tolto, non il 60%. Sulle assenze più lunghe, fino al novantesimo giorno, la quota minima si assesta intorno al 75%.
 
 Sulla struttura del cedolino ordinario, senza assenze, c'è già una pagina con lo stesso metodo: [esempio di busta paga, importo per importo](/blog/esempio-busta-paga/).
 
@@ -77,22 +91,24 @@ Nel cedolino l'integrazione è una riga a sé, con un nome che cambia da softwar
 
 ## Quanto costa davvero un infortunio non integrato, al netto?
 
-Il lordo perso non è quello che perdi davvero. Su una retribuzione più bassa paghi meno contributi, meno IRPEF e meno addizionali, e nei casi di questa pagina **ogni euro lordo di infortunio non integrato ti costa fra 35 e 60 centesimi netti**. Il lordo lo puoi verificare al centesimo. Il netto no, e il motivo è questo.
+Il lordo perso non è quello che perdi davvero. Su una retribuzione più bassa paghi meno contributi, meno IRPEF e meno addizionali, e nei casi di questa pagina **ogni euro lordo di infortunio non integrato ti costa fra 25 e 60 centesimi netti**. Il lordo lo puoi verificare al centesimo quando conosci la tua base INAIL. Il netto no, e il motivo è questo.
 
 Il motore del sito calcola il netto di una retribuzione ordinaria. Nel mese dell'infortunio, invece, il lordo è fatto di pezzi diversi: la retribuzione pagata dal datore, l'indennità INAIL e l'eventuale integrazione del contratto. L'indennità è soggetta a IRPEF, ma sul lato contributivo ha regole sue, e il motore non le modella. Per questo il netto perso è una forchetta, con due estremi calcolati tutti e due con il motore. L'estremo alto tratta tutto il lordo come retribuzione ordinaria, e quindi fa pagare i contributi a tuo carico anche sull'indennità INAIL. L'estremo basso rifà lo stesso conto senza i contributi a tuo carico sull'indennità. Gli estremi sono arrotondati alla decina di euro, verso l'esterno.
 
-| Giorni di calendario | Trattenuta lorda | Rientra da datore e INAIL | Di cui indennità INAIL | Buco lordo | Stima indicativa del netto perso |
+La tabella usa la base minima di 87,50 €: le colonne dell'INAIL sono minimi, il buco e il netto perso sono massimi. Con ferie, festività e permessi nella base l'indennità sale e il buco scende.
+
+| Giorni di calendario | Trattenuta lorda | Rientra da datore e INAIL, almeno | Di cui indennità INAIL, almeno | Buco lordo, al massimo | Stima indicativa del netto perso, con la base minima |
 | --- | --- | --- | --- | --- | --- |
 | 4 | 323,08 € | 226,15 € | — | 96,92 € | 50–60 € |
-| 7 | 484,62 € | 371,54 € | 145,38 € | 113,08 € | 50–70 € |
-| 14 | 969,23 € | 710,77 € | 484,62 € | 258,46 € | 120–160 € |
-| 28 | 1.938,46 € | 1.389,23 € | 1.163,08 € | 549,23 € | 250–330 € |
-| 90 | 6.300,00 € | 4.393,85 € | 4.167,69 € | 1.906,15 € | 880–1.140 € |
-| 180 | 12.519,23 € | 9.845,77 € | 9.619,62 € | 2.673,46 € | 1.010–1.420 € |
+| 7 | 484,62 € | 383,65 € | 157,50 € | 100,96 € | 50–70 € |
+| 14 | 969,23 € | 751,15 € | 525,00 € | 218,08 € | 90–130 € |
+| 28 | 1.938,46 € | 1.486,15 € | 1.260,00 € | 452,31 € | 190–270 € |
+| 90 | 6.300,00 € | 4.741,15 € | 4.515,00 € | 1.558,85 € | 650–930 € |
+| 180 | 12.519,23 € | 10.647,40 € | 10.421,25 € | 1.871,83 € | 480–1.120 € |
 
 Le ipotesi sono quelle dichiarate in apertura, con RAL di partenza di 27.300,00 €, cioè 2.100,00 € per 13 mensilità. Senza assenze il motore dà un netto annuo di 21.755,33 €, che fa 1.673,49 € al mese. Nella riga dei 4 giorni l'INAIL non è ancora entrata e i due estremi coincidono: la forchetta è solo l'arrotondamento. Dopo si allarga con la durata dell'assenza, perché cresce la parte di lordo pagata dall'INAIL. Le stime ragionano sull'anno, come se il buco fosse una retribuzione annua più bassa. Non ricostruiscono le righe del singolo cedolino, dove la differenza si distribuisce fra il mese dell'infortunio e il conguaglio di fine anno.
 
-Guarda la riga dei 180 giorni: il buco lordo è solo il 40% più grande di quello dei 90 giorni, nonostante i giorni siano il doppio. È il 75% che entra dal novantunesimo giorno.
+Guarda la riga dei 180 giorni: il buco lordo è solo il 20% più grande di quello dei 90 giorni, nonostante i giorni siano il doppio. È il 75% che entra dal novantunesimo giorno.
 
 ## Infortunio o malattia: perché la busta paga è diversa
 
@@ -105,7 +121,7 @@ La differenza tra malattia e infortunio sul lavoro non è una sfumatura burocrat
 | Giornata dell'evento | 100% a carico del datore | Nessuna regola speciale |
 | Indennità | 60%, poi 75% dal 91° giorno | 50% dal 4° al 20°, 66,66% dal 21° |
 | Giorni coperti | Giorni di calendario, festivi compresi | Secondo le regole INPS sull'indennizzabilità |
-| Base di calcolo | Guadagno medio dei 15 giorni precedenti | Retribuzione del mese precedente, con le regole INPS |
+| Base di calcolo | Guadagno medio dei 15 giorni precedenti, con tredicesima e altri ratei | Retribuzione del mese precedente, con le regole INPS |
 
 Il caso della malattia, con lo stesso metodo e il conto rifatto, sta qui: [esempio di busta paga con malattia](/blog/esempio-busta-paga-malattia/). Se stai confrontando i due cedolini, la riga da guardare è quella dell'ente: INAIL o INPS cambiano tutto il resto.
 
@@ -142,7 +158,7 @@ Sì, l'indennità per inabilità temporanea assoluta è soggetta a IRPEF, e l'IN
 
 ### Quanto prende l'INAIL al giorno su 1.500 euro al mese?
 
-Con paga fissa di 1.500,00 € al mese, 40 ore settimanali e nessuno straordinario nei quindici giorni precedenti, la retribuzione media giornaliera è 57,69 €. L'indennità vale 34,62 € al giorno al 60% e 43,27 € al 75% dal novantunesimo giorno. La proporzione non cambia con il lordo: cambiano gli euro.
+Con paga fissa di 1.500,00 € al mese, 13 mensilità, 40 ore settimanali e nessuno straordinario nei quindici giorni precedenti, la retribuzione media giornaliera è almeno 62,50 €: 57,69 € di paga e 4,81 € di rateo di tredicesima. L'indennità vale almeno 37,50 € al giorno al 60% e 46,88 € al 75% dal novantunesimo giorno. Ferie, festività e permessi del tuo contratto alzano tutti e tre i numeri.
 
 ### L'infortunio in itinere è pagato come gli altri?
 
@@ -156,14 +172,15 @@ Dipende dal contratto collettivo, non dalla legge, e qui non lo verifico. Alcuni
 
 Questo esempio di busta paga con infortunio vale per un operaio a tempo pieno a 40 ore, paga fissa mensile, divisore contrattuale 26, nessuno straordinario nei quindici giorni precedenti, 13 mensilità, residenza a Milano, nessun familiare a carico e aliquota FPLD ordinaria. Cambia una di queste cose e i numeri cambiano. Restano fuori, e lo dico prima che tu ci sbatta:
 
-- **I contratti con divisore 30 o divisore orario diverso.** Con il divisore 30 la trattenuta tocca anche le domeniche e il vantaggio del 73% si assottiglia.
+- **I contratti con divisore 30 o divisore orario diverso.** Con il divisore 30 la trattenuta tocca anche le domeniche e il vantaggio del 77% si assottiglia.
 - **Il tuo CCNL.** Non ho verificato il testo di nessun contratto collettivo: l'integrazione al 100% è un'ipotesi del conto, non una regola generale.
+- **Ferie, festività e riposi nella base INAIL.** Il servizio INAIL li chiede e alzano la retribuzione media giornaliera, ma quanto dipende dai giorni che dà il tuo CCNL: qui non li calcolo, e per questo 87,50 € è un minimo, come tutti gli importi INAIL della pagina.
 - **Il trattamento contributivo dell'indennità**, che il motore non modella: il netto perso è un intervallo fra due ipotesi, con e senza contributi a tuo carico sull'indennità INAIL, e tratta il buco come una retribuzione annua più bassa, non come una somma di righe del singolo mese.
 - **Malattia professionale, agricoltura, marittimi e pescatori**, che hanno decorrenze e basi proprie.
 - **Pubblico impiego, apprendisti e part-time verticale**, dove il conto va rifatto da zero.
 - **Il riconoscimento dell'infortunio**, le visite, le contestazioni e la rendita per inabilità permanente: è un'altra materia e non la tocco.
 
-Nessun consulente del lavoro ha validato questi numeri. I lordi vengono dalle norme in fondo alla pagina, le stime nette da un motore di calcolo pubblico, con le ipotesi dichiarate qui sopra e le fonti riaperte il 10 ottobre 2026. Il metodo sta per intero in [come ho lavorato](/come-ho-lavorato.html).
+Nessun consulente del lavoro ha validato questi numeri. I lordi vengono dalle norme in fondo alla pagina, le stime nette da un motore di calcolo pubblico, con le ipotesi dichiarate qui sopra e le fonti riaperte fra il 10 e il 21 ottobre 2026. Il metodo sta per intero in [come ho lavorato](/come-ho-lavorato.html).
 
 Il netto della tua RAL senza assenze lo rifà il calcolatore in home page. L'effetto di un infortunio, per ora, non lo calcola.
 
@@ -171,6 +188,8 @@ Il netto della tua RAL senza assenze lo rifà il calcolatore in home page. L'eff
 
 - DPR 30 giugno 1965, n. 1124, art. 68 — l'indennità giornaliera per inabilità temporanea assoluta decorre dal quarto giorno successivo a quello dell'infortunio, nella misura del 60% della retribuzione giornaliera, elevata al 75% dal novantunesimo giorno quando l'inabilità si prolunga oltre i novanta giorni ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art68)) · verificata il 10 ottobre 2026
 - DPR 30 giugno 1965, n. 1124, art. 73 — il datore di lavoro corrisponde l'intera retribuzione per la giornata nella quale è avvenuto l'infortunio e il 60% della retribuzione per i giorni successivi, finché sussiste la carenza dell'assicurazione, salve le condizioni più favorevoli dei contratti collettivi ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art73)) · verificata il 10 ottobre 2026
-- DPR 30 giugno 1965, n. 1124, art. 116 comma 2 e art. 117 — la retribuzione giornaliera è la sesta parte della somma ottenuta rapportando il guadagno medio orario alla durata oraria normale della settimana di lavoro; per l'inabilità temporanea il guadagno medio orario è quello degli ultimi quindici giorni immediatamente precedenti l'infortunio ([Normattiva, art. 116](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art116), [art. 117](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art117)) · verificate il 10 ottobre 2026
-- INAIL — indennità giornaliera per inabilità temporanea assoluta: decorrenza dal quarto giorno successivo alla data dell'infortunio, 60% fino al 90° giorno e 75% dal 91°, giorni festivi compresi, retribuzione dei quindici giorni precedenti l'evento, indennità soggetta a IRPEF con trattenuta effettuata dall'Istituto, che rilascia all'assicurato la certificazione fiscale; la pagina non indica il trattamento contributivo ([INAIL](https://www.inail.it/portale/assicurazione/it/lassicurazione-inail/quali-sono-le-prestazioni-di-inail/prestazioni-economiche/indennita-giornaliera-per-inabilita-temporanea-assoluta.html)) · verificata il 10 ottobre 2026, riaperta l'11 ottobre 2026
+- DPR 30 giugno 1965, n. 1124, art. 116 comma 2 e art. 117 — la retribuzione giornaliera è la sesta parte della somma ottenuta rapportando il guadagno medio orario alla durata oraria normale della settimana di lavoro; per l'inabilità temporanea il guadagno medio orario è quello degli ultimi quindici giorni immediatamente precedenti l'infortunio ([Normattiva, art. 116](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art116), [art. 117](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.del.presidente.della.repubblica:1965-06-30;1124~art117)) · verificate il 10 ottobre 2026, riaperte il 21 ottobre 2026
+- INAIL — manuale utente del servizio «Dati retributivi per il calcolo dell'indennità giornaliera per inabilità temporanea assoluta (lavoratore a tempo pieno)», versione 2.1 del 6 febbraio 2025, pp. 13–15: per la retribuzione oraria e per quella mensile o mensilizzata il servizio chiede, oltre all'importo, lavoro straordinario, festività, indennità e maggiorazioni, tredicesima mensilità, ferie comprensive di festività e riposi compensativi, premio di produzione e altre mensilità aggiuntive, in percentuale o in importo, e ne ricava la retribuzione giornaliera base dell'indennità; il manuale non riporta la formula ([INAIL, PDF](https://www.inail.it/content/dam/inail-hub-site/documenti/modulistica-assicurazione/2025/02/20250206-Manuale%20Dati%20retributivi%20lavoratore%20a%20tempo%20pieno_V2.1.pdf)) · verificata il 21 ottobre 2026
+- INAIL — istruzioni operative per l'invio dei dati retributivi dei lavoratori marittimi (Mod. 01 Ret/Nav): il rateo di tredicesima e quello di ogni altra mensilità aggiuntiva valgono ciascuno un dodicesimo dell'importo annuo; la pagina usa la stessa regola per il rateo di tredicesima ([INAIL, PDF](https://www.inail.it/content/dam/inail-hub-site/documenti/2016/10/Istruzioni%20per%20la%20compilazione%20Mod%2001%20Ret_Nav.pdf)) · verificata il 21 ottobre 2026
+- INAIL — indennità giornaliera per inabilità temporanea assoluta: decorrenza dal quarto giorno successivo alla data dell'infortunio, 60% fino al 90° giorno e 75% dal 91°, giorni festivi compresi, retribuzione dei quindici giorni precedenti l'evento, indennità soggetta a IRPEF con trattenuta effettuata dall'Istituto, che rilascia all'assicurato la certificazione fiscale; la pagina non indica il trattamento contributivo né le voci che entrano nella base ([INAIL](https://www.inail.it/portale/assicurazione/it/lassicurazione-inail/quali-sono-le-prestazioni-di-inail/prestazioni-economiche/indennita-giornaliera-per-inabilita-temporanea-assoluta.html)) · verificata il 10 ottobre 2026, riaperta l'11 ottobre 2026 e il 21 ottobre 2026
 - L. 30 dicembre 2025, n. 199 — legge di bilancio 2026, la manovra su cui il motore fissa le regole IRPEF dell'anno usate per le stime nette di questa pagina ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · atto riaperto il 10 ottobre 2026
