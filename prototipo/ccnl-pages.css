@@ -30,6 +30,18 @@
 .ccnl-tabella td{font-family:var(--font-mono)}
 .ccnl-tabella small{color:var(--fg-muted);font-weight:400}
 
+/* Aumenti letti dal dataset (RIC-141): una sezione aperta, le altre in <details>. */
+.ccnl-aumenti{margin-block:clamp(36px,5vw,64px)}
+.ccnl-aumenti>p{max-width:74ch;line-height:1.55}
+.ccnl-aumenti>p.small:last-child{margin-top:var(--s-5)}
+.ccnl-aumenti__sezione{margin-top:var(--s-6)}
+.ccnl-aumenti__sezione h4{margin:var(--s-5) 0 0}
+details.ccnl-aumenti__sezione{border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
+details.ccnl-aumenti__sezione>summary{cursor:pointer;padding:var(--s-3) var(--s-4);font:600 var(--t-sm)/1.4 var(--font-mono)}
+details.ccnl-aumenti__sezione[open]{padding-bottom:var(--s-2)}
+details.ccnl-aumenti__sezione>.ccnl-aumento{padding:0 var(--s-4)}
+details.ccnl-aumenti__sezione+details.ccnl-aumenti__sezione{margin-top:var(--s-3)}
+
 .ccnl-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:var(--s-6);
   border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
 .ccnl-kpi>div{padding:var(--s-5);border-right:var(--bw) dashed var(--line-strong)}

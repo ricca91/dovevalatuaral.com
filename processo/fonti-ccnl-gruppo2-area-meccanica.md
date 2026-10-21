@@ -299,3 +299,22 @@ fissa aggiuntiva per 1Q e QS. Totale stampato = sola retribuzione tabellare
 - **Esclusioni** nel dataset (la prima è il CCRL regionale, obbligatorio: la cifra nazionale può essere più bassa della retribuzione dovuta): E.A.R., bilateralità e fondi, quota contratto, odontotecnica, «Secondo B», incidenza delle indennità, scatti transitori, apprendisti/AFAC/tabelle antecedenti, maggiorazioni, part-time.
 - **Fonte archiviata.** Il testo definitivo CNEL (19 MB, scansione) è in `processo/dati/fonti/area-meccanica-c030-cnel-testo-definitivo-ccnl-2024-11-19.pdf`.
 - **Estensioni del modello:** nessuna. `ralCompleta` è vera (nessuna quota annua mancante).
+
+## RIC-141 — aumenti dalla tabella e contratto omonimo (21 ottobre 2026)
+
+- **Aumenti in pagina.** Il blocco «lordo e netto prima e dopo» della tabella
+  `/minimi-ccnl/metalmeccanico-artigiano/` legge le tranche dal dataset (flag
+  `aumentiDalDataset` in `prototipo/genera-pagine-ccnl.js`): nessun importo nuovo,
+  nessuna data scritta a mano. Al 21 ottobre 2026 mostra la terza tranche (1° marzo 2026,
+  in vigore) e la quarta e ultima (1° novembre 2026), per le quattro sezioni. Controllo al
+  5° livello della metalmeccanica: da 1.595,91 a 1.615,17 € lordi (+19,26), netto medio da
+  1.378,04 a 1.390,47 € (motore, regole 2026, Milano, 13 mensilità).
+- **Contratto omonimo Conflavoro.** Nell'archivio corrente CNEL (open data
+  `ARCHIVIO_CORRENTE`, scaricato il 21 ottobre 2026; estratto in
+  `processo/dati/fonti/cnel-archivio-corrente-estratto-c049-2026-10-21.json`) il codice
+  **C049** è il «CCNL Metalmeccanico Artigianato» firmato da **Conflavoro PMI** con
+  **Fesica Confsal** (e Confsal fino all'accordo del 20 dicembre 2024): testo del
+  10 gennaio 2024, accordi integrativi del 9 settembre 2024, 20 dicembre 2024 e
+  22 settembre 2026. Parti diverse dal C030 («CCNL Area Meccanica»: Confartigianato, CNA,
+  Casartigiani, CLAAI con FIM, FIOM, UILM). Le sue tabelle non sono nel dataset e la FAQ
+  non ne cita importi: il 1.658 € che circola in SERP non è verificato.

@@ -98,7 +98,9 @@ const CONTRATTI_SEO=Object.freeze([
      chimico» 880; «ccnl gomma plastica» 2.400; «ccnl bancari» 4.400
      contro «ccnl credito» 3.600 e «ccnl abi» 880. */
   {id:'area-meccanica-artigianato-c030',slug:'metalmeccanico-artigiano',breve:'Metalmeccanico artigiano',
-    titoloTabella:'CCNL Metalmeccanico artigiano'},
+    titoloTabella:'CCNL Metalmeccanico artigiano',sezioneLivelli:'metalmeccanica-impianti',
+    /* RIC-141: aumenti letti dal dataset (vedi trancheDalDataset). */
+    aumentiDalDataset:true},
   {id:'alimentare-industria-e012',slug:'industria-alimentare',breve:'Industria alimentare',
     titoloTabella:'CCNL Industria alimentare'},
   {id:'chimico-farmaceutico-industria-b011',slug:'chimico-farmaceutico',breve:'Chimico farmaceutico',
@@ -148,6 +150,46 @@ function tabella(id,sezione,alla,rottaDi){
     scatti:R.regolaScatti(id,sezione)};
 }
 
+/* --- AUMENTI LETTI DAL DATASET (RIC-141) ---------------------
+
+   Per i contratti con `aumentiDalDataset`, le tranche escono dal
+   catalogo, sezione per sezione, senza date scritte qui. Si prendono
+   le tabelle con decorrenza successiva ad `alla` meno 12 mesi: quelle
+   scattate nell'ultimo anno restano visibili per un anno, insieme a
+   tutte le future già firmate. «Prima» è il giorno precedente la
+   decorrenza. La prima tabella del dataset non ha un prima da
+   confrontare (R.livelli lancerebbe RangeError) e si salta.
+
+   Ogni tranche: {decorrenza, prima, titolo, sezione, nome, aperta,
+   righe:[{livello, rotta, prima, dopo}]}, con `prima` e `dopo` dati da
+   stima(). `aperta` è falso per le sezioni diverse da `sezioneLivelli`,
+   che il template chiude in un <details>. */
+const unAnnoPrima=alla=>`${Number(alla.slice(0,4))-1}${alla.slice(4)}`;
+const giornoPrima=iso=>new Date(Date.parse(iso)-86400000).toISOString().slice(0,10);
+
+function vigenteAl(id,alla,sezione){
+  try{return R.tabellaVigente(id,alla,sezione);}
+  catch(e){if(e instanceof RangeError)return null;throw e;}
+}
+
+function trancheDalDataset(c,alla,rottaDi){
+  return profili(c.id).flatMap(p=>{
+    const aperta=!c.sezioneLivelli||!p.sezione||c.sezioneLivelli===p.sezione;
+    const tranche=[];
+    for(let t=R.prossimaTabella(c.id,unAnnoPrima(alla),p.sezione);t;t=R.prossimaTabella(c.id,t.decorrenza,p.sezione)){
+      const prima=giornoPrima(t.decorrenza);
+      if(!vigenteAl(c.id,prima,p.sezione))continue;
+      /* Un livello che sparisce non ha un dopo, uno nuovo non ha un prima. */
+      const dopo=new Set(t.livelli.map(l=>l.codice));
+      tranche.push({decorrenza:t.decorrenza,prima,titolo:t.titolo,sezione:p.sezione,nome:p.nome,aperta,
+        righe:R.livelli(c.id,prima,p.sezione).filter(l=>dopo.has(l.codice)).map(livello=>({livello,
+          rotta:aperta&&rottaDi?rottaDi(livello.codice):null,
+          prima:stima(c.id,p.sezione,livello.codice,prima),dopo:stima(c.id,p.sezione,livello.codice,t.decorrenza)}))});
+    }
+    return tranche;
+  });
+}
+
 function datiContratto(c,alla){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
@@ -155,6 +197,7 @@ function datiContratto(c,alla){
   const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
     :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
   return {seo:c,contratto,rotta:rottaTabella(c),esclusioni:R.ESCLUSIONI[c.id]||[],
+    aumentiDataset:c.aumentiDalDataset?trancheDalDataset(c,alla,rottaDi):[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
       return {decorrenza,righe:R.livelli(c.id,prima).map(livello=>({livello,rotta:rottaDi(livello.codice),
