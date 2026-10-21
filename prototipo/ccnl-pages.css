@@ -41,6 +41,7 @@ details.ccnl-aumenti__sezione>summary{cursor:pointer;padding:var(--s-3) var(--s-
 details.ccnl-aumenti__sezione[open]{padding-bottom:var(--s-2)}
 details.ccnl-aumenti__sezione>.ccnl-aumento{padding:0 var(--s-4)}
 details.ccnl-aumenti__sezione+details.ccnl-aumenti__sezione{margin-top:var(--s-3)}
+.ccnl-aumento__nota{max-width:74ch;margin:0 0 var(--s-3);line-height:1.5}
 
 .ccnl-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:var(--s-6);
   border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}

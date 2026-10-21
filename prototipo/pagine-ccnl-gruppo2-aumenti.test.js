@@ -3,7 +3,7 @@ const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
 const {test}=require('node:test');
-const {CONTRATTI_SEO,generate,datiContratto}=require('./genera-pagine-ccnl.js');
+const {CONTRATTI_SEO,generate,datiContratto,caloNetto}=require('./genera-pagine-ccnl.js');
 const {renderTabella}=require('./ccnl-page.template.js');
 const R=require('./retribuzione-ccnl.js');
 const {calcola,applicaMensilita,eur}=require('./motore.js');
@@ -187,4 +187,46 @@ test('blocco generico senza sezioneLivelli: tutte le sezioni aperte',()=>{
   const html=renderTabella({...d,alla:ALLA});
   assert.doesNotMatch(html,/<details class="ccnl-aumenti__sezione"/);
   assert.equal([...html.matchAll(/<div class="ccnl-aumenti__sezione"><h3>/g)].length,4);
+});
+
+test('dove il netto dopo scende, una nota con soglia, Comune e importi presi dal motore',()=>{
+  const html=leggi(ROTTA);
+  /* Le righe con il netto in calo, ricalcolate qui dal motore. */
+  const calcolo=(sezione,codice,alla)=>{
+    const composta=R.componiRal({ccnl:ID,sezione,livello:codice,alla});
+    return applicaMensilita(calcola(String(composta.ral),{comune:'F205',nucleo:[]}),composta.mensilita);
+  };
+  const attese=[];
+  for(const s of R.sezioni(ID))for(const decorrenza of ['2026-03-01','2026-11-01'])
+    for(const livello of R.livelli(ID,giornoPrima(decorrenza),s.id)){
+      const p=calcolo(s.id,livello.codice,giornoPrima(decorrenza)),d=calcolo(s.id,livello.codice,decorrenza);
+      if(d.kpi.mediaMensile<p.kpi.mediaMensile)attese.push({sezione:s.id,decorrenza,codice:livello.codice,p,d});
+    }
+  assert.deepEqual(attese.map(a=>`${a.sezione} ${a.decorrenza} ${a.codice}`),
+    ['metalmeccanica-impianti 2026-11-01 2','orafi 2026-11-01 2']);
+  assert.equal([...html.matchAll(/class="small ccnl-aumento__nota"/g)].length,attese.length);
+  for(const a of attese){
+    const nota=testo(uno(blocco(html,a.decorrenza,a.sezione),/<p class="small ccnl-aumento__nota" data-livello="2">([\s\S]*?)<\/p>/g,a.sezione));
+    const add=v=>v.voci.find(x=>x.id==='addcom');
+    const soglia=add(a.d).regola.esenzioneFinoA;
+    assert.ok(add(a.p).base<=soglia&&add(a.d).base>soglia);
+    assert.equal(nota,`2° livello: il netto medio scende di ${eur(a.p.kpi.mediaMensile-a.d.kpi.mediaMensile)} al mese nonostante l’aumento lordo. `+
+      `L’imponibile IRPEF annuo passa da ${eur(add(a.p).base)} a ${eur(add(a.d).base)} e supera i ${eur(soglia)} fino a cui `+
+      `il Comune di ${a.d.geografia.comune} esenta dall’addizionale comunale: l’addizionale diventa dovuta, ${eur(-add(a.d).importo)} l’anno.`);
+  }
+  /* Nessuna nota dove il netto sale, né sulle tabelle con le date scritte. */
+  assert.doesNotMatch(blocco(html,'2026-03-01','metalmeccanica-impianti'),/ccnl-aumento__nota/);
+  for(const slug of ['commercio','metalmeccanico'])assert.doesNotMatch(leggi(`/minimi-ccnl/${slug}/`),/ccnl-aumento__nota/);
+});
+
+test('se la causa del calo non è una soglia di esenzione, la nota resta generica',()=>{
+  const riga=(netto,base)=>({nettoMensile:netto,voci:[{id:'addcom',base,importo:-1,nome:'Milano',regola:{esenzioneFinoA:23000}}]});
+  assert.equal(caloNetto(riga(1500,24000),riga(1501,24100)),null);
+  assert.deepEqual(caloNetto(riga(1500,24000),riga(1499.5,24100)),{netto:0.5,causa:null});
+  assert.equal(caloNetto(riga(1500,22900),riga(1499.5,23100)).causa.soglia,23000);
+  const d=datiContratto(seo('metalmeccanico-artigiano'),ALLA);
+  const r=d.aumentiDataset[0].righe.find(x=>x.livello.codice==='5');
+  r.calo={netto:0.5,causa:null};
+  const html=renderTabella({...d,alla:ALLA});
+  assert.ok(testo(html).includes('5° livello: il netto medio scende di 0,50 € al mese nonostante l’aumento lordo. Con il nuovo lordo imposte e detrazioni del calcolo 2026 cambiano più dell’aumento.'));
 });

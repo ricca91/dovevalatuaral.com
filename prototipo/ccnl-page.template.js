@@ -202,9 +202,18 @@ function aumentiDalDataset(d){
   const oltre=anni.filter(a=>a>ANNO_REGOLE).map(a=>`il ${a}`);
   const mensilita=[...new Set(tranche.flatMap(t=>t.righe.flatMap(r=>[r.prima.composta.mensilita,r.dopo.composta.mensilita])))];
   const conSezioni=tranche[0].sezione!==null;
+  /* Netto dopo sotto il prima: una riga di spiegazione, con soglia ed
+     ente presi dal motore (caloNetto nel generatore). */
+  const etichetta=l=>d.seo.etichetta?d.seo.etichetta(l):`Livello ${l.nome}`;
+  const nota=r=>{
+    const c=r.calo,x=c.causa;
+    const perche=x?`L’imponibile IRPEF annuo passa da ${eur(x.imponibilePrima)} a ${eur(x.imponibileDopo)} e supera i ${eur(x.soglia)} fino a cui ${x.addizionale==='comunale'?'il Comune di':'la Regione'} ${esc(x.ente)} esenta dall’addizionale ${x.addizionale}: l’addizionale diventa dovuta, ${eur(x.importo)} l’anno.`
+      :`Con il nuovo lordo imposte e detrazioni del calcolo ${ANNO_REGOLE} cambiano più dell’aumento.`;
+    return `<p class="small ccnl-aumento__nota" data-livello="${esc(r.livello.codice)}">${esc(etichetta(r.livello))}: il netto medio scende di ${eur(c.netto)} al mese nonostante l’aumento lordo. ${perche}</p>`;
+  };
   const blocco=t=>`<section class="ccnl-aumento" data-decorrenza="${t.decorrenza}"${t.sezione?` data-sezione="${esc(t.sezione)}"`:''}>
       <${conSezioni?'h4':'h3'}>${t.decorrenza>d.alla?'Dal':'In vigore dal'} ${data(t.decorrenza)}</${conSezioni?'h4':'h3'}>
-      ${tabellaAumento(d.rotta,t.righe,`${t.nome?`${esc(t.nome)} — `:''}${esc(t.titolo)} — importi mensili in euro`)}</section>`;
+      ${tabellaAumento(d.rotta,t.righe,`${t.nome?`${esc(t.nome)} — `:''}${esc(t.titolo)} — importi mensili in euro`)}${t.righe.filter(r=>r.calo).map(nota).join('')}</section>`;
   const perSezione=[...new Set(tranche.map(t=>t.sezione))].map(s=>tranche.filter(t=>t.sezione===s));
   const sezioni=perSezione.map(ts=>!conSezioni?ts.map(blocco).join('')
     :ts[0].aperta?`<div class="ccnl-aumenti__sezione"><h3>${esc(ts[0].nome)}</h3>${ts.map(blocco).join('')}</div>`

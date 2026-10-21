@@ -169,7 +169,7 @@ const oggi=()=>new Date().toISOString().slice(0,10);
 function stima(ccnl,sezione,codice,alla,extra={}){
   const composta=R.componiRal({ccnl,sezione,livello:codice,alla,...extra});
   const risultato=applicaMensilita(calcola(String(composta.ral),{comune:COMUNE,nucleo:[]}),composta.mensilita);
-  return {composta,nettoAnnuo:risultato.kpi.nettoAnnuo,nettoMensile:risultato.kpi.mediaMensile};
+  return {composta,nettoAnnuo:risultato.kpi.nettoAnnuo,nettoMensile:risultato.kpi.mediaMensile,voci:risultato.voci};
 }
 
 function profili(id){
@@ -203,8 +203,8 @@ function tabella(id,sezione,alla,rottaDi){
    confrontare (R.livelli lancerebbe RangeError) e si salta.
 
    Ogni tranche: {decorrenza, prima, titolo, sezione, nome, aperta,
-   righe:[{livello, rotta, prima, dopo}]}, con `prima` e `dopo` dati da
-   stima(). `aperta` è falso per le sezioni diverse da `sezioneLivelli`,
+   righe:[{livello, rotta, prima, dopo, calo}]}, con `prima` e `dopo` dati
+   da stima() e `calo` da caloNetto(). `aperta` è falso per le sezioni diverse da `sezioneLivelli`,
    che il template chiude in un <details>. */
 const unAnnoPrima=alla=>`${Number(alla.slice(0,4))-1}${alla.slice(4)}`;
 const giornoPrima=iso=>new Date(Date.parse(iso)-86400000).toISOString().slice(0,10);
@@ -212,6 +212,22 @@ const giornoPrima=iso=>new Date(Date.parse(iso)-86400000).toISOString().slice(0,
 function vigenteAl(id,alla,sezione){
   try{return R.tabellaVigente(id,alla,sezione);}
   catch(e){if(e instanceof RangeError)return null;throw e;}
+}
+
+/* Dove il netto «dopo» è sotto il «prima», il motore dice perché: si
+   cerca un'addizionale (comunale o regionale) esente fino a una soglia di
+   imponibile che il prima non supera e il dopo sì. Soglia, ente e importi
+   sono quelli del calcolo; se la causa è un'altra resta generica. */
+function caloNetto(prima,dopo){
+  if(!(dopo.nettoMensile<prima.nettoMensile))return null;
+  const netto=Math.round((prima.nettoMensile-dopo.nettoMensile)*100)/100;
+  for(const [id,addizionale] of [['addcom','comunale'],['addreg','regionale']]){
+    const p=prima.voci.find(v=>v.id===id),d=dopo.voci.find(v=>v.id===id);
+    const soglia=d&&d.regola&&Number(d.regola.esenzioneFinoA);
+    if(p&&soglia&&p.base<=soglia&&d.base>soglia)
+      return {netto,causa:{addizionale,ente:d.nome,soglia,imponibilePrima:p.base,imponibileDopo:d.base,importo:-d.importo}};
+  }
+  return {netto,causa:null};
 }
 
 function trancheDalDataset(c,alla,rottaDi){
@@ -226,7 +242,8 @@ function trancheDalDataset(c,alla,rottaDi){
       tranche.push({decorrenza:t.decorrenza,prima,titolo:t.titolo,sezione:p.sezione,nome:p.nome,aperta,
         righe:R.livelli(c.id,prima,p.sezione).filter(l=>dopo.has(l.codice)).map(livello=>({livello,
           rotta:aperta&&rottaDi?rottaDi(livello.codice):null,
-          prima:stima(c.id,p.sezione,livello.codice,prima),dopo:stima(c.id,p.sezione,livello.codice,t.decorrenza)}))});
+          prima:stima(c.id,p.sezione,livello.codice,prima),dopo:stima(c.id,p.sezione,livello.codice,t.decorrenza)}))
+          .map(r=>({...r,calo:caloNetto(r.prima,r.dopo)}))});
     }
     return tranche;
   });
@@ -344,4 +361,4 @@ function generate(outputDir=__dirname,{alla=oggi()}={}){
   return [...pagine.keys()];
 }
 
-module.exports={CONTRATTI_SEO,ROTTE,HUB,rottaTabella,generate,stima,datiContratto,datiLivello,ralLivelli};
+module.exports={CONTRATTI_SEO,ROTTE,HUB,rottaTabella,generate,stima,datiContratto,datiLivello,ralLivelli,caloNetto};
