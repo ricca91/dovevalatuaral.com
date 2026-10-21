@@ -369,3 +369,12 @@ test('le tre tabelle senza tranche nella finestra: niente blocco né note, FAQ c
     for(const q of faq.mainEntity)assert.ok(testo(h).includes(q.acceptedAnswer.text),q.name);
   }
 });
+
+test('le note leggono i fatti dal dataset (FATTI_AUMENTI), non dal template',()=>{
+  const f=R.FATTI_AUMENTI;
+  assert.equal(f[TRE['chimico-farmaceutico'].id].trattamentoComplessivo.importo,294);
+  assert.equal(f[TRE['gomma-plastica'].id].livelloEliminato.dal,'2028-12-01');
+  const html=leggi('/minimi-ccnl/chimico-farmaceutico/');
+  assert.match(testo(html),/di 294 € annunciato per la D1/);
+  assert.doesNotMatch(require('node:fs').readFileSync(path.join(__dirname,'ccnl-page.template.js'),'utf8'),/294|2028-12-01|2027-09-01|2027-07-01/);
+});

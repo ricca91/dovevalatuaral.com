@@ -243,21 +243,34 @@ function faqConSchema(rotta,{id,titolo,voci}){
    tranche corrispondente è nel blocco. Importi e mensilità vengono dal
    dataset. */
 const unaNota=t=>`<p class="small ccnl-aumenti__nota">${t}</p>`;
+const importoVoce=(l,id)=>(l.voci.find(v=>v.id===id)||{importo:0}).importo;
+/* Tranche in cui compare un EDR che la tabella precedente non aveva. */
+function trancheNuovoEdr(d){
+  return (d.aumentiDataset||[]).find(t=>R.livelli(d.contratto.id,t.decorrenza,t.sezione).some(l=>importoVoce(l,'edr')>0)
+    &&!R.livelli(d.contratto.id,t.prima,t.sezione).some(l=>importoVoce(l,'edr')>0));
+}
+/* Tranche in cui cambia solo l'IAR: ogni altra voce resta com'era. */
+function trancheSoloIar(d,t){
+  const id=d.contratto.id,prima=R.livelli(id,t.prima,t.sezione);
+  const dopo=R.livelli(id,t.decorrenza,t.sezione).filter(l=>prima.some(p=>p.codice===l.codice));
+  const cambia=(l,voce)=>{const p=prima.find(x=>x.codice===l.codice);return importoVoce(l,voce)!==importoVoce(p,voce);};
+  const voci=[...new Set(dopo.flatMap(l=>l.voci.map(v=>v.id)))];
+  return dopo.some(l=>cambia(l,'iar'))&&!dopo.some(l=>voci.some(v=>v!=='iar'&&cambia(l,v)));
+}
+const sezioneTranche=(d,t)=>t.sezione===(sezionePrincipale(d).sezione);
 function notaAumenti(d){
-  const tranche=d.aumentiDataset||[];
-  const ha=iso=>tranche.some(t=>t.decorrenza===iso);
-  if(d.seo.slug==='gomma-plastica'&&ha('2028-12-01'))
-    return unaNota(`Dal ${data('2028-12-01')} il livello I è eliminato nelle aree produzione e funzioni integrate trasversali, con le posizioni riclassificate nel livello H. La tabella lo riporta ancora e il calcolo lo mantiene.`);
-  if(d.seo.slug==='chimico-farmaceutico'&&ha('2027-07-01')){
-    const t=R.tabellaVigente(d.contratto.id,'2027-07-01');
-    const edr=t.livelli.map(l=>({codice:l.codice,v:l.voci.find(v=>v.id==='edr')})).filter(x=>x.v&&x.v.importo>0)
-      .sort((a,b)=>a.v.importo-b.v.importo);
-    if(!edr.length)return '';
-    const mens=tranche.find(x=>x.decorrenza==='2027-07-01').righe[0].dopo.composta.mensilita;
-    return unaNota(`Dal ${data('2027-07-01')} l’aumento comprende il nuovo EDR, da ${eur(edr[0].v.importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).v.importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(mens)} mensilità. Il «trattamento economico complessivo» di 294 € annunciato per la D1 comprende welfare e fondi: non è un aumento della RAL.`);
+  const tranche=d.aumentiDataset||[],fatti=(R.FATTI_AUMENTI||{})[d.contratto.id]||{};
+  const gomma=fatti.livelloEliminato;
+  if(gomma&&tranche.some(t=>t.decorrenza===gomma.dal))
+    return unaNota(`Dal ${data(gomma.dal)} il livello ${esc(gomma.livello)} è eliminato nelle aree ${esc(gomma.aree)}, con le posizioni riclassificate nel livello ${esc(gomma.riclassificatoIn)}. La tabella lo riporta ancora e il calcolo lo mantiene.`);
+  const chimico=fatti.trattamentoComplessivo,t=chimico&&trancheNuovoEdr(d);
+  if(t){
+    const edr=R.livelli(d.contratto.id,t.decorrenza,t.sezione).map(l=>({codice:l.codice,importo:importoVoce(l,'edr')}))
+      .filter(x=>x.importo>0).sort((a,b)=>a.importo-b.importo);
+    return unaNota(`Dal ${data(t.decorrenza)} l’aumento comprende il nuovo EDR, da ${eur(edr[0].importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(t.righe[0].dopo.composta.mensilita)} mensilità. Il «trattamento economico complessivo» di ${eur(chimico.importo).replace(',00','')} annunciato per la ${esc(chimico.livello)} comprende ${esc(chimico.comprende)}: non è un aumento della RAL.`);
   }
-  if(d.seo.slug==='industria-alimentare'&&ha('2027-09-01'))
-    return unaNota(`Il ${data('2027-09-01')} sale solo l’IAR; i minimi restano quelli del ${data('2027-01-01')}.`);
+  const iar=tranche.find(t=>sezioneTranche(d,t)&&trancheSoloIar(d,t));
+  if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(R.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
   return '';
 }
 
@@ -316,13 +329,14 @@ function faqGruppo2(d){
     const anno=tranche.at(-1)&&tranche.at(-1).decorrenza.slice(0,4);
     const ts=tranche.filter(t=>t.decorrenza.startsWith(anno));
     const riga5=t=>t.righe.find(r=>r.livello.codice==='5');
-    const proprio=ts.length===2&&ts[0].decorrenza===`${anno}-01-01`&&ts[1].decorrenza===`${anno}-09-01`&&riga5(ts[0])&&riga5(ts[1]);
+    /* Ultima tranche dei minimi seguita da una di solo IAR: lo dicono le voci del dataset. «Seconda» tranche dell'IAR è dalla fonte (IAR dal 1/12/2023 e dal 1/9/2027). */
+    const proprio=ts.length===2&&!trancheSoloIar(d,ts[0])&&trancheSoloIar(d,ts[1])&&riga5(ts[0])&&riga5(ts[1]);
     voci=[
       ...(edr?[{domanda:'Quante mensilità ha il CCNL industria alimentare?',
         risposta:`${mensilitaTesto(s.mensilita)}: tredicesima e quattordicesima (art. 54). L’EDR di ${eur(edr.importo)} vale ${mensilitaTesto(edr.mensilita)} mensilità (art. 52). Il netto in tabella è una media annua su ${mensilitaTesto(s.mensilita)} mensilità.`,
         link:[vaiAlLivello(c5,'il 5° livello')]}]:[]),
       ...(proprio?[{domanda:`Quali aumenti ci sono nel ${anno}?`,
-        risposta:`Il ${data(ts[0].decorrenza)} scatta l’ultima tranche dei minimi, il ${data(ts[1].decorrenza)} la seconda tranche dell’IAR. Al 5° livello il lordo mensile passa da ${eur(riga5(ts[0]).prima.composta.baseMensile)} a ${eur(riga5(ts[0]).dopo.composta.baseMensile)} a gennaio e a ${eur(riga5(ts[1]).dopo.composta.baseMensile)} a settembre.`,
+        risposta:`Il ${data(ts[0].decorrenza)} scatta l’ultima tranche dei minimi, il ${data(ts[1].decorrenza)} la seconda tranche dell’IAR. Al 5° livello il lordo mensile passa da ${eur(riga5(ts[0]).prima.composta.baseMensile)} a ${eur(riga5(ts[0]).dopo.composta.baseMensile)} a gennaio e a ${eur(riga5(ts[1]).dopo.composta.baseMensile)} a ${MESI[Number(ts[1].decorrenza.slice(5,7))-1]}.`,
         link:[vaiAlLivello(c5,'il 5° livello')]}]:[]),
       netto('5','il 5° livello','del 5° livello','Quanto prende netto il 5° livello?'),
     ];

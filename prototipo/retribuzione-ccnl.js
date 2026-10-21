@@ -1859,6 +1859,19 @@
     [CREDITO_ABI.id]:ESCLUSIONI_CREDITO_ABI,
   };
 
+  /* Fatti sugli aumenti che le pagine dei minimi citano in una nota
+     (RIC-142): leggibili come campi, con la fonte. Non entrano nel calcolo. */
+  const FATTI_AUMENTI={
+    [GOMMA_PLASTICA.id]:{
+      livelloEliminato:{livello:'I',dal:'2028-12-01',riclassificatoIn:'H',
+        aree:'produzione e funzioni integrate trasversali',
+        fonte:'processo/fonti-ccnl-gruppo2-gomma-plastica.md: ipotesi 10.12.2025, art. 17'}},
+    [CHIMICO.id]:{
+      trattamentoComplessivo:{livello:'D1',importo:294,
+        comprende:'welfare e fondi',
+        fonte:'processo/fonti-ccnl-gruppo2-chimico.md: ipotesi 15.4.2025, trattamento economico complessivo annunciato'}},
+  };
+
   /* ------------------------------------------------------------
      DATE
      ------------------------------------------------------------ */
@@ -2431,5 +2444,6 @@
 
   return congela({...creaCatalogo({versione:VERSIONE_DATASET,
     contratti:[...CONTRATTI_DATI,...CONTRATTI_GRUPPO_1,...CONTRATTI_GRUPPO_2],
-    esclusioni:{...ESCLUSIONI_DATI,...ESCLUSIONI_GRUPPO_1,...ESCLUSIONI_GRUPPO_2}}),creaCatalogo});
+    esclusioni:{...ESCLUSIONI_DATI,...ESCLUSIONI_GRUPPO_1,...ESCLUSIONI_GRUPPO_2}}),creaCatalogo,
+    FATTI_AUMENTI:congela(FATTI_AUMENTI)});
 });
