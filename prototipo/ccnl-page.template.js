@@ -358,11 +358,13 @@ function scomposizione(r){
 }
 
 function blocchiRiga(rotta,d,r,conNome){
+  /* Tappe senza anni (periodo sospeso, RIC-140): si contano gli scatti. */
+  const soloScatti=r.tappe.some(t=>t.anni===null);
   const scatti=r.tappe.length?`<section class="ccnl-blocco"><h3>Con gli scatti di anzianità</h3>
     <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’anzianità nella stessa azienda.${esc(sospensioniTesto(r.regola))}</p>
-    <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">Anzianità in azienda</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>
+    <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">${soloScatti?'Scatti maturati':'Anzianità in azienda'}</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>
     <tr><th scope="row">Nessuno scatto</th><td>${eur(r.composta.mensileTotale)}</td><td>${eur(r.composta.ral)}</td><td>${eur(r.nettoMensile)}</td></tr>
-    ${r.tappe.map(t=>`<tr><th scope="row">${t.anni} anni · ${t.n} ${t.n===1?'scatto':'scatti'}</th><td>${eur(t.composta.mensileTotale)}</td><td>${eur(t.composta.ral)}</td><td>${eur(t.nettoMensile)}</td></tr>`).join('')}
+    ${r.tappe.map(t=>`<tr><th scope="row">${t.anni===null?'':`${t.anni} anni · `}${t.n} ${t.n===1?'scatto':'scatti'}</th><td>${eur(t.composta.mensileTotale)}</td><td>${eur(t.composta.ral)}</td><td>${eur(t.nettoMensile)}</td></tr>`).join('')}
     </tbody></table></div></section>`
     :`<section class="ccnl-blocco"><h3>Scatti di anzianità</h3><p>Regola del contratto: ${esc(scattiTesto(r.regola))}${r.regola.tipo==='percentualeMaturazione'?': il loro valore dipende dalla data in cui maturano, e il calcolatore lo ricostruisce dalla data di anzianità':''}.${esc(sospensioniTesto(r.regola))}</p></section>`;
   const partTime=r.partTime.length?`<section class="ccnl-blocco"><h3>Part-time</h3>
@@ -400,10 +402,14 @@ function renderLivello(d){
     <a class="related-card" href="${v.rotta?verso(rotta,v.rotta):`${verso(rotta,d.rottaTabella)}${r0.sezione?`#${esc(r0.sezione)}`:''}`}"><span><b>${esc(v.etichetta)} ${esc(seo.breve)}</b><small>${eur(v.livello.totale)} lordi al mese</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>`).join('')}
     <a class="related-card" href="${verso(rotta,d.rottaTabella)}"><span><b>Tutti i livelli</b><small>${esc(seo.titoloTabella)}: tabella completa</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>
   </div></section>`:'';
-  const il=`il ${etichetta.charAt(0).toLowerCase()}${etichetta.slice(1)}`;
+  /* «la 3ª area 4° livello» (Bancari), «il 5° livello» negli altri. */
+  const il=`${/^\d+ª /.test(etichetta)?'la':'il'} ${etichetta.charAt(0).toLowerCase()}${etichetta.slice(1)}`;
+  /* Un nome che chiude già con una parentesi (Area meccanica) non ne prende una seconda. */
+  const sezione=conNome&&righe.length===1
+    ?(contratto.nome.endsWith(')')?`, sezione ${esc(r0.nome.toLowerCase())},`:` (${esc(r0.nome.toLowerCase())})`):'';
   const intro=uguali
     ?`Nel CCNL ${esc(contratto.nome)} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese, uguale per ${righe.map(r=>esc(r.nome.toLowerCase())).join(' e per ')}`
-    :`Nel CCNL ${esc(contratto.nome)}${conNome&&righe.length===1?` (${esc(r0.nome.toLowerCase())})`:''} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese`;
+    :`Nel CCNL ${esc(contratto.nome)}${sezione} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese`;
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(seo.titoloTabella)} · ${esc(contratto.codiceCnel)}</div>
     <h1>${esc(nomeIntero)}: minimo, RAL e netto</h1>
     <p class="lead">${intro}. Su ${mensilitaTesto(r0.composta.mensilita)} mensilità fa una RAL di ${eur(r0.composta.ral)}: circa <b>${eur(r0.nettoMensile)} netti al mese</b>, senza scatti né superminimo.</p>
