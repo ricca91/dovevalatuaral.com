@@ -13,6 +13,11 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
 const data=iso=>{const [a,m,g]=iso.split('-').map(Number);return `${g===1?'1°':g} ${MESI[m-1]} ${a}`;};
 const mensilitaTesto=m=>String(m).replace('.',',');
+/* Un nome che chiude già con una parentesi, messo fra parentesi: l'ultima
+   diventa un inciso con la virgola, come per le sezioni in renderLivello
+   (RIC-140). «Area unificata (ex 1ª e 2ª area professionale)» →
+   «Area unificata, ex 1ª e 2ª area professionale». */
+const fraParentesi=nome=>`(${String(nome).replace(/\s*\(([^()]*)\)$/,', $1')})`;
 const profondita=rotta=>rotta.split('/').filter(Boolean).length;
 const radice=rotta=>'../'.repeat(profondita(rotta));
 /* Da una pagina all'altra dentro /minimi-ccnl/: link relativi come
@@ -243,34 +248,37 @@ function faqConSchema(rotta,{id,titolo,voci}){
    tranche corrispondente è nel blocco. Importi e mensilità vengono dal
    dataset. */
 const unaNota=t=>`<p class="small ccnl-aumenti__nota">${t}</p>`;
+/* Il catalogo da cui il generatore ha letto le tranche (RIC-143): di norma R. */
+const catalogoDi=d=>d.catalogo||R;
 const importoVoce=(l,id)=>(l.voci.find(v=>v.id===id)||{importo:0}).importo;
 /* Tranche in cui compare un EDR che la tabella precedente non aveva. */
 function trancheNuovoEdr(d){
-  return (d.aumentiDataset||[]).find(t=>R.livelli(d.contratto.id,t.decorrenza,t.sezione).some(l=>importoVoce(l,'edr')>0)
-    &&!R.livelli(d.contratto.id,t.prima,t.sezione).some(l=>importoVoce(l,'edr')>0));
+  const K=catalogoDi(d);
+  return (d.aumentiDataset||[]).find(t=>K.livelli(d.contratto.id,t.decorrenza,t.sezione).some(l=>importoVoce(l,'edr')>0)
+    &&!K.livelli(d.contratto.id,t.prima,t.sezione).some(l=>importoVoce(l,'edr')>0));
 }
 /* Tranche in cui cambia solo l'IAR: ogni altra voce resta com'era. */
 function trancheSoloIar(d,t){
-  const id=d.contratto.id,prima=R.livelli(id,t.prima,t.sezione);
-  const dopo=R.livelli(id,t.decorrenza,t.sezione).filter(l=>prima.some(p=>p.codice===l.codice));
+  const K=catalogoDi(d),id=d.contratto.id,prima=K.livelli(id,t.prima,t.sezione);
+  const dopo=K.livelli(id,t.decorrenza,t.sezione).filter(l=>prima.some(p=>p.codice===l.codice));
   const cambia=(l,voce)=>{const p=prima.find(x=>x.codice===l.codice);return importoVoce(l,voce)!==importoVoce(p,voce);};
   const voci=[...new Set(dopo.flatMap(l=>l.voci.map(v=>v.id)))];
   return dopo.some(l=>cambia(l,'iar'))&&!dopo.some(l=>voci.some(v=>v!=='iar'&&cambia(l,v)));
 }
 const sezioneTranche=(d,t)=>t.sezione===(sezionePrincipale(d).sezione);
 function notaAumenti(d){
-  const tranche=d.aumentiDataset||[],fatti=(R.FATTI_AUMENTI||{})[d.contratto.id]||{};
+  const K=catalogoDi(d),tranche=d.aumentiDataset||[],fatti=(R.FATTI_AUMENTI||{})[d.contratto.id]||{};
   const gomma=fatti.livelloEliminato;
   if(gomma&&tranche.some(t=>t.decorrenza===gomma.dal))
     return unaNota(`Dal ${data(gomma.dal)} il livello ${esc(gomma.livello)} è eliminato nelle aree ${esc(gomma.aree)}, con le posizioni riclassificate nel livello ${esc(gomma.riclassificatoIn)}. La tabella lo riporta ancora e il calcolo lo mantiene.`);
   const chimico=fatti.trattamentoComplessivo,t=chimico&&trancheNuovoEdr(d);
   if(t){
-    const edr=R.livelli(d.contratto.id,t.decorrenza,t.sezione).map(l=>({codice:l.codice,importo:importoVoce(l,'edr')}))
+    const edr=K.livelli(d.contratto.id,t.decorrenza,t.sezione).map(l=>({codice:l.codice,importo:importoVoce(l,'edr')}))
       .filter(x=>x.importo>0).sort((a,b)=>a.importo-b.importo);
     return unaNota(`Dal ${data(t.decorrenza)} l’aumento comprende il nuovo EDR, da ${eur(edr[0].importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(t.righe[0].dopo.composta.mensilita)} mensilità. Il «trattamento economico complessivo» di ${eur(chimico.importo).replace(',00','')} annunciato per la ${esc(chimico.livello)} comprende ${esc(chimico.comprende)}: non è un aumento della RAL.`);
   }
   const iar=tranche.find(t=>sezioneTranche(d,t)&&trancheSoloIar(d,t));
-  if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(R.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
+  if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(K.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
   return '';
 }
 
@@ -464,6 +472,77 @@ function faqSettore(d){
     <script id="faq-settore" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
 }
 
+/* --- BANCARI: STATO DEL RINNOVO (RIC-143) --------------------
+
+   L'unico punto da cambiare il giorno della firma: lo leggono il
+   riquadro in testa alla tabella e l'ultima FAQ. La procedura è in
+   processo/fonti-ccnl-gruppo2-credito-abi.md, «Procedura alla firma del
+   rinnovo». Solo fatti con una fonte linkata, alla data della verifica
+   sui siti dei firmatari (non della build), e nessun importo della
+   piattaforma sindacale: è una richiesta, non un accordo. Le fonti con
+   `dataset` si leggono dal contratto (`fonte`, `fonteSospensione`); le
+   altre hanno l'indirizzo qui, con la copia in processo/dati/fonti/. */
+const STATO_RINNOVO_BANCARI=Object.freeze({
+  verificatoIl:'2026-10-22',
+  /* Alla firma: la data del testo firmato. Il titolo diventa «Rinnovo firmato il …». */
+  firmatoIl:null,
+  fatti:Object.freeze([
+    {testo:'Il CCNL 23 novembre 2023 è scaduto il 31 marzo 2026. Si applica per intero la tabella del 1° marzo 2026, ultima tranche del rinnovo del 2023.',
+      fonti:[{dataset:'fonte',testo:'testo coordinato, art. 6 c. 3 e Allegato 2'}]},
+    {testo:'I verbali del 31 marzo e del 16 luglio 2026, firmati da ABI e dai cinque sindacati, sospendono i termini fino al 31 dicembre 2026: gli effetti del rinnovo decorreranno dal 1° aprile 2026.',
+      fonti:[{url:'https://www.falcri-is.com/wp-content/uploads/2026/03/2026_3_31-Verbale-di-accordo-31-marzo-2026-congelamento-CCNL.pdf',testo:'verbale del 31 marzo 2026'},
+        {dataset:'fonteSospensione',testo:'verbale del 16 luglio 2026'}]},
+    {testo:'La trattativa è aperta e non c’è intesa: il 13 ottobre 2026, dopo l’incontro con l’ABI, la FABI ha dato un giudizio «totalmente negativo».',
+      fonti:[{url:'https://www.fabi.it/2026/10/13/ccnl-bancari-sileoni-dallabi-nessuna-visione-sul-futuro-del-settore/',testo:'comunicato FABI del 13 ottobre 2026'}]},
+    {testo:'Nessun aumento è stato concordato. Le cifre che circolano vengono dalla piattaforma dei sindacati, trasmessa all’ABI il 15 luglio 2026: sono una richiesta, non un accordo, e queste tabelle non le usano.',
+      fonti:[{dataset:'fonteSospensione',testo:'verbale del 16 luglio 2026'}]},
+    {testo:'Quando l’accordo sarà firmato, questa tabella mostrerà gli aumenti per livello con il netto prima e dopo.',fonti:[]},
+  ].map(Object.freeze)),
+  /* La risposta della FAQ, sotto i 350 caratteri: `quando` è la data della verifica. */
+  faq:quando=>`Al ${quando} non c’è un accordo. Il CCNL 23 novembre 2023 è scaduto il 31 marzo 2026 e si applica la tabella del 1° marzo 2026. I termini sono sospesi fino al 31 dicembre 2026 e il rinnovo decorrerà dal 1° aprile 2026. Nessun aumento è stato ancora concordato.`,
+});
+
+/* Il riquadro sta sotto l'header della tabella Bancari e lì sostituisce
+   il callout notaFonte, che direbbe la stessa cosa; le pagine livello
+   tengono notaFonte. */
+function statoRinnovo(d,S=STATO_RINNOVO_BANCARI){
+  if(d.seo.slug!=='bancari')return '';
+  const fonte=f=>{const x=f.dataset?d.contratto[f.dataset]:f;
+    return `<a href="${esc(x.url)}" rel="nofollow">${esc(f.testo)}</a>`;};
+  const quando=S.firmatoIl?['Rinnovo firmato il',S.firmatoIl]:['Stato del rinnovo al',S.verificatoIl];
+  return `<section class="ccnl-blocco ccnl-affiancato ccnl-rinnovo" id="rinnovo" aria-labelledby="rinnovo-titolo">
+    <h2 id="rinnovo-titolo">${quando[0]} <time datetime="${quando[1]}">${data(quando[1])}</time></h2>
+    <ul>${S.fatti.map(f=>`<li>${esc(f.testo)}${f.fonti.length?` <small>Fonte: ${f.fonti.map(fonte).join(', ')}.</small>`:''}</li>`).join('')}</ul>
+  </section>`;
+}
+
+/* RIC-143: le risposte leggono la tabella; la quarta è quella della
+   costante qui sopra. Livelli scelti sulla domanda misurata (RIC-137). */
+function faqBancari(d,S=STATO_RINNOVO_BANCARI){
+  if(d.seo.slug!=='bancari')return '';
+  const riga=codice=>d.sezioni.flatMap(s=>s.righe).find(r=>r.livello.codice===codice);
+  const sezioneDi=codice=>d.sezioni.find(s=>s.righe.some(r=>r.livello.codice===codice));
+  const vai=codice=>{const r=riga(codice),s=sezioneDi(codice);
+    return r.rotta?{href:r.rotta,testo:d.seo.etichetta(r.livello)}:{href:`#${s.sezione}`,testo:`Tabella ${s.nome.toLowerCase()}`};};
+  const qd1=riga('QD1'),qd4=riga('QD4'),a34=riga('3A4');
+  const mensilita=mensilitaTesto(sezioneDi('QD1').mensilita);
+  const voci=[
+    {domanda:'Quanto guadagna netto un quadro direttivo bancario?',
+      risposta:`Il quadro direttivo di 1° livello ha un minimo di ${eur(qd1.composta.baseMensile)} lordi al mese, circa ${eur(qd1.nettoMensile)} netti; quello di 4° livello ${eur(qd4.composta.baseMensile)}, circa ${eur(qd4.nettoMensile)} netti. Netto medio su ${mensilita} mensilità, tempo pieno a Milano, senza scatti né superminimo.`,
+      link:[vai('QD1'),vai('QD4')]},
+    {domanda:'Quanto prende netto la 3ª area 4° livello?',
+      risposta:`Il minimo della 3ª area professionale, 4° livello, è ${eur(a34.composta.baseMensile)} lordi al mese: il netto medio stimato è ${eur(a34.nettoMensile)} su ${mensilita} mensilità, per un tempo pieno a Milano senza scatti né superminimo.`,
+      link:[vai('3A4')]},
+    {domanda:'Quale contratto applicano le banche?',
+      risposta:`Le banche associate all’ABI applicano il CCNL Credito ABI (codice CNEL ${d.contratto.codiceCnel}), per le aree professionali e i quadri direttivi. Le banche di credito cooperativo hanno un contratto proprio, che queste tabelle non coprono.`,
+      link:d.sezioni.map(s=>({href:`#${s.sezione}`,testo:`Tabella ${s.nome.toLowerCase()}`}))},
+    {domanda:'A che punto è il rinnovo del contratto dei bancari?',
+      risposta:S.faq(data(S.verificatoIl)),
+      link:[{href:'#rinnovo',testo:'Stato del rinnovo'}]},
+  ];
+  return faqConSchema(d.rotta,{id:'faq-bancari',titolo:'Domande frequenti sul CCNL Bancari',voci});
+}
+
 /* RIC-144: tre contratti si chiamano «metalmeccanico». Il riquadro porta
    chi lavora in un'azienda artigiana dall'industria all'Area meccanica
    (importo letto dal dataset) e chi è in un'industria dall'artigiano
@@ -501,11 +580,11 @@ function renderTabella(d){
     <a class="btn btn--ghost" href="${calcolatore(rotta,{ccnl:contratto.id,sezione:s.sezione})}">Calcola con anzianità e superminimo${s.nome?` — ${esc(s.nome)}`:''}</a>
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
-    <h1>${esc(seo.titoloTabella)} 2026: tabelle retributive</h1>
+    <h1>${esc(seo.titoloTabella)} 2026: ${esc(seo.codaH1||'tabelle retributive')}</h1>
     ${(d.aumenti.length||seo.aumentiDalDataset||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
-    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
+    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} ${esc(fraParentesi(min.livello.nome))} a ${eur(max.composta.baseMensile)} ${esc(fraParentesi(max.livello.nome))}${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
-  ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
+  ${avvisoParziale(contratto)}${statoRinnovo(d)||avvisoFonte(contratto)}
   ${ponteMetalmeccanico(d)}
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
@@ -518,6 +597,7 @@ function renderTabella(d){
   ${metalmeccanico(d)}
   ${decorrenzeSettore(d)}
   ${faqSettore(d)}
+  ${faqBancari(d)}
   ${pagine.length?`<section class="related" aria-labelledby="livelli-titolo"><h2 id="livelli-titolo">Approfondisci un livello</h2><div class="related__grid">${pagine.map(r=>`
     <a class="related-card" href="${verso(rotta,r.rotta)}"><span><b>${esc(seo.etichetta(r.livello))} ${esc(seo.breve)}</b><small>${eur(r.composta.baseMensile)} lordi · ${eur(r.nettoMensile)} netti al mese</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>`).join('')}
   </div></section>`:''}
@@ -527,7 +607,7 @@ function renderTabella(d){
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,
-    title:`${seo.titoloTabella} 2026: tabelle retributive e netto`,
+    title:`${seo.titoloTabella} 2026: ${seo.codaTitolo||'tabelle retributive e netto'}`,
     description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, ${R.ralCompleta(contratto.id)?'RAL':'base annua'} e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`,
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},{nome:seo.titoloTabella,rotta}],body});
 }
@@ -646,7 +726,7 @@ function blocchiRiga(rotta,d,r,conNome){
   /* Tappe senza anni (periodo sospeso, RIC-140): si contano gli scatti. */
   const soloScatti=r.tappe.some(t=>t.anni===null);
   const scatti=r.tappe.length?`<section class="ccnl-blocco"><h3>Con gli scatti di anzianità</h3>
-    <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’anzianità nella stessa azienda.${esc(sospensioniTesto(r.regola))}</p>
+    <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’${esc(d.seo.scattiDallaBase?r.regola.base:'anzianità nella stessa azienda')}.${esc(sospensioniTesto(r.regola))}</p>
     <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">${soloScatti?'Scatti maturati':'Anzianità in azienda'}</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>
     <tr><th scope="row">Nessuno scatto</th><td>${eur(r.composta.mensileTotale)}</td><td>${eur(r.composta.ral)}</td><td>${eur(r.nettoMensile)}</td></tr>
     ${r.tappe.map(t=>`<tr><th scope="row">${t.anni===null?'':`${t.anni} anni · `}${t.n} ${t.n===1?'scatto':'scatti'}</th><td>${eur(t.composta.mensileTotale)}</td><td>${eur(t.composta.ral)}</td><td>${eur(t.nettoMensile)}</td></tr>`).join('')}
@@ -716,4 +796,4 @@ function renderLivello(d){
       {nome:seo.titoloTabella,rotta:d.rottaTabella},{nome:etichetta,rotta}],body});
 }
 
-module.exports={renderHub,renderTabella,renderLivello,titoloLivello,calcolatore,verso,data};
+module.exports={renderHub,renderTabella,renderLivello,titoloLivello,calcolatore,verso,data,STATO_RINNOVO_BANCARI,statoRinnovo};

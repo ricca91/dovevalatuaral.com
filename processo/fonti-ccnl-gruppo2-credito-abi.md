@@ -34,6 +34,12 @@ la tabella del 1° marzo 2026, ultima tranche del rinnovo 2023.**
   Secondo una fonte secondaria (Legge in Chiaro) il prossimo incontro è il
   26 ottobre. La piattaforma chiede 518 € e 35 ore: è una richiesta, non un
   accordo, e non è usata.
+- **Verifica del 21 e del 22 ottobre 2026 (RIC-143).** Homepage FABI (notizie
+  fino al 21 ottobre), pagina «Rinnovo Ccnl Credito» di First CISL
+  (`firstcisl.it/adessocontratto/`, ultimo aggiornamento: comunicato del
+  13 ottobre, «serve un cambio di passo da parte di Abi»), homepage di Fisac CGIL,
+  Uilca, Unisin e ABI: nessun accordo e nessuna ipotesi di accordo. Le pagine non
+  sono archiviate: la verifica è negativa e il riquadro cita solo fonti già qui.
 - **Effetto sul dato**: la cifra calcolata è la base nazionale vigente. Il
   rinnovo, quando arriverà, decorrerà dal 1° aprile 2026 e potrà superarla con
   arretrati. Va detto nella pagina.
@@ -394,6 +400,144 @@ Sono fra le esclusioni del dataset (`ESCLUSIONI_CREDITO_ABI`), scritte per l'ute
 - **Non esposto:** tabelle 2023–2025, part-time su 37,5 ore fino al 31 dicembre
   2025, turnisti a 36 ore e custodi a 40, regime degli scatti anteriore al
   1° novembre 1999, apposito elemento dell'art. 8.
+
+## Pagine dei minimi (RIC-143, 22 ottobre 2026)
+
+- **Title e H1** della tabella `/minimi-ccnl/bancari/`: «CCNL Bancari (ABI) 2026:
+  tabelle, netto e rinnovo» (49 caratteri) e «CCNL Bancari (ABI) 2026: tabelle
+  retributive e rinnovo». Le code stanno in `CONTRATTI_SEO` (`codaTitolo`,
+  `codaH1`); l'anno resta al template, che RIC-105 cambia a gennaio.
+- **Riquadro «Stato del rinnovo al …»** sotto l'header della tabella, al posto del
+  callout `notaFonte` (che resta sulle pagine livello). Il testo è nella costante
+  `STATO_RINNOVO_BANCARI` di `prototipo/ccnl-page.template.js`, con
+  `verificatoIl` (la data della verifica sui siti dei firmatari, non della build)
+  e `firmatoIl`. Ogni fatto ha la sua fonte; `fonte` e `fonteSospensione` si
+  leggono dal dataset. Nessun importo della piattaforma: la pagina dice solo che le
+  cifre che circolano sono una richiesta, non un accordo.
+- **FAQ** (`faq-bancari`, `FAQPage`): netto di QD1 e QD4, netto della 3ª area 4°
+  livello, quale contratto applicano le banche (ABI, non credito cooperativo),
+  stato del rinnovo (dalla costante). Numeri letti dalla tabella.
+- **Blocco aumenti** acceso (`aumentiDalDataset:true`). Oggi è vuoto: la tabella
+  del 1° marzo 2026 è la prima del dataset e non ha un «prima» (RIC-141).
+- **Scatti sulle pagine livello.** Riletti gli artt. 94 c. 1–2 e 103 c. 1 del testo
+  coordinato (pp. 129 e 140): per le aree e i QD di 1° e 2° livello il primo scatto
+  arriva «4 anni […] in tutti i casi di assunzione»; per i QD di 3° e 4° livello gli
+  scatti, massimo 7, «decorrono dalla data di assunzione o nomina», e il primo
+  arriva dopo 4 anni anche «in caso di passaggio al 3° o 4° livello». La frase
+  generica «contando l'anzianità nella stessa azienda» non valeva per i QD3–QD4: le
+  pagine Bancari (`scattiDallaBase`) usano ora la `base` della regola di ciascuna
+  sezione, «l'anzianità dalla data di assunzione o di nomina a quadro direttivo di
+  3° o 4° livello» per `qd34`, «l'anzianità di servizio dalla data di assunzione»
+  per `aree-qd12`. Gli altri contratti non cambiano.
+- **Prova del giorno della firma**: `prototipo/pagine-ccnl-bancari.test.js` crea
+  con `R.creaCatalogo` un J241 con due tranche fittizie (dal 1° aprile 2026,
+  +100,00 €; dal 1° aprile 2027, altri 150,00 €) e lo passa a
+  `generate(dir,{alla,catalogo})`. Tabelle di entrambe le sezioni, blocco aumenti
+  con netto prima e dopo e pagine livello si aggiornano senza altre modifiche.
+
+## Procedura alla firma del rinnovo
+
+_Per l'agente di RIC-148: obiettivo, tabella e pagine livello aggiornate in
+produzione entro 48 ore dalla pubblicazione del testo da parte di un firmatario.
+Stesso URL della tabella, `/minimi-ccnl/bancari/`: nessuna pagina separata._
+
+### 1. Fonte valida
+
+- Solo il **testo dell'ipotesi di accordo o dell'accordo**, pubblicato da un
+  firmatario (FABI, First CISL, Fisac CGIL, Uilca, Unisin) o da ABI. Non articoli
+  di giornale, non sintesi di agenzie, non il comunicato senza tabelle: se il
+  primo giorno c'è solo un comunicato, si aggiorna il riquadro (sezione 3) e si
+  aspetta il testo per i numeri.
+- Archiviala in `processo/dati/fonti/` come
+  `credito-abi-j241-<ipotesi|accordo>-rinnovo-<firmatario>-<aaaa-mm-gg>.pdf`
+  (data del documento), e aggiungi lo sha256 all'elenco in fondo. Se due firmatari
+  pubblicano tabelle, archivia anche la seconda: serve a riscontrare le righe.
+- Annota qui ora di pubblicazione della fonte e ora della lettura: vanno nel
+  commento di chiusura di RIC-148.
+
+### 2. Cosa estrarre
+
+- **Stipendio per livello, per ogni decorrenza**: nove righe (QD4, QD3, QD2, QD1,
+  3ª area 4°–1°, Area unificata), come l'Allegato 2. Se la fonte dà solo gli
+  aumenti, la tabella è quella del 1° marzo 2026 più l'aumento, riga per riga.
+- **Scatto ed ex ristrutturazione tabellare**, se cambiano (oggi 95,31 + 14,30 per
+  QD3–QD4, 41,55 + 7,99 per QD1–3ª area 1°, 29,07 + 5,59 per l'AU).
+- **Una tantum e arretrati**: importi per livello, periodo coperto e mese di
+  pagamento, solo come li scrive la fonte.
+- **Decorrenze e durata**: data di ogni tranche, nuova scadenza.
+- **Orario e part-time**: le 37 ore (art. 108) e la base del part-time (art. 38
+  c. 12) entrano nel calcolo; se cambiano, serve una decisione prima dei numeri,
+  perché il modello ha un orario statico (vedi «Come il dataset ricava gli
+  importi»).
+- **Riconciliazione**, come per il 2023: ogni tabella è la precedente più
+  l'aumento; le tranche sommano al totale a regime se la fonte lo stampa; l'una
+  tantum torna con le mensilità che dichiara. Uno scarto ferma il lavoro: si
+  registra in «Discrepanze nella fonte» e si chiede, non si arrotonda.
+
+### 3. Dove inserirlo
+
+In `prototipo/retribuzione-ccnl.js`, sezione «CREDITO — ABI»:
+
+- una nuova `tabella(decorrenza, titolo, righe)` per decorrenza in `TABELLE_ABI`,
+  dopo quella del 1° marzo 2026, con le righe nel formato di `TABELLA_ABI`
+  (`[codice, nome, stipendio, scatto, exRistrutturazione]`). Le due sezioni
+  (`aree-qd12`, `qd34`) condividono `TABELLE_ABI` e la filtrano con
+  `codiciLivello`: non si toccano.
+- La tabella del 1° marzo 2026 **resta**: è il «prima» della tranche del
+  1° aprile 2026. Cambia solo il titolo («in vigore fino al rinnovo» → fino al
+  giorno prima della prima tranche).
+- `fonteAccordo` sul nuovo testo; `fonte` se le tabelle vengono da lì;
+  `notaFonte` («rinnovo firmato il …, decorrenze …»); la prima voce di
+  `ESCLUSIONI_CREDITO_ABI` (stato del contratto); una voce per una tantum e
+  arretrati, che il calcolo non somma; `VERSIONE_DATASET`; il commento in testa
+  alla sezione.
+- Test in `prototipo/retribuzione-ccnl-gruppo2-credito-abi.test.js`: le nove righe
+  per decorrenza, la riconciliazione, `notaFonte`.
+
+In `prototipo/ccnl-page.template.js`:
+
+- **`STATO_RINNOVO_BANCARI`**: `firmatoIl` con la data del testo firmato (il
+  titolo del riquadro diventa «Rinnovo firmato il …»), `verificatoIl`, `fatti`
+  (firma, parti, decorrenze e durata, una tantum e arretrati con gli importi della
+  fonte, link al testo archiviato), `faq`. È l'unico testo da riscrivere.
+- **FAQ** (`faqBancari`): la quarta risposta esce dalla costante; le prime due
+  leggono già i numeri nuovi. Se serve una domanda sull'aumento, prendi la forma di
+  `faqMetalmeccanicoArtigiano` (lordo e netto prima e dopo da `d.aumentiDataset`),
+  sempre entro 4 domande e 350 caratteri per risposta.
+- **Blocco aumenti**: è già acceso (`aumentiDalDataset` in `CONTRATTI_SEO`) e
+  mostra da solo le tranche firmate, per sezione, con netto prima e dopo. Una
+  tantum e arretrati vanno spiegati in testo: nel riquadro, oppure con una voce in
+  `FATTI_AUMENTI` e un ramo in `notaAumenti`, come per gomma plastica e chimico.
+
+Infine il dossier: «Stato del contratto», «Fonti», «Come il dataset ricava gli
+importi», hash.
+
+### 4. Decorrenza retroattiva
+
+Il rinnovo decorre dal 1° aprile 2026 (verbali del 31 marzo e del 16 luglio 2026):
+la prima tranche sarà già passata il giorno della firma. Il blocco la intitola
+«In vigore dal 1° aprile 2026», che è la decorrenza contrattuale, non il mese in
+cui arriva in busta paga. Le pagine non devono far credere che gli arretrati siano
+già stati pagati: scrivi che spettano da aprile 2026 e quando l'accordo dice che
+saranno pagati, solo se lo dice. Il netto del blocco è una media annua, non
+l'importo degli arretrati.
+
+### 5. Verifiche
+
+- `npm test` e `npm run build` verdi. Con la tranche retroattiva cambiano i
+  valori attesi di alcuni test che oggi leggono la tabella del 1° marzo 2026 a
+  date successive (per esempio i 3.341,90 € della 3ª area 4° livello in
+  `pagine-ccnl-gruppo2-livelli.test.js` e la tranche saltata in
+  `pagine-ccnl-gruppo2-aumenti.test.js`) e i test sul dataset reale di
+  `pagine-ccnl-bancari.test.js` (niente più «nessun blocco aumenti»): aggiornali
+  ai numeri della fonte, senza toccare il test con il catalogo fittizio.
+- Preview su desktop e mobile di `/minimi-ccnl/bancari/` e delle 4 pagine livello
+  (3ª area 4° e 3°, QD4, QD1), più il calcolatore CCNL e livello del J241 a una data
+  dopo la prima tranche.
+- PR verso `main` con RIC-148 nel titolo; nel commento della PR, per ogni livello
+  con pagina, netto prima e dopo. Poi merge e deploy.
+- **A cura di Riccardo**, dopo il deploy: richiesta di indicizzazione in GSC della
+  tabella e delle 4 pagine livello; post LinkedIn con il netto per livello.
 
 ## Hash sha256 dei file archiviati
 
