@@ -243,34 +243,37 @@ function faqConSchema(rotta,{id,titolo,voci}){
    tranche corrispondente è nel blocco. Importi e mensilità vengono dal
    dataset. */
 const unaNota=t=>`<p class="small ccnl-aumenti__nota">${t}</p>`;
+/* Il catalogo da cui il generatore ha letto le tranche (RIC-143): di norma R. */
+const catalogoDi=d=>d.catalogo||R;
 const importoVoce=(l,id)=>(l.voci.find(v=>v.id===id)||{importo:0}).importo;
 /* Tranche in cui compare un EDR che la tabella precedente non aveva. */
 function trancheNuovoEdr(d){
-  return (d.aumentiDataset||[]).find(t=>R.livelli(d.contratto.id,t.decorrenza,t.sezione).some(l=>importoVoce(l,'edr')>0)
-    &&!R.livelli(d.contratto.id,t.prima,t.sezione).some(l=>importoVoce(l,'edr')>0));
+  const K=catalogoDi(d);
+  return (d.aumentiDataset||[]).find(t=>K.livelli(d.contratto.id,t.decorrenza,t.sezione).some(l=>importoVoce(l,'edr')>0)
+    &&!K.livelli(d.contratto.id,t.prima,t.sezione).some(l=>importoVoce(l,'edr')>0));
 }
 /* Tranche in cui cambia solo l'IAR: ogni altra voce resta com'era. */
 function trancheSoloIar(d,t){
-  const id=d.contratto.id,prima=R.livelli(id,t.prima,t.sezione);
-  const dopo=R.livelli(id,t.decorrenza,t.sezione).filter(l=>prima.some(p=>p.codice===l.codice));
+  const K=catalogoDi(d),id=d.contratto.id,prima=K.livelli(id,t.prima,t.sezione);
+  const dopo=K.livelli(id,t.decorrenza,t.sezione).filter(l=>prima.some(p=>p.codice===l.codice));
   const cambia=(l,voce)=>{const p=prima.find(x=>x.codice===l.codice);return importoVoce(l,voce)!==importoVoce(p,voce);};
   const voci=[...new Set(dopo.flatMap(l=>l.voci.map(v=>v.id)))];
   return dopo.some(l=>cambia(l,'iar'))&&!dopo.some(l=>voci.some(v=>v!=='iar'&&cambia(l,v)));
 }
 const sezioneTranche=(d,t)=>t.sezione===(sezionePrincipale(d).sezione);
 function notaAumenti(d){
-  const tranche=d.aumentiDataset||[],fatti=(R.FATTI_AUMENTI||{})[d.contratto.id]||{};
+  const K=catalogoDi(d),tranche=d.aumentiDataset||[],fatti=(R.FATTI_AUMENTI||{})[d.contratto.id]||{};
   const gomma=fatti.livelloEliminato;
   if(gomma&&tranche.some(t=>t.decorrenza===gomma.dal))
     return unaNota(`Dal ${data(gomma.dal)} il livello ${esc(gomma.livello)} è eliminato nelle aree ${esc(gomma.aree)}, con le posizioni riclassificate nel livello ${esc(gomma.riclassificatoIn)}. La tabella lo riporta ancora e il calcolo lo mantiene.`);
   const chimico=fatti.trattamentoComplessivo,t=chimico&&trancheNuovoEdr(d);
   if(t){
-    const edr=R.livelli(d.contratto.id,t.decorrenza,t.sezione).map(l=>({codice:l.codice,importo:importoVoce(l,'edr')}))
+    const edr=K.livelli(d.contratto.id,t.decorrenza,t.sezione).map(l=>({codice:l.codice,importo:importoVoce(l,'edr')}))
       .filter(x=>x.importo>0).sort((a,b)=>a.importo-b.importo);
     return unaNota(`Dal ${data(t.decorrenza)} l’aumento comprende il nuovo EDR, da ${eur(edr[0].importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(t.righe[0].dopo.composta.mensilita)} mensilità. Il «trattamento economico complessivo» di ${eur(chimico.importo).replace(',00','')} annunciato per la ${esc(chimico.livello)} comprende ${esc(chimico.comprende)}: non è un aumento della RAL.`);
   }
   const iar=tranche.find(t=>sezioneTranche(d,t)&&trancheSoloIar(d,t));
-  if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(R.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
+  if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(K.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
   return '';
 }
 
@@ -475,7 +478,7 @@ function faqSettore(d){
    `dataset` si leggono dal contratto (`fonte`, `fonteSospensione`); le
    altre hanno l'indirizzo qui, con la copia in processo/dati/fonti/. */
 const STATO_RINNOVO_BANCARI=Object.freeze({
-  verificatoIl:'2026-10-21',
+  verificatoIl:'2026-10-22',
   /* Alla firma: la data del testo firmato. Il titolo diventa «Rinnovo firmato il …». */
   firmatoIl:null,
   fatti:Object.freeze([

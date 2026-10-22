@@ -4,8 +4,9 @@ const R=require('./retribuzione-ccnl.js');
 /* RIC-143: chi genera può passare un altro catalogo (R.creaCatalogo),
    per esempio una tranche futura fittizia nei test. Le funzioni che
    leggono il dataset prendono un parametro `R` con default CATALOGO:
-   dentro, `R` è il catalogo ricevuto. Il template legge da R solo regole
-   che non dipendono dalle tabelle (testo degli scatti, RAL completa). */
+   dentro, `R` è il catalogo ricevuto. datiContratto lo passa al template
+   in `catalogo`, per le note che rileggono le tranche; il resto del
+   template legge da R regole che non dipendono dalle tabelle. */
 const CATALOGO=R;
 const {calcola,applicaMensilita}=require('./motore.js');
 const {renderHub,renderTabella,renderLivello}=require('./ccnl-page.template.js');
@@ -290,7 +291,7 @@ function datiContratto(c,alla,{catalogo:R=CATALOGO}={}){
   const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
   const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
     :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
-  return {seo:c,contratto,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla,R),esclusioni:R.ESCLUSIONI[c.id]||[],
+  return {seo:c,contratto,catalogo:R,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla,R),esclusioni:R.ESCLUSIONI[c.id]||[],
     aumentiDataset:c.aumentiDalDataset?trancheDalDataset(c,alla,rottaDi,R):[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
