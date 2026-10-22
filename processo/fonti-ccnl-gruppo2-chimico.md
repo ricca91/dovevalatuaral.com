@@ -306,3 +306,47 @@ fibre, abrasivi, lubrificanti e GPL «saranno diffuse non appena definiti» i pa
 - **EAR e superminimo.** L'EAR è assorbibile dal superminimo individuale; l'assorbimento non è simulato (esclusione), come per le indennità di funzione del gruppo 1.
 - **Esclusioni** nel dataset: altri settori dello stesso CNEL, scatti congelati, assorbimento dell'EAR, orario medio, IPT dei part-time, premio di partecipazione/variabile/perequativo, welfare e fondi, maggiorazioni e indennità di turno, apprendisti/operatori di vendita/discontinui.
 - **Estensioni del modello:** nessuna.
+
+## Declaratorie (RIC-146, 21 ottobre 2026)
+
+Dati in `prototipo/declaratorie-ccnl.js`, sezione «I livelli del CCNL Chimico farmaceutico» della
+tabella e blocco «Chi rientra nel …» delle pagine livello. Testo citato, accorciato solo con «[…]».
+
+- **Testo.** Art. 4 «Classificazione del personale» del CCNL 10 maggio 2006, testo definitivo
+  depositato al CNEL (`chimico-b011-ccnl-testo-definitivo-2006-05-10-cnel.doc`, stringhe cp1252
+  estratte dal .doc; il file non ha numeri di pagina). Sei categorie con posizioni organizzative
+  (A 1-2-3, B 1-2, C 1-2, D 1-2-3, E 1-2-3-4, F); una declaratoria per categoria; la categoria A è
+  dei quadri. Il testo **non definisce le posizioni** una per una: dice solo che le figure sono
+  «distribuite su diverse posizioni organizzative» e che i profili ne descrivono il contenuto. Per
+  ogni posizione si usano quindi come esempi i nomi dei profili che l'art. 4 vi elenca (quadri,
+  impiegati, qualifiche speciali e operai insieme). F non ha profili: gli esempi sono nella
+  declaratoria. Quattro refusi del .doc corretti nei nomi: «unite» (unità), «dr» e «d» (di),
+  «Conifezionatore»; nella declaratoria D «controlla» → «controllo». Ogni stringa citata è stata
+  confrontata per script con il testo estratto.
+- **Rinnovi controllati** (scansioni Filctem; pagine lette a immagine, estratti archiviati):
+  - 18.12.2009, p. 31 (`chimico-b011-rinnovo-2009-12-18-cap3-classificazione-filctem.pdf`):
+    capitolo III solo «impegni delle parti»; ricorda la revisione del sistema classificatorio
+    condivisa «nel 2007, nell'ambito dell'ultimo rinnovo» e due nuovi profili farmaceutici del 2008;
+  - 22.9.2012, p. 9 (`chimico-b011-rinnovo-2012-09-22-informatori-scientifici-filctem.pdf`):
+    cambia il profilo dell'informatore scientifico del farmaco (B1), non le declaratorie;
+  - 15.10.2015, p. 12 (già archiviata): «Art.4: superare Qualifica QS (solo 3 profili in CCNL) per
+    nuovi assunti; semplificare premessa art.4»;
+  - 19.7.2018, p. 15 (`chimico-b011-rinnovo-2018-07-19-articoli-modificati-filctem.pdf`): l'elenco
+    degli articoli modificati non comprende l'art. 4;
+  - 13.6.2022: miniature delle 38 pagine; parte I solo artt. 8, 9 e 31;
+  - ipotesi 15.4.2025: miniature delle 49 pagine, pp. 16–17 e 44–45 a 100 dpi; nessuna modifica
+    all'art. 4.
+- **Limiti.** Il .doc (creato a dicembre 2007, salvato a marzo 2008) è con ogni probabilità
+  successivo alla revisione del 2007, ma non lo dice. L'ipotesi 2025 (p. 17) parla di un sistema
+  «fondato sulle Declaratorie e sui Fattori di inquadramento definiti per categoria»: i «fattori di
+  inquadramento» nel testo del 2006 non ci sono. Le declaratorie citate potrebbero quindi avere
+  accanto, nel testo vigente, elementi che qui mancano. La stesura 2025–2028 è riservata e non è
+  stata letta; i profili per i soli settori fibre, abrasivi, lubrificanti e GPL non sono distinti.
+
+Hash sha256 degli estratti archiviati per RIC-146 (una pagina ciascuno, `pdfseparate` dalle copie Filctem):
+
+```
+0eb3179bbd9b9561aad44d28285c35f8fd43f0d65a64bcff3e65fdadabe0ee0f  chimico-b011-rinnovo-2009-12-18-cap3-classificazione-filctem.pdf
+e079d14310cefa099bcb0b6e96721ef6fab04a1647db543cd5f3b8befcc84668  chimico-b011-rinnovo-2012-09-22-informatori-scientifici-filctem.pdf
+6ef53c7d8a78c73d97fa89a4a3699448bf57462a83ebee6d521ac881b13668f8  chimico-b011-rinnovo-2018-07-19-articoli-modificati-filctem.pdf
+```
