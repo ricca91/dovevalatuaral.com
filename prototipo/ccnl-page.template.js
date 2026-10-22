@@ -13,6 +13,11 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
 const data=iso=>{const [a,m,g]=iso.split('-').map(Number);return `${g===1?'1°':g} ${MESI[m-1]} ${a}`;};
 const mensilitaTesto=m=>String(m).replace('.',',');
+/* Un nome che chiude già con una parentesi, messo fra parentesi: l'ultima
+   diventa un inciso con la virgola, come per le sezioni in renderLivello
+   (RIC-140). «Area unificata (ex 1ª e 2ª area professionale)» →
+   «Area unificata, ex 1ª e 2ª area professionale». */
+const fraParentesi=nome=>`(${String(nome).replace(/\s*\(([^()]*)\)$/,', $1')})`;
 const profondita=rotta=>rotta.split('/').filter(Boolean).length;
 const radice=rotta=>'../'.repeat(profondita(rotta));
 /* Da una pagina all'altra dentro /minimi-ccnl/: link relativi come
@@ -577,7 +582,7 @@ function renderTabella(d){
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
     <h1>${esc(seo.titoloTabella)} 2026: ${esc(seo.codaH1||'tabelle retributive')}</h1>
     ${(d.aumenti.length||seo.aumentiDalDataset||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
-    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
+    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} ${esc(fraParentesi(min.livello.nome))} a ${eur(max.composta.baseMensile)} ${esc(fraParentesi(max.livello.nome))}${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
   ${avvisoParziale(contratto)}${statoRinnovo(d)||avvisoFonte(contratto)}
   ${ponteMetalmeccanico(d)}

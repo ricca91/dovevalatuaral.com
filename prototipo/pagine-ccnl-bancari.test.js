@@ -3,7 +3,7 @@ const fs=require('node:fs');
 const os=require('node:os');
 const path=require('node:path');
 const {test,after}=require('node:test');
-const {CONTRATTI_SEO,generate,datiContratto}=require('./genera-pagine-ccnl.js');
+const {ROTTE,CONTRATTI_SEO,generate,datiContratto}=require('./genera-pagine-ccnl.js');
 const {STATO_RINNOVO_BANCARI:STATO,statoRinnovo,data}=require('./ccnl-page.template.js');
 const R=require('./retribuzione-ccnl.js');
 const {calcola,applicaMensilita,eur}=require('./motore.js');
@@ -154,6 +154,17 @@ test('scatti: i QD3–QD4 contano dall’assunzione o dalla nomina, le aree dall
   for(const rotta of PAGINE)assert.doesNotMatch(testo(leggi(rotta)),/stessa azienda/,rotta);
   /* Gli altri contratti tengono la frase di sempre. */
   assert.ok(testo(leggi('/minimi-ccnl/commercio/5-livello/')).includes('contando l’anzianità nella stessa azienda.'));
+});
+
+/* Un nome di livello che chiude con una parentesi, nel lead fra
+   parentesi, diventava «(Area unificata (ex 1ª e 2ª area professionale))». */
+test('nessuna doppia parentesi nel testo visibile di /minimi-ccnl/',()=>{
+  const visibile=html=>testo(html.replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/g,''));
+  for(const rotta of ROTTE)assert.doesNotMatch(visibile(leggi(rotta)),/\)\s*\)|\(\s*\(/,rotta);
+  assert.ok(testo(leggi(ROTTA)).includes('va da 2.479,45 € (Area unificata, ex 1ª e 2ª area professionale) a 5.160,06 € (Quadro direttivo di 4° livello), su 2 sezioni'));
+  assert.ok(testo(leggi('/minimi-ccnl/metalmeccanico-confapi/')).includes('(Quadro A, 9ª categoria).'));
+  /* Le tabelle e i nomi nel dataset restano come sono. */
+  assert.ok(leggi(ROTTA).includes('<th scope="row">Area unificata (ex 1ª e 2ª area professionale)</th>'));
 });
 
 /* --- IL GIORNO DELLA FIRMA, CON NUMERI FITTIZI ---------------
