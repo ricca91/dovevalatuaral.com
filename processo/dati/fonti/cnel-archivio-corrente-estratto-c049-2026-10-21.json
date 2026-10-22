@@ -1,0 +1,342 @@
+{
+ "fonte": "https://az-apim-cne-sa-0002-lgc-we.azure-api.net/ricerca-api/ricerca/pubblica/open-data?type=ARCHIVIO_CORRENTE",
+ "scaricatoIl": "2026-10-21",
+ "filtro": "codiceCcnl = C049",
+ "record": [
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C049",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-01-01",
+   "dataScadenzaContrattuale": "2026-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-01-10",
+   "dataInserimento": "2024-02-05",
+   "dataRicezione": "2024-02-05",
+   "dataPubblicazione": "2024-02-05",
+   "dipendenti": null,
+   "idAccordo": 179860,
+   "idAccordoString": "179860",
+   "idCcnl": 162,
+   "identificativoAccordo": "20219",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFLAVORO PMI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CONFSAL",
+    "FESICA CONFSAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "T",
+    "95",
+    "30",
+    "31",
+    "32"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "ALTRE ATTIVITÀ DI SERVIZI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature",
+    "Fabbricazione di mobili"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Testo definitivo",
+   "titolo": "CCNL Metalmeccanico Artigianato",
+   "titoloCcnl": "CCNL Metalmeccanico Artigianato",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C049",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2024-09-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-09-09",
+   "dataInserimento": "2024-10-21",
+   "dataRicezione": "2024-10-04",
+   "dataPubblicazione": "2024-10-21",
+   "dipendenti": null,
+   "idAccordo": 196180,
+   "idAccordoString": "196180",
+   "idCcnl": 162,
+   "identificativoAccordo": "20485",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFLAVORO PMI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CONFSAL",
+    "FESICA CONFSAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "T",
+    "95",
+    "30",
+    "31",
+    "32"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "ALTRE ATTIVITÀ DI SERVIZI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature",
+    "Fabbricazione di mobili"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo integrativo e modificativo del CCNL Metalmeccanico Artigianato del 10/01/2024",
+   "titoloCcnl": "CCNL Metalmeccanico Artigianato",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C049",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2025-01-01",
+   "dataScadenzaContrattuale": null,
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2024-12-20",
+   "dataInserimento": "2025-01-28",
+   "dataRicezione": "2025-01-09",
+   "dataPubblicazione": "2025-01-28",
+   "dipendenti": null,
+   "idAccordo": 208359,
+   "idAccordoString": "208359",
+   "idCcnl": 162,
+   "identificativoAccordo": "20578",
+   "identificativoRichiestaPud": null,
+   "partiDatorialiFirmatarie": [
+    "CONFLAVORO PMI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "CONFSAL",
+    "FESICA CONFSAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "T",
+    "95",
+    "30",
+    "31",
+    "32"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "ALTRE ATTIVITÀ DI SERVIZI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature",
+    "Fabbricazione di mobili"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "BACK_OFFICE",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo integrativo e modificativo del CCNL Metalmeccanico Artigianato del 10/01/2024",
+   "titoloCcnl": "CCNL Metalmeccanico Artigianato",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  },
+  {
+   "ambito": "Contratto collettivo nazionale",
+   "codiceAmbito": "4",
+   "codiceCcnl": "C049",
+   "comparto": null,
+   "comune": [],
+   "dataDecorrenza": "2026-10-01",
+   "dataScadenzaContrattuale": "2026-12-31",
+   "dataScadenzaEconomica": null,
+   "dataStipula": "2026-09-22",
+   "dataInserimento": "2026-09-25",
+   "dataRicezione": "2026-09-25",
+   "dataPubblicazione": "2026-10-20",
+   "dipendenti": null,
+   "idAccordo": 246413,
+   "idAccordoString": "246413",
+   "idCcnl": 162,
+   "identificativoAccordo": "2026-246413",
+   "identificativoRichiestaPud": "2026SmagF246413",
+   "partiDatorialiFirmatarie": [
+    "CONFLAVORO PMI"
+   ],
+   "partiSindacaliFirmatarie": [
+    "FESICA CONFSAL"
+   ],
+   "provincia": [],
+   "regione": [],
+   "settori": [
+    "C",
+    "C01"
+   ],
+   "settoriDescrizione": [
+    "MECCANICI"
+   ],
+   "sottosettoriDescrizione": [
+    "settore metalmeccanico e installazione di impianti"
+   ],
+   "settoriAteco": [
+    "33",
+    "24",
+    "C",
+    "25",
+    "26",
+    "27",
+    "28",
+    "29",
+    "T",
+    "95",
+    "30",
+    "31",
+    "32"
+   ],
+   "settoriAtecoDescrizione": [
+    "ATTIVITÀ MANIFATTURIERE",
+    "ALTRE ATTIVITÀ DI SERVIZI"
+   ],
+   "sottosettoriAtecoDescrizione": [
+    "Fabbricazione di altri mezzi di trasporto",
+    "Fabbricazione di autoveicoli, rimorchi e semirimorchi",
+    "Fabbricazione di metalli di base",
+    "Riparazione, manutenzione e installazione di macchine e apparecchiature",
+    "Fabbricazione di apparecchiature elettriche",
+    "Fabbricazione di macchinari e apparecchiature n.c.a.",
+    "Fabbricazione di computer e prodotti di elettronica e ottica",
+    "Altre attività manifatturiere",
+    "Riparazione e manutenzione di computer, beni per uso personale e per la casa, autoveicoli e motocicli",
+    "Fabbricazione di prodotti in metallo, esclusi macchinari e attrezzature",
+    "Fabbricazione di mobili"
+   ],
+   "sezione": null,
+   "stato": "Acquisito",
+   "statoAA": "Non Classificato",
+   "tipoRicezione": "PUD",
+   "tipologiaAccordo": "Verbale Integrativo",
+   "titolo": "Accordo integrativo e modificativo CCNL Metalmeccanico Artigianato - CNEL C049",
+   "titoloCcnl": "CCNL Metalmeccanico Artigianato",
+   "ultimoAccordoVigente": true,
+   "visibileOnline": true,
+   "utenteAssegnatario": null,
+   "note": null,
+   "settoriAtecoAccordo": [],
+   "settoriAtecoAccordoDescrizione": []
+  }
+ ]
+}

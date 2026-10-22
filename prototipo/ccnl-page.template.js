@@ -13,6 +13,11 @@ const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'
 const MESI=['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre'];
 const data=iso=>{const [a,m,g]=iso.split('-').map(Number);return `${g===1?'1°':g} ${MESI[m-1]} ${a}`;};
 const mensilitaTesto=m=>String(m).replace('.',',');
+/* Un nome che chiude già con una parentesi, messo fra parentesi: l'ultima
+   diventa un inciso con la virgola, come per le sezioni in renderLivello
+   (RIC-140). «Area unificata (ex 1ª e 2ª area professionale)» →
+   «Area unificata, ex 1ª e 2ª area professionale». */
+const fraParentesi=nome=>`(${String(nome).replace(/\s*\(([^()]*)\)$/,', $1')})`;
 const profondita=rotta=>rotta.split('/').filter(Boolean).length;
 const radice=rotta=>'../'.repeat(profondita(rotta));
 /* Da una pagina all'altra dentro /minimi-ccnl/: link relativi come
@@ -127,6 +132,9 @@ function renderHub({contratti,alla}){
     return `<a class="hub-card" href="${verso(rotta,d.rotta)}"><span class="micro">${esc(d.contratto.codiceCnel)} · ${esc(d.contratto.parti)}</span><b>${esc(d.seo.titoloTabella)}</b><small>${esc(d.contratto.nome)} · da ${eur(min)} a ${eur(max)} lordi al mese${livelli?` · ${livelli} pagine per livello`:''}</small>${parziale}<span aria-hidden="true">→</span></a>`;
   };
   const parziali=contratti.filter(d=>d.contratto.quoteAnnueMancanti.length);
+  /* RIC-144: sigle e codici CNEL dei contratti omonimi si leggono dal dataset. */
+  const cnel=id=>esc(R.trovaContratto(id).codiceCnel);
+  const lnk=(slug,testo)=>`<a href="${verso(rotta,`/minimi-ccnl/${slug}/`)}">${testo}</a>`;
   const body=`<header class="ral-intro"><div class="eyebrow">Minimi CCNL 2026</div>
     <h1>Minimi CCNL: tabelle retributive, lordo e netto</h1>
     <p class="lead">${contratti.length} contratti collettivi, livello per livello: il minimo lordo mensile che il CCNL fissa, la RAL che ne risulta e il netto che ne resta. Tutti ricalcolati con le tabelle in vigore e le regole fiscali 2026.</p>
@@ -134,10 +142,12 @@ function renderHub({contratti,alla}){
     ${parziali.map(d=>`<p class="small">Per il ${esc(d.seo.titoloTabella)} la cifra annua è una base tabellare parziale e non va confrontata con la RAL degli altri contratti: manca il ${esc(d.contratto.quoteAnnueMancanti.map(q=>`${q.nome} (${q.fonte})`).join(' e il '))}.</p>`).join('')}
   </header>
   <section class="ccnl-omonimi" aria-labelledby="omonimi-titolo">
-    <h2 id="omonimi-titolo">Due nomi che si confondono</h2>
+    <h2 id="omonimi-titolo">Nomi che si confondono</h2>
     <div class="ccnl-omonimi__grid">
       <article><h3>«Commercio» sono due contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/commercio/')}">CCNL Terziario Confcommercio</a> (H011) e il <a href="${verso(rotta,'/minimi-ccnl/dmo/')}">CCNL Distribuzione moderna organizzata</a> (H008), applicato da molte catene della grande distribuzione. Hanno gli stessi livelli, importi vicini ma non identici: controlla quale è scritto nella tua lettera di assunzione.</p></article>
       <article><h3>«Turismo» sono tre contratti</h3><p>Il <a href="${verso(rotta,'/minimi-ccnl/turismo/')}">CCNL Turismo Federalberghi</a> (H052) vale per alberghi e campeggi; bar, ristoranti e mense applicano il <a href="${verso(rotta,'/minimi-ccnl/pubblici-esercizi/')}">CCNL Pubblici esercizi FIPE</a> (H05Y), che nel nome dice anche «turismo»; agenzie di viaggi e tour operator hanno il <a href="${verso(rotta,'/minimi-ccnl/agenzie-di-viaggio/')}">CCNL Imprese di viaggi e turismo FIAVET</a> (H04Z), con importi e decorrenze diversi da quelli degli alberghi.</p></article>
+      <article><h3>«Metalmeccanico» sono tre contratti</h3><p>Il ${lnk('metalmeccanico','CCNL Metalmeccanico industria')} Federmeccanica-Assistal (${cnel('metalmeccanica-industria-c011')}) vale per l’industria; il ${lnk('metalmeccanico-confapi','CCNL Metalmeccanico PMI')} Unionmeccanica-Confapi (${cnel('metalmeccanica-pmi-confapi-c018')}) per le piccole e medie imprese associate; il ${lnk('metalmeccanico-artigiano','CCNL Area meccanica dell’artigianato')} di Confartigianato, CNA, Casartigiani e CLAAI (${cnel('area-meccanica-artigianato-c030')}) per le aziende artigiane. Ognuno ha livelli e importi propri. C’è anche un contratto «metalmeccanico artigiano» firmato da Conflavoro, con importi suoi, che queste tabelle non coprono: il codice CNEL è in busta paga.</p></article>
+      <article><h3>«Bancari»: l’ABI non è il credito cooperativo</h3><p>Il ${lnk('bancari','CCNL Credito ABI')} (${cnel('credito-abi-j241')}) vale per le banche associate all’ABI, per le aree professionali e i quadri direttivi. Le banche di credito cooperativo applicano un contratto proprio, che queste tabelle non coprono.</p></article>
     </div>
   </section>
   <section class="hub-grid" aria-label="Elenco dei contratti">${contratti.map(card).join('\n      ')}</section>
@@ -163,11 +173,216 @@ function tabellaSezione(rotta,d,s){
     <tbody>${righe}</tbody></table></div>`;
 }
 
+/* La tabella prima/dopo di una tranche: la usano commercio e
+   metalmeccanico (date scritte nel generatore) e il blocco letto dal
+   dataset (RIC-141). */
+function tabellaAumento(rotta,righe,caption){
+  return `<div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>${caption}</caption>
+      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
+      <tbody>${righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div>`;
+}
+
 function tabelleAumenti(d){
   return d.aumenti.map(a=>`<section class="ccnl-aumento" data-decorrenza="${a.decorrenza}"><h3>Dal ${data(a.decorrenza)}</h3>
-      <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><caption>Aumento del ${data(a.decorrenza)} — importi mensili in euro</caption>
-      <thead><tr>${['Livello','Lordo prima','Aumento lordo','Lordo dopo','Netto medio prima','Netto medio dopo'].map(t=>`<th scope="col">${t}</th>`).join('')}</tr></thead>
-      <tbody>${a.righe.map(r=>`<tr data-livello="${r.livello.codice}"><th scope="row">${r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${esc(r.livello.nome)}</a>`:esc(r.livello.nome)}</th><td>${eur(r.prima.composta.baseMensile)}</td><td>+${eur(r.dopo.composta.baseMensile-r.prima.composta.baseMensile)}</td><td>${eur(r.dopo.composta.baseMensile)}</td><td>${eur(r.prima.nettoMensile)}</td><td>${eur(r.dopo.nettoMensile)}</td></tr>`).join('')}</tbody></table></div></section>`).join('');
+      ${tabellaAumento(d.rotta,a.righe,`Aumento del ${data(a.decorrenza)} — importi mensili in euro`)}</section>`).join('');
+}
+
+/* --- AUMENTI LETTI DAL DATASET (RIC-141) ---------------------
+
+   Acceso da `aumentiDalDataset` in CONTRATTI_SEO; tranche e righe le
+   prepara il generatore in d.aumentiDataset. Qui nessuna data e nessun
+   importo scritti a mano: titolo, intestazioni e limiti si leggono dalle
+   tranche. Le sezioni diverse da `sezioneLivelli` stanno in un
+   <details> chiuso. */
+const ANNO_REGOLE='2026'; // le regole fiscali del motore, come in PROFILO
+const elenco=v=>v.length>1?`${v.slice(0,-1).join(', ')} e ${v.at(-1)}`:v.join('');
+
+function aumentiDalDataset(d){
+  const tranche=d.aumentiDataset||[];
+  if(!d.seo.aumentiDalDataset||!tranche.length)return '';
+  const date=[...new Set(tranche.map(t=>t.decorrenza))].sort();
+  const anni=[...new Set(date.map(x=>x.slice(0,4)))];
+  const titolo=date.length===1?`Aumento del ${data(date[0])}`
+    :`Aumenti ${anni.length===1?anni[0]:`${anni[0]}–${anni.at(-1)}`}`;
+  const oltre=anni.filter(a=>a>ANNO_REGOLE).map(a=>`il ${a}`);
+  const mensilita=[...new Set(tranche.flatMap(t=>t.righe.flatMap(r=>[r.prima.composta.mensilita,r.dopo.composta.mensilita])))];
+  const conSezioni=tranche[0].sezione!==null;
+  /* Netto dopo sotto il prima: una riga di spiegazione, con soglia ed
+     ente presi dal motore (caloNetto nel generatore). */
+  const etichetta=l=>d.seo.etichetta?d.seo.etichetta(l):`Livello ${l.nome}`;
+  const nota=r=>{
+    const c=r.calo,x=c.causa;
+    const perche=x?`L’imponibile IRPEF annuo passa da ${eur(x.imponibilePrima)} a ${eur(x.imponibileDopo)} e supera i ${eur(x.soglia)} fino a cui ${x.addizionale==='comunale'?'il Comune di':'la Regione'} ${esc(x.ente)} esenta dall’addizionale ${x.addizionale}: l’addizionale diventa dovuta, ${eur(x.importo)} l’anno.`
+      :`Con il nuovo lordo imposte e detrazioni del calcolo ${ANNO_REGOLE} cambiano più dell’aumento.`;
+    return `<p class="small ccnl-aumento__nota" data-livello="${esc(r.livello.codice)}">${esc(etichetta(r.livello))}: il netto medio scende di ${eur(c.netto)} al mese nonostante l’aumento lordo. ${perche}</p>`;
+  };
+  const blocco=t=>`<section class="ccnl-aumento" data-decorrenza="${t.decorrenza}"${t.sezione?` data-sezione="${esc(t.sezione)}"`:''}>
+      <${conSezioni?'h4':'h3'}>${t.decorrenza>d.alla?'Dal':'In vigore dal'} ${data(t.decorrenza)}</${conSezioni?'h4':'h3'}>
+      ${tabellaAumento(d.rotta,t.righe,`${t.nome?`${esc(t.nome)} — `:''}${esc(t.titolo)} — importi mensili in euro`)}${t.righe.filter(r=>r.calo).map(nota).join('')}</section>`;
+  const perSezione=[...new Set(tranche.map(t=>t.sezione))].map(s=>tranche.filter(t=>t.sezione===s));
+  const sezioni=perSezione.map(ts=>!conSezioni?ts.map(blocco).join('')
+    :ts[0].aperta?`<div class="ccnl-aumenti__sezione"><h3>${esc(ts[0].nome)}</h3>${ts.map(blocco).join('')}</div>`
+    :`<details class="ccnl-aumenti__sezione"><summary>${esc(ts[0].nome)}</summary>${ts.map(blocco).join('')}</details>`).join('\n    ');
+  return `<section class="ccnl-aumenti" id="aumenti"><h2>${titolo}: lordo e netto prima e dopo</h2>
+    <p>Confronto a parità di condizioni: regole fiscali ${ANNO_REGOLE}${oltre.length?` anche per ${elenco(oltre)}`:''}, RAL annualizzata su ${mensilita.length===1?`${mensilitaTesto(mensilita[0])} mensilità`:'le mensilità di ciascuna sezione'}. Il netto è una media annua, non il cedolino del mese dell’aumento${oltre.length?', e non è una previsione delle imposte future':''}. Un superminimo assorbibile può ridurre l’aumento effettivo in busta paga.</p>
+    ${sezioni}
+    ${notaAumenti(d)}
+    <p class="small">Fonte degli aumenti: ${fonte(d.contratto)}</p>
+  </section>`;
+}
+
+/* Domande frequenti con schema FAQPage: il testo della risposta è lo
+   stesso nella pagina e nello schema; i link stanno solo nella pagina. */
+function faqConSchema(rotta,{id,titolo,voci}){
+  const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:voci.map(v=>({'@type':'Question',name:v.domanda,acceptedAnswer:{'@type':'Answer',text:v.risposta}}))};
+  const link=l=>`<a href="${l.href.startsWith('#')?l.href:verso(rotta,l.href)}">${esc(l.testo)}</a>`;
+  return `<section class="ccnl-faq"><h2>${esc(titolo)}</h2>${voci.map(v=>`<h3>${esc(v.domanda)}</h3><p>${esc(v.risposta)} ${v.link.map(link).join(' · ')}.</p>`).join('')}</section>
+    <script id="${esc(id)}" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
+}
+
+/* --- GOMMA PLASTICA, CHIMICO, ALIMENTARE (RIC-142) -----------
+
+   Nota sotto il blocco aumenti e FAQ. Le date dei fatti normativi (il
+   livello I che sparisce, l'IAR di settembre 2027) sono quelle delle
+   fonti in processo/fonti-ccnl-gruppo2-*: la nota esce solo se la
+   tranche corrispondente è nel blocco. Importi e mensilità vengono dal
+   dataset. */
+const unaNota=t=>`<p class="small ccnl-aumenti__nota">${t}</p>`;
+/* Il catalogo da cui il generatore ha letto le tranche (RIC-143): di norma R. */
+const catalogoDi=d=>d.catalogo||R;
+const importoVoce=(l,id)=>(l.voci.find(v=>v.id===id)||{importo:0}).importo;
+/* Tranche in cui compare un EDR che la tabella precedente non aveva. */
+function trancheNuovoEdr(d){
+  const K=catalogoDi(d);
+  return (d.aumentiDataset||[]).find(t=>K.livelli(d.contratto.id,t.decorrenza,t.sezione).some(l=>importoVoce(l,'edr')>0)
+    &&!K.livelli(d.contratto.id,t.prima,t.sezione).some(l=>importoVoce(l,'edr')>0));
+}
+/* Tranche in cui cambia solo l'IAR: ogni altra voce resta com'era. */
+function trancheSoloIar(d,t){
+  const K=catalogoDi(d),id=d.contratto.id,prima=K.livelli(id,t.prima,t.sezione);
+  const dopo=K.livelli(id,t.decorrenza,t.sezione).filter(l=>prima.some(p=>p.codice===l.codice));
+  const cambia=(l,voce)=>{const p=prima.find(x=>x.codice===l.codice);return importoVoce(l,voce)!==importoVoce(p,voce);};
+  const voci=[...new Set(dopo.flatMap(l=>l.voci.map(v=>v.id)))];
+  return dopo.some(l=>cambia(l,'iar'))&&!dopo.some(l=>voci.some(v=>v!=='iar'&&cambia(l,v)));
+}
+const sezioneTranche=(d,t)=>t.sezione===(sezionePrincipale(d).sezione);
+function notaAumenti(d){
+  const K=catalogoDi(d),tranche=d.aumentiDataset||[],fatti=(R.FATTI_AUMENTI||{})[d.contratto.id]||{};
+  const gomma=fatti.livelloEliminato;
+  if(gomma&&tranche.some(t=>t.decorrenza===gomma.dal))
+    return unaNota(`Dal ${data(gomma.dal)} il livello ${esc(gomma.livello)} è eliminato nelle aree ${esc(gomma.aree)}, con le posizioni riclassificate nel livello ${esc(gomma.riclassificatoIn)}. La tabella lo riporta ancora e il calcolo lo mantiene.`);
+  const chimico=fatti.trattamentoComplessivo,t=chimico&&trancheNuovoEdr(d);
+  if(t){
+    const edr=K.livelli(d.contratto.id,t.decorrenza,t.sezione).map(l=>({codice:l.codice,importo:importoVoce(l,'edr')}))
+      .filter(x=>x.importo>0).sort((a,b)=>a.importo-b.importo);
+    return unaNota(`Dal ${data(t.decorrenza)} l’aumento comprende il nuovo EDR, da ${eur(edr[0].importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(t.righe[0].dopo.composta.mensilita)} mensilità. Il «trattamento economico complessivo» di ${eur(chimico.importo).replace(',00','')} annunciato per la ${esc(chimico.livello)} comprende ${esc(chimico.comprende)}: non è un aumento della RAL.`);
+  }
+  const iar=tranche.find(t=>sezioneTranche(d,t)&&trancheSoloIar(d,t));
+  if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(K.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
+  return '';
+}
+
+const BREVI={minimo:'minimo',ipo:'IPO',edr:'EDR',iar:'IAR',contingenza:'contingenza'};
+const sezionePrincipale=d=>d.sezioni.find(s=>s.sezione===d.seo.sezioneLivelli)||d.sezioni[0];
+const rigaDi=(d,codice)=>sezionePrincipale(d).righe.find(r=>r.livello.codice===codice);
+const vaiAlLivello=(r,nome)=>r&&r.rotta?{href:r.rotta,testo:`Vedi ${nome}`}:{href:'#aumenti',testo:'Aumenti in tabella'};
+
+/* «Quanto prende netto…»: minimo (o minimo composto con le sue voci), netto medio e profilo. */
+function vociNetto(d,codice,di){
+  const s=sezionePrincipale(d),r=rigaDi(d,codice);
+  const voci=r.livello.voci.filter(v=>v.importo>0);
+  const composto=voci.length>1
+    ?`Il minimo composto ${di} è ${eur(r.composta.baseMensile)} lordi al mese (${voci.map(v=>`${BREVI[v.id]||v.nome.toLowerCase()} ${eur(v.importo)}`).join(', ')})`
+    :`Il minimo vigente ${di} è ${eur(r.composta.baseMensile)} lordi al mese`;
+  return {risposta:`${composto}: il netto medio stimato è ${eur(r.nettoMensile)} su ${mensilitaTesto(s.mensilita)} mensilità, per un tempo pieno a Milano senza scatti né superminimo.`};
+}
+
+function faqGruppo2(d){
+  const slug=d.seo.slug;
+  if(!['gomma-plastica','chimico-farmaceutico','industria-alimentare'].includes(slug))return '';
+  const s=sezionePrincipale(d);
+  const tranche=(d.aumentiDataset||[]).filter(t=>t.sezione===s.sezione);
+  const future=tranche.filter(t=>t.decorrenza>d.alla);
+  const netto=(codice,nome,di,domanda)=>{const v=vociNetto(d,codice,di);return {domanda,risposta:v.risposta,link:[vaiAlLivello(rigaDi(d,codice),nome)]};};
+  let voci=[];
+  if(slug==='gomma-plastica'){
+    const h=rigaDi(d,'H'),ultima=future.at(-1),h2=ultima&&ultima.righe.find(r=>r.livello.codice==='H');
+    const anni=[...new Set(tranche.map(t=>t.decorrenza.slice(0,4)))];
+    voci=[
+      netto('H','il livello H','del livello H','Quanto prende netto il livello H del CCNL gomma plastica?'),
+      netto('F','il livello F','del livello F','Quanto prende netto il livello F?'),
+      ...(h2?[{domanda:`Quali sono gli aumenti del rinnovo ${anni[0]}–${anni.at(-1)}?`,
+        risposta:`L’ipotesi del 10 dicembre 2025 (art. 17) fissa le tranche del ${elenco(tranche.map(t=>data(t.decorrenza)))}. Al livello H il minimo vigente di ${eur(h.composta.baseMensile)} arriva a ${eur(h2.dopo.composta.baseMensile)} lordi al mese dal ${data(ultima.decorrenza)}.`,
+        link:[vaiAlLivello(h,'il livello H')]}]:[]),
+      {domanda:'Quante mensilità ha il CCNL gomma plastica?',
+        risposta:`${mensilitaTesto(s.mensilita)} (art. 25): tredicesima compresa. Il netto in tabella è una media annua su ${mensilitaTesto(s.mensilita)} mensilità, non il valore del singolo cedolino.`,
+        link:[vaiAlLivello(h,'il livello H')]},
+    ];
+  }
+  if(slug==='chimico-farmaceutico'){
+    const e3=rigaDi(d,'E3');
+    voci=[
+      netto('E3','l’E3','dell’E3','Quanto prende netto un E3 nel CCNL chimico farmaceutico?'),
+      netto('D1','il D1','del D1','Quanto prende netto un D1?'),
+      ...(s.scatti.tipo==='assenti'?[{domanda:'Nel chimico ci sono gli scatti di anzianità?',
+        risposta:'No: sono aboliti dal 1° gennaio 2010 (art. 17). Gli importi maturati fino al 31 dicembre 2009 restano come superminimo individuale non assorbibile, da sommare al tuo superminimo.',
+        link:[vaiAlLivello(e3,'l’E3')]}]:[]),
+      {domanda:'Il CCNL chimico ha 13 o 14 mensilità?',
+        risposta:`${mensilitaTesto(s.mensilita)} nel settore chimico e chimico-farmaceutico (art. 21), non 14. La 14ª mensilità è dei soli lubrificanti e GPL, che queste tabelle non coprono. Il netto in tabella è una media su ${mensilitaTesto(s.mensilita)} mensilità.`,
+        link:[vaiAlLivello(e3,'l’E3')]},
+    ];
+  }
+  if(slug==='industria-alimentare'){
+    const c5=rigaDi(d,'5'),edr=c5.livello.voci.find(v=>v.id==='edr'&&v.mensilita);
+    const anno=tranche.at(-1)&&tranche.at(-1).decorrenza.slice(0,4);
+    const ts=tranche.filter(t=>t.decorrenza.startsWith(anno));
+    const riga5=t=>t.righe.find(r=>r.livello.codice==='5');
+    /* Ultima tranche dei minimi seguita da una di solo IAR: lo dicono le voci del dataset. «Seconda» tranche dell'IAR è dalla fonte (IAR dal 1/12/2023 e dal 1/9/2027). */
+    const proprio=ts.length===2&&!trancheSoloIar(d,ts[0])&&trancheSoloIar(d,ts[1])&&riga5(ts[0])&&riga5(ts[1]);
+    voci=[
+      ...(edr?[{domanda:'Quante mensilità ha il CCNL industria alimentare?',
+        risposta:`${mensilitaTesto(s.mensilita)}: tredicesima e quattordicesima (art. 54). L’EDR di ${eur(edr.importo)} vale ${mensilitaTesto(edr.mensilita)} mensilità (art. 52). Il netto in tabella è una media annua su ${mensilitaTesto(s.mensilita)} mensilità.`,
+        link:[vaiAlLivello(c5,'il 5° livello')]}]:[]),
+      ...(proprio?[{domanda:`Quali aumenti ci sono nel ${anno}?`,
+        risposta:`Il ${data(ts[0].decorrenza)} scatta l’ultima tranche dei minimi, il ${data(ts[1].decorrenza)} la seconda tranche dell’IAR. Al 5° livello il lordo mensile passa da ${eur(riga5(ts[0]).prima.composta.baseMensile)} a ${eur(riga5(ts[0]).dopo.composta.baseMensile)} a gennaio e a ${eur(riga5(ts[1]).dopo.composta.baseMensile)} a ${MESI[Number(ts[1].decorrenza.slice(5,7))-1]}.`,
+        link:[vaiAlLivello(c5,'il 5° livello')]}]:[]),
+      netto('5','il 5° livello','del 5° livello','Quanto prende netto il 5° livello?'),
+    ];
+  }
+  return faqConSchema(d.rotta,{id:`faq-${slug}`,titolo:`Domande frequenti sul ${d.seo.titoloTabella}`,voci});
+}
+
+/* RIC-141: le risposte leggono la tabella principale e il blocco
+   aumenti. Il 5° livello è il più cercato (RIC-137). Il codice C049 del
+   contratto Conflavoro è verificato sull'archivio CNEL: vedi
+   processo/fonti-ccnl-gruppo2-area-meccanica.md. */
+function faqMetalmeccanicoArtigiano(d){
+  if(d.seo.slug!=='metalmeccanico-artigiano')return '';
+  const sezione=d.sezioni.find(s=>s.sezione==='metalmeccanica-impianti');
+  const r5=sezione.righe.find(r=>r.livello.codice==='5');
+  const vai=r=>r&&r.rotta?{href:r.rotta,testo:`Vedi il ${r.livello.codice}° livello`}
+    :{href:`#${sezione.sezione}`,testo:`Tabella ${sezione.nome.toLowerCase()}`};
+  const ultima=d.aumentiDataset.filter(t=>t.sezione===sezione.sezione).at(-1);
+  const a5=ultima&&ultima.righe.find(r=>r.livello.codice==='5');
+  const [,mese]=ultima?ultima.decorrenza.split('-').map(Number):[];
+  const industria=R.trovaContratto('metalmeccanica-industria-c011');
+  const livelliIndustria=R.livelli(industria.id,d.alla);
+  const voci=[
+    {domanda:'Quanto prende netto il 5° livello metalmeccanico artigiano?',
+      risposta:`Nella sezione ${sezione.nome.toLowerCase()} il minimo vigente del 5° livello è ${eur(r5.composta.baseMensile)} lordi al mese: il netto medio stimato è ${eur(r5.nettoMensile)} su ${mensilitaTesto(sezione.mensilita)} mensilità, per un tempo pieno a Milano senza scatti né superminimo.`,
+      link:[vai(r5)]},
+    /* Senza una tranche negli ultimi 12 mesi o futura la domanda non ha risposta dal blocco: si toglie. */
+    ...(a5?[{domanda:`Di quanto aumenta lo stipendio a ${MESI[mese-1]} ${ultima.decorrenza.slice(0,4)}?`,
+      risposta:`Dal ${data(ultima.decorrenza)} decorre la ${ultima.titolo.replace(/, dal .*?(?= \(|$)/,'')}. Al 5° livello il minimo passa da ${eur(a5.prima.composta.baseMensile)} a ${eur(a5.dopo.composta.baseMensile)} lordi al mese e il netto medio da ${eur(a5.prima.nettoMensile)} a ${eur(a5.dopo.nettoMensile)}.`,
+      link:[vai(r5)]}]:[]),
+    {domanda:'Che differenza c’è con il metalmeccanico industria?',
+      risposta:`Sono due contratti diversi. Il ${industria.codiceCnel} (Federmeccanica-Assistal, livelli ${livelliIndustria[0].codice}–${livelliIndustria.at(-1).codice}) vale per l’industria; il ${d.contratto.codiceCnel} (Confartigianato, CNA, Casartigiani, CLAAI, livelli ${sezione.righe[0].livello.codice}–${sezione.righe.at(-1).livello.codice}) per le imprese artigiane. Il codice va controllato in busta paga o nella lettera di assunzione.`,
+      link:[{href:'/minimi-ccnl/metalmeccanico/',testo:'Tabella del metalmeccanico industria'},vai(r5)]},
+    {domanda:'Il contratto metalmeccanico artigiano Conflavoro è lo stesso?',
+      risposta:`No. Il CCNL Metalmeccanico Artigianato di Conflavoro PMI e Fesica Confsal (codice CNEL C049) ha lo stesso nome, ma parti e importi propri. Queste tabelle sono del ${d.contratto.codiceCnel} e non lo coprono: controlla il codice in busta paga.`,
+      link:[vai(null)]},
+  ];
+  return faqConSchema(d.rotta,{id:'faq-metalmeccanico-artigiano',titolo:'Domande frequenti sul CCNL Metalmeccanico artigiano',voci});
 }
 
 function aumentiCommercio(d){
@@ -257,6 +472,99 @@ function faqSettore(d){
     <script id="faq-settore" type="application/ld+json">${JSON.stringify(schema).replace(/</g,'\\u003c')}</script>`;
 }
 
+/* --- BANCARI: STATO DEL RINNOVO (RIC-143) --------------------
+
+   L'unico punto da cambiare il giorno della firma: lo leggono il
+   riquadro in testa alla tabella e l'ultima FAQ. La procedura è in
+   processo/fonti-ccnl-gruppo2-credito-abi.md, «Procedura alla firma del
+   rinnovo». Solo fatti con una fonte linkata, alla data della verifica
+   sui siti dei firmatari (non della build), e nessun importo della
+   piattaforma sindacale: è una richiesta, non un accordo. Le fonti con
+   `dataset` si leggono dal contratto (`fonte`, `fonteSospensione`); le
+   altre hanno l'indirizzo qui, con la copia in processo/dati/fonti/. */
+const STATO_RINNOVO_BANCARI=Object.freeze({
+  verificatoIl:'2026-10-22',
+  /* Alla firma: la data del testo firmato. Il titolo diventa «Rinnovo firmato il …». */
+  firmatoIl:null,
+  fatti:Object.freeze([
+    {testo:'Il CCNL 23 novembre 2023 è scaduto il 31 marzo 2026. Si applica per intero la tabella del 1° marzo 2026, ultima tranche del rinnovo del 2023.',
+      fonti:[{dataset:'fonte',testo:'testo coordinato, art. 6 c. 3 e Allegato 2'}]},
+    {testo:'I verbali del 31 marzo e del 16 luglio 2026, firmati da ABI e dai cinque sindacati, sospendono i termini fino al 31 dicembre 2026: gli effetti del rinnovo decorreranno dal 1° aprile 2026.',
+      fonti:[{url:'https://www.falcri-is.com/wp-content/uploads/2026/03/2026_3_31-Verbale-di-accordo-31-marzo-2026-congelamento-CCNL.pdf',testo:'verbale del 31 marzo 2026'},
+        {dataset:'fonteSospensione',testo:'verbale del 16 luglio 2026'}]},
+    {testo:'La trattativa è aperta e non c’è intesa: il 13 ottobre 2026, dopo l’incontro con l’ABI, la FABI ha dato un giudizio «totalmente negativo».',
+      fonti:[{url:'https://www.fabi.it/2026/10/13/ccnl-bancari-sileoni-dallabi-nessuna-visione-sul-futuro-del-settore/',testo:'comunicato FABI del 13 ottobre 2026'}]},
+    {testo:'Nessun aumento è stato concordato. Le cifre che circolano vengono dalla piattaforma dei sindacati, trasmessa all’ABI il 15 luglio 2026: sono una richiesta, non un accordo, e queste tabelle non le usano.',
+      fonti:[{dataset:'fonteSospensione',testo:'verbale del 16 luglio 2026'}]},
+    {testo:'Quando l’accordo sarà firmato, questa tabella mostrerà gli aumenti per livello con il netto prima e dopo.',fonti:[]},
+  ].map(Object.freeze)),
+  /* La risposta della FAQ, sotto i 350 caratteri: `quando` è la data della verifica. */
+  faq:quando=>`Al ${quando} non c’è un accordo. Il CCNL 23 novembre 2023 è scaduto il 31 marzo 2026 e si applica la tabella del 1° marzo 2026. I termini sono sospesi fino al 31 dicembre 2026 e il rinnovo decorrerà dal 1° aprile 2026. Nessun aumento è stato ancora concordato.`,
+});
+
+/* Il riquadro sta sotto l'header della tabella Bancari e lì sostituisce
+   il callout notaFonte, che direbbe la stessa cosa; le pagine livello
+   tengono notaFonte. */
+function statoRinnovo(d,S=STATO_RINNOVO_BANCARI){
+  if(d.seo.slug!=='bancari')return '';
+  const fonte=f=>{const x=f.dataset?d.contratto[f.dataset]:f;
+    return `<a href="${esc(x.url)}" rel="nofollow">${esc(f.testo)}</a>`;};
+  const quando=S.firmatoIl?['Rinnovo firmato il',S.firmatoIl]:['Stato del rinnovo al',S.verificatoIl];
+  return `<section class="ccnl-blocco ccnl-affiancato ccnl-rinnovo" id="rinnovo" aria-labelledby="rinnovo-titolo">
+    <h2 id="rinnovo-titolo">${quando[0]} <time datetime="${quando[1]}">${data(quando[1])}</time></h2>
+    <ul>${S.fatti.map(f=>`<li>${esc(f.testo)}${f.fonti.length?` <small>Fonte: ${f.fonti.map(fonte).join(', ')}.</small>`:''}</li>`).join('')}</ul>
+  </section>`;
+}
+
+/* RIC-143: le risposte leggono la tabella; la quarta è quella della
+   costante qui sopra. Livelli scelti sulla domanda misurata (RIC-137). */
+function faqBancari(d,S=STATO_RINNOVO_BANCARI){
+  if(d.seo.slug!=='bancari')return '';
+  const riga=codice=>d.sezioni.flatMap(s=>s.righe).find(r=>r.livello.codice===codice);
+  const sezioneDi=codice=>d.sezioni.find(s=>s.righe.some(r=>r.livello.codice===codice));
+  const vai=codice=>{const r=riga(codice),s=sezioneDi(codice);
+    return r.rotta?{href:r.rotta,testo:d.seo.etichetta(r.livello)}:{href:`#${s.sezione}`,testo:`Tabella ${s.nome.toLowerCase()}`};};
+  const qd1=riga('QD1'),qd4=riga('QD4'),a34=riga('3A4');
+  const mensilita=mensilitaTesto(sezioneDi('QD1').mensilita);
+  const voci=[
+    {domanda:'Quanto guadagna netto un quadro direttivo bancario?',
+      risposta:`Il quadro direttivo di 1° livello ha un minimo di ${eur(qd1.composta.baseMensile)} lordi al mese, circa ${eur(qd1.nettoMensile)} netti; quello di 4° livello ${eur(qd4.composta.baseMensile)}, circa ${eur(qd4.nettoMensile)} netti. Netto medio su ${mensilita} mensilità, tempo pieno a Milano, senza scatti né superminimo.`,
+      link:[vai('QD1'),vai('QD4')]},
+    {domanda:'Quanto prende netto la 3ª area 4° livello?',
+      risposta:`Il minimo della 3ª area professionale, 4° livello, è ${eur(a34.composta.baseMensile)} lordi al mese: il netto medio stimato è ${eur(a34.nettoMensile)} su ${mensilita} mensilità, per un tempo pieno a Milano senza scatti né superminimo.`,
+      link:[vai('3A4')]},
+    {domanda:'Quale contratto applicano le banche?',
+      risposta:`Le banche associate all’ABI applicano il CCNL Credito ABI (codice CNEL ${d.contratto.codiceCnel}), per le aree professionali e i quadri direttivi. Le banche di credito cooperativo hanno un contratto proprio, che queste tabelle non coprono.`,
+      link:d.sezioni.map(s=>({href:`#${s.sezione}`,testo:`Tabella ${s.nome.toLowerCase()}`}))},
+    {domanda:'A che punto è il rinnovo del contratto dei bancari?',
+      risposta:S.faq(data(S.verificatoIl)),
+      link:[{href:'#rinnovo',testo:'Stato del rinnovo'}]},
+  ];
+  return faqConSchema(d.rotta,{id:'faq-bancari',titolo:'Domande frequenti sul CCNL Bancari',voci});
+}
+
+/* RIC-144: tre contratti si chiamano «metalmeccanico». Il riquadro porta
+   chi lavora in un'azienda artigiana dall'industria all'Area meccanica
+   (importo letto dal dataset) e chi è in un'industria dall'artigiano
+   all'industria e al Confapi. Nessun confronto livello per livello. */
+function ponteMetalmeccanico(d){
+  const rotta=d.rotta;
+  if(d.seo.slug==='metalmeccanico'&&d.artigiano){
+    const a=d.artigiano;
+    return `<section class="ccnl-blocco ccnl-affiancato"><h2>Lavori in un’azienda artigiana?</h2>
+    <p>Allora il tuo contratto è probabilmente il CCNL Area meccanica dell’artigianato (${esc(a.contratto.codiceCnel)}), con livelli ${esc(a.primoLivello)}–${esc(a.ultimoLivello)} e importi propri. Al ${esc(a.livello)}° livello il minimo è <b>${eur(a.composta.baseMensile)}</b> lordi al mese, alla data della build. Le PMI non artigiane associate a Confapi applicano il ${esc(d.confapi.contratto.codiceCnel)}.</p>
+    <a class="btn btn--ghost" href="${verso(rotta,a.rotta)}">Tabella ${esc(a.seo.titoloTabella)} →</a>
+    <a class="btn btn--ghost" href="${verso(rotta,d.confapi.rotta)}">Tabella ${esc(d.confapi.seo.titoloTabella)} →</a></section>`;
+  }
+  if(d.seo.slug==='metalmeccanico-artigiano'&&d.industria){
+    return `<section class="ccnl-blocco ccnl-affiancato"><h2>Lavori in un’industria metalmeccanica?</h2>
+    <p>Allora il tuo contratto non è questo: l’industria applica il ${esc(d.industria.contratto.nome)} (${esc(d.industria.contratto.codiceCnel)}), le PMI associate a Confapi il ${esc(d.confapi.contratto.nome)} (${esc(d.confapi.contratto.codiceCnel)}). Livelli e importi sono diversi.</p>
+    <a class="btn btn--ghost" href="${verso(rotta,d.industria.rotta)}">Tabella ${esc(d.industria.seo.titoloTabella)} →</a>
+    <a class="btn btn--ghost" href="${verso(rotta,d.confapi.rotta)}">Tabella ${esc(d.confapi.seo.titoloTabella)} →</a></section>`;
+  }
+  return '';
+}
+
 function renderTabella(d){
   const {seo,contratto,sezioni,rotta,alla}=d;
   const conSezioni=sezioni[0].sezione!==null;
@@ -265,25 +573,31 @@ function renderTabella(d){
   const max=tutte.reduce((a,b)=>b.composta.baseMensile>a.composta.baseMensile?b:a);
   const s0=sezioni[0];
   const pagine=seo.etichetta?tutte.filter(r=>r.rotta):[];
-  const blocchi=sezioni.map(s=>`<section class="ccnl-sezione"${s.sezione?` id="${esc(s.sezione)}"`:''}>
+  const blocchi=sezioni.map(s=>`<section class="ccnl-sezione" id="${esc(s.sezione||'tabella')}">
     ${s.nome?`<h2>${esc(s.nome)}</h2>${s.descrizione?`<p>${esc(s.descrizione)}</p>`:''}`:'<h2>La tabella dei minimi</h2>'}
     ${tabellaSezione(rotta,d,s)}
     <p class="small">Scatti: ${esc(scattiTesto(s.scatti))}.${esc(sospensioniTesto(s.scatti))} ${s.prossima?`La prossima tranche firmata decorre dal ${data(s.prossima)}.`:'Nessuna tranche successiva è firmata.'}</p>
     <a class="btn btn--ghost" href="${calcolatore(rotta,{ccnl:contratto.id,sezione:s.sezione})}">Calcola con anzianità e superminimo${s.nome?` — ${esc(s.nome)}`:''}</a>
   </section>`).join('\n');
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(contratto.codiceCnel)} · ${esc(contratto.parti)}</div>
-    <h1>${esc(seo.titoloTabella)} 2026: tabelle retributive</h1>
-    ${(d.aumenti.length||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
-    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} (${esc(min.livello.nome)}) a ${eur(max.composta.baseMensile)} (${esc(max.livello.nome)})${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
+    <h1>${esc(seo.titoloTabella)} 2026: ${esc(seo.codaH1||'tabelle retributive')}</h1>
+    ${(d.aumenti.length||seo.aumentiDalDataset||['studi-professionali','cooperative-sociali'].includes(seo.slug))?`<p class="small">Aggiornato al <time datetime="${alla}">${data(alla)}</time>.</p>`:''}
+    <p class="lead">${esc(contratto.nome)}. Il minimo lordo mensile va da ${eur(min.composta.baseMensile)} ${esc(fraParentesi(min.livello.nome))} a ${eur(max.composta.baseMensile)} ${esc(fraParentesi(max.livello.nome))}${conSezioni?`, su ${sezioni.length} sezioni del contratto`:''}. Per ogni livello: ${R.ralCompleta(contratto.id)?'RAL':'base tabellare annualizzata'} su ${mensilitaTesto(s0.mensilita)} mensilità e netto medio al mese${R.ralCompleta(contratto.id)?'':' calcolato su quella base'}.</p>
   </header>
-  ${avvisoParziale(contratto)}${avvisoFonte(contratto)}
+  ${avvisoParziale(contratto)}${statoRinnovo(d)||avvisoFonte(contratto)}
+  ${ponteMetalmeccanico(d)}
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
+  ${aumentiDalDataset(d)}
+  ${livelliCcnl(d)}
+  ${faqMetalmeccanicoArtigiano(d)}
+  ${faqGruppo2(d)}
   ${aumentiCommercio(d)}
   ${faqCommercio(d)}
   ${metalmeccanico(d)}
   ${decorrenzeSettore(d)}
   ${faqSettore(d)}
+  ${faqBancari(d)}
   ${pagine.length?`<section class="related" aria-labelledby="livelli-titolo"><h2 id="livelli-titolo">Approfondisci un livello</h2><div class="related__grid">${pagine.map(r=>`
     <a class="related-card" href="${verso(rotta,r.rotta)}"><span><b>${esc(seo.etichetta(r.livello))} ${esc(seo.breve)}</b><small>${eur(r.composta.baseMensile)} lordi · ${eur(r.nettoMensile)} netti al mese</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>`).join('')}
   </div></section>`:''}
@@ -293,9 +607,88 @@ function renderTabella(d){
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,
-    title:`${seo.titoloTabella} 2026: tabelle retributive e netto`,
+    title:`${seo.titoloTabella} 2026: ${seo.codaTitolo||'tabelle retributive e netto'}`,
     description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, ${R.ralCompleta(contratto.id)?'RAL':'base annua'} e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`,
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},{nome:seo.titoloTabella,rotta}],body});
+}
+
+/* --- I LIVELLI DEL CCNL (RIC-146) ----------------------------
+
+   Declaratorie citate dal contratto (declaratorie-ccnl.js): sezione
+   «I livelli del …» nella tabella, blocco «Chi rientra nel …» nella
+   pagina livello. Qui solo impaginazione: testo, esempi e fonte sono
+   quelli del modulo; ogni codice linka la sua pagina livello o, se non
+   c'è, la tabella. Vale per qualsiasi contratto che abbia una voce nel
+   modulo, nella sezione `sezioneLivelli`. */
+const LIVELLI_CCNL=require('./declaratorie-ccnl.js');
+
+function citazioneLivello(c){
+  const voci=c.elenco||[];
+  if(!voci.length)return `<blockquote class="ccnl-livelli__testo"><p>«${esc(c.testo)}»</p></blockquote>`;
+  return `<blockquote class="ccnl-livelli__testo"><p>«${esc(c.testo)}</p><ul>${voci.map((v,i)=>`<li>${esc(v)}${i===voci.length-1?'»':''}</li>`).join('')}</ul></blockquote>`;
+}
+function testoLivello(x,c){
+  const note=(c.note||[]).map(n=>`<p class="small ccnl-livelli__nota">«${esc(n.testo)}» (${esc(n.riferimento)})</p>`).join('');
+  const intestazione=c.testo?`Declaratoria${c.ambito?`, ${esc(c.ambito)}`:''} · ${esc(c.riferimento)}`:`${esc(x.nomeEsempi)} · ${esc(c.riferimento)}`;
+  return `<p class="micro">${intestazione}</p>
+      ${c.testo?citazioneLivello(c):`<p class="small">${esc(x.senzaDeclaratoria)}</p>`}${note}`;
+}
+/* Esempi del contratto: per codice se la categoria ne ha più d'uno, per
+   gruppo (l'area, nella gomma plastica) se il contratto li divide così. */
+function esempiLivello(c,codice){
+  const voci=(c.esempi||[]).filter(e=>!codice||e.codice===codice);
+  return voci.map(e=>{
+    const etichetta=[codice||c.codici.length===1?null:e.codice,e.gruppo].filter(Boolean).join(' · ');
+    return `<li>${etichetta?`<b>${esc(etichetta.charAt(0).toUpperCase()+etichetta.slice(1))}:</b> `:''}${e.profili.map(esc).join('; ')}</li>`;
+  }).join('');
+}
+function fonteLivelli(x){
+  return `${x.fonti.map(f=>`${esc(f.parte)}, <a href="${esc(f.url)}" rel="nofollow">${esc(f.titolo)}</a>${f.pagine?`, ${esc(f.pagine)}`:''}`).join('; ')}. Verificata il ${data(x.verificataIl)}.`;
+}
+
+function livelliCcnl(d){
+  const x=LIVELLI_CCNL.declaratorie(d.contratto.id);
+  if(!x)return '';
+  const s=sezionePrincipale(d);
+  const ancora=`#${s.sezione||'tabella'}`;
+  const link=codice=>{
+    const r=s.righe.find(r=>r.livello.codice===codice);
+    if(!r)return `<span>${esc(codice)}</span>`;
+    const nome=esc(d.seo.etichetta?d.seo.etichetta(r.livello):r.livello.nome);
+    return r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${nome}: minimo e netto →</a>`:`<a href="${ancora}">${nome} in tabella</a>`;
+  };
+  const voce=c=>{
+    const esempi=esempiLivello(c);
+    return `<article class="ccnl-livelli__voce" id="declaratoria-${esc(c.codici[0].toLowerCase())}" data-codici="${esc(c.codici.join(' '))}">
+      <h3>${esc(c.titolo)}</h3>
+      ${testoLivello(x,c)}
+      ${esempi?(c.testo?`<details class="ccnl-livelli__esempi"><summary>${esc(x.nomeEsempi)} del contratto</summary><ul>${esempi}</ul></details>`:`<ul class="ccnl-livelli__lista-esempi">${esempi}</ul>`):''}
+      <p class="ccnl-livelli__link">${c.codici.map(link).join(' ')}</p>
+    </article>`;
+  };
+  return `<section class="ccnl-livelli" id="livelli" aria-labelledby="livelli-ccnl-titolo"><h2 id="livelli-ccnl-titolo">I livelli del ${esc(d.seo.titoloTabella)}</h2>
+    ${x.introduzione.map(i=>`<p>«${esc(i.testo)}» (${esc(i.riferimento)})</p>`).join('')}
+    <p class="small">${esc(x.avvertenza)}</p>
+    <div class="ccnl-livelli__griglia">${x.categorie.map(voce).join('')}</div>
+    <p class="small"><b>Fonte:</b> ${fonteLivelli(x)}</p>
+  </section>`;
+}
+
+/* Sotto i KPI della pagina livello: la declaratoria della categoria e
+   gli esempi del solo codice della pagina. */
+function chiRientra(d,r){
+  const x=LIVELLI_CCNL.declaratorie(d.contratto.id);
+  const c=x&&r===d.righe[0]&&LIVELLI_CCNL.categoriaDi(d.contratto.id,d.codice);
+  if(!c)return '';
+  const nome=`${d.etichetta.charAt(0).toLowerCase()}${d.etichetta.slice(1)}`;
+  const esempi=esempiLivello(c,d.codice);
+  const insieme=c.codici.length>1?`<p class="small">La declaratoria vale per tutta la ${esc(c.titolo.charAt(0).toLowerCase()+c.titolo.slice(1))}: ${esc(elenco(c.codici))}.</p>`:'';
+  return `<section class="ccnl-blocco ccnl-chi-rientra" id="chi-rientra"><h3>Chi rientra nel ${esc(nome)}</h3>
+      ${testoLivello(x,c)}${insieme}
+      ${esempi?`<p><b>${esc(x.nomeEsempi)} del contratto per il ${esc(nome)}</b></p><ul class="ccnl-livelli__lista-esempi">${esempi}</ul>`:''}
+      <p class="small">${esc(x.avvertenza)}</p>
+      <p class="small"><b>Fonte:</b> ${fonteLivelli(x)} <a href="${verso(d.rotta,d.rottaTabella)}#livelli">Tutti i livelli del ${esc(d.seo.titoloTabella)}</a>.</p>
+    </section>`;
 }
 
 /* --- PAGINA PER LIVELLO ------------------------------------- */
@@ -330,11 +723,13 @@ function scomposizione(r){
 }
 
 function blocchiRiga(rotta,d,r,conNome){
+  /* Tappe senza anni (periodo sospeso, RIC-140): si contano gli scatti. */
+  const soloScatti=r.tappe.some(t=>t.anni===null);
   const scatti=r.tappe.length?`<section class="ccnl-blocco"><h3>Con gli scatti di anzianità</h3>
-    <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’anzianità nella stessa azienda.${esc(sospensioniTesto(r.regola))}</p>
-    <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">Anzianità in azienda</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>
+    <p>Ogni scatto vale ${eur(r.composta.valoreScatto)} lordi al mese: ${esc(scattiTesto(r.regola))}, contando l’${esc(d.seo.scattiDallaBase?r.regola.base:'anzianità nella stessa azienda')}.${esc(sospensioniTesto(r.regola))}</p>
+    <div class="ccnl-tabella__scroll"><table class="ccnl-tabella"><thead><tr><th scope="col">${soloScatti?'Scatti maturati':'Anzianità in azienda'}</th><th scope="col">Lordo mensile</th><th scope="col">RAL</th><th scope="col">Netto medio al mese</th></tr></thead><tbody>
     <tr><th scope="row">Nessuno scatto</th><td>${eur(r.composta.mensileTotale)}</td><td>${eur(r.composta.ral)}</td><td>${eur(r.nettoMensile)}</td></tr>
-    ${r.tappe.map(t=>`<tr><th scope="row">${t.anni} anni · ${t.n} ${t.n===1?'scatto':'scatti'}</th><td>${eur(t.composta.mensileTotale)}</td><td>${eur(t.composta.ral)}</td><td>${eur(t.nettoMensile)}</td></tr>`).join('')}
+    ${r.tappe.map(t=>`<tr><th scope="row">${t.anni===null?'':`${t.anni} anni · `}${t.n} ${t.n===1?'scatto':'scatti'}</th><td>${eur(t.composta.mensileTotale)}</td><td>${eur(t.composta.ral)}</td><td>${eur(t.nettoMensile)}</td></tr>`).join('')}
     </tbody></table></div></section>`
     :`<section class="ccnl-blocco"><h3>Scatti di anzianità</h3><p>Regola del contratto: ${esc(scattiTesto(r.regola))}${r.regola.tipo==='percentualeMaturazione'?': il loro valore dipende dalla data in cui maturano, e il calcolatore lo ricostruisce dalla data di anzianità':''}.${esc(sospensioniTesto(r.regola))}</p></section>`;
   const partTime=r.partTime.length?`<section class="ccnl-blocco"><h3>Part-time</h3>
@@ -351,6 +746,7 @@ function blocchiRiga(rotta,d,r,conNome){
       <div><span class="micro">Netto annuo stimato</span><b>${eur(r.nettoAnnuo)}</b></div>
       <div><span class="micro">Netto medio al mese</span><b>${eur(r.nettoMensile)}</b></div>
     </div>
+    ${chiRientra(d,r)}
     ${scomposizione(r)}
     ${futura}
     ${scatti}
@@ -372,10 +768,14 @@ function renderLivello(d){
     <a class="related-card" href="${v.rotta?verso(rotta,v.rotta):`${verso(rotta,d.rottaTabella)}${r0.sezione?`#${esc(r0.sezione)}`:''}`}"><span><b>${esc(v.etichetta)} ${esc(seo.breve)}</b><small>${eur(v.livello.totale)} lordi al mese</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>`).join('')}
     <a class="related-card" href="${verso(rotta,d.rottaTabella)}"><span><b>Tutti i livelli</b><small>${esc(seo.titoloTabella)}: tabella completa</small></span><span class="related-card__arrow" aria-hidden="true">→</span></a>
   </div></section>`:'';
-  const il=`il ${etichetta.charAt(0).toLowerCase()}${etichetta.slice(1)}`;
+  /* «la 3ª area 4° livello» (Bancari), «il 5° livello» negli altri. */
+  const il=`${/^\d+ª /.test(etichetta)?'la':'il'} ${etichetta.charAt(0).toLowerCase()}${etichetta.slice(1)}`;
+  /* Un nome che chiude già con una parentesi (Area meccanica) non ne prende una seconda. */
+  const sezione=conNome&&righe.length===1
+    ?(contratto.nome.endsWith(')')?`, sezione ${esc(r0.nome.toLowerCase())},`:` (${esc(r0.nome.toLowerCase())})`):'';
   const intro=uguali
     ?`Nel CCNL ${esc(contratto.nome)} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese, uguale per ${righe.map(r=>esc(r.nome.toLowerCase())).join(' e per ')}`
-    :`Nel CCNL ${esc(contratto.nome)}${conNome&&righe.length===1?` (${esc(r0.nome.toLowerCase())})`:''} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese`;
+    :`Nel CCNL ${esc(contratto.nome)}${sezione} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese`;
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(seo.titoloTabella)} · ${esc(contratto.codiceCnel)}</div>
     <h1>${esc(nomeIntero)}: minimo, RAL e netto</h1>
     <p class="lead">${intro}. Su ${mensilitaTesto(r0.composta.mensilita)} mensilità fa una RAL di ${eur(r0.composta.ral)}: circa <b>${eur(r0.nettoMensile)} netti al mese</b>, senza scatti né superminimo.</p>
@@ -396,4 +796,4 @@ function renderLivello(d){
       {nome:seo.titoloTabella,rotta:d.rottaTabella},{nome:etichetta,rotta}],body});
 }
 
-module.exports={renderHub,renderTabella,renderLivello,titoloLivello,calcolatore,verso,data};
+module.exports={renderHub,renderTabella,renderLivello,titoloLivello,calcolatore,verso,data,STATO_RINNOVO_BANCARI,statoRinnovo};

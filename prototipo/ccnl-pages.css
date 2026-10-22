@@ -30,6 +30,19 @@
 .ccnl-tabella td{font-family:var(--font-mono)}
 .ccnl-tabella small{color:var(--fg-muted);font-weight:400}
 
+/* Aumenti letti dal dataset (RIC-141): una sezione aperta, le altre in <details>. */
+.ccnl-aumenti{margin-block:clamp(36px,5vw,64px)}
+.ccnl-aumenti>p{max-width:74ch;line-height:1.55}
+.ccnl-aumenti>p.small:last-child{margin-top:var(--s-5)}
+.ccnl-aumenti__sezione{margin-top:var(--s-6)}
+.ccnl-aumenti__sezione h4{margin:var(--s-5) 0 0}
+details.ccnl-aumenti__sezione{border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
+details.ccnl-aumenti__sezione>summary{cursor:pointer;padding:var(--s-3) var(--s-4);font:600 var(--t-sm)/1.4 var(--font-mono)}
+details.ccnl-aumenti__sezione[open]{padding-bottom:var(--s-2)}
+details.ccnl-aumenti__sezione>.ccnl-aumento{padding:0 var(--s-4)}
+details.ccnl-aumenti__sezione+details.ccnl-aumenti__sezione{margin-top:var(--s-3)}
+.ccnl-aumento__nota{max-width:74ch;margin:0 0 var(--s-3);line-height:1.5}
+
 .ccnl-kpi{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:var(--s-6);
   border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
 .ccnl-kpi>div{padding:var(--s-5);border-right:var(--bw) dashed var(--line-strong)}
@@ -46,6 +59,12 @@
 .ccnl-blocco{margin-top:var(--s-8)}
 .ccnl-blocco p{max-width:74ch;line-height:1.55}
 .ccnl-affiancato{padding:var(--s-6);border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
+/* Stato del rinnovo dei Bancari (RIC-143): in testa alla tabella, come un avviso. */
+.ccnl-rinnovo{border-left:6px solid var(--c-amber)}
+.ccnl-rinnovo ul{margin:0;padding-left:1.2em;max-width:74ch}
+.ccnl-rinnovo li{margin-bottom:var(--s-3);line-height:1.55}
+.ccnl-rinnovo li:last-child{margin-bottom:0}
+.ccnl-rinnovo small{color:var(--fg-muted)}
 
 .ccnl-note{margin-top:clamp(36px,5vw,64px);padding-top:var(--s-6);border-top:var(--bw) solid var(--line-strong)}
 .ccnl-note .limiti>summary{cursor:pointer;font:600 var(--t-sm)/1.4 var(--font-mono);color:var(--fg-muted)}
@@ -60,3 +79,26 @@
   .ccnl-tabella th,.ccnl-tabella td{padding:var(--s-2) var(--s-3);font-size:var(--t-xs)}
 }
 .ccnl-sezione .btn,.ccnl-riga>.btn,.ccnl-affiancato .btn{margin-top:var(--s-5)}
+
+/* I livelli del CCNL (RIC-146): declaratorie citate dal contratto. */
+.ccnl-livelli{margin-block:clamp(36px,5vw,64px)}
+.ccnl-livelli>p{max-width:74ch;line-height:1.55}
+.ccnl-livelli__griglia{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-5);align-items:start;margin:var(--s-6) 0}
+.ccnl-livelli__voce{padding:var(--s-5);border:var(--bw) solid var(--line-strong);background:var(--bg-raised);min-width:0}
+.ccnl-livelli__voce .micro{display:block;margin-bottom:var(--s-2);color:var(--fg-muted)}
+.ccnl-livelli__testo{margin:0 0 var(--s-3);padding-left:var(--s-4);border-left:var(--bw-thick) solid var(--line-solid);line-height:1.55}
+.ccnl-livelli__testo p{margin:0}
+.ccnl-livelli__testo ul{margin:var(--s-2) 0 0;padding-left:1.1em}
+.ccnl-livelli__testo li{margin-bottom:var(--s-1)}
+.ccnl-livelli__nota{color:var(--fg-muted);line-height:1.5}
+.ccnl-livelli__esempi>summary{cursor:pointer;font:600 var(--t-sm)/1.4 var(--font-mono);color:var(--fg-muted)}
+.ccnl-livelli__esempi ul,.ccnl-livelli__lista-esempi{margin:var(--s-3) 0 0;padding-left:1.1em;font-size:var(--t-sm);line-height:1.5}
+.ccnl-livelli__esempi li,.ccnl-livelli__lista-esempi li{margin-bottom:var(--s-2)}
+.ccnl-livelli__link{display:flex;flex-wrap:wrap;gap:var(--s-2) var(--s-4);margin:var(--s-4) 0 0;font-size:var(--t-sm)}
+.ccnl-chi-rientra{padding:var(--s-6);border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
+.ccnl-chi-rientra .micro{display:block;margin-bottom:var(--s-2);color:var(--fg-muted)}
+.ccnl-chi-rientra .ccnl-livelli__lista-esempi{max-width:74ch}
+@media (max-width:760px){
+  .ccnl-livelli__griglia{grid-template-columns:1fr}
+  .ccnl-livelli__voce,.ccnl-chi-rientra{padding:var(--s-4)}
+}
