@@ -140,14 +140,17 @@ const CONTRATTI_SEO=Object.freeze([
     /* L'olearia ha anche il 3°, il 5° e il 6°, con importi propri: le
        pagine mostrano la sola parte comune. */
     sezioneLivelli:'alimentare',slugLivello:numerico,
-    etichetta:l=>/^\d+$/.test(l.codice)?livelloN(l):livelloL(l)},
+    etichetta:l=>/^\d+$/.test(l.codice)?livelloN(l):livelloL(l),
+    aumentiDalDataset:true},
   {id:'chimico-farmaceutico-industria-b011',slug:'chimico-farmaceutico',breve:'Chimico farmaceutico',
     query:'CCNL Chimico farmaceutico',titoloTabella:'CCNL Chimico farmaceutico',
-    livelli:['E3','E4','D3','E2','D1','C2','E1','B1','A3'],slugLivello:lettera,etichetta:livelloL},
+    livelli:['E3','E4','D3','E2','D1','C2','E1','B1','A3'],slugLivello:lettera,etichetta:livelloL,
+    aumentiDalDataset:true},
   {id:'gomma-plastica-industria-b371',slug:'gomma-plastica',breve:'Gomma plastica',
     query:'CCNL Gomma plastica',titoloTabella:'CCNL Gomma plastica',
     livelli:['H','F','G','E','C','I','A'],slugLivello:lettera,
-    etichetta:l=>l.codice==='Q'?'Quadri':livelloL(l)},
+    etichetta:l=>l.codice==='Q'?'Quadri':livelloL(l),
+    aumentiDalDataset:true},
   /* Niente `sezioneLivelli`: QD4 sta nella sezione dei quadri direttivi
      di 3° e 4° livello, gli altri tre in quella delle aree e dei quadri
      di 1° e 2°; datiLivello tiene solo la sezione dove il codice esiste. */
