@@ -203,3 +203,10 @@ e blocco «Chi rientra nel …» delle pagine livello. Testo citato, accorciato 
   segnalato da Assolombarda sono riservati e non letti. Il consolidato Eutekne non è usato (non
   archiviabile). Per chiudere il limite serve una copia integrale dell'allegato 2 da una parte
   firmataria, da archiviare qui.
+- **Ricerca dell'allegato 2 completo (22 ottobre 2026), senza esito.** Depositi CNEL gemelli della
+  stesura 2020 (138013 e 138015, 115 pagine ciascuno): stessa struttura di 138012, allegato 2 solo
+  produzione G–I (pp. 104–108); scaricati, controllati e cancellati. Tre ricerche web, una ristretta
+  ai siti di Filctem, Femca, Uiltec, Federazione Gomma Plastica e CNEL: nessun testo integrale di
+  una parte firmataria. Trovate solo copie di terzi (USB, sindacato non firmatario; FiscoeTasse;
+  Il Diario del Lavoro; Studio Cerbone), non usate. Assolombarda segnala la stesura del 10 dicembre
+  2025, riservata agli associati.
