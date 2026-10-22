@@ -494,7 +494,7 @@ function renderTabella(d){
   const max=tutte.reduce((a,b)=>b.composta.baseMensile>a.composta.baseMensile?b:a);
   const s0=sezioni[0];
   const pagine=seo.etichetta?tutte.filter(r=>r.rotta):[];
-  const blocchi=sezioni.map(s=>`<section class="ccnl-sezione"${s.sezione?` id="${esc(s.sezione)}"`:''}>
+  const blocchi=sezioni.map(s=>`<section class="ccnl-sezione" id="${esc(s.sezione||'tabella')}">
     ${s.nome?`<h2>${esc(s.nome)}</h2>${s.descrizione?`<p>${esc(s.descrizione)}</p>`:''}`:'<h2>La tabella dei minimi</h2>'}
     ${tabellaSezione(rotta,d,s)}
     <p class="small">Scatti: ${esc(scattiTesto(s.scatti))}.${esc(sospensioniTesto(s.scatti))} ${s.prossima?`La prossima tranche firmata decorre dal ${data(s.prossima)}.`:'Nessuna tranche successiva è firmata.'}</p>
@@ -510,6 +510,7 @@ function renderTabella(d){
   ${conSezioni?`<nav class="ccnl-indice" aria-label="Sezioni del contratto"><span class="micro">Sezioni</span>${sezioni.map(s=>`<a href="#${esc(s.sezione)}">${esc(s.nome)}</a>`).join('')}</nav>`:''}
   ${blocchi}
   ${aumentiDalDataset(d)}
+  ${livelliCcnl(d)}
   ${faqMetalmeccanicoArtigiano(d)}
   ${faqGruppo2(d)}
   ${aumentiCommercio(d)}
@@ -529,6 +530,85 @@ function renderTabella(d){
     title:`${seo.titoloTabella} 2026: tabelle retributive e netto`,
     description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, ${R.ralCompleta(contratto.id)?'RAL':'base annua'} e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`,
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},{nome:seo.titoloTabella,rotta}],body});
+}
+
+/* --- I LIVELLI DEL CCNL (RIC-146) ----------------------------
+
+   Declaratorie citate dal contratto (declaratorie-ccnl.js): sezione
+   «I livelli del …» nella tabella, blocco «Chi rientra nel …» nella
+   pagina livello. Qui solo impaginazione: testo, esempi e fonte sono
+   quelli del modulo; ogni codice linka la sua pagina livello o, se non
+   c'è, la tabella. Vale per qualsiasi contratto che abbia una voce nel
+   modulo, nella sezione `sezioneLivelli`. */
+const LIVELLI_CCNL=require('./declaratorie-ccnl.js');
+
+function citazioneLivello(c){
+  const voci=c.elenco||[];
+  if(!voci.length)return `<blockquote class="ccnl-livelli__testo"><p>«${esc(c.testo)}»</p></blockquote>`;
+  return `<blockquote class="ccnl-livelli__testo"><p>«${esc(c.testo)}</p><ul>${voci.map((v,i)=>`<li>${esc(v)}${i===voci.length-1?'»':''}</li>`).join('')}</ul></blockquote>`;
+}
+function testoLivello(x,c){
+  const note=(c.note||[]).map(n=>`<p class="small ccnl-livelli__nota">«${esc(n.testo)}» (${esc(n.riferimento)})</p>`).join('');
+  const intestazione=c.testo?`Declaratoria${c.ambito?`, ${esc(c.ambito)}`:''} · ${esc(c.riferimento)}`:`${esc(x.nomeEsempi)} · ${esc(c.riferimento)}`;
+  return `<p class="micro">${intestazione}</p>
+      ${c.testo?citazioneLivello(c):`<p class="small">${esc(x.senzaDeclaratoria)}</p>`}${note}`;
+}
+/* Esempi del contratto: per codice se la categoria ne ha più d'uno, per
+   gruppo (l'area, nella gomma plastica) se il contratto li divide così. */
+function esempiLivello(c,codice){
+  const voci=(c.esempi||[]).filter(e=>!codice||e.codice===codice);
+  return voci.map(e=>{
+    const etichetta=[codice||c.codici.length===1?null:e.codice,e.gruppo].filter(Boolean).join(' · ');
+    return `<li>${etichetta?`<b>${esc(etichetta.charAt(0).toUpperCase()+etichetta.slice(1))}:</b> `:''}${e.profili.map(esc).join('; ')}</li>`;
+  }).join('');
+}
+function fonteLivelli(x){
+  return `${x.fonti.map(f=>`${esc(f.parte)}, <a href="${esc(f.url)}" rel="nofollow">${esc(f.titolo)}</a>${f.pagine?`, ${esc(f.pagine)}`:''}`).join('; ')}. Verificata il ${data(x.verificataIl)}.`;
+}
+
+function livelliCcnl(d){
+  const x=LIVELLI_CCNL.declaratorie(d.contratto.id);
+  if(!x)return '';
+  const s=sezionePrincipale(d);
+  const ancora=`#${s.sezione||'tabella'}`;
+  const link=codice=>{
+    const r=s.righe.find(r=>r.livello.codice===codice);
+    if(!r)return `<span>${esc(codice)}</span>`;
+    const nome=esc(d.seo.etichetta?d.seo.etichetta(r.livello):r.livello.nome);
+    return r.rotta?`<a href="${verso(d.rotta,r.rotta)}">${nome}: minimo e netto →</a>`:`<a href="${ancora}">${nome} in tabella</a>`;
+  };
+  const voce=c=>{
+    const esempi=esempiLivello(c);
+    return `<article class="ccnl-livelli__voce" id="declaratoria-${esc(c.codici[0].toLowerCase())}" data-codici="${esc(c.codici.join(' '))}">
+      <h3>${esc(c.titolo)}</h3>
+      ${testoLivello(x,c)}
+      ${esempi?(c.testo?`<details class="ccnl-livelli__esempi"><summary>${esc(x.nomeEsempi)} del contratto</summary><ul>${esempi}</ul></details>`:`<ul class="ccnl-livelli__lista-esempi">${esempi}</ul>`):''}
+      <p class="ccnl-livelli__link">${c.codici.map(link).join(' ')}</p>
+    </article>`;
+  };
+  return `<section class="ccnl-livelli" id="livelli" aria-labelledby="livelli-ccnl-titolo"><h2 id="livelli-ccnl-titolo">I livelli del ${esc(d.seo.titoloTabella)}</h2>
+    ${x.introduzione.map(i=>`<p>«${esc(i.testo)}» (${esc(i.riferimento)})</p>`).join('')}
+    <p class="small">${esc(x.avvertenza)}</p>
+    <div class="ccnl-livelli__griglia">${x.categorie.map(voce).join('')}</div>
+    <p class="small"><b>Fonte:</b> ${fonteLivelli(x)}</p>
+  </section>`;
+}
+
+/* Sotto i KPI della pagina livello: la declaratoria della categoria e
+   gli esempi del solo codice della pagina. */
+function chiRientra(d,r){
+  const x=LIVELLI_CCNL.declaratorie(d.contratto.id);
+  const c=x&&r===d.righe[0]&&LIVELLI_CCNL.categoriaDi(d.contratto.id,d.codice);
+  if(!c)return '';
+  const nome=`${d.etichetta.charAt(0).toLowerCase()}${d.etichetta.slice(1)}`;
+  const esempi=esempiLivello(c,d.codice);
+  const insieme=c.codici.length>1?`<p class="small">La declaratoria vale per tutta la ${esc(c.titolo.charAt(0).toLowerCase()+c.titolo.slice(1))}: ${esc(elenco(c.codici))}.</p>`:'';
+  return `<section class="ccnl-blocco ccnl-chi-rientra" id="chi-rientra"><h3>Chi rientra nel ${esc(nome)}</h3>
+      ${testoLivello(x,c)}${insieme}
+      ${esempi?`<p><b>${esc(x.nomeEsempi)} del contratto per il ${esc(nome)}</b></p><ul class="ccnl-livelli__lista-esempi">${esempi}</ul>`:''}
+      <p class="small">${esc(x.avvertenza)}</p>
+      <p class="small"><b>Fonte:</b> ${fonteLivelli(x)} <a href="${verso(d.rotta,d.rottaTabella)}#livelli">Tutti i livelli del ${esc(d.seo.titoloTabella)}</a>.</p>
+    </section>`;
 }
 
 /* --- PAGINA PER LIVELLO ------------------------------------- */
@@ -586,6 +666,7 @@ function blocchiRiga(rotta,d,r,conNome){
       <div><span class="micro">Netto annuo stimato</span><b>${eur(r.nettoAnnuo)}</b></div>
       <div><span class="micro">Netto medio al mese</span><b>${eur(r.nettoMensile)}</b></div>
     </div>
+    ${chiRientra(d,r)}
     ${scomposizione(r)}
     ${futura}
     ${scatti}

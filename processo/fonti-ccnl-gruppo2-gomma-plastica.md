@@ -167,3 +167,39 @@ del 16 ottobre 2026 (pdftotext): pp. 16, 35, 39-41, 46-50 (art. 8, 10, 17-19), 5
   (Consulenza Buffetti); controllo incrociato F: 2.021,12 − 60 = 1.961,12 (tabella 1.4.2025).
 - **Nessuna estensione del modello**: sezioni assenti, voci per livello e scatti con importi per
   livello bastavano.
+
+## Declaratorie (RIC-146, 21 ottobre 2026)
+
+Dati in `prototipo/declaratorie-ccnl.js`, sezione «I livelli del CCNL Gomma plastica» della tabella
+e blocco «Chi rientra nel …» delle pagine livello. Testo citato, accorciato solo con «[…]».
+
+- **Dove sta la classificazione.** Art. 4 «Classificazione del personale» della stesura 16.9.2020
+  (deposito CNEL 138012, pp. 25–28): scale distinte per area funzionale; declaratorie e posizioni
+  professionali «relative ai livelli propri di ciascuna area funzionale sono riportate nell'allegato 2»
+  (c.4). Le declaratorie quindi sono **per area e per livello**, non una per livello.
+- **Pagine lette a immagine** (`pdftoppm -r 100`, punti dubbi a 150 dpi): stesura 2020 pp. 25–29
+  (art. 4), 99–108 (allegati all'art. 4: indice per area pp. 101–103, copertina dell'allegato 2
+  pp. 104–105, area produzione livelli G, H e I pp. 106–108); miniature di tutte le 115 pagine per
+  trovare l'articolo. Ipotesi 10.12.2025 (deposito CNEL 239732) pp. 24–27 (art. 4) e miniature delle
+  45 pagine; rinnovo 26.1.2023 p. 11 (art. 4).
+- **Cosa c'è**: Quadri, art. 4 c.9 (pp. 25–26, caratteristiche della categoria dei quadri);
+  declaratorie dell'area produzione per G (p. 106), H (pp. 106–107), I (p. 107); per tutti i livelli
+  A–I le posizioni professionali dell'indice per area (pp. 101–103), usate come esempi con area e
+  livello che il contratto assegna. Note citate: livello I, c.17 (p. 28, dal 2021 gli addetti a
+  macchine e montaggio passano ad H dopo la prova) e c.18 dell'ipotesi (p. 26, livello I eliminato
+  dal 1° dicembre 2028 nelle aree produzione e funzioni integrate e trasversali); livello H, c.16
+  dell'ipotesi (p. 26, carrellista al livello G dal 2027 dopo dodici mesi).
+- **Rinnovi.** Il rinnovo 2023 tocca dell'art. 4 solo il paragrafo D (commissione). L'ipotesi 2025
+  non riscrive le declaratorie: aggiunge al c.5 una frase sul criterio della conoscenza «per tutti i
+  livelli», rinomina due aree (c.10: «sistemi informativi», «funzioni integrate e trasversali»),
+  aggiunge 12 posizioni professionali (allegato 1) dal 1° gennaio 2027, dal 1° giugno 2028 fino a 30
+  addetti, e i commi 16 e 18 citati sopra. Le aree sono chiamate con i nomi del 2025.
+- **Limiti.** Il deposito CNEL della stesura 2020 contiene dell'allegato 2 solo le pagine dei livelli
+  G, H e I dell'area produzione: l'indice rimanda alle pp. 120–168, che nel PDF (115 pagine) non ci
+  sono. Quindi **nessuna declaratoria per A–F** e nessuna per G, H e I nelle altre aree: in pagina
+  questi livelli hanno le sole posizioni professionali e la frase che lo dichiara (`senzaDeclaratoria`).
+  Le 12 posizioni nuove dell'ipotesi 2025 (allegato 1, tabella ruotata pp. 39–43) non sono elencate.
+  Il testo coordinato 2026 e l'allegato «posizioni professionali aggiornate a stesura del 30-6-2026»
+  segnalato da Assolombarda sono riservati e non letti. Il consolidato Eutekne non è usato (non
+  archiviabile). Per chiudere il limite serve una copia integrale dell'allegato 2 da una parte
+  firmataria, da archiviare qui.
