@@ -224,6 +224,150 @@ const CHIMICO={
   ],
 };
 
+/* Industria alimentare, parte comune (RIC-147): art. 26, declaratorie.
+   Pagine stampate 67–72 (nel PDF una in più). Il profilo per livello
+   esiste solo nella sezione olearia, che ha una scala propria. */
+const ALIMENTARE={
+  articolo:'art. 26',
+  fonti:[
+    {parte:'art. 26 «Classificazione dei lavoratori», declaratorie e note a verbale',
+      titolo:'CCNL industria alimentare 2023–2027, testo coordinato (FAI CISL)',
+      url:'https://www.faicisl.it/attachments/article/2350/CCNL%20INDUSTRIA%20ALIMENTARE%20%202023-2027%20versione%20web.pdf',
+      archivio:'processo/dati/fonti/alimentare-e012-ccnl-2023-2027-faicisl-2026-10-16.pdf',
+      pagine:'pp. 67–72 del testo stampato (PDF pp. 68–73)'},
+  ],
+  verificataIl:'2026-10-22',
+  introduzione:[
+    {testo:'I lavoratori sono inquadrati in una classificazione unica di otto livelli sulla base di declaratorie articolate.',riferimento:'art. 26, p. 67'},
+  ],
+  avvertenza:'Sono le declaratorie della parte comune del contratto; l’industria olearia e margariniera ha una scala di dieci livelli propria e non è qui. Il contratto non assegna mansioni o profili ai livelli della parte comune: gli unici ruoli indicati sono quelli della nota a verbale del 1° livello, riportati sotto. I profili per livello esistono solo nella sezione olearia. Le parti hanno istituito una Commissione paritetica tecnica per aggiornare le declaratorie entro marzo 2026; nel testo letto non c’è alcun aggiornamento.',
+  senzaDeclaratoria:null,
+  nomeEsempi:'Ruoli',
+  categorie:[
+    {codici:['1S'],titolo:'Primo livello super',riferimento:'art. 26, declaratorie, p. 68',
+      testo:'Appartengono a questo livello i lavoratori che, oltre a possedere i requisiti e le caratteristiche proprie del 1° livello e una notevole esperienza acquisita a seguito di prolungato esercizio delle funzioni sono preposti al coordinamento e controllo delle attività di unità organizzative od operative di fondamentale importanza per l’azienda e di rilevante complessità ed articolazione. Tali funzioni direttive sono svolte con ampia discrezionalità ed autonomia nei limiti delle direttive generali impartite dai dirigenti dell’azienda o dai titolari della medesima.',
+      note:[{testo:'Responsabile della ricerca, dello studio e della realizzazione di importanti innovazioni nelle aree delle tecnologie del prodotto e del processo produttivo.',
+        riferimento:'art. 26, «Primo livello super non quadri», p. 69'}]},
+    {codici:['1'],titolo:'Primo livello',riferimento:'art. 26, declaratorie, p. 69',
+      testo:'Appartengono a questo livello i lavoratori amministrativi e tecnici con capacità e funzioni direttive e che abbiano discrezionalità di poteri con facoltà di iniziativa per il buon andamento di determinate attività aziendali, nei limiti delle direttive generali impartite dai lavoratori del 1° livello super o dai dirigenti d’azienda o dai titolari della medesima.',
+      esempi:[
+        {codice:'1',gruppo:'settore saccarifero',profili:['responsabili dei servizi agricolo, amministrativo, chimico e tecnico']},
+        {codice:'1',gruppo:'tutti gli altri settori',profili:['responsabile dell’analisi di sistemi per l’elaborazione elettronica di dati','ricercatore scientifico','responsabile sviluppo prodotti']}]},
+    {codici:['2'],titolo:'Secondo livello',riferimento:'art. 26, declaratorie, p. 69',
+      testo:'Appartengono a questo livello:',
+      elenco:['i lavoratori con funzioni di concetto, sia tecnici che amministrativi, con compiti di controllo e coordinamento che comportano iniziativa ed autonomia per il buon andamento di determinate attività aziendali con limitata discrezionalità di poteri;',
+        'il viaggiatore o piazzista di 1a categoria (ex 2° categoria impiegatizia) e cioè l’impiegato di concetto, comunque denominato, assunto stabilmente da un’azienda con l’incarico di viaggiare per la trattazione con la clientela e la ricerca della stessa, per il collocamento degli articoli per i quali ha avuto l’incarico.']},
+    {codici:['3A'],titolo:'Terzo livello A',riferimento:'art. 26, declaratorie, pp. 69–70',
+      testo:'Appartengono a questo livello i lavoratori, che oltre a possedere tutti i requisiti e le caratteristiche proprie del terzo livello:',
+      elenco:['svolgono attività complesse di carattere tecnico o amministrativo per l’esecuzione delle quali si richiedono una preparazione professionale specifica ed un consistente periodo di pratica lavorativa […];',
+        'guidano, controllano e coordinano con autonomia nell’ambito delle proprie funzioni, squadre di altri lavoratori;',
+        'eseguono con elevato grado di autonomia […] interventi ad elevato grado di difficoltà di aggiustaggio, attrezzamento, montaggio, revisione e collaudo di impianti complessi […];'],
+      note:[{testo:'a seguito di prolungata esperienza di lavoro acquisita nell’esercizio della mansione, in condizioni di autonomia operativa e con facoltà di iniziativa svolgono attività complesse di carattere tecnico produttivo conducendo e controllando, con interventi risolutivi per garantire la qualità del prodotto in termini di caratteristiche chimico-fisiche, gusto, igienicità ed aspetto, più impianti particolarmente complessi ed effettuando sugli stessi con gli opportuni coordinamenti le operazioni di messa a punto e pronto intervento di manutenzione senza ricorrere agli specialisti di officina (decorrenza 1° gennaio 1988).',
+        riferimento:'art. 26, quarto punto del terzo livello A, p. 70'}]},
+    {codici:['3'],titolo:'Terzo livello',riferimento:'art. 26, declaratorie, p. 70',
+      testo:'Appartengono a questo livello:',
+      elenco:['i lavoratori che svolgono negli uffici attività di carattere tecnico od amministrativo interne od esterne, per l’esecuzione delle quali si richiede una specifica preparazione professionale ed adeguato tirocinio […] in condizioni di autonomia esecutiva, ma senza poteri di iniziativa;',
+        'i lavoratori altamente specializzati che, in condizioni di autonomia operativa, svolgono attività per l’esecuzione delle quali occorrono conoscenze ed esperienze tecnico-professionali […] nonché i lavoratori che […] conducono e controllano impianti di produzione particolarmente complessi; […]'],
+      note:[{testo:'il viaggiatore o piazzista di 2° categoria (ex 3° categoria impiegatizia) e cioè l’impiegato d’ordine, comunque denominato, assunto stabilmente dall’azienda con l’incarico di collocare gli articoli trattati dalla medesima, anche quando provveda contemporaneamente alla loro diretta consegna.',
+        riferimento:'art. 26, terzo punto del terzo livello, p. 70'}]},
+    {codici:['4'],titolo:'Quarto livello',riferimento:'art. 26, declaratorie, pp. 70–71',
+      testo:'Appartengono a questo livello:',
+      elenco:['i lavoratori che svolgono negli uffici attività esecutiva di natura tecnica o amministrativa che richiedono particolare preparazione e pratica d’ufficio o corrispondente esperienza di lavoro;',
+        'i lavoratori specializzati che svolgono attività tecnico-pratiche nelle operazioni di manutenzione o di conduzione di impianti di produzione o macchine complesse e con capacità di regolazione e messa a punto;',
+        'i lavoratori specializzati che in possesso delle caratteristiche di cui ai precedenti capoversi svolgono analoghe attività nella distribuzione o in altri settori aziendali […].'],
+      note:[{testo:'nonché, con decorrenza 1° gennaio 1988, i lavoratori specializzati che avendo acquisito professionalità specifica per prolungato esercizio nella mansione, operano normalmente su tutte le macchine semplici per la lavorazione e il confezionamento, curando anche la loro messa a punto ed effettuando, oltre il cambio dei formati, interventi di ordinaria manutenzione.',
+        riferimento:'art. 26, terzo punto del quarto livello, p. 71'}]},
+    {codici:['5'],titolo:'Quinto livello',riferimento:'art. 26, declaratorie, p. 71',
+      testo:'Appartengono a questo livello i lavoratori che svolgono attività amministrative d’ufficio di natura esecutiva semplice con procedure prestabilite; lavoratori che nei reparti di produzione o di distribuzione conducono, con le necessarie regolazioni, macchine per la lavorazione, il confezionamento e la movimentazione di merci e prodotti; lavoratori che svolgono attività produttive semplici nonché gli aiutanti dei livelli superiori; lavoratori che per effetto di quanto previsto agli ultimi tre commi del presente articolo passano dal 6° al 5° livello.'},
+    {codici:['6'],titolo:'Sesto livello',riferimento:'art. 26, declaratorie, p. 71',
+      testo:'Appartengono a questo livello i lavoratori che svolgono attività inerenti al processo produttivo per abilitarsi alle quali non occorrono conoscenze professionali, ma è sufficiente un periodo di pratica e gli addetti al carico e scarico; i lavoratori non addetti al processo produttivo che svolgono attività manuali semplici per le quali non occorrono conoscenze professionali o che eseguono lavori di semplice manovalanza, anche se svolti nei reparti di produzione o magazzini.',
+      note:[{testo:'I lavoratori addetti al processo produttivo e al carico e scarico delle merci passeranno dal 6° al 5° livello dopo un periodo di sei mesi.',
+        riferimento:'art. 26, p. 71'}]},
+  ],
+};
+
+/* Metalmeccanico artigiano (C030), sezione metalmeccanica e installazione
+   di impianti (RIC-147): art. 17 del testo definitivo del 19 novembre
+   2024, pp. 28–41 (scansione). L'articolo ha le declaratorie per settore;
+   qui quelle della meccanica di produzione, che ha tutte le otto
+   categorie, e in nota quelle dell'installazione di impianti. */
+const NOTA_IMPIANTI='art. 17, settore Installazione di impianti';
+const ARTIGIANO={
+  articolo:'art. 17',
+  fonti:[
+    {parte:'art. 17 «Classificazione dei lavoratori per il Settore Metalmeccanica ed Installazione d’Impianti»',
+      titolo:'CCNL Area Meccanica, testo definitivo 19 novembre 2024, deposito CNEL',
+      url:`${CNEL_API}221687`,
+      archivio:'processo/dati/fonti/area-meccanica-c030-cnel-testo-definitivo-ccnl-2024-11-19.pdf',
+      pagine:'pp. 28–41'},
+  ],
+  verificataIl:'2026-10-22',
+  introduzione:[
+    {testo:'I lavoratori sono inquadrati in una classificazione unica articolata su 7 categorie professionali e 8 livelli retributivi, ai quali corrispondono eguali valori minimi tabellari mensili secondo le tabelle indicate all’art. 29.',riferimento:'art. 17, p. 28'},
+    {testo:'L’inquadramento dei lavoratori nelle categorie previste dal presente articolo avviene sulla base delle declaratorie, delle esemplificazioni, dei profili professionali e degli esempi.',riferimento:'art. 17 lett. B, p. 28'},
+  ],
+  avvertenza:'L’art. 17 scrive le declaratorie settore per settore: autoriparazione, installazione di impianti, meccanica di produzione e le figure della subacquea. Qui c’è la meccanica di produzione, l’unico settore con tutte e otto le categorie, e in nota le declaratorie dell’installazione di impianti dove ce l’hanno; quelle dell’autoriparazione e della subacquea non sono riportate. I testi sono accorciati con «[…]». Le categorie sono quelle del contratto: la «seconda bis» è il livello 2 bis. L’art. 17 quinquies affida a un gruppo tecnico paritetico la riforma del sistema di inquadramento. Orafi, odontotecnica e restauro, che hanno altre declaratorie, restano fuori.',
+  senzaDeclaratoria:null,
+  nomeEsempi:'Profili',
+  categorie:[
+    {codici:['1Q'],titolo:'Quadro',riferimento:'art. 17, p. 28',
+      testo:'i lavoratori che svolgono con carattere di continuità, con un grado elevato di capacità gestionale, organizzativa, professionale, funzioni organizzativamente articolate di rilevante importanza e responsabilità, ai fini dello sviluppo e dell’attuazione degli obiettivi dell’impresa, per attività di alta specializzazione, di coordinamento e gestione, e/o ricerca e progettazione, in ambiti fondamentali dell’impresa, fornendo contributi qualificati per la definizione degli obiettivi dell’impresa.',
+      note:[{testo:'A decorrere dalla data di sottoscrizione dell’accordo di rinnovo del CCNL del 24 aprile 2018 tale nuovo livello è introdotto per i soli sistemi di inquadramento del Settore Meccanica di Produzione e Settore Orafi, Argentieri ed Affini.',
+        riferimento:'art. 17, nota a verbale, p. 28'}]},
+    {codici:['1'],titolo:'Prima categoria',ambito:'settore Meccanica di produzione',riferimento:'art. 17, p. 33',
+      testo:'Appartengono a questa categoria:',
+      elenco:['i lavoratori che, oltre alle caratteristiche indicate nella declaratoria della seconda categoria […] siano preposti ad attività di coordinamento della produzione fondamentale dell’impresa o che svolgano attività di alta specialità ed importanza ai fini dello sviluppo e della realizzazione degli obiettivi aziendali;',
+        'i lavoratori che, sulla base delle sole direttive generali, realizzano nell’ambito del loro campo di attività studi di progettazione o di pianificazione operativa per il conseguimento degli obiettivi aziendali […].'],
+      note:[{testo:'In questo settore non sono inquadrati i lavoratori del 1° livello.',riferimento:`${NOTA_IMPIANTI}, p. 31`}],
+      esempi:[{codice:'1',profili:['Progettista di complessi','Specialista di sistemi di elaborazione dati','Ricercatore (trattasi di lavoratori laureati)']}]},
+    {codici:['2'],titolo:'Seconda categoria',ambito:'settore Meccanica di produzione',riferimento:'art. 17, p. 33',
+      testo:'Appartengono a questa categoria:',
+      elenco:['i lavoratori amministrativi che, con specifica collaborazione, svolgono funzioni direttive o che richiedono particolare preparazione e capacità professionale, con discrezionalità di poteri e con facoltà di decisione ed autonomia di iniziativa nei limiti delle sole direttive generali loro impartite;',
+        'i lavoratori che svolgono nell’ambito della loro attività e sulla base di indicazioni generali compiti di segreteria o assistenza raccogliendo e selezionando dati e notizie provenienti da varie fonti […] e svolgono compiti di collegamento fra l’impresa in cui operano ed enti esterni.'],
+      esempi:[{codice:'2',profili:['Direttore amministrativo','Contabile (trattasi di lavoratore laureato o diplomato)']}]},
+    {codici:['2bis'],titolo:'Seconda categoria bis',ambito:'settore Meccanica di produzione',riferimento:'art. 17, pp. 33–34',
+      testo:'Le parti concordano l’accesso alla seconda categoria bis per professionalità operaie secondo la seguente declaratoria: lavoratori che oltre a possedere tutte le caratteristiche previste dalla categoria inferiore, svolgano anche funzioni di coordinamento dell’intero processo produttivo nel settore della produzione, con piena responsabilità anche tecnica ed autonomia operativa nell’ambito di lavorazioni tecnologicamente molto avanzate.',
+      note:[{testo:'Appartengono a questa categoria: i lavoratori che, con le caratteristiche di cui al terzo punto della declaratoria del livello successivo, svolgono coordinamento e controllo di attività tecniche nell’ambito dell’impresa; […]',
+          riferimento:'art. 17, Meccanica di produzione, impiegati, p. 33'},
+        {testo:'lavoratori che oltre a possedere tutte le caratteristiche previste per la categoria inferiore, svolgono funzioni di coordinamento del processo produttivo nella installazione degli impianti, con piena responsabilità ed autonomia operativa nell’ambito di lavorazioni tecnologicamente molto avanzate.',
+          riferimento:`${NOTA_IMPIANTI}, p. 31`}],
+      esempi:[{codice:'2bis',profili:['Tecnico di laboratorio','Disegnatore progettista','Elettronico di costruzione']}]},
+    {codici:['3'],titolo:'Terza categoria',ambito:'settore Meccanica di produzione',riferimento:'art. 17, pp. 34–36',
+      testo:'Appartengono a questa categoria:',
+      elenco:['i lavoratori che, oltre a possedere tutte le caratteristiche indicate per l’operaio specializzato (quarta categoria) congiuntamente compiano operazioni su tutti gli apparati, apparecchiature e complessi stessi, svolgono normalmente le funzioni di guida e controllo, esercitando un certo potere di autonomia e di iniziativa per la condotta ed i risultati delle lavorazioni;',
+        'i lavoratori che, con specifica collaborazione, svolgono attività amministrative caratterizzate da adeguata autonomia operativa nei limiti dei principi, norme e procedure valevoli per il campo di attività in cui operano […]; […]'],
+      note:[{testo:'i lavoratori che, oltre a possedere i requisiti della quarta, compiono in autonomia e perizia esecutiva, con lettura ed interpretazioni critiche di disegni, schemi e progetti, complessi e con la conoscenza e nel rispetto delle normative tecniche e di legge, la costruzione, installazione e riparazione di impianti di elevato grado di difficoltà […];',
+        riferimento:`${NOTA_IMPIANTI}, p. 31`}],
+      esempi:[{codice:'3',profili:['Operatore/programmatore di C.N.','Riparatore','Collaudatore','Montatore macchinario - Montatore su banco - Costruttore su macchine','Saldatore','Modellista in legno','Formatore a mano - Animista a mano - Fonditore','Operatore elettromeccanico','Operatore elettronico','Contabile']}]},
+    {codici:['4'],titolo:'Quarta categoria',ambito:'settore Meccanica di produzione',riferimento:'art. 17, pp. 36–38',
+      testo:'Appartengono a questa categoria:',
+      elenco:['i lavoratori che compiono a regola d’arte e secondo le prescrizioni o indicazioni tecniche di lavorazione tutti i lavori la cui specialità o complessità richiedono: adeguate cognizioni tecnico-pratiche e conoscenza interpretativa del disegno […] oppure particolari capacità ed abilità […] acquisite mediante la pratica esperienza nel lavoro;',
+        'i lavoratori che con specifica collaborazione, svolgono attività di semplice coordinamento e controllo di carattere amministrativo o attività esecutive di particolare rilievo rispetto a quelle previste per la categoria precedente; […]'],
+      note:[{testo:'i lavoratori che, oltre a possedere i requisiti della quinta, costruiscono con perizia e specifica autonomia un impianto, sulla base di indicazioni e/o disegni e/o schemi equivalenti; predispongono ed eseguono le ordinarie prove di funzionamento di impianti complessi con controllo dei relativi dispositivi di sicurezza; […]',
+        riferimento:`${NOTA_IMPIANTI}, p. 32`}],
+      esempi:[{codice:'4',profili:['Addetto macchine operatrici','Attrezzatore di macchina','Riparatore','Collaudatore','Addetto prove di laboratorio','Addetto conduzione impianti','Montatore macchinario - Costruttore su banco - Costruttore su macchine','Manutentore meccanico - Manutentore elettrico','Saldatore','Modellista in legno','Formatore a mano - Animista a mano','Disegnatore particolarista','Addetto alla produzione di apparati elettromeccanici','Addetto alla produzione di apparecchiature ed impianti elettronici','Contabile']}]},
+    {codici:['5'],titolo:'Quinta categoria',ambito:'settore Meccanica di produzione',riferimento:'art. 17, pp. 38–40',
+      testo:'Appartengono a questa categoria:',
+      elenco:['i lavoratori qualificati che, sulla base di dettagliate indicazioni, che svolgono attività esecutive di normale difficoltà richiedenti essenziali cognizioni tecnico-pratiche inerenti all’interpretazione del disegno, alle caratteristiche e alle tecnologie dei materiali […];',
+        'i lavoratori qualificati che svolgono attività esecutive e di natura amministrativa che richiedono in modo particolare preparazione e pratica di ufficio o corrispondente esperienza di lavoro; […]'],
+      note:[{testo:'i lavoratori che, sulla base di dettagliate indicazioni e/o schemi e/o disegni e/o circuiti di semplice lettura, eseguono e/o installano e/o effettuano interventi di manutenzione su impianti mediante l’utilizzo di appropriate attrezzature e relative strumentazioni; […]',
+        riferimento:`${NOTA_IMPIANTI}, p. 32`}],
+      esempi:[{codice:'5',profili:['Addetto macchine operatrici attrezzate','Riparatore','Collaudatore','Addetto prove di laboratorio','Addetto conduzione impianti','Montatore macchinario - Costruttore su banco - Costruttore su macchine','Manutentore meccanico - Manutentore elettrico - Installatore di impianti','Saldatore','Imballatore','Gruista - Imbragatore','Addetto al montaggio di parti elettroniche','Addetto al montaggio di parti elettromeccaniche','Compiti vari di ufficio','Contabile']}]},
+    {codici:['6'],titolo:'Sesta categoria',ambito:'settore Meccanica di produzione',riferimento:'art. 17, pp. 40–41',
+      testo:'Appartengono a questa categoria:',
+      elenco:['i lavoratori che svolgono attività per abilitarsi alle quali occorrono un breve periodo di pratica e conoscenze professionali di tipo elementare;',
+        'i lavoratori che, sulla base di precise e dettagliate istruzioni e secondo procedure prestabilite, svolgono nel settore amministrativo attività esecutive semplici di servizio; […]',
+        'i lavoratori che svolgono attività manuali semplici non direttamente collegate al processo produttivo per le quali non occorrono conoscenze professionali.'],
+      note:[{testo:'i lavoratori che, coadiuvando il lavoratore di categoria superiore, eseguono lavori semplici di costruzione e/o installazione di impianti e loro parti;',
+        riferimento:`${NOTA_IMPIANTI}, p. 32`},
+        {testo:'I lavoratori (ex impiegati) inquadrati nella sesta categoria, intendendosi per tali i lavoratori di primo impiego, dopo un periodo di permanenza nella stessa di 12 mesi comprensivi del periodo di prova, passeranno automaticamente al 5° livello professionale.',
+        riferimento:'art. 17 lett. A, p. 28'},
+        {testo:'Le parti inoltre convengono che i lavoratori operai (ex operai) inquadrati nella sesta categoria della classificazione unica, dopo 24 mesi di permanenza nella stessa acquisiranno il livello retributivo della quinta categoria.',
+        riferimento:'art. 17 lett. A, p. 28'}],
+      esempi:[{codice:'6',profili:['Addetto macchine operatrici attrezzate','Collaudatore - Verificatore','Addetto conduzione impianti','Aiuto attrezzista - Aiuto montatore','Aiuto manutentore riparatore','Saldatore a macchina','Formatore a mano - Animista a mano','Conduttore mezzi di trasporto','Movimentatore di materiale']}]},
+  ],
+};
+
 const congela=x=>{
   for(const c of x.categorie){Object.freeze(c.codici);(c.elenco||[]).length&&Object.freeze(c.elenco);Object.freeze(c);}
   return Object.freeze({...x,categorie:Object.freeze(x.categorie)});
@@ -231,6 +375,8 @@ const congela=x=>{
 const DECLARATORIE=Object.freeze({
   'gomma-plastica-industria-b371':congela(GOMMA_PLASTICA),
   'chimico-farmaceutico-industria-b011':congela(CHIMICO),
+  'area-meccanica-artigianato-c030':congela(ARTIGIANO),
+  'alimentare-industria-e012':congela(ALIMENTARE),
 });
 
 const declaratorie=id=>DECLARATORIE[id]||null;

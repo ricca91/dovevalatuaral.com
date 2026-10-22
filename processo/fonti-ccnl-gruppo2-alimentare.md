@@ -83,3 +83,14 @@ Lacune: indennità funzione quadri senza mensilità dichiarate (assunta 14 in vi
 - **Part-time.** Ogni voce riproporzionata sulle 40 ore; superminimo non riproporzionato.
 - **Esclusioni** nel dataset: art. 51 bis, premio per obiettivi, welfare e fondi, premi di settore, maggiorazioni e superminimi, viaggiatori e discontinui.
 - **Estensioni del modello:** nessuna.
+
+## Declaratorie (RIC-147, 22 ottobre 2026)
+
+Dati in `prototipo/declaratorie-ccnl.js`, voce `alimentare-industria-e012`; solo la parte comune.
+
+- **Letto**: art. 26 «Classificazione dei lavoratori» del testo FAI CISL (`alimentare-e012-ccnl-2023-2027-faicisl-2026-10-16.pdf`), pp. 67–72 del testo stampato (PDF pp. 68–73), con `pdftotext -layout`: premessa, declaratorie degli otto livelli, note a verbale e passaggio dal 6° al 5° livello. Il PDF ha una pagina in più della numerazione stampata. Ogni stringa citata è stata confrontata per script con il testo estratto (tolti i trattini di fine riga); l'unica non trovata, nel 4° livello, attraversa il cambio pagina 70/71 e l'ho riletta a mano.
+- **Livelli coperti**: 1S, 1, 2, 3A, 3, 4, 5, 6, tutti con testo. Accorciati con «[…]» il 3A, il 3 e il 4 (la parte omessa del 3A e del 4 è in nota, per intero); il viaggiatore o piazzista di 2ª categoria del 3° è in nota.
+- **Nessun profilo per livello nella parte comune.** L'art. 26 comune ha solo le declaratorie. I «profili» con valore esemplificativo (art. 26 delle Disposizioni specifiche, a partire da circa p. 249 del PDF) sono della sezione olearia, che ha dieci livelli propri e resta fuori. Gli unici ruoli assegnati a un livello nella parte comune sono quelli della nota a verbale del 1° livello (responsabili dei servizi del saccarifero; responsabile dell'analisi di sistemi EDP, ricercatore scientifico, responsabile sviluppo prodotti), e sono gli `esempi` del livello 1. Il ticket supponeva profili anche per la parte comune: non ci sono.
+- **1S**: la declaratoria è quella dei «quadri»; il «1° livello super non quadri» (responsabile della ricerca, dello studio e della realizzazione di importanti innovazioni, nota 9, decorrenza 1° gennaio 1988) è in nota, nella stessa categoria perché il dataset ha un solo codice 1S.
+- **Non usato**: «Prima nota a verbale» (corrispondenza con le qualifiche precedenti), «Seconda» e «Terza nota a verbale», nota a verbale per l'industria saccarifera («maestri d'opera»), art. 27 e 28 (mansioni superiori e prevalenza).
+- **Limite**: la Commissione paritetica tecnica sull'aggiornamento delle declaratorie doveva chiudere entro marzo 2026; nel testo letto non c'è nessun aggiornamento, ma non so se i lavori abbiano prodotto altro fuori dal testo. Il testo è del 30 settembre 2025.
