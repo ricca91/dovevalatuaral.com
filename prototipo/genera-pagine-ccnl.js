@@ -1,6 +1,12 @@
 const fs=require('node:fs');
 const path=require('node:path');
 const R=require('./retribuzione-ccnl.js');
+/* RIC-143: chi genera può passare un altro catalogo (R.creaCatalogo),
+   per esempio una tranche futura fittizia nei test. Le funzioni che
+   leggono il dataset prendono un parametro `R` con default CATALOGO:
+   dentro, `R` è il catalogo ricevuto. Il template legge da R solo regole
+   che non dipendono dalle tabelle (testo degli scatti, RAL completa). */
+const CATALOGO=R;
 const {calcola,applicaMensilita}=require('./motore.js');
 const {renderHub,renderTabella,renderLivello}=require('./ccnl-page.template.js');
 
@@ -149,7 +155,18 @@ const CONTRATTI_SEO=Object.freeze([
     livelli:['3A4','3A3','QD4','QD1'],
     slugLivello:codice=>codice.replace(/^QD(\d)$/,'quadro-direttivo-$1-livello').replace(/^3A(\d)$/,'3-area-$1-livello'),
     etichetta:l=>l.codice==='AU'?'Area unificata'
-      :l.codice.replace(/^QD(\d)$/,'Quadro direttivo $1° livello').replace(/^3A(\d)$/,'3ª area $1° livello')},
+      :l.codice.replace(/^QD(\d)$/,'Quadro direttivo $1° livello').replace(/^3A(\d)$/,'3ª area $1° livello'),
+    /* RIC-143: «rinnovo contratto bancari» è la domanda più grande del
+       gruppo 2 e arriva il giorno della firma. Title e H1 lo dicono;
+       l'anno resta al template (RIC-105). Gli aumenti si leggono dal
+       dataset: oggi nessuno, perché la sola tabella del J241 non ha un
+       prima; alla firma bastano le nuove tranche in TABELLE_ABI. */
+    codaTitolo:'tabelle, netto e rinnovo',codaH1:'tabelle retributive e rinnovo',
+    aumentiDalDataset:true,
+    /* Gli scatti dei QD3–QD4 si contano dall'assunzione o dalla nomina
+       (art. 94 c. 2), non dall'anzianità in azienda: la pagina livello
+       usa la `base` della regola di ciascuna sezione. */
+    scattiDallaBase:true},
 ].map(Object.freeze));
 
 const HUB='/minimi-ccnl/';
@@ -166,22 +183,22 @@ const oggi=()=>new Date().toISOString().slice(0,10);
 
 /* Una riga del dataset portata fino al netto, col profilo canonico
    del sito: tempo pieno, zero scatti, nessun superminimo, Milano. */
-function stima(ccnl,sezione,codice,alla,extra={}){
+function stima(ccnl,sezione,codice,alla,{catalogo:R=CATALOGO,...extra}={}){
   const composta=R.componiRal({ccnl,sezione,livello:codice,alla,...extra});
   const risultato=applicaMensilita(calcola(String(composta.ral),{comune:COMUNE,nucleo:[]}),composta.mensilita);
   return {composta,nettoAnnuo:risultato.kpi.nettoAnnuo,nettoMensile:risultato.kpi.mediaMensile,voci:risultato.voci};
 }
 
-function profili(id){
+function profili(id,R=CATALOGO){
   const sezioni=R.sezioni(id);
   return sezioni.length?sezioni.map(s=>({sezione:s.id,nome:s.nome,descrizione:s.descrizione})):[{sezione:null,nome:null}];
 }
 
-function tabella(id,sezione,alla,rottaDi){
+function tabella(id,sezione,alla,rottaDi,R=CATALOGO){
   const vigente=R.tabellaVigente(id,alla,sezione);
   const prossima=R.prossimaTabella(id,alla,sezione);
   const righe=vigente.livelli.map(livello=>{
-    const s=stima(id,sezione,livello.codice,alla);
+    const s=stima(id,sezione,livello.codice,alla,{catalogo:R});
     const futura=prossima&&prossima.livelli.find(l=>l.codice===livello.codice);
     return {livello,...s,
       futuraMensile:futura?R.componiRal({ccnl:id,sezione,livello:livello.codice,alla:prossima.decorrenza}).baseMensile:null,
@@ -209,7 +226,7 @@ function tabella(id,sezione,alla,rottaDi){
 const unAnnoPrima=alla=>`${Number(alla.slice(0,4))-1}${alla.slice(4)}`;
 const giornoPrima=iso=>new Date(Date.parse(iso)-86400000).toISOString().slice(0,10);
 
-function vigenteAl(id,alla,sezione){
+function vigenteAl(id,alla,sezione,R=CATALOGO){
   try{return R.tabellaVigente(id,alla,sezione);}
   catch(e){if(e instanceof RangeError)return null;throw e;}
 }
@@ -230,19 +247,19 @@ function caloNetto(prima,dopo){
   return {netto,causa:null};
 }
 
-function trancheDalDataset(c,alla,rottaDi){
-  return profili(c.id).flatMap(p=>{
+function trancheDalDataset(c,alla,rottaDi,R=CATALOGO){
+  return profili(c.id,R).flatMap(p=>{
     const aperta=!c.sezioneLivelli||!p.sezione||c.sezioneLivelli===p.sezione;
     const tranche=[];
     for(let t=R.prossimaTabella(c.id,unAnnoPrima(alla),p.sezione);t;t=R.prossimaTabella(c.id,t.decorrenza,p.sezione)){
       const prima=giornoPrima(t.decorrenza);
-      if(!vigenteAl(c.id,prima,p.sezione))continue;
+      if(!vigenteAl(c.id,prima,p.sezione,R))continue;
       /* Un livello che sparisce non ha un dopo, uno nuovo non ha un prima. */
       const dopo=new Set(t.livelli.map(l=>l.codice));
       tranche.push({decorrenza:t.decorrenza,prima,titolo:t.titolo,sezione:p.sezione,nome:p.nome,aperta,
         righe:R.livelli(c.id,prima,p.sezione).filter(l=>dopo.has(l.codice)).map(livello=>({livello,
           rotta:aperta&&rottaDi?rottaDi(livello.codice):null,
-          prima:stima(c.id,p.sezione,livello.codice,prima),dopo:stima(c.id,p.sezione,livello.codice,t.decorrenza)}))
+          prima:stima(c.id,p.sezione,livello.codice,prima,{catalogo:R}),dopo:stima(c.id,p.sezione,livello.codice,t.decorrenza,{catalogo:R})}))
           .map(r=>({...r,calo:caloNetto(r.prima,r.dopo)}))});
     }
     return tranche;
@@ -253,7 +270,7 @@ function trancheDalDataset(c,alla,rottaDi){
    dell'Area meccanica (sezione metalmeccanica e impianti) il minimo viene
    dal dataset alla data della build. Solo le tabelle: nessuna pagina livello. */
 const SEO_DI=slug=>CONTRATTI_SEO.find(x=>x.slug===slug);
-function collegamentiMetalmeccanico(c,alla){
+function collegamentiMetalmeccanico(c,alla,R=CATALOGO){
   if(!['metalmeccanico','metalmeccanico-artigiano'].includes(c.slug))return {};
   const ponte=slug=>({seo:SEO_DI(slug),contratto:R.trovaContratto(SEO_DI(slug).id),rotta:rottaTabella(SEO_DI(slug))});
   const fuori={industria:ponte('metalmeccanico'),confapi:ponte('metalmeccanico-confapi')};
@@ -261,40 +278,40 @@ function collegamentiMetalmeccanico(c,alla){
   const art=ponte('metalmeccanico-artigiano'),sezione='metalmeccanica-impianti',livello='5';
   const livelli=R.livelli(art.contratto.id,alla,sezione);
   return {confapi:fuori.confapi,artigiano:{...art,livello,primoLivello:livelli[0].codice,ultimoLivello:livelli.at(-1).codice,
-    composta:stima(art.contratto.id,sezione,livello,alla).composta}};
+    composta:stima(art.contratto.id,sezione,livello,alla,{catalogo:R}).composta}};
 }
 
-function datiContratto(c,alla){
+function datiContratto(c,alla,{catalogo:R=CATALOGO}={}){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
   const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
   const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
     :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
-  return {seo:c,contratto,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla),esclusioni:R.ESCLUSIONI[c.id]||[],
-    aumentiDataset:c.aumentiDalDataset?trancheDalDataset(c,alla,rottaDi):[],
+  return {seo:c,contratto,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla,R),esclusioni:R.ESCLUSIONI[c.id]||[],
+    aumentiDataset:c.aumentiDalDataset?trancheDalDataset(c,alla,rottaDi,R):[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{
       const prima=new Date(Date.parse(decorrenza)-86400000).toISOString().slice(0,10);
       return {decorrenza,righe:R.livelli(c.id,prima).map(livello=>({livello,rotta:rottaDi(livello.codice),
-        prima:stima(c.id,null,livello.codice,prima),dopo:stima(c.id,null,livello.codice,decorrenza)}))};
+        prima:stima(c.id,null,livello.codice,prima,{catalogo:R}),dopo:stima(c.id,null,livello.codice,decorrenza,{catalogo:R})}))};
     }),
-    sezioni:profili(c.id).map(p=>({...p,...tabella(c.id,p.sezione,alla,
-      !c.sezioneLivelli||c.sezioneLivelli===p.sezione||!p.sezione?rottaDi:null)}))};
+    sezioni:profili(c.id,R).map(p=>({...p,...tabella(c.id,p.sezione,alla,
+      !c.sezioneLivelli||c.sezioneLivelli===p.sezione||!p.sezione?rottaDi:null,R)}))};
 }
 
 /* Per la pagina di un livello: ogni sezione in cui il livello esiste
    (Multiservizi lo ha fra operai e impiegati), gli scatti a tappe,
    tre orari ridotti e la tranche successiva. */
-function datiLivello(c,codice,alla){
+function datiLivello(c,codice,alla,{catalogo:R=CATALOGO}={}){
   const contratto=R.trovaContratto(c.id);
   /* La pagina per livello chiama RAL la cifra annua in titolo, KPI e
      scomposizione: dove una quota annua manca non la si genera (RIC-77). */
   if(!R.ralCompleta(c.id))throw new RangeError(`${c.id}: cifra annua parziale, niente pagina per livello`);
-  const sezioni=profili(c.id).filter(p=>!c.sezioneLivelli||p.sezione===c.sezioneLivelli)
+  const sezioni=profili(c.id,R).filter(p=>!c.sezioneLivelli||p.sezione===c.sezioneLivelli)
     .filter(p=>R.trovaLivello(c.id,codice,alla,p.sezione));
   if(!sezioni.length)throw new RangeError(`Livello ${codice} assente in ${c.id} al ${alla}`);
   const righe=sezioni.map(p=>{
     const livello=R.trovaLivello(c.id,codice,alla,p.sezione);
-    const base=stima(c.id,p.sezione,codice,alla);
+    const base=stima(c.id,p.sezione,codice,alla,{catalogo:R});
     const regola=R.regolaScatti(c.id,p.sezione);
     /* Con un periodo di anzianità sospeso (Bancari: 2013–2014) gli anni
        di una tappa dipendono dalla data di assunzione: la tappa dice
@@ -302,12 +319,12 @@ function datiLivello(c,codice,alla){
     const anniDi=n=>regola.sospensioni.length?null:regola.primoDopoAnni+(n-1)*regola.cadenzaAnni;
     const tappe=base.composta.valoreScatto!==null&&regola.tipo==='cifraFissa'&&regola.massimo>0
       ?[...new Set([1,Math.ceil(regola.massimo/2),regola.massimo])].map(n=>({n,anni:anniDi(n),
-        ...stima(c.id,p.sezione,codice,alla,{scatti:n})})):[];
+        ...stima(c.id,p.sezione,codice,alla,{scatti:n,catalogo:R})})):[];
     const ore=R.oreContrattuali(c.id,p.sezione);
-    const partTime=[20,24,30].filter(h=>h<ore).map(h=>({ore:h,...stima(c.id,p.sezione,codice,alla,{oreSettimanali:h})}));
+    const partTime=[20,24,30].filter(h=>h<ore).map(h=>({ore:h,...stima(c.id,p.sezione,codice,alla,{oreSettimanali:h,catalogo:R})}));
     const prossima=R.prossimaTabella(c.id,alla,p.sezione);
     const futura=prossima&&prossima.livelli.some(l=>l.codice===codice)
-      ?{decorrenza:prossima.decorrenza,...stima(c.id,p.sezione,codice,prossima.decorrenza)}:null;
+      ?{decorrenza:prossima.decorrenza,...stima(c.id,p.sezione,codice,prossima.decorrenza,{catalogo:R})}:null;
     return {...p,livello,...base,regola,tappe,partTime,futura,ore};
   });
   const tutti=R.livelli(c.id,alla,sezioni[0].sezione);
@@ -320,7 +337,7 @@ function datiLivello(c,codice,alla){
     if(R.trovaLivello(altro.id,codice,alla,c.affianca.sezione))
       affiancato={contratto:altro,seo:CONTRATTI_SEO.find(x=>x.id===altro.id),
         sezione:R.sezioni(altro.id).find(s=>s.id===c.affianca.sezione),
-        ...stima(altro.id,c.affianca.sezione,codice,alla)};
+        ...stima(altro.id,c.affianca.sezione,codice,alla,{catalogo:R})};
   }
   return {seo:c,contratto,codice,etichetta:c.etichetta(righe[0].livello),rotta:rottaLivello(c,codice),
     rottaTabella:rottaTabella(c),righe,esclusioni:R.ESCLUSIONI[c.id]||[],affiancato,
@@ -333,9 +350,9 @@ function datiLivello(c,codice,alla){
 
 /* La RAL di ogni pagina per livello, la stessa che la pagina mostra in
    testa: serve a chi la linka da fuori, come le pagine RAL (RIC-92). */
-function ralLivelli({alla=oggi()}={}){
+function ralLivelli({alla=oggi(),catalogo=CATALOGO}={}){
   return CONTRATTI_SEO.flatMap(c=>(c.livelli||[]).map(codice=>{
-    const d=datiLivello(c,codice,alla);
+    const d=datiLivello(c,codice,alla,{catalogo});
     return {rotta:d.rotta,slug:c.slug,nome:`${d.etichetta} ${c.breve}`,ral:d.righe[0].composta.ral};
   }));
 }
@@ -345,15 +362,15 @@ function write(file,contents){
   fs.writeFileSync(file,contents,'utf8');
 }
 
-function generate(outputDir=__dirname,{alla=oggi()}={}){
-  const contratti=CONTRATTI_SEO.map(c=>datiContratto(c,alla));
+function generate(outputDir=__dirname,{alla=oggi(),catalogo=CATALOGO}={}){
+  const contratti=CONTRATTI_SEO.map(c=>datiContratto(c,alla,{catalogo}));
   fs.rmSync(path.join(outputDir,'minimi-ccnl'),{recursive:true,force:true});
   const pagine=new Map();
   pagine.set(HUB,renderHub({contratti,alla}));
   for(const dati of contratti){
     pagine.set(dati.rotta,renderTabella({...dati,alla}));
     for(const codice of dati.seo.livelli||[]){
-      const livello=datiLivello(dati.seo,codice,alla);
+      const livello=datiLivello(dati.seo,codice,alla,{catalogo});
       pagine.set(livello.rotta,renderLivello({...livello,alla}));
     }
   }
