@@ -318,3 +318,15 @@ fissa aggiuntiva per 1Q e QS. Totale stampato = sola retribuzione tabellare
   22 settembre 2026. Parti diverse dal C030 («CCNL Area Meccanica»: Confartigianato, CNA,
   Casartigiani, CLAAI con FIM, FIOM, UILM). Le sue tabelle non sono nel dataset e la FAQ
   non ne cita importi: il 1.658 € che circola in SERP non è verificato.
+
+## Declaratorie (RIC-147, 22 ottobre 2026)
+
+Dati in `prototipo/declaratorie-ccnl.js`, voce `area-meccanica-artigianato-c030`; solo la sezione metalmeccanica e installazione di impianti.
+
+- **Letto** (scansione, `pdftoppm -r 100`, lettura a immagine; il PDF ha la numerazione stampata uguale a quella del file): pp. 4–5 (indice), 24–43 (periodo di prova, art. 17 per intero: classificazione comune, Quadro, autoriparazione, installazione di impianti, meccanica di produzione, figure della subacquea), 44–46 e 54–62 (orafi, odontotecnica, restauro: solo per escluderli; art. 17 quinquies a p. 61 e l'elenco di figure per settore a p. 62).
+- **Struttura dell'art. 17** (pp. 28–43): intro e mobilità professionale (p. 28), Quadro (p. 28), poi declaratorie **per settore**: autoriparazione (pp. 28–31, senza 1° e 2 bis), installazione di impianti (pp. 31–32, senza 1°), meccanica di produzione (pp. 33–41, tutte le otto categorie), figure della subacquea (pp. 41–43). La tabella dell'art. 29 è una sola per tutta la sezione.
+- **Scelta**: le categorie citate sono quelle della meccanica di produzione, l'unico settore con tutte e otto; le declaratorie dell'installazione di impianti sono in nota (2 bis, 3, 4, 5, 6, e l'assenza del 1°; la 2 è identica). **Non riportate**: autoriparazione (compreso il meccatronico) e subacquea: sono dichiarate nell'avvertenza.
+- **Esempi**: i nomi dei profili che il contratto scrive sotto ogni punto della declaratoria della meccanica di produzione, per categoria (Prima: 3 «ad esempio»; 2; 2 bis; 3; 4; 5; 6). Nessuna mappatura nostra. L'elenco per settore dell'art. 17 quinquies (p. 62) non assegna livelli e non è usato.
+- **Quadro**: la nota a verbale dice che il livello è introdotto «per i soli sistemi di inquadramento del Settore Meccanica di Produzione e Settore Orafi»; l'installazione di impianti e l'autoriparazione non lo nominano, ma la tabella dell'art. 29 ha 1Q per l'intera sezione. Riportata la nota, nessuna conclusione.
+- **«Secondo B»**: l'art. 17 chiama il livello «Seconda categoria bis» e non usa «Secondo B». Non c'è un rinvio che li identifichi: l'attribuzione resta per esclusione e **`ESCLUSIONI_AREA_MECCANICA` non è cambiata**. Segnalo che l'art. 17 elenca 8 categorie e dice «7 categorie professionali e 8 livelli retributivi».
+- **Limiti**: lettura a 100 dpi su scansione, con trascrizione a mano delle citazioni (nessun OCR disponibile); possibili refusi minuti rispetto all'originale, non verificabili per script. L'art. 17 quinquies istituisce un gruppo tecnico per la riforma del sistema di inquadramento.

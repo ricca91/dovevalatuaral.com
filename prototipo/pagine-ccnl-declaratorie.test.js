@@ -25,9 +25,9 @@ const chiRientra=html=>uno(html,/<section class="ccnl-blocco ccnl-chi-rientra" i
 /* I codici della tabella vigente, nella sezione delle pagine livello. */
 const codiciVigenti=id=>R.livelli(id,ALLA,seoDi(id).sezioneLivelli||null).map(l=>l.codice);
 
-const CONTRATTI=['gomma-plastica-industria-b371','chimico-farmaceutico-industria-b011'];
+const CONTRATTI=['gomma-plastica-industria-b371','chimico-farmaceutico-industria-b011','area-meccanica-artigianato-c030','alimentare-industria-e012'];
 
-test('il modulo ha gomma plastica e chimico, e solo contratti che hanno una tabella',()=>{
+test('il modulo ha i contratti attesi, e solo contratti che hanno una tabella',()=>{
   for(const id of CONTRATTI)assert.ok(declaratorie(id),id);
   for(const id of Object.keys(DECLARATORIE))assert.ok(seoDi(id),`${id}: nessuna tabella in CONTRATTI_SEO`);
   assert.equal(declaratorie('terziario-confcommercio-h011'),null);
@@ -44,6 +44,8 @@ test('ogni codice della tabella vigente sta in una sola categoria, e nessuna cat
   }
   assert.equal(codiciVigenti('gomma-plastica-industria-b371').length,10);
   assert.equal(codiciVigenti('chimico-farmaceutico-industria-b011').length,15);
+  assert.deepEqual(codiciVigenti('area-meccanica-artigianato-c030'),['1Q','1','2','2bis','3','4','5','6']);
+  assert.deepEqual(codiciVigenti('alimentare-industria-e012'),['1S','1','2','3A','3','4','5','6']);
 });
 
 test('nessuna categoria ha testo vuoto: o la declaratoria citata, o il limite dichiarato con gli esempi del contratto',()=>{
@@ -86,7 +88,7 @@ test('la sezione ha H2, articolo, link alla fonte e sta dopo gli aumenti e prima
       assert.ok(s.includes(`href="${esc(f.url)}"`),`${id}: link alla fonte ${f.titolo}`);
       assert.ok(s.includes(esc(f.parte)),`${id}: articolo ${f.parte}`);
     }
-    assert.match(s,/<b>Fonte:<\/b> art\. 4/,`${id}: la fonte comincia dall'articolo`);
+    assert.ok(s.includes(`<b>Fonte:</b> ${esc(x.articolo)}`),`${id}: la fonte comincia dall'articolo ${x.articolo}`);
     assert.ok(s.includes('Verificata il '),`${id}: data di verifica`);
     for(const cat of x.categorie){
       const voce=uno(s,new RegExp(`<article class="ccnl-livelli__voce" id="declaratoria-${cat.codici[0].toLowerCase()}" data-codici="${cat.codici.join(' ')}">([\\s\\S]*?)</article>`,'g'),`${id} ${cat.titolo}`);
@@ -118,10 +120,10 @@ test('ogni codice con pagina livello è linkato dalla sezione; gli altri puntano
     }
   }
   /* L'ancora esiste davvero. */
-  for(const id of CONTRATTI)assert.ok(leggi(rottaTabella(seoDi(id))).includes('id="tabella"'),id);
+  for(const id of CONTRATTI)assert.ok(leggi(rottaTabella(seoDi(id))).includes(`id="${seoDi(id).sezioneLivelli||'tabella'}"`),id);
 });
 
-test('le pagine livello di gomma e chimico hanno «Chi rientra nel …» sotto i KPI, con la declaratoria e i soli esempi del codice',()=>{
+test('le pagine livello dei contratti del modulo hanno «Chi rientra nel …» sotto i KPI, con la declaratoria e i soli esempi del codice',()=>{
   let pagine=0;
   for(const id of Object.keys(DECLARATORIE)){
     const c=seoDi(id),x=DECLARATORIE[id];
@@ -144,7 +146,7 @@ test('le pagine livello di gomma e chimico hanno «Chi rientra nel …» sotto i
       pagine++;
     }
   }
-  assert.equal(pagine,16);
+  assert.equal(pagine,25);
 });
 
 test('le pagine e le tabelle senza declaratorie non cambiano',()=>{
@@ -181,4 +183,40 @@ test('gomma plastica: declaratorie di quadri, G, H e I; livello I eliminato dal 
   assert.ok(pagina.includes('<b>Produzione:</b> addetti a lavori di preparazione; aiuto esecutivo'));
   const f=chiRientra(leggi('/minimi-ccnl/gomma-plastica/livello-f/'));
   assert.ok(f.includes('<b>Produzione:</b> regleur/attrezzatore; addetto conduzione impianti'));
+});
+
+test('metalmeccanico artigiano: art. 17, meccanica di produzione con l\'installazione di impianti in nota, esempi solo dal contratto',()=>{
+  const id='area-meccanica-artigianato-c030';
+  const x=declaratorie(id);
+  assert.equal(x.articolo,'art. 17');
+  assert.deepEqual(x.categorie.map(c=>c.codici.join(',')),['1Q','1','2','2bis','3','4','5','6']);
+  assert.match(categoriaDi(id,'1Q').testo,/funzioni organizzativamente articolate/);
+  assert.match(categoriaDi(id,'2bis').testo,/coordinamento dell’intero processo produttivo/);
+  for(const c of x.categorie.filter(c=>c.ambito))assert.equal(c.ambito,'settore Meccanica di produzione');
+  /* L'installazione di impianti non ha il 1° livello (art. 17, p. 31). */
+  assert.ok(categoriaDi(id,'1').note.some(n=>/non sono inquadrati i lavoratori del 1° livello/.test(n.testo)&&/Installazione di impianti/.test(n.riferimento)));
+  for(const codice of ['2bis','3','4','5','6'])assert.ok(categoriaDi(id,codice).note.some(n=>/Installazione di impianti/.test(n.riferimento)),codice);
+  assert.ok(x.fonti[0].archivio.endsWith('area-meccanica-c030-cnel-testo-definitivo-ccnl-2024-11-19.pdf'));
+  const p2=chiRientra(leggi('/minimi-ccnl/metalmeccanico-artigiano/livello-2-bis/'));
+  assert.ok(p2.includes('Tecnico di laboratorio'));
+  assert.ok(!p2.includes('Operatore/programmatore di C.N.'),'è un profilo della terza categoria');
+  const q=leggi(rottaTabella(seoDi(id)));
+  assert.ok(sezione(q).includes('Declaratoria, settore Meccanica di produzione'));
+});
+
+test('industria alimentare: art. 26, parte comune, otto livelli; nessun profilo per livello, solo i ruoli della nota a verbale del 1°',()=>{
+  const id='alimentare-industria-e012';
+  const x=declaratorie(id);
+  assert.equal(x.articolo,'art. 26');
+  assert.deepEqual(x.categorie.map(c=>c.codici.join(',')),['1S','1','2','3A','3','4','5','6']);
+  assert.ok(x.categorie.every(c=>c.testo));
+  assert.deepEqual(x.categorie.filter(c=>c.esempi).map(c=>c.codici[0]),['1']);
+  assert.match(x.avvertenza,/olearia/);
+  assert.ok(categoriaDi(id,'6').note.some(n=>/passeranno dal 6° al 5° livello dopo un periodo di sei mesi/.test(n.testo)));
+  const p5=chiRientra(leggi('/minimi-ccnl/industria-alimentare/5-livello/'));
+  assert.ok(p5.includes('macchine per la lavorazione, il confezionamento e la movimentazione di merci e prodotti'));
+  assert.ok(!p5.includes('Ruoli del contratto'),'nessun ruolo per il 5° livello');
+  const p3=chiRientra(leggi('/minimi-ccnl/industria-alimentare/3-livello/'));
+  assert.ok(p3.includes('lavoratori altamente specializzati'));
+  assert.ok(!p3.includes('conducono e controllano, con interventi risolutivi'),'è del terzo livello A');
 });
