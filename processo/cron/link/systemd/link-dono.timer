@@ -1,0 +1,12 @@
+[Unit]
+Description=link-dono, al massimo 5 bozze, il martedì alle 07:00 ora italiana
+
+[Timer]
+# Martedì: le bozze sono pronte per gli invii di martedì e mercoledì (spec, "Cadenza").
+OnCalendar=Tue *-*-* 07:00:00 Europe/Rome
+# Recupero all'avvio; la guardia di run.sh tiene un giro per settimana ISO.
+Persistent=true
+Unit=link@link-dono.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,26 @@
+[Unit]
+Description=link — job backlink %i (sistema RIC-119)
+Documentation=https://github.com/ricca91/dovevalatuaral.com/tree/main/processo/cron/link
+After=network-online.target
+Wants=network-online.target
+# Se il servizio muore prima che run.sh possa mandare la sua mail (fetch fallito, lock,
+# 203/EXEC), almeno questa parte. %i è il job: link-review, link-dono, link-fonti, link-recupero.
+OnFailure=link-fallito@%i.service
+
+[Service]
+Type=oneshot
+# lancia.sh crea un worktree usa e getta di origin/main dal clone bare
+# /root/cron/dovevalatuaral.git (lo stesso di articolo-quotidiano) e ci lancia run.sh %i.
+# Log, guardia anti-doppione e dati di lavoro in /root/cron/link.
+ExecStart=/root/cron/link/lancia.sh %i
+WorkingDirectory=/root/cron/link
+# systemd parte con un PATH ancora più scarno di cron: `claude` vive in ~/.local/bin.
+Environment=PATH=/root/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+# Senza HOME, claude non trova ~/.claude/.credentials.json (la login interattiva che
+# link-dono e link-recupero usano per Gmail) e il run muore muto.
+Environment=HOME=/root
+# Interruttore dell'autenticazione per i job con Gmail (vedi README): login o token.
+Environment=LINK_GMAIL_AUTH=login
+# Il primo lunedì del mese tre job si mettono in fila sul lock (fino a 3 ore di attesa),
+# poi run.sh ha il suo timeout per job (30-60 minuti). Questa è la rete sotto la rete.
+TimeoutStartSec=5h
