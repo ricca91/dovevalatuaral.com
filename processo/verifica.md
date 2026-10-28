@@ -413,9 +413,11 @@ decorrenza × livello). Il metodo è quello del gruppo 1; cambia l'organizzazion
 - **Competenza, non cassa.** Non è la simulazione di un cedolino: è il carico maturato
   sulla RAL dell'anno. Le addizionali si pagano a rate dopo il conguaglio. Per questo
   la cifra mensile è etichettata *media*, mai «importo del cedolino».
-- **Sopra 122.295 € si assume la prima iscrizione previdenziale dal 1996.** Il massimale
-  vale solo per chi è privo di anzianità al 31/12/1995. È l'unico punto del modello in cui
-  la sola RAL non basta più, e l'input non può dirlo.
+- **Sopra 122.295 € si assume che valga il massimale.** Il massimale vale solo per chi non
+  aveva anzianità contributiva al 31/12/1995 o ha optato per il sistema contributivo (L.
+  335/1995, art. 2 c. 18): per chi aveva contributi prima del 1996 e non ha optato non si
+  applica. È l'unico punto del modello in cui la sola RAL non basta più, e l'input non può
+  dirlo.
 - **Il 9,19% è una scelta di modello**, non un'aliquota universale: inquadramento INPS,
   settore, dimensione del datore e fondi speciali possono cambiarla.
 - **Un solo profilo personale.** Impiegato del settore privato, anno intero, tempo pieno,
