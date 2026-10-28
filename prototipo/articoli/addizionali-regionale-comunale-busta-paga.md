@@ -6,6 +6,7 @@ description: "L'addizionale comunale in busta paga parte a marzo con l'acconto, 
 query_principale: "addizionale comunale busta paga"
 cluster: "voce-per-voce"
 data_pubblicazione: 2026-10-26
+data_aggiornamento: 2026-10-28
 cta: "/"
 link_interni: ["/blog/conguaglio-in-busta-paga/", "/blog/netto-piu-basso-del-mese-scorso/", "/blog/ho-pagato-piu-tasse-del-previsto/", "/ral-30000-netto/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario"
@@ -14,7 +15,7 @@ stato: pubblicato
 ---
 L'**addizionale comunale in busta paga** non viene trattenuta in dodicesimi da gennaio. Ha un acconto del 30%, in un massimo di nove rate a partire da marzo, e un saldo in un massimo di undici rate dopo il conguaglio. L'**addizionale regionale** non ha acconto: il datore la determina al conguaglio e la trattiene in un massimo di undici rate dal periodo di paga successivo. Per questo le due voci ci sono in certi mesi e in altri no.
 
-> **In breve**: su 30.000 € di RAL a Milano l'addizionale comunale in busta paga vale 217,94 € all'anno e la regionale 377,94 €, in tutto 595,88 € su 3.817,51 € di imposte. Nel mese in cui le tre rate si sovrappongono sono 55,49 € in meno. Cambiando solo comune, a parità di RAL, il netto annuo varia di 921,56 €.
+> **In breve**: su 30.000 € di RAL a Milano l'addizionale comunale in busta paga vale 217,94 € all'anno e la regionale 377,94 €, in tutto 595,88 € su 3.817,51 € di imposte. Nel cedolino 2026 si sovrappongono acconto comunale 2026, saldo comunale 2025 e regionale 2025: nell’esempio sotto sono 55,49 € per mese di sovrapposizione, solo con imponibile, aliquote, soglie, detrazioni locali e domicilio fiscale invariati tra 2025 e 2026 e acconto 2025 già versato di 65,38 €. Cambiando solo comune, a parità di RAL, il netto annuo varia di 921,56 €.
 
 I numeri escono dal motore di calcolo del sito, con queste ipotesi: dipendente privato, nessun familiare a carico, anno intero, FPLD ordinario, regole 2026. Il motore stima l'anno, non il singolo cedolino. Contiene le aliquote delle addizionali per tutti i 7.894 comuni italiani, dalle tabelle del Dipartimento delle finanze.
 
@@ -37,19 +38,31 @@ Le due addizionali stanno **dentro** i 3.817,51 € di imposte, non si sommano a
 
 L'acconto parte da marzo, il saldo dal mese dopo il conguaglio. Il decreto che la istituisce dice che il sostituto d'imposta trattiene l'acconto «in un numero massimo di nove rate mensili, effettuate a partire dal mese di marzo», e il saldo in un massimo di undici rate dal periodo di paga successivo a quello del conguaglio. Gennaio e febbraio, di norma, non hanno acconto.
 
-Su Milano e 30.000 € di RAL, le rate massime valgono così. Il motore produce gli importi annui; la divisione per il numero di rate la faccio io, applicando il massimo che la legge consente.
+**Esempio illustrativo: cedolino 2026, conguaglio 2025 chiuso a dicembre 2025.** Assumo imponibile di 27.243 € in entrambi gli anni (30.000 € di RAL nelle ipotesi del motore), stesse aliquote, soglie, detrazioni locali e domicilio fiscale a Milano. Uso i valori del motore 2026 anche per il 2025 solo sotto queste ipotesi: non è una ricostruzione delle regole storiche. Assumo inoltre un acconto comunale 2025 già trattenuto di 65,38 €: questo dato va letto dai cedolini 2025, perché dipende a sua volta dall'imponibile 2024.
 
-| Voce | Importo annuo | Rate massime | Per rata |
-| --- | --- | --- | --- |
-| Addizionale regionale Lombardia | 377,94 € | 11, dal mese dopo il conguaglio | 34,36 € |
-| Addizionale comunale, acconto 30% | 65,38 € | 9, da marzo | 7,26 € |
-| Addizionale comunale, saldo | 152,56 € | 11, dal mese dopo il conguaglio | 13,87 € |
+| Voce nel cedolino 2026 | Anno d'imposta | Come ricavo l'importo da trattenere | Rate massime | Per rata |
+| --- | --- | --- | --- | --- |
+| Addizionale regionale Lombardia | 2025 | 377,94 € determinati al conguaglio 2025 | 11, dal mese dopo il conguaglio | 34,36 € |
+| Acconto addizionale comunale | 2026 | 30% sul calcolo riferito all'imponibile 2025: 65,38 € | 9, da marzo | 7,26 € |
+| Saldo addizionale comunale | 2025 | 217,94 € dovuti per il 2025 − 65,38 € di acconto già trattenuto nel 2025 = 152,56 € | 11, dal mese dopo il conguaglio | 13,87 € |
 
-Nei mesi in cui i tre calendari si incrociano sono 55,49 € che il mese prima non c'erano. Se il tuo netto è scalato di una cifra di quell'ordine senza che sia cambiato niente nel contratto, **potrebbe valere la pena verificare se sono partite queste rate** prima di cercare altrove: il confronto riga per riga fra due cedolini consecutivi l'ho scritto nel pezzo su [il netto più basso del mese scorso](/blog/netto-piu-basso-del-mese-scorso/).
+**55,49 € è la somma delle tre rate arrotondate nei mesi di sovrapposizione**, solo nelle ipotesi appena dichiarate: imponibile, aliquote, soglie, detrazioni locali e domicilio fiscale invariati fra 2025 e 2026, acconto 2025 già versato di 65,38 € e numero massimo di rate. L'ultima rata può recuperare i centesimi degli arrotondamenti. Non sono necessariamente 55,49 € in più rispetto al mese precedente: a marzo può aggiungersi il solo acconto di 7,26 €, se i due saldi sono già in corso. Per confrontare le singole righe c'è il pezzo su [il netto più basso del mese scorso](/blog/netto-piu-basso-del-mese-scorso/).
+
+### Se l'imponibile cambia fra 2025 e 2026?
+
+Tengo ferme le regole locali dell'esempio e l'acconto 2025 già versato di 65,38 €, ma porto l'imponibile 2026 a 31.783,50 €. Sono due calcoli annuali distinti:
+
+| Calcolo annuale illustrativo a Milano | Anno d'imposta 2025 | Anno d'imposta 2026 |
+| --- | --- | --- |
+| Imponibile | 27.243,00 € | 31.783,50 € |
+| Addizionale comunale dovuta | 217,94 € | 254,27 € |
+| Addizionale regionale dovuta | 377,94 € | 454,98 € |
+
+Nel cedolino **2026** l'acconto comunale resta 65,38 €, perché usa l'imponibile **2025**; il saldo comunale **2025** resta 152,56 € e la regionale **2025** resta 377,94 €. I 254,27 € dovuti per il 2026 entrano invece nel conguaglio 2026: tolti i 65,38 € di acconto 2026, il saldo è **188,89 €**, normalmente rateizzato nel 2027. Anche i 454,98 € di regionale 2026 si trattengono dopo quel conguaglio. Il saldo non è quindi un 70% automatico dell'imposta dello stesso anno dell'acconto esposto nel cedolino.
 
 ### Perché l'addizionale comunale compare due volte?
 
-Perché l'acconto si calcola sull'anno sbagliato. La legge lo fissa «nella misura del 30 per cento» dell'addizionale calcolata sul reddito dell'anno **precedente**: a marzo nessuno sa ancora quanto guadagnerai quest'anno, quindi si prende l'ultimo dato disponibile e si versa un anticipo. Il saldo, che arriva dopo il conguaglio, sistema la differenza fra l'anticipo e quello che devi davvero.
+Perché le due righe riguardano anni d'imposta diversi. La legge lo fissa «nella misura del 30 per cento» dell'addizionale calcolata sul reddito dell'anno **precedente**: a marzo nessuno sa ancora quanto guadagnerai quest'anno, quindi si prende l'ultimo dato disponibile e si versa un anticipo. Il saldo, che arriva dopo il conguaglio, sistema la differenza fra l'anticipo e quello che devi davvero.
 
 Il risultato è che in certi mesi vedi due righe di addizionale comunale con due importi diversi, e sono entrambe legittime. Una è l'anticipo di quest'anno, l'altra è il conto chiuso dell'anno scorso.
 
@@ -122,6 +135,9 @@ Molte delibere comunali nello snapshot del motore sono disciplina precedente pro
 Restano fuori le agevolazioni regionali legate a condizioni personali — familiari con disabilità, figli a carico, detrazioni per numero di figli — perché questi numeri assumono nessun familiare a carico. E il motore assume FPLD ordinario al 9,19% e anno intero lavorato: apprendistato, part time, settori con aliquota contributiva diversa, anni lavorati solo in parte, più datori nello stesso anno spostano le soglie, e lì non stimo niente.
 
 ## Fonti
+
+- D.Lgs. 360/1998, art. 1 c. 4–5, testo riportato nelle note della [Gazzetta Ufficiale del 22 maggio 2026](https://www.gazzettaufficiale.it/eli/gu/2026/05/22/117/sg/pdf): acconto sul reddito imponibile dell’anno precedente, con aliquota e soglia dell’anno precedente; saldo al conguaglio e distinti calendari di trattenuta. Verificato il 28 ottobre 2026 per l’esempio biennale.
+- Regione Toscana, [modalità di pagamento dell’addizionale regionale](https://www.regione.toscana.it/-/addizionale-regionale-all-irpef): determinazione al conguaglio e trattenuta in massimo undici rate dal mese successivo. Verificato il 28 ottobre 2026 per il calendario dell’esempio.
 
 - D.Lgs. 15 dicembre 1997, n. 446, art. 50 c. 4 — per i redditi di lavoro dipendente l'addizionale regionale è determinata dal sostituto d'imposta in sede di operazioni di conguaglio e trattenuta «in un numero massimo di undici rate», dal periodo di paga successivo a quello del conguaglio e non oltre quello le cui ritenute sono versate a dicembre; alla cessazione del rapporto è trattenuta in unica soluzione ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-15;446~art50)) · versione in vigore dal 12 agosto 2026, verificata il 26 ottobre 2026
 - D.Lgs. 446/1997, art. 50 c. 5 — l'addizionale regionale è dovuta «alla regione in cui il contribuente ha il domicilio fiscale alla data del 1° gennaio dell'anno cui si riferisce l'addizionale stessa» ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:1997-12-15;446~art50)) · verificata il 26 ottobre 2026
