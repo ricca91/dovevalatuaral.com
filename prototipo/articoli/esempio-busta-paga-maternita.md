@@ -6,6 +6,7 @@ description: "Esempio di busta paga in maternità obbligatoria: su 30.000 € di
 query_principale: "esempio busta paga maternità obbligatoria"
 cluster: "esempi-per-casistica"
 data_pubblicazione: 2026-10-27
+data_aggiornamento: 2026-10-28
 cta: "/"
 link_interni: ["/blog/esempio-busta-paga/", "/blog/esempio-busta-paga-malattia/", "/blog/tassazione-tredicesima/", "/come-ho-lavorato.html"]
 ipotesi_calcolo: "impiegata dipendente privata, RAL 30.000 €, 13 mensilità, Milano, nessun familiare a carico, anno intero, FPLD ordinario, regole 2026; indennità INPS esente da contributi IVS a carico della lavoratrice; nessuna integrazione del CCNL salvo dove indicato"
@@ -108,9 +109,23 @@ Sul piano della busta paga non cambia quasi nulla, ed è la risposta che serve a
 
 ## Maternità facoltativa: il congedo parentale costa molto di più
 
-Molto di più, ed è qui che il netto si sente davvero: un mese di congedo parentale al 30% costa 880,92 € netti, contro i 62,65 € di un mese di congedo obbligatorio. Dopo i cinque mesi obbligatori c'è il congedo parentale, quello che molti chiamano ancora maternità facoltativa, e non è pagato all'80% per intero: sono tre mesi complessivi all'80% fino ai sei anni del bambino — due alternativi fra i genitori più uno a testa — e il resto al **30%**, per tre mesi non trasferibili a ciascun genitore e altri tre alternativi, fino ai quattordici anni.
+Molto di più, ed è qui che il netto si sente davvero: un mese di congedo parentale al 30% costa 880,92 € netti, contro i 62,65 € di un mese di congedo obbligatorio.
 
-La differenza fra le due aliquote, sulla RAL dell'esempio, è questa.
+Il congedo parentale, spesso chiamato maternità facoltativa, ha **nove mesi ordinariamente indennizzati**: tre non trasferibili alla madre, tre al padre e tre alternativi fra i genitori, entro i quattordici anni del bambino. Nei sei mesi non trasferibili, fino a **tre mesi complessivi di coppia** possono passare dal 30% all'80% prima dei sei anni: ciascuno può essere ripartito o utilizzato da uno solo. Sono compresi nei nove, non si aggiungono. Gli altri mesi indennizzati restano al 30%.
+
+**Quanti mesi all'80% spettano?** Per i periodi fruiti oggi, le condizioni temporali sono queste:
+
+| Massimo complessivo di coppia all'80% | Fine del congedo di maternità o, in alternativa, paternità |
+| --- | --- |
+| 1 mese | Dopo il 31 dicembre 2022 |
+| 2 mesi | Dopo il 31 dicembre 2023 |
+| 3 mesi | Dopo il 31 dicembre 2024 |
+
+Per nascite dal 2023, 2024 o 2025 spettano rispettivamente fino a uno, due o tre mesi maggiorati anche indipendentemente dalla fine del congedo. Resta il limite dei sei anni. Le maggiorazioni valgono per dipendenti; non tutte le nascite pregresse danno diritto a tre mesi.
+
+Oltre nove mesi, il 30% spetta solo con reddito individuale inferiore a 2,5 volte il trattamento minimo pensionistico annuo, nei limiti di durata del congedo.
+
+La differenza fra le due aliquote, sulla RAL dell'esempio, è questa. **Ogni riga è uno scenario alternativo: i mesi non vanno sommati fra righe.** Gli scenari all'80% presuppongono i requisiti appena indicati.
 
 | Mesi di congedo parentale, dopo i 5 obbligatori | Indennità lorda al mese | Netto annuo calcolato | Costo netto in più |
 | --- | --- | --- | --- |
@@ -182,7 +197,7 @@ Se vuoi il conto sulla tua cifra esatta invece che su 30.000 €, la RAL si mett
 - D.Lgs. 151/2001, art. 22 — indennità giornaliera pari all'80% della retribuzione per tutto il congedo (c. 1), corresponsione con le modalità dell'assicurazione obbligatoria contro le malattie (c. 2), computo nell'anzianità di servizio a tutti gli effetti compresi tredicesima e ferie (c. 3) ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2001-03-26;151~art22)) · verificata il 27 ottobre 2026
 - D.Lgs. 151/2001, art. 23 — retribuzione media globale giornaliera del periodo di paga mensile precedente l'inizio del congedo, con divisore 30, più il rateo giornaliero della gratifica natalizia o tredicesima mensilità ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2001-03-26;151~art23)) · verificata il 27 ottobre 2026
 - D.Lgs. 151/2001, art. 25 — trattamento previdenziale dei periodi di congedo di maternità e contribuzione figurativa, senza anzianità contributiva pregressa in costanza di rapporto ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2001-03-26;151~art25)) · verificata il 27 ottobre 2026
-- D.Lgs. 151/2001, art. 34, testo in vigore dal 1° gennaio 2026 — congedo parentale indennizzato all'80% per tre mesi complessivi fino ai sei anni del bambino e al 30% per i periodi ulteriori fino ai quattordici anni ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2001-03-26;151~art34)) · verificata il 27 ottobre 2026
+- INPS, indennità di congedo parentale per lavoratrici e lavoratori dipendenti — nove mesi indennizzati, maggiorazione nei sei non trasferibili, condizioni temporali ed eccezione reddituale ([scheda INPS](https://www.inps.it/it/it/dettaglio-scheda.it.schede-servizio-strumento.schede-servizi.50583.indennit-di-congedo-parentale-per-lavoratrici-e-lavoratori-dipendenti.html)) · verificata il 28 ottobre 2026
 - L. 30 aprile 1969, n. 153, art. 12, c. 4 lett. d) e c. 5 — sono escluse dalla base imponibile contributiva le somme poste a carico di gestioni assistenziali e previdenziali obbligatorie per legge, e l'elenco delle esclusioni è tassativo ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1969-04-30;153~art12)) · verificata il 27 ottobre 2026
 - D.L. 30 dicembre 1979, n. 663, art. 1 — il datore di lavoro corrisponde l'indennità all'atto della corresponsione della retribuzione e la pone a conguaglio con i contributi dovuti all'Istituto ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legge:1979-12-30;663~art1)) · verificata il 27 ottobre 2026
 - INPS, circolare 101 del 29 novembre 2024 — aliquota IVS 9,19% a carico del lavoratore, usata dal motore per i contributi di questa pagina ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · verificata il 27 ottobre 2026
