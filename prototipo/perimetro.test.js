@@ -5,6 +5,7 @@ const assert=require('node:assert/strict');
 const {readFileSync}=require('node:fs');
 const {test}=require('node:test');
 const {join}=require('node:path');
+const vm=require('node:vm');
 
 const AGGIORNATO_AL='22 settembre 2026';   // data degli stati verificati su Linear
 
@@ -91,4 +92,41 @@ test('la-storia.html · ogni filone riporta lo stato verificato',()=>{
 test('il template delle pagine RAL conserva Milano, che è il profilo simulato',()=>{
   for(const file of ['ral-page.template.js','confronti-ral/index.html'])
     assert.match(leggi(file),/Milano/,`${file}: Milano è il profilo simulato, non va rimossa`);
+});
+
+/* Il massimale contributivo non vale per ogni dipendente: l'art. 2 c. 18
+   della L. 335/1995 lo riserva a chi non aveva anzianità contributiva al
+   31 dicembre 1995 e a chi ha optato per il contributivo. La FAQ, il limite
+   dichiarato e l'avviso del risultato devono dirlo tutti e tre, con la
+   stessa cifra del motore, e l'avviso deve comparire accanto al netto
+   appena il massimale morde (RIC-150). */
+test('home · FAQ, limiti e avviso dicono a chi vale il massimale (RIC-150)',()=>{
+  const {K,toNumber}=require('./motore.js');
+  const {contesto}=require('../processo/attrezzi/genera-home.cjs');
+  const home=contesto();
+  const esegui=codice=>vm.runInContext(codice,home);
+  const massimale=toNumber(K.contributi.massimale);
+  const cifra=`${massimale.toLocaleString('it-IT')} €`;
+  const testo=html=>html.replace(/<[^>]+>/g,'').replace(/\s+/g,' ');
+  const risultato=ral=>esegui(`applicaMensilita(calcola('${ral}',{}),13)`);
+  home.risultato=risultato;
+
+  const faq=esegui(`FAQ.find(([domanda])=>/contributi a carico del dipendente/.test(domanda))[1]`);
+  const limite=esegui(`LIMITI.find(voce=>/massimale/.test(voce.join(' '))).join('. ')`);
+  const avviso=esegui(`avvisoMassimale(risultato('${massimale+1}'))`);
+  for(const [dove,html] of [['FAQ',faq],['limite dichiarato',limite],['avviso del risultato',avviso]]){
+    const t=testo(html);
+    assert.ok(t.includes(cifra),`${dove}: la soglia non è quella del motore (${cifra})`);
+    assert.match(t,/anzianità contributiva al (31 dicembre 1995|31\/12\/1995)/,
+      `${dove}: manca chi era privo di anzianità al 31 dicembre 1995`);
+    assert.match(t,/optato per il (sistema )?contributivo/,`${dove}: manca chi ha optato per il contributivo`);
+    assert.match(t,/non (si applica|è applicabile|vale)/,`${dove}: non dice per chi il massimale non vale`);
+  }
+  assert.ok(leggi('index.html').includes(faq),'index.html: la FAQ statica non è stata rigenerata');
+
+  assert.equal(esegui(`avvisoMassimale(risultato('${massimale}'))`),'',
+    'alla soglia esatta il massimale non taglia niente: nessun avviso');
+  const sezione=esegui(`sezioni(risultato('150000'),st).find(s=>s.id==='risultato').body`);
+  assert.ok(sezione.includes(esegui(`avvisoMassimale(risultato('150000'))`)),
+    'a 150.000 € l\'avviso deve stare nella sezione del risultato');
 });

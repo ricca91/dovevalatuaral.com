@@ -8,7 +8,7 @@ cluster: "tfr"
 data_pubblicazione: 2026-10-24
 cta: "/"
 link_interni: ["/blog/come-si-calcola-il-tfr/", "/blog/esempio-busta-paga-liquidazione-tfr/", "/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/come-ho-lavorato.html"]
-ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, scaglioni IRPEF 2026, imponibile TFR già al netto delle rivalutazioni, RAL costante nei cinque anni precedenti la cessazione"
+ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, scaglioni IRPEF 2026, imponibile TFR già al netto delle rivalutazioni"
 fonti_verificate: 2026-10-24
 stato: pubblicato
 ---
@@ -47,7 +47,7 @@ Da 37.450 € a 44.866,67 €, sempre secondo gli anni. Un TFR di 60.000 € mat
 
 ## Perché l'aliquota non è quella del tuo scaglione?
 
-Perché la norma non guarda quanto guadagni: guarda quanto TFR hai maturato in media ogni anno, e lo trasforma in uno stipendio immaginario. Il TUIR lo chiama **reddito di riferimento** e lo calcola così: imponibile diviso gli anni di servizio, moltiplicato per dodici. Su quel numero si leggono gli scaglioni IRPEF, si ricava l'aliquota media, e quella aliquota si applica a tutto l'imponibile. È il meccanismo della **tassazione separata** del TFR, ed è l'unica cosa che decide quanto paghi.
+Perché la norma non guarda quanto guadagni: guarda quanto TFR hai maturato in media ogni anno, e lo trasforma in uno stipendio immaginario. Il TUIR lo chiama **reddito di riferimento** e lo calcola così: imponibile diviso gli anni di servizio, moltiplicato per dodici. Su quel numero si leggono gli scaglioni IRPEF, si ricava l'aliquota media, e quella aliquota si applica a tutto l'imponibile. È il meccanismo della **tassazione separata** usato dal datore per la trattenuta provvisoria; la riliquidazione dell’Agenzia può modificarla.
 
 | TFR imponibile 30.000 € | Reddito di riferimento | Aliquota | Imposta |
 | --- | --- | --- | --- |
@@ -81,27 +81,15 @@ Il 3% è un'ipotesi dichiarata, non una previsione: dipende da un indice ISTAT c
 
 ## L'aliquota media dei cinque anni precedenti: il conto che arriva dopo
 
-Quella del datore di lavoro è una tassazione provvisoria. Il conto definitivo lo fa l'Agenzia delle Entrate, e non usa il reddito di riferimento. Usa l'**aliquota media di tassazione dei cinque anni precedenti** a quello in cui è maturato il diritto, poi iscrive a ruolo la differenza o te la rimborsa. È il passaggio che quasi nessuno racconta, ed è quello che sposta più soldi.
+Quella del datore di lavoro è una tassazione provvisoria. L'Agenzia delle Entrate riliquida l'imposta usando l'**aliquota media di tassazione dei cinque anni precedenti** a quello in cui è maturato il diritto. Dal confronto con l'imposta già trattenuta può risultare una maggiore imposta da versare oppure un rimborso.
 
-Perché sposta tanto: la tua aliquota media reale è molto più bassa del 23%, perché tiene dentro le detrazioni da lavoro dipendente. Su una RAL di 30.000 € l'IRPEF netta dell'anno è 3.221,63 € su un imponibile fiscale di 27.243 €: **aliquota media 11,8255%**, non 23. Il conto completo di quella RAL, voce per voce, sta in [quanto sono netti 30.000 € di RAL](/ral-30000-netto/).
+La circolare 29/E del 2001 descrive il calcolo dell'aliquota: si divide la somma delle imposte calcolate sui redditi complessivi dei cinque anni, al netto degli oneri deducibili e senza considerare i crediti d'imposta, per la somma dei redditi così considerati. Non si ricava dividendo l'IRPEF netta dopo le detrazioni da lavoro dipendente per l'imponibile di un solo anno.
 
-| RAL costante | TFR imponibile a 15 anni | Imposta del datore | Aliquota media del quinquennio | Imposta definitiva | Differenza |
-| --- | --- | --- | --- | --- | --- |
-| 20.000 € | 20.722,22 € | 4.766,11 € | 7,5255% | 1.559,46 € | 3.206,65 € a rimborso |
-| 25.000 € | 25.902,78 € | 5.957,64 € | 8,0460% | 2.084,15 € | 3.873,49 € a rimborso |
-| 30.000 € | 31.083,33 € | 7.149,17 € | 11,8255% | 3.675,77 € | 3.473,40 € a rimborso |
-| 35.000 € | 36.263,89 € | 8.467,08 € | 15,8638% | 5.752,84 € | 2.714,24 € a rimborso |
-| 40.000 € | 41.444,44 € | 10.176,67 € | 20,7581% | 8.603,07 € | 1.573,60 € a rimborso |
-| 50.000 € | 51.805,56 € | 13.595,83 € | 25,9549% | 13.446,10 € | 149,73 € a rimborso |
-| 60.000 € | 62.166,67 € | 17.015,00 € | 28,6745% | 17.825,96 € | 810,96 € a debito |
-
-Ipotesi della tabella: quindici anni di servizio, RAL costante e uguale in tutti e cinque gli anni precedenti, quota annua di TFR pari al 6,90741% della RAL. L'aliquota media la calcolo come IRPEF netta divisa per l'imponibile fiscale, con i numeri del motore. Le addizionali restano fuori: non entrano nella tassazione del TFR né nel calcolo dell'aliquota media.
-
-Il punto di pareggio cade intorno a una RAL di **50.000 €**. Sotto, l'Agenzia ti deve dei soldi; sopra, li chiede. Il verso del conto dipende dalle detrazioni: finché le detrazioni abbassano la tua aliquota reale sotto il 23%, la ritenuta del datore è più alta del dovuto.
+Una RAL, anche se costante, non basta a prevedere il saldo: servono i dati fiscali effettivi del quinquennio e le regole applicabili a ciascun anno. Per questo qui non stimo né un rimborso né una soglia di reddito sotto la quale il rimborso sarebbe garantito.
 
 ### Quanto viene tassato il TFR a fine rapporto, allora?
 
-Due volte, con due aliquote diverse, e la seconda è quella che vale. Prima il datore trattiene l'imposta provvisoria sul reddito di riferimento, e la vedi nell'ultimo cedolino. Poi, a distanza di anni, arriva la riliquidazione dell'Agenzia: una comunicazione che ricalcola tutto con l'aliquota media del quinquennio e chiude il conto. Se la lettera non arriva, il conto non è chiuso: è solo in ritardo.
+Prima una trattenuta provvisoria, poi una riliquidazione: non sono due imposte da sommare. Prima il datore trattiene l'imposta provvisoria sul reddito di riferimento, e la vedi nell'ultimo cedolino. Poi, a distanza di anni, arriva la riliquidazione dell'Agenzia: una comunicazione che ricalcola tutto con l'aliquota media del quinquennio e chiude il conto. Se la lettera non arriva, il conto non è chiuso: è solo in ritardo.
 
 ## Cosa cambia per il TFR dal 1° gennaio 2026?
 
@@ -127,5 +115,5 @@ Non posso dirti se la trattenuta sul tuo TFR è giusta, e non lo farei. Posso di
 - L. 199/2025, art. 1 c. 3 — scaglioni e aliquote IRPEF 2026: 23% fino a 28.000 €, 33% fino a 50.000 €, 43% oltre ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · verificata il 24 ottobre 2026
 - Agenzia delle Entrate, imposta sostitutiva sulle rivalutazioni del TFR — aliquota 17% sull'incremento del fondo accantonato al 31 dicembre, esclusa la quota maturata nell'anno, versata dal datore di lavoro ([Agenzia delle Entrate](https://www.agenziaentrate.gov.it/portale/schede/pagamenti/f24-imposta-sostitutiva-tfr/cosa-f24-imposta-sostitutiva-tfr)) · verificata il 24 ottobre 2026
 - Codice civile, art. 2120 — quota annua di TFR pari alla retribuzione dovuta per l'anno divisa per 13,5; L. 297/1982, art. 3 c. 15 e 16 per la riduzione dello 0,50%, da cui il 6,90741% usato nelle tabelle ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262~art2120)) · verificata il 24 ottobre 2026
-- INPS, circolare 101/2024 — aliquota IVS 9,19% a carico del lavoratore, usata dal motore per ricavare l'imponibile fiscale su cui si misura l'aliquota media ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · verificata il 24 ottobre 2026
-- Nota sul metodo: Normattiva pubblica il testo degli articoli con uno script che il mio strumento di lettura non esegue, quindi i link normativi qui sopra li ho aperti ma non ho potuto rileggerne il testo parola per parola in questa sessione. Gli scaglioni IRPEF 2026 e l'aliquota IVS sono quelli implementati e testati nel motore del sito; l'imposta sostitutiva del 17% è quella dichiarata dall'Agenzia delle Entrate nella scheda linkata. Il reddito di riferimento, la riliquidazione quinquennale e l'esclusione delle rivalutazioni restano affidati ai testi di legge citati, e la clausola di salvaguardia del 2007 non la applico proprio perché non ho potuto verificarla.
+- Agenzia delle Entrate, circolare 29/E del 20 marzo 2001, par. 4.4 — metodo di calcolo dell’aliquota media quinquennale ([Documentazione economica e finanziaria](https://def.giustiziatributaria.gov.it/DocTribFrontend/getPrassiDetail.do?id=%7B934AAE02-8DEC-4E0C-8C84-B90CA50D9463%7D)). Il portale non era raggiungibile durante questa revisione; il testo è consultabile anche nella [trascrizione della circolare](https://www.ateneoweb.com/rassegna-normativa/circolare-agenzia-entrate-n-29-del-20-03-2001/).
+- Nota sul metodo: Normattiva pubblica il testo degli articoli con uno script che il mio strumento di lettura non esegue, quindi i link normativi qui sopra li ho aperti ma non ho potuto rileggerne il testo parola per parola in questa sessione. Gli scaglioni IRPEF 2026 sono quelli implementati e testati nel motore del sito; l'imposta sostitutiva del 17% è quella dichiarata dall'Agenzia delle Entrate nella scheda linkata. Il reddito di riferimento, la riliquidazione quinquennale e l'esclusione delle rivalutazioni restano affidati ai testi di legge citati, e la clausola di salvaguardia del 2007 non la applico proprio perché non ho potuto verificarla.

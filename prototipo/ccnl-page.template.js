@@ -407,7 +407,7 @@ function faqCommercio(d){
   const faq=[
     {domanda:'Quanto prende netto il 3° livello CCNL Commercio?',risposta:`Il netto medio stimato è ${eur(tre.nettoMensile)} al mese su 14 mensilità, con minimo lordo di ${eur(tre.composta.baseMensile)}. Il caso è un tempo pieno a Milano senza scatti né superminimo.`,livello:'3'},
     {domanda:'Cosa cambia tra 4° e 3° livello di Commercio?',risposta:`Il minimo lordo passa da ${eur(quattro.composta.baseMensile)} del 4° livello a ${eur(tre.composta.baseMensile)} del 3°. Il netto dipende anche da comune, anzianità e condizioni personali: il confronto usa lo stesso profilo.`,livello:'4'},
-    {domanda:'Quali sono gli aumenti previsti per il 2026 e il 2027?',risposta:'Al 4° livello sono previsti 35 € lordi mensili dal 1° novembre 2026 e altri 40 € dal 1° febbraio 2027. Gli importi sono riparametrati sugli altri livelli, come mostrano le tabelle prima e dopo.',livello:'4'},
+    {domanda:'Quali sono gli aumenti del 2026 e del 2027?',risposta:'Al 4° livello il rinnovo stabilisce un aumento di 35 € lordi mensili dal 1° novembre 2026 e altri 40 € dal 1° febbraio 2027. Gli importi sono riparametrati sugli altri livelli, come mostrano le tabelle prima e dopo.',livello:'4'},
     {domanda:'Quali sono le fasce di retribuzione nel CCNL Commercio?',risposta:'La tabella nazionale comprende Quadro e livelli dal 1° al 7°, oltre alle due categorie degli operatori di vendita. Sono minimi contrattuali: scatti, superminimo e maggiorazioni possono aumentare la retribuzione.',livello:'5'},
   ];
   const schema={'@context':'https://schema.org','@type':'FAQPage',mainEntity:faq.map(f=>({'@type':'Question',name:f.domanda,acceptedAnswer:{'@type':'Answer',text:f.risposta}}))};
@@ -741,7 +741,7 @@ function blocchiRiga(rotta,d,r,conNome){
   return `<section class="ccnl-riga"${r.sezione?` id="${esc(r.sezione)}"`:''}>
     ${conNome?`<h2>${esc(r.nome)}</h2>`:''}
     <div class="ccnl-kpi">
-      <div><span class="micro">Minimo lordo mensile</span><b>${eur(r.composta.baseMensile)}</b></div>
+      <div><span class="micro">${d.contratto.id==='logistica-trasporto-merci-i100'?'Lordo mensile con EDR':'Minimo lordo mensile'}</span><b>${eur(r.composta.baseMensile)}</b></div>
       <div><span class="micro">RAL · ${mensilitaTesto(r.composta.mensilita)} mensilità</span><b>${eur(r.composta.ral)}</b></div>
       <div><span class="micro">Netto annuo stimato</span><b>${eur(r.nettoAnnuo)}</b></div>
       <div><span class="micro">Netto medio al mese</span><b>${eur(r.nettoMensile)}</b></div>
@@ -776,9 +776,15 @@ function renderLivello(d){
   const intro=uguali
     ?`Nel CCNL ${esc(contratto.nome)} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese, uguale per ${righe.map(r=>esc(r.nome.toLowerCase())).join(' e per ')}`
     :`Nel CCNL ${esc(contratto.nome)}${sezione} ${esc(il)} ha un minimo di ${eur(r0.composta.baseMensile)} lordi al mese`;
+  const logistica=contratto.id==='logistica-trasporto-merci-i100';
+  const base=r0.composta.quote.find(q=>q.id==='base');
+  const edr=r0.composta.quote.find(q=>q.id==='edr');
+  const lead=logistica
+    ?`Nel CCNL ${esc(contratto.nome)}${sezione}, per ${esc(il)} la retribuzione contrattuale è ${eur(base.mensile)} al mese per 14 mensilità, più ${eur(edr.mensile)} di EDR per 13 mensilità. Il lordo nei mesi con EDR è ${eur(r0.composta.baseMensile)}; la quattordicesima non include l’EDR. La RAL è ${eur(r0.composta.ral)}: circa <b>${eur(r0.nettoMensile)} netti al mese</b>, senza scatti né superminimo.`
+    :`${intro}. Su ${mensilitaTesto(r0.composta.mensilita)} mensilità fa una RAL di ${eur(r0.composta.ral)}: circa <b>${eur(r0.nettoMensile)} netti al mese</b>, senza scatti né superminimo.`;
   const body=`<header class="ral-intro"><div class="eyebrow">${esc(seo.titoloTabella)} · ${esc(contratto.codiceCnel)}</div>
     <h1>${esc(nomeIntero)}: minimo, RAL e netto</h1>
-    <p class="lead">${intro}. Su ${mensilitaTesto(r0.composta.mensilita)} mensilità fa una RAL di ${eur(r0.composta.ral)}: circa <b>${eur(r0.nettoMensile)} netti al mese</b>, senza scatti né superminimo.</p>
+    <p class="lead">${lead}</p>
     <p class="ral-thesis">Tabella nazionale in vigore dal ${data(r0.composta.decorrenza)}.</p>
   </header>
   ${avvisoFonte(contratto)}
@@ -791,7 +797,7 @@ function renderLivello(d){
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,title:titoloLivello(etichetta,seo.query,r0.nettoMensile),
-    description:`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi al mese su ${mensilitaTesto(r0.composta.mensilita)} mensilità, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`,
+    description:logistica?`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi nei mesi con EDR, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`:`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi al mese su ${mensilitaTesto(r0.composta.mensilita)} mensilità, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`,
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},
       {nome:seo.titoloTabella,rotta:d.rottaTabella},{nome:etichetta,rotta}],body});
 }

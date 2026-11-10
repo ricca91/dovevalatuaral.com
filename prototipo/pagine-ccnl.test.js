@@ -222,6 +222,11 @@ test('l’hub conta i contratti che riceve, nell’apertura e nella description'
   const descrizione=html=>uno(html,/<meta name="description" content="([^"]+)">/g,'description');
   const hub=leggi('/minimi-ccnl/');
   assert.ok(testo(hub).includes('19 contratti collettivi, livello per livello'));
+  const hubSitemap=[...sitemap().matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map(m=>new URL(m[1]).pathname)
+    .filter(p=>/^\/minimi-ccnl\/[^/]+\/$/.test(p));
+  assert.equal(new Set(hubSitemap).size,hubSitemap.length);
+  assert.equal(Number(uno(testo(hub),/(\d+) contratti collettivi, livello per livello/g,'conteggio hub')),hubSitemap.length);
   assert.match(descrizione(hub),/^Tabelle retributive 2026 di 19 CCNL, dal Commercio ai Bancari/);
   const due=renderHub({contratti:CONTRATTI_SEO.slice(0,2).map(c=>datiContratto(c,ALLA)),alla:ALLA});
   assert.ok(testo(due).includes('2 contratti collettivi, livello per livello'));
@@ -398,15 +403,14 @@ test('Cooperative sociali: pagine per i livelli A1, A2, F1, F2, senza NaN (RIC-1
   }
 });
 
-test('la tabella Pubblici esercizi linka solo i livelli 3-6 «generale» alle pagine Turismo',()=>{
+test('i livelli FIPE non rimandano silenziosamente al contratto Turismo (RIC-210)',()=>{
   const html=leggi('/minimi-ccnl/pubblici-esercizi/');
   const sezioni=html.split('<section class="ccnl-sezione"').slice(1);
   assert.equal(sezioni.length,3);
   const link=s=>[...s.matchAll(/<th scope="row"><a href="([^"]+)">([^<]+)<\/a><\/th>/g)];
-  const generale=link(sezioni.find(s=>s.startsWith(' id="generale"')));
-  assert.deepEqual(generale.map(m=>m[1]),['3','4','5','6'].map(n=>`../../minimi-ccnl/turismo/${n}-livello/`));
-  for(const [,href] of generale)assert.ok(ROTTE.includes(new URL(href,`${ORIGIN}/minimi-ccnl/pubblici-esercizi/`).pathname),href);
-  for(const s of sezioni.filter(s=>!s.startsWith(' id="generale"')))assert.equal(link(s).length,0);
+  for(const s of sezioni)assert.equal(link(s).length,0);
+  for(const [,href] of html.matchAll(/href="([^"]+)"/g))
+    assert.ok(!new URL(href,`${ORIGIN}/minimi-ccnl/pubblici-esercizi/`).pathname.startsWith('/minimi-ccnl/turismo/'),href);
   /* nessuna pagina propria, nessuna carta «Approfondisci un livello» */
   assert.equal(ROTTE.filter(r=>r.startsWith('/minimi-ccnl/pubblici-esercizi/')&&r!=='/minimi-ccnl/pubblici-esercizi/').length,0);
   assert.doesNotMatch(html,/Approfondisci un livello/);
