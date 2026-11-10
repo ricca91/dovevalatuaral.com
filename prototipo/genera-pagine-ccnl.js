@@ -47,13 +47,9 @@ const CONTRATTI_SEO=Object.freeze([
     titoloTabella:'CCNL Metalmeccanico',livelli:['D1','D2','C1','C2','C3','B1','B2','B3','A1'],
     slugLivello:lettera,etichetta:livelloL},
   {id:'pubblici-esercizi-fipe-h05y',slug:'pubblici-esercizi',breve:'Pubblici esercizi',
-    titoloTabella:'CCNL Pubblici esercizi (FIPE)',
-    /* Nessuna pagina livello propria, per scelta: i livelli 3-6 della
-       sezione «generale» sono serviti dalle pagine /turismo/<n>-livello/,
-       che mostrano i due contratti affiancati (vedi `affianca` di
-       Turismo). La tabella linka quelle pagine; 6s, Qa, Qb, 1, 2, 7 e le
-       sezioni «collettiva» e «minori» restano senza link. */
-    livelliServitiDa:'turismo',sezioneLivelli:'generale'},
+    /* Senza pagine FIPE dedicate, i livelli non devono aprire il dettaglio
+       di un contratto diverso, anche se questo contiene un confronto. */
+    titoloTabella:'CCNL Pubblici esercizi (FIPE)'},
   {id:'turismo-federalberghi-h052',slug:'turismo',breve:'Turismo',query:'CCNL Turismo',
     titoloTabella:'CCNL Turismo',livelli:['3','4','5','6'],slugLivello:numerico,etichetta:livelloN,
     sezioneLivelli:'generale',
@@ -288,9 +284,7 @@ function collegamentiMetalmeccanico(c,alla,R=CATALOGO){
 function datiContratto(c,alla,{catalogo:R=CATALOGO}={}){
   const contratto=R.trovaContratto(c.id);
   const conPagina=new Set(c.livelli||[]);
-  const host=c.livelliServitiDa&&CONTRATTI_SEO.find(x=>x.slug===c.livelliServitiDa);
-  const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice)
-    :host&&host.livelli.includes(codice)?rottaLivello(host,codice):null;
+  const rottaDi=codice=>conPagina.has(codice)?rottaLivello(c,codice):null;
   return {seo:c,contratto,catalogo:R,rotta:rottaTabella(c),...collegamentiMetalmeccanico(c,alla,R),esclusioni:R.ESCLUSIONI[c.id]||[],
     aumentiDataset:c.aumentiDalDataset?trancheDalDataset(c,alla,rottaDi,R):[],
     aumenti:(c.slug==='commercio'?['2026-11-01','2027-02-01']:c.slug==='metalmeccanico'?['2026-06-01','2027-06-01','2028-06-01']:[]).map(decorrenza=>{

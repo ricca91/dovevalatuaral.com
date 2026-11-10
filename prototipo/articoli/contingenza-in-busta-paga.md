@@ -1,8 +1,8 @@
 ---
 slug: contingenza-in-busta-paga
-titolo: "Contingenza in busta paga: la voce ferma dal 1991"
+titolo: "Contingenza in busta paga: cosa è cambiato dal 1991"
 title_seo: "Contingenza in busta paga: quanto vale davvero"
-description: "La contingenza in busta paga vale fra 512 e 554 € al mese ed è ferma dal 31 dicembre 1991: sul 4° livello del commercio è il 29,4% della RAL. I numeri."
+description: "La contingenza in busta paga vale fra 512 e 554 € al mese: l'indicizzazione automatica è cessata nel 1991, ma alcuni CCNL hanno modificato la voce."
 query_principale: "cos'è la contingenza in busta paga"
 cluster: "voce-per-voce"
 data_pubblicazione: 2026-10-20
@@ -14,7 +14,7 @@ stato: pubblicato
 ---
 La **contingenza in busta paga** è la vecchia scala mobile: l'adeguamento automatico dello stipendio al costo della vita, fermo dal 31 dicembre 1991. Non è un premio e non è un extra. È una parte del tuo minimo contrattuale, e pesa: nei sette contratti che la espongono ancora in tabella, fra i quattordici archiviati su questo sito, vale fra **512,27 € e 553,78 € al mese**, cioè fra il 18% e il 45% della retribuzione base a seconda del contratto e del livello. Su un 4° livello del commercio sono **524,22 € al mese per 14 mensilità**: 7.339,08 € dei 24.972,50 € di RAL.
 
-> **In breve**: la contingenza in busta paga è l'indennità che adeguava le retribuzioni all'inflazione. Il sistema di indicizzazione è scaduto il 31 dicembre 1991 e il Protocollo del 31 luglio 1992 ne ha preso atto. Da allora l'importo non si muove: gli aumenti dei rinnovi passano tutti dall'altra riga, la paga base.
+> **In breve**: la contingenza in busta paga è l'indennità che adeguava le retribuzioni all'inflazione. Il sistema di indicizzazione è scaduto il 31 dicembre 1991 e il Protocollo del 31 luglio 1992 ne ha preso atto. Da allora non si aggiorna più automaticamente con l'inflazione, ma i contratti possono aver modificato l'importo: nel Terziario, per esempio, dal 1° gennaio 1995 l'EDR di 10,33 € è stato conglobato nella contingenza.
 
 I numeri di questa pagina escono dal motore di calcolo del sito e dal suo archivio di tabelle CCNL. Ipotesi: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, regole 2026.
 
@@ -38,7 +38,7 @@ Fra 512 e 554 € al mese, e la quota che occupa sul minimo cresce man mano che 
 | Vetro trasformazione, livello 3 | 517,12 € | 1.998,88 € | 25,9% |
 | Poligrafici, 1° livello | 515,32 € | 1.143,96 € | 45,0% |
 
-Decorrenze: 1° novembre 2025 per il Terziario, 1° giugno 2026 per i Pubblici esercizi, 1° ottobre 2026 per Multiservizi e Vetro, 1° luglio 2026 per i Grafici. Quella dei Poligrafici è ferma al 1° aprile 2021, perché il contratto è scaduto e in ultrattività: lì la quota del 45% racconta anche un rinnovo che non arriva. Il caso estremo è proprio il loro 1° livello: minimo tabellare **628,64 €**, contingenza **515,32 €**. La cifra congelata nel 1991 è l'82% di quella che il contratto aggiorna.
+Decorrenze: 1° novembre 2025 per il Terziario, 1° giugno 2026 per i Pubblici esercizi, 1° ottobre 2026 per Multiservizi e Vetro, 1° luglio 2026 per i Grafici. Quella dei Poligrafici è ferma al 1° aprile 2021, perché il contratto è scaduto e in ultrattività: lì la quota del 45% racconta anche un rinnovo che non arriva. Il caso estremo è proprio il loro 1° livello: minimo tabellare **628,64 €**, contingenza **515,32 €**. La contingenza indicata in tabella è l'82% del minimo tabellare.
 
 ## Perché è quasi la stessa cifra su tutti i livelli?
 
@@ -46,13 +46,13 @@ Perché si accumulava in punti di uguale valore per tutti, non in proporzione al
 
 Una cifra piatta pesa molto di più in fondo alla tabella: gli stessi 517 € sono il 37% del minimo di un 7° livello e il 18% di quello di un Quadro. È la parte del salario che il tempo ha schiacciato di più proprio per chi guadagna di meno.
 
-## Perché è ferma dal 1991?
+## Perché non si aggiorna più automaticamente dal 1991?
 
 Perché il meccanismo che la faceva crescere ha una data di scadenza scritta in una legge. La [legge 13 luglio 1990 n. 191](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1990-07-13;191), «Norme in materia di adeguamento automatico della retribuzione per effetto di variazioni del costo della vita», all'art. 1 comma 1 proroga le disposizioni sull'adeguamento «fino alla data del 31 dicembre 1991». Dopo quella data, niente.
 
 Il resto l'hanno fatto le parti sociali. Il [Verbale di intesa del 31 luglio 1992](https://www.cisl.it/wp-content/uploads/2019/07/1992.pdf) fra governo, sindacati e associazioni datoriali mette tra i punti concordati «la definitiva presa d'atto dell'intervenuta cessazione del sistema di indicizzazione dei salari di cui alla legge 13 luglio 1990, n. 191, già scaduta il 31 dicembre 1991». Lo stesso testo istituisce la somma forfettaria di 20.000 lire al mese per 13 mensilità che oggi trovi come [EDR in busta paga](/blog/edr-in-busta-paga/): dieci euro e trentatré, a compensazione.
 
-Trovi scritto in giro che la contingenza «non si aggiorna dal 2001». La data del testo che l'ha fermata è il 31 dicembre 1991.
+La cessazione dell'indicizzazione automatica non significa che la cifra indicata come contingenza sia rimasta identica in ogni contratto: il CCNL Terziario, per esempio, ha conglobato l'EDR nella voce dal 1995, aumentandola di 10,33 € per tutti i livelli. Il 31 dicembre 1991 riguarda quindi il meccanismo automatico, non necessariamente l'importo nominale esposto oggi.
 
 ### La legge che la regolava è stata abrogata nel 2008
 
@@ -80,7 +80,7 @@ Lordo. Gli importi delle tabelle CCNL — paga base, contingenza, scatti — son
 
 ## La contingenza fa tredicesima, scatti e TFR?
 
-Sì, quasi sempre, ed è questa la ragione per cui una voce ferma da trentacinque anni conta ancora. Entra nella base di calcolo degli istituti contrattuali, quindi si moltiplica.
+Sì, quasi sempre: anche senza indicizzazione automatica, la voce conta ancora. Entra nella base di calcolo degli istituti contrattuali, quindi si moltiplica.
 
 - **Tredicesima e quattordicesima.** Nei Pubblici esercizi la gratifica natalizia (art. 183) e la quattordicesima (art. 184) sono una mensilità della retribuzione in atto, contingenza compresa. La quattordicesima però esclude gli scatti di anzianità maturati: una differenza che vale soldi veri.
 - **Scatti di anzianità.** Ogni quanto scattano dipende dal contratto: due anni per gli impiegati del Multiservizi, tre per il Terziario, quattro per gli operai del Multiservizi. E la contingenza entra nel conto: lo scatto biennale degli impiegati Multiservizi (art. 22) vale il 6,25% della retribuzione tabellare vigente alla maturazione più la contingenza **al 1° agosto 1983**. Un congelamento dentro il congelamento.
@@ -90,7 +90,7 @@ Sì, quasi sempre, ed è questa la ragione per cui una voce ferma da trentacinqu
 
 Allora il tuo contratto l'ha conglobata, cioè l'ha fatta sparire dentro il minimo tabellare. I soldi ci sono ancora, la riga no.
 
-Succede in diversi contratti fra quelli archiviati qui. Il CCNL Turismo pubblica una paga base nazionale già comprensiva dell'ex contingenza (art. 152 c. 5). Il CCNL Studi professionali ha un minimo unico per conglobamento di contingenza ed EDR (art. 138). Il CCNL Metalmeccanica industria stampa in tabella un solo importo per livello. Nel Terziario il movimento è andato nella direzione opposta: dal 1° gennaio 1995 è stato l'EDR a finire dentro la contingenza, non il contrario.
+Succede in diversi contratti fra quelli archiviati qui. Il CCNL Turismo pubblica una paga base nazionale già comprensiva dell'ex contingenza (art. 152 c. 5). Il CCNL Studi professionali ha un minimo unico per conglobamento di contingenza ed EDR (art. 138). Il CCNL Metalmeccanica industria stampa in tabella un solo importo per livello. Nel Terziario il movimento è andato nella direzione opposta: dal 1° gennaio 1995 l'EDR è stato conglobato nella contingenza, aumentando la voce di 10,33 € per tutti i livelli (art. 207).
 
 C'è anche un caso in cui non spetta proprio: l'art. 166 del CCNL Pubblici esercizi esclude il personale retribuito a percentuale. Se sei in quella condizione e la riga manca, il contratto lo prevede.
 
@@ -98,7 +98,7 @@ Non posso dirti che il tuo cedolino è sbagliato. Posso dirti che prima di cerca
 
 ## Cosa non copro
 
-- **Il valore di quei 512 € in potere d'acquisto del 1991.** Serve l'indice ISTAT di rivalutazione, che non ho riaperto: dico che la cifra è ferma, non di quanto si sia svuotata.
+- **Il valore della contingenza in potere d'acquisto.** Serve una serie storica degli importi contrattuali e dell'indice ISTAT di rivalutazione: qui non confronto il valore reale nel tempo.
 - **Le contingenze provinciali, aziendali e ad personam.** Molti accordi di secondo livello usano lo stesso nome per somme diverse da quella nazionale.
 - **Il pubblico impiego**, che ha avuto l'indennità integrativa speciale e un percorso suo.
 - **La contingenza nel TFR**, per la ragione scritta sopra: decide il CCNL.
@@ -112,6 +112,7 @@ Non posso dirti che il tuo cedolino è sbagliato. Posso dirti che prima di cerca
 - L. 26 febbraio 1986 n. 38, «Disposizioni in materia di indennità di contingenza», GU n. 48 del 27 febbraio 1986 — oggi reca l'avviso «PROVVEDIMENTO ABROGATO DAL D.L. 25 GIUGNO 2008, N. 112», convertito con modificazioni dalla L. 133/2008 ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:legge:1986-02-26;38)) · verificata il 20 ottobre 2026
 - CCNL Pubblici esercizi, ristorazione collettiva e commerciale e turismo, artt. 163, 166, 183 e 184 — natura di elemento integrante della retribuzione e rinvio alla L. 38/1986, esclusione del personale retribuito a percentuale, composizione della base di tredicesima e quattordicesima ([testo pubblicato da FIPE, parte datoriale firmataria](https://www.fipe.it/2025/03/10/area-lavoro/titolo-vi-trattamento-economico/)) · verificata il 20 ottobre 2026
 - CCNL Terziario, Distribuzione e Servizi — tabelle nazionali con paga base, ex indennità di contingenza, terzo elemento e scatti per i dieci livelli, decorrenza 1° novembre 2025 ([tabelle pubblicate da Filcams CGIL, firmataria](https://www.filcams.cgil.it/page/confcommercio_terziario)) · verificata il 20 ottobre 2026
+- CCNL Terziario, Distribuzione e Servizi, art. 207 — dal 1° gennaio 1995 l'EDR di 10,33 € è conglobato nella contingenza, aumentata dello stesso importo per tutti i livelli ([testo pubblicato da Confcommercio, firmataria](https://www.confcommercio.it/documents/20126/3213306/Testo%2BCCNL%2B2019.pdf/6d0afa9a-89c1-ce34-969c-577393206bc7?version=1.0)) · verificata il 10 novembre 2026
 - CCNL Servizi di pulizia e multiservizi, art. 22 — scatti biennali degli impiegati pari al 6,25% della retribuzione tabellare vigente alla maturazione più la contingenza al 1° agosto 1983, e anzianità forfettaria di settore per gli operai ([tabelle e testo pubblicati da Filcams CGIL, firmataria](https://www.filcams.cgil.it/page/multiservizi)) · verificata il 20 ottobre 2026
 - CCNL Grafici editoriali, testo a stampa 19 gennaio 2021, Parte Settima e Allegato 1 — indennità di contingenza come importo fisso congelato, pubblicata per livello accanto al valore base contrattuale ([testo pubblicato da Fistel CISL, firmataria](https://www.fistelcisl.it/wp-content/uploads/2023/03/Ccnl-grafici-editoriali.pdf)) · archiviata e letta il 22 settembre 2026
 - Codice civile, art. 2120 — retribuzione utile al TFR comprensiva di tutte le somme corrisposte in dipendenza del rapporto a titolo non occasionale, salvo diversa previsione dei contratti collettivi ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:regio.decreto:1942-03-16;262~art2120)) · verificata il 20 ottobre 2026
