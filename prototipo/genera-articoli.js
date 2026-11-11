@@ -5,6 +5,7 @@ const {renderArticle,renderIndex}=require('./articolo.template.js');
 const {ORIGIN}=require('./ral-page.template.js');
 const {CONTRATTI_SEO,HUB,rottaTabella}=require('./genera-pagine-ccnl.js');
 const SEO_OVERRIDE={
+  'ex-festivita-busta-paga': {title_seo:'Ex festività in busta paga 2026: cosa sono e quanto valgono',description:'Ex festività in busta paga: cosa sono, come leggerle nel cedolino, cosa succede se non le godi e quanto valgono: su 26.000 € di RAL, 219,98 € netti.'},
   'tassazione-tredicesima': {title_seo:'Tassazione tredicesima 2026: quanto resta netto e perché',description:'Su 30.000 € di RAL la tredicesima 2026 netta è 1.613,62 €, 253,69 € meno di uno stipendio. Perché succede, date di pagamento per CCNL e detassazione.'},
 };
 function readArticles(sourceDir=path.join(__dirname,'articoli')){
