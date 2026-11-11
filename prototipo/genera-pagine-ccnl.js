@@ -38,6 +38,19 @@ const livelloN=l=>/^\d+S?$/i.test(l.codice)
   ?`${l.codice.replace(/S$/i,'')}° livello${/S$/i.test(l.codice)?' super':''}`:l.nome;
 const livelloL=l=>`Livello ${l.codice}`;
 
+// RIC-215: metadata specifici per le sole pagine selezionate.
+const SEO_OVERRIDE={
+  "/minimi-ccnl/commercio/": {title:"CCNL Commercio 2026: tabelle retributive e netto per livello",description:"Tabelle retributive CCNL Commercio dal 1° novembre 2026 e aumenti di febbraio 2027: minimo lordo, RAL e netto al mese per i 10 livelli, con fonte."},
+};
+function applicaSeo(rotta,html){
+  const dati=SEO_OVERRIDE[rotta];
+  if(!dati)return html;
+  const escape=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return html.replace(/<title>[^<]*<\/title>/,()=>`<title>${escape(dati.title)}</title>`)
+    .replace(/(<meta (?:name="description"|property="og:description") content=")[^"]*(">)/g,(_,a,b)=>a+escape(dati.description)+b)
+    .replace(/(<meta property="og:title" content=")[^"]*(">)/g,(_,a,b)=>a+escape(dati.title)+b);
+}
+
 const CONTRATTI_SEO=Object.freeze([
   {id:'terziario-confcommercio-h011',slug:'commercio',breve:'Commercio',query:'CCNL Commercio',
     titoloTabella:'CCNL Commercio',livelli:['Q','1','2','3','4','5','6','7'],
@@ -372,7 +385,7 @@ function generate(outputDir=__dirname,{alla=oggi(),catalogo=CATALOGO}={}){
       pagine.set(livello.rotta,renderLivello({...livello,alla}));
     }
   }
-  for(const [rotta,html] of pagine)write(path.join(outputDir,rotta,'index.html'),html);
+  for(const [rotta,html] of pagine)write(path.join(outputDir,rotta,'index.html'),applicaSeo(rotta,html));
   return [...pagine.keys()];
 }
 
