@@ -40,6 +40,7 @@ const livelloL=l=>`Livello ${l.codice}`;
 
 // RIC-215: metadata specifici per le sole pagine selezionate.
 const SEO_OVERRIDE={
+  "/minimi-ccnl/pubblici-esercizi/": {title:"CCNL Pubblici Esercizi FIPE 2026: stipendi per livello",description:"Tabelle retributive CCNL FIPE per bar, ristoranti, ristorazione collettiva e turismo: minimo lordo, RAL e netto al mese per livello, con gli aumenti 2027."},
   "/minimi-ccnl/logistica/": {title:"CCNL Trasporti e Logistica 2026-2027: tabelle retributive",description:"Tabelle retributive CCNL Logistica, trasporto merci e spedizione 2026 e dal 1° gennaio 2027: minimo lordo, RAL e netto al mese per livello, rider inclusi."},
   "/minimi-ccnl/commercio/": {title:"CCNL Commercio 2026: tabelle retributive e netto per livello",description:"Tabelle retributive CCNL Commercio dal 1° novembre 2026 e aumenti di febbraio 2027: minimo lordo, RAL e netto al mese per i 10 livelli, con fonte."},
 };
