@@ -40,6 +40,7 @@ const livelloL=l=>`Livello ${l.codice}`;
 
 // RIC-215: metadata specifici per le sole pagine selezionate.
 const SEO_OVERRIDE={
+  "/minimi-ccnl/studi-professionali/": {title:"CCNL Studi Professionali 2026: tabelle e aumento di dicembre",description:"Tabelle retributive CCNL Studi professionali Confprofessioni: minimo lordo, RAL e netto al mese per livello, con i nuovi minimi dal 1° dicembre 2026."},
   "/minimi-ccnl/cooperative-sociali/": {title:"CCNL Cooperative Sociali 2026: tabelle da A1 a F2 e netto",description:"Tabelle retributive CCNL Cooperative sociali (T151): minimo lordo, RAL su 13,5 mensilità e netto al mese per ogni posizione, da A1 a F2, E2 compresa."},
   "/minimi-ccnl/multiservizi/": {title:"CCNL Multiservizi e Pulizie 2026: minimi e netto per livello",description:"Tabelle retributive CCNL Multiservizi e pulizie dal 1° ottobre 2026 e da maggio 2027: minimo lordo, RAL e netto al mese dal 1° livello al Quadro."},
   "/minimi-ccnl/dmo/": {title:"CCNL DMO Distribuzione Moderna 2026: tabelle e netto",description:"Tabelle retributive CCNL DMO Federdistribuzione dal 1° novembre 2026: minimo lordo, RAL e netto al mese per ogni livello, 5° compreso, e aumenti 2027."},
