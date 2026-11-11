@@ -38,6 +38,26 @@ const livelloN=l=>/^\d+S?$/i.test(l.codice)
   ?`${l.codice.replace(/S$/i,'')}° livello${/S$/i.test(l.codice)?' super':''}`:l.nome;
 const livelloL=l=>`Livello ${l.codice}`;
 
+// RIC-215: metadata specifici per le sole pagine selezionate.
+const SEO_OVERRIDE={
+  "/minimi-ccnl/studi-professionali/4s-livello/": {title:"4° livello super Studi professionali 2026: stipendio netto",description:"4° livello super CCNL Studi professionali: 1.654,70 € lordi al mese su 14 mensilità, RAL 23.165,80 € e circa 1.390 € netti al mese, senza scatti."},
+  "/minimi-ccnl/studi-professionali/": {title:"CCNL Studi Professionali 2026: tabelle e aumento di dicembre",description:"Tabelle retributive CCNL Studi professionali Confprofessioni: minimo lordo, RAL e netto al mese per livello, con i nuovi minimi dal 1° dicembre 2026."},
+  "/minimi-ccnl/cooperative-sociali/": {title:"CCNL Cooperative Sociali 2026: tabelle da A1 a F2 e netto",description:"Tabelle retributive CCNL Cooperative sociali (T151): minimo lordo, RAL su 13,5 mensilità e netto al mese per ogni posizione, da A1 a F2, E2 compresa."},
+  "/minimi-ccnl/multiservizi/": {title:"CCNL Multiservizi e Pulizie 2026: minimi e netto per livello",description:"Tabelle retributive CCNL Multiservizi e pulizie dal 1° ottobre 2026 e da maggio 2027: minimo lordo, RAL e netto al mese dal 1° livello al Quadro."},
+  "/minimi-ccnl/dmo/": {title:"CCNL DMO Distribuzione Moderna 2026: tabelle e netto",description:"Tabelle retributive CCNL DMO Federdistribuzione dal 1° novembre 2026: minimo lordo, RAL e netto al mese per ogni livello, 5° compreso, e aumenti 2027."},
+  "/minimi-ccnl/pubblici-esercizi/": {title:"CCNL Pubblici Esercizi FIPE 2026: stipendi per livello",description:"Tabelle retributive CCNL FIPE per bar, ristoranti, ristorazione collettiva e turismo: minimo lordo, RAL e netto al mese per livello, con gli aumenti 2027."},
+  "/minimi-ccnl/logistica/": {title:"CCNL Trasporti e Logistica 2026-2027: tabelle retributive",description:"Tabelle retributive CCNL Logistica, trasporto merci e spedizione 2026 e dal 1° gennaio 2027: minimo lordo, RAL e netto al mese per livello, rider inclusi."},
+  "/minimi-ccnl/commercio/": {title:"CCNL Commercio 2026: tabelle retributive e netto per livello",description:"Tabelle retributive CCNL Commercio dal 1° novembre 2026 e aumenti di febbraio 2027: minimo lordo, RAL e netto al mese per i 10 livelli, con fonte."},
+};
+function applicaSeo(rotta,html){
+  const dati=SEO_OVERRIDE[rotta];
+  if(!dati)return html;
+  const escape=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return html.replace(/<title>[^<]*<\/title>/,()=>`<title>${escape(dati.title)}</title>`)
+    .replace(/(<meta (?:name="description"|property="og:description") content=")[^"]*(">)/g,(_,a,b)=>a+escape(dati.description)+b)
+    .replace(/(<meta property="og:title" content=")[^"]*(">)/g,(_,a,b)=>a+escape(dati.title)+b);
+}
+
 const CONTRATTI_SEO=Object.freeze([
   {id:'terziario-confcommercio-h011',slug:'commercio',breve:'Commercio',query:'CCNL Commercio',
     titoloTabella:'CCNL Commercio',livelli:['Q','1','2','3','4','5','6','7'],
@@ -372,7 +392,7 @@ function generate(outputDir=__dirname,{alla=oggi(),catalogo=CATALOGO}={}){
       pagine.set(livello.rotta,renderLivello({...livello,alla}));
     }
   }
-  for(const [rotta,html] of pagine)write(path.join(outputDir,rotta,'index.html'),html);
+  for(const [rotta,html] of pagine)write(path.join(outputDir,rotta,'index.html'),applicaSeo(rotta,html));
   return [...pagine.keys()];
 }
 

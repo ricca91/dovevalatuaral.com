@@ -116,7 +116,8 @@ test('il title delle pagine livello porta il netto mensile della pagina, all’e
     const apertura=uno(html,/<b>([\d.,]+) € netti al mese<\/b>/g,`${rotta}: netto in apertura`);
     const intero=String(Math.round(Number(apertura.replace(/\./g,'').replace(',','.'))))
       .replace(/\B(?=(\d{3})+(?!\d))/g,'.');
-    assert.ok(titolo.includes(` 2026: ${intero} € netti`),`${rotta}: ${titolo} invece di ${intero} €`);
+    if(rotta==='/minimi-ccnl/studi-professionali/4s-livello/') assert.equal(titolo,'4° livello super Studi professionali 2026: stipendio netto');
+    else assert.ok(titolo.includes(` 2026: ${intero} € netti`),`${rotta}: ${titolo} invece di ${intero} €`);
     assert.equal(uno(html,/<meta property="og:title" content="([^"]+)">/g,`${rotta}: og:title`),titolo);
   }
   /* Forma piena dove ci sta; Studi professionali sfora e perde prima
@@ -126,7 +127,7 @@ test('il title delle pagine livello porta il netto mensile della pagina, all’e
     ['/minimi-ccnl/metalmeccanico/livello-c3/',/^Livello C3 metalmeccanico 2026: [\d.]+ € netti al mese$/],
     ['/minimi-ccnl/cooperative-sociali/livello-d2/',/^Livello D2 cooperative sociali 2026: [\d.]+ € netti al mese$/],
     ['/minimi-ccnl/studi-professionali/3-livello/',/^3° livello Studi professionali 2026: [\d.]+ € netti al mese$/],
-    ['/minimi-ccnl/studi-professionali/4s-livello/',/^4° livello super Studi professionali 2026: [\d.]+ € netti$/],
+    ['/minimi-ccnl/studi-professionali/4s-livello/',/^4° livello super Studi professionali 2026: stipendio netto$/],
   ];
   for(const [rotta,forma] of forme)assert.match(uno(leggi(rotta),/<title>([^<]+)<\/title>/g,rotta),forma);
 });
@@ -370,7 +371,7 @@ test('Studi professionali: pagine 1° e 5° livello (RIC-100); quadro e 3° supe
   for(const [slug,nome] of [['1-livello','1°'],['5-livello','5°']]){
     assert.ok(ROTTE.includes(base+slug+'/'),slug);
     const html=leggi(base+slug+'/');
-    assert.match(uno(html,/<title>([^<]+)<\/title>/g,slug),new RegExp('^'+nome+' livello (CCNL )?Studi professionali 2026: [\\d.]+ € netti'));
+    assert.match(uno(html,/<title>([^<]+)<\/title>/g,slug),slug==='4s' ? /^4° livello super Studi professionali 2026: stipendio netto$/ : new RegExp('^'+nome+' livello (CCNL )?Studi professionali 2026: [\\d.]+ € netti'));
     assert.doesNotMatch(html,/NaN|undefined/);
     assert.ok(leggi(base).includes('<th scope="row"><a href="../../minimi-ccnl/studi-professionali/'+slug+'/">'+nome+' livello</a></th>'),'tabella');
   }

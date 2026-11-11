@@ -50,7 +50,7 @@ test('title e H1 con «rinnovo», title entro 60 caratteri; gli altri contratti 
   for(const coda of [bancari.codaTitolo,bancari.codaH1])assert.doesNotMatch(coda,/\d{4}/);
   assert.deepEqual(CONTRATTI_SEO.filter(c=>c.codaTitolo||c.codaH1).map(c=>c.slug),['bancari']);
   const commercio=leggi('/minimi-ccnl/commercio/');
-  assert.equal(uno(commercio,/<title>([^<]+)<\/title>/g,'commercio'),'CCNL Commercio 2026: tabelle retributive e netto');
+  assert.equal(uno(commercio,/<title>([^<]+)<\/title>/g,'commercio'),'CCNL Commercio 2026: tabelle retributive e netto per livello');
   assert.equal(uno(commercio,/<h1>([^<]+)<\/h1>/g,'commercio h1'),'CCNL Commercio 2026: tabelle retributive');
 });
 
