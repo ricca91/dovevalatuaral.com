@@ -4,6 +4,9 @@ const {parse,escape}=require('./articoli-parser.js');
 const {renderArticle,renderIndex}=require('./articolo.template.js');
 const {ORIGIN}=require('./ral-page.template.js');
 const {CONTRATTI_SEO,HUB,rottaTabella}=require('./genera-pagine-ccnl.js');
+const SEO_OVERRIDE={
+  'tassazione-tredicesima': {title_seo:'Tassazione tredicesima 2026: quanto resta netto e perché',description:'Su 30.000 € di RAL la tredicesima 2026 netta è 1.613,62 €, 253,69 € meno di uno stipendio. Perché succede, date di pagamento per CCNL e detassazione.'},
+};
 function readArticles(sourceDir=path.join(__dirname,'articoli')){
   if(!fs.existsSync(sourceDir))return [];
   const articles=fs.readdirSync(sourceDir).filter(f=>f.endsWith('.md')).sort().map(file=>parse(fs.readFileSync(path.join(sourceDir,file),'utf8'),file));
@@ -44,7 +47,7 @@ function minimi(article){
 function prepare({sourceDir=path.join(__dirname,'articoli'),publicDir=__dirname,knownRoutes=[]}={}){
   const articles=readArticles(sourceDir),pages=new Map([['/blog/',renderIndex(articles)]]);
   for(const article of articles){
-    try{pages.set(`/blog/${article.slug}/`,renderArticle(article,articles,minimi(article)));}
+    try{pages.set(`/blog/${article.slug}/`,renderArticle({...article,...SEO_OVERRIDE[article.slug]},articles,minimi(article)));}
     catch(error){throw Error(`${article.file}: ${error.message}`);}
   }
   for(const field of ['title_seo','description']){
