@@ -9,6 +9,7 @@ const R=require('./retribuzione-ccnl.js');
    template legge da R regole che non dipendono dalle tabelle. */
 const CATALOGO=R;
 const {calcola,applicaMensilita}=require('./motore.js');
+const TREDICESIMA=require('./tredicesima.js');
 const {renderHub,renderTabella,renderLivello}=require('./ccnl-page.template.js');
 
 /* ------------------------------------------------------------
@@ -199,6 +200,14 @@ const ROTTE=Object.freeze([HUB,
   ...CONTRATTI_SEO.flatMap(c=>[rottaTabella(c),...(c.livelli||[]).map(codice=>rottaLivello(c,codice))])]);
 
 const COMUNE='F205';
+/* Date di corresponsione dalle fonti contrattuali archiviate nel progetto:
+   Commercio art. 177; Turismo scheda Filcams; Logistica art. 19;
+   Multiservizi art. 21; Studi art. 143; Cooperative art. 79 bis; DMO art. 205.
+   L'art. 54 Alimentari non specifica una data unica nella parte comune. */
+const PAGAMENTO_14={commercio:'a luglio',turismo:'con la retribuzione di luglio',
+  logistica:'entro la prima decade di luglio',multiservizi:'entro il 15 luglio',
+  'studi-professionali':'entro giugno', 'cooperative-sociali':'con la retribuzione di giugno',
+  dmo:'il 1° luglio', 'industria-alimentare':null};
 const oggi=()=>new Date().toISOString().slice(0,10);
 
 /* Una riga del dataset portata fino al netto, col profilo canonico
@@ -330,6 +339,12 @@ function datiLivello(c,codice,alla,{catalogo:R=CATALOGO}={}){
   const righe=sezioni.map(p=>{
     const livello=R.trovaLivello(c.id,codice,alla,p.sezione);
     const base=stima(c.id,p.sezione,codice,alla,{catalogo:R});
+    /* La modalità lordo del calcolatore parte dal minimo effettivo: la
+       divisione della RAL non funziona se alcune voci hanno incidenze diverse. */
+    const tredicesima=TREDICESIMA.calcolaDaLordo({lordo:String(base.composta.baseMensile),mesi:12});
+    const m=base.composta.mensilita;
+    const lordo14=Math.round(base.composta.quote.reduce((s,q)=>s+Math.round(q.mensile*100)*Math.max(0,q.mensilita-13),0))/100;
+    const quattordicesima=m>13?TREDICESIMA.calcolaAggiuntiva({lordo:String(lordo14),mensile:String(base.composta.baseMensile),ral:String(base.composta.ral)}):null;
     const regola=R.regolaScatti(c.id,p.sezione);
     /* Con un periodo di anzianità sospeso (Bancari: 2013–2014) gli anni
        di una tappa dipendono dalla data di assunzione: la tappa dice
@@ -343,7 +358,7 @@ function datiLivello(c,codice,alla,{catalogo:R=CATALOGO}={}){
     const prossima=R.prossimaTabella(c.id,alla,p.sezione);
     const futura=prossima&&prossima.livelli.some(l=>l.codice===codice)
       ?{decorrenza:prossima.decorrenza,...stima(c.id,p.sezione,codice,prossima.decorrenza,{catalogo:R})}:null;
-    return {...p,livello,...base,regola,tappe,partTime,futura,ore};
+    return {...p,livello,...base,tredicesima,quattordicesima,pagamento14:PAGAMENTO_14[c.slug]??null,regola,tappe,partTime,futura,ore};
   });
   const tutti=R.livelli(c.id,alla,sezioni[0].sezione);
   const i=tutti.findIndex(l=>l.codice===codice);
