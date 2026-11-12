@@ -748,6 +748,14 @@ function blocchiRiga(rotta,d,r,conNome){
     </div>
     ${chiRientra(d,r)}
     ${scomposizione(r)}
+    <section class="ccnl-blocco"><h3>Tredicesima ${esc(d.etichetta)} ${esc(d.seo.query)}</h3>
+      <p>Per 12 mesi lavorati la tredicesima è <b>${eur(r.tredicesima.lorda)} lordi</b>, circa <b>${eur(r.tredicesima.netta)} netti</b>. È normalmente corrisposta a dicembre.</p>
+      <p class="small">Stima sul minimo nazionale a tempo pieno, senza scatti né superminimo. Il calcolatore, partendo dal lordo mensile, stima il reddito annuo su 13 mensilità; il netto effettivo dipende anche dal reddito e dal conguaglio.</p>
+      <a href="/calcolo-tredicesima/?lordo=${encodeURIComponent(String(r.composta.baseMensile))}&amp;mesi=12">Calcola la tua tredicesima →</a>
+    </section>
+    ${r.quattordicesima?`<section class="ccnl-blocco"><h3>Quattordicesima ${esc(d.etichetta)} ${esc(d.seo.query)}</h3>
+      <p>Per un anno intero: <b>${eur(r.quattordicesima.lorda)} lordi</b>, circa <b>${eur(r.quattordicesima.netta)} netti</b>${r.composta.mensilita===13.5?' (mezza mensilità)':''}. ${r.pagamento14?`Pagamento ${esc(r.pagamento14)}.`:'La parte comune del contratto non indica una data unica di pagamento.'}</p>
+      <p class="small">Stima sul minimo nazionale a tempo pieno, senza scatti né superminimo. Il netto applica le stesse ipotesi fiscali della tredicesima; il cedolino dipende dal reddito e dal conguaglio.</p></section>`:''}
     ${futura}
     ${scatti}
     ${partTime}

@@ -100,13 +100,13 @@
     return riga[1];
   }
 
-  function calcolaVoci({mensile,mesi,imponibileStimato,imponibileTeorico}){
+  function calcolaVoci({mensile,mesi,imponibileStimato,imponibileTeorico,ordinario=mensile}){
     const lorda=arrotondaCentesimi(div(mul(mensile,dec(mesi)),MESI_ANNO));
     const inps=arrotondaCentesimi(mul(lorda,K.contributi.aliquotaIvs));
     /* Mensilizzazione: a dicembre tredicesima e stipendio fanno un
        mese solo. Conta la quota di eccedenza dovuta alla tredicesima. */
     const soglia=K.contributi.primaFasciaMensile;
-    const eccedenza=positivo(mensile+lorda-soglia)-positivo(mensile-soglia);
+    const eccedenza=positivo(ordinario+lorda-soglia)-positivo(ordinario-soglia);
     const aggiuntivo=arrotondaCentesimi(mul(eccedenza,K.contributi.aliquotaAggiuntivo));
     const baseIrpef=lorda-inps-aggiuntivo;
     const fasce=irpefPerFasce(baseIrpef);
@@ -158,6 +158,12 @@
       imponibileTeorico:imponibileAnnuo(annua)};
     return{modalita:'lordo',...presenta(calcolaVoci(ctx),ctx)};
   }
+  function calcolaAggiuntiva({lordo,mensile,ral}){
+    const imponibile=imponibileAnnuo(dec(ral));
+    const v=calcolaVoci({mensile:dec(lordo),ordinario:dec(mensile),mesi:12,
+      imponibileStimato:imponibile,imponibileTeorico:imponibile});
+    return {lorda:n(v.lorda),netta:n(v.netta)};
+  }
 
   /* ---------- l'input come lo scrive una persona ---------- */
   const LIMITI=Object.freeze({lordo:{min:'100',max:'9000'},ral:{min:'1000',max:'120000'}});
@@ -203,5 +209,5 @@
     return null;
   }
 
-  return{calcolaDaRal,calcolaDaLordo,normalizza,calcola,daQuery,formattaEuro,LIMITI,K,PROPOSTA_DETASSATA,FONTI,imponibileAnnuo,dec,toNumber};
+  return{calcolaDaRal,calcolaDaLordo,calcolaAggiuntiva,normalizza,calcola,daQuery,formattaEuro,LIMITI,K,PROPOSTA_DETASSATA,FONTI,imponibileAnnuo,dec,toNumber};
 });
