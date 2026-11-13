@@ -44,20 +44,24 @@ const euro = (cent: number | null, valuta = "eur") =>
 const giorno = (iso: string | null) =>
   iso ? new Intl.DateTimeFormat("it-IT", { dateStyle: "long", timeZone: "Europe/Rome" }).format(new Date(iso)) : "";
 
-async function email(a: string | null | undefined, oggetto: string, righe: string[], rispondiA?: string) {
-  if (!a) return;
+// Torna true se l'email è partita (o non c'era nessuno a cui scrivere). Con una chiave di
+// idempotenza Resend scarta i doppioni per 24 ore: un nuovo tentativo non scrive due volte.
+async function email(a: string | null | undefined, oggetto: string, righe: string[], rispondiA?: string, chiave?: string): Promise<boolean> {
+  if (!a) return true;
   try {
     const html = `<div style="font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;color:#1E1C2B;max-width:560px">${
       righe.map((r) => `<p style="margin:0 0 14px">${r}</p>`).join("")
     }<p style="margin:24px 0 0;font-size:13px;color:#66617F">Dove va la tua RAL · <a href="${SITO}/sponsor/" style="color:#096B76">${SITO.replace("https://", "")}/sponsor/</a></p></div>`;
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
-      headers: { Authorization: `Bearer ${await segreto("resend_api_key")}`, "Content-Type": "application/json" },
+      headers: { Authorization: `Bearer ${await segreto("resend_api_key")}`, "Content-Type": "application/json", ...(chiave ? { "Idempotency-Key": chiave } : {}) },
       body: JSON.stringify({ from: MITTENTE, to: [a], subject: oggetto, html, ...(rispondiA ? { reply_to: rispondiA } : {}) }),
     });
     if (!r.ok) console.error("Resend", r.status, await r.text());
+    return r.ok;
   } catch (e) {
     console.error("Email non inviata", e);
+    return false;
   }
 }
 const admin = () => segreto("admin_email").catch(() => "");
@@ -115,6 +119,45 @@ async function salvaLogo(id: string, sorgente: Blob | null, host?: string): Prom
   }
 }
 
+// deno-lint-ignore no-explicit-any
+type Prenotazione = Record<string, any>;
+
+async function notificaPrenotazione(p: Prenotazione, urlGrezzo?: string): Promise<boolean> {
+  const { nome, claim, email: mail } = p;
+  const url = p.url === `${SITO}/sponsor/` ? null : p.url;
+  const grezzo = urlGrezzo ?? "da correggere";
+  const inCoda = p.stato === "in_coda";
+  const adminMail = await admin();
+  const okSponsor = await email(
+    mail,
+    inCoda ? "Pagamento ricevuto: slot al momento esauriti" : "Prenotazione ricevuta: il tuo slot sponsor è riservato",
+    inCoda
+      ? [
+        `Ciao, abbiamo ricevuto il pagamento per <strong>${esc(nome)}</strong>.`,
+        "Nel frattempo gli slot sono andati esauriti. Ti scriviamo entro un giorno lavorativo: puoi scegliere il rimborso completo oppure il primo slot che si libera.",
+      ]
+      : [
+        `Ciao, abbiamo ricevuto il pagamento per <strong>${esc(nome)}</strong>: lo slot ${p.slot} è riservato a te.`,
+        "Ogni sponsor viene approvato a mano, di solito entro un giorno lavorativo. I " + p.durata_giorni +
+        " giorni partono dalla pubblicazione, non dal pagamento.",
+        `Quello che pubblicheremo: <strong>${esc(nome)}</strong> — ${esc(claim)}<br>${esc(url ?? grezzo)}`,
+        "Il logo lo prendiamo dall'icona del tuo sito. Se ne preferisci un altro, o vuoi correggere qualcosa, rispondi a questa email.",
+        "Se non possiamo pubblicarlo ricevi il rimborso completo.",
+      ],
+    adminMail || undefined,
+    `sponsor-prenotazione-${p.id}`,
+  );
+  const okAdmin = await email(adminMail, `${inCoda ? "[IN CODA] " : ""}Nuovo sponsor da approvare: ${nome}`, [
+    `<strong>${esc(nome)}</strong> — ${esc(claim)}`,
+    `Link: ${esc(url ?? "NON VALIDO: " + grezzo)}<br>Email: ${esc(mail)}<br>Pagato: ${euro(p.importo_cent, p.valuta)}<br>Slot: ${p.slot ?? "nessuno libero, in coda"}`,
+    `<a href="${SITO}/sponsor/approva/?id=${p.id}&t=${p.admin_token}" style="display:inline-block;padding:10px 16px;background:#1E1C2B;color:#F7F6F1;text-decoration:none">Apri la pagina di approvazione</a>`,
+    "Da lì puoi correggere nome, claim, link e logo, poi approvare o rifiutare. Se rifiuti, il rimborso si fa da Stripe.",
+  ], undefined, `sponsor-approvazione-${p.id}`);
+  const fatto = okSponsor && okAdmin && !!adminMail;
+  if (fatto) await db.from("sponsor_prenotazioni").update({ notifica_prenotazione_il: new Date().toISOString() }).eq("id", p.id);
+  return fatto;
+}
+
 async function webhook(req: Request) {
   const corpo = await req.text();
   if (!(await firmaValida(corpo, req.headers.get("stripe-signature"), await segreto("stripe_webhook_secret")))) {
@@ -127,8 +170,11 @@ async function webhook(req: Request) {
   if (!imp || s.payment_link !== imp.stripe_payment_link_id) return json({ ignorato: "altro prodotto" });
   if (!["paid", "no_payment_required"].includes(s.payment_status)) return json({ ignorato: "non ancora pagato" });
 
-  const { data: gia } = await db.from("sponsor_prenotazioni").select("id").eq("stripe_session_id", s.id).maybeSingle();
-  if (gia) return json({ ok: true, ripetuto: true });
+  const { data: gia } = await db.from("sponsor_prenotazioni").select("*").eq("stripe_session_id", s.id).maybeSingle();
+  if (gia) {
+    if (!gia.notifica_prenotazione_il) await notificaPrenotazione(gia);
+    return json({ ok: true, ripetuto: true });
+  }
 
   const campo = (k: string) => String((s.custom_fields ?? []).find((c: { key: string }) => c.key === k)?.text?.value ?? "").trim();
   const nome = (campo("nome") || s.customer_details?.business_name || s.customer_details?.name || "Sponsor").slice(0, 60);
@@ -159,32 +205,7 @@ async function webhook(req: Request) {
     if (logo) await db.from("sponsor_prenotazioni").update({ logo_url: logo }).eq("id", p.id);
   }
 
-  const inCoda = p.stato === "in_coda";
-  const adminMail = await admin();
-  await email(
-    mail,
-    inCoda ? "Pagamento ricevuto: slot al momento esauriti" : "Prenotazione ricevuta: il tuo slot sponsor è riservato",
-    inCoda
-      ? [
-        `Ciao, abbiamo ricevuto il pagamento per <strong>${esc(nome)}</strong>.`,
-        "Nel frattempo gli slot sono andati esauriti. Ti scriviamo entro un giorno lavorativo: puoi scegliere il rimborso completo oppure il primo slot che si libera.",
-      ]
-      : [
-        `Ciao, abbiamo ricevuto il pagamento per <strong>${esc(nome)}</strong>: lo slot ${p.slot} è riservato a te.`,
-        "Ogni sponsor viene approvato a mano, di solito entro un giorno lavorativo. I " + p.durata_giorni +
-        " giorni partono dalla pubblicazione, non dal pagamento.",
-        `Quello che pubblicheremo: <strong>${esc(nome)}</strong> — ${esc(claim)}<br>${esc(url ?? urlGrezzo)}`,
-        "Il logo lo prendiamo dall'icona del tuo sito. Se ne preferisci un altro, o vuoi correggere qualcosa, rispondi a questa email.",
-        "Se non possiamo pubblicarlo ricevi il rimborso completo.",
-      ],
-    adminMail || undefined,
-  );
-  await email(adminMail, `${inCoda ? "[IN CODA] " : ""}Nuovo sponsor da approvare: ${nome}`, [
-    `<strong>${esc(nome)}</strong> — ${esc(claim)}`,
-    `Link: ${esc(url ?? "NON VALIDO: " + urlGrezzo)}<br>Email: ${esc(mail)}<br>Pagato: ${euro(p.importo_cent, p.valuta)}<br>Slot: ${p.slot ?? "nessuno libero, in coda"}`,
-    `<a href="${SITO}/sponsor/approva/?id=${p.id}&t=${p.admin_token}" style="display:inline-block;padding:10px 16px;background:#1E1C2B;color:#F7F6F1;text-decoration:none">Apri la pagina di approvazione</a>`,
-    "Da lì puoi correggere nome, claim, link e logo, poi approvare o rifiutare. Se rifiuti, il rimborso si fa da Stripe.",
-  ]);
+  await notificaPrenotazione(p, urlGrezzo);
   return json({ ok: true, id: p.id, stato: p.stato });
 }
 
@@ -249,7 +270,8 @@ async function amministra(req: Request) {
     Object.assign(modifiche, { stato: "rifiutato", deciso_il: ora.toISOString() });
   } else if (azione === "termina") {
     if (p.stato !== "attivo") return json({ errore: "Solo uno sponsor attivo si può terminare." }, 409);
-    Object.assign(modifiche, { stato: "scaduto", fine: ora.toISOString() });
+    // Chiusura decisa a mano: niente email automatica di "giorni finiti".
+    Object.assign(modifiche, { stato: "scaduto", fine: ora.toISOString(), notifica_scadenza_il: ora.toISOString() });
   } else if (azione !== "salva") {
     return json({ errore: "azione sconosciuta" }, 400);
   }
@@ -280,14 +302,24 @@ async function amministra(req: Request) {
 async function scadenze(req: Request) {
   if (req.headers.get("x-cron-secret") !== (await segreto("cron_secret"))) return json({ errore: "non autorizzato" }, 401);
   const adminMail = await admin();
-  const { data: scaduti } = await db.rpc("sponsor_scadi");
+  await db.rpc("sponsor_scadi");
+  // Non solo quelli scaduti adesso: anche chi è scaduto fuori da questo giro (un pagamento o
+  // un'approvazione liberano gli slot scaduti) o la cui email non era partita.
+  const settimana = new Date(Date.now() - 7 * 86400000).toISOString();
+  const { data: scaduti } = await db.from("sponsor_prenotazioni").select("*").eq("stato", "scaduto").is("notifica_scadenza_il", null).gte("fine", settimana);
   for (const p of scaduti ?? []) {
-    await email(p.email, `Il tuo slot su Dove va la tua RAL è terminato`, [
+    const okSponsor = await email(p.email, `Il tuo slot su Dove va la tua RAL è terminato`, [
       `I ${p.durata_giorni} giorni di <strong>${esc(p.nome)}</strong> sono finiti e lo slot è tornato disponibile.`,
       `Se vuoi restare online puoi prenotarne un altro quando vuoi: <a href="${SITO}/sponsor/" style="color:#096B76">${SITO.replace("https://", "")}/sponsor/</a>`,
-    ], adminMail || undefined);
-    await email(adminMail, `Slot ${p.slot} libero: ${p.nome} è scaduto`, [`Lo slot ${p.slot} è tornato disponibile.`]);
+    ], adminMail || undefined, `sponsor-scaduto-${p.id}`);
+    const okAdmin = await email(adminMail, `Slot ${p.slot} libero: ${p.nome} è scaduto`, [`Lo slot ${p.slot} è tornato disponibile.`], undefined, `sponsor-libero-${p.id}`);
+    if (okSponsor && okAdmin) await db.from("sponsor_prenotazioni").update({ notifica_scadenza_il: new Date().toISOString() }).eq("id", p.id);
   }
+  // Prenotazioni pagate la cui notifica non è partita: si riprova per un giorno.
+  const ieri = new Date(Date.now() - 86400000).toISOString();
+  const { data: daNotificare } = await db.from("sponsor_prenotazioni").select("*").in("stato", ["in_approvazione", "in_coda"]).is("notifica_prenotazione_il", null).gte("creato_il", ieri);
+  let rinotificati = 0;
+  for (const p of daNotificare ?? []) if (await notificaPrenotazione(p)) rinotificati++;
   const tra3 = new Date(Date.now() + 3 * 86400000).toISOString();
   const { data: inScadenza } = await db.from("sponsor_prenotazioni").select("*").eq("stato", "attivo").lte("fine", tra3).is("avviso_scadenza_il", null);
   for (const p of inScadenza ?? []) {
@@ -297,7 +329,7 @@ async function scadenze(req: Request) {
       `Non c'è rinnovo automatico. Se vuoi continuare, prenota un nuovo slot da <a href="${SITO}/sponsor/" style="color:#096B76">${SITO.replace("https://", "")}/sponsor/</a> e te lo attiviamo in continuità.`,
     ], adminMail || undefined);
   }
-  return json({ scaduti: (scaduti ?? []).length, avvisati: (inScadenza ?? []).length });
+  return json({ scaduti: (scaduti ?? []).length, avvisati: (inScadenza ?? []).length, rinotificati });
 }
 
 Deno.serve(async (req) => {

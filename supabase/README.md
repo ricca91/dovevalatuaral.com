@@ -8,7 +8,7 @@ Progetto Supabase `dovevalatuaral` (`rifkyfawojizgbzabyxn`, eu-central-1).
 | `sponsor_prenotazioni` | tabella | una riga per pagamento: slot, stato, sponsor, date, prezzo venduto |
 | `sponsor_tabellone()` | funzione pubblica | l'unica lettura concessa al sito, via `/api/sponsor` |
 | `functions/sponsor` | Edge Function | webhook Stripe, pagina di approvazione, scadenze, email (Resend) |
-| `sponsor-scadenze` | pg_cron, ogni ora | libera gli slot scaduti, avvisa 3 giorni prima |
+| `sponsor-scadenze` | pg_cron, ogni ora | libera gli slot scaduti, avvisa 3 giorni prima, rimanda le notifiche non partite |
 | `sponsor-loghi` | bucket pubblico | loghi, serviti dal sito su `/sponsor-loghi/` |
 
 Stati di una prenotazione: `in_approvazione` → `attivo` → `scaduto`, oppure `rifiutato`;
