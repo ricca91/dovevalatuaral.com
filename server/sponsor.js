@@ -96,7 +96,7 @@ async function handler(req,res,fetchImpl=fetch){
   let dati;
   try{
     dati=await leggi(fetchImpl);
-    res.setHeader('Cache-Control','public, max-age=0, s-maxage=60, stale-while-revalidate=600');
+    res.setHeader('Cache-Control','public, max-age=0, s-maxage=15, stale-while-revalidate=60');
   }catch(_){
     /* Il sito non dipende dagli sponsor: se il catalogo non risponde, niente slot. */
     dati=chiuso();

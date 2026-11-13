@@ -2,6 +2,7 @@
 // Quattro rotte, una funzione:
 //   POST /webhook    Stripe: un pagamento completato diventa una prenotazione in approvazione
 //   GET  /stato      la pagina di ringraziamento chiede a che punto è la prenotazione
+//   POST /logo       dalla stessa pagina lo sponsor carica il suo logo
 //   GET|POST /admin  Riccardo approva, rifiuta o termina uno sponsor (token per prenotazione)
 //   POST /scadenze   pg_cron ogni ora: libera gli slot scaduti e avvisa chi sta per scadere
 // La funzione non conosce la chiave segreta di Stripe: verifica la firma del webhook e basta.
@@ -108,7 +109,9 @@ async function salvaLogo(id: string, sorgente: Blob | null, host?: string): Prom
     }
     if (!file || file.size === 0 || file.size > 262144) return null;
     const tipo = file.type || "image/png";
-    const est = ({ "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/svg+xml": "svg", "image/gif": "gif" } as Record<string, string>)[tipo] ?? "ico";
+    // Niente SVG: servito dal nostro dominio potrebbe eseguire script.
+    if (tipo.includes("svg")) return null;
+    const est = ({ "image/png": "png", "image/jpeg": "jpg", "image/webp": "webp", "image/gif": "gif" } as Record<string, string>)[tipo] ?? "ico";
     const percorso = `${id}-${Date.now().toString(36)}.${est}`;
     const { error } = await db.storage.from("sponsor-loghi").upload(percorso, file, { contentType: tipo, cacheControl: "31536000", upsert: true });
     if (error) return null;
@@ -141,7 +144,7 @@ async function notificaPrenotazione(p: Prenotazione, urlGrezzo?: string): Promis
         "Ogni sponsor viene approvato a mano, di solito entro un giorno lavorativo. I " + p.durata_giorni +
         " giorni partono dalla pubblicazione, non dal pagamento.",
         `Quello che pubblicheremo: <strong>${esc(nome)}</strong> — ${esc(claim)}<br>${esc(url ?? grezzo)}`,
-        "Il logo lo prendiamo dall'icona del tuo sito. Se ne preferisci un altro, o vuoi correggere qualcosa, rispondi a questa email.",
+        `Puoi caricare il tuo logo dalla <a href="${SITO}/sponsor/grazie/?sessione=${encodeURIComponent(p.stripe_session_id ?? "")}" style="color:#096B76">pagina di conferma</a>. Se non lo carichi usiamo l'icona del tuo sito. Per correggere nome, claim o link rispondi a questa email.`,
         "Se non possiamo pubblicarlo ricevi il rimborso completo.",
       ],
     adminMail || undefined,
@@ -217,6 +220,32 @@ async function stato(req: Request) {
   return data ? json({ trovata: true, ...data }) : json({ trovata: false }, 404);
 }
 
+// Il logo arriva dalla pagina di conferma: la sessione Stripe, che conosce solo chi ha
+// pagato, fa da chiave. Si può cambiare finché lo sponsor non è approvato.
+async function caricaLogo(req: Request) {
+  const corpo = await req.json().catch(() => ({}));
+  const sessione = String(corpo.sessione ?? "");
+  if (!/^cs_[A-Za-z0-9_]{10,200}$/.test(sessione)) return json({ errore: "sessione non valida" }, 400);
+  const tipo = String(corpo.logo_tipo ?? "");
+  if (!/^image\/(png|jpeg|webp)$/.test(tipo)) return json({ errore: "Formato non supportato: usa PNG, JPG o WebP." }, 400);
+  if (typeof corpo.logo_base64 !== "string" || corpo.logo_base64.length > 360000) return json({ errore: "Il file pesa più di 256 KB." }, 400);
+  const { data: p } = await db.from("sponsor_prenotazioni").select("id,stato,creato_il").eq("stripe_session_id", sessione).maybeSingle();
+  if (!p) return json({ errore: "Prenotazione non trovata: se hai appena pagato riprova fra qualche secondo." }, 404);
+  if (!["in_approvazione", "in_coda", "riservato"].includes(p.stato) || Date.now() - new Date(p.creato_il).getTime() > 14 * 86400000) {
+    return json({ errore: "Il logo di questa prenotazione non si può più cambiare da qui: rispondi all'email di conferma." }, 409);
+  }
+  let bytes: Uint8Array;
+  try {
+    bytes = Uint8Array.from(atob(corpo.logo_base64), (c) => c.charCodeAt(0));
+  } catch {
+    return json({ errore: "File non leggibile." }, 400);
+  }
+  const logo = await salvaLogo(p.id, new Blob([bytes], { type: tipo }));
+  if (!logo) return json({ errore: "Logo non caricato: massimo 256 KB." }, 400);
+  await db.from("sponsor_prenotazioni").update({ logo_url: logo }).eq("id", p.id);
+  return json({ ok: true });
+}
+
 // --- Approvazione ----------------------------------------------------------
 async function amministra(req: Request) {
   const q = new URL(req.url).searchParams;
@@ -243,7 +272,7 @@ async function amministra(req: Request) {
   }
   if (typeof corpo.logo_base64 === "string" && corpo.logo_base64) {
     const tipo = String(corpo.logo_tipo ?? "image/png");
-    if (!/^image\/(png|jpeg|webp|svg\+xml|gif)$/.test(tipo)) return json({ errore: "Formato del logo non supportato." }, 400);
+    if (!/^image\/(png|jpeg|webp|gif)$/.test(tipo)) return json({ errore: "Formato del logo non supportato." }, 400);
     const bytes = Uint8Array.from(atob(corpo.logo_base64), (c) => c.charCodeAt(0));
     const logo = await salvaLogo(p.id, new Blob([bytes], { type: tipo }));
     if (!logo) return json({ errore: "Logo non caricato: massimo 256 KB." }, 400);
@@ -338,6 +367,7 @@ Deno.serve(async (req) => {
   try {
     if (rotta === "webhook" && req.method === "POST") return await webhook(req);
     if (rotta === "stato" && req.method === "GET") return await stato(req);
+    if (rotta === "logo" && req.method === "POST") return await caricaLogo(req);
     if (rotta === "admin" && (req.method === "GET" || req.method === "POST")) return await amministra(req);
     if (rotta === "scadenze" && req.method === "POST") return await scadenze(req);
     return json({ errore: "non trovato" }, 404);

@@ -8,7 +8,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {tabellone,chiuso,handler}=require('./sponsor.js');
 const S=require('../prototipo/sponsor.js');
-const {inietta,SCRIPT,SEGNAPOSTO}=require('../processo/attrezzi/sponsor-inietta.cjs');
+const {inietta,SCRIPT,SEGNAPOSTO,VOCE}=require('../processo/attrezzi/sponsor-inietta.cjs');
 
 const base=(slot,extra={})=>({slot_totali:5,disponibili:0,prezzo_cent:9900,valuta:'eur',durata_giorni:30,
   checkout_url:'https://book.stripe.com/abc',vendite_aperte:true,slot,...extra});
@@ -67,10 +67,12 @@ test('contratto: un catalogo illeggibile dà il tabellone chiuso',()=>{
 });
 
 test('documento: lo sponsor attivo è etichettato, apre il suo link come sponsored e non porta script',()=>{
-  const d=misto(),html=S.colonne(d).sinistra+S.colonne(d).destra+S.fondo(d)+S.striscia(d);
+  const d=misto(),b=S.barre(d),col=S.colonne(d).sinistra+S.colonne(d).destra,html=col+b.sopra+b.sotto;
   assert.match(html,/<span class="sp-tag">Sponsor<\/span>/);
   const link=[...html.matchAll(/<a [^>]*data-sponsor="Acme Paghe"[^>]*>/g)].map(m=>m[0]);
-  assert.equal(link.length,3,'colonne, griglia e striscia');
+  assert.equal((col.match(/data-sponsor="Acme Paghe"/g)||[]).length,1,'una volta nelle colonne');
+  const visibile=b.sopra.split('aria-hidden="true" inert')[0];
+  assert.match(visibile,/data-sponsor="Acme Paghe"/,'e nella barra in alto, fuori dalla copia inerte');
   for(const a of link){
     assert.match(a,/href="https:\/\/acme\.example\/prodotto\?ref=1&amp;utm_source=dovevalatuaral/);
     assert.match(a,/rel="sponsored noopener"/);
@@ -81,12 +83,26 @@ test('documento: lo sponsor attivo è etichettato, apre il suo link come sponsor
   assert.doesNotMatch(html.replace(/src="\/sponsor-loghi\/[^"]+"/g,''),/src="/,'nessun asset di terze parti');
 });
 
-test('documento: sei riquadri, tre per colonna, e in basso a destra l\'invito che non è uno slot',()=>{
+test('documento: sei riquadri, tre per colonna, e in basso a destra l\'invito che porta dritto al pagamento',()=>{
   const c=S.colonne(misto());
   const conta=h=>(h.match(/class="sp-card /g)||[]).length;
   assert.equal(conta(c.sinistra),3);
   assert.equal(conta(c.destra),3);
-  assert.match(c.destra,/<a class="sp-card sp-card--invito" href="\/sponsor\/">[\s\S]*3\/5 slot liberi[\s\S]*<\/a>$/);
+  assert.match(c.destra,/<a class="sp-card sp-card--invito" href="https:\/\/book\.stripe\.com\/abc\?client_reference_id=slot-2&amp;locale=it">[\s\S]*3\/5 slot liberi[\s\S]*<\/a>$/);
+});
+
+test('documento: due barre che scorrono, sopra i primi slot e sotto gli altri con l\'invito',()=>{
+  const b=S.barre(misto());
+  for(const h of [b.sopra,b.sotto]){
+    assert.match(h,/<div class="sp-nastro__copia" aria-hidden="true" inert>/,'la copia che chiude il giro non si legge e non si tabula');
+    const [vera,copia]=h.split('<div class="sp-nastro__copia" aria-hidden="true" inert>');
+    assert.equal(vera.slice(vera.indexOf('sp-nastro__copia">')+18).replace(/<\/div>$/,''),copia.replace(/<\/div><\/div><\/div>$/,''));
+  }
+  assert.match(b.sopra,/Acme Paghe/);
+  assert.match(b.sopra,/Slot preso · in approvazione/);
+  assert.doesNotMatch(b.sopra,/Diventa sponsor/);
+  assert.match(b.sotto,/<a class="sp-chip sp-chip--invito" href="https:\/\/book\.stripe\.com\/abc\?client_reference_id=slot-2&amp;locale=it">Diventa sponsor · 3\/5 slot liberi<\/a>/);
+  assert.match(b.sotto,/href="\/sponsor\/\?slot=4"/);
 });
 
 test('documento: lo slot libero porta alla pagina sponsor con il suo numero e mostra il prezzo del checkout',()=>{
@@ -98,21 +114,22 @@ test('documento: lo slot libero porta alla pagina sponsor con il suo numero e mo
 test('documento: lo slot riservato non è cliccabile e non rivela chi lo ha prenotato',()=>{
   const d=tabellone(base([{slot:1,stato:'riservato',nome:'Segreto Srl',url:'https://segreto.example/'}]));
   const html=S.carta(d.slot[0],d);
-  assert.match(html,/^<div class="sp-card sp-card--riservato">/);
+  assert.match(html,/^<div class="sp-card sp-card--riservato">[\s\S]*In approvazione/);
   assert.doesNotMatch(html,/Segreto|href=/);
 });
 
 test('documento: i testi dello sponsor sono sempre escapati',()=>{
   const d=tabellone(base([{...acme,nome:'<img src=x onerror=alert(1)>',claim:'"><script>alert(1)</script>'}]));
-  const html=S.carte(d).join('')+S.striscia(d);
+  const b=S.barre(d),html=S.carte(d).join('')+b.sopra+b.sotto;
   assert.doesNotMatch(html,/<script>|<img src=x/);
   assert.match(html,/&lt;img src=x onerror=alert\(1\)&gt;/);
 });
 
 test('documento: tutto esaurito e tabellone chiuso',()=>{
   const pieno=tabellone(base([1,2,3,4,5].map(n=>({...acme,slot:n}))));
-  assert.match(S.invito(pieno),/Tutto esaurito/);
-  assert.doesNotMatch(S.striscia(pieno),/99 €/);
+  assert.match(S.invito(pieno),/href="\/sponsor\/"[\s\S]*Tutto esaurito/,'tutto pieno: si va alla pagina che spiega, non al checkout');
+  const b=S.barre(pieno);
+  assert.doesNotMatch(b.sopra+b.sotto,/99 €|book\.stripe/);
   assert.equal(S.visibile(chiuso()),false);
   assert.equal(S.visibile(pieno),true);
 });
@@ -121,7 +138,7 @@ test('API: risponde con il tabellone validato e lo lascia in cache alla CDN',asy
   const res={headers:{},setHeader(k,v){this.headers[k]=v;},end(b){this.body=b;}};
   await handler({method:'GET'},res,async()=>({ok:true,json:async()=>base([acme,{slot:2,stato:'disponibile'}])}));
   assert.equal(res.statusCode,200);
-  assert.match(res.headers['Cache-Control'],/s-maxage=60/);
+  assert.match(res.headers['Cache-Control'],/s-maxage=15,/,'uno slot appena pagato sparisce dai liberi in pochi secondi');
   const d=JSON.parse(res.body);
   assert.equal(d.slot[0].nome,'Acme Paghe');
   assert.equal(d.disponibili,1);
@@ -138,12 +155,15 @@ test('API: se il catalogo non risponde il sito resta in piedi, senza slot',async
 });
 
 test('build: gli slot entrano in ogni pagina, una volta sola, fuori dal contenuto',()=>{
-  const pagina='<!doctype html><html lang="it"><head><title>x</title></head><body><a class="skip-link" href="#app">Vai</a><header class="site-header"><div>nav</div></header><main id="app"><div class="calcbox">RAL</div></main></body></html>';
+  const pagina='<!doctype html><html lang="it"><head><title>x</title></head><body><a class="skip-link" href="#app">Vai</a><header class="site-header"><nav class="site-nav" id="site-nav"><a href="/blog/">Blog</a></nav></header><main id="app"><div class="calcbox">RAL</div></main></body></html>';
   const out=inietta(pagina);
   assert.equal(out.split(SCRIPT).length,2);
   assert.ok(out.includes('</header>'+SEGNAPOSTO+'<main'),'la striscia sta fra navigazione e contenuto');
   assert.ok(out.endsWith(SCRIPT+'</body></html>'));
   assert.equal(inietta(out),out,'idempotente');
+  assert.ok(out.includes('<a href="/blog/">Blog</a>'+VOCE+'</nav>'),'la voce Sponsor chiude il menu');
+  const giàDentro='<html><head></head><body><header class="site-header"><nav class="site-nav"><a href="/sponsor/" aria-current="page">Sponsor</a></nav></header></body></html>';
+  assert.equal(inietta(giàDentro).split('href="/sponsor/"').length,2,'una voce sola');
   const main=out.slice(out.indexOf('<main'),out.indexOf('</main>'));
   assert.doesNotMatch(main,/sponsor|sp-/,'niente sponsor dentro il flusso dalla RAL al netto');
   const senzaNav=inietta('<html><head></head><body class="x"><main></main></body></html>');

@@ -2,12 +2,14 @@
    alla build, e non in ogni template. Una pagina nuova li riceve senza che
    nessuno se ne ricordi; per toglierli tutti basta non chiamare questa funzione.
 
-   In pagina arrivano tre cose: lo spazio riservato alla striscia (così il
+   In pagina arrivano quattro cose: lo spazio riservato alla barra (così il
    contenuto non salta quando arriva il tabellone), il segnaposto sotto la
-   navigazione e lo script. Il resto lo fa prototipo/sponsor.js. */
+   navigazione, la voce «Sponsor» nel menu e lo script. Il resto lo fa
+   prototipo/sponsor.js. */
 const fs=require('node:fs');
 const path=require('node:path');
-const STILE='<style>#sp-striscia{min-height:45px}@media(min-width:1600px){#sp-striscia{display:none}}</style>';
+const STILE='<style>#sp-striscia{min-height:47px}@media(min-width:1600px){#sp-striscia{display:none}}</style>';
+const VOCE='<a href="/sponsor/">Sponsor</a>';
 const SEGNAPOSTO='<aside id="sp-striscia" class="sp-striscia" aria-label="Sponsor"></aside>';
 const SCRIPT='<script src="/sponsor.js" defer></script>';
 
@@ -17,6 +19,7 @@ function inietta(html){
   let out=html.replace(/<\/head>/i,()=>STILE+'</head>');
   const header=/(<header class="site-header"[\s\S]*?<\/header>)/;
   out=header.test(out)?out.replace(header,(m)=>m+SEGNAPOSTO):out.replace(/<body[^>]*>/i,m=>m+SEGNAPOSTO);
+  out=out.replace(/(<nav class="site-nav"[\s\S]*?)(<\/nav>)/,(m,nav,chiusa)=>nav.includes('href="/sponsor/"')?m:nav+VOCE+chiusa);
   const fine=out.toLowerCase().lastIndexOf('</body>');
   return out.slice(0,fine)+SCRIPT+out.slice(fine);
 }
@@ -31,4 +34,4 @@ function iniettaCartella(dir){
   }
   return pagine;
 }
-module.exports={inietta,iniettaCartella,SCRIPT,SEGNAPOSTO};
+module.exports={inietta,iniettaCartella,SCRIPT,SEGNAPOSTO,VOCE};
