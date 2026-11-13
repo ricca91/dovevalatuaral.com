@@ -15,6 +15,7 @@ const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/netto-o-niente.html`,
   `${ORIGIN}/calcolo-tredicesima/`,
   `${ORIGIN}/confronti-ral/`,
+  `${ORIGIN}/sponsor/`,
 ]);
 
 function write(file,contents){

@@ -16,6 +16,7 @@ const publicPages = [
   ['netto-o-niente.html', `${canonicalOrigin}/netto-o-niente.html`],
   ['calcolo-tredicesima/index.html', `${canonicalOrigin}/calcolo-tredicesima/`],
   ['confronti-ral/index.html', `${canonicalOrigin}/confronti-ral/`],
+  ['sponsor/index.html', `${canonicalOrigin}/sponsor/`],
   ...Array.from({ length: 17 }, (_, index) => {
     const ral = 20000 + index * 5000;
     return [`ral-${ral}-netto/index.html`, `${canonicalOrigin}/ral-${ral}-netto/`];

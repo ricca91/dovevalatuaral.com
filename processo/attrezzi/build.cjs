@@ -11,7 +11,8 @@ function build(){
     return name!=='articoli'&&!['prototype-','genera-','prove-'].some(prefisso=>name.startsWith(prefisso))&&!/\.(?:md|test\.js|template\.js)$/.test(name)&&!['articoli-parser.js','.gitkeep'].includes(name);
   }});
   require('./dati-browser.cjs').generate(output);
-  console.log('Build completata: pagine statiche in dist/; sorgenti e bozze escluse.');
+  const sponsor=require('./sponsor-inietta.cjs').iniettaCartella(output);
+  console.log(`Build completata: pagine statiche in dist/; sorgenti e bozze escluse. Slot sponsor in ${sponsor} pagine.`);
 }
 if(require.main===module){try{build();}catch(error){console.error(error.message);process.exitCode=1;}}
 module.exports={build};

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="it" data-sponsor="off">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cpath%20d%3D%27M6%200H32V26L26%2032H0V6Z%27%20fill%3D%27%231E1C2B%27%2F%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20font-family%3D%27system-ui%2Csans-serif%27%20font-size%3D%2719%27%20font-weight%3D%27700%27%20fill%3D%27%2321D4E3%27%20text-anchor%3D%27middle%27%3E%E2%82%AC%3C%2Ftext%3E%3C%2Fsvg%3E">
+<title>Approva sponsor | Dove va la tua RAL</title>
+<link rel="stylesheet" href="/draftsman.css">
+<link rel="stylesheet" href="/sponsor.css">
+<style>
+.a{width:min(100% - (var(--gutter) * 2),860px);margin:clamp(28px,5vw,64px) auto}
+.a h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);font-size:clamp(1.7rem,3vw,2.4rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0 0 var(--s-4)}
+.a .griglia{display:grid;grid-template-columns:1fr 220px;gap:var(--s-8);align-items:start;margin-top:var(--s-6)}
+@media(max-width:700px){.a .griglia{grid-template-columns:1fr}}
+.a form{display:grid;gap:var(--s-4)}
+.a dl{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;margin:0;font-size:var(--t-sm)}
+.a dt{font:500 var(--t-label)/1.8 var(--font-mono);letter-spacing:var(--ls-label);text-transform:uppercase;color:var(--fg-muted)}
+.a dd{margin:0;overflow-wrap:anywhere}
+.a .azioni{display:flex;gap:var(--s-3);flex-wrap:wrap;margin-top:var(--s-4);padding-top:var(--s-4);border-top:var(--bw) dashed var(--line-strong)}
+.a .esito{margin-top:var(--s-4);padding:var(--s-4);border:var(--bw) solid var(--line-strong);background:var(--bg-raised)}
+.a .esito[hidden]{display:none}
+.a .sp-card{min-height:170px;pointer-events:none}
+</style>
+</head>
+<body>
+<main class="a" id="contenuto">
+  <div class="eyebrow">Sponsor · approvazione</div>
+  <h1 id="titolo">Carico la prenotazione…</h1>
+  <dl id="dati"></dl>
+  <div class="griglia" id="corpo" hidden>
+    <form id="modulo" novalidate>
+      <label class="field"><span class="label">Nome</span><input class="input" id="nome" maxlength="60" required></label>
+      <label class="field"><span class="label">Claim</span><input class="input" id="claim" maxlength="120"></label>
+      <label class="field"><span class="label">Link (https)</span><input class="input" id="url" type="url" inputmode="url" required></label>
+      <label class="field"><span class="label">Nuovo logo (PNG, JPG, WebP · max 256 KB)</span><input class="input" id="logo" type="file" accept="image/png,image/jpeg,image/webp,image/gif"></label>
+      <div class="azioni">
+        <button class="btn btn--primary" type="button" data-azione="approva">Approva e pubblica</button>
+        <button class="btn btn--ghost" type="button" data-azione="salva">Salva le modifiche</button>
+        <button class="btn btn--danger" type="button" data-azione="rifiuta">Rifiuta</button>
+        <button class="btn btn--danger" type="button" data-azione="termina">Termina ora</button>
+      </div>
+      <div class="esito" id="esito" role="status" aria-live="polite" hidden></div>
+    </form>
+    <div><p class="label">Anteprima</p><div id="anteprima"></div></div>
+  </div>
+</main>
+<script>
+(()=>{
+  const FN='https://rifkyfawojizgbzabyxn.supabase.co/functions/v1/sponsor/admin';
+  const STORAGE='https://rifkyfawojizgbzabyxn.supabase.co/storage/v1/object/public/sponsor-loghi/';
+  const q=new URLSearchParams(location.search),id=q.get('id')||'',t=q.get('t')||'';
+  const $=i=>document.getElementById(i);
+  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const data=iso=>iso?new Intl.DateTimeFormat('it-IT',{dateStyle:'long',timeStyle:'short'}).format(new Date(iso)):'—';
+  const euro=(c,v)=>new Intl.NumberFormat('it-IT',{style:'currency',currency:(v||'eur').toUpperCase()}).format((c||0)/100);
+  const STATI={in_approvazione:'In approvazione',in_coda:'In coda (nessuno slot libero)',riservato:'Riservato',attivo:'Attivo',scaduto:'Scaduto',rifiutato:'Rifiutato'};
+  let attuale=null;
+  function anteprima(){
+    const nome=$('nome').value.trim()||'Sponsor',claim=$('claim').value.trim();
+    const logo=attuale&&attuale.logo_url&&attuale.logo_url.startsWith(STORAGE)?'<img class="sp-logo" src="'+esc(attuale.logo_url)+'" alt="" width="40" height="40">':'<span class="sp-logo sp-logo--sigla">'+esc(nome.slice(0,1).toUpperCase())+'</span>';
+    $('anteprima').innerHTML='<div class="sp-card sp-card--attivo" data-tinta="'+((attuale&&attuale.slot||1)%5)+'"><span class="sp-tag">Sponsor</span>'+logo+'<strong class="sp-nome">'+esc(nome)+'</strong>'+(claim?'<span class="sp-claim">'+esc(claim)+'</span>':'')+'</div>';
+  }
+  function mostra(p,primo){
+    attuale=p;
+    $('titolo').textContent=p.nome+' · '+(STATI[p.stato]||p.stato);
+    $('dati').innerHTML=[
+      ['Stato',STATI[p.stato]||p.stato],['Slot',p.slot??'nessuno'],['Email',p.email||'—'],
+      ['Pagato',euro(p.importo_cent,p.valuta)+' · '+p.durata_giorni+' giorni'],['Ricevuto',data(p.creato_il)],
+      ['Online dal',data(p.inizio)],['Fino al',data(p.fine)],
+    ].map(([k,v])=>'<dt>'+esc(k)+'</dt><dd>'+esc(v)+'</dd>').join('')+(p.stripe_url?'<dt>Stripe</dt><dd><a href="'+esc(p.stripe_url)+'" rel="noopener noreferrer" target="_blank">Apri il pagamento (per il rimborso)</a></dd>':'');
+    if(primo){$('nome').value=p.nome;$('claim').value=p.claim||'';$('url').value=p.url;}
+    const attesa=['in_approvazione','in_coda','riservato'].includes(p.stato);
+    for(const b of document.querySelectorAll('[data-azione]')){
+      const a=b.dataset.azione;
+      b.hidden=(a==='approva'||a==='rifiuta')?!attesa:a==='termina'?p.stato!=='attivo':!(attesa||p.stato==='attivo');
+    }
+    $('corpo').hidden=false;anteprima();
+  }
+  function esito(msg){const e=$('esito');e.hidden=false;e.textContent=msg;}
+  const base64=file=>new Promise((ok,ko)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]);r.onerror=ko;r.readAsDataURL(file);});
+  async function invia(azione){
+    if(azione==='rifiuta'&&!confirm('Rifiutare questo sponsor? Lo sponsor riceve un\'email e il rimborso va fatto da Stripe.'))return;
+    if(azione==='termina'&&!confirm('Togliere subito questo sponsor dal sito?'))return;
+    const corpo={id,t,azione,nome:$('nome').value,claim:$('claim').value,url:$('url').value};
+    const file=$('logo').files[0];
+    if(file){if(file.size>262144)return esito('Il logo supera i 256 KB.');corpo.logo_base64=await base64(file);corpo.logo_tipo=file.type;}
+    esito('Invio…');
+    try{
+      const r=await fetch(FN,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(corpo)});
+      const d=await r.json();
+      if(!r.ok)return esito(d.errore||'Operazione non riuscita.');
+      $('logo').value='';mostra(d.prenotazione,false);
+      esito(azione==='approva'?'Approvato: è online (il sito si aggiorna entro un minuto). Lo sponsor ha ricevuto l\'email con la data di fine.':
+        azione==='rifiuta'?'Rifiutato: lo sponsor è stato avvisato. Ora fai il rimborso da Stripe con il link qui sopra.':
+        azione==='termina'?'Terminato: lo slot è di nuovo libero.':'Modifiche salvate.');
+    }catch(_){esito('Errore di rete: riprova.');}
+  }
+  document.addEventListener('click',e=>{const b=e.target.closest('[data-azione]');if(b)invia(b.dataset.azione);});
+  $('modulo').addEventListener('input',anteprima);
+  if(!/^[0-9a-f-]{36}$/.test(id)||!/^[0-9a-f]{48}$/.test(t)){$('titolo').textContent='Link non valido';return;}
+  fetch(FN+'?id='+id+'&t='+t).then(async r=>{const d=await r.json();if(!r.ok)throw new Error(d.errore);mostra(d.prenotazione,true);})
+    .catch(e=>{$('titolo').textContent=e.message||'Prenotazione non trovata';});
+})();
+</script>
+</body></html>
