@@ -1,0 +1,14 @@
+[Unit]
+Description=link-review, la revisione backlink del lunedì alle 07:00 ora italiana
+
+[Timer]
+# Il fuso nell'OnCalendar: CRON_TZ su questa macchina non viene onorato (cron 3.0pl1).
+# systemd 255 il fuso lo rispetta, cambio d'ora compreso.
+OnCalendar=Mon *-*-* 07:00:00 Europe/Rome
+# Se il VPS era spento all'orario, recupera all'avvio. La guardia anti-doppione di run.sh
+# (una revisione per settimana ISO) impedisce un secondo giro.
+Persistent=true
+Unit=link@link-review.service
+
+[Install]
+WantedBy=timers.target
