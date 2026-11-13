@@ -43,18 +43,21 @@ a.sp-card:focus-visible{outline:var(--bw-thick) solid var(--c-graphite);outline-
 @media(min-width:1600px) and (max-height:520px){.sp-rail .sp-claim{display:none}}
 
 /* Barre: una sotto la navigazione, una fissa in fondo allo schermo. */
-.sp-barra{display:flex;align-items:center;gap:10px;min-height:46px;padding:0 0 0 var(--gutter);overflow:hidden;
+.sp-barra{display:flex;align-items:center;min-height:46px;padding:0;overflow:hidden;
   background:color-mix(in srgb,var(--c-bone) 96%,transparent)}
 .sp-barra[hidden]{display:none}
 .sp-barra--sopra{border-bottom:var(--bw) solid var(--line-strong)}
+/* Su telefono e tablet la barra in alto resta ferma e il menu scorre via. */
+@media(max-width:1599.98px){
+  html.sp-con-barra .site-header{position:relative}
+  .sp-barra--sopra{position:sticky;top:0;z-index:190;backdrop-filter:blur(6px)}
+}
 .sp-barra--sotto{position:fixed;z-index:150;left:0;right:0;bottom:0;padding-bottom:env(safe-area-inset-bottom);
   border-top:var(--bw) solid var(--line-strong);backdrop-filter:blur(6px)}
 @media(max-width:1599.98px){html.sp-con-barra body{padding-bottom:calc(48px + env(safe-area-inset-bottom))}}
-.sp-barra__etichetta{flex:none;font:500 .625rem/1 var(--font-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--c-muted)}
-.sp-barra__etichetta::before{content:"[ "}.sp-barra__etichetta::after{content:" ]"}
 .sp-nastro{flex:1;min-width:0;overflow:hidden;padding:7px 0;
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 18px,#000 calc(100% - 18px),transparent);
-  mask-image:linear-gradient(to right,transparent,#000 18px,#000 calc(100% - 18px),transparent)}
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 12px),transparent);
+  mask-image:linear-gradient(to right,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
 .sp-nastro__pista{display:flex;width:max-content;animation:sp-scorri var(--sp-durata,30s) linear infinite}
 .sp-barra--sotto .sp-nastro__pista{animation-direction:reverse}
 .sp-nastro:hover .sp-nastro__pista,.sp-nastro:focus-within .sp-nastro__pista{animation-play-state:paused}

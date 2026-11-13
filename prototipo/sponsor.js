@@ -57,18 +57,19 @@
     return`<span class="sp-chip sp-chip--riservato">Slot preso · in approvazione</span>`;
   }
   function pilloleInvito(d){return`<a class="sp-chip sp-chip--invito" href="${esc(acquista(d))}">Diventa sponsor · ${esc(liberi(d))}</a>`;}
-  /* Un nastro che scorre: la stessa fila due volte, la seconda copia è inerte
+  /* Un nastro che scorre, senza etichetta: la barra si annuncia come «Sponsor»
+     ai lettori di schermo e ogni sponsor porta rel="sponsored". La stessa fila due volte, la seconda copia è inerte
      e serve solo a far tornare il giro senza salti. Con pochi slot la fila si
      ripete finché riempie uno schermo largo. */
-  function nastro(pezzi,etichetta){
+  function nastro(pezzi){
     let fila=pezzi.slice();
     while(fila.length&&fila.length<8)fila=fila.concat(pezzi);
     const giro=fila.join('');
-    return`<span class="sp-barra__etichetta">${esc(etichetta)}</span><div class="sp-nastro" style="--sp-durata:${Math.max(18,fila.length*4)}s"><div class="sp-nastro__pista"><div class="sp-nastro__copia">${giro}</div><div class="sp-nastro__copia" aria-hidden="true" inert>${giro}</div></div></div>`;
+    return`<div class="sp-nastro" style="--sp-durata:${Math.max(36,fila.length*7)}s"><div class="sp-nastro__pista"><div class="sp-nastro__copia">${giro}</div><div class="sp-nastro__copia" aria-hidden="true" inert>${giro}</div></div></div>`;
   }
   function barre(d){
     const [sopra,sotto]=metà([...d.slot.map(s=>pillola(s,d)),pilloleInvito(d)]);
-    return{sopra:nastro(sopra,'Sponsor'),sotto:nastro(sotto,'Sponsor')};
+    return{sopra:nastro(sopra),sotto:nastro(sotto)};
   }
   const visibile=d=>!!d&&Array.isArray(d.slot)&&d.slot.length>0;
 
