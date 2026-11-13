@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cpath%20d%3D%27M6%200H32V26L26%2032H0V6Z%27%20fill%3D%27%231E1C2B%27%2F%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20font-family%3D%27system-ui%2Csans-serif%27%20font-size%3D%2719%27%20font-weight%3D%27700%27%20fill%3D%27%2321D4E3%27%20text-anchor%3D%27middle%27%3E%E2%82%AC%3C%2Ftext%3E%3C%2Fsvg%3E">
+<title>Prenotazione ricevuta | Dove va la tua RAL</title>
+<link rel="stylesheet" href="/draftsman.css">
+<style>
+.g{width:min(100% - (var(--gutter) * 2),720px);margin:clamp(40px,8vw,96px) auto}
+.g h1{font-family:var(--font-display);font-weight:800;font-stretch:var(--wdth);font-size:clamp(2rem,3.6vw,3rem);line-height:var(--lh-snug);letter-spacing:var(--ls-display);margin:0 0 var(--s-4)}
+.g .box{margin:var(--s-6) 0;border:var(--bw-thick) solid var(--line-solid);background:var(--bg-raised);padding:clamp(18px,2.4vw,26px);box-shadow:var(--lift-md) var(--line-solid)}
+.g .box p{margin:0 0 var(--s-2)}.g .box p:last-child{margin:0}
+.g ol{color:var(--fg-muted)}.g ol strong{color:var(--fg)}
+</style>
+</head>
+<body>
+<main class="g" id="contenuto">
+  <div class="eyebrow">Sponsor</div>
+  <h1 id="titolo">Pagamento ricevuto, grazie.</h1>
+  <div class="box" role="status" aria-live="polite" id="stato"><p>Sto registrando la tua prenotazione…</p></div>
+  <ol>
+    <li><strong>Adesso:</strong> lo slot è riservato a te. Ti abbiamo scritto un'email di conferma.</li>
+    <li><strong>Entro un giorno lavorativo:</strong> approviamo a mano il tuo sponsor. Il logo lo prendiamo dall'icona del tuo sito: per cambiarlo, o per correggere nome, claim e link, rispondi all'email.</li>
+    <li><strong>Alla pubblicazione:</strong> partono i 30 giorni e ricevi un'altra email con la data di fine. Se non possiamo pubblicarlo, rimborso completo.</li>
+  </ol>
+  <p><a class="btn" href="/">Torna al sito</a></p>
+</main>
+<script>
+(()=>{
+  const FN='https://rifkyfawojizgbzabyxn.supabase.co/functions/v1/sponsor/stato';
+  const box=document.getElementById('stato');
+  const p=t=>{const e=document.createElement('p');e.textContent=t;return e;};
+  const scrivi=(...righe)=>box.replaceChildren(...righe.map(p));
+  const sessione=new URLSearchParams(location.search).get('sessione')||'';
+  if(!/^cs_[A-Za-z0-9_]{10,200}$/.test(sessione))return scrivi('Se hai appena pagato, la conferma ti arriva via email entro pochi minuti.');
+  let tentativi=0;
+  async function chiedi(){
+    tentativi++;
+    try{
+      const r=await fetch(FN+'?sessione='+encodeURIComponent(sessione));
+      if(r.ok){
+        const d=await r.json();
+        if(d.stato==='in_coda')return scrivi('Pagamento registrato per «'+d.nome+'».','Nel frattempo gli slot sono andati esauriti: ti scriviamo entro un giorno lavorativo per scegliere fra rimborso e primo slot libero.');
+        if(d.stato==='attivo')return scrivi('«'+d.nome+'» è online nello slot '+d.slot+'.');
+        if(d.stato==='rifiutato')return scrivi('Questa prenotazione non è stata approvata: il rimborso è in arrivo.');
+        return scrivi('Slot '+d.slot+' riservato per «'+d.nome+'».','Claim: '+(d.claim||'—'),'Link: '+d.url,'Stato: in approvazione.');
+      }
+    }catch(_){}
+    if(tentativi<12)return setTimeout(chiedi,2500);
+    scrivi('Il pagamento è andato a buon fine. La registrazione sta impiegando più del solito: la conferma ti arriva via email.');
+  }
+  chiedi();
+})();
+</script>
+</body></html>

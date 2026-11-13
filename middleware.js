@@ -28,6 +28,7 @@ export const config={
   runtime:'nodejs',
   /* Ogni richiesta che arriva qui è un'invocazione pagata, quindi gli asset
      restano fuori. Restano dentro le pagine .html, i percorsi senza estensione
-     e i file che i crawler leggono per primi: robots.txt e sitemap.xml. */
-  matcher:['/((?!_vercel/|.*\\.(?:js|mjs|css|png|jpg|jpeg|webp|svg|ico|json|map|woff2?)$).*)'],
+     e i file che i crawler leggono per primi: robots.txt e sitemap.xml.
+     /api/sponsor lo chiama ogni pagina dal browser: non è una visita. */
+  matcher:['/((?!_vercel/|api/sponsor$|sponsor-loghi/|.*\\.(?:js|mjs|css|png|jpg|jpeg|webp|svg|ico|json|map|woff2?)$).*)'],
 };

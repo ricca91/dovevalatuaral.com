@@ -77,7 +77,7 @@ test('build reale: pubblica HTML e asset, esclude sorgenti e bozze; errore resti
   const root=fixture(t);
   fs.cpSync(__dirname,path.join(root,'prototipo'),{recursive:true});
   fs.mkdirSync(path.join(root,'processo/attrezzi'),{recursive:true});
-  for(const file of ['build.cjs','genera-home.cjs','dati-browser.cjs'])
+  for(const file of ['build.cjs','genera-home.cjs','dati-browser.cjs','sponsor-inietta.cjs'])
     fs.copyFileSync(path.join(__dirname,'../processo/attrezzi',file),path.join(root,'processo/attrezzi',file));
   const sources=path.join(root,'prototipo/articoli');save(sources);
   save(sources,sample.replaceAll('articolo-demo','bozza'),'bozza.md');
@@ -85,6 +85,7 @@ test('build reale: pubblica HTML e asset, esclude sorgenti e bozze; errore resti
   let result=run();assert.equal(result.status,0,result.stderr);
   const dist=path.join(root,'dist');
   for(const file of ['index.html','draftsman.css','site-nav.js','blog/index.html','blog/articolo-demo/index.html','ral-30000-netto/index.html','sitemap.xml'])assert.ok(fs.existsSync(path.join(dist,file)),file);
+  for(const file of ['index.html','blog/articolo-demo/index.html','ral-30000-netto/index.html','sponsor/index.html'])assert.match(fs.readFileSync(path.join(dist,file),'utf8'),/<script src="\/sponsor\.js" defer><\/script><\/body>/,file);
   for(const file of ['articoli','blog/bozza','articolo.template.js','articoli.test.js','README.md','articoli-parser.js'])assert.ok(!fs.existsSync(path.join(dist,file)),file);
   save(sources,sample.replace('title_seo:','campo_errato:'));
   result=run();assert.equal(result.status,1);assert.match(result.stderr,/title_seo/);
