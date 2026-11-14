@@ -51,9 +51,11 @@
      stima dell'anno usa 13, e la pagina lo dichiara. */
   const MENSILITA_ANNUE_STIMA=dec('13');
 
-  /* PROPOSTA, NON LEGGE. Ipotesi riportata da Sky TG24 il
-     28/08/2026 per la Legge di Bilancio 2027: sostitutiva al 15%
-     fino a 15.000 € di reddito. Da aggiornare quando c'è un testo. */
+  /* NON È NELLA MANOVRA 2027. Ipotesi riportata da Sky TG24 il
+     28/08/2026: sostitutiva al 15% fino a 15.000 € di reddito.
+     Il DDL di bilancio approvato dal CdM il 28/10/2026 (comunicato
+     n. 195) non la include; può tornare solo con un emendamento.
+     La cifra resta un esercizio sull'ipotesi di agosto. */
   const PROPOSTA_DETASSATA={aliquota:dec('0.15'),soglia:dec('15000')};
 
   const FONTI={
