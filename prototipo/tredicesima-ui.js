@@ -40,10 +40,10 @@ if(!CALCOLATORE_AVVIO.errore){
     });
   }
   function testoDetassata(d){
-    const link='<a href="/blog/tredicesima-detassata/">Cosa prevede la proposta</a>';
+    const link='<a href="/blog/tredicesima-detassata/">L\'ipotesi di agosto, spiegata</a>';
     return d.applicabile
-      ?`<p>Se passasse l'ipotesi della sostitutiva al ${perc(d.aliquota)} fino a ${euro(d.soglia)} di reddito, sulla tua tredicesima risparmieresti <b>${euro(d.risparmio)}</b>. Oggi non è legge. ${link}.</p>`
-      :`<p>Con l'ipotesi della sostitutiva al ${perc(d.aliquota)} il tuo risparmio sarebbe <b>0 €</b>: il tuo reddito stimato supera la soglia di ${euro(d.soglia)}. Oggi comunque non è legge. ${link}.</p>`;
+      ?`<p>La detassazione della tredicesima non è nel DDL di bilancio approvato il 28 ottobre 2026. La cifra è solo quanto avrebbe valso l'ipotesi di agosto, la sostitutiva al ${perc(d.aliquota)} fino a ${euro(d.soglia)} di reddito: <b>${euro(d.risparmio)}</b> sulla tua tredicesima. ${link}.</p>`
+      :`<p>La detassazione della tredicesima non è nel DDL di bilancio approvato il 28 ottobre 2026. Con l'ipotesi di agosto, la sostitutiva al ${perc(d.aliquota)}, il tuo risparmio sarebbe stato <b>0 €</b>: il tuo reddito stimato supera la soglia di ${euro(d.soglia)}. ${link}.</p>`;
   }
   function mostra(r){
     $('netta').textContent=euro(r.netta);$('netta-riga').textContent=euro(r.netta);

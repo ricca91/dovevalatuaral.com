@@ -1,23 +1,23 @@
 ---
 slug: tredicesima-detassata
 titolo: "Tredicesima detassata: quanto vale davvero in euro, nel tuo caso"
-title_seo: "Tredicesima detassata 2026: quanto vale nel tuo caso"
-description: "La tredicesima detassata non è in vigore: è una proposta. Nell'ipotesi al 15% vale 83,83 € l'anno e solo sotto 16.518 € di RAL. Il conto per ogni fascia."
+title_seo: "Tredicesima detassata 2026: non è nella manovra 2027"
+description: "La tredicesima detassata non è legge e non è nel DDL di bilancio 2027 del 28 ottobre 2026. L'ipotesi di agosto al 15% valeva 83,83 € l'anno, solo sotto 16.518 € di RAL."
 query_principale: "tredicesima detassata"
 cluster: "tredicesima"
 data_pubblicazione: 2026-09-24
-data_aggiornamento: 2026-10-16
+data_aggiornamento: 2026-11-14
 cta: "/"
 link_interni: ["/blog/taglio-irpef-effetto-sul-netto/", "/ral-30000-netto/", "/confronti-ral/", "/blog/come-leggere-busta-paga/", "/come-ho-lavorato.html", "/calcolo-tredicesima/"]
 ipotesi_calcolo: "dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità"
 fonti_verificate: 2026-09-24
 stato: pubblicato
 ---
-La **tredicesima detassata** oggi non esiste. Non è una norma in vigore: è una proposta allo studio per la Legge di Bilancio 2027, e il Governo non l'ha ancora inserita fra le misure ufficiali. L'ipotesi più concreta è un'imposta sostitutiva del 15% al posto dell'IRPEF, riservata ai redditi fino a 15.000 €. Se la tua RAL supera 16.518 €, in quell'ipotesi il tuo netto non cambia di un euro.
+La **tredicesima detassata non è legge e non è nel disegno di legge di bilancio 2027** approvato dal Consiglio dei ministri il 28 ottobre 2026. Può tornare solo se il Parlamento la inserisce con un emendamento. Fino ad allora, sulla tredicesima di dicembre 2026 e su quella del 2027 vale la tassazione ordinaria. Le simulazioni qui sotto restano un esercizio: mostrano quanto avrebbe valso l'ipotesi di un'imposta sostitutiva al 15% fino a 15.000 € di reddito, circolata in agosto, non una misura del Governo.
 
-> **In breve**: la tredicesima detassata non è legge, quindi sulla mensilità che incasserai a dicembre 2026 non cambia niente. Se passasse l'ipotesi del 15% con il tetto a 15.000 € di reddito, il risparmio sarebbe di 83,83 € l'anno su una RAL di 15.000 €. Sopra la soglia sarebbe zero.
+> **In breve**: la tredicesima detassata non è legge e non è nel DDL di bilancio, quindi sulla mensilità che incasserai a dicembre 2026 non cambia niente. L'ipotesi di agosto, 15% con tetto a 15.000 € di reddito, avrebbe fatto risparmiare 83,83 € l'anno su una RAL di 15.000 €. Sopra la soglia, zero.
 
-I numeri di questa pagina escono dal motore di calcolo del sito. Le ipotesi sono queste: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, regole 2026. Dove la proposta è ancora vaga, lo scrivo invece di riempire il buco.
+I numeri di questa pagina escono dal motore di calcolo del sito. Le ipotesi sono queste: dipendente privato, Milano, nessun familiare a carico, anno intero, FPLD ordinario, 13 mensilità, regole 2026. Dove l'ipotesi era vaga, lo scrivo invece di riempire il buco.
 
 ## Quando arriva la tredicesima 2026? Le date per CCNL
 
@@ -34,17 +34,17 @@ La tabella riporta la data o il periodo previsto dal contratto, non la data del 
 
 ## La tredicesima detassata è già legge?
 
-No. È allo studio, non in vigore, e non ha ancora un testo. La tredicesima detassata non compare in nessuna norma vigente: è una delle misure in discussione per la manovra 2027. Finché non c'è un articolo di legge non esistono né aliquote definitive né una platea definita.
+No. Non compare in nessuna norma vigente e non è nel disegno di legge di bilancio 2027 approvato dal Consiglio dei ministri il 28 ottobre 2026 ([Comunicato CdM n. 195](https://www.governo.it/it/articolo/comunicato-stampa-del-consiglio-dei-ministri-n-195/32973)). In conferenza stampa la presidente Meloni ha detto: «Sulle tredicesime non c'è attualmente la misura nella legge di bilancio». Può tornare solo con un emendamento parlamentare; finché non c'è un articolo di legge non esistono né aliquote né una platea definita.
 
-Le ipotesi riportate dalla stampa a fine agosto 2026 sono tre, e vanno distinte perché valgono cifre molto diverse.
+Le ipotesi riportate dalla stampa a fine agosto 2026, prima del DDL, erano tre, e vanno distinte perché valgono cifre molto diverse.
 
 | Ipotesi | Aliquota | Soglia di reddito | Chi la sostiene |
 | --- | --- | --- | --- |
-| Quella con un costo stimato (circa 500 milioni) | 15% sostitutiva | fino a 15.000 € | ipotesi di governo |
+| Quella con un costo stimato (circa 500 milioni) | 15% sostitutiva | fino a 15.000 € | ipotesi attribuita al Governo, poi non inserita nel DDL |
 | Più ampia, senza stima di costo | 10% sostitutiva | tetto più alto di 15.000 €, non quantificato | Fratelli d'Italia |
 | Azzeramento | 0% | non indicata | Forza Italia |
 
-Queste sono **dichiarazioni politiche riportate da una fonte giornalistica** ([Sky TG24, 28 agosto 2026](https://tg24.sky.it/economia/2026/08/28/manovra-2027-detassazione-tredicesime)), non estremi normativi. Le tratto come tali: servono a fare due conti, non a promettere niente. Il confronto utile è con la manovra precedente, dove una misura sul netto è invece diventata legge e ha un numero certo: il [taglio IRPEF](/blog/taglio-irpef-effetto-sul-netto/).
+Queste sono **dichiarazioni politiche riportate da una fonte giornalistica** ([Sky TG24, 28 agosto 2026](https://tg24.sky.it/economia/2026/08/28/manovra-2027-detassazione-tredicesime)), non estremi normativi. Le tratto come tali: servono a fare due conti, non a promettere niente. Il disegno di legge del 28 ottobre non ne ha recepita nessuna. Il confronto utile è con la manovra precedente, dove una misura sul netto è invece diventata legge e ha un numero certo: il [taglio IRPEF](/blog/taglio-irpef-effetto-sul-netto/).
 
 ## Quanto ti tolgono oggi dalla tredicesima?
 
@@ -89,9 +89,9 @@ La lettera precedente è quella che fa la differenza, e lo fa per omissione. Le 
 
 È per questo che a 35.000 € di RAL l'IRPEF sulla tredicesima è 571,17 € contro i 481,99 € di chi sta a 30.000: l'imponibile di dicembre (2.437,89 €) supera di 104,56 € il primo scaglione mensile, e solo quella parte va al 33%, non l'intera mensilità. Applicare il 33% a tutta la base imponibile di periodo darebbe invece 804,50 €: è un confronto aritmetico con l’aliquota marginale, non la ritenuta mensile né il risultato del conguaglio annuo. Se vuoi vedere dove sta materialmente la voce nel documento, l'ho spiegata in [come si legge una busta paga](/blog/come-leggere-busta-paga/).
 
-## Quanto varrebbe la tredicesima detassata nel tuo caso?
+## Quanto avrebbe valso la tredicesima detassata nel tuo caso?
 
-Dipende da quale ipotesi passa, e le due sul tavolo valgono cifre che differiscono di un fattore tre. Qui sotto c'è la riduzione della ritenuta sulla tredicesima prima del conguaglio nei due scenari ipotetici, sulla stessa base contributiva della tabella precedente: a sinistra l'imposta sostitutiva al 15% al posto dell'IRPEF, a destra l'azzeramento totale del prelievo fiscale.
+È un esercizio: le due ipotesi circolate in agosto valgono cifre che differiscono di un fattore tre. Qui sotto c'è la riduzione della ritenuta sulla tredicesima prima del conguaglio nei due scenari ipotetici, sulla stessa base contributiva della tabella precedente: a sinistra l'imposta sostitutiva al 15% al posto dell'IRPEF, a destra l'azzeramento totale del prelievo fiscale.
 
 | RAL | Risparmio con sostitutiva al 15% | Risparmio con azzeramento |
 | --- | --- | --- |
@@ -103,21 +103,21 @@ Dipende da quale ipotesi passa, e le due sul tavolo valgono cifre che differisco
 | 40.000 € | 266,97 € | 683,89 € |
 | 50.000 € | 389,94 € | 909,33 € |
 
-C'è un avvertimento grosso su questa tabella, ed è la ragione per cui la maggior parte dei lettori può fermarsi qui. **Nell'ipotesi di governo la colonna del 15% si applica solo sotto la soglia dei 15.000 € di reddito.** Sopra, il risparmio non è la cifra che leggi: è zero. Quella colonna mostra cosa varrebbe una tredicesima detassata senza tetto di reddito, che al momento nessuno ha messo per iscritto.
+C'è un avvertimento grosso su questa tabella, ed è la ragione per cui la maggior parte dei lettori può fermarsi qui. **Nell'ipotesi di agosto la colonna del 15% si sarebbe applicata solo sotto la soglia dei 15.000 € di reddito.** Sopra, il risparmio non è la cifra che leggi: è zero. Quella colonna mostra cosa varrebbe una tredicesima detassata senza tetto di reddito, che nessuno ha messo per iscritto.
 
 ## Chi resta fuori dalla soglia dei 15.000 €?
 
 Quasi tutti i dipendenti a tempo pieno, per un motivo aritmetico che nessuno scrive. La soglia si misura sul reddito imponibile, non sulla RAL, e fra i due c'è di mezzo il 9,19% di contributi INPS. Risultato: **15.000 € di imponibile corrispondono a una RAL di 16.518 €**.
 
-Vuol dire che chi ha una RAL di 17.000 € è già fuori. Un contratto a tempo pieno sotto i 16.518 € lordi l'anno è raro nel lavoro dipendente privato. La platea dell'ipotesi al 15% è fatta soprattutto di part-time, contratti di pochi mesi e rapporti iniziati in corso d'anno.
+Vuol dire che chi ha una RAL di 17.000 € è già fuori. Un contratto a tempo pieno sotto i 16.518 € lordi l'anno è raro nel lavoro dipendente privato. La platea dell'ipotesi al 15% sarebbe fatta soprattutto di part-time, contratti di pochi mesi e rapporti iniziati in corso d'anno.
 
-C'è anche un'ambiguità che le proposte non sciolgono: **non è detto se la soglia vada letta sul reddito imponibile o sulla RAL**. Sembra un dettaglio e non lo è, perché sposta il confine di 1.518 € e con esso un pezzo di platea. Finché non c'è un testo, questo non lo so, e non lo stimo.
+C'è anche un'ambiguità che le proposte non sciolgono: **non è detto se la soglia andasse letta sul reddito imponibile o sulla RAL**. Sembra un dettaglio e non lo è, perché sposta il confine di 1.518 € e con esso un pezzo di platea. Senza un testo, questo non lo so, e non lo stimo.
 
 ## Perché i giornali parlano di 200-500 euro?
 
 Perché applicano l'azzeramento totale a tutti, senza tetto di reddito. Se confronti quella forbice con la tabella qui sopra, la riconosci subito: 200-500 € è la **colonna destra**, quella dell'azzeramento, per RAL comprese grosso modo fra 13.000 e 31.000 €.
 
-Non è la stima dell'ipotesi che il governo sta davvero valutando. Quella vale 83,83 € l'anno a 15.000 € di RAL, sale al massimo intorno ai 92 € al limite della soglia, e lì si ferma. Fra "fino a 500 euro in più" e "circa 90 euro, se rientri" c'è la differenza fra un titolo e un numero.
+Non è la stima dell'ipotesi con un costo quantificato. Quella valeva 83,83 € l'anno a 15.000 € di RAL, sale al massimo intorno ai 92 € al limite della soglia, e lì si ferma. Fra "fino a 500 euro in più" e "circa 90 euro, se rientri" c'è la differenza fra un titolo e un numero.
 
 Non sto dicendo che quei giornali sbagliano: stanno raccontando una proposta diversa. Sto dicendo che le due cifre girano insieme come se fossero la stessa cosa, e non lo sono.
 
@@ -128,14 +128,15 @@ Il conto di questa pagina vale per un dipendente privato a tempo pieno, anno int
 - Con **14 mensilità** la tredicesima lorda è più bassa, perché la stessa RAL si divide in più parti.
 - Chi è **entrato in corso d'anno** matura la tredicesima in ratei e ha un imponibile annuo diverso, quindi un'aliquota marginale diversa.
 - I **pensionati** non sono in questo conto, anche se le proposte li nominano: la loro tredicesima segue regole di ritenuta che qui non ho ricalcolato.
-- Le **addizionali regionale e comunale** non sono trattenute sulla tredicesima, ma sono dovute sul totale annuo che la comprende. Nessuna delle proposte dice se la sostitutiva le sostituirebbe: l'ho lasciata fuori da entrambe le colonne di risparmio.
+- Le **addizionali regionale e comunale** non sono trattenute sulla tredicesima, ma sono dovute sul totale annuo che la comprende. Nessuna delle ipotesi dice se la sostitutiva le sostituirebbe: l'ho lasciata fuori da entrambe le colonne di risparmio.
 - La tabella mostra la **ritenuta di dicembre**: gli scaglioni annui ragguagliati a mese, applicati alla sola tredicesima al netto dei contributi. È quello che il sostituto d'imposta trattiene in busta paga quel mese. A fine anno il conguaglio ricalcola l'IRPEF sul reddito complessivo e riallinea la differenza, in più o in meno.
 - A dicembre la tredicesima si somma allo stipendio del mese. Se il totale supera 4.685 €, può scattare anche il **contributo aggiuntivo IVS dell'1%**, che si applica alla parte di reddito oltre la prima fascia pensionabile. Il conguaglio di fine anno lo restituisce se nell'anno resti sotto 56.224 € di imponibile. È incluso nei conti sopra, nella colonna separata IVS aggiuntivo 1%: il netto è prima del conguaglio, come nel calcolatore e nell’articolo sulla tassazione della tredicesima.
 
-Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pubblico, con le regole 2026 e le ipotesi dichiarate qui sopra, e [come ho lavorato](/come-ho-lavorato.html) è scritto per intero. Se la manovra prende una forma diversa, questa pagina va rifatta, e la rifarò.
+Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pubblico, con le regole 2026 e le ipotesi dichiarate qui sopra, e [come ho lavorato](/come-ho-lavorato.html) è scritto per intero. Se un emendamento portasse la misura nella legge di bilancio, questa pagina va rifatta, e la rifarò.
 
 ## Fonti
 
+- Consiglio dei ministri, Comunicato stampa n. 195 del 28 ottobre 2026 — approvazione del disegno di legge di bilancio 2027, senza la detassazione della tredicesima ([governo.it](https://www.governo.it/it/articolo/comunicato-stampa-del-consiglio-dei-ministri-n-195/32973)) · letto il 14 novembre 2026
 - D.Lgs. 24 marzo 2025, n. 33, art. 33 c. 3 lett. a e b — sulle mensilità aggiuntive la ritenuta si applica con le aliquote IRPEF ragguagliando a mese gli scaglioni annui; le detrazioni sono previste dalla sola lett. a, rapportate al periodo di paga. Ha sostituito l'art. 23 del DPR 600/1973, abrogato ([Normattiva](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2025-03-24;33)) · verificata il 24 settembre 2026
 - L. 30 dicembre 2025, n. 199, art. 1 c. 3 — scaglioni IRPEF 2026 al 23 / 33 / 43% ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2025/12/30/199/CONSOLIDATED)) · verificata il 24 settembre 2026
 - L. 30 dicembre 2024, n. 207, art. 1 c. 2 e c. 6 — soglie degli scaglioni a 28.000 e 50.000 € e ulteriore detrazione fra 20.000 e 40.000 € ([Normattiva](https://www.normattiva.it/eli/stato/LEGGE/2024/12/30/207/CONSOLIDATED)) · verificata il 24 settembre 2026
@@ -144,4 +145,4 @@ Nessun consulente del lavoro ha validato questi numeri. Vengono da un motore pub
 - INPS, circolare 101/2024 — aliquota IVS 9,19% a carico del lavoratore nel FPLD ordinario ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2024.11.circolare-numero-101-del-29-11-2024_14714.html)) · link verificato il 24 settembre 2026
 - Agenzia delle Entrate, circolare 15/2007 — conferma che sulle mensilità aggiuntive la ritenuta segue gli scaglioni annui ragguagliati a mese, senza detrazioni, richiamando la circolare 326/1997 ([def.finanze.it](https://def.finanze.it/DocTribFrontend/getPrassiDetail.do?id=%7BD20F6A55-3E47-44DC-A55F-A88025D3249C%7D)) · verificata il 24 settembre 2026
 - INPS, circolare 6/2026 — contributo aggiuntivo IVS dell'1% oltre la prima fascia di retribuzione pensionabile (56.224 €), restituito in conguaglio se nell'anno non si supera la soglia ([INPS](https://www.inps.it/it/it/inps-comunica/atti/circolari-messaggi-e-normativa/dettaglio.circolari-e-messaggi.2026.01.circolare-numero-6-del-30-01-2026_15151.html)) · verificata il 24 settembre 2026
-- Sky TG24, 28 agosto 2026 — ipotesi di sostitutiva al 15% fino a 15.000 € di reddito, ipotesi al 10% e richiesta di azzeramento: dichiarazioni politiche riportate, non norma vigente ([Sky TG24](https://tg24.sky.it/economia/2026/08/28/manovra-2027-detassazione-tredicesime)) · verificata il 24 settembre 2026
+- Sky TG24, 28 agosto 2026 — ipotesi di sostitutiva al 15% fino a 15.000 € di reddito, ipotesi al 10% e richiesta di azzeramento: dichiarazioni politiche riportate, poi non recepite nel DDL: non norma vigente ([Sky TG24](https://tg24.sky.it/economia/2026/08/28/manovra-2027-detassazione-tredicesime)) · verificata il 24 settembre 2026
