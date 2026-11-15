@@ -43,7 +43,9 @@ test.describe('pagina RAL 35.000',()=>{
     assert.match(pagina,/>Calcola<\/button>.*>RAL → Netto<\/a>.*>Netto → RAL<\/a>/);
     assert.match(pagina,/>Confronta<\/button>.*>Due offerte<\/a>.*>Livelli di RAL<\/a>.*>La storia<\/a>/);
     assert.match(pagina,/href="\.\.\/confronti-ral\/" aria-current="page"/);
-    assert.doesNotMatch(pagina,/Metodo e fonti|Come cambiano le mensilità/);
+    /* «Metodo e fonti» sta nel footer (RIC-163), non nella navigazione globale. */
+    assert.doesNotMatch(pagina.match(/<nav class="site-nav"[\s\S]*?<\/nav>/)[0],/Metodo e fonti/);
+    assert.doesNotMatch(pagina,/Come cambiano le mensilità/);
     assert.match(pagina,/Tre numeri mensili, un solo netto annuo/);
     assert.match(pagina,/Il totale non cambia/);
     assert.match(pagina,/Cambia la media mensile/);

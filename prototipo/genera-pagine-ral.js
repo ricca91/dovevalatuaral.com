@@ -8,6 +8,7 @@ const RALS=Object.freeze(Array.from({length:17},(_,index)=>20000+index*5000));
 const PUBLIC_PAGES=Object.freeze([
   `${ORIGIN}/`,
   `${ORIGIN}/come-ho-lavorato.html`,
+  `${ORIGIN}/metodo-e-fonti.html`,
   `${ORIGIN}/la-storia.html`,
   `${ORIGIN}/compara.html`,
   `${ORIGIN}/netto-ral.html`,

@@ -3,6 +3,7 @@
 .article-intro{padding-block:24px 36px;border-bottom:1px dashed var(--line-strong);margin-bottom:36px}
 .article-intro h1{font-size:clamp(2.25rem,5vw,4rem);line-height:1.08;max-width:850px;margin:16px 0 24px;overflow-wrap:anywhere}
 .article-dates{font-family:var(--font-mono);font-size:.75rem;line-height:1.9;color:var(--fg-muted)}
+.article-author{max-width:740px;margin:24px 0 0;font-family:var(--font-mono);font-size:.75rem;line-height:1.9;color:var(--fg-muted)}
 .article-body,.article-sources{max-width:740px;font-size:1.125rem;line-height:1.8;overflow-wrap:anywhere}
 .article-body h2,.article-sources h2,.blog-cluster h2,.blog-related h2{font-size:1.75rem;line-height:1.2;margin:40px 0 20px}
 .article-body h3{font-size:1.3rem;margin:28px 0 16px}
