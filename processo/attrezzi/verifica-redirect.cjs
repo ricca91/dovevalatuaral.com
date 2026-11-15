@@ -19,7 +19,7 @@ const redirects = [
 const apiQuery = `?v=${VERSIONE}&s=123456789&t=12`;
 const pages = [
   '/', '/netto-o-niente.html', '/compara.html', '/ccnl-livello.html',
-  '/netto-ral.html', '/come-ho-lavorato.html', '/la-storia.html',
+  '/netto-ral.html', '/come-ho-lavorato.html', '/metodo-e-fonti.html', '/la-storia.html',
   '/draftsman.css', '/site-nav.js', '/robots.txt', '/sitemap.xml',
   '/api/risultato' + apiQuery, '/api/risultato-immagine' + apiQuery,
   `/risultato/${VERSIONE}/123456789/12`,

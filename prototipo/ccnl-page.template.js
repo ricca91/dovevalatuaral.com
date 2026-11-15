@@ -25,6 +25,9 @@ const radice=rotta=>'../'.repeat(profondita(rotta));
    allo stesso modo. */
 const verso=(da,a)=>`${radice(da)}${a.replace(/^\//,'')}`;
 
+/* RIC-162: accanto a fonte e data di verifica, il rimando a come si controllano i numeri. */
+const comeVerifico=rotta=>`<p class="small">Come verifico questi numeri: <a href="${verso(rotta,'/metodo-e-fonti.html')}">Metodo e fonti&nbsp;→</a></p>`;
+
 function calcolatore(da,{ccnl,sezione,livello}){
   const q=new URLSearchParams({ccnl,...(sezione?{sezione}:{}),...(livello?{livello}:{})});
   return `${radice(da)}ccnl-livello.html?${esc(q.toString())}`;
@@ -84,7 +87,7 @@ function layout({rotta,title,description,briciole,body,jsonLd=true}){
 <main id="contenuto" class="ral-main ccnl-main"><div class="shell">
 ${body}
 </div></main>
-<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><a href="${verso(rotta,'/minimi-ccnl/')}">Tutti i minimi CCNL</a></div></footer>
+<footer class="footer ral-footer"><div class="shell"><span>© 2026 Dove va la tua RAL</span><span class="ral-footer__links"><a href="https://www.linkedin.com/in/riccsartori/">Riccardo Sartori</a><a href="${verso(rotta,'/metodo-e-fonti.html')}">Metodo e fonti</a><a href="${verso(rotta,'/minimi-ccnl/')}">Tutti i minimi CCNL</a><a href="${verso(rotta,'/metodo-e-fonti.html#segnala-errore')}">Contatti</a></span></div></footer>
 <script src="${r}site-nav.js"></script></body>
 </html>
 `;
@@ -152,6 +155,7 @@ function renderHub({contratti,alla}){
   </section>
   <section class="hub-grid" aria-label="Elenco dei contratti">${contratti.map(card).join('\n      ')}</section>
   <aside class="personalize"><a class="btn btn--primary btn--lg" href="${calcolatore(rotta,{ccnl:contratti[0].contratto.id})}">Calcola il tuo livello →</a><p>Aggiungi anzianità, superminimo e orario ridotto nel calcolatore CCNL e livello.</p></aside>
+  ${comeVerifico(rotta)}
   <p class="ral-disclaimer">${PROFILO} Tabelle in vigore al ${data(alla)}. Non costituisce consulenza fiscale o del lavoro.</p>`;
   return layout({rotta,title:'Minimi CCNL 2026: tabelle retributive, lordo e netto per livello',
     description:`Tabelle retributive 2026 di ${contratti.length} CCNL, dal Commercio ai Bancari: minimo lordo mensile, RAL e netto stimato per ogni livello, con fonti e decorrenze.`,
@@ -603,6 +607,7 @@ function renderTabella(d){
   </div></section>`:''}
   <section class="ccnl-note" aria-label="Fonte e limiti">
     <p class="small"><b>Fonte:</b> ${fonte(contratto)}</p>
+    ${comeVerifico(rotta)}
     ${esclusioni(d.esclusioni)}
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
@@ -801,6 +806,7 @@ function renderLivello(d){
   ${vicini}
   <section class="ccnl-note" aria-label="Fonte e limiti">
     <p class="small"><b>Fonte:</b> ${fonte(contratto)}</p>
+    ${comeVerifico(rotta)}
     ${esclusioni([...d.esclusioni,...righe.flatMap(r=>r.composta.esclusioni.filter(e=>!d.esclusioni.includes(e)))])}
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;

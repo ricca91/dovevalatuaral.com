@@ -9,6 +9,7 @@ const canonicalOrigin = 'https://www.dovevalatuaral.com';
 const publicPages = [
   ['index.html', `${canonicalOrigin}/`],
   ['come-ho-lavorato.html', `${canonicalOrigin}/come-ho-lavorato.html`],
+  ['metodo-e-fonti.html', `${canonicalOrigin}/metodo-e-fonti.html`],
   ['la-storia.html', `${canonicalOrigin}/la-storia.html`],
   ['compara.html', `${canonicalOrigin}/compara.html`],
   ['netto-ral.html', `${canonicalOrigin}/netto-ral.html`],

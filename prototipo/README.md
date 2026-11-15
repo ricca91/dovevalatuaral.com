@@ -25,6 +25,7 @@ Usa lo stesso comparatore e motore fiscale. [Regole, API e verifiche](netto-o-ni
 | `compara.test.js` | le prove dei contratti del confronto |
 | `draftsman.css` | il design system delle pagine: token, componenti e caratteri incorporati |
 | `come-ho-lavorato.html` | la nota di lavoro: perimetro, modello, verifica, limiti |
+| `metodo-e-fonti.html` | da dove vengono i numeri, come si verificano, come si segnala un errore |
 | `la-storia.html` | la storia: cosa è successo dopo la pubblicazione |
 | `perimetro.test.js` | la guardia editoriale: che le due pagine narrative descrivano il perimetro davvero coperto |
 | `motore.js` | il calcolo, separato per poterlo provare fuori dal browser |

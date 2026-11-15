@@ -613,7 +613,7 @@ function pagina(res,st){
     ${calcFooter()}
     ${eggDialog()}`;
 }
-const calcFooter=()=>`<footer class="calc-footer">Prototipo di Riccardo Sartori per il task AI Builder @ Jet HR. · <a href="minimi-ccnl/">Minimi CCNL</a></footer>`;
+const calcFooter=()=>`<footer class="calc-footer">Dove va la tua RAL · di <a href="https://www.linkedin.com/in/riccsartori/">Riccardo Sartori</a> · <a href="metodo-e-fonti.html">Metodo e fonti</a> · <a href="minimi-ccnl/">Minimi CCNL</a> · <a href="metodo-e-fonti.html#segnala-errore">Contatti e segnalazioni</a></footer>`;
 const eggDialog=()=>`<dialog class="egg-modal" id="egg"><p>Questa non è più una RAL.<br>È un pre-seed!</p></dialog>`;
 /* I cinque contratti con più clic organici a inizio ottobre 2026: le
    pagine dei minimi fanno quasi tutta la ricerca, e la home non le

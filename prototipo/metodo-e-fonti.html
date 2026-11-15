@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Da dove vengono i minimi CCNL e le regole fiscali, come controllo un numero prima di pubblicarlo, come uso l’AI negli articoli e come segnalare un errore.">
+<title>Metodo e fonti: da dove vengono i numeri — Dove va la tua RAL</title>
+<link rel="canonical" href="https://www.dovevalatuaral.com/metodo-e-fonti.html">
+<meta property="og:url" content="https://www.dovevalatuaral.com/metodo-e-fonti.html">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Cpath%20d%3D%27M6%200H32V26L26%2032H0V6Z%27%20fill%3D%27%231E1C2B%27%2F%3E%3Ctext%20x%3D%2716%27%20y%3D%2723%27%20font-family%3D%27system-ui%2Csans-serif%27%20font-size%3D%2719%27%20font-weight%3D%27700%27%20fill%3D%27%2321D4E3%27%20text-anchor%3D%27middle%27%3E%E2%82%AC%3C%2Ftext%3E%3C%2Fsvg%3E">
+<link rel="stylesheet" href="draftsman.css">
+<style>
+/* La nota di lavoro — sopra i token Draftsman. Tenere draftsman.css accanto. */
+.wrap{width:min(100% - (var(--gutter) * 2),920px);margin-inline:auto}
+.top{position:sticky;top:0;z-index:40;padding:12px 0;
+  background:color-mix(in srgb,var(--c-bone) 90%,transparent);backdrop-filter:blur(10px);
+  border-bottom:var(--bw) solid var(--line-strong)}
+.top .wrap{display:flex;justify-content:space-between;align-items:center;gap:var(--s-5)}
+.back{text-decoration:none;font:500 var(--t-label)/1.6 var(--font-mono);
+  letter-spacing:.12em;text-transform:uppercase}
+.back:hover{color:var(--accent-text)}
+header.hd{position:relative;padding:clamp(56px,8vw,110px) 0 clamp(40px,5vw,72px);
+  background-image:radial-gradient(circle at 1px 1px,var(--line) 1px,transparent 0),
+    linear-gradient(to right,var(--line) 1px,transparent 1px),
+    linear-gradient(to bottom,var(--line) 1px,transparent 1px);
+  background-size:24px 24px,192px 192px,192px 192px;
+  border-bottom:var(--bw) dashed var(--line-strong)}
+header.hd h1{margin:0 0 var(--s-5);max-width:14ch;font-size:clamp(2.6rem,6.4vw,4.6rem);
+  letter-spacing:var(--ls-display);line-height:var(--lh-tight)}
+header.hd p{margin:0;max-width:62ch;font-size:var(--t-lead);line-height:1.5;color:var(--fg-muted)}
+section{position:relative;padding:clamp(48px,7vw,96px) 0;
+  border-bottom:var(--bw) dashed var(--line-strong);scroll-margin-top:70px}
+section.ink{border-bottom-color:transparent}
+section .wrap{position:relative}
+section .no{position:absolute;top:0;right:0;font:400 var(--t-label)/1 var(--font-mono);
+  letter-spacing:var(--ls-label);color:var(--line-strong)}
+h2{margin:0 0 var(--s-4)}
+h3{font-size:var(--t-h4);font-weight:700;margin:0 0 var(--s-2)}
+.lead{margin:0 0 var(--s-8);max-width:70ch}
+/* quattro schede in due colonne: a tre per riga l'ultima resta orfana */
+#perimetro .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:640px){#perimetro .grid{grid-template-columns:1fr}}
+/* i cinque passi: schede che condividono le hairline, come sul foglio di disegno */
+.flow{display:grid;gap:0;border:var(--bw) dashed var(--line-strong);
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.flow .step{border:0;border-right:var(--bw) dashed var(--line-strong);
+  border-bottom:var(--bw) dashed var(--line-strong);margin:-0.5px;padding:var(--s-5);
+  min-height:150px;display:flex;flex-direction:column;gap:var(--s-5)}
+.flow .step b{font:500 var(--t-label)/1 var(--font-mono);letter-spacing:var(--ls-label);
+  color:var(--accent-text)}
+.flow .step span{font-size:var(--t-sm);color:var(--fg-muted)}
+.equation{margin:var(--s-6) 0;padding:var(--s-5) var(--s-6);overflow:auto;white-space:nowrap;
+  border:var(--bw) solid var(--line-strong);background:var(--bg-sunken);
+  font:400 var(--t-sm)/1.6 var(--font-mono)}
+.links{display:flex;gap:var(--s-3);flex-wrap:wrap;margin-top:var(--s-8)}
+.limit+.limit{margin-top:var(--s-3)}
+.card p{margin:0;color:var(--fg-muted);font-size:var(--t-sm)}
+code{font-family:var(--font-mono);font-size:.9em}
+@media(max-width:720px){.top .nav{display:none}.flow .step{min-height:0}}
+</style>
+<script src="analytics.js" async></script>
+</head>
+<body>
+<header class="site-header"><div class="site-header__in">
+  <a class="site-brand" href="/" aria-label="Dove va la tua RAL — home">Dove va la tua RAL</a>
+  <button class="site-menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="site-menu-toggle__icon" aria-hidden="true"></span><span class="sr">Apri il menu</span></button>
+  <nav class="site-nav" id="site-nav" aria-label="Navigazione principale"><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-calcola">Calcola</button><div class="site-nav__submenu" id="nav-calcola"><a href="/">RAL → Netto</a><a href="netto-ral.html">Netto → RAL</a><a href="ccnl-livello.html">CCNL e livello</a><a href="/calcolo-tredicesima/">Tredicesima</a></div></div><div class="site-nav__group"><button class="site-nav__trigger" type="button" aria-expanded="false" aria-controls="nav-confronta">Confronta</button><div class="site-nav__submenu" id="nav-confronta"><a href="compara.html">Due offerte</a><a href="confronti-ral/">Livelli di RAL</a></div></div><a href="netto-o-niente.html">Gioca</a><a href="/blog/">Blog</a><a href="la-storia.html">La storia</a></nav>
+</div></header>
+<main>
+<header class="hd"><div class="wrap"><div class="eyebrow">Metodo e fonti</div><h1>Da dove vengono i numeri</h1><p>Su una cifra di stipendio ha senso chiedersi chi lo dice. Qui scrivo dove prendo i minimi dei contratti e le regole fiscali, come controllo un numero prima di pubblicarlo, come uso l'AI e come puoi dirmi che ho sbagliato.</p></div></header>
+
+<section id="minimi-ccnl"><div class="wrap"><span class="no">§ 01</span><div class="eyebrow">01 — Minimi CCNL</div><h2>I minimi contrattuali vengono dai testi firmati</h2><p class="lead">Le tabelle di <a href="minimi-ccnl/">Minimi CCNL</a> coprono 19 contratti. Ogni importo arriva da un documento delle parti che hanno firmato il contratto, non da un sito che li riassume.</p><div class="grid grid--2">
+<article class="card card--dashed"><h3>Accordi di rinnovo e tabelle delle parti</h3><p>Accordi di rinnovo, verbali e tabelle retributive pubblicati da sindacati, associazioni datoriali ed enti bilaterali: per esempio le tabelle nazionali di Filcams CGIL per il Terziario o il testo del CCNL pubblicato da Federmeccanica per i metalmeccanici. Il file lo scarico, lo conservo nel repository con la data e lo leggo.</p></article>
+<article class="card card--dashed"><h3>CNEL per identificare il contratto</h3><p>L'archivio dei contratti del CNEL mi serve per il codice, le parti firmatarie, la decorrenza e la scadenza: così non confondo contratti con nomi simili (il «Commercio» sono due contratti). Gli importi non li prendo da lì: gli open data del CNEL sono metadati (anagrafica, parti, vigenze), non tabelle leggibili da una macchina. Quando l'archivio ha il testo depositato dell'accordo può essere la fonte del documento, ma gli importi li trascrivo sempre dal testo firmato.</p></article>
+<article class="card card--dashed"><h3>Fonte e data su ogni pagina</h3><p>Ogni pagina CCNL indica la fonte usata e la data in cui l'ho verificata («Verificata il …»). Se una tabella ha un limite noto — una quota annua che nessuna fonte quantifica, un rinnovo non ancora firmato — lo scrivo nella pagina e non lo nascondo in una nota.</p></article>
+<article class="card card--dashed"><h3>Trascrizione a mano, con riscontro</h3><p>Non esiste una fonte leggibile da una macchina per questi importi, quindi li trascrivo a mano. Prima che un numero entri nel calcolo, un test lo riconcilia con il totale che la fonte stessa pubblica. Il dossier di ogni contratto, con le righe escluse, è nella cartella <a href="https://github.com/ricca91/dovevalatuaral.com/tree/main/processo">processo</a> del repository.</p></article>
+</div></div></section>
+
+<section id="regole-fiscali"><div class="wrap"><span class="no">§ 02</span><div class="eyebrow">02 — Regole fiscali</div><h2>Le regole del netto vengono da fonti primarie</h2><p class="lead">Aliquote, scaglioni, detrazioni e contributi non li ricavo da articoli o da altri calcolatori: li leggo alla fonte e ogni voce del calcolo porta con sé il riferimento.</p><div class="grid grid--2">
+<article class="card card--dashed"><h3>Normativa</h3><p>Il testo delle leggi su Normattiva (la legge di bilancio 2026 per gli scaglioni IRPEF, la legge di bilancio 2025 per le detrazioni e i fringe benefit, il D.L. 3/2020 per il trattamento integrativo) e il TUIR consultato sul sito della documentazione economico-finanziaria del MEF.</p></article>
+<article class="card card--dashed"><h3>INPS</h3><p>Le circolari che fissano l'aliquota dei contributi a carico del lavoratore, le fasce di retribuzione e il massimale contributivo. Il calcolo cita il numero della circolare.</p></article>
+<article class="card card--dashed"><h3>Agenzia delle Entrate</h3><p>Per come si applicano in busta paga IRPEF, detrazioni e conguaglio: le indicazioni operative del datore di lavoro come sostituto d'imposta.</p></article>
+<article class="card card--dashed"><h3>Addizionali: Dipartimento delle Finanze e Istat</h3><p>Le aliquote regionali e comunali vengono dagli elenchi pubblicati dal Dipartimento delle Finanze del MEF; l'anagrafica dei comuni da Istat. Li importo con uno script ripetibile e li conservo come snapshot datato.</p></article>
+</div><div class="links"><a class="btn btn--primary" href="https://github.com/ricca91/dovevalatuaral.com/blob/main/processo/regole-netto-2026.md">Le regole 2026, voce per voce</a><a class="btn btn--ghost" href="https://github.com/ricca91/dovevalatuaral.com/blob/main/prototipo/fonti.js">Il catalogo delle fonti nel codice</a></div></div></section>
+
+<section id="verifica-numeri" class="ink on-ink"><div class="wrap"><span class="no">§ 03</span><div class="eyebrow">03 — Verifica</div><h2>Come controllo un numero prima di pubblicarlo</h2><p class="lead">Un test verde non basta a dire che il numero è giusto: per questo le prove hanno scopi diversi e dichiarati.</p>
+<div class="grid grid--3">
+<article class="card" style="border-top-width:5px;border-top-color:var(--c-flux)"><h3>Un solo motore</h3><p>Il calcolo è scritto una volta sola. Lo usano il calcolatore, il confronto, il percorso CCNL e le pagine generate; gli esempi numerici degli articoli si calcolano con lo stesso motore e, per una parte degli articoli, un test controlla che le cifre nel testo coincidano con quelle del motore.</p></article>
+<article class="card" style="border-top-width:5px;border-top-color:var(--c-peri)"><h3>A — Correttezza, B — Soglie</h3><p>Alcune ancore calcolate a mano contro la norma, come la catena completa a 35.000 €. Poi le soglie di legge e i cambi di pendenza, provati a un centesimo di distanza.</p></article>
+<article class="card" style="border-top-width:5px;border-top-color:var(--c-citron)"><h3>C — Regressione</h3><p>2.001 campioni fra 0 e 200.000 € che provano che il comportamento non cambia da un rilascio all'altro. Non provano che la legge sia stata interpretata bene: lo dico perché non sembri una garanzia.</p></article>
+</div>
+<p class="lead" style="margin:var(--s-6) 0 0">Negli articoli la data in cui ho ricontrollato le fonti compare accanto all'elenco delle fonti («Verificate il …»). Per i CCNL, le prove confrontano gli importi con la fonte e fanno arrivare ogni livello fino al netto passando dal motore.</p>
+<div class="links"><a class="btn btn--primary" href="https://github.com/ricca91/dovevalatuaral.com/blob/main/prototipo/motore.test.js">Leggi i test</a><a class="btn btn--ghost" href="https://github.com/ricca91/dovevalatuaral.com/blob/main/processo/verifica.md">Cosa è e non è provato</a><a class="btn btn--ghost" href="come-ho-lavorato.html">Come ho lavorato</a></div></div></section>
+
+<section id="aggiornamenti"><div class="wrap"><span class="no">§ 04</span><div class="eyebrow">04 — Aggiornamenti</div><h2>Ogni quanto si aggiornano le tabelle</h2><p class="lead">Non c'è una cadenza fissa, e preferisco dirlo che promettere un controllo «mensile» che non farei davvero.</p>
+<div class="grid grid--2">
+<article class="card card--dashed"><h3>Quando esce un rinnovo</h3><p>Aggiorno la tabella del contratto, rileggo la fonte, cambio la data «Verificata il …» e rilancio i test. Se il rinnovo è firmato con più tranche, le decorrenze future compaiono nella pagina e la tabella in vigore cambia alla data prevista.</p></article>
+<article class="card card--dashed"><h3>Quando cambia una regola fiscale</h3><p>Lo stesso percorso: aggiorno la regola nel motore con la sua fonte, ricalcolo i valori di riferimento a mano e solo dopo rigenero le pagine. Le regole 2026 sono quelle in vigore al momento dell'ultima verifica indicata sulla pagina.</p></article>
+</div>
+<p class="lead" style="margin:var(--s-6) 0 0">Se un contratto è scaduto e il rinnovo non è firmato, la tabella resta quella in vigore e la pagina lo dichiara, come oggi per i Bancari. Se trovi una tabella che non è più aggiornata, <a href="#segnala-errore">dimmelo</a>.</p>
+</div></section>
+
+<section id="ai-e-controlli"><div class="wrap"><span class="no">§ 05</span><div class="eyebrow">05 — Chi controlla</div><h2>Chi controlla i testi, e come uso l'AI</h2><p class="lead">Le due cose sono diverse, e le tengo separate.</p>
+<div class="grid grid--2">
+<article class="card card--dashed"><h3>Motore e tabelle: le controllo io</h3><p>Le regole del motore e le tabelle dei contratti le ricavo da fonti primarie e le controllo io, a mano, contro il testo. Sono io, Riccardo Sartori, il responsabile del sito.</p></article>
+<article class="card card--dashed"><h3>Articoli: scritti da un agente AI</h3><p>Gli articoli del blog li scrive un agente AI seguendo un piano editoriale. Un articolo va online in automatico solo se supera i test, la build e una soglia di audit (SEO e AEO, almeno 90 su 100). Sotto soglia resta bozza e non viene pubblicato. Gli esempi numerici si calcolano con il motore.</p></article>
+</div>
+<div class="callout callout--err limit"><span class="callout__mark">Limite</span><div><h3>Nessuna revisione umana di ogni articolo</h3><p>Non leggo ogni articolo prima che esca e nessun consulente del lavoro li valida. Per una parte degli articoli un test controlla che le cifre coincidano con il motore; non garantisce che ogni frase sia priva di errori. Se ne trovi uno, <a href="#segnala-errore">segnalalo</a>.</p></div></div>
+</div></section>
+
+<section id="segnala-errore"><div class="wrap"><span class="no">§ 06</span><div class="eyebrow">06 — Segnala un errore</div><h2>Un numero non torna?</h2><p class="lead">Dimmelo, con il caso che hai provato: il contratto e il livello (o la RAL), il valore che vedi, quello che ti aspettavi e, se ce l'hai, la fonte.</p>
+<div class="links" style="margin-top:0"><a class="btn btn--primary" href="https://github.com/ricca91/dovevalatuaral.com/issues">Apri una segnalazione su GitHub</a><a class="btn btn--ghost" href="https://www.linkedin.com/in/riccsartori/">Scrivimi su LinkedIn</a></div>
+<p class="lead" style="margin:var(--s-6) 0 0">Non c'è un indirizzo email pubblico: GitHub e LinkedIn sono i due canali.</p>
+</div></section>
+
+<section id="disclaimer" style="border-bottom:0"><div class="wrap"><span class="no">§ 07</span><div class="eyebrow">07 — Disclaimer</div><h2>Una stima, non un parere</h2>
+<div class="callout callout--warn limit"><span class="callout__mark">Limite</span><div><h3>Non è un parere fiscale</h3><p>I risultati sono stime con le regole 2026 per un caso standard, non la previsione del tuo cedolino né una consulenza fiscale o del lavoro. Il perimetro e i limiti del calcolo sono in <a href="come-ho-lavorato.html">Come ho lavorato</a>.</p></div></div>
+</div></section>
+</main><footer class="footer"><div class="wrap mono">Dove va la tua RAL · di <a href="https://www.linkedin.com/in/riccsartori/">Riccardo Sartori</a> · <a href="metodo-e-fonti.html">Metodo e fonti</a> · <a href="minimi-ccnl/">Minimi CCNL</a> · <a href="metodo-e-fonti.html#segnala-errore">Contatti e segnalazioni</a></div></footer>
+<script src="site-nav.js"></script></body></html>
