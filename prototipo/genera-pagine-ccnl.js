@@ -112,7 +112,9 @@ const CONTRATTI_SEO=Object.freeze([
        «4 livello» 10). Nessun dato per 2°, 6°, 7°, Quadro, OV. */
     livelli:['1','3','4','5'],slugLivello:numerico,etichetta:livelloN},
   {id:'metalmeccanica-pmi-confapi-c018',slug:'metalmeccanico-confapi',breve:'Metalmeccanico Confapi',
-    titoloTabella:'CCNL Metalmeccanico Confapi'},
+    titoloTabella:'CCNL Metalmeccanico Confapi',
+    /* RIC-228: aumenti letti dal dataset, FAQ e data come gli altri contratti. */
+    aumentiDalDataset:true},
   {id:'grafici-editori-g011',slug:'grafici-editoriali',breve:'Grafici editoriali',
     titoloTabella:'CCNL Grafici editoriali'},
   {id:'poligrafici-quotidiani-g041',slug:'poligrafici',breve:'Poligrafici',
