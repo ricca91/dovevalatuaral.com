@@ -122,7 +122,7 @@ Lorda no, netta di più. La paga base oraria è identica, 9,60 € in entrambi i
 
 ### Quante ferie si maturano con un part-time di 30 ore?
 
-Le ferie seguono lo stesso principio di riproporzionamento, e la legge non le quantifica: dice che il part-time ha i medesimi diritti del tempo pieno comparabile, riproporzionati alla ridotta prestazione. Come si traduca lo decide il contratto collettivo, e cambia fra part-time orizzontale e verticale. Nel primo il numero di giornate di solito resta quello del tempo pieno e ogni giornata vale meno ore; nel secondo si riducono le giornate. Non ho verificato il testo di nessun CCNL su questo punto, e qui non lo copro.
+Le ferie seguono lo stesso principio di riproporzionamento, e la legge non le quantifica: dice che il part-time ha i medesimi diritti del tempo pieno comparabile, riproporzionati alla ridotta prestazione. Come si traduca lo decide il contratto collettivo, e cambia fra part-time orizzontale e verticale. Nel primo il numero di giornate di solito resta quello del tempo pieno e ogni giornata vale meno ore; nel secondo si riducono le giornate. Il numero esatto sta nel tuo CCNL, e qui non lo copro.
 
 ### Quanto riprendo netto se torno a orario pieno?
 

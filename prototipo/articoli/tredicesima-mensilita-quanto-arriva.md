@@ -113,7 +113,7 @@ Sull'origine c'è un equivoco diffuso. La tredicesima mensilità non nasce da un
 
 Quindi l'importo, la base di calcolo e le regole di maturazione stanno nel contratto collettivo, e cambiano fra un CCNL e l'altro.
 
-Da qui due conseguenze pratiche. Un mese conta per intero solo se ci hai lavorato un numero minimo di giorni, e quella soglia la decide il CCNL. In molti contratti sono quindici giorni, ma non l'ho verificata contratto per contratto e non la generalizzo. La base di calcolo, poi, comprende le voci fisse della retribuzione: straordinari e premi occasionali di solito restano fuori.
+Da qui due conseguenze pratiche. Un mese conta per intero solo se ci hai lavorato un numero minimo di giorni, e quella soglia la decide il CCNL. In molti contratti sono quindici giorni, ma cambia da contratto a contratto e non va data per scontata. La base di calcolo, poi, comprende le voci fisse della retribuzione: straordinari e premi occasionali di solito restano fuori.
 
 ## Cosa non copro
 

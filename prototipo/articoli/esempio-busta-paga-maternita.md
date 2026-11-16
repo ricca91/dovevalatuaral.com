@@ -91,7 +91,7 @@ Quando lo prevede il tuo contratto collettivo, mai per legge. La legge si ferma 
 
 Nell'esempio l'integrazione vale 1.538,46 € sui cinque mesi. Quella quota è retribuzione a tutti gli effetti e sconta i contributi come il resto dello stipendio. Il risultato è controintuitivo: il netto annuo diventa **24.011,42 €**, cioè 585,93 € *più* di un anno lavorato per intero, perché 10.000 € di lordo sono transitati senza il 9,19% di IVS.
 
-Prendilo come ordine di grandezza, non come promessa: è una conseguenza del modello annuale del motore, e i contratti ancorano l'integrazione ora al lordo ora al netto, con risultati diversi. Non ho verificato il testo di nessun CCNL per questa pagina.
+Prendilo come ordine di grandezza, non come promessa: è una conseguenza del modello annuale del motore, e i contratti ancorano l'integrazione ora al lordo ora al netto, con risultati diversi.
 
 ## Quanto tempo si può stare a casa in maternità?
 

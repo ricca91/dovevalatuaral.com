@@ -138,6 +138,16 @@ Il silenzio dichiarato vale più del riempimento. Frasi legittime e incoraggiate
 - «Nessun consulente del lavoro ha validato questi numeri.»
 - «Non posso dirti se la tua busta paga è sbagliata. Posso dirti quale riga guardare.»
 
+**Niente note di sessione nella pagina.** L'articolo non racconta il lavoro di chi lo scrive:
+mai strumenti, sessione o revisione, errori 403, pagine o PDF non leggibili, né cosa l'autore
+non ha potuto leggere o rileggere («il mio strumento di lettura non esegue», «in questa
+sessione», «il PDF ha il testo compresso»). Questi limiti vanno nel dossier interno o nel
+report, non nell'articolo. Un limite che conta davvero per il lettore si scrive in modo
+semplice («il calcolo non applica la clausola di salvaguardia: se ti spetta, l'imposta può
+essere più bassa»). Nell'elenco fonti, al posto di una nota di metodo sullo strumento, vale una
+riga neutra con il rimando a [Metodo e fonti](/metodo-e-fonti.html). Il test
+`prototipo/articoli-note-sessione.test.js` blocca le frasi spia più comuni.
+
 Mai dire a un lettore che il suo cedolino è sbagliato. La formula è sempre **«potrebbe valere
 la pena verificare»**, mai «il tuo datore ha sbagliato».
 
@@ -418,6 +428,8 @@ fonte istituzionale**. Un contenuto con gli estremi normativi in chiaro ha spazi
 10. Introduzione che rimanda la risposta oltre la quinta riga.
 11. Riuso di un numero da un articolo precedente senza rigenerarlo.
 12. Tono da blog aziendale: entusiasmo, emoji, domande retoriche, «scopriamo insieme».
+13. Note di sessione o di lavoro nella pagina: strumenti, sessione, revisione, 403, pagine o PDF
+    non leggibili, cosa l'autore non ha potuto leggere (§4.4).
 
 ---
 

@@ -53,7 +53,9 @@ Un articolo arriva online solo se passa tutti e cinque:
 2. `claude` è uscito con rc=0 entro 45 minuti
 3. in `prototipo/articoli/` è comparso davvero un file nuovo
 4. `npm test` **e** `node prototipo/genera-articoli.js` passano — rieseguiti dal runner
-   anche se l'agente giura di averli già passati
+   anche se l'agente giura di averli già passati. `npm test` include
+   `prototipo/articoli-note-sessione.test.js`: un articolo con note di sessione dell'agente
+   («strumento di lettura», «in questa sessione», «403»…) non supera il cancello
 5. il frontmatter dice `stato: pubblicato`, cioè SEO ≥ 90 **e** AEO ≥ 90
 
 Sotto soglia l'articolo resta `bozza`: la build lo scarta (`genera-articoli.js` filtra

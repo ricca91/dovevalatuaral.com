@@ -59,7 +59,7 @@ Il permesso è nato dalla contrattazione collettiva, che ha compensato le giorna
 
 ## Quante ore di ex festività hai?
 
-Le ore annue le scrive il tuo contratto. L'uso più citato è **32 ore all'anno** per un tempo pieno, cioè quattro giornate da otto, riproporzionate a part time. Lo dichiaro per quello che è: una cifra ricorrente nelle fonti divulgative e nell'AI Overview di Google su questa query, che oggi non ho verificato su un testo contrattuale. Non è il tuo numero. Il tuo numero sta nella colonna del maturato del tuo cedolino, o nell'articolo del tuo CCNL sui permessi annui.
+Le ore annue le scrive il tuo contratto. L'uso più citato è **32 ore all'anno** per un tempo pieno, cioè quattro giornate da otto, riproporzionate a part time. Lo dichiaro per quello che è: una cifra ricorrente nelle fonti divulgative, non letta su un testo contrattuale. Non è il tuo numero. Il tuo numero sta nella colonna del maturato del tuo cedolino, o nell'articolo del tuo CCNL sui permessi annui.
 
 Quando hai il totale annuo, la maturazione è una divisione.
 

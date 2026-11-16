@@ -113,7 +113,7 @@ Il motore assume dipendente privato, residenza a Milano, nessun familiare a cari
 Restano fuori:
 
 - **Il conteggio reale dei tuoi buoni.** I 220 all'anno sono una convenzione per le giornate lavorative standard. Part-time verticale, assenze lunghe, contratti iniziati a metà anno: ne ricevi meno e tutte le cifre scalano in proporzione.
-- **Pubblico impiego e mensa aziendale.** Qui parlo solo di buoni pasto nel settore privato. La mensa aziendale e i comparti pubblici hanno regole proprie che non ho verificato.
+- **Pubblico impiego e mensa aziendale.** Qui parlo solo di buoni pasto nel settore privato. La mensa aziendale e i comparti pubblici hanno regole proprie che qui non copro.
 - **Cedibilità e cumulabilità dei buoni.** Stanno nell'allegato II.17 del D.Lgs. 36/2023. Non ho riaperto il testo vigente di quell'allegato, quindi non affermo niente su quante se ne possono usare insieme o se si possono cedere.
 - **Quale CCNL dà diritto al buono e da quante ore.** È contrattazione, non norma fiscale, e varia troppo per essere riassunta.
 

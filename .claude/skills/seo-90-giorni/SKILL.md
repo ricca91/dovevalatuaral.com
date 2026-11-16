@@ -31,6 +31,13 @@ Loop: seo:seo-article per scrivere, seo:seo-audit per valutare.
 Entrambe le skill aprono domande interattive: NON aprirle. Passa direttamente
 keyword, angolo, PAA e scaletta presi dalla riga Airtable, e chiedi l'audit completo.
 
+Niente note di sessione o di lavoro nella pagina: strumenti, sessione, revisione,
+errori 403, pagine o PDF non leggibili, cosa non hai potuto leggere. Questi limiti
+vanno nel report, non nell'articolo (`npm test` fallisce se compaiono frasi spia).
+I limiti veri per il lettore si scrivono in modo semplice; nell'elenco fonti, se
+serve una nota di metodo, usa la riga neutra con il rimando a
+[Metodo e fonti](/metodo-e-fonti.html).
+
 Soglia: SEO Score >= 90 E AEO Score >= 90. Massimo 5 iterazioni.
 Se dopo 5 iterazioni non ci arrivi: NON pubblicare. Lascia stato: bozza,
 metti Airtable su "In revisione", e dillo nella mail col punteggio raggiunto.

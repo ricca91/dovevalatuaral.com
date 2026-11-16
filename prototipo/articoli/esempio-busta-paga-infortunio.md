@@ -173,7 +173,7 @@ Dipende dal contratto collettivo, non dalla legge, e qui non lo verifico. Alcuni
 Questo esempio di busta paga con infortunio vale per un operaio a tempo pieno a 40 ore, paga fissa mensile, divisore contrattuale 26, nessuno straordinario nei quindici giorni precedenti, 13 mensilità, residenza a Milano, nessun familiare a carico e aliquota FPLD ordinaria. Cambia una di queste cose e i numeri cambiano. Restano fuori, e lo dico prima che tu ci sbatta:
 
 - **I contratti con divisore 30 o divisore orario diverso.** Con il divisore 30 la trattenuta tocca anche le domeniche e il vantaggio del 77% si assottiglia.
-- **Il tuo CCNL.** Non ho verificato il testo di nessun contratto collettivo: l'integrazione al 100% è un'ipotesi del conto, non una regola generale.
+- **Il tuo CCNL.** L'integrazione al 100% è un'ipotesi del conto, non una regola generale.
 - **Ferie, festività e riposi nella base INAIL.** Il servizio INAIL li chiede e alzano la retribuzione media giornaliera, ma quanto dipende dai giorni che dà il tuo CCNL: qui non li calcolo, e per questo 87,50 € è un minimo, come tutti gli importi INAIL della pagina.
 - **Il trattamento contributivo dell'indennità**, che il motore non modella: il netto perso è un intervallo fra due ipotesi, con e senza contributi a tuo carico sull'indennità INAIL, e tratta il buco come una retribuzione annua più bassa, non come una somma di righe del singolo mese.
 - **Malattia professionale, agricoltura, marittimi e pescatori**, che hanno decorrenze e basi proprie.
