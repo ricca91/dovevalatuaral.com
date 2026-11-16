@@ -281,6 +281,9 @@ function notaAumenti(d){
       .filter(x=>x.importo>0).sort((a,b)=>a.importo-b.importo);
     return unaNota(`Dal ${data(t.decorrenza)} l’aumento comprende il nuovo EDR, da ${eur(edr[0].importo)} (${esc(edr[0].codice)}) a ${eur(edr.at(-1).importo)} (${esc(edr.at(-1).codice)}), su ${mensilitaTesto(t.righe[0].dopo.composta.mensilita)} mensilità. Il «trattamento economico complessivo» di ${eur(chimico.importo).replace(',00','')} annunciato per la ${esc(chimico.livello)} comprende ${esc(chimico.comprende)}: non è un aumento della RAL.`);
   }
+  const ipca=fatti.adeguamentoIpca;
+  if(ipca&&tranche.some(t=>ipca.soglie.some(x=>x.anno===t.decorrenza.slice(0,4))))
+    return unaNota(`Le tranche ${elenco(ipca.soglie.map(x=>x.anno))} sono già fissate. A ${ipca.mese} di ogni anno i minimi si adeguano all’IPCA, ma solo per la parte oltre la soglia: ${elenco(ipca.soglie.map(x=>`${x.soglia} nel ${x.anno}`))} (art. 40). Nel ${data(ipca.verbale).slice(-4)} l’IPCA 2025 è stato ${ipca.ipca2025} e le tranche già firmate non sono cambiate.`);
   const iar=tranche.find(t=>sezioneTranche(d,t)&&trancheSoloIar(d,t));
   if(iar)return unaNota(`Il ${data(iar.decorrenza)} sale solo l’IAR; i minimi restano quelli del ${data(K.tabellaVigente(d.contratto.id,iar.prima,iar.sezione).decorrenza)}.`);
   return '';
@@ -354,6 +357,33 @@ function faqGruppo2(d){
     ];
   }
   return faqConSchema(d.rotta,{id:`faq-${slug}`,titolo:`Domande frequenti sul ${d.seo.titoloTabella}`,voci});
+}
+
+/* RIC-228: FAQ del Metalmeccanico Confapi (C018). Importi, date e livelli
+   dal dataset; soglie IPCA da FATTI_AUMENTI. */
+function faqConfapi(d){
+  if(d.seo.slug!=='metalmeccanico-confapi')return '';
+  const s=sezionePrincipale(d),r5=rigaDi(d,'5');
+  const ipca=(R.FATTI_AUMENTI||{})[d.contratto.id].adeguamentoIpca;
+  const tranche=d.aumentiDataset||[],future=tranche.filter(t=>t.decorrenza>d.alla);
+  const industria=R.trovaContratto('metalmeccanica-industria-c011');
+  const livelli=s.righe.map(r=>r.livello.codice);
+  const base=livelli.filter(c=>/^\d+$/.test(c)),quadri=livelli.filter(c=>!/^\d+$/.test(c));
+  const vigente=tranche.filter(t=>t.decorrenza<=d.alla).at(-1);
+  const prossima=future[0],r5p=prossima&&prossima.righe.find(r=>r.livello.codice==='5');
+  const vai=r=>({href:'#aumenti',testo:'Aumenti in tabella'});
+  const voci=[
+    {domanda:'Che differenza c’è con il metalmeccanico industria Federmeccanica?',
+      risposta:`Sono due contratti. Il ${industria.codiceCnel} (Federmeccanica-Assistal) vale per l’industria; il ${d.contratto.codiceCnel} (Unionmeccanica Confapi, categorie ${base[0]}–${base.at(-1)}) per le piccole e medie imprese associate a Confapi. Livelli e importi sono diversi: il codice è in busta paga.`,
+      link:[{href:'/minimi-ccnl/metalmeccanico/',testo:'Tabella del metalmeccanico industria'}]},
+    {domanda:'Da quando valgono i minimi del metalmeccanico Confapi?',
+      risposta:`${vigente?`I minimi in vigore decorrono dal ${data(vigente.decorrenza)} (verbale del ${data(ipca.verbale)}). `:''}${future.length?`Le prossime tranche sono già firmate: ${elenco(future.map(t=>data(t.decorrenza)))}${r5p?`. Al 5° livello il minimo passa da ${eur(r5p.prima.composta.baseMensile)} a ${eur(r5p.dopo.composta.baseMensile)} lordi al mese`:''}.`:''} A ${ipca.mese} di ogni anno si valuta l’IPCA, ma conta solo la parte oltre la soglia: ${elenco(ipca.soglie.map(x=>`${x.soglia} nel ${x.anno}`))}.`,
+      link:[vai()]},
+    {domanda:'Quanti livelli ha il CCNL Metalmeccanico Confapi?',
+      risposta:`${base.length} categorie, dalla ${base[0]}ª alla ${base.at(-1)}ª${quadri.length?`, più i Quadri ${elenco(quadri)}, che hanno lo stesso minimo della categoria e in più l’indennità di funzione`:''}. Al 5° livello il minimo vigente è ${eur(r5.composta.baseMensile)} lordi al mese, ${eur(r5.nettoMensile)} netti medi su ${mensilitaTesto(s.mensilita)} mensilità.`,
+      link:[vai()]},
+  ];
+  return faqConSchema(d.rotta,{id:'faq-metalmeccanico-confapi',titolo:'Domande frequenti sul CCNL Metalmeccanico Confapi',voci});
 }
 
 /* RIC-141: le risposte leggono la tabella principale e il blocco
@@ -596,6 +626,7 @@ function renderTabella(d){
   ${livelliCcnl(d)}
   ${faqMetalmeccanicoArtigiano(d)}
   ${faqGruppo2(d)}
+  ${faqConfapi(d)}
   ${aumentiCommercio(d)}
   ${faqCommercio(d)}
   ${metalmeccanico(d)}

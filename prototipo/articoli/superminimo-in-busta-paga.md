@@ -1,8 +1,8 @@
 ---
 slug: superminimo-in-busta-paga
 titolo: "Superminimo in busta paga: cos'è e perché può sparire"
-title_seo: "Superminimo in busta paga: quanto vale netto"
-description: "100 € di superminimo in busta paga valgono 59,45 € netti al mese su un C3 metalmeccanico, e zero se il rinnovo del CCNL li assorbe. Il conto completo."
+title_seo: "Superminimo assorbibile in busta paga: quanto vale netto"
+description: "100 € lordi di superminimo valgono 59,45 € netti al mese su un C3 metalmeccanico. Se è assorbibile, il rinnovo del CCNL se lo mangia: il conto completo."
 query_principale: "superminimo in busta paga"
 cluster: "voce-per-voce"
 ccnl: "metalmeccanico"

@@ -1,8 +1,8 @@
 ---
 slug: edr-in-busta-paga
 titolo: "EDR in busta paga: cos'è quella voce da 10,33 euro"
-title_seo: "EDR in busta paga: da dove vengono i 10,33 €"
-description: "L'EDR in busta paga è 10,33 € al mese per 13 mensilità: 134,29 € lordi l'anno, 86,66 € netti su una RAL di 19.778 €. E cosa fare se la tua riga è diversa."
+title_seo: "EDR in busta paga: cos'è la voce da 10,33 € e quanto vale"
+description: "L'EDR in busta paga è 10,33 € al mese per 13 mensilità: 134,29 € lordi e 86,66 € netti l'anno su 19.778 € di RAL. Cos'è e cosa fare se la tua riga è diversa."
 query_principale: "edr in busta paga"
 cluster: "voce-per-voce"
 data_pubblicazione: 2026-10-11

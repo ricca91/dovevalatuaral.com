@@ -1870,6 +1870,14 @@
       trattamentoComplessivo:{livello:'D1',importo:294,
         comprende:'welfare e fondi',
         fonte:'processo/fonti-ccnl-gruppo2-chimico.md: ipotesi 15.4.2025, trattamento economico complessivo annunciato'}},
+    /* Confapi C018: adeguamento IPCA dei minimi. Il 2026 è chiuso dal verbale
+       del 17 giugno 2026 (IPCA 2025 all'1,9%, nessuno scostamento sulle
+       tranche già firmate); per il 2027 e il 2028 la parte oltre la soglia
+       (art. 40 dell'ipotesi del 4 giugno 2026, p. 5). */
+    [CONFAPI.id]:{
+      adeguamentoIpca:{mese:'giugno',ipca2025:'1,9%',verbale:'2026-06-17',
+        soglie:[{anno:'2027',soglia:'2,653%'},{anno:'2028',soglia:'2,729%'}],
+        fonte:'processo/dati/fonti/pmi-confapi-c018-verbale-minimi-ipca-2026-06-17.pdf; pmi-confapi-c018-ipotesi-accordo-rinnovo-2026-06-04.pdf, art. 40, p. 5'}},
   };
 
   /* ------------------------------------------------------------
