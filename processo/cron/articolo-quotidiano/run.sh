@@ -136,6 +136,7 @@ Log: $LOG"
 - Repo: $REPO (checkout fresco di origin/main)
 - https://www.dovevalatuaral.com/busta-paga.html risponde: HTTP $BUSTA_STATUS
 - Commit, push, aggiornamento Airtable a Pubblicato e invio mail NON sono tuoi: li fa run.sh dopo di te.
+- Niente note di sessione o di lavoro nell'articolo (strumenti, sessione, revisione, 403, pagine o PDF non leggibili, cosa non hai potuto leggere): vanno nel report, non nella pagina. I limiti veri per il lettore scrivili in modo semplice. npm test fallisce se compaiono frasi spia.
 - Chiudi col blocco REPORT_, una coppia chiave=valore per riga, senza code fence." \
     --model "$MODEL" \
     --permission-mode acceptEdits \

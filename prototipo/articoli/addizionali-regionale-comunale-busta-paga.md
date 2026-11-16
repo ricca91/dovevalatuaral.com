@@ -108,7 +108,7 @@ I due casi a zero sono province autonome con un meccanismo diverso. Trento ricon
 
 ### La comunale: lo 0,8% e le soglie
 
-Lo 0,8% è il tetto della variazione deliberabile, e molti capoluoghi ci stanno dentro: Milano 0,8%, Venezia 0,8%, Firenze appena lo 0,2%. Alcuni vanno oltre — Roma 0,9%, Napoli 1,0%, Palermo 1,03%, Salerno 1,1% — e Torino usa scaglioni propri (0,8% fino a 28.000 €, 1,1% fino a 50.000 €, 1,2% oltre). Quelle aliquote sopra lo 0,8% le prendo dalla tabella del Dipartimento delle finanze, dove sono pubblicate con il numero di delibera. La norma speciale che consente a quei comuni di sforare il tetto non l'ho verificata, e quindi non la cito.
+Lo 0,8% è il tetto della variazione deliberabile, e molti capoluoghi ci stanno dentro: Milano 0,8%, Venezia 0,8%, Firenze appena lo 0,2%. Alcuni vanno oltre — Roma 0,9%, Napoli 1,0%, Palermo 1,03%, Salerno 1,1% — e Torino usa scaglioni propri (0,8% fino a 28.000 €, 1,1% fino a 50.000 €, 1,2% oltre). Quelle aliquote sopra lo 0,8% le prendo dalla tabella del Dipartimento delle finanze, dove sono pubblicate con il numero di delibera. La norma speciale che consente a quei comuni di sforare il tetto qui non la cito.
 
 Poi c'è la soglia di esenzione, che la legge consente al comune di fissare in base a requisiti di reddito. Milano esenta fino a 23.000 € di imponibile, Firenze fino a 25.000 €, Roma fino a 14.000 €, Napoli fino a 12.000 €, Salerno fino a 10.000 €, Torino fino a 11.790 €. Palermo non ne ha: lì la paghi dal primo euro di imponibile.
 

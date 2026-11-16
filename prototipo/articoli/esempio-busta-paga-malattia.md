@@ -137,7 +137,7 @@ Dipende dal contratto collettivo, non dalla legge, e qui non lo verifico. Alcuni
 Questo esempio di busta paga con malattia vale per un operaio a tempo pieno con paga fissa mensile, il mese precedente lavorato per intero, divisore 26 sia per la base INPS sia per la trattenuta, 13 mensilità senza ratei nella base INPS, residenza a Milano, nessun familiare a carico e aliquota FPLD ordinaria. Cambia una di queste cose e i numeri cambiano. Restano fuori, e lo dico prima che tu ci sbatta:
 
 - **Impiegati, operai pagati a ore e chi il mese prima è stato assente.** La base INPS con il divisore 26 vale per la casistica dell'esempio, non per loro.
-- **Il tuo CCNL.** Non ho verificato il testo di nessun contratto collettivo per questo articolo: l'integrazione al 100% è un'ipotesi del conto, non una regola generale. Percentuali e numero di episodi coperti stanno nel tuo contratto.
+- **Il tuo CCNL.** L'integrazione al 100% è un'ipotesi del conto, non una regola generale. Percentuali e numero di episodi coperti stanno nel tuo contratto.
 - **Il conteggio esatto delle giornate indennizzabili.** Qui conto dieci giornate di quelle che il divisore 26 retribuisce. Domeniche, festivi e lavoro a ore seguono regole proprie che non ricostruisco.
 - **L'infortunio sul lavoro**, che non è malattia: lì paga l'INAIL con percentuali sue.
 - **Malattia in prova, in preavviso, durante la cassa integrazione o oltre il periodo di comporto.**
