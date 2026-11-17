@@ -18,4 +18,4 @@ Il lavoro di questo repo è tracciato su **Linear**, non su GitHub Issues.
 Il repo è `ricca91/dovevalatuaral.com`. GitHub serve solo per codice e Pull Request.
 
 - Ogni PR cita il ticket Linear (es. `RIC-123`) e ha la descrizione **in italiano**.
-- **Gli agenti non fanno mai il merge delle PR**: l'approvazione e il merge spettano a Ricc.
+- **Le PR si raccolgono nel blocco del venerdì**: dopo il sì di Ricc il merge lo fa Rally. Prezzi, Stripe, motore di calcolo, pagine cancellate e redirect richiedono il sì di Ricc sulla singola PR.
