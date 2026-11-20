@@ -14,6 +14,10 @@
     {
       "source": "/risultato-immagine/:v/:s/:t.png",
       "destination": "/api/risultato-immagine?v=:v&s=:s&t=:t"
+    },
+    {
+      "source": "/sponsor-loghi/:file",
+      "destination": "https://rifkyfawojizgbzabyxn.supabase.co/storage/v1/object/public/sponsor-loghi/:file"
     }
   ],
   "redirects": [
@@ -28,5 +32,33 @@
       "permanent": true
     }
   ],
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "headers": [
+    {
+      "source": "/sponsor/approva/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
+      "source": "/sponsor/grazie/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    }
+  ]
 }

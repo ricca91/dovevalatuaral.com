@@ -3,11 +3,13 @@ const http=require('node:http'),fs=require('node:fs'),path=require('node:path');
 const port=4182,root=path.resolve(__dirname,'../../prototipo');
 process.env.NON_DEV_ORIGIN='http://127.0.0.1:'+port;
 const handlers={risultato:require('../../api/risultato.js'),'risultato-immagine':require('../../api/risultato-immagine.js')};
+const {inietta}=require('./sponsor-inietta.cjs');
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.png':'image/png','.xml':'application/xml','.txt':'text/plain'};
 http.createServer((req,res)=>{
   const url=new URL(req.url,'http://127.0.0.1:'+port);
   const match=url.pathname.match(/^\/(risultato|risultato-immagine)\/([^/]+)\/([^/]+)\/([^/]+)$/);
   const api=url.pathname.match(/^\/api\/(risultato|risultato-immagine)$/);
+  if(url.pathname==='/api/sponsor')return require('../../api/sponsor.js')(req,res);
   if(match||api){
     const query={};for(const [k,v] of url.searchParams){query[k]=Object.hasOwn(query,k)?[].concat(query[k],v):v;}
     if(match){
@@ -23,6 +25,8 @@ http.createServer((req,res)=>{
   fs.readFile(file,(err,data)=>{
     if(err){res.statusCode=404;return res.end('Not found');}
     res.setHeader('Content-Type',mime[path.extname(file)]||'application/octet-stream');
+    // Come la build: gli slot sponsor entrano in ogni pagina HTML.
+    if(path.extname(file)==='.html')data=Buffer.from(inietta(data.toString('utf8')));
     res.end(req.method==='HEAD'?undefined:data);
   });
 }).listen(port,'127.0.0.1',()=>console.log('Preview: http://127.0.0.1:'+port));
