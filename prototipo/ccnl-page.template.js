@@ -47,6 +47,12 @@ function scattiTesto(regola){
 /* I periodi sospesi sono frasi intere: vanno dopo il punto. */
 const sospensioniTesto=regola=>R.descrizioneScatti(regola).sospensioni;
 
+/* RIC-215/RIC-231: `meta` ({title,description}) arriva già risolto dal
+   generatore e sostituisce i predefiniti; layout() lo mette solo in
+   <title>, description, og:title e og:description. */
+const metaFinale=(predefiniti,meta)=>({title:meta?.title??predefiniti.title,
+  description:meta?.description??predefiniti.description});
+
 function layout({rotta,title,description,briciole,body,jsonLd=true}){
   const r=radice(rotta);
   const canonical=`${ORIGIN}${rotta}`;
@@ -642,9 +648,10 @@ function renderTabella(d){
     ${esclusioni(d.esclusioni)}
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
-  return layout({rotta,
+  const predefiniti={
     title:`${seo.titoloTabella} 2026: ${seo.codaTitolo||'tabelle retributive e netto'}`,
-    description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, ${R.ralCompleta(contratto.id)?'RAL':'base annua'} e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`,
+    description:`Tabelle retributive ${seo.titoloTabella} in vigore dal ${data(s0.decorrenza)}: minimo lordo mensile, ${R.ralCompleta(contratto.id)?'RAL':'base annua'} e netto stimato per ognuno dei ${tutte.length} livelli${conSezioni?' e delle sezioni del contratto':''}, con fonte e decorrenza.`};
+  return layout({rotta,...metaFinale(predefiniti,d.meta),
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},{nome:seo.titoloTabella,rotta}],body});
 }
 
@@ -841,8 +848,11 @@ function renderLivello(d){
     ${esclusioni([...d.esclusioni,...righe.flatMap(r=>r.composta.esclusioni.filter(e=>!d.esclusioni.includes(e)))])}
   </section>
   <p class="ral-disclaimer">${PROFILO} Base nazionale: le maggiorazioni territoriali e aziendali non sono comprese. Non costituisce consulenza fiscale o del lavoro.</p>`;
-  return layout({rotta,title:titoloLivello(etichetta,seo.query,r0.nettoMensile),
-    description:logistica?`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi nei mesi con EDR, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`:`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi al mese su ${mensilitaTesto(r0.composta.mensilita)} mensilità, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`,
+  /* Il title predefinito si calcola sempre: se supera i 60 caratteri la
+     build si ferma anche quando un override lo sostituisce. */
+  const predefiniti={title:titoloLivello(etichetta,seo.query,r0.nettoMensile),
+    description:logistica?`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi nei mesi con EDR, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`:`${etichetta} ${seo.query}: ${eur(r0.composta.baseMensile)} lordi al mese su ${mensilitaTesto(r0.composta.mensilita)} mensilità, RAL ${eur(r0.composta.ral)} e circa ${eur(r0.nettoMensile)} netti al mese. Con scatti, part-time e fonte.`};
+  return layout({rotta,...metaFinale(predefiniti,d.meta),
     briciole:[{nome:'Home',rotta:'/'},{nome:'Minimi CCNL',rotta:'/minimi-ccnl/'},
       {nome:seo.titoloTabella,rotta:d.rottaTabella},{nome:etichetta,rotta}],body});
 }
